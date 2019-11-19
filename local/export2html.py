@@ -6,11 +6,9 @@ __all__ = ['remove_widget_state', 'hide_cells', 'clean_exports', 'treat_backtick
            'convert_nb', 'convert_all', 'convert_post']
 
 #Cell
-from .core.imports import *
-from .core.utils import compose
-from .test import *
-from .notebook.export import *
-from .notebook.showdoc import *
+from .imports import *
+from .export import *
+from .showdoc import *
 import nbformat
 from notebook import notebookapp
 from nbconvert.preprocessors import ExecutePreprocessor, Preprocessor

@@ -135,7 +135,7 @@ _re_obj_def = re.compile(r"""
 #Cell
 def _not_private(n):
     for t in n.split('.'):
-        if t.startswith('_') or t.startswith('@'): return False
+        if (t.startswith('_') and not t.startswith('__')) or t.startswith('@'): return False
     return '\\' not in t and '^' not in t and '[' not in t
 
 def export_names(code, func_only=False):
