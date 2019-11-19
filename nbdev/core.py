@@ -4,7 +4,7 @@ __all__ = ['save_config_file', 'Config', 'in_ipython', 'IN_IPYTHON', 'in_colab',
            'IN_NOTEBOOK', 'DocsTestClass']
 
 #Cell
-from local.imports import *
+from .imports import *
 
 #Cell
 def save_config_file(file, config):

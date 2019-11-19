@@ -5,9 +5,9 @@ __all__ = ['is_enum', 'is_local_module', 'doc_link', 'add_doc_links', 'get_sourc
            'doc']
 
 #Cell
-from local.imports import *
-from local.core import *
-from local.export import *
+from .imports import *
+from .core import *
+from .export import *
 import inspect,enum,nbconvert
 from IPython.display import Markdown,display
 from IPython.core import page
@@ -20,9 +20,9 @@ def is_enum(cls):
 
 #Cell
 def is_local_module(name):
-    "Test if `name` is a local module."
+    "Test if `name` is a library module."
     dir_name = os.path.sep.join(name.split('.'))
-    return (Path(__file__).parent.parent/f"{dir_name}.py").exists()
+    return (Path(__file__).parent/f"{dir_name}.py").exists()
 
 #Cell
 def doc_link(name, include_bt:bool=True):
