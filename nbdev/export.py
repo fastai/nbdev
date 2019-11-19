@@ -346,7 +346,9 @@ def _split(code):
 def _relimport2name(name, mod_name):
     if mod_name.endswith('.py'): mod_name = mod_name[:-3]
     mods = mod_name.split(os.path.sep)
-    mods = mods[mods.index('local'):]
+    i = len(mods)-1
+    while i > 0 and mods[i] != Config().lib_name: i-=1
+    mods = mods[i:]
     if name=='.':
         print("###",'.'.join(mods[:-1]))
         return '.'.join(mods[:-1])
@@ -355,7 +357,7 @@ def _relimport2name(name, mod_name):
     return '.'.join(mods[:-i] + [name[i:]])
 
 #Cell
-#Catches any from .bla import something and catches local.bla in group 1, the imported thing(s) in group 2.
+#Catches any from .bla import something and catches .bla in group 1, the imported thing(s) in group 2.
 _re_loc_import = re.compile(r'(^\s*)from (\.\S*) import (.*)$')
 
 #Cell
@@ -419,8 +421,9 @@ def _print_diff(code1, code2, fname):
     #_print_diff_py(code1, code2, fname) if fname.endswith('.py') else _print_diff_txt(code1, code2, fname)
 
 #Cell
-def diff_nb_script(lib_folder='local'):
+def diff_nb_script():
     "Print the diff between the notebooks and the library in `lib_folder`"
+    lib_folder = Config().lib_name
     tmp_path1,tmp_path2 = Path.cwd()/'tmp_lib',Path.cwd()/'tmp_lib1'
     shutil.copytree(Path.cwd()/lib_folder, tmp_path1)
     try:
