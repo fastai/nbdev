@@ -3,14 +3,14 @@
 __all__ = ['check_all_flag', 'get_cell_flags', 'NoExportPreprocessor', 'test_nb']
 
 #Cell
-from .core.imports import *
-from .notebook.core import *
-from .notebook.export import *
+from local.core.imports import *
+from local.notebook.core import *
+from local.notebook.export import *
 import nbformat,inspect
 from nbformat.sign import NotebookNotary
 from nbconvert.preprocessors import ExecutePreprocessor
-from .test import *
-from .core.foundation import *
+from local.test import *
+from local.core.foundation import *
 
 #Cell
 _re_all_flag = re.compile("""

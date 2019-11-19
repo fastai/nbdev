@@ -4,10 +4,8 @@ __all__ = ['read_nb', 'check_re', 'is_export', 'find_default_export', 'export_na
            'get_name', 'qual_name', 'source_nb', 'script2notebook', 'diff_nb_script']
 
 #Cell
-from .imports import *
-from .core import *
-import nbformat,inspect
-from nbformat.sign import NotebookNotary
+from ..imports import *
+from ..core import *
 
 #Cell
 def read_nb(fname):
@@ -197,12 +195,11 @@ def _relative_import(name, fname):
     return '.' * (len(splits)) + '.'.join(mods)
 
 #Cell
-#Catches any from local.bla import something and catches local.bla in group 1, the imported thing(s) in group 2.
-_re_import = re.compile(r'^(\s*)from (local.\S*) import (.*)$')
+#Catches any from nbdev.bla import something and catches nbdev.bla in group 1, the imported thing(s) in group 2.
+_re_import = re.compile(r'^(\s*)from (' + Config().lib_name + '.\S*) import (.*)$')
 
 #Cell
 def _deal_import(code_lines, fname):
-    pat = re.compile(r'from (local.\S*) import (\S*)$')
     lines = []
     def _replace(m):
         sp,mod,obj = m.groups()
@@ -247,12 +244,12 @@ def _notebook2script(fname, silent=False, to_pkl=False):
     default = find_default_export(nb['cells'])
     if default is not None:
         default = os.path.sep.join(default.split('.'))
-        if not to_pkl: _create_mod_file(Path.cwd()/'local'/f'{default}.py', fname)
+        if not to_pkl: _create_mod_file(Path.cwd()/Config().lib_name/f'{default}.py', fname)
     index = _get_index()
     exports = [is_export(c, default) for c in nb['cells']]
     cells = [(i,c,e) for i,(c,e) in enumerate(zip(nb['cells'],exports)) if e is not None]
     for i,c,e in cells:
-        fname_out = Path.cwd()/'local'/f'{e}.py'
+        fname_out = Path.cwd()/Config().lib_name/f'{e}.py'
         orig = ('#C' if e==default else f'#Comes from {fname.name}, c') + 'ell\n'
         code = '\n\n' + orig + '\n'.join(_deal_import(c['source'].split('\n')[1:], fname_out))
         # remove trailing spaces

@@ -5,9 +5,9 @@ __all__ = ['is_enum', 'is_local_module', 'doc_link', 'add_doc_links', 'get_sourc
            'doc']
 
 #Cell
-from .imports import *
-from .core import *
-from .export import *
+from local.imports import *
+from local.core import *
+from local.export import *
 import inspect,enum,nbconvert
 from IPython.display import Markdown,display
 from IPython.core import page

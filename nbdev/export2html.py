@@ -6,14 +6,14 @@ __all__ = ['remove_widget_state', 'hide_cells', 'clean_exports', 'treat_backtick
            'convert_nb', 'convert_all', 'convert_post']
 
 #Cell
-from .imports import *
-from .export import *
-from .showdoc import *
-import nbformat
+from local.imports import *
+from local.core import *
+from local.export import *
+from local.showdoc import *
+
 from notebook import notebookapp
 from nbconvert.preprocessors import ExecutePreprocessor, Preprocessor
 from nbconvert import HTMLExporter,MarkdownExporter
-from nbformat.sign import NotebookNotary
 from traitlets.config import Config
 
 #Cell
@@ -71,7 +71,7 @@ def convert_links(cell):
 #Cell
 _re_block_notes = re.compile(r"""
 # Catches any pattern > Title: content with title in group 1 and content in group 2
-^>\s*      # > followed by any number of whitespace
+>\s*      # > followed by any number of whitespace
 ([^:]*)   # Catching group for any character but :
 :\s*      # : then any number of whitespace
 ([^\n]*)  # Catching group for anything but a new line character

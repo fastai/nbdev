@@ -1,4 +1,6 @@
 {
+  "save_config_file": "00_core.ipynb",
+  "Config": "00_core.ipynb",
   "in_ipython": "00_core.ipynb",
   "IN_IPYTHON": "00_core.ipynb",
   "in_colab": "00_core.ipynb",
