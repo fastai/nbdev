@@ -35,14 +35,16 @@ class Config:
             return config
 
     @classmethod
-    def create(cls, lib_name, git_url, path='.', nb_folder='nbs', lib_folder=None, doc_folder='docs'):
+    def create(cls, lib_name, git_url, path='.', nb_folder='nbs', lib_folder=None, doc_folder='docs', tst_flags=None):
         path = Path(path)
         if lib_folder is None: lib_folder = lib_name
+        if tst_flags is None: tst_flags = []
         config = {'lib_name':  lib_name,
                   'git_url': git_url,
                   'lib_path': lib_folder,
                   'nbs_path': nb_folder,
-                  'doc_path': doc_folder}
+                  'doc_path': doc_folder,
+                  'tst_flags': tst_flags}
         save_config_file(path/'config.yml', config)
         return cls()
 

@@ -242,7 +242,7 @@ def save_nbdev_module(mod):
     with open(fname, 'w') as f: f.write(code)
 
 #Cell
-def _notebook2script(fname, silent=False, to_pkl=False):
+def _notebook2script(fname, silent=False, to_dict=None):
     "Finds cells starting with `#export` and puts them into a new module"
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
     fname = Path(fname)
@@ -250,7 +250,7 @@ def _notebook2script(fname, silent=False, to_pkl=False):
     default = find_default_export(nb['cells'])
     if default is not None:
         default = os.path.sep.join(default.split('.'))
-        if not to_pkl: _create_mod_file(Config().lib_path/f'{default}.py', fname)
+        if to_dict is None: _create_mod_file(Config().lib_path/f'{default}.py', fname)
     mod = get_nbdev_module()
     exports = [is_export(c, default) for c in nb['cells']]
     cells = [(i,c,e) for i,(c,e) in enumerate(zip(nb['cells'],exports)) if e is not None]
@@ -261,20 +261,21 @@ def _notebook2script(fname, silent=False, to_pkl=False):
         # remove trailing spaces
         names = export_names(code)
         extra,code = extra_add(code)
-        if not to_pkl: _add2add(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
+        if to_dict is None: _add2add(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
         mod.index.update({f: fname.name for f in names})
         code = re.sub(r' +$', '', code, flags=re.MULTILINE)
         if code != '\n\n' + orig[:-1]:
-            if to_pkl: _update_pkl(fname_out, (i, fname, code))
+            if to_dict is not None: to_dict[fname_out].append((i, fname, code))
             else:
                 with open(fname_out, 'a', encoding='utf8') as f: f.write(code)
         if f'{e}.py' not in mod.modules: mod.modules.append(f'{e}.py')
     save_nbdev_module(mod)
 
     if not silent: print(f"Converted {fname.name}.")
+    return to_dict
 
 #Cell
-def notebook2script(fname=None, silent=False, to_pkl=False):
+def notebook2script(fname=None, silent=False, to_dict=False):
     "Convert `fname` or all the notebook satisfying `all_fs`."
     # initial checks
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
@@ -282,7 +283,9 @@ def notebook2script(fname=None, silent=False, to_pkl=False):
         reset_nbdev_module()
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
-    [_notebook2script(f, silent=silent, to_pkl=to_pkl) for f in files]
+    d = collections.defaultdict(list) if to_dict else None
+    for f in files: d = _notebook2script(f, silent=silent, to_dict=d)
+    if to_dict: return d
 
 #Cell
 def _get_property_name(p):
@@ -364,12 +367,6 @@ def _deal_loc_import(code, fname):
     return '\n'.join(lines)
 
 #Cell
-def _update_pkl(fname, cell):
-    dic = pickle.load(open((Path.cwd()/'lib.pkl'), 'rb')) if (Path.cwd()/'lib.pkl').exists() else collections.defaultdict(list)
-    dic[fname].append(cell)
-    pickle.dump(dic, open((Path.cwd()/'lib.pkl'), 'wb'))
-
-#Cell
 def _script2notebook(fname, dic, silent=False):
     "Put the content of `fname` back in the notebooks it came from."
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
@@ -394,11 +391,9 @@ def _script2notebook(fname, dic, silent=False):
 
 #Cell
 def script2notebook(fname=None, silent=False):
+    if os.environ.get('IN_TEST',0): return
     if (Path.cwd()/'lib.pkl').exists(): os.remove(Path.cwd()/'lib.pkl')
-    notebook2script(silent=True, to_pkl=True)
-    dic = pickle.load(open(Path.cwd()/'lib.pkl', 'rb'))
-    os.remove(Path.cwd()/'lib.pkl')
-    if os.environ.get('IN_TEST',0): return  # don't export if running tests
+    dic = notebook2script(silent=True, to_dict=True)
     exported = get_nbdev_module().modules
 
     if fname is None:

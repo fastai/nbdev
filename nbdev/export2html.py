@@ -297,18 +297,16 @@ def convert_nb(fname):
 #Cell
 def convert_all(fname=None, force_all=False):
     "Convert all notebooks in `path` to html files in `dest_path`."
-    path = Path(path)
     changed_cnt = 0
     if fname is None:
-        files = [f for f in Config().nbs_path.glob('**/*.py') if str(f.relative_to(Config().lib_path)) in exported]
+        files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
-    for fname in path.glob("[0-9]*.ipynb"):
+    for fname in files:
         # only rebuild modified files
-        if fname.name.startswith('_'): continue
         fname_out = Config().doc_path/'.'.join(fname.with_suffix('.html').name.split('_')[1:])
         if not force_all and fname_out.exists() and os.path.getmtime(fname) < os.path.getmtime(fname_out):
             continue
-        print(f"converting: {fname} => {fname_out}")
+        print(f"converting: {fname.name} => {fname_out.name}")
         changed_cnt += 1
         try: convert_nb(fname)
         except Exception as e: print(e)

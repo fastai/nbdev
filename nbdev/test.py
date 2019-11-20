@@ -3,14 +3,11 @@
 __all__ = ['check_all_flag', 'get_cell_flags', 'NoExportPreprocessor', 'test_nb']
 
 #Cell
-from local.core.imports import *
-from local.notebook.core import *
-from local.notebook.export import *
-import nbformat,inspect
-from nbformat.sign import NotebookNotary
+from .imports import *
+from .core import *
+from .export import *
+
 from nbconvert.preprocessors import ExecutePreprocessor
-from local.test import *
-from local.core.foundation import *
 
 #Cell
 _re_all_flag = re.compile("""
@@ -29,19 +26,20 @@ def check_all_flag(cells):
         if check_re(cell, _re_all_flag): return check_re(cell, _re_all_flag).groups()[0]
 
 #Cell
+_flags = f'({"|".join(Config().tst_flags)})'
 _re_flags = re.compile("""
 # Matches any line with a test flad and catches it in a group:
 ^               # beginning of line (since re.MULTILINE is passed)
 \s*             # any number of whitespace
 \#\s*           # # then any number of whitespace
-(slow|cuda|cpp) # all test flags
+""" + _flags + """
 \s*             # any number of whitespace
 $               # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
 
 #Cell
 def get_cell_flags(cell):
-    if cell['cell_type'] != 'code': return []
+    if cell['cell_type'] != 'code' or len(Config().tst_flags)==0: return []
     return _re_flags.findall(cell['source'])
 
 #Cell
@@ -81,15 +79,12 @@ import
 #Cell
 class NoExportPreprocessor(ExecutePreprocessor):
     "An `ExecutePreprocessor` that executes not exported cells"
-    @delegates(ExecutePreprocessor.__init__)
     def __init__(self, flags, **kwargs):
         self.flags = flags
         super().__init__(**kwargs)
 
     def preprocess_cell(self, cell, resources, index):
         if 'source' not in cell or cell['cell_type'] != "code": return cell, resources
-        #if _re_is_export.search(cell['source']) and not _re_has_import.search(cell['source']):
-        #    return cell, resources
         for f in get_cell_flags(cell):
             if f not in self.flags:  return cell, resources
         res = super().preprocess_cell(cell, resources, index)
@@ -99,13 +94,13 @@ class NoExportPreprocessor(ExecutePreprocessor):
 def test_nb(fn, flags=None):
     "Execute `nb` (or only the `show_doc` cells) with `metadata`"
     os.environ["IN_TEST"] = '1'
+    if flags is None: flags = []
     try:
         nb = read_nb(fn)
         all_flag = check_all_flag(nb['cells'])
-        if all_flag is not None and all_flag not in L(flags): return
+        if all_flag is not None and all_flag not in flags: return
         mod = find_default_export(nb['cells'])
-        #if mod is not None: nb['cells'].insert(0, _add_import_cell(mod))
-        ep = NoExportPreprocessor(L(flags), timeout=600, kernel_name='python3')
+        ep = NoExportPreprocessor(flags, timeout=600, kernel_name='python3')
         pnb = nbformat.from_dict(nb)
         ep.preprocess(pnb)
     except Exception as e:
