@@ -4,5 +4,6 @@ from textwrap import TextWrapper
 import numpy as np
 from typing import Union,Optional
 from nbformat.sign import NotebookNotary
+from functools import partial
 
 def test_eq(a,b): assert a==b, f'{a}, {b}'

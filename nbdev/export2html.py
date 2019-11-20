@@ -2,19 +2,18 @@
 
 __all__ = ['remove_widget_state', 'hide_cells', 'clean_exports', 'treat_backticks', 'convert_links', 'add_jekyll_notes',
            'copy_images', 'remove_hidden', 'find_default_level', 'add_show_docs', 'remove_fake_headers', 'remove_empty',
-           'get_metadata', 'ExecuteShowDocPreprocessor', 'execute_nb', 'process_cells', 'process_cell', 'notebook_path',
-           'convert_nb', 'convert_all', 'convert_post']
+           'get_metadata', 'ExecuteShowDocPreprocessor', 'execute_nb', 'process_cells', 'process_cell', 'convert_nb',
+           'convert_all', 'convert_post']
 
 #Cell
-from local.imports import *
-from local.core import *
-from local.export import *
-from local.showdoc import *
+from .imports import *
+from .core import *
+from .export import *
+from .showdoc import *
 
-from notebook import notebookapp
 from nbconvert.preprocessors import ExecutePreprocessor, Preprocessor
 from nbconvert import HTMLExporter,MarkdownExporter
-from traitlets.config import Config
+import traitlets
 
 #Cell
 def remove_widget_state(cell):
@@ -231,7 +230,7 @@ def get_metadata(cells):
 
 #Cell
 #Catches any cell with a show_doc or an import from local
-_re_cell_to_execute = re.compile(r"^\s*show_doc\(([^\)]*)\)|^from local\.", re.MULTILINE)
+_re_cell_to_execute = re.compile(r"^\s*show_doc\(([^\)]*)\)|^from " + Config().lib_name + "\.", re.MULTILINE)
 
 #Cell
 class ExecuteShowDocPreprocessor(ExecutePreprocessor):
@@ -243,20 +242,19 @@ class ExecuteShowDocPreprocessor(ExecutePreprocessor):
         return cell, resources
 
 #Cell
-def _import_show_doc_cell(mod=None, name=None):
+def _import_show_doc_cell(mod=None):
     "Add an import show_doc cell + deal with the _file_ hack if necessary."
-    source = f"#export\nfrom local.notebook.showdoc import show_doc"
-    if mod:  source += f"\nfrom local.{mod} import *"
-    if name: source += f"\nfrom pathlib import Path\n_file_ = {name}"
+    source = f"#export\nfrom nbdev.showdoc import show_doc"
+    if mod:  source += f"\nfrom {Config().lib_name}.{mod} import *"
     return {'cell_type': 'code',
             'execution_count': None,
             'metadata': {'hide_input': True},
             'outputs': [],
             'source': source}
 
-def execute_nb(nb, mod=None, metadata=None, show_doc_only=True, name=None):
+def execute_nb(nb, mod=None, metadata=None, show_doc_only=True):
     "Execute `nb` (or only the `show_doc` cells) with `metadata`"
-    nb['cells'].insert(0, _import_show_doc_cell(mod, name))
+    nb['cells'].insert(0, _import_show_doc_cell(mod))
     ep_cls = ExecuteShowDocPreprocessor if show_doc_only else ExecutePreprocessor
     ep = ep_cls(timeout=600, kernel_name='python3')
     metadata = metadata or {}
@@ -266,12 +264,12 @@ def execute_nb(nb, mod=None, metadata=None, show_doc_only=True, name=None):
 
 #Cell
 def _exporter(markdown=False):
-    cfg = Config()
+    cfg = traitlets.config.Config()
     exporter = (HTMLExporter,MarkdownExporter)[markdown](cfg)
     exporter.exclude_input_prompt=True
     exporter.exclude_output_prompt=True
     exporter.template_file = ('jekyll.tpl','jekyll-md.tpl')[markdown]
-    exporter.template_path.append(str(Path(_file_).parent))
+    exporter.template_path.append(str(Path(__file__).parent))
     return exporter
 
 #Cell
@@ -279,69 +277,40 @@ process_cells = [remove_fake_headers, remove_hidden, remove_empty]
 process_cell  = [hide_cells, remove_widget_state, add_jekyll_notes, convert_links]
 
 #Cell
-_re_file = re.compile(r"""
-^_file_   # _file_ at the beginning of a line (since re.MULTILINE is passed)
-\s*=\s*   # Any number of whitespace, =, any number of whitespace
-(\S*)     # Catching group for any non-whitespace characters
-\s*$      # Any number of whitespace then the end of line
-""", re.MULTILINE | re.VERBOSE)
-
-#Cell
-def _find_file(cells):
-    "Find in `cells` if a _file_ is defined."
-    for cell in cells:
-        if cell['cell_type']=='code' and _re_file.search(cell['source']):
-            return _re_file.search(cell['source']).groups()[0]
-
-#Cell
-def notebook_path():
-    "Returns the absolute path of the Notebook or None if it cannot be determined"
-    #NOTE: works only when the security is token-based or there is no password
-    kernel_id = Path(ipykernel.get_connection_file()).stem.split('-', 1)[1]
-    for srv in notebookapp.list_running_servers():
-        try:
-            sessions = json.load(urlopen(f"{srv['url']}api/sessions{srv['token']}"))
-            return next(Path(srv['notebook_dir'])/sess['notebook']['path']
-                        for sess in sessions if sess['kernel']['id']==kernel_id)
-        except: pass  # There may be stale entries in the runtime directory
-
-#Cell
-def convert_nb(fname, dest_path='docs'):
+def convert_nb(fname):
     "Convert a notebook `fname` to html file in `dest_path`."
     fname = Path(fname).absolute()
     nb = read_nb(fname)
     cls_lvl = find_default_level(nb['cells'])
-    _name = _find_file(nb['cells'])
     mod = find_default_export(nb['cells'])
     nb['cells'] = compose(*process_cells,partial(add_show_docs, cls_lvl=cls_lvl))(nb['cells'])
-    nb['cells'] = [compose(partial(copy_images, fname=fname, dest=dest_path), *process_cell, treat_backticks)(c)
+    nb['cells'] = [compose(partial(copy_images, fname=fname, dest=Config().doc_path), *process_cell, treat_backticks)(c)
                     for c in nb['cells']]
-    fname = Path(fname).absolute()
     dest_name = '.'.join(fname.with_suffix('.html').name.split('_')[1:])
     meta_jekyll = get_metadata(nb['cells'])
-    meta_jekyll['nb_path'] = f'{fname.parent.name}/{fname.name}'
-    nb = execute_nb(nb, mod=mod, name=_name)
+    meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
+    nb = execute_nb(nb, mod=mod)
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
-    #print(f'{dest_path}/{dest_name}')
-    with open(f'{dest_path}/{dest_name}','w') as f:
-        #res = _exporter().from_notebook_node(nb, resources=meta_jekyll)[0]
-        #print(res)
+    with open(Config().doc_path/dest_name,'w') as f:
         f.write(_exporter().from_notebook_node(nb, resources=meta_jekyll)[0])
 
 #Cell
-def convert_all(path='.', dest_path='../docs', force_all=False):
+def convert_all(fname=None, force_all=False):
     "Convert all notebooks in `path` to html files in `dest_path`."
     path = Path(path)
     changed_cnt = 0
+    if fname is None:
+        files = [f for f in Config().nbs_path.glob('**/*.py') if str(f.relative_to(Config().lib_path)) in exported]
+    else: files = glob.glob(fname)
     for fname in path.glob("[0-9]*.ipynb"):
         # only rebuild modified files
         if fname.name.startswith('_'): continue
-        fname_out = Path(dest_path)/'.'.join(fname.with_suffix('.html').name.split('_')[1:])
+        fname_out = Config().doc_path/'.'.join(fname.with_suffix('.html').name.split('_')[1:])
         if not force_all and fname_out.exists() and os.path.getmtime(fname) < os.path.getmtime(fname_out):
             continue
         print(f"converting: {fname} => {fname_out}")
         changed_cnt += 1
-        try: convert_nb(fname, dest_path=dest_path)
+        try: convert_nb(fname)
         except Exception as e: print(e)
     if changed_cnt==0: print("No notebooks were modified")
 
