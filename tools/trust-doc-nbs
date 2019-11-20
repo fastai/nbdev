@@ -41,7 +41,7 @@ def trust_nbs(dirname):
 
     fname_last_checked.touch(exist_ok=True)
 
-trust_nbs('.')
+trust_nbs('nbs')
 
 # clear the temporary output
 if stealth: sys.stdout.write("\033[K")
