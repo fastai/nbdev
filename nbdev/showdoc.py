@@ -8,7 +8,6 @@ __all__ = ['is_enum', 'is_lib_module', 'doc_link', 'add_doc_links', 'get_source_
 from .imports import *
 from .core import *
 from .export import *
-import inspect,enum,nbconvert
 from IPython.display import Markdown,display
 from IPython.core import page
 from nbconvert import HTMLExporter
