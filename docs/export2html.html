@@ -724,66 +724,12 @@ summary: "The functions that transform the dev notebooks in the documentation of
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_all" class="doc_header"><code>convert_all</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L298" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_all</code>(<strong><code>path</code></strong>=<em><code>'.'</code></em>, <strong><code>dest_path</code></strong>=<em><code>'../docs'</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="convert_all" class="doc_header"><code>convert_all</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L298" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_all</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert all notebooks in <code>path</code> to html files in <code>dest_path</code>.</p>
 
 </div>
 
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">convert_all</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>converting: 00_core.ipynb =&gt; /home/sgugger/git/nbdev/docs/core.html
-converting: 03_export2html.ipynb =&gt; /home/sgugger/git/nbdev/docs/export2html.html
-converting: 04_test.ipynb =&gt; /home/sgugger/git/nbdev/docs/test.html
-An error occurred while executing the following cell:
-------------------
-#export
-from nbdev.showdoc import show_doc
-from nbdev.test import *
-------------------
-
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-2941ffb9de4b&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg">#export</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">from</span> nbdev<span class="ansi-blue-fg">.</span>showdoc <span class="ansi-green-fg">import</span> show_doc
-<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> nbdev<span class="ansi-blue-fg">.</span>test <span class="ansi-green-fg">import</span> <span class="ansi-blue-fg">*</span>
-
-<span class="ansi-green-fg">~/git/nbdev/nbs/nbdev/test.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span> 
-<span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-red-fg">#Cell</span>
-<span class="ansi-green-fg">----&gt; 6</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> local<span class="ansi-blue-fg">.</span>core<span class="ansi-blue-fg">.</span>imports <span class="ansi-green-fg">import</span> <span class="ansi-blue-fg">*</span>
-<span class="ansi-green-intense-fg ansi-bold">      7</span> <span class="ansi-green-fg">from</span> local<span class="ansi-blue-fg">.</span>notebook<span class="ansi-blue-fg">.</span>core <span class="ansi-green-fg">import</span> <span class="ansi-blue-fg">*</span>
-<span class="ansi-green-intense-fg ansi-bold">      8</span> <span class="ansi-green-fg">from</span> local<span class="ansi-blue-fg">.</span>notebook<span class="ansi-blue-fg">.</span>export <span class="ansi-green-fg">import</span> <span class="ansi-blue-fg">*</span>
-
-<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named &#39;local&#39;
-ModuleNotFoundError: No module named &#39;local&#39;
-
-converting: 02_showdoc.ipynb =&gt; /home/sgugger/git/nbdev/docs/showdoc.html
-</pre>
-</div>
 </div>
 
 </div>
@@ -802,7 +748,7 @@ converting: 02_showdoc.ipynb =&gt; /home/sgugger/git/nbdev/docs/showdoc.html
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_post" class="doc_header"><code>convert_post</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L315" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_post</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>=<em><code>'posts'</code></em>)</p>
+<h4 id="convert_post" class="doc_header"><code>convert_post</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L316" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_post</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>=<em><code>'posts'</code></em>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to blog post markdown in <code>dest_path</code>.</p>
 
@@ -810,19 +756,6 @@ converting: 02_showdoc.ipynb =&gt; /home/sgugger/git/nbdev/docs/showdoc.html
 
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">convert_post</span><span class="p">(</span><span class="s1">&#39;posts/2019-08-06-delegation.ipynb&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 

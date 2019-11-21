@@ -376,7 +376,7 @@ def _script2notebook(fname, dic, silent=False):
     assert len(splits)==len(dic[fname]), f"Exported file from notebooks should have {len(dic[fname])} cells but has {len(splits)}."
     assert np.all([c1[0]==c2[1]] for c1,c2 in zip(splits, dic[fname]))
     splits = [(c2[0],c1[0],c1[1]) for c1,c2 in zip(splits, dic[fname])]
-    nb_fnames = {s[1] for s in splits}
+    nb_fnames = {Config().nbs_path/s[1] for s in splits}
     for nb_fname in nb_fnames:
         nb = read_nb(nb_fname)
         for i,f,c in splits:
@@ -385,14 +385,13 @@ def _script2notebook(fname, dic, silent=False):
                 l = nb['cells'][i]['source'].split('\n')[0]
                 nb['cells'][i]['source'] = l + '\n' + c
         NotebookNotary().sign(nb)
-        nbformat.write(nb, nb_fname, version=4)
+        nbformat.write(nb, str(nb_fname), version=4)
 
     if not silent: print(f"Converted {fname.relative_to(Config().lib_path)}.")
 
 #Cell
 def script2notebook(fname=None, silent=False):
     if os.environ.get('IN_TEST',0): return
-    if (Path.cwd()/'lib.pkl').exists(): os.remove(Path.cwd()/'lib.pkl')
     dic = notebook2script(silent=True, to_dict=True)
     exported = get_nbdev_module().modules
 

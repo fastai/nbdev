@@ -269,7 +269,7 @@ def _exporter(markdown=False):
     exporter.exclude_input_prompt=True
     exporter.exclude_output_prompt=True
     exporter.template_file = ('jekyll.tpl','jekyll-md.tpl')[markdown]
-    exporter.template_path.append(str(Path(__file__).parent))
+    exporter.template_path.append(str(Path(_file_).parent))
     return exporter
 
 #Cell
