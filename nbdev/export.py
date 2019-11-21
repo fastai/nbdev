@@ -357,14 +357,10 @@ _re_loc_import = re.compile(r'(^\s*)from (\.\S*) import (.*)$')
 
 #Cell
 def _deal_loc_import(code, fname):
-    lines = []
     def _replace(m):
         sp,mod,obj = m.groups()
         return f"{sp}from {_relimport2name(mod, fname)} import {obj}"
-    for line in code.split('\n'):
-        line = re.sub('__'+'file__', '_'+'file_', line) #Need to break _file_ or that line will be treated
-        lines.append(_re_loc_import.sub(_replace,line))
-    return '\n'.join(lines)
+    return '\n'.join([_re_loc_import.sub(_replace,line) for line in code.split('\n')])
 
 #Cell
 def _script2notebook(fname, dic, silent=False):

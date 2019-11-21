@@ -243,7 +243,7 @@ class ExecuteShowDocPreprocessor(ExecutePreprocessor):
 
 #Cell
 def _import_show_doc_cell(mod=None):
-    "Add an import show_doc cell + deal with the _file_ hack if necessary."
+    "Add an import show_doc cell."
     source = f"#export\nfrom nbdev.showdoc import show_doc"
     if mod:  source += f"\nfrom {Config().lib_name}.{mod} import *"
     return {'cell_type': 'code',
@@ -269,7 +269,7 @@ def _exporter(markdown=False):
     exporter.exclude_input_prompt=True
     exporter.exclude_output_prompt=True
     exporter.template_file = ('jekyll.tpl','jekyll-md.tpl')[markdown]
-    exporter.template_path.append(str(Path(_file_).parent))
+    exporter.template_path.append(str(Path(__file__).parent))
     return exporter
 
 #Cell

@@ -1,48 +1,13 @@
 #!/usr/bin/env python3
 from nbdev.export2html import convert_nb
-import yaml,os,sys,time,random
+import yaml,os,sys,time,random,glob
 from pathlib import Path
 from functools import partial
 from nbdev.core import Config
 
 from sidebar_data import sidebar_d
-
-## From fastai2.torch_core, remove if this is packagagd elsewhere
-import concurrent
-from multiprocessing import Process, Queue
-
-def num_cpus():
-    "Get number of cpus"
-    try:                   return len(os.sched_getaffinity(0))
-    except AttributeError: return os.cpu_co
-
-def set_num_threads(nt):
-    "Get numpy (and others) to use `nt` threads"
-    try: import mkl; mkl.set_num_threads(nt)
-    except: pass
-    os.environ['IPC_ENABLE']='1'
-    for o in ['OPENBLAS_NUM_THREADS','NUMEXPR_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS']:
-        os.environ[o] = str(nt)
-
-class ProcessPoolExecutor(concurrent.futures.ProcessPoolExecutor):
-    def __init__(self, max_workers=None, on_exc=print, **kwargs):
-        self.not_parallel = max_workers==0
-        self.on_exc = on_exc
-        if self.not_parallel: max_workers=1
-        super().__init__(max_workers, **kwargs)
-
-    def map(self, f, items, *args, **kwargs):
-        g = partial(f, *args, **kwargs)
-        if self.not_parallel: return map(g, items)
-        try: return super().map(g, items)
-        except Exception as e: self.on_exc(e)
-
-def parallel(f, items, *args, n_workers=None, **kwargs):
-    "Applies `func` in parallel to `items`, using `n_workers`"
-    if n_workers is None: n_workers = num_cpus()
-    with ProcessPoolExecutor(n_workers) as ex:
-        r = ex.map(f,items, *args, **kwargs)
-        return list(r)
+from fastai2.core.script import *
+from fastai2.torch_core import parallel
             
 def _leaf(k,v):
     url = 'external_url' if "http" in v else 'url'
@@ -92,13 +57,11 @@ def convert_all(fname=None, force_all=False):
             if not fname_out.exists() or os.path.getmtime(fname) >= os.path.getmtime(fname_out):
                 files.append(fname)
     if len(files)==0: print("No notebooks were modified")          
-    parallel(convert_one, files)
-
-convert_all()
-make_sidebar()
+    parallel(convert_one, files, progress=False)
         
-#@call_parse
-#def main(force_all:Param("Rebuild even notebooks that haven't changed", bool)=False):
-#    convert_all(dest_path='../docs', force_all=force_all)
-#    _make_sidebar()
+@call_parse
+def main(fname:Param("A notebook name or glob to convert", str)=None,
+         force_all:Param("Rebuild even notebooks that haven't changed", bool)=False):
+    convert_all(fname=fname, force_all=force_all)
+    make_sidebar()
 
