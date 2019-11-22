@@ -1,4 +1,5 @@
 import os,re,json,glob,collections,pickle,shutil,nbformat,inspect,yaml,importlib,tempfile,enum,numpy as np
+from pdb import set_trace
 from configparser import ConfigParser
 from pathlib import Path
 from textwrap import TextWrapper
@@ -20,10 +21,10 @@ def read_config_file(file):
 
 class Config:
     "Store the basic information for nbdev to work"
-    def __init__(self):
+    def __init__(self, cfg_name='settings.ini'):
         cfg_path = Path.cwd()
-        while cfg_path != Path('/') and not (cfg_path/'config.yml').exists(): cfg_path = cfg_path.parent
-        self.config_file = cfg_path/'settings.ini'
+        while cfg_path != Path('/') and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
+        self.config_file = cfg_path/cfg_name
         assert self.config_file.exists(), "Use `Config.create` to create a `Config` object the first time"
         self.d = read_config_file(self.config_file)['DEFAULT']
 
@@ -36,12 +37,13 @@ class Config:
     def __contains__(self,k):  return k in self.d
 
     @classmethod
-    def create(cls, lib_name, git_url, path='.', nbs_path='nbs', lib_path=None, doc_path='docs', tst_flags=''):
-        if lib_path is None: lib_path = lib_name
+    def create(cls, lib_name, user, path='.', cfg_name='settings.ini', branch='master',
+               git_url="https://github.com/%(user)s/%(lib_name)s/tree/%(branch)s/",
+               nbs_path='nbs', lib_path='%(lib_name)s', doc_path='docs', tst_flags='', version='0.0.1'):
         g = locals()
-        config = {o:g[o] for o in 'lib_name git_url lib_path nbs_path doc_path tst_flags'.split()}
-        save_config_file(Path(path)/'settings.ini', config)
-        return cls()
+        config = {o:g[o] for o in 'lib_name user branch git_url lib_path nbs_path doc_path tst_flags version'.split()}
+        save_config_file(Path(path)/cfg_name, config)
+        return cls(cfg_name=cfg_name)
 
     def save(self): save_config_file(self.config_file,self.d)
 
