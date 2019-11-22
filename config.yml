@@ -1,7 +1,0 @@
-doc_path: docs
-git_url: https://github.com/fastai/nbdev/tree/master/
-lib_name: nbdev
-lib_path: nbdev
-nbs_path: nbs
-tst_flags:
-- tst

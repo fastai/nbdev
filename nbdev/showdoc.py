@@ -5,8 +5,8 @@ __all__ = ['is_enum', 'is_lib_module', 'doc_link', 'add_doc_links', 'get_source_
 
 #Cell
 from .imports import *
-from .core import *
 from .export import *
+from .sync import *
 from IPython.display import Markdown,display
 from IPython.core import page
 from nbconvert import HTMLExporter
@@ -43,7 +43,8 @@ def doc_link(name, include_bt:bool=True):
 
 #Cell
 _re_backticks = re.compile(r"""
-# Catches any link of the form \[`obj`\](old_link) or just `obj` to either update old links or add the link to the docs of obj
+# Catches any link of the form \[`obj`\](old_link) or just `obj`,
+#   to either update old links or add the link to the docs of obj
 \[`      #     Opening [ and `
 ([^`]*)  #     Catching group with anything but a `
 `\]      #     ` then closing ]
@@ -54,7 +55,7 @@ _re_backticks = re.compile(r"""
 )        #     End of non-catching group
 |        # OR
 `        #     Opening `
-([^`]*)  #       Antyhing but a `
+([^`]*)  #       Anything but a `
 `        #     Closing `
 """, re.VERBOSE)
 

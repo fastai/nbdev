@@ -4,7 +4,7 @@ __all__ = ['check_all_flag', 'get_cell_flags', 'NoExportPreprocessor', 'test_nb'
 
 #Cell
 from .imports import *
-from .core import *
+from .sync import *
 from .export import *
 
 from nbconvert.preprocessors import ExecutePreprocessor
@@ -26,13 +26,12 @@ def check_all_flag(cells):
         if check_re(cell, _re_all_flag): return check_re(cell, _re_all_flag).groups()[0]
 
 #Cell
-_flags = f'({"|".join(Config().tst_flags)})'
-_re_flags = re.compile("""
+_re_flags = re.compile(f"""
 # Matches any line with a test flad and catches it in a group:
 ^               # beginning of line (since re.MULTILINE is passed)
 \s*             # any number of whitespace
 \#\s*           # # then any number of whitespace
-""" + _flags + """
+({Config().tst_flags})
 \s*             # any number of whitespace
 $               # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
