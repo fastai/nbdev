@@ -36,7 +36,7 @@ def make_sidebar():
 #################################################
 # Instead edit sidebar_d inside sidebar_data.py
 """+res_s
-    open('docs/_data/sidebars/home_sidebar.yml', 'w').write(res_s)
+    open(Config().doc_path/'_data/sidebars/home_sidebar.yml', 'w').write(res_s)
 
 def convert_one(fname):
     time.sleep(random.random())
