@@ -7,7 +7,7 @@ __all__ = ['remove_widget_state', 'hide_cells', 'clean_exports', 'treat_backtick
 
 #Cell
 from .imports import *
-from .core import *
+from .sync import *
 from .export import *
 from .showdoc import *
 
