@@ -38,7 +38,7 @@ $               # end of line (since re.MULTILINE is passed)
 
 #Cell
 def get_cell_flags(cell):
-    if cell['cell_type'] != 'code' or len(Config().tst_flags)==0: return []
+    if cell['cell_type'] != 'code' or len(Config().get('tst_flags',''))==0: return []
     return _re_flags.findall(cell['source'])
 
 #Cell
