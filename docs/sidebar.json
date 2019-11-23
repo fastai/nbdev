@@ -1,8 +1,20 @@
 {
-  "Export to modules": "/export",
-  "Convert to html": "/export2html",
-  "Show doc": "/showdoc",
-  "Test functions": "/test",
-  "Core functions": "/core",
-  "Command line functions": "/cli"
+  "empty1": {
+    "Export to modules": "/export"
+  },
+  "empty2": {
+    "Convert to html": "/export2html"
+  },
+  "empty3": {
+    "Show doc": "/showdoc"
+  },
+  "empty4": {
+    "Test functions": "/test"
+  },
+  "empty5": {
+    "Core functions": "/core"
+  },
+  "empty6": {
+    "Command line functions": "/cli"
+  }
 }
