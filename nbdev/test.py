@@ -31,7 +31,7 @@ _re_flags = re.compile(f"""
 ^               # beginning of line (since re.MULTILINE is passed)
 \s*             # any number of whitespace
 \#\s*           # # then any number of whitespace
-({Config().tst_flags})
+({Config().get('tst_flags', '')})
 \s*             # any number of whitespace
 $               # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)

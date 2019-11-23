@@ -30,9 +30,9 @@ class Config:
 
     def __getattr__(self,k):
         if k=='d' or k not in self.d: raise AttributeError
-        return self.config_file.parent/self[k] if k.endswith('path') else self[k]
+        return self.config_file.parent/self.d[k] if k.endswith('path') else self.d[k]
 
-    def __getitem__(self,k):   return self.d[k]
+    def get(self,k,default=None):   return self.d.get(k, default)
     def __setitem__(self,k,v): self.d[k] = str(v)
     def __contains__(self,k):  return k in self.d
 
