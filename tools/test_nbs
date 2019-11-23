@@ -4,7 +4,7 @@ from pathlib import Path
 from fastai2.core.script import *
 from fastai2.torch_core import parallel
 from nbdev.test import test_nb
-from nbdev.core import Config
+from nbdev.imports import Config
 
 def get_fns(path,max_num,fn):
     path = Path(path)
