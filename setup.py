@@ -34,7 +34,7 @@ setuptools.setup(
         'Natural Language :: ' + cfg['language'].title(),
     ] + ['Programming Language :: Python :: '+o for o in py_versions[py_versions.index(min_python):]],
     url = 'https://github.com/{}/{}'.format(cfg['user'],cfg['lib_name']),
-    packages = setuptools.find_packages(),
+    packages = setuptools.find_packages('nbdev'),
     include_package_data = True,
     install_requires = requirements,
     python_requires  = '>=' + cfg['min_python'],
