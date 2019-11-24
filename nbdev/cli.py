@@ -276,7 +276,7 @@ nbdev_trust_nbs
 [diff "ipynb"]
         textconv = nbdev_clean_nbs --disp True --fname
 """)
-    cmd = "git config --local include.path .gitconfig"
+    cmd = "git config --local include.path ../.gitconfig"
     print(f"Executing: {cmd}")
     result = subprocess.run(cmd.split(), shell=False, check=False, stderr=subprocess.PIPE)
     if result.returncode == 0:
