@@ -28,6 +28,8 @@ def run_script(script):
 cur_dir = Path(".").resolve().name
 if (cur_dir == "tools"): os.chdir("..")
 
+with open(Path(".git")/"hooks"/"post-merge", 'w') as f: f.write(nbdev_trust_nbs)
+
 path = Path("tools")
 
 # facilitate trusting of the repo-wide .gitconfig
