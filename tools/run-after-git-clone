@@ -28,7 +28,8 @@ def run_script(script):
 cur_dir = Path(".").resolve().name
 if (cur_dir == "tools"): os.chdir("..")
 
-with open(Path(".git")/"hooks"/"post-merge", 'w') as f: f.write(nbdev_trust_nbs)
+with open(Path(".git")/"hooks"/"post-merge", 'w') as f: 
+    f.write("#!/bin/bash\nnbdev_trust_nbs")
 
 path = Path("tools")
 
@@ -36,4 +37,4 @@ path = Path("tools")
 run_script(path/"trust-origin-git-config")
 
 # facilitate trusting notebooks under docs_src
-run_script(path/"trust-doc-nbs-install-hook")
+# run_script(path/"trust-doc-nbs-install-hook")

@@ -186,6 +186,7 @@ def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     "Clean all notebooks in `fname` to avoid merge conflicts"
     files = Config().nbs_path.glob('**/*.ipynb') if fname is None else glob.glob(fname)
     for f in files:
+        if not str(f).endswith('.ipynb'): continue
         nb = read_nb(f)
         clean_nb(nb, clear_all=clear_all)
         NotebookNotary().sign(nb)
