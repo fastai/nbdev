@@ -75,7 +75,8 @@ index = {"read_nb": "00_export.ipynb",
          "clean_nb": "05_cli.ipynb",
          "nbdev_clean_nbs": "05_cli.ipynb",
          "nbdev_read_nbs": "05_cli.ipynb",
-         "nbdev_trust_nbs": "05_cli.ipynb"}
+         "nbdev_trust_nbs": "05_cli.ipynb",
+         "nbdev_install_git_hooks": "05_cli.ipynb"}
 
 modules = ["export.py",
            "sync.py",
