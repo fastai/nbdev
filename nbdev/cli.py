@@ -183,27 +183,36 @@ def clean_nb(nb, clear_all=False):
 import io,sys,json
 
 #Cell
+_output_stream = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
+def _print_output(nb):
+    x = json.dumps(nb, sort_keys=True, indent=1, ensure_ascii=False)
+    _output_stream.write(x)
+    _output_stream.write("\n")
+    _output_stream.flush()
+
+#Cell
 @call_parse
 def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
-                    clear_all:Param("Clean all metadata and outputs", bool)=False):
+                    clear_all:Param("Clean all metadata and outputs", bool)=False,
+                    disp:Param("Print the cleaned outputs", bool)=False):
     "Clean all notebooks in `fname` to avoid merge conflicts"
-    if sys.stdin: input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
-    output_stream = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    #Git hooks will pass the notebooks in the stdin
+    input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8') if sys.stdin else None
     if input_stream:
-        s = json.load(input_stream)
-        clean_nb(s)
-        x = json.dumps(s, sort_keys=True, indent=1, ensure_ascii=False)
-        output_stream.write(x)
-        output_stream.write("\n")
-        output_stream.flush()
+        nb = json.load(input_stream)
+        clean_nb(nb, clear_all=clear_all)
+        _print_output(nb)
         return
     files = Config().nbs_path.glob('**/*.ipynb') if fname is None else glob.glob(fname)
     for f in files:
         if not str(f).endswith('.ipynb'): continue
         nb = read_nb(f)
         clean_nb(nb, clear_all=clear_all)
-        NotebookNotary().sign(nb)
-        nbformat.write(nb, str(f), version=4)
+        if disp: _print_output(nb)
+        else:
+            NotebookNotary().sign(nb)
+            nbformat.write(nb, str(f), version=4)
 
 #Cell
 @call_parse
