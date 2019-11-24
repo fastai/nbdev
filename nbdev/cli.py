@@ -180,11 +180,23 @@ def clean_nb(nb, clear_all=False):
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in nb_metadata_keep }
 
 #Cell
+import io,sys,json
+
+#Cell
 @call_parse
 def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                     clear_all:Param("Clean all metadata and outputs", bool)=False):
     "Clean all notebooks in `fname` to avoid merge conflicts"
-    print(fname)
+    if sys.stdin: input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
+    output_stream = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    if input_stream:
+        s = json.load(input_stream)
+        clean_nb(s)
+        x = json.dumps(s, sort_keys=True, indent=1, ensure_ascii=False)
+        output_stream.write(x)
+        output_stream.write("\n")
+        output_stream.flush()
+        return
     files = Config().nbs_path.glob('**/*.ipynb') if fname is None else glob.glob(fname)
     for f in files:
         if not str(f).endswith('.ipynb'): continue
