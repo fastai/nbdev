@@ -28,13 +28,11 @@ def run_script(script):
 cur_dir = Path(".").resolve().name
 if (cur_dir == "tools"): os.chdir("..")
 
+#Install hook to trust notebooks automatically after merge
 with open(Path(".git")/"hooks"/"post-merge", 'w') as f: 
-    f.write("#!/bin/bash\nnbdev_trust_nbs")
+    f.write('#!/bin/bash\necho "Trusting notebooks"\nnbdev_trust_nbs')
 
 path = Path("tools")
 
 # facilitate trusting of the repo-wide .gitconfig
 run_script(path/"trust-origin-git-config")
-
-# facilitate trusting notebooks under docs_src
-# run_script(path/"trust-doc-nbs-install-hook")
