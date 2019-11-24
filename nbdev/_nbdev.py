@@ -66,7 +66,16 @@ index = {"read_nb": "00_export.ipynb",
          "nbdev_test_nbs": "05_cli.ipynb",
          "make_sidebar": "05_cli.ipynb",
          "convert_one": "05_cli.ipynb",
-         "nbdev_build_docs": "05_cli.ipynb"}
+         "nbdev_build_docs": "05_cli.ipynb",
+         "rm_execution_count": "05_cli.ipynb",
+         "clean_cell_output": "05_cli.ipynb",
+         "cell_metadata_keep": "05_cli.ipynb",
+         "nb_metadata_keep": "05_cli.ipynb",
+         "clean_cell": "05_cli.ipynb",
+         "clean_nb": "05_cli.ipynb",
+         "nbdev_clean_nbs": "05_cli.ipynb",
+         "nbdev_read_nbs": "05_cli.ipynb",
+         "nbdev_trust_nbs": "05_cli.ipynb"}
 
 modules = ["export.py",
            "sync.py",
