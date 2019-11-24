@@ -199,7 +199,7 @@ def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     "Clean all notebooks in `fname` to avoid merge conflicts"
     #Git hooks will pass the notebooks in the stdin
     input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8') if sys.stdin else None
-    if input_stream:
+    if input_stream and fname is None:
         nb = json.load(input_stream)
         clean_nb(nb, clear_all=clear_all)
         _print_output(nb)
