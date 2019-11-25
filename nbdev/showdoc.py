@@ -127,7 +127,6 @@ def get_nb_source_link(func, local=False, is_name=None):
             title = _re_header.search(cell['source']).groups()[0]
             anchor = '-'.join([s for s in title.split(' ') if len(s) > 0])
             return f'{pref}{nb_name}#{anchor}'
-        i -= 1
     return f'{pref}{nb_name}'
 
 #Cell
@@ -206,7 +205,7 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
         else:                        name,args = _format_cls_doc (elt, qname)
     elif callable(elt):  name,args = _format_func_doc(elt, qname)
     else:                            name,args = f"<code>{qname}</code>", ''
-    link = get_source_link(elt) #TODO: use get_source_link when it works
+    link = get_source_link(elt)
     source_link = f'<a href="{link}" class="source_link" style="float:right">[source]</a>'
     title_level = title_level or (default_cls_level if inspect.isclass(elt) else 4)
     doc =  f'<h{title_level} id="{qname}" class="doc_header">{name}{source_link}</h{title_level}>'

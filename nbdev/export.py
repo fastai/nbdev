@@ -225,7 +225,7 @@ def get_nbdev_module():
         spec.loader.exec_module(mod)
         return mod
     except:
-        print("Run `reset_nbdev_module` to create an empty skeletton.")
+        return {'index': {}, 'modules': []}
 
 #Cell
 _re_index_idx = re.compile(r'index\s*=\s*{[^}]*}')
