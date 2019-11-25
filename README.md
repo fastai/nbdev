@@ -64,7 +64,7 @@ pip install -e .
 
 ## Getting started
 
-To begin your own project, just duplicate the template repo (TODO: add a link) and edit the `settings.ini` file. Note that it contains all the necessary information for when you'll be ready to package your libary, so you shouldn't need to change the `setup.py` file provided by the template. The basic structure (that can be personalized provided you change the relevant information in `settings.ini`) is a folder `nbs` for your notebooks, a folder `docs` where the doc will be auto-generated that contains everything for a [jekyll](https://jekyllrb.com/)-powered website.
+To begin your own project, just duplicate the [template](https://github.com/fastai/nbdev_template/generate) and edit the `settings.ini` file. Note that it contains all the necessary information for when you'll be ready to package your libary, so you shouldn't need to change the `setup.py` file provided by the template. The basic structure (that can be personalized provided you change the relevant information in `settings.ini`) is a folder `nbs` for your notebooks, a folder `docs` where the doc will be auto-generated that contains everything for a [jekyll](https://jekyllrb.com/)-powered website.
 
 The library will be exported in a folder named `lib_name` once your run the command `nbdev_build_lib` for the first time.
 
