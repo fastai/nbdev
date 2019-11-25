@@ -41,3 +41,23 @@ as long as you are somewhere in the folder where you are developing your library
 Since you are in a notebook, you can also add text, links or images that will be kept along with the tests when you generate the documentation of your library. The cells where your code is defined will be hidden and replaced by a satandard documentation of your function, showing its name, arguments, docstring, and link to the source code on github. For instance, the cells before are converted to:
 
 ![doc example](nbs/images/doc_example.png)
+
+In the other pages of the documentaiton, you can get more details about:
+- the `export` functionality from jupyter noteboks to a python library
+- the `cli` commands you can use with nbdev in a terminal
+- how `export2html` buils a documentation for your libary
+- how `sync` can allow you to export back form the pyhton modules to the jupyter notebook
+- how `test` put in your notebooks can be run in parallel to export a CI from your notebooks
+
+## Installing
+
+nbdev is is on PyPI so you can just run
+``` 
+pip install nbdev
+```
+For a developer install, use the following
+```
+git clone https://github.com/fastai/nbdev
+cd nbdev
+pip install -e .
+```
