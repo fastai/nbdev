@@ -340,7 +340,7 @@ def convert_md(fname, dest_path, jekyll=True):
     nb = read_nb(fname)
     meta_jekyll = get_metadata(nb['cells'])
     nb['cells'] = compose(*process_cells)(nb['cells'])
-    nb['cells'] = [compose(partial(copy_images, fname=fname, dest=dest_path), *process_cell)(c) for c in nb['cells']]
+    nb['cells'] = [compose(partial(adapt_img_path, fname=fname, dest=dest_path), *process_cell)(c) for c in nb['cells']]
     fname = Path(fname).absolute()
     dest_name = fname.with_suffix('.md').name
     exp = _exporter(markdown=True, jekyll=jekyll)
