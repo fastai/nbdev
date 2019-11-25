@@ -24,9 +24,77 @@ sidebar: home_sidebar
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>nbdev</code> is a library that allows you to fully develop a library in <a href="https://jupyter.org/">jupyter notebooks</a>, putting all your code, tests and documentation in one place. Using the interactive enviromnent, you can easily debug and refactor your code. By simply adding <code>#export</code> flags to the cells that define the functions you want to keep, you can then convert your notebook in a standard python module with just one command in the console or one line of code at the end of your notebook:</p>
+<p><code>nbdev</code> is a library that allows you to fully develop a library in <a href="https://jupyter.org/">jupyter notebooks</a>, putting all your code, tests and documentation in one place. That is: you now have a true <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a> environment, as envisioned by Donald Knuth back in 1983!</p>
+<p>Using the interactive enviromnent, you can easily debug and refactor your code. Add <code>#export</code> flags to the cells that define the functions you want to include in your python modules:</p>
 <p><img src="images/export_example.png" alt="An exported cell"></p>
-<p>Here the function <a href="/export.html#add_init"><code>add_init</code></a> is defined in the first cell (marked with the export flag) and tested in the second cell. In the last cell of your notebook, you can then run:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here the function <a href="/export.html#add_init"><code>add_init</code></a> is defined in the first cell (marked with the export flag) and tested in the second cell.</p>
+<p>Using notebooks written like this, <code>nbdev</code> can create and run any of the following with a single command:</p>
+<ul>
+<li>Searchable, hyperlinked documentation</li>
+<li>Python modules, following best practices such as automatically defining <code>__all__</code> (<a href="http://xion.io/post/code/python-all-wild-imports.html">more details</a>) with your exported functions, classes, and variables</li>
+<li>Pip installers (uploaded to pypi for you)</li>
+<li>Tests (run in parallel)</li>
+<li>Navigate and edit your code in a standard text editor or IDE, and export any changes automatically back into your notebooks</li>
+</ul>
+<p>Since you are in a notebook, you can also add charts, text, links, images, videos, etc, that will included automatically in the documentation of your library. The cells where your code is defined will be hidden and replaced by standardized documentation of your function, showing its name, arguments, docstring, and link to the source code on github. For instance, the cells above are converted to:</p>
+<p><img src="images/doc_example.png" alt="doc example"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>See below for <em>Installing</em> and <em>Getting Started</em>. In the other pages of the documentation, you can get more details about:</p>
+<ul>
+<li>the <a href="http://nbdev.fast.ai/export.html">export</a> functionality from jupyter noteboks to a python library</li>
+<li>the <a href="http://nbdev.fast.ai/cli.html">cli</a> commands you can use with nbdev in a terminal</li>
+<li>how <a href="http://nbdev.fast.ai/export2html.html">export2html</a> buils a documentation for your libary</li>
+<li>how <a href="http://nbdev.fast.ai/sync.html">sync</a> can allow you to export back form the pyhton modules to the jupyter notebook</li>
+<li>how <a href="http://nbdev.fast.ai/test.html">test</a> put in your notebooks can be run in parallel to export a CI from your notebooks</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Installing">Installing<a class="anchor-link" href="#Installing">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>nbdev is is on PyPI so you can just run:</p>
+
+<pre><code>pip install nbdev</code></pre>
+<p>For an <a href="https://stackoverflow.com/questions/35064426/when-would-the-e-editable-option-be-useful-with-pip-install">editable install</a>, use the following:</p>
+
+<pre><code>git clone https://github.com/fastai/nbdev
+pip install -e nbdev</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Getting-Started">Getting Started<a class="anchor-link" href="#Getting-Started">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To begin your own project, click here: <a href="https://github.com/fastai/nbdev_template/generate">nbdev template</a>. Fill in the requested info and click <em>Create repository from template</em>, and a new GitHub repo will be created for you.</p>
+<p>Now, open your terminal, and clone the repo you just created.</p>
+<p>Next, edit the <code>settings.ini</code> file. Note that it contains all the necessary information for when you'll be ready to package your libary, so you shouldn't need to change the <code>setup.py</code> file provided by the template. The basic structure (that can be personalized provided you change the relevant information in <code>settings.ini</code>) is that the root of the repo will contain your notebooks, along with a folder <code>docs</code> where the doc will be auto-generated that contains everything for a <a href="https://jekyllrb.com/">jekyll</a>-powered website. Because <a href="https://help.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll">GitHub Pages supports Jekyll</a>, you can host your site for free on GitHub without any additional setup.</p>
+<p>Your <code>settings.ini</code> is where all parts of nbdev look for any required configuration information. Once you've edited it, run the command <a href="/cli.html#nbdev_build_lib"><code>nbdev_build_lib</code></a> (which is automatically installed for you when you install <code>nbdev</code>. You'll now find that you have a new directory, with the name of whatever you set <code>lib_name</code> to in <code>settings.ini</code>.</p>
+<p>Now, run <code>jupyter notebook</code>, and click <code>00_core.ipynb</code>. This is where you'll create your first module! Create Jupyter cells as you would in any notebook. For any cells that you want to be included in your python module, type <code>#export</code> as the first line of the module.</p>
+<p>In the last cell of your notebook, you can then run:</p>
 
 </div>
 </div>
@@ -70,57 +138,28 @@ Converted 99_index.ipynb.
 <p>Or in the command line, you can run:</p>
 <div class="highlight"><pre><span></span>nbdev_build_lib
 </pre></div>
-<p>as long as you are somewhere in the folder where you are developing your library.</p>
-<p>Since you are in a notebook, you can also add text, links or images that will be kept along with the tests when you generate the documentation of your library. The cells where your code is defined will be hidden and replaced by a satandard documentation of your function, showing its name, arguments, docstring, and link to the source code on github. For instance, the cells before are converted to:</p>
-<p><img src="images/doc_example.png" alt="doc example"></p>
+<p>as long as you are somewhere in the folder where you are developing your library. Either of these will do the same thing: update your module to include all exported cells in your notebook.</p>
+<p>To enable documentation in your GitHub repo, click 'Settings' on the main repo page, scroll down to 'GitHub Pages', and under 'Source' choose 'master branch /docs folder'. GitHub will then show you a link to your working documentation site.</p>
+<p>Finally, edit <code>99_core.ipynb</code>. This will be converted into your projects <em>README</em> file, and will also be the index for your documentation. You can use the module you just exported in this library, which means you can show real working code, and actual outputs. Once you have everything as you want it, run <a href="/cli.html#nbdev_build_docs"><code>nbdev_build_docs</code></a> in the terminal. This will export HTML versions of your notebooks to the <code>docs</code> directory, and will create hyperlinks for any words in backticks (as long as they exist in your module). It will also create a menu for all notebooks you have created, and a table of contents for each.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In the other pages of the documentation, you can get more details about:</p>
-<ul>
-<li>the <a href="http://nbdev.fast.ai/export.html">export</a> functionality from jupyter noteboks to a python library</li>
-<li>the <a href="http://nbdev.fast.ai/cli.html">cli</a> commands you can use with nbdev in a terminal</li>
-<li>how <a href="http://nbdev.fast.ai/export2html.html">export2html</a> buils a documentation for your libary</li>
-<li>how <a href="http://nbdev.fast.ai/sync.html">sync</a> can allow you to export back form the pyhton modules to the jupyter notebook</li>
-<li>how <a href="http://nbdev.fast.ai/test.html">test</a> put in your notebooks can be run in parallel to export a CI from your notebooks</li>
-</ul>
-
+<h3 id="Adding-your-project-to-pypi">Adding your project to pypi<a class="anchor-link" href="#Adding-your-project-to-pypi">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Installing">Installing<a class="anchor-link" href="#Installing">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>nbdev is is on PyPI so you can just run</p>
+<p>If you want people to be able to install your project by just typing <code>pip install your-project</code> then you need to upload it to <a href="https://pypi.org/">pypi</a>. The good news is, we've already created a fully pypi compliant installer for your project! So all you need to do is register at pypi, if you haven't previously done so, and then create a file called <code>~/.pypirc</code> with your login details. It should have these contents:</p>
 
-<pre><code>pip install nbdev</code></pre>
-<p>For a developer install, use the following</p>
-
-<pre><code>git clone https://github.com/fastai/nbdev
-cd nbdev
-pip install -e .</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Getting-started">Getting started<a class="anchor-link" href="#Getting-started">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To begin your own project, just duplicate the <a href="https://github.com/fastai/nbdev_template/generate">template</a> and edit the <code>settings.ini</code> file. Note that it contains all the necessary information for when you'll be ready to package your libary, so you shouldn't need to change the <code>setup.py</code> file provided by the template. The basic structure (that can be personalized provided you change the relevant information in <code>settings.ini</code>) is a folder <code>nbs</code> for your notebooks, a folder <code>docs</code> where the doc will be auto-generated that contains everything for a <a href="https://jekyllrb.com/">jekyll</a>-powered website.</p>
-<p>The library will be exported in a folder named <code>lib_name</code> once your run the command <a href="/cli.html#nbdev_build_lib"><code>nbdev_build_lib</code></a> for the first time.</p>
+<pre><code>[pypi]
+username = your_pypi_username
+password = your_pypi_password</code></pre>
+<p>To upload your project to pypi, just type <code>make pypi</code> in your project root directory. Once it's complete, a link to your project on pypi will be printed.</p>
+<p><strong>NB</strong>: make sure you increment the version number in <code>settings.py</code> each time you want to push a new release to pypi.</p>
 
 </div>
 </div>
