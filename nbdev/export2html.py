@@ -10,7 +10,7 @@ from .imports import *
 from .sync import *
 from .export import *
 from .showdoc import *
-from .templates import *
+from .template import *
 
 from nbconvert.preprocessors import ExecutePreprocessor, Preprocessor
 from nbconvert import HTMLExporter,MarkdownExporter
