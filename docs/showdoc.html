@@ -27,6 +27,13 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>All the automatic documentation of functions and classes are generated with the <a href="/showdoc.html#show_doc"><code>show_doc</code></a> function. It displays the name, arguments, docstring along with a link to the source code on GitHub.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Gather-the-information">Gather the information<a class="anchor-link" href="#Gather-the-information">&#182;</a></h2>
 </div>
 </div>
@@ -79,75 +86,9 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Links">Links<a class="anchor-link" href="#Links">&#182;</a></h3>
+<h3 id="Links-to-documentaion">Links to documentaion<a class="anchor-link" href="#Links-to-documentaion">&#182;</a></h3>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#TODO: come back to this later</span>
-<span class="c1">## export</span>
-<span class="c1">#def _get_pytorch_index():</span>
-<span class="c1">#    if not (Path(_file_).parent/&#39;index_pytorch.txt&#39;).exists(): return {}</span>
-<span class="c1">#    return json.load(open(Path(_file_).parent/&#39;index_pytorch.txt&#39;, &#39;r&#39;))</span>
-<span class="c1">#</span>
-<span class="c1">#def add_pytorch_index(func_name, url):</span>
-<span class="c1">#    &quot;Add `func_name` in the PyTorch index for automatic links.&quot;</span>
-<span class="c1">#    index = _get_pytorch_index()</span>
-<span class="c1">#    if not url.startswith(&quot;https://pytorch.org/docs/stable/&quot;):</span>
-<span class="c1">#        url = &quot;https://pytorch.org/docs/stable/&quot; + url</span>
-<span class="c1">#    index[func_name] = url</span>
-<span class="c1">#   json.dump(index, open(Path(_file_).parent/&#39;index_pytorch.txt&#39;, &#39;w&#39;), indent=2)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>url</code> can be the full url or just the part after <code>https://pytorch.org/docs/stable/</code>, see the example below.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">##hide</span>
-<span class="c1">#ind,ind_bak = Path(_file_).parent/&#39;index_pytorch.txt&#39;,Path(_file_).parent/&#39;index_pytorch.bak&#39;</span>
-<span class="c1">#if ind.exists(): shutil.move(ind, ind_bak)</span>
-<span class="c1">#assert _get_pytorch_index() == {}</span>
-<span class="c1">#add_pytorch_index(&#39;Tensor&#39;, &#39;tensors.html#torch-tensor&#39;)</span>
-<span class="c1">#assert _get_pytorch_index() == {&#39;Tensor&#39;:&#39;https://pytorch.org/docs/stable/tensors.html#torch-tensor&#39;}</span>
-<span class="c1">#if ind_bak.exists(): shutil.move(ind_bak, ind)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#add_pytorch_index(&#39;Tensor&#39;, &#39;tensors.html#torch-tensor&#39;)</span>
-<span class="c1">#add_pytorch_index(&#39;device&#39;, &#39;tensor_attributes.html#torch-device&#39;)</span>
-<span class="c1">#add_pytorch_index(&#39;DataLoader&#39;, &#39;data.html#torch.utils.data.DataLoader&#39;)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
@@ -211,6 +152,13 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This function will generate link for a module (pointing to the html conversion of the notebook that created it) and functions (pointing to the hmtl conversion of the notebook they were defined, with the first anchor found before). If the function/module is not part of the library you are writing, it will just return the name between backsticks.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -244,7 +192,7 @@ summary: "Functions to show the doc cells in notebooks"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="add_doc_links" class="doc_header"><code>add_doc_links</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L63" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_doc_links</code>(<strong><code>text</code></strong>)</p>
 </blockquote>
-<p>Search for doc links for any item between backticks in <code>text</code>.</p>
+<p>Search for doc links for any item between backticks in <code>text</code> and isnter them</p>
 
 </div>
 
@@ -256,7 +204,7 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This function not only add links to backstick keywords, it also update the links that are already in the text.</p>
+<p>This function not only add links to backstick keywords, it also update the links that are already in the text (in case they have changed).</p>
 
 </div>
 </div>
@@ -267,6 +215,8 @@ summary: "Functions to show the doc cells in notebooks"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tst</span> <span class="o">=</span> <span class="n">add_doc_links</span><span class="p">(</span><span class="s1">&#39;This is an example of `DocsTestClass`&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s2">&quot;This is an example of [`DocsTestClass`](/export.html#DocsTestClass)&quot;</span><span class="p">)</span>
+<span class="n">tst</span> <span class="o">=</span> <span class="n">add_doc_links</span><span class="p">(</span><span class="s1">&#39;This is an example of [`DocsTestClass`](/old_link.html)&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s2">&quot;This is an example of [`DocsTestClass`](/export.html#DocsTestClass)&quot;</span><span class="p">)</span>
 </pre></div>
 
@@ -310,41 +260,19 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As important as the source code, we want to quickly jump to where the function is defined in a dev notebook.</p>
+<p>Be sure to properly set the <code>git_url</code> in setting.ini (derived from <code>lib_name</code> and <code>branch</code> on top of the prefix you will need to adapt) so that those links are correct.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As important as the source code, we want to quickly jump to where the function is defined when we are in a development notebook.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">git_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;github.com&#39;</span><span class="p">,</span> <span class="s1">&#39;nbviewer.jupyter.org/github&#39;</span><span class="p">)</span><span class="o">+</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">nbs_path</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;/&#39;</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;https://nbviewer.jupyter.org/github/fastai/nbdev/tree/master/nbs/&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -378,7 +306,6 @@ summary: "Functions to show the doc cells in notebooks"
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">DocsTestClass</span><span class="o">.</span><span class="n">test</span><span class="p">),</span> <span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">DocsTestClass</span><span class="p">))</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">DocsTestClass</span><span class="p">))</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">DocsTestClass</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{NB_SOURCE_URL}</span><span class="s1">00_export.ipynb#Export&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{NB_SOURCE_URL}</span><span class="s1">00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
 </pre></div>
@@ -390,7 +317,7 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can either pass an object or its name (by default <code>is_name</code> will look if <code>func</code> is a string or not, but you can override if there is some inconsistent behavior). <code>local</code> will return a local link.</p>
+<p>You can either pass an object or its name (by default <code>is_name</code> will look if <code>func</code> is a string or not to decide if it's <code>True</code> or <code>False</code>, but you can override if there is some inconsistent behavior). <code>local</code> will return a local link, otherwise it will point to a the notebook on github wrapped in <a href="https://nbviewer.jupyter.org/">nbviewer</a>.</p>
 
 </div>
 </div>
@@ -407,7 +334,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nb_source_link" class="doc_header"><code>nb_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L133" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nb_source_link</code>(<strong><code>func</code></strong>, <strong><code>is_name</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="nb_source_link" class="doc_header"><code>nb_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L134" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nb_source_link</code>(<strong><code>func</code></strong>, <strong><code>is_name</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Show a relative link to the notebook where <code>func</code> is defined</p>
 
@@ -421,7 +348,7 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This function assumes you are in one notebook in the dev folder, otherwise you use <code>disp=False</code> to get the relative link. You can either pass an object or its name (by default <code>is_name</code> will look if <code>func</code> is a string or not, but you can override if there is some inconsistent behavior).</p>
+<p>This function assumes you are in one notebook in the development folder, otherwise you can use <code>disp=False</code> to get the relative link. You can either pass an object or its name (by default <code>is_name</code> will look if <code>func</code> is a string or not to decide if it's <code>True</code> or <code>False</code>, but you can override if there is some inconsistent behavior).</p>
 
 </div>
 </div>
@@ -487,7 +414,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="type_repr" class="doc_header"><code>type_repr</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L142" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>type_repr</code>(<strong><code>t</code></strong>)</p>
+<h4 id="type_repr" class="doc_header"><code>type_repr</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L143" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>type_repr</code>(<strong><code>t</code></strong>)</p>
 </blockquote>
 <p>Representation of type <code>t</code> (in a type annotation)</p>
 
@@ -511,23 +438,10 @@ summary: "Functions to show the doc cells in notebooks"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">torch</span> <span class="k">import</span> <span class="n">Tensor</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tst</span> <span class="o">=</span> <span class="n">type_repr</span><span class="p">(</span><span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">])</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s1">&#39;`Optional`</span><span class="se">\\</span><span class="s1">[`Tensor`</span><span class="se">\\</span><span class="s1">]&#39;</span><span class="p">)</span>
-<span class="n">tst</span> <span class="o">=</span> <span class="n">type_repr</span><span class="p">(</span><span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s1">&#39;`Union`</span><span class="se">\\</span><span class="s1">[`Tensor`, `float`</span><span class="se">\\</span><span class="s1">]&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tst</span> <span class="o">=</span> <span class="n">type_repr</span><span class="p">(</span><span class="n">Optional</span><span class="p">[</span><span class="n">DocsTestClass</span><span class="p">])</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s1">&#39;`Optional`</span><span class="se">\\</span><span class="s1">[[`DocsTestClass`](/export.html#DocsTestClass)</span><span class="se">\\</span><span class="s1">]&#39;</span><span class="p">)</span>
+<span class="n">tst</span> <span class="o">=</span> <span class="n">type_repr</span><span class="p">(</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s1">&#39;`Union`</span><span class="se">\\</span><span class="s1">[`int`, `float`</span><span class="se">\\</span><span class="s1">]&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -547,9 +461,9 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="format_param" class="doc_header"><code>format_param</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L155" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>format_param</code>(<strong><code>p</code></strong>)</p>
+<h4 id="format_param" class="doc_header"><code>format_param</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L156" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>format_param</code>(<strong><code>p</code></strong>)</p>
 </blockquote>
-<p>Formats function param to <code>param1:Type=val</code>. Font weights: param1=bold, val=italic</p>
+<p>Formats function param to <code>param:Type=val</code> with font weights: param=bold, val=italic</p>
 
 </div>
 
@@ -578,51 +492,9 @@ summary: "Functions to show the doc cells in notebooks"
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tst</span> <span class="o">=</span>  <span class="n">_format_enum_doc</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;&lt;code&gt;e&lt;/code&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;code&gt;Enum&lt;/code&gt; = [a, b]&#39;</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">_format_func_doc</span><span class="p">(</span><span class="n">notebook2script</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;&lt;code&gt;notebook2script&lt;/code&gt;&#39;</span><span class="p">,</span> 
-   <span class="s1">&#39;&lt;code&gt;notebook2script&lt;/code&gt;(**`fname`**=*`None`*, **`silent`**=*`False`*, **`to_dict`**=*`False`*)&#39;</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">_format_cls_doc</span><span class="p">(</span><span class="n">DocsTestClass</span><span class="p">,</span> <span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;&lt;code&gt;class&lt;/code&gt; &lt;code&gt;DocsTestClass&lt;/code&gt;&#39;</span><span class="p">,</span> 
-                                                          <span class="s1">&#39;&lt;code&gt;DocsTestClass&lt;/code&gt;()&#39;</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -637,7 +509,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="show_doc" class="doc_header"><code>show_doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L199" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>show_doc</code>(<strong><code>elt</code></strong>, <strong><code>doc_string</code></strong>=<em><code>True</code></em>, <strong><code>name</code></strong>=<em><code>None</code></em>, <strong><code>title_level</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>, <strong><code>default_cls_level</code></strong>=<em><code>2</code></em>)</p>
+<h4 id="show_doc" class="doc_header"><code>show_doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L200" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>show_doc</code>(<strong><code>elt</code></strong>, <strong><code>doc_string</code></strong>=<em><code>True</code></em>, <strong><code>name</code></strong>=<em><code>None</code></em>, <strong><code>title_level</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>, <strong><code>default_cls_level</code></strong>=<em><code>2</code></em>)</p>
 </blockquote>
 <p>Show documentation for element <code>elt</code>. Supported types: class, function, and enum.</p>
 
@@ -688,7 +560,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="md2html" class="doc_header"><code>md2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L218" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md2html</code>(<strong><code>md</code></strong>)</p>
+<h4 id="md2html" class="doc_header"><code>md2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L219" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md2html</code>(<strong><code>md</code></strong>)</p>
 </blockquote>
 <p>Convert markdown <code>md</code> to HTML code</p>
 
@@ -712,9 +584,9 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="doc" class="doc_header"><code>doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L224" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc</code>(<strong><code>elt</code></strong>)</p>
+<h4 id="doc" class="doc_header"><code>doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L225" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc</code>(<strong><code>elt</code></strong>)</p>
 </blockquote>
-<p>Show <a href="/showdoc.html#show_doc"><code>show_doc</code></a> info in preview window</p>
+<p>Show <a href="/showdoc.html#show_doc"><code>show_doc</code></a> info in preview window when used in a notebook</p>
 
 </div>
 

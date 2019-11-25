@@ -61,7 +61,7 @@ _re_backticks = re.compile(r"""
 
 #Cell
 def add_doc_links(text):
-    "Search for doc links for any item between backticks in `text`."
+    "Search for doc links for any item between backticks in `text` and isnter them"
     def _replace_link(m): return doc_link(m.group(1) or m.group(2))
     return _re_backticks.sub(_replace_link, text)
 
@@ -127,6 +127,7 @@ def get_nb_source_link(func, local=False, is_name=None):
             title = _re_header.search(cell['source']).groups()[0]
             anchor = '-'.join([s for s in title.split(' ') if len(s) > 0])
             return f'{pref}{nb_name}#{anchor}'
+        i-=1
     return f'{pref}{nb_name}'
 
 #Cell
@@ -153,7 +154,7 @@ def type_repr(t):
 _arg_prefixes = {inspect._VAR_POSITIONAL: '\*', inspect._VAR_KEYWORD:'\*\*'}
 
 def format_param(p):
-    "Formats function param to `param1:Type=val`. Font weights: param1=bold, val=italic"
+    "Formats function param to `param:Type=val` with font weights: param=bold, val=italic"
     arg_prefix = _arg_prefixes.get(p.kind, '') # asterisk prefix for *args and **kwargs
     res = f"**{arg_prefix}`{p.name}`**"
     if hasattr(p, 'annotation') and p.annotation != p.empty: res += f':{type_repr(p.annotation)}'
@@ -222,7 +223,7 @@ def md2html(md):
 
 #Cell
 def doc(elt):
-    "Show `show_doc` info in preview window"
+    "Show `show_doc` info in preview window when used in a notebook"
     md = show_doc(elt, disp=False)
     output = md2html(md)
     if IN_COLAB: get_ipython().run_cell_magic(u'html', u'', output)
