@@ -14,7 +14,7 @@ entries:
       url: /export2html.html
     - output: web,pdf
       title: Synchronize and diff
-      url: /sync.html.html
+      url: /sync.html
     - output: web,pdf
       title: Show doc
       url: /showdoc.html

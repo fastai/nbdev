@@ -2,7 +2,7 @@
   "Notebook": {
     "Export to modules": "/export",
     "Convert to html": "/export2html",
-    "Synchronize and diff": "/sync.html",
+    "Synchronize and diff": "/sync",
     "Show doc": "/showdoc",
     "Test functions": "/test",
     "Command line functions": "/cli"
