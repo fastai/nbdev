@@ -1,9 +1,20 @@
-repository: fastai/nbdev
+topnav_tmpl = """topnav:
+- title: Topnav
+  items:
+    - title: GitHub
+      external_url: https://github.com/{user}/{lib_name}
+
+#Topnav dropdowns
+topnav_dropdowns:
+- title: Topnav dropdowns
+  folders:"""
+
+config_tmpl = """repository: {user}/{lib_name}
 output: web
-topnav_title: nbdev
-site_title: nbdev
-company_name: fast.ai
-description: Writing a library entirely in notebooks
+topnav_title: {title}
+site_title: {title}
+company_name: {copyright}
+description: {description}
 google_analytics:
 
 host: 127.0.0.1
@@ -54,5 +65,5 @@ defaults:
 sidebars:
 - home_sidebar
 
-theme: jekyll-theme-cayman
+theme: jekyll-theme-cayman"""
 
