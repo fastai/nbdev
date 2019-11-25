@@ -27,13 +27,20 @@ summary: "The functions that transform notebooks in a library"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>The most important function defined in this module is <code>notebooks2script</code>, so you may want to jump to it before scrolling though the rest, which explain the details behind the scenes of the conversion from notebooks to library.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Basic-foundations">Basic foundations<a class="anchor-link" href="#Basic-foundations">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For bootstrapping nbdev we have a few basic foundations defined in <a href="/imports.html"><code>imports</code></a>, which we test a show here. First, a simple config file class, <code>Config</code>:</p>
+<p>For bootstrapping <code>nbdev</code> we have a few basic foundations defined in <a href="/imports.html"><code>imports</code></a>, which we test a show here. First, a simple config file class, <code>Config</code>:</p>
 
 </div>
 </div>
@@ -49,7 +56,6 @@ summary: "The functions that transform notebooks in a library"
 <span class="n">test_eq</span><span class="p">(</span><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">lib_path</span><span class="p">,</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">&#39;nbdev&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">nbs_path</span><span class="p">,</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">doc_path</span><span class="p">,</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">&#39;docs&#39;</span><span class="p">)</span>
-<span class="c1">#test_eq(Config().version, &#39;0.0.1&#39;)</span>
 </pre></div>
 
     </div>
