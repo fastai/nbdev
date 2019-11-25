@@ -1,3 +1,24 @@
+makefile_tmpl = """SRC = $(wildcard {nbs_path}/*.ipynb)
+
+all: {lib_name} docs
+
+{lib_name}: $(SRC)
+	nbdev_build_lib
+	touch {lib_name}
+
+docs: $(SRC)
+	nbdev_build_docs
+	touch docs
+
+pypi: dist
+	twine upload --repository pypi dist/*
+
+dist: clean
+	python setup.py sdist bdist_wheel
+
+clean:
+	rm -rf dist"""
+
 topnav_tmpl = """topnav:
 - title: Topnav
   items:
