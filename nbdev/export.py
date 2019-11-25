@@ -2,7 +2,7 @@
 
 __all__ = ['read_nb', 'check_re', 'is_export', 'find_default_export', 'export_names', 'extra_add', 'relative_import',
            'reset_nbdev_module', 'get_nbdev_module', 'save_nbdev_module', 'create_mod_file', 'add_init',
-           'notebook2script', 'DocsTestClass']
+           'notebook2script']
 
 #Cell
 from .imports import *
@@ -303,5 +303,6 @@ def notebook2script(fname=None, silent=False, to_dict=False):
     else: add_init(Config().lib_path)
 
 #Cell
-class DocsTestClass:
+#for tests only
+class _DocsTestClass:
     def test(): pass

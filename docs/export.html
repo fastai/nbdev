@@ -760,7 +760,15 @@ summary: "The functions that transform notebooks in a library"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When we say from <code>from lib_name.module.submodule import bla</code> in a notebook, it needs to be converted to something like <code>from .module.submodule import bla</code> or '<code>from .submodule import bla</code> depending on where we are. This function deals with those imports renaming.</p>
+<p>When we say from</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lib_name.module.submodule</span> <span class="kn">import</span> <span class="n">bla</span>
+</pre></div>
+<p>in a notebook, it needs to be converted to something like</p>
+
+<pre><code>from .module.submodule import bla</code></pre>
+<p>or 
+<code>from .submodule import bla</code> 
+depending on where we are. This function deals with those imports renaming.</p>
 
 </div>
 </div>
@@ -998,26 +1006,6 @@ summary: "The functions that transform notebooks in a library"
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h3 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L306" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>DocsTestClass</code>()</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
 
 </div>
 </div>
