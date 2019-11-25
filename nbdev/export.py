@@ -304,7 +304,7 @@ def notebook2script(fname=None, silent=False, to_dict=False):
     else: add_init(Config().lib_path)
 
 #Cell
-#hide
+#export
 #for tests only
 class DocsTestClass:
     def test(): pass
