@@ -16,6 +16,7 @@ from fastscript.fastscript import call_parse, Param
 @call_parse
 def nbdev_build_lib(fname:Param("A notebook name or glob to convert", str)=None):
     notebook2script(fname=fname)
+    write_tmpls()
 
 #Cell
 @call_parse

@@ -51,8 +51,7 @@ defaults:
       search: true
       tooltip: true
 
-sidebars:
-- home_sidebar
+sidebars: [home_sidebar]
 
-theme: jekyll-theme-cayman
+#theme: jekyll-theme-cayman
 

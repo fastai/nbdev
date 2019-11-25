@@ -18,8 +18,8 @@
 
 Google Custom Search requires the setting up of a 'search engine' using the web console at https://cse.google.com
 
-1) Go to https://cse.google.com and login with the authorized Google account for fast.ai Google Custom Search
-2) Once logged in , add a custom search engine for docs.fast.ai, if it doesn't already exist
+1) Go to https://cse.google.com and login with the authorized Google account for Google Custom Search, or create one as needed
+2) Once logged in, add a custom search engine for your site, if it doesn't already exist
 3) Configure the Setup, Look & Feel, Search Features and Statistics and Logs settings for this 'search engine' via the web console
 
 The current required configuration is documented below. If you change the configuration, please update the documentation below.
@@ -28,8 +28,8 @@ SETUP
 =====
 
 Basics
-  Search engine name: docs.fast.ai/*
-  Search engine description: Search fast.ai documentation
+  Search engine name: YOUR_SITE/*
+  Search engine description: Search documentation
   Search engine keywords: not currently used - see https://support.google.com/customsearch//answer/70357?hl=en&ctx=topic for functionality
   Edition: Free, with ads (the “Get Code” button to the right of Edition is for displaying & copying the source script for embedding the custom search engine)
   Serach engine ID: defined by Google (this ID needs to be the value of the cx Javascript variable in the script above)
@@ -37,7 +37,7 @@ Basics
   Image Search: Off
   SafeSearch: Off
   Language: English
-  Sites to Search: https://docs.fast.ai
+  Sites to Search: https://YOUR_SITE
   NB: It’s possible to submit indexing and removal requests if needed - https://support.google.com/customsearch/answer/4513925?hl=en&ctx=topic&visit_id=636766156114076408-2027030134&rd=1
   Search the entire web: OFF
   Programmatic Access: via JSON API - not currently used - https://developers.google.com/custom-search/v1/introduction
@@ -113,7 +113,7 @@ STATISTICS and LOGS
 
 Current left at default settings for all tabs (Stats, Google Analytics, Audit Log)
 
-Enter the fast.ai Google Analytics account details - as defined in _config.ylm (google_analytics: UA-89522379-3)
+Enter the Google Analytics account details - as defined in _config.yml
 
 TODOs
 =====
@@ -138,8 +138,5 @@ To see what documents google is currently indexing at any particular URL, use th
 e.g. "site:docs.fast.ai"
 
 You can use this to sense check what a search term ought to return as the result
-
-As of 31st Oct 2018, there are 140 results indexed by Google at the domain docs.fast.ai
-https://www.google.com/search?q=site%3Adocs.fast.ai&btnK=Google+Search&oq=site%3Adocs.fast.ai
 
 {% endcomment %}
