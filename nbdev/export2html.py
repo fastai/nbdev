@@ -3,7 +3,7 @@
 __all__ = ['remove_widget_state', 'hide_cells', 'clean_exports', 'treat_backticks', 'convert_links', 'add_jekyll_notes',
            'copy_images', 'adapt_img_path', 'remove_hidden', 'find_default_level', 'add_show_docs',
            'remove_fake_headers', 'remove_empty', 'get_metadata', 'ExecuteShowDocPreprocessor', 'execute_nb',
-           'process_cells', 'process_cell', 'convert_nb', 'convert_all', 'convert_md']
+           'write_tmpl', 'write_tmpls', 'process_cells', 'process_cell', 'convert_nb', 'convert_all', 'convert_md']
 
 #Cell
 from .imports import *
@@ -283,6 +283,22 @@ def execute_nb(nb, mod=None, metadata=None, show_doc_only=True):
     pnb = nbformat.from_dict(nb)
     ep.preprocess(pnb, metadata)
     return pnb
+
+#Cell
+def write_tmpl(tmpl, nms, cfg, dest):
+    "Write `tmpl` to `dest` (if missing) filling in `nms` in template using dict `cfg`"
+    if dest.exists(): return
+    vs = {o:cfg.d[o] for o in nms.split()}
+    outp = tmpl.format(**vs)
+    dest.write_text(outp)
+
+#Cell
+def write_tmpls():
+    "Write out _config.yml and _data/topnav.yml using templates"
+    cfg = Config()
+    write_tmpl(config_tmpl, 'user lib_name title copyright description', cfg, cfg.doc_path/'_config.yml')
+    write_tmpl(topnav_tmpl, 'user lib_name', cfg, cfg.doc_path/'_data'/'topnav.yml')
+    write_tmpl(makefile_tmpl, 'nbs_path lib_name', cfg, cfg.config_file.parent/'Makefile')
 
 #Cell
 def _exporter(markdown=False, jekyll=True):
