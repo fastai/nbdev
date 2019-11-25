@@ -220,8 +220,9 @@ def reset_nbdev_module():
 #Cell
 def get_nbdev_module():
     try:
-        mod = importlib.import_module(f'{Config().lib_name}._nbdev')
-        mod = importlib.reload(mod)
+        spec = importlib.util.spec_from_file_location(f"{Config().lib_name}._nbdev", Config().lib_path/'_nbdev.py')
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
         return mod
     except:
         print("Run `reset_nbdev_module` to create an empty skeletton.")
