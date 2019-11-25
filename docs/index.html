@@ -25,7 +25,7 @@ sidebar: home_sidebar
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>nbdev</code> is a library that allows you to fully develop a library in <a href="https://jupyter.org/">jupyter notebooks</a>, putting all your code, tests and documentation in one place. That is: you now have a true <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a> environment, as envisioned by Donald Knuth back in 1983!</p>
-<p>Using the interactive enviromnent, you can easily debug and refactor your code. Add <code>#export</code> flags to the cells that define the functions you want to include in your python modules:</p>
+<p>Using the interactive enviromnent, you can easily debug and refactor your code. Add <code>#export</code> flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how <code>combined_cos</code> is defined and documented in the <code>fastai</code> library:</p>
 <p><img src="images/export_example.png" alt="An exported cell"></p>
 
 </div>
@@ -33,16 +33,22 @@ sidebar: home_sidebar
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Here the function <a href="/export.html#add_init"><code>add_init</code></a> is defined in the first cell (marked with the export flag) and tested in the second cell.</p>
+<p>Here the function is defined in the first cell (marked with the export flag) and explained, along with a visual example, in the following cells.</p>
 <p>Using notebooks written like this, <code>nbdev</code> can create and run any of the following with a single command:</p>
 <ul>
 <li>Searchable, hyperlinked documentation</li>
 <li>Python modules, following best practices such as automatically defining <code>__all__</code> (<a href="http://xion.io/post/code/python-all-wild-imports.html">more details</a>) with your exported functions, classes, and variables</li>
 <li>Pip installers (uploaded to pypi for you)</li>
-<li>Tests (run in parallel)</li>
+<li>Tests (defined directly in your notebooks, and run in parallel)</li>
 <li>Navigate and edit your code in a standard text editor or IDE, and export any changes automatically back into your notebooks</li>
 </ul>
 <p>Since you are in a notebook, you can also add charts, text, links, images, videos, etc, that will included automatically in the documentation of your library. The cells where your code is defined will be hidden and replaced by standardized documentation of your function, showing its name, arguments, docstring, and link to the source code on github. For instance, the cells above are converted to:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="images/doc_example.png" alt="doc example"></p>
 
 </div>
@@ -54,9 +60,9 @@ sidebar: home_sidebar
 <ul>
 <li>the <a href="http://nbdev.fast.ai/export.html">export</a> functionality from jupyter noteboks to a python library</li>
 <li>the <a href="http://nbdev.fast.ai/cli.html">cli</a> commands you can use with nbdev in a terminal</li>
-<li>how <a href="http://nbdev.fast.ai/export2html.html">export2html</a> buils a documentation for your libary</li>
+<li>how <a href="http://nbdev.fast.ai/export2html.html">export2html</a> builds a documentation for your libary</li>
 <li>how <a href="http://nbdev.fast.ai/sync.html">sync</a> can allow you to export back form the pyhton modules to the jupyter notebook</li>
-<li>how <a href="http://nbdev.fast.ai/test.html">test</a> put in your notebooks can be run in parallel to export a CI from your notebooks</li>
+<li>how to put <a href="http://nbdev.fast.ai/test.html">test</a>s in your notebooks, which can be run in parallel, and exported to CI from your notebooks</li>
 </ul>
 
 </div>
@@ -92,7 +98,7 @@ pip install -e nbdev</code></pre>
 <p>To begin your own project, click here: <a href="https://github.com/fastai/nbdev_template/generate">nbdev template</a>. Fill in the requested info and click <em>Create repository from template</em>, and a new GitHub repo will be created for you.</p>
 <p>Now, open your terminal, and clone the repo you just created.</p>
 <p>Next, edit the <code>settings.ini</code> file. Note that it contains all the necessary information for when you'll be ready to package your libary, so you shouldn't need to change the <code>setup.py</code> file provided by the template. The basic structure (that can be personalized provided you change the relevant information in <code>settings.ini</code>) is that the root of the repo will contain your notebooks, along with a folder <code>docs</code> where the doc will be auto-generated that contains everything for a <a href="https://jekyllrb.com/">jekyll</a>-powered website. Because <a href="https://help.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll">GitHub Pages supports Jekyll</a>, you can host your site for free on GitHub without any additional setup.</p>
-<p>Your <code>settings.ini</code> is where all parts of nbdev look for any required configuration information. Once you've edited it, run the command <a href="/cli.html#nbdev_build_lib"><code>nbdev_build_lib</code></a> (which is automatically installed for you when you install <code>nbdev</code>. You'll now find that you have a new directory, with the name of whatever you set <code>lib_name</code> to in <code>settings.ini</code>.</p>
+<p>Your <code>settings.ini</code> is where all parts of nbdev look for any required configuration information. Once you've edited it, run the command <code>nbdev_build_lib</code> (which is automatically installed for you when you install <code>nbdev</code>. You'll now find that you have a new directory, with the name of whatever you set <code>lib_name</code> to in <code>settings.ini</code>.</p>
 <p>Now, run <code>jupyter notebook</code>, and click <code>00_core.ipynb</code>. This is where you'll create your first module! Create Jupyter cells as you would in any notebook. For any cells that you want to be included in your python module, type <code>#export</code> as the first line of the module.</p>
 <p>In the last cell of your notebook, you can then run:</p>
 
@@ -140,7 +146,7 @@ Converted 99_index.ipynb.
 </pre></div>
 <p>as long as you are somewhere in the folder where you are developing your library. Either of these will do the same thing: update your module to include all exported cells in your notebook.</p>
 <p>To enable documentation in your GitHub repo, click 'Settings' on the main repo page, scroll down to 'GitHub Pages', and under 'Source' choose 'master branch /docs folder'. GitHub will then show you a link to your working documentation site.</p>
-<p>Finally, edit <code>99_core.ipynb</code>. This will be converted into your projects <em>README</em> file, and will also be the index for your documentation. You can use the module you just exported in this library, which means you can show real working code, and actual outputs. Once you have everything as you want it, run <a href="/cli.html#nbdev_build_docs"><code>nbdev_build_docs</code></a> in the terminal. This will export HTML versions of your notebooks to the <code>docs</code> directory, and will create hyperlinks for any words in backticks (as long as they exist in your module). It will also create a menu for all notebooks you have created, and a table of contents for each.</p>
+<p>Finally, edit <code>99_core.ipynb</code>. This will be converted into your projects <em>README</em> file, and will also be the index for your documentation. You can use the module you just exported in this library, which means you can show real working code, and actual outputs. Once you have everything as you want it, run <code>nbdev_build_docs</code> in the terminal. This will export HTML versions of your notebooks to the <code>docs</code> directory, and will create hyperlinks for any words in backticks (as long as they exist in your module). It will also create a menu for all notebooks you have created, and a table of contents for each.</p>
 
 </div>
 </div>

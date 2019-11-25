@@ -5,18 +5,18 @@
 
 `nbdev` is a library that allows you to fully develop a library in [jupyter notebooks](https://jupyter.org/), putting all your code, tests and documentation in one place. That is: you now have a true [literate programming](https://en.wikipedia.org/wiki/Literate_programming) environment, as envisioned by Donald Knuth back in 1983!
 
-Using the interactive enviromnent, you can easily debug and refactor your code. Add `#export` flags to the cells that define the functions you want to include in your python modules:
+Using the interactive enviromnent, you can easily debug and refactor your code. Add `#export` flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how `combined_cos` is defined and documented in the `fastai` library:
 
 ![An exported cell](nbs/images/export_example.png)
 
-Here the function `add_init` is defined in the first cell (marked with the export flag) and tested in the second cell.
+Here the function is defined in the first cell (marked with the export flag) and explained, along with a visual example, in the following cells.
 
 Using notebooks written like this, `nbdev` can create and run any of the following with a single command:
 
 - Searchable, hyperlinked documentation
 - Python modules, following best practices such as automatically defining `__all__` ([more details](http://xion.io/post/code/python-all-wild-imports.html)) with your exported functions, classes, and variables
 - Pip installers (uploaded to pypi for you)
-- Tests (run in parallel)
+- Tests (defined directly in your notebooks, and run in parallel)
 - Navigate and edit your code in a standard text editor or IDE, and export any changes automatically back into your notebooks
 
 Since you are in a notebook, you can also add charts, text, links, images, videos, etc, that will included automatically in the documentation of your library. The cells where your code is defined will be hidden and replaced by standardized documentation of your function, showing its name, arguments, docstring, and link to the source code on github. For instance, the cells above are converted to:
@@ -27,9 +27,9 @@ See below for *Installing* and *Getting Started*. In the other pages of the docu
 
 - the [export](http://nbdev.fast.ai/export.html) functionality from jupyter noteboks to a python library
 - the [cli](http://nbdev.fast.ai/cli.html) commands you can use with nbdev in a terminal
-- how [export2html](http://nbdev.fast.ai/export2html.html) buils a documentation for your libary
+- how [export2html](http://nbdev.fast.ai/export2html.html) builds a documentation for your libary
 - how [sync](http://nbdev.fast.ai/sync.html) can allow you to export back form the pyhton modules to the jupyter notebook
-- how [test](http://nbdev.fast.ai/test.html) put in your notebooks can be run in parallel to export a CI from your notebooks
+- how to put [test](http://nbdev.fast.ai/test.html)s in your notebooks, which can be run in parallel, and exported to CI from your notebooks
 
 ## Installing
 
