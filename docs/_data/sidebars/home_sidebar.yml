@@ -22,9 +22,6 @@ entries:
       title: Test functions
       url: /test.html
     - output: web,pdf
-      title: Core functions
-      url: /core.html
-    - output: web,pdf
       title: Command line functions
       url: /cli.html
     output: web

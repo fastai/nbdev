@@ -5,7 +5,6 @@
     "Synchronize and diff": "/sync.html",
     "Show doc": "/showdoc",
     "Test functions": "/test",
-    "Core functions": "/core",
     "Command line functions": "/cli"
   }
 }
