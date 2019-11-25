@@ -22,6 +22,7 @@ $         # end of line (since re.MULTILINE is passed)
 
 #Cell
 def check_all_flag(cells):
+    "Check for an `# all flag` cell and then return said flag"
     for cell in cells:
         if check_re(cell, _re_all_flag): return check_re(cell, _re_all_flag).groups()[0]
 
@@ -38,6 +39,7 @@ $               # end of line (since re.MULTILINE is passed)
 
 #Cell
 def get_cell_flags(cell):
+    "Check for any special test flag in `cell`"
     if cell['cell_type'] != 'code' or len(Config().get('tst_flags',''))==0: return []
     return _re_flags.findall(cell['source'])
 
@@ -77,7 +79,7 @@ import
 
 #Cell
 class NoExportPreprocessor(ExecutePreprocessor):
-    "An `ExecutePreprocessor` that executes not exported cells"
+    "An `ExecutePreprocessor` that executes cells that are not exported and don't have a flag in `flags`"
     def __init__(self, flags, **kwargs):
         self.flags = flags
         super().__init__(**kwargs)
