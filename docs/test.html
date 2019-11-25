@@ -25,6 +25,26 @@ summary: "The functions that grab the cells containing tests (filtering with pot
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Everything that is not an exported cell is considered a test, so you should make sure your notebooks can all run smoothly (and fast) if you want to use this functionality as the CLI. You can mark some cells with special flags (like slow) to make sure they are only executed when you authorize it. Those flags should be configured in your <code>settings.ini</code> (separated by a <code>|</code> if you have several of them). You can also apply a flag to one entire notebook by putting <code># all flag</code> in one of its cells.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Detect-flags">Detect flags<a class="anchor-link" href="#Detect-flags">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following functions detect the cells that should be excluded from the tests (unless their special flag is passed).</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -42,6 +62,7 @@ summary: "The functions that grab the cells containing tests (filtering with pot
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="check_all_flag" class="doc_header"><code>check_all_flag</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L24" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_all_flag</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
+<p>Check for an <code># all flag</code> cell and then return said flag</p>
 
 </div>
 
@@ -82,8 +103,9 @@ summary: "The functions that grab the cells containing tests (filtering with pot
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_cell_flags" class="doc_header"><code>get_cell_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L40" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_cell_flags</code>(<strong><code>cell</code></strong>)</p>
+<h4 id="get_cell_flags" class="doc_header"><code>get_cell_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L41" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_cell_flags</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
+<p>Check for any special test flag in <code>cell</code></p>
 
 </div>
 
@@ -107,6 +129,12 @@ summary: "The functions that grab the cells containing tests (filtering with pot
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Testing-a-notebook">Testing a notebook<a class="anchor-link" href="#Testing-a-notebook">&#182;</a></h2>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -128,9 +156,9 @@ summary: "The functions that grab the cells containing tests (filtering with pot
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="NoExportPreprocessor" class="doc_header"><code>class</code> <code>NoExportPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L79" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NoExportPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
+<h2 id="NoExportPreprocessor" class="doc_header"><code>class</code> <code>NoExportPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L81" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NoExportPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
 </blockquote>
-<p>An <code>ExecutePreprocessor</code> that executes not exported cells</p>
+<p>An <code>ExecutePreprocessor</code> that executes cells that are not exported and don't have a flag in <code>flags</code></p>
 
 </div>
 
@@ -152,7 +180,7 @@ summary: "The functions that grab the cells containing tests (filtering with pot
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="test_nb" class="doc_header"><code>test_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L93" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>test_nb</code>(<strong><code>fn</code></strong>, <strong><code>flags</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="test_nb" class="doc_header"><code>test_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L95" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>test_nb</code>(<strong><code>fn</code></strong>, <strong><code>flags</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Execute <code>nb</code> (or only the <a href="/showdoc.html#show_doc"><code>show_doc</code></a> cells) with <code>metadata</code></p>
 

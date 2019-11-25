@@ -75,6 +75,24 @@ def find_default_export(cells):
         if tst: return tst.groups()[0]
 
 #Cell
+_re_patch_func = re.compile(r"""
+# Catches any function decorated with @patch, its name in group 1 and the patched class in group 2
+@patch         # At any place in the cell, something that begins with @patch
+\s*def         # Any number of whitespace (including a new line probably) followed by def
+\s+            # One whitespace or more
+([^\(\s]*)     # Catch a group composed of anything but whitespace or an opening parenthesis (name of the function)
+\s*\(          # Any number of whitespace followed by an opening parenthesis
+[^:]*          # Any number of character different of : (the name of the first arg that is type-annotated)
+:\s*           # A column followed by any number of whitespace
+(?:            # Non-catching group with either
+([^,\s\(\)]*)  #    a group composed of anything but a comma, a parenthesis or whitespace (name of the class)
+|              #  or
+(\([^\)]*\)))  #    a group composed of something between parenthesis (tuple of classes)
+\s*            # Any number of whitespace
+(?:,|\))       # Non-catching group with either a comma or a closing parenthesis
+""", re.VERBOSE)
+
+#Cell
 _re_typedispatch_func = re.compile(r"""
 # Catches any function decorated with @typedispatch
 (@typedispatch  # At any place in the cell, catch a group with something that begins with @patch
