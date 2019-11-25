@@ -10,6 +10,7 @@ from .imports import *
 from .sync import *
 from .export import *
 from .showdoc import *
+from .templates import *
 
 from nbconvert.preprocessors import ExecutePreprocessor, Preprocessor
 from nbconvert import HTMLExporter,MarkdownExporter
@@ -317,7 +318,7 @@ def convert_nb(fname):
 
 #Cell
 def convert_all(fname=None, force_all=False):
-    "Convert all notebooks in `path` to html files in `dest_path`."
+    "Convert all notebooks in `path` to html files in `dest_path`, and write templates."
     changed_cnt = 0
     if fname is None:
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
@@ -332,6 +333,7 @@ def convert_all(fname=None, force_all=False):
         try: convert_nb(fname)
         except Exception as e: print(e)
     if changed_cnt==0: print("No notebooks were modified")
+    write_tmpls()
 
 #Cell
 def convert_md(fname, dest_path, jekyll=True):
