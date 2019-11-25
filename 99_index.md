@@ -7,7 +7,7 @@
 
 ![An exported cell](nbs/images/export_example.png)
 
-Here the function `add_init` is defined in the first cell (marked with the export flag) and tested in the second cell. In the last cell of your notebook, you can then run:
+Here the function [`add_init`](/export.html#add_init) is defined in the first cell (marked with the export flag) and tested in the second cell. In the last cell of your notebook, you can then run:
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
@@ -43,11 +43,11 @@ Since you are in a notebook, you can also add text, links or images that will be
 ![doc example](nbs/images/doc_example.png)
 
 In the other pages of the documentaiton, you can get more details about:
-- the `export` functionality from jupyter noteboks to a python library
-- the `cli` commands you can use with nbdev in a terminal
-- how `export2html` buils a documentation for your libary
-- how `sync` can allow you to export back form the pyhton modules to the jupyter notebook
-- how `test` put in your notebooks can be run in parallel to export a CI from your notebooks
+- the [`export`](/export.html) functionality from jupyter noteboks to a python library
+- the [`cli`](/cli.html) commands you can use with nbdev in a terminal
+- how [`export2html`](/export2html.html) buils a documentation for your libary
+- how [`sync`](/sync.html) can allow you to export back form the pyhton modules to the jupyter notebook
+- how [`test`](/test.html) put in your notebooks can be run in parallel to export a CI from your notebooks
 
 ## Installing
 
