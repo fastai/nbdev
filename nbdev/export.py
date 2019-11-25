@@ -255,7 +255,7 @@ def _notebook2script(fname, silent=False, to_dict=None):
     default = find_default_export(nb['cells'])
     if default is not None:
         default = os.path.sep.join(default.split('.'))
-        if to_dict is None: _create_mod_file(Config().lib_path/f'{default}.py', fname)
+        if to_dict is None: create_mod_file(Config().lib_path/f'{default}.py', fname)
     mod = get_nbdev_module()
     exports = [is_export(c, default) for c in nb['cells']]
     cells = [(i,c,e) for i,(c,e) in enumerate(zip(nb['cells'],exports)) if e is not None]
