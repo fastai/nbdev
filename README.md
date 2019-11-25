@@ -91,6 +91,20 @@ To enable documentation in your GitHub repo, click 'Settings' on the main repo p
 
 Finally, edit `99_core.ipynb`. This will be converted into your projects *README* file, and will also be the index for your documentation. You can use the module you just exported in this library, which means you can show real working code, and actual outputs. Once you have everything as you want it, run `nbdev_build_docs` in the terminal. This will export HTML versions of your notebooks to the `docs` directory, and will create hyperlinks for any words in backticks (as long as they exist in your module). It will also create a menu for all notebooks you have created, and a table of contents for each.
 
+### Adding your project to pypi
+
+If you want people to be able to install your project by just typing `pip install your-project` then you need to upload it to [pypi](https://pypi.org/). The good news is, we've already created a fully pypi compliant installer for your project! So all you need to do is register at pypi, if you haven't previously done so, and then create a file called `~/.pypirc` with your login details. It should have these contents:
+
+```
+[pypi]
+username = your_pypi_username
+password = your_pypi_password
+```
+
+To upload your project to pypi, just type `make pypi` in your project root directory. Once it's complete, a link to your project on pypi will be printed.
+
+**NB**: make sure you increment the version number in `settings.py` each time you want to push a new release to pypi.
+
 ## Contributing
 
 If you want to contribute to `nbdev`, be sure to review the [contributions guidelines](https://github.com/fastai/nbdev/blob/master/CONTRIBUTING.md). This project adheres to fastai`s [code of condut](https://github.com/fastai/nbdev/blob/master/CODE-OF-CONDUCT.md). By participating, you are expected to uphold this code. In general, the fastai project strives to abide by generally accepted best practices in open-source software development.
