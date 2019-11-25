@@ -183,9 +183,9 @@ def clean_nb(nb, clear_all=False):
 import io,sys,json
 
 #Cell
-_output_stream = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-
 def _print_output(nb):
+    "Print `nb` in stdout for git things"
+    _output_stream = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
     x = json.dumps(nb, sort_keys=True, indent=1, ensure_ascii=False)
     _output_stream.write(x)
     _output_stream.write("\n")
