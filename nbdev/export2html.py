@@ -220,7 +220,7 @@ _re_title_summary = re.compile(r"""
 \#\s+      # # followed by one or more of whitespace
 ([^\n]*)   # Catching group for any character except a new line
 \n+        # One or more new lines
->\s*       # > followed by any number of whitespace
+>[ ]*       # > followed by any number of whitespace
 ([^\n]*)   # Catching group for any character except a new line
 """, re.VERBOSE)
 
@@ -244,6 +244,7 @@ def get_metadata(cells):
                         'summary' : match.groups()[1],
                         'title'   : match.groups()[0],
                         **attrs}
+
     return {'keywords': 'fastai',
             'summary' : 'summary',
             'title'   : 'Title'}
@@ -283,13 +284,13 @@ def execute_nb(nb, mod=None, metadata=None, show_doc_only=True):
     return pnb
 
 #Cell
-def _exporter(markdown=False):
+def _exporter(markdown=False, jekyll=True):
     cfg = traitlets.config.Config()
     exporter = (HTMLExporter,MarkdownExporter)[markdown](cfg)
     exporter.exclude_input_prompt=True
     exporter.exclude_output_prompt=True
-    exporter.template_file = ('jekyll.tpl','jekyll-md.tpl')[markdown]
-    exporter.template_path.append(str(Path(__file__).parent))
+    exporter.template_file = ('jekyll.tpl',('md.tpl','jekyll-md.tpl')[jekyll])[markdown]
+    exporter.template_path.append(str(Path(__file__).parent/'templates'))
     return exporter
 
 #Cell
@@ -301,14 +302,14 @@ def convert_nb(fname):
     "Convert a notebook `fname` to html file in `dest_path`."
     fname = Path(fname).absolute()
     nb = read_nb(fname)
+    meta_jekyll = get_metadata(nb['cells'])
+    meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
     cls_lvl = find_default_level(nb['cells'])
     mod = find_default_export(nb['cells'])
     nb['cells'] = compose(*process_cells,partial(add_show_docs, cls_lvl=cls_lvl))(nb['cells'])
     nb['cells'] = [compose(partial(copy_images, fname=fname, dest=Config().doc_path), *process_cell, treat_backticks)(c)
                     for c in nb['cells']]
     dest_name = '.'.join(fname.with_suffix('.html').name.split('_')[1:])
-    meta_jekyll = get_metadata(nb['cells'])
-    meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
     nb = execute_nb(nb, mod=mod)
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
     with open(Config().doc_path/dest_name,'w') as f:
@@ -333,7 +334,7 @@ def convert_all(fname=None, force_all=False):
     if changed_cnt==0: print("No notebooks were modified")
 
 #Cell
-def convert_md(fname, dest_path):
+def convert_md(fname, dest_path, jekyll=True):
     "Convert a notebook `fname` to a markdown file in `dest_path`."
     fname = Path(fname).absolute()
     nb = read_nb(fname)
@@ -342,6 +343,6 @@ def convert_md(fname, dest_path):
     nb['cells'] = [compose(partial(copy_images, fname=fname, dest=dest_path), *process_cell)(c) for c in nb['cells']]
     fname = Path(fname).absolute()
     dest_name = fname.with_suffix('.md').name
-    exp = _exporter(markdown=True)
+    exp = _exporter(markdown=True, jekyll=jekyll)
     with (Path(dest_path)/dest_name).open('w') as f:
         f.write(exp.from_notebook_node(nb, resources=meta_jekyll)[0])
