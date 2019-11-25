@@ -174,6 +174,7 @@ def relative_import(name, fname):
 
 #Cell
 #Catches any from nbdev.bla import something and catches nbdev.bla in group 1, the imported thing(s) in group 2.
+if not hasattr(Config(), 'lib_name'): raise Exception("Please fill in the library name in settings.ini.")
 _re_import = re.compile(r'^(\s*)from (' + Config().lib_name + '.\S*) import (.*)$')
 
 #Cell
