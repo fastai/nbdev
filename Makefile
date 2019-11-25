@@ -1,3 +1,6 @@
+docs: $(wildcard nbs/*.ipynb)
+	nbdev_build_docs
+
 pypi: dist
 	twine upload --repository pypi dist/*
 
