@@ -61,3 +61,17 @@ git clone https://github.com/fastai/nbdev
 cd nbdev
 pip install -e .
 ```
+
+## Contributing
+
+If you want to contribute to `nbdev`, be sure to review the [contributions guidelines](https://github.com/fastai/nbdev/blob/master/CONTRIBUTING.md). This project adheres to fastai`s [code of condut](https://github.com/fastai/nbdev/blob/master/CODE-OF-CONDUCT.md). By participating, you are expected to uphold this code. In general, the fastai project strives to abide by generally accepted best practices in open-source software development.
+
+Make sure you have the git hooks we use installed by running
+```
+nbdev_install_git_hooks
+```
+in the cloned repository folder. 
+
+## Copyright
+
+Copyright 2019 onwards, fast.ai, Inc. Licensed under the Apache License, Version 2.0 (the "License"); you may not use this project's files except in compliance with the License. A copy of the License is provided in the LICENSE file in this repository.
