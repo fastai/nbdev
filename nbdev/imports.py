@@ -1,4 +1,4 @@
-import os,re,json,glob,collections,pickle,shutil,nbformat,inspect,yaml,tempfile,enum,stat
+import os,re,json,glob,collections,pickle,shutil,nbformat,inspect,yaml,tempfile,enum,stat,time,random
 import importlib.util
 from pdb import set_trace
 from configparser import ConfigParser
@@ -95,3 +95,31 @@ def compose(*funcs, order=None):
         return x
     return _inner
 
+from multiprocessing import Process, Queue
+import concurrent.futures
+
+def num_cpus():
+    "Get number of cpus"
+    try:                   return len(os.sched_getaffinity(0))
+    except AttributeError: return os.cpu_count()
+    
+class ProcessPoolExecutor(concurrent.futures.ProcessPoolExecutor):
+    "Like `concurrent.futures.ProcessPoolExecutor` but handles 0 `max_workers`."
+    def __init__(self, max_workers=None, on_exc=print, **kwargs):
+        self.not_parallel = max_workers==0
+        self.on_exc = on_exc
+        if self.not_parallel: max_workers=1
+        super().__init__(max_workers, **kwargs)
+
+    def map(self, f, items, *args, **kwargs):
+        g = partial(f, *args, **kwargs)
+        if self.not_parallel: return map(g, items)
+        try: return super().map(g, items)
+        except Exception as e: self.on_exc(e)
+            
+def parallel(f, items, *args, n_workers=None, **kwargs):
+    "Applies `func` in parallel to `items`, using `n_workers`"
+    if n_workers is None: n_workers = min(16, num_cpus())
+    with ProcessPoolExecutor(n_workers) as ex:
+        r = ex.map(f,items, *args, **kwargs)
+        return list(r)
