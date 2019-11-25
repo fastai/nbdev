@@ -11,7 +11,7 @@ Here the function `add_init` is defined in the first cell (marked with the expor
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
-```
+```python
 from nbdev.export import *
 notebook2script()
 ```

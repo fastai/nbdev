@@ -89,7 +89,7 @@ def _script2notebook(fname, dic, silent=False):
     with open(fname, encoding='utf8') as f: code = f.read()
     splits = _split(code)
     assert len(splits)==len(dic[fname]), f"Exported file from notebooks should have {len(dic[fname])} cells but has {len(splits)}."
-    assert np.all([c1[0]==c2[1]] for c1,c2 in zip(splits, dic[fname]))
+    assert all([c1[0]==c2[1]] for c1,c2 in zip(splits, dic[fname]))
     splits = [(c2[0],c1[0],c1[1]) for c1,c2 in zip(splits, dic[fname])]
     nb_fnames = {Config().nbs_path/s[1] for s in splits}
     for nb_fname in nb_fnames:

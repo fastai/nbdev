@@ -751,37 +751,49 @@ summary: "The functions that transform the dev notebooks in the documentation of
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">write_tmpl</span><span class="p">(</span><span class="n">tmpl</span><span class="p">,</span> <span class="n">nms</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">dest</span><span class="p">):</span>
-    <span class="s2">&quot;Write `tmpl` to `dest` (if missing) filling in `nms` in template using dict `cfg`&quot;</span>
-    <span class="k">if</span> <span class="n">dest</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span> <span class="k">return</span>
-    <span class="n">vs</span> <span class="o">=</span> <span class="p">{</span><span class="n">o</span><span class="p">:</span><span class="n">cfg</span><span class="o">.</span><span class="n">d</span><span class="p">[</span><span class="n">o</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">nms</span><span class="o">.</span><span class="n">split</span><span class="p">()}</span>
-    <span class="n">outp</span> <span class="o">=</span> <span class="n">tmpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">vs</span><span class="p">)</span>
-    <span class="n">dest</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">outp</span><span class="p">)</span>
-</pre></div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
 
-    </div>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="write_tmpl" class="doc_header"><code>write_tmpl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L288" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpl</code>(<strong><code>tmpl</code></strong>, <strong><code>nms</code></strong>, <strong><code>cfg</code></strong>, <strong><code>dest</code></strong>)</p>
+</blockquote>
+<p>Write <code>tmpl</code> to <code>dest</code> (if missing) filling in <code>nms</code> in template using dict <code>cfg</code></p>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">write_tmpls</span><span class="p">():</span>
-    <span class="s2">&quot;Write out _config.yml and _data/topnav.yml using templates&quot;</span>
-    <span class="n">cfg</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span>
-    <span class="n">write_tmpl</span><span class="p">(</span><span class="n">config_tmpl</span><span class="p">,</span> <span class="s1">&#39;user lib_name title copyright description&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">doc_path</span><span class="o">/</span><span class="s1">&#39;_config.yml&#39;</span><span class="p">)</span>
-    <span class="n">write_tmpl</span><span class="p">(</span><span class="n">topnav_tmpl</span><span class="p">,</span> <span class="s1">&#39;user lib_name&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">doc_path</span><span class="o">/</span><span class="s1">&#39;_data&#39;</span><span class="o">/</span><span class="s1">&#39;topnav.yml&#39;</span><span class="p">)</span>
-    <span class="n">write_tmpl</span><span class="p">(</span><span class="n">makefile_tmpl</span><span class="p">,</span> <span class="s1">&#39;nbs_path lib_name&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">config_file</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">&#39;Makefile&#39;</span><span class="p">)</span>
-</pre></div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
 
-    </div>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="write_tmpls" class="doc_header"><code>write_tmpls</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L296" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpls</code>()</p>
+</blockquote>
+<p>Write out _config.yml and _data/topnav.yml using templates</p>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -823,7 +835,7 @@ summary: "The functions that transform the dev notebooks in the documentation of
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L302" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>)</p>
+<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L318" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to html file in <code>dest_path</code>.</p>
 
@@ -860,7 +872,7 @@ summary: "The functions that transform the dev notebooks in the documentation of
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_all" class="doc_header"><code>convert_all</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L320" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_all</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="convert_all" class="doc_header"><code>convert_all</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L336" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_all</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert all notebooks in <code>path</code> to html files in <code>dest_path</code>, and write templates.</p>
 
@@ -884,7 +896,7 @@ summary: "The functions that transform the dev notebooks in the documentation of
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_md" class="doc_header"><code>convert_md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L339" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_md</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="convert_md" class="doc_header"><code>convert_md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L355" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_md</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to a markdown file in <code>dest_path</code>.</p>
 

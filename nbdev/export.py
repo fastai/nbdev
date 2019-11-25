@@ -290,7 +290,7 @@ def add_init(path):
 
 #Cell
 def notebook2script(fname=None, silent=False, to_dict=False):
-    "Convert `fname` or all the notebook satisfying `all_fs`."
+    "Convert notebooks matching `fname` to modules"
     # initial checks
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
     if fname is None:
