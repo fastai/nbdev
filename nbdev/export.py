@@ -278,8 +278,7 @@ def _notebook2script(fname, silent=False, to_dict=None):
 def add_init(path):
     "Add `__init__.py` in all subdirs of `path` if it's not there already"
     for p,d,f in os.walk(path):
-        if not (Path(p)/'__init__.py').exists():
-            with open(Path(p)/'__init__.py', 'w') as f: f.write('')
+        if not (Path(p)/'__init__.py').exists(): (Path(p)/'__init__.py').touch()
 
 #Cell
 def notebook2script(fname=None, silent=False, to_dict=False):
