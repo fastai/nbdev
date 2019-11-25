@@ -29,11 +29,13 @@ summary: "The functions that transform the dev notebooks in the documentation of
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The most important function defined in this module is <a href="/export2html.html#notebook2html"><code>notebook2html</code></a>, so you may want to jump to it before scrolling though the rest, which explain the details behind the scenes of the conversion from notebooks to the html documentation. The main things to remember are:</p>
 <ul>
-<li>put an <code># export</code> flag on each cell you want exported</li>
-<li>put an <code># exports</code> flag (for export and show) on each cell you want exported with the source code shown in the docs </li>
-<li>one cell should contain <code># default_exp</code> flag followed by the name of the module (with points for submodules and without the py extension) everything should be exported in (if one specific cell needs to be exported in a different module, just indicate it after the <code># export</code> flag: <code># export special.module</code>)</li>
-<li>all left members of an equality, functions and classes will be exported and variables that are not private will be put in the <code>__all__</code> automatically</li>
-<li>to add something to <code>__all__</code> if it's not picked automatically, write an exported cell with something like <code>_all_ = ["my_name"]</code> (the single underscores are intentional)</li>
+<li>put a <code>#hide</code> flag at the top of any cell you want to completely hide in the docs</li>
+<li>use the hide input <a href="https://github.com/ipython-contrib/jupyter_contrib_nbextensions">jupyter extension</a> to hide the input of some cells (by default all <a href="/showdoc.html#show_doc"><code>show_doc</code></a> cells have that marker added)</li>
+<li>you can define some jekyll metadata in the markdown cell with the title, see <a href="/export2html.html#get_metadata"><code>get_metadata</code></a></li>
+<li>use backsticks for terms you want automatic links to be found, but use <code>&lt;code&gt;</code> and <code>&lt;/code&gt;</code> when you have homonyms and don't want those links</li>
+<li>you can define the default toc level of classes with <code># default_cls_lvl</code> flag followed by a number (default is 2)</li>
+<li>you can add jekyll warnings, important or note banners with appropriate block quotes (see <a href="/export2html.html#add_jekyll_notes"><code>add_jekyll_notes</code></a>)</li>
+<li>put any images you want to use in the images folder of your notebook folder, they will be automatically copied over to the docs folder</li>
 </ul>
 
 </div>
@@ -75,6 +77,13 @@ summary: "The functions that transform the dev notebooks in the documentation of
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Those outputs usually can't be rendered properly in html.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -101,6 +110,13 @@ summary: "The functions that transform the dev notebooks in the documentation of
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This concerns all the cells with a <code># export</code> flag and all the cell containing a <a href="/showdoc.html#show_doc"><code>show_doc</code></a> for a function or class.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
@@ -131,6 +147,13 @@ summary: "The functions that transform the dev notebooks in the documentation of
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The rest of the cell is displayed without any modification.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -195,49 +218,6 @@ summary: "The functions that transform the dev notebooks in the documentation of
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_links" class="doc_header"><code>convert_links</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L65" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_links</code>(<strong><code>cell</code></strong>)</p>
-</blockquote>
-<p>Convert the .ipynb links to .html</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cell</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;markdown&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s2">&quot;This is a link to a [notebook](01_core.ipynb).&quot;</span><span class="p">}</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">convert_links</span><span class="p">(</span><span class="n">cell</span><span class="p">),</span> <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;markdown&#39;</span><span class="p">,</span> 
-                               <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s2">&quot;This is a link to a [notebook](01_core.html).&quot;</span><span class="p">})</span>
-<span class="n">cell</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;markdown&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s2">&quot;This is a link to a [page](01_core.html).&quot;</span><span class="p">}</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">convert_links</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">copy</span><span class="p">()),</span> <span class="n">cell</span><span class="p">)</span>
-<span class="n">cell</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;markdown&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s2">&quot;This is a link to an [external nb](http://01_core.ipynb).&quot;</span><span class="p">}</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">convert_links</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">copy</span><span class="p">()),</span> <span class="n">cell</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
@@ -263,29 +243,14 @@ summary: "The functions that transform the dev notebooks in the documentation of
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Supported styles are <code>Warning</code>, <code>Note</code> and <code>Important</code>:</p>
+<p>Typing <code>&lt;div markdown="span" class="alert alert-danger" role="alert"&gt;&lt;i class="fa fa-danger-circle"&gt;&lt;/i&gt; &lt;b&gt;Warning: &lt;/b&gt;There will be no second warning!</code> will render in the docs:&lt;/div&gt;</p>
 <div markdown="span" class="alert alert-danger" role="alert"><i class="fa fa-danger-circle"></i> <b>Warning: </b>There will be no second warning!</div>
+Typing `<div markdown="span" class="alert alert-warning" role="alert"><i class="fa fa-warning-circle"></i> <b>Important: </b>Pay attention! This is important.` will render in the docs:</div>
 <div markdown="span" class="alert alert-warning" role="alert"><i class="fa fa-warning-circle"></i> <b>Important: </b>Pay attention! This is important.</div>
+Typing `<div markdown="span" class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note: </b>Take note of this.` will render in the docs:</div>
 <div markdown="span" class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> <b>Note: </b>Take note of this.</div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">w</span><span class="p">,</span><span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;Warning&#39;</span><span class="p">,</span> <span class="s1">&#39;Note&#39;</span><span class="p">,</span> <span class="s1">&#39;Important&#39;</span><span class="p">,</span> <span class="s1">&#39;Bla&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;danger&#39;</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">]):</span>
-    <span class="n">cell</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;markdown&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s2">&quot;&gt; </span><span class="si">{w}</span><span class="s2">: This is my final {w.lower()}!&quot;</span><span class="p">}</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;&lt;div markdown=&quot;span&quot; class=&quot;alert alert-</span><span class="si">{s}</span><span class="s1">&quot; role=&quot;alert&quot;&gt;&#39;</span>
-    <span class="n">res</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;&lt;i class=&quot;fa fa-</span><span class="si">{s}</span><span class="s1">-circle&quot;&gt;&lt;/i&gt; &lt;b&gt;</span><span class="si">{w}</span><span class="s1">: &lt;/b&gt;This is my final {w.lower()}!&lt;/div&gt;&#39;</span>
-    <span class="k">if</span> <span class="n">w</span> <span class="o">!=</span> <span class="s1">&#39;Bla&#39;</span><span class="p">:</span> <span class="n">test_eq</span><span class="p">(</span><span class="n">add_jekyll_notes</span><span class="p">(</span><span class="n">cell</span><span class="p">),</span> <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;markdown&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">res</span><span class="p">})</span>
-    <span class="k">else</span><span class="p">:</span> <span class="n">test_eq</span><span class="p">(</span><span class="n">add_jekyll_notes</span><span class="p">(</span><span class="n">cell</span><span class="p">),</span> <span class="n">cell</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
