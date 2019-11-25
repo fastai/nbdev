@@ -3,7 +3,7 @@
 __all__ = ['remove_widget_state', 'hide_cells', 'clean_exports', 'treat_backticks', 'convert_links', 'add_jekyll_notes',
            'copy_images', 'adapt_img_path', 'remove_hidden', 'find_default_level', 'add_show_docs',
            'remove_fake_headers', 'remove_empty', 'get_metadata', 'ExecuteShowDocPreprocessor', 'execute_nb',
-           'write_tmpl', 'write_tmpls', 'process_cells', 'process_cell', 'convert_nb', 'convert_all', 'convert_md']
+           'write_tmpl', 'write_tmpls', 'process_cells', 'process_cell', 'convert_nb', 'notebook2html', 'convert_md']
 
 #Cell
 from .imports import *
@@ -333,23 +333,27 @@ def convert_nb(fname):
         f.write(_exporter().from_notebook_node(nb, resources=meta_jekyll)[0])
 
 #Cell
-def convert_all(fname=None, force_all=False):
-    "Convert all notebooks in `path` to html files in `dest_path`, and write templates."
-    changed_cnt = 0
+def _notebook2html(fname):
+    time.sleep(random.random())
+    print(f"converting: {fname}")
+    try: convert_nb(fname)
+    except Exception as e: print(e)
+
+#Cell
+def notebook2html(fname=None, force_all=False):
+    "Convert all notebooks matching `fname` to html files"
     if fname is None:
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
-    for fname in files:
+    if not force_all:
         # only rebuild modified files
-        fname_out = Config().doc_path/'.'.join(fname.with_suffix('.html').name.split('_')[1:])
-        if not force_all and fname_out.exists() and os.path.getmtime(fname) < os.path.getmtime(fname_out):
-            continue
-        print(f"converting: {fname.name} => {fname_out.name}")
-        changed_cnt += 1
-        try: convert_nb(fname)
-        except Exception as e: print(e)
-    if changed_cnt==0: print("No notebooks were modified")
-    write_tmpls()
+        files,_files = [],files.copy()
+        for fname in _files:
+            fname_out = Config().doc_path/'.'.join(fname.with_suffix('.html').name.split('_')[1:])
+            if not fname_out.exists() or os.path.getmtime(fname) >= os.path.getmtime(fname_out):
+                files.append(fname)
+    if len(files)==0: print("No notebooks were modified")
+    parallel(_notebook2html, files)
 
 #Cell
 def convert_md(fname, dest_path, jekyll=True):

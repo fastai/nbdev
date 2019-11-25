@@ -43,7 +43,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_build_lib" class="doc_header"><code>nbdev_build_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_lib</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f8c3fbe5050&gt;</code>=<em><code>None</code></em>)</p>
+<h4 id="nbdev_build_lib" class="doc_header"><code>nbdev_build_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L16" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_lib</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f18936f3210&gt;</code>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -66,7 +66,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L22" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f8c3fbe5190&gt;</code>=<em><code>None</code></em>)</p>
+<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f18936f5210&gt;</code>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -89,117 +89,13 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_diff_nbs" class="doc_header"><code>nbdev_diff_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L27" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_diff_nbs</code>()</p>
+<h4 id="nbdev_diff_nbs" class="doc_header"><code>nbdev_diff_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_diff_nbs</code>()</p>
 </blockquote>
 
 </div>
 
 </div>
 
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Parallel-execution">Parallel execution<a class="anchor-link" href="#Parallel-execution">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="num_cpus" class="doc_header"><code>num_cpus</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L35" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>num_cpus</code>()</p>
-</blockquote>
-<p>Get number of cpus</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h2 id="ProcessPoolExecutor" class="doc_header"><code>class</code> <code>ProcessPoolExecutor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L41" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ProcessPoolExecutor</code>(<strong><code>max_workers</code></strong>=<em><code>None</code></em>, <strong><code>on_exc</code></strong>=<em><code>'print'</code></em>, <strong>**<code>kwargs</code></strong>) :: <a href="/cli.html#ProcessPoolExecutor"><code>ProcessPoolExecutor</code></a></p>
-</blockquote>
-<p>Like <code>concurrent.futures.ProcessPoolExecutor</code> but handles 0 <code>max_workers</code>.</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="parallel" class="doc_header"><code>parallel</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L56" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parallel</code>(<strong><code>f</code></strong>, <strong><code>items</code></strong>, <strong>*<code>args</code></strong>, <strong><code>n_workers</code></strong>=<em><code>None</code></em>, <strong>**<code>kwargs</code></strong>)</p>
-</blockquote>
-<p>Applies <code>func</code> in parallel to <code>items</code>, using <code>n_workers</code></p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">time</span><span class="o">,</span><span class="nn">random</span>
-
-<span class="k">def</span> <span class="nf">add_one</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span> 
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">x</span><span class="o">+</span><span class="n">a</span>
-
-<span class="n">inp</span><span class="p">,</span><span class="n">exp</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">51</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">parallel</span><span class="p">(</span><span class="n">add_one</span><span class="p">,</span> <span class="n">inp</span><span class="p">,</span> <span class="n">n_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">exp</span><span class="p">))</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">parallel</span><span class="p">(</span><span class="n">add_one</span><span class="p">,</span> <span class="n">inp</span><span class="p">,</span> <span class="n">n_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">exp</span><span class="p">))</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">parallel</span><span class="p">(</span><span class="n">add_one</span><span class="p">,</span> <span class="n">inp</span><span class="p">,</span> <span class="n">n_workers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">52</span><span class="p">)))</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">parallel</span><span class="p">(</span><span class="n">add_one</span><span class="p">,</span> <span class="n">inp</span><span class="p">,</span> <span class="n">n_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">52</span><span class="p">)))</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -225,7 +121,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_test_nbs" class="doc_header"><code>nbdev_test_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L71" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_test_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f8c3fbf6990&gt;</code>=<em><code>None</code></em>, <strong><code>flags</code></strong>:<code>Param object at 0x7f8c3fbf6850&gt;</code>=<em><code>None</code></em>)</p>
+<h4 id="nbdev_test_nbs" class="doc_header"><code>nbdev_test_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L37" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_test_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f18936f5550&gt;</code>=<em><code>None</code></em>, <strong><code>flags</code></strong>:<code>Param object at 0x7f18936f54d0&gt;</code>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -263,7 +159,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L104" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
+<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L70" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
 </blockquote>
 <p>Making sidebar for the doc website</p>
 
@@ -280,6 +176,9 @@ summary: "Console commands added by the nbdev library"
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -287,7 +186,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_one" class="doc_header"><code>convert_one</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L123" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_one</code>(<strong><code>fname</code></strong>)</p>
+<h4 id="make_readme" class="doc_header"><code>make_readme</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L92" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_readme</code>()</p>
 </blockquote>
 
 </div>
@@ -310,57 +209,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_all" class="doc_header"><code>convert_all</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L336" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_all</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>)</p>
-</blockquote>
-<p>Convert all notebooks in <code>path</code> to html files in <code>dest_path</code>, and write templates.</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="make_readme" class="doc_header"><code>make_readme</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L149" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_readme</code>()</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L159" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f8c3fbf7f50&gt;</code>=<em><code>None</code></em>, <strong><code>force_all</code></strong>:<code>Param object at 0x7f8c3fbf7990&gt;</code>=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:<code>Param object at 0x7f8c3fbf7f90&gt;</code>=<em><code>True</code></em>)</p>
+<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L102" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f18936f5510&gt;</code>=<em><code>None</code></em>, <strong><code>force_all</code></strong>:<code>Param object at 0x7f18936f5e10&gt;</code>=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:<code>Param object at 0x7f18936f5ed0&gt;</code>=<em><code>True</code></em>)</p>
 </blockquote>
 
 </div>
@@ -389,7 +238,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="rm_execution_count" class="doc_header"><code>rm_execution_count</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L168" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rm_execution_count</code>(<strong><code>o</code></strong>)</p>
+<h4 id="rm_execution_count" class="doc_header"><code>rm_execution_count</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L111" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rm_execution_count</code>(<strong><code>o</code></strong>)</p>
 </blockquote>
 <p>Remove execution count in <code>o</code></p>
 
@@ -413,7 +262,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="clean_cell_output" class="doc_header"><code>clean_cell_output</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L173" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell_output</code>(<strong><code>cell</code></strong>)</p>
+<h4 id="clean_cell_output" class="doc_header"><code>clean_cell_output</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L116" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell_output</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
 <p>Remove execution count in <code>cell</code></p>
 
@@ -440,7 +289,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="clean_cell" class="doc_header"><code>clean_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L183" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell</code>(<strong><code>cell</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="clean_cell" class="doc_header"><code>clean_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L126" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell</code>(<strong><code>cell</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Clen <code>cell</code> by removing superluous metadata or everything except the input if <code>clear_all</code></p>
 
@@ -496,9 +345,9 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="clean_nb" class="doc_header"><code>clean_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L192" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_nb</code>(<strong><code>nb</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="clean_nb" class="doc_header"><code>clean_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L135" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_nb</code>(<strong><code>nb</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Clean <code>nb</code> from superfulous metadata, passing <code>clear_all</code> to <a href="/cli.html#clean_cell"><code>clean_cell</code></a></p>
+<p>Clean <code>nb</code> from superfulous metadata, passing <code>clear_all</code> to <code>clean_cell</code></p>
 
 </div>
 
@@ -553,7 +402,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_clean_nbs" class="doc_header"><code>nbdev_clean_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L210" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_clean_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f8c3fb70710&gt;</code>=<em><code>None</code></em>, <strong><code>clear_all</code></strong>:<code>Param object at 0x7f8c3fb70b50&gt;</code>=<em><code>False</code></em>, <strong><code>disp</code></strong>:<code>Param object at 0x7f8c3fb924d0&gt;</code>=<em><code>False</code></em>)</p>
+<h4 id="nbdev_clean_nbs" class="doc_header"><code>nbdev_clean_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L153" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_clean_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f18936f5b90&gt;</code>=<em><code>None</code></em>, <strong><code>clear_all</code></strong>:<code>Param object at 0x7f18936f5d90&gt;</code>=<em><code>False</code></em>, <strong><code>disp</code></strong>:<code>Param object at 0x7f18936f5dd0&gt;</code>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Clean all notebooks in <code>fname</code> to avoid merge conflicts</p>
 
@@ -583,7 +432,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L233" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f8c3fb925d0&gt;</code>=<em><code>None</code></em>)</p>
+<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L176" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f18936f5a90&gt;</code>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Check all notebooks in <code>fname</code> can be opened</p>
 
@@ -607,7 +456,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L244" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f8c3fb92610&gt;</code>=<em><code>None</code></em>, <strong><code>force</code></strong>:<code>Param object at 0x7f8c3fb926d0&gt;</code>=<em><code>False</code></em>)</p>
+<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L187" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f18936f5a10&gt;</code>=<em><code>None</code></em>, <strong><code>force</code></strong>:<code>Param object at 0x7f18936f5c10&gt;</code>=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>
@@ -639,7 +488,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L262" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
+<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L205" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
 </blockquote>
 <p>Install git hooks to clean/trust notebooks automatically</p>
 
