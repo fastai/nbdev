@@ -13,6 +13,9 @@ entries:
       title: Convert to html
       url: /export2html.html
     - output: web,pdf
+      title: Synchronize and diff
+      url: /sync.html.html
+    - output: web,pdf
       title: Show doc
       url: /showdoc.html
     - output: web,pdf
