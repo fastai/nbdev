@@ -5,7 +5,7 @@
 
 `nbdev` is a library that allows you to fully develop a library in [jupyter notebooks](https://jupyter.org/), putting all your code, tests and documentation in one place. That is: you now have a true [literate programming](https://en.wikipedia.org/wiki/Literate_programming) environment, as envisioned by Donald Knuth back in 1983!
 
-Using the interactive enviromnent, you can easily debug and refactor your code. Add `#export` flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how `combined_cos` is defined and documented in the `fastai` library:
+Using the interactive environment, you can easily debug and refactor your code. Add `#export` flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how `combined_cos` is defined and documented in the `fastai` library:
 
 ![An exported cell](nbs/images/export_example.png)
 
@@ -25,10 +25,10 @@ Since you are in a notebook, you can also add charts, text, links, images, video
 
 See below for *Installing* and *Getting Started*. In the other pages of the documentation, you can get more details about:
 
-- the [export](http://nbdev.fast.ai/export.html) functionality from jupyter noteboks to a python library
+- the [export](http://nbdev.fast.ai/export.html) functionality from jupyter notebooks to a python library
 - the [cli](http://nbdev.fast.ai/cli.html) commands you can use with nbdev in a terminal
-- how [export2html](http://nbdev.fast.ai/export2html.html) builds a documentation for your libary
-- how [sync](http://nbdev.fast.ai/sync.html) can allow you to export back form the pyhton modules to the jupyter notebook
+- how [export2html](http://nbdev.fast.ai/export2html.html) builds a documentation for your library
+- how [sync](http://nbdev.fast.ai/sync.html) can allow you to export back form the python modules to the jupyter notebook
 - how to put [test](http://nbdev.fast.ai/test.html)s in your notebooks, which can be run in parallel, and exported to CI from your notebooks
 
 ## Installing
@@ -50,7 +50,7 @@ To begin your own project, click here: [nbdev template](https://github.com/fasta
 
 Now, open your terminal, and clone the repo you just created.
 
-Next, edit the `settings.ini` file. Note that it contains all the necessary information for when you'll be ready to package your libary, so you shouldn't need to change the `setup.py` file provided by the template. The basic structure (that can be personalized provided you change the relevant information in `settings.ini`) is that the root of the repo will contain your notebooks, along with a folder `docs` where the doc will be auto-generated that contains everything for a [jekyll](https://jekyllrb.com/)-powered website. Because [GitHub Pages supports Jekyll](https://help.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll), you can host your site for free on GitHub without any additional setup.
+Next, edit the `settings.ini` file. Note that it contains all the necessary information for when you'll be ready to package your library, so you shouldn't need to change the `setup.py` file provided by the template. The basic structure (that can be personalized provided you change the relevant information in `settings.ini`) is that the root of the repo will contain your notebooks, along with a folder `docs` where the doc will be auto-generated that contains everything for a [jekyll](https://jekyllrb.com/)-powered website. Because [GitHub Pages supports Jekyll](https://help.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll), you can host your site for free on GitHub without any additional setup.
 
 Your `settings.ini` is where all parts of nbdev look for any required configuration information. Once you've edited it, run the command `nbdev_build_lib` (which is automatically installed for you when you install `nbdev`. You'll now find that you have a new directory, with the name of whatever you set `lib_name` to in `settings.ini`.
 
