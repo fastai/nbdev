@@ -42,7 +42,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_build_lib" class="doc_header"><code>nbdev_build_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_lib</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f6d80684ed0&gt;</code>=<em><code>None</code></em>)</p>
+<h4 id="nbdev_build_lib" class="doc_header"><code>nbdev_build_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -65,7 +65,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L23" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f6d8077ca10&gt;</code>=<em><code>None</code></em>)</p>
+<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L23" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -120,7 +120,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_test_nbs" class="doc_header"><code>nbdev_test_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_test_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f6d805f8f50&gt;</code>=<em><code>None</code></em>, <strong><code>flags</code></strong>:<code>Param object at 0x7f6d805f8e90&gt;</code>=<em><code>None</code></em>)</p>
+<h4 id="nbdev_test_nbs" class="doc_header"><code>nbdev_test_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_test_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>flags</code></strong>:"Space separated list of flags"=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -254,7 +254,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L110" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f6d805f8ed0&gt;</code>=<em><code>None</code></em>, <strong><code>force_all</code></strong>:<code>Param object at 0x7f6d8066d050&gt;</code>=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:<code>Param object at 0x7f6d8066d190&gt;</code>=<em><code>True</code></em>)</p>
+<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L110" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Rebuild even notebooks that haven't changed"=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:"Also convert the index notebook to README"=<em><code>True</code></em>)</p>
 </blockquote>
 
 </div>
@@ -392,7 +392,7 @@ summary: "Console commands added by the nbdev library"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="clean_nb" class="doc_header"><code>clean_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L143" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_nb</code>(<strong><code>nb</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Clean <code>nb</code> from superfulous metadata, passing <code>clear_all</code> to <code>clean_cell</code></p>
+<p>Clean <code>nb</code> from superfulous metadata, passing <code>clear_all</code> to <a href="/cli.html#clean_cell"><code>clean_cell</code></a></p>
 
 </div>
 
@@ -447,7 +447,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_clean_nbs" class="doc_header"><code>nbdev_clean_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L161" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_clean_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f6d8066d110&gt;</code>=<em><code>None</code></em>, <strong><code>clear_all</code></strong>:<code>Param object at 0x7f6d8066d290&gt;</code>=<em><code>False</code></em>, <strong><code>disp</code></strong>:<code>Param object at 0x7f6d8066d090&gt;</code>=<em><code>False</code></em>)</p>
+<h4 id="nbdev_clean_nbs" class="doc_header"><code>nbdev_clean_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L161" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_clean_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>clear_all</code></strong>:"Clean all metadata and outputs"=<em><code>False</code></em>, <strong><code>disp</code></strong>:"Print the cleaned outputs"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Clean all notebooks in <code>fname</code> to avoid merge conflicts</p>
 
@@ -477,7 +477,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L184" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f6d809faed0&gt;</code>=<em><code>None</code></em>)</p>
+<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L184" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Check all notebooks in <code>fname</code> can be opened</p>
 
@@ -501,7 +501,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L195" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:<code>Param object at 0x7f6d80983510&gt;</code>=<em><code>None</code></em>, <strong><code>force</code></strong>:<code>Param object at 0x7f6d80983a90&gt;</code>=<em><code>False</code></em>)</p>
+<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L195" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
 </blockquote>
 
 </div>

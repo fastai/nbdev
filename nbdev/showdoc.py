@@ -140,8 +140,12 @@ def nb_source_link(func, is_name=None, disp=True):
     else: return link
 
 #Cell
+from fastscript import Param
+
+#Cell
 def type_repr(t):
     "Representation of type `t` (in a type annotation)"
+    if (isinstance(t, Param)): return f'"{t.help}"'
     if getattr(t, '__args__', None):
         args = t.__args__
         if len(args)==2 and args[1] == type(None):
