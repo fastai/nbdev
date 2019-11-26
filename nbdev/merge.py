@@ -58,8 +58,10 @@ _re_conflict = re.compile(r'^<<<<<<<', re.MULTILINE)
 #Cell
 def quasi_equal(v1, v2):
     if len(v1)==0 or len(v2)==0: return False
-    c1,c2 = json.loads(v1[:-1]),json.loads(v2[:-1])
-    return c1['source']==c2['source']
+    try:
+        c1,c2 = json.loads(v1[:-1]),json.loads(v2[:-1])
+        return c1['source']==c2['source']
+    except Exception as e: return False
 
 #Cell
 def analyze_cell(cell, cf, names, prev=None, added=False, fast=True, trust_us=True):
@@ -87,6 +89,7 @@ def analyze_cell(cell, cf, names, prev=None, added=False, fast=True, trust_us=Tr
 #Cell
 def fix_conflicts(fname, fast=True, trust_us=True):
     "Fix broken notebook in `fname`"
+    shutil.copy(fname, fname.with_suffix('.ipynb.bak'))
     with open(fname, 'r') as f: raw_text = f.read()
     start,cells,end = extract_cells(raw_text)
     res = [start]
@@ -95,6 +98,6 @@ def fix_conflicts(fname, fast=True, trust_us=True):
         c,cf,names,prev,added = analyze_cell(cell, cf, names, prev, added, fast=fast, trust_us=trust_us)
         res.append(c)
     if res[-1].endswith(','): res[-1] = res[-1][:-1]
-    with open(f'{fname}1', 'w') as f: f.write('\n'.join([r for r in res+[end] if len(r) > 0]))
+    with open(f'{fname}', 'w') as f: f.write('\n'.join([r for r in res+[end] if len(r) > 0]))
     if fast and not added: print("Succesfully merged conflicts!")
     else: print("One or more conflict remains in the notebook, please inspect manually.")
