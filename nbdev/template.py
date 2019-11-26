@@ -10,6 +10,9 @@ docs: $(SRC)
 	nbdev_build_docs
 	touch docs
 
+test
+	nbdev_test_nbs
+
 pypi: dist
 	twine upload --repository pypi dist/*
 
