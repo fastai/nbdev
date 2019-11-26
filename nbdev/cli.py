@@ -72,7 +72,7 @@ def _side_dict(title, data, level=0):
 def create_default_sidebar():
     dic = {"Overview": ""}
     names = [m.stem for m in Config().doc_path.glob('*.html') if m.name.endswith('.html')]
-    dic.update({n:n for n in names if n!='index'})
+    dic.update({f'/{n}':n for n in names if n!='index'})
     dic = {Config().lib_name: dic}
     json.dump(dic, open(Config().doc_path/'sidebar.json', 'w'), indent=2)
 
