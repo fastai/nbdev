@@ -22,10 +22,13 @@ class HTMLParseAttrs(HTMLParser):
     "Simple HTML parser which stores any attributes in `attrs` dict"
     def handle_starttag(self, tag, attrs): self.tag,self.attrs = tag,dict(attrs)
 
+    def attrs2str(self):
+        "Attrs as string"
+        return ' '.join([f'{k}="{v}"' for k,v in self.attrs.items()])
+
     def show(self):
-        "Updated tag"
-        a = ' '.join([f'{k}="{v}"' for k,v in t.items()])
-        return f'<{self.tag} {a} />'
+        "Tag with updated attrs"
+        return f'<{self.tag} {self.attrs2str()} />'
 
     def __call__(self, s):
         "Parse `s` and store attrs"
@@ -111,12 +114,24 @@ _re_image = re.compile(r"""
 (<img\ [^>]*>)  #   Catching group with <img some_html_code>
 """, re.MULTILINE | re.VERBOSE)
 
+_re_image1 = re.compile(r"<img\ [^>]*>", re.MULTILINE)
+
+#Cell
+def _img2jkl(d, h):
+    if 'width' in d: d['max-width'] = d.pop('width')
+    if 'src' in d:   d['file'] = d.pop('src')
+    return '{% include image.html ' + h.attrs2str() + '%}'
+
 #Cell
 def copy_images(cell, fname, dest):
     "Copy images referenced in `cell` from `fname` parent folder to `dest` folder"
     if cell['cell_type'] == 'markdown' and _re_image.search(cell['source']):
         grps = _re_image.search(cell['source']).groups()
-        src = grps[1] or grps[4]
+        if grps[3] is not None:
+            h = HTMLParseAttrs()
+            dic = h(grps[3])
+            cell['source'] = _img2jkl(dic, h)
+        src = grps[1] if grps[3] is None else dic['file']
         os.makedirs((Path(dest)/src).parent, exist_ok=True)
         shutil.copy(Path(fname).parent/src, Path(dest)/src)
     return cell
@@ -134,9 +149,15 @@ def adapt_img_path(cell, fname, dest):
     "Adapt path of images referenced in `cell` from `fname` to work in folder `dest`"
     def _rep(m):
         gps = m.groups()
-        start,img,end = gps[:3] if gps[0] is not None else gps[3:]
-        new_img = _relative_to(fname.parent/img, dest)
-        return f'{start}{new_img}{end}'
+        if gps[0] is not None:
+            start,img,end = gps[:3]
+            new_img = _relative_to(fname.parent/img, dest)
+            return f'{start}{new_img}{end}'
+        else:
+            h = HTMLParseAttrs()
+            dic = h(gps[3])
+            dic['src'] = _relative_to(fname.parent/dic['src'], dest)
+            return _img2jkl(dic, h)
     if cell['cell_type'] == 'markdown': cell['source'] = _re_image.sub(_rep, cell['source'])
     return cell
 

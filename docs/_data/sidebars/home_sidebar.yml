@@ -25,6 +25,9 @@ entries:
       title: Extract tests
       url: /test
     - output: web,pdf
+      title: Fix merge conflicts
+      url: /merge
+    - output: web,pdf
       title: Command line functions
       url: /cli
     - output: web,pdf
