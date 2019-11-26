@@ -8,25 +8,25 @@ entries:
   - folderitems:
     - output: web,pdf
       title: Overview
-      url: ''
+      url: /
     - output: web,pdf
-      title: /export2html
-      url: export2html
+      title: Convert to html
+      url: /export2html
     - output: web,pdf
-      title: /showdoc
-      url: showdoc
+      title: Show doc
+      url: /showdoc
     - output: web,pdf
-      title: /export
-      url: export
+      title: Export to modules
+      url: /export
     - output: web,pdf
-      title: /cli
-      url: cli
+      title: Command line functions
+      url: /cli
     - output: web,pdf
-      title: /test
-      url: test
+      title: Extract tests
+      url: /test
     - output: web,pdf
-      title: /sync
-      url: sync
+      title: Synchronize and diff
+      url: /sync
     output: web
     title: nbdev
   output: web

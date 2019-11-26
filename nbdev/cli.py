@@ -69,10 +69,20 @@ def _side_dict(title, data, level=0):
             else {'title': title, 'output':'web', k_name: res})
 
 #Cell
+_re_catch_title = re.compile('^title\s*:\s*(\S+.*)$', re.MULTILINE)
+
+#Cell
+def _get_title(fname):
+    "Grabs the title of html file `fname`"
+    with open(fname, 'r') as f: code = f.read()
+    src =  _re_catch_title.search(code)
+    return fname.stem if src is None else src.groups()[0]
+
+#Cell
 def create_default_sidebar():
-    dic = {"Overview": ""}
-    names = [m.stem for m in Config().doc_path.glob('*.html') if m.name.endswith('.html')]
-    dic.update({f'/{n}':n for n in names if n!='index'})
+    dic = {"Overview": "/"}
+    fnames = [m for m in Config().doc_path.glob('*.html') if m.name.endswith('.html')]
+    dic.update({_get_title(f):f'/{f.stem}' for f in fnames if f.stem!='index'})
     dic = {Config().lib_name: dic}
     json.dump(dic, open(Config().doc_path/'sidebar.json', 'w'), indent=2)
 
