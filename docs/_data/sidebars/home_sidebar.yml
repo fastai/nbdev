@@ -10,6 +10,9 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
+      title: Setting up Search
+      url: /search
+    - output: web,pdf
       title: Convert to html
       url: /export2html
     - output: web,pdf
