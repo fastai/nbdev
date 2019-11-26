@@ -9,6 +9,7 @@ __all__ = ['nbdev_build_lib', 'nbdev_update_lib', 'nbdev_diff_nbs', 'nbdev_test_
 from .imports import *
 from .export import *
 from .sync import *
+from .merge import *
 from .export2html import *
 from .test import *
 from fastscript.fastscript import call_parse, Param
