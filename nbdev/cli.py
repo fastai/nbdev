@@ -16,17 +16,21 @@ from fastscript.fastscript import call_parse, Param
 #Cell
 @call_parse
 def nbdev_build_lib(fname:Param("A notebook name or glob to convert", str)=None):
+    "Export notebooks matching `fname` to python modules"
     notebook2script(fname=fname)
     write_tmpls()
 
 #Cell
 @call_parse
 def nbdev_update_lib(fname:Param("A notebook name or glob to convert", str)=None):
+    "Propagates any change in the modules matching `fname` to the notebooks that created them"
     script2notebook(fname=fname)
 
 #Cell
 @call_parse
-def nbdev_diff_nbs(): diff_nb_script()
+def nbdev_diff_nbs():
+    "Prints the diff between an export of the library in notebooks and the actual modules"
+    diff_nb_script()
 
 #Cell
 def _test_one(fname, flags=None):
@@ -39,6 +43,7 @@ def _test_one(fname, flags=None):
 @call_parse
 def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                    flags:Param("Space separated list of flags", str)=None):
+    "Test in parallel the notebooks matching `fname`, passing along `flags`"
     if flags is not None: flags = flags.split(' ')
     if fname is None:
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
@@ -80,6 +85,7 @@ def _get_title(fname):
 
 #Cell
 def create_default_sidebar():
+    "Create the default sidebar for the docs website"
     dic = {"Overview": "/"}
     fnames = [m for m in Config().doc_path.glob('*.html') if m.name.endswith('.html')]
     dic.update({_get_title(f):f'/{f.stem}' for f in fnames if f.stem!='index'})
@@ -88,7 +94,7 @@ def create_default_sidebar():
 
 #Cell
 def make_sidebar():
-    "Making sidebar for the doc website"
+    "Making sidebar for the doc website form the content of `doc_folder/sidebar.json`"
     if not (Config().doc_path/'sidebar.json').exists() or Config().custom_sidebar == 'False': create_default_sidebar()
     sidebar_d = json.load(open(Config().doc_path/'sidebar.json', 'r'))
     res = _side_dict('Sidebar', sidebar_d)
@@ -108,6 +114,7 @@ _re_index = re.compile(r'^(?:\d*_|)index\.ipynb$')
 
 #Cell
 def make_readme():
+    "Convert the index notebook to README.md"
     index_fn = None
     for f in Config().nbs_path.glob('*.ipynb'):
         if _re_index.match(f.name): index_fn = f
@@ -121,6 +128,7 @@ def make_readme():
 def nbdev_build_docs(fname:Param("A notebook name or glob to convert", str)=None,
                      force_all:Param("Rebuild even notebooks that haven't changed", bool)=False,
                      mk_readme:Param("Also convert the index notebook to README", bool)=True,):
+    "Build the documentation by converting notebooks mathing `fname` to html"
     notebook2html(fname=fname, force_all=force_all)
     make_sidebar()
     if mk_readme: make_readme()
@@ -193,7 +201,7 @@ def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
 #Cell
 @call_parse
 def nbdev_read_nbs(fname:Param("A notebook name or glob to convert", str)=None):
-    "Check all notebooks in `fname` can be opened"
+    "Check all notebooks matching `fname` can be opened"
     files = Config().nbs_path.glob('**/*.ipynb') if fname is None else glob.glob(fname)
     for nb in files:
         try: _ = read_nb(nb)
@@ -204,12 +212,13 @@ def nbdev_read_nbs(fname:Param("A notebook name or glob to convert", str)=None):
 #Cell
 @call_parse
 def nbdev_trust_nbs(fname:Param("A notebook name or glob to convert", str)=None,
-                    force:Param("Trust even notebooks that haven't changed", bool)=False):
+                    force_all:Param("Trust even notebooks that haven't changed", bool)=False):
+    "Trust noteboks matching `fname`"
     check_fname = Config().nbs_path/".last_checked"
     last_checked = os.path.getmtime(check_fname) if check_fname.exists() else None
     files = Config().nbs_path.glob('**/*.ipynb') if fname is None else glob.glob(fname)
     for fn in files:
-        if last_checked and not force:
+        if last_checked and not force_all:
             last_changed = os.path.getmtime(fn)
             if last_changed < last_checked: continue
         nb = read_nb(fn)

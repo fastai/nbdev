@@ -79,8 +79,9 @@ def add_jekyll_notes(cell):
         title,text = m.groups()
         style = t2style.get(title, None)
         if style is None: return f"> {m.groups()[0]}: {m.groups()[1]}"
-        res = f'<div markdown="span" class="alert alert-{style}" role="alert">'
-        return res + f'<i class="fa fa-{style}-circle"></i> <b>{title}: </b>{text}</div>'
+        return '{% include '+title.lower()+'.html content="'+text+'" %}'
+        #res = f'<div markdown="span" class="alert alert-{style}" role="alert">'
+        #return res + f'<i class="fa fa-{style}-circle"></i> <b>{title}: </b>{text}</div>'
     if cell['cell_type'] == 'markdown':
         cell['source'] = _re_block_notes.sub(_inner, cell['source'])
     return cell

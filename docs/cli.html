@@ -26,70 +26,28 @@ summary: "Console commands added by the nbdev library"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><code>nbdev</code> comes with the following commands. To use any of them, you muse be in one of the subfolder of your project: they will search for the <code>settings.ini</code> recursively in the parent directory but need to accessit to be able to work. Their names all begin by nbdev so you can easily get a list with tab completion.</p>
+<ul>
+<li><a href="/cli.html#nbdev_build_lib"><code>nbdev_build_lib</code></a> builds the library from the notebooks</li>
+<li><a href="/cli.html#nbdev_update_lib"><code>nbdev_update_lib</code></a> propagates any change in the library back to the notebooks</li>
+<li><a href="/cli.html#nbdev_diff_nbs"><code>nbdev_diff_nbs</code></a> gives you the diff between the notebooks and the exported library</li>
+<li><code>nbdev_build_doc</code> builds the documentation from the notebooks</li>
+<li><a href="/cli.html#nbdev_clean_nbs"><code>nbdev_clean_nbs</code></a> removes all superfluous metadata form the notebooks, to avoid merge conflicts</li>
+<li><a href="/cli.html#nbdev_read_nbs"><code>nbdev_read_nbs</code></a> read all notebooks to make sure none are broken</li>
+<li><a href="/cli.html#nbdev_trust_nbs"><code>nbdev_trust_nbs</code></a> trust all notebooks (so that the HTML content is shown)</li>
+<li><a href="/cli.html#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a> install the git hooks that use the last two command automatically on each commit/merge.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Navigating-from-notebooks-to-script-and-back">Navigating from notebooks to script and back<a class="anchor-link" href="#Navigating-from-notebooks-to-script-and-back">&#182;</a></h2>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L23" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_diff_nbs" class="doc_header"><code>nbdev_diff_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L28" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_diff_nbs</code>()</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.showdoc</span> <span class="k">import</span> <span class="n">show_doc</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -103,6 +61,69 @@ summary: "Console commands added by the nbdev library"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="nbdev_build_lib" class="doc_header"><code>nbdev_build_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
 </blockquote>
+<p>Export notebooks matching <code>fname</code> to python modules</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>By default (<code>fname</code> left to <code>None</code>), the whole library is built from the notebooks in the <code>lib_folder</code> set in your <code>settings.ini</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L24" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
+</blockquote>
+<p>Propagates any change in the modules matching <code>fname</code> to the notebooks that created them</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>By default (<code>fname</code> left to <code>None</code>), the whole library is treated. Note that this tool is only designed for small changes such as typo or small bug fixes. You can't add new cells in notebook from the library.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="nbdev_diff_nbs" class="doc_header"><code>nbdev_diff_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_diff_nbs</code>()</p>
+</blockquote>
+<p>Prints the diff between an export of the library in notebooks and the actual modules</p>
 
 </div>
 
@@ -133,8 +154,9 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_test_nbs" class="doc_header"><code>nbdev_test_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_test_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>flags</code></strong>:"Space separated list of flags"=<em><code>None</code></em>)</p>
+<h4 id="nbdev_test_nbs" class="doc_header"><code>nbdev_test_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L43" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_test_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>flags</code></strong>:"Space separated list of flags"=<em><code>None</code></em>)</p>
 </blockquote>
+<p>Test in parallel the notebooks matching <code>fname</code>, passing along <code>flags</code></p>
 
 </div>
 
@@ -143,6 +165,13 @@ summary: "Console commands added by the nbdev library"
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>By default (<code>fname</code> left to <code>None</code>), the whole library is tested from the notebooks in the <code>lib_folder</code> set in your <code>settings.ini</code>.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -150,8 +179,12 @@ summary: "Console commands added by the nbdev library"
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following functions complete the ones in <a href="/export2html.html"><code>export2html</code></a> to fully build the documentation of your library.</p>
 
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
@@ -163,66 +196,6 @@ summary: "Console commands added by the nbdev library"
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L82" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">create_default_sidebar</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L90" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
-</blockquote>
-<p>Making sidebar for the doc website</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
@@ -240,31 +213,9 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="make_readme" class="doc_header"><code>make_readme</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L110" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_readme</code>()</p>
+<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L87" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
 </blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L120" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Rebuild even notebooks that haven't changed"=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:"Also convert the index notebook to README"=<em><code>True</code></em>)</p>
-</blockquote>
+<p>Create the default sidebar for the docs website</p>
 
 </div>
 
@@ -276,7 +227,8 @@ summary: "Console commands added by the nbdev library"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Stripout">Stripout<a class="anchor-link" href="#Stripout">&#182;</a></h2>
+<p>The default sidebar lists all html pages with their respective title, except the index that is named "Overview". To build a custom sidebar, set the flag <code>custom_sidebar</code> in your <code>settings.ini</code> to <code>True</code> then change the <code>sidebar.json</code> file in the <code>doc_folder</code> to your liking. Otherwise, the sidebar is updated at each doc build.</p>
+
 </div>
 </div>
 </div>
@@ -292,7 +244,102 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="rm_execution_count" class="doc_header"><code>rm_execution_count</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L129" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rm_execution_count</code>(<strong><code>o</code></strong>)</p>
+<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L96" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
+</blockquote>
+<p>Making sidebar for the doc website form the content of <code>doc_folder/sidebar.json</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="make_readme" class="doc_header"><code>make_readme</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L116" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_readme</code>()</p>
+</blockquote>
+<p>Convert the index notebook to README.md</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L127" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Rebuild even notebooks that haven't changed"=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:"Also convert the index notebook to README"=<em><code>True</code></em>)</p>
+</blockquote>
+<p>Build the documentation by converting notebooks mathing <code>fname</code> to html</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>By default (<code>fname</code> left to <code>None</code>), the whole documentation is build from the notebooks in the <code>lib_folder</code> set in your <code>settings.ini</code>, only converting the ones that have been modified since the their corresponding html was last touched unless you pass <code>force_all=True</code>. The index is also converted to make the README file, unless you pass along <code>mk_readme=False</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Stripout">Stripout<a class="anchor-link" href="#Stripout">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To avoid pointless conflicts while working with jupyter notebooks (with different execution counts or cell metadata), it is recommended to clean the notebooks before commiting anything (done automatically if you install the git hooks with <a href="/cli.html#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a>). The following functions are used to do that.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="rm_execution_count" class="doc_header"><code>rm_execution_count</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L137" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rm_execution_count</code>(<strong><code>o</code></strong>)</p>
 </blockquote>
 <p>Remove execution count in <code>o</code></p>
 
@@ -316,7 +363,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="clean_cell_output" class="doc_header"><code>clean_cell_output</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L134" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell_output</code>(<strong><code>cell</code></strong>)</p>
+<h4 id="clean_cell_output" class="doc_header"><code>clean_cell_output</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L142" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell_output</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
 <p>Remove execution count in <code>cell</code></p>
 
@@ -343,7 +390,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="clean_cell" class="doc_header"><code>clean_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L144" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell</code>(<strong><code>cell</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="clean_cell" class="doc_header"><code>clean_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L152" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell</code>(<strong><code>cell</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Clen <code>cell</code> by removing superluous metadata or everything except the input if <code>clear_all</code></p>
 
@@ -399,7 +446,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="clean_nb" class="doc_header"><code>clean_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L153" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_nb</code>(<strong><code>nb</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="clean_nb" class="doc_header"><code>clean_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L161" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_nb</code>(<strong><code>nb</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Clean <code>nb</code> from superfulous metadata, passing <code>clear_all</code> to <a href="/cli.html#clean_cell"><code>clean_cell</code></a></p>
 
@@ -456,7 +503,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_clean_nbs" class="doc_header"><code>nbdev_clean_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L171" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_clean_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>clear_all</code></strong>:"Clean all metadata and outputs"=<em><code>False</code></em>, <strong><code>disp</code></strong>:"Print the cleaned outputs"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_clean_nbs" class="doc_header"><code>nbdev_clean_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L179" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_clean_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>clear_all</code></strong>:"Clean all metadata and outputs"=<em><code>False</code></em>, <strong><code>disp</code></strong>:"Print the cleaned outputs"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Clean all notebooks in <code>fname</code> to avoid merge conflicts</p>
 
@@ -467,6 +514,13 @@ summary: "Console commands added by the nbdev library"
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>By default (<code>fname</code> left to <code>None</code>), the all the notebooks in <code>lib_folder</code> are cleaned. You can opt in to fully clean the noteobok by removing every bit of metadata and the cell outputs by passing <code>clear_all=True</code>. <code>disp</code> is only used for internal use with git hooks and will print the clean notebook instead of saving it.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -486,9 +540,9 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L194" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
+<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L202" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Check all notebooks in <code>fname</code> can be opened</p>
+<p>Check all notebooks matching <code>fname</code> can be opened</p>
 
 </div>
 
@@ -497,6 +551,13 @@ summary: "Console commands added by the nbdev library"
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>By default (<code>fname</code> left to <code>None</code>), the all the notebooks in <code>lib_folder</code> are checked.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
@@ -510,8 +571,9 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L205" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L213" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
 </blockquote>
+<p>Trust noteboks matching <code>fname</code></p>
 
 </div>
 
@@ -520,6 +582,13 @@ summary: "Console commands added by the nbdev library"
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>By default (<code>fname</code> left to <code>None</code>), the all the notebooks in <code>lib_folder</code> are trusted. To speed things up, only the ones touched since the last time this command was run are trusted unless you pass along <code>force_all=True</code>.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -542,7 +611,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L223" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
+<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L232" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
 </blockquote>
 <p>Install git hooks to clean/trust notebooks automatically</p>
 
@@ -553,6 +622,17 @@ summary: "Console commands added by the nbdev library"
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This command install git hooks to make sure notebooks are cleaned before you commit them to GitHub and automatically trusted at each merge. To be more specific, this creates:</p>
+<ul>
+<li>an executable '.git/hooks/post-merge' file that contains the command <a href="/cli.html#nbdev_trust_nbs"><code>nbdev_trust_nbs</code></a></li>
+<li>a <code>.gitconfig</code> file that uses <code>nbev_clean_nbs</code> has a filter/diff on all notebook files inside <code>nbs_folder</code> and a <code>.gitattributes</code> file generated in this folder (copy this file in other folders where you might have notebooks you want cleaned as well)</li>
+</ul>
+
+</div>
+</div>
 </div>
 </div>
  
