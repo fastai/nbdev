@@ -70,7 +70,7 @@ def _side_dict(title, data, level=0):
 
 #Cell
 def create_default_sidebar():
-    dic = {"Overwiev": ""}
+    dic = {"Overview": ""}
     names = [m.stem for m in Config().doc_path.glob('*.html') if m.name.endswith('.html')]
     dic.update({n:n for n in names if n!='index'})
     dic = {Config().lib_name: dic}
