@@ -1,4 +1,6 @@
 {%- extends 'markdown.tpl' -%}{% block body %}
+{% include 'autogen.tpl' %}
+
 {% if resources.title != "" and resources.title != nil %}# {{resources.title}}{% endif %}
 
 {% if resources.summary != "" and resources.summary != nil %}{{resources.summary}}{% endif %}

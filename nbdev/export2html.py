@@ -354,6 +354,7 @@ def convert_md(fname, dest_path, jekyll=True):
     fname = Path(fname).absolute()
     nb = read_nb(fname)
     meta_jekyll = get_metadata(nb['cells'])
+    meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
     nb['cells'] = compose(*process_cells)(nb['cells'])
     nb['cells'] = [compose(partial(adapt_img_path, fname=fname, dest=dest_path), *process_cell)(c) for c in nb['cells']]
     fname = Path(fname).absolute()
