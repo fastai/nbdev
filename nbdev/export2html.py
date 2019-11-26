@@ -74,14 +74,11 @@ _re_block_notes = re.compile(r"""
 #Cell
 def add_jekyll_notes(cell):
     "Convert block quotes to jekyll notes in `cell`"
-    t2style = {'Note': 'info', 'Warning': 'danger', 'Important': 'warning'}
+    _styles = ['note', 'warning', 'tip', 'important']
     def _inner(m):
         title,text = m.groups()
-        style = t2style.get(title, None)
-        if style is None: return f"> {m.groups()[0]}: {m.groups()[1]}"
+        if title.lower() not in _styles: return f"> {m.groups()[0]}: {m.groups()[1]}"
         return '{% include '+title.lower()+'.html content="'+text+'" %}'
-        #res = f'<div markdown="span" class="alert alert-{style}" role="alert">'
-        #return res + f'<i class="fa fa-{style}-circle"></i> <b>{title}: </b>{text}</div>'
     if cell['cell_type'] == 'markdown':
         cell['source'] = _re_block_notes.sub(_inner, cell['source'])
     return cell
