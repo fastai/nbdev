@@ -10,10 +10,10 @@
 
 # Welcome to nbdev
 
+Create delightful python projects using Jupyter Notebooks
 
 
-
-`nbdev` is a library that allows you to fully develop a library in [jupyter notebooks](https://jupyter.org/), putting all your code, tests and documentation in one place. That is: you now have a true [literate programming](https://en.wikipedia.org/wiki/Literate_programming) environment, as envisioned by Donald Knuth back in 1983!
+`nbdev` is a library that allows you to fully develop a library in [Jupyter Notebooks](https://jupyter.org/), putting all your code, tests and documentation in one place. That is: you now have a true [literate programming](https://en.wikipedia.org/wiki/Literate_programming) environment, as envisioned by Donald Knuth back in 1983!
 
 Using the interactive environment, you can easily debug and refactor your code. Add `#export` flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how `combined_cos` is defined and documented in the `fastai` library:
 
@@ -21,7 +21,7 @@ Using the interactive environment, you can easily debug and refactor your code. 
 
 Using notebooks written like this, `nbdev` can create and run any of the following with a single command:
 
-- Searchable, hyperlinked documentation
+- Searchable, hyperlinked documentation; any word you surround in backticks will by *automatically* hyperlinked to the appropriate documentation
 - Python modules, following best practices such as automatically defining `__all__` ([more details](http://xion.io/post/code/python-all-wild-imports.html)) with your exported functions, classes, and variables
 - Pip installers (uploaded to pypi for you)
 - Tests (defined directly in your notebooks, and run in parallel)
@@ -97,7 +97,11 @@ as long as you are somewhere in the folder where you are developing your library
 
 To enable documentation in your GitHub repo, click 'Settings' on the main repo page, scroll down to 'GitHub Pages', and under 'Source' choose 'master branch /docs folder'. GitHub will then show you a link to your working documentation site.
 
-Finally, edit `99_core.ipynb`. This will be converted into your projects *README* file, and will also be the index for your documentation. You can use the module you just exported in this library, which means you can show real working code, and actual outputs. Once you have everything as you want it, run `nbdev_build_docs` in the terminal. This will export HTML versions of your notebooks to the `docs` directory, and will create hyperlinks for any words in backticks (as long as they exist in your module). It will also create a menu for all notebooks you have created, and a table of contents for each.
+Finally, edit `index.ipynb`. This will be converted into your projects *README* file, and will also be the index for your documentation (the page you're reading right now actually comes from an `index.ipynb` file!) You can use the module you just exported in this library, which means you can show real working code, and actual outputs. Once you have everything as you want it, run `nbdev_build_docs` in the terminal. This will export HTML versions of your notebooks to the `docs` directory, and will create hyperlinks for any words in backticks (as long as they exist in your module). It will also create a menu for all notebooks you have created, and a table of contents for each.
+
+## Additional functionality
+
+There's a lot of functionality in `nbdev`; see the docs for each module in the sidebar to learn about all the features. Here we'll briefly highlight a couple.
 
 ### Adding your project to pypi
 
@@ -112,6 +116,12 @@ password = your_pypi_password
 To upload your project to pypi, just type `make pypi` in your project root directory. Once it's complete, a link to your project on pypi will be printed.
 
 **NB**: make sure you increment the version number in `settings.py` each time you want to push a new release to pypi.
+
+### Avoiding and handling git conflicts
+
+Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use `nbdev`. As a first step, run `nbdev_install_git_hooks` in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the change you have a conflict.
+
+But if you do get a conflict, simply run `nbdev_fix_merge filename.ipynb`. This will replace any conflicts in cell outputs with your version, and if there are conflicts in input cells, then both cells will be included in the merged file, along with standard conflict markers (e.g. `=====`). Then you can open the notebook in Jupyter and choose which version to keep.
 
 ## Contributing
 
