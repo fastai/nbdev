@@ -117,6 +117,12 @@ _re_image = re.compile(r"""
 _re_image1 = re.compile(r"<img\ [^>]*>", re.MULTILINE)
 
 #Cell
+def _img2jkl(d, h):
+    if 'width' in d: d['max_width'] = d.pop('width')
+    if 'src' in d:   d['file'] = d.pop('src')
+    return '{% include image.html ' + h.attrs2str() + '%}'
+
+#Cell
 def copy_images(cell, fname, dest):
     "Copy images referenced in `cell` from `fname` parent folder to `dest` folder"
     if cell['cell_type'] == 'markdown' and _re_image.search(cell['source']):
@@ -124,9 +130,8 @@ def copy_images(cell, fname, dest):
         if grps[3] is not None:
             h = HTMLParseAttrs()
             dic = h(grps[3])
-            if 'width' in dic: dic['max_width'] = dic.pop('width')
-            cell['source'] = _re_image1.sub(h.show(), cell['source'])
-        src = grps[1] if grps[3] is None else dic['src']
+            cell['source'] = _img2jkl(dic, h)
+        src = grps[1] if grps[3] is None else dic['file']
         os.makedirs((Path(dest)/src).parent, exist_ok=True)
         shutil.copy(Path(fname).parent/src, Path(dest)/src)
     return cell
@@ -151,10 +156,8 @@ def adapt_img_path(cell, fname, dest):
         else:
             h = HTMLParseAttrs()
             dic = h(gps[3])
-            if 'width' in dic: dic['max_width'] = dic.pop('width')
             dic['src'] = _relative_to(fname.parent/dic['src'], dest)
-            html = " ".join([f'{k}="{v}"' for k,v in dic.items()])
-            return f"<img {html}/>"
+            return _img2jkl(dic, h)
     if cell['cell_type'] == 'markdown': cell['source'] = _re_image.sub(_rep, cell['source'])
     return cell
 
