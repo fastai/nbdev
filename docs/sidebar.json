@@ -6,6 +6,7 @@
     "Show doc": "/showdoc",
     "Convert to html": "/export2html",
     "Extract tests": "/test",
+    "Fix merge conflicts": "/merge",
     "Command line functions": "/cli",
     "Setting up Search": "/search"
   }

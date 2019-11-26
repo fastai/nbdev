@@ -89,7 +89,7 @@ def analyze_cell(cell, cf, names, prev=None, added=False, fast=True, trust_us=Tr
 #Cell
 def fix_conflicts(fname, fast=True, trust_us=True):
     "Fix broken notebook in `fname`"
-    fname = Path(fname)
+    fname=Path(fname)
     shutil.copy(fname, fname.with_suffix('.ipynb.bak'))
     with open(fname, 'r') as f: raw_text = f.read()
     start,cells,end = extract_cells(raw_text)
