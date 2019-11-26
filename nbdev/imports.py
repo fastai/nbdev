@@ -39,10 +39,10 @@ class Config:
 
     @classmethod
     def create(cls, lib_name, user, path='.', cfg_name='settings.ini', branch='master',
-               git_url="https://github.com/%(user)s/%(lib_name)s/tree/%(branch)s/",
+               git_url="https://github.com/%(user)s/%(lib_name)s/tree/%(branch)s/", custom_sidebar=False,
                nbs_path='nbs', lib_path='%(lib_name)s', doc_path='docs', tst_flags='', version='0.0.1'):
         g = locals()
-        config = {o:g[o] for o in 'lib_name user branch git_url lib_path nbs_path doc_path tst_flags version'.split()}
+        config = {o:g[o] for o in 'lib_name user branch git_url lib_path nbs_path doc_path tst_flags version custom_sidebar'.split()}
         save_config_file(Path(path)/cfg_name, config)
         return cls(cfg_name=cfg_name)
 
