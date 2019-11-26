@@ -10,23 +10,23 @@ entries:
       title: Overview
       url: ''
     - output: web,pdf
-      title: Export to modules
-      url: export
-    - output: web,pdf
-      title: Convert to html
+      title: /export2html
       url: export2html
     - output: web,pdf
-      title: Synchronize and diff
-      url: sync
-    - output: web,pdf
-      title: Show doc
+      title: /showdoc
       url: showdoc
     - output: web,pdf
-      title: Test functions
+      title: /export
+      url: export
+    - output: web,pdf
+      title: /cli
+      url: cli
+    - output: web,pdf
+      title: /test
       url: test
     - output: web,pdf
-      title: Command line functions
-      url: cli
+      title: /sync
+      url: sync
     output: web
     title: nbdev
   output: web
