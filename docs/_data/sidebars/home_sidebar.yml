@@ -7,24 +7,27 @@ entries:
 - folders:
   - folderitems:
     - output: web,pdf
+      title: Overview
+      url: ''
+    - output: web,pdf
       title: Export to modules
-      url: /export.html
+      url: export
     - output: web,pdf
       title: Convert to html
-      url: /export2html.html
+      url: export2html
     - output: web,pdf
       title: Synchronize and diff
-      url: /sync.html
+      url: sync
     - output: web,pdf
       title: Show doc
-      url: /showdoc.html
+      url: showdoc
     - output: web,pdf
       title: Test functions
-      url: /test.html
+      url: test
     - output: web,pdf
       title: Command line functions
-      url: /cli.html
+      url: cli
     output: web
-    title: Notebook
+    title: nbdev
   output: web
   title: Sidebar
