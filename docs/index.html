@@ -25,14 +25,19 @@ sidebar: home_sidebar
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>nbdev</code> is a library that allows you to fully develop a library in <a href="https://jupyter.org/">jupyter notebooks</a>, putting all your code, tests and documentation in one place. That is: you now have a true <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a> environment, as envisioned by Donald Knuth back in 1983!</p>
 <p>Using the interactive environment, you can easily debug and refactor your code. Add <code>#export</code> flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how <code>combined_cos</code> is defined and documented in the <code>fastai</code> library:</p>
-<p><img src="images/export_example.png" alt="An exported cell"></p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Here the function is defined in the first cell (marked with the export flag) and explained, along with a visual example, in the following cells.</p>
+<p>{% include image.html file="export_example_full.png" alt="Exporting from nbdev" max-width="700" caption="Here the function is defined in the first cell (marked with the export flag) and explained, along with a visual example, in the following cells." %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Using notebooks written like this, <code>nbdev</code> can create and run any of the following with a single command:</p>
 <ul>
 <li>Searchable, hyperlinked documentation</li>
@@ -129,8 +134,8 @@ Converted 02_showdoc.ipynb.
 Converted 03_export2html.ipynb.
 Converted 04_test.ipynb.
 Converted 05_cli.ipynb.
+Converted 99_search.ipynb.
 Converted index.ipynb.
-Converted search.ipynb.
 </pre>
 </div>
 </div>
