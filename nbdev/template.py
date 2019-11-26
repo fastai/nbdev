@@ -36,7 +36,10 @@ topnav_title: {title}
 site_title: {title}
 company_name: {copyright}
 description: {description}
+# Add Google analytics id if you have one and want to use it here
 google_analytics:
+# See Search docs on nbdev.fast.ai for help with adding Search
+google_search:
 
 host: 127.0.0.1
 # the preview server used. Leave as is.
