@@ -86,15 +86,13 @@ def add_jekyll_notes(cell):
 #Cell
 _re_image = re.compile(r"""
 # Catches any image file used, either with `![alt](image_file)` or `<img src="image_file">`
-^(!\[         #   Beginning of line (since re.MULTILINE is passed) followed by ![ in a catching group
-[^\]]*        #   Anything but ]
-\]\()         #   Closing ] and opening (, end of the first catching group
-([^\)]*)      #   Catching block with any character but )
-(\))          #   Catching group with closing )
-|             # OR
-(<img\ src=") #   Catching group with <img src="
-([^"]*)       #   Catching block with any character except "
-(")           #   Catching group with closing "
+^(!\[           #   Beginning of line (since re.MULTILINE is passed) followed by ![ in a catching group
+[^\]]*          #   Anything but ]
+\]\()           #   Closing ] and opening (, end of the first catching group
+([^\)]*)        #   Catching block with any character but )
+(\))            #   Catching group with closing )
+|               # OR
+(<img\ [^>]*>)  #   Catching group with <img some_html_code>
 """, re.MULTILINE | re.VERBOSE)
 
 #Cell
