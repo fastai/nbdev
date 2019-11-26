@@ -5,6 +5,7 @@
 {% if resources.tags != "" and resources.tags != nil %}tags: {{resources.tags}}{% endif %}
 {% if resources.summary != "" and resources.summary != nil %}summary: "{{resources.summary}}"{% endif %}
 ---
+{% include 'autogen.tpl' %}
 
 {{ super() }}
 {%- endblock body %}
