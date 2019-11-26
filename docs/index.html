@@ -25,13 +25,14 @@ sidebar: home_sidebar
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>nbdev</code> is a library that allows you to fully develop a library in <a href="https://jupyter.org/">jupyter notebooks</a>, putting all your code, tests and documentation in one place. That is: you now have a true <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a> environment, as envisioned by Donald Knuth back in 1983!</p>
 <p>Using the interactive environment, you can easily debug and refactor your code. Add <code>#export</code> flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how <code>combined_cos</code> is defined and documented in the <code>fastai</code> library:</p>
+<p>{% include image.html file="export_example_full.png" alt="Exporting from nbdev" max-width="700" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" %}</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include image.html file="export_example_full.png" alt="Exporting from nbdev" max-width="700" caption="Here the function is defined in the first cell (marked with the export flag) and explained, along with a visual example, in the following cells." %}</p>
+<p>{% include image.html file="export_example_full.png" alt="Exporting from nbdev" max-width="700" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" %}</p>
 
 </div>
 </div>
@@ -53,7 +54,14 @@ sidebar: home_sidebar
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="images/doc_example.png" alt="doc example"></p>
+<p>{% include image.html file="doc_example.png" alt="Documentation in nbdev" max-width="700" caption="An example of automated documentation from the fastai library" %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="images/doc_example.png" alt="alt=&quot;Documentation in nbdev&quot; max-width=&quot;700&quot; caption=&quot;An example of automated documentation from the fastai library&quot;"></p>
 
 </div>
 </div>
@@ -68,6 +76,13 @@ sidebar: home_sidebar
 <li>how <a href="http://nbdev.fast.ai/sync.html">sync</a> can allow you to export back form the python modules to the jupyter notebook</li>
 <li>how to put <a href="http://nbdev.fast.ai/test.html">test</a>s in your notebooks, which can be run in parallel, and exported to CI from your notebooks</li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="images/doc_example.png" alt="doc example"></p>
 
 </div>
 </div>
