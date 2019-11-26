@@ -17,9 +17,7 @@
 
 Using the interactive environment, you can easily debug and refactor your code. Add `#export` flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how `combined_cos` is defined and documented in the `fastai` library:
 
-{% include image.html file="export_example_full.png" alt="Exporting from nbdev" max-width="700" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" %}
-
-{% include image.html file="export_example_full.png" alt="Exporting from nbdev" max-width="700" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" %}
+<img alt="Exporting from nbdev" width="700" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" src="images/export_example.png" />
 
 Using notebooks written like this, `nbdev` can create and run any of the following with a single command:
 
@@ -31,9 +29,11 @@ Using notebooks written like this, `nbdev` can create and run any of the followi
 
 Since you are in a notebook, you can also add charts, text, links, images, videos, etc, that will included automatically in the documentation of your library. The cells where your code is defined will be hidden and replaced by standardized documentation of your function, showing its name, arguments, docstring, and link to the source code on github. For instance, the cells above are converted to:
 
-{% include image.html file="doc_example.png" alt="Documentation in nbdev" max-width="700" caption="An example of automated documentation from the fastai library" %}
+```
+{% include image.html file="images/doc_example.png" alt="Documentation in nbdev" max-width="700" caption="An example of automated documentation from the fastai library" %}
+```
 
-![alt="Documentation in nbdev" max-width="700" caption="An example of automated documentation from the fastai library"](nbs/images/doc_example.png)
+<img alt="Documentation in nbdev" width="600" caption="An example of automated documentation from the fastai library" src="images/doc_example.png" />
 
 See below for *Installing* and *Getting Started*. In the other pages of the documentation, you can get more details about:
 
@@ -42,8 +42,6 @@ See below for *Installing* and *Getting Started*. In the other pages of the docu
 - how [export2html](http://nbdev.fast.ai/export2html.html) builds a documentation for your library
 - how [sync](http://nbdev.fast.ai/sync.html) can allow you to export back form the python modules to the jupyter notebook
 - how to put [test](http://nbdev.fast.ai/test.html)s in your notebooks, which can be run in parallel, and exported to CI from your notebooks
-
-![doc example](nbs/images/doc_example.png)
 
 ## Installing
 
