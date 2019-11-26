@@ -17,9 +17,7 @@
 
 Using the interactive environment, you can easily debug and refactor your code. Add `#export` flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how `combined_cos` is defined and documented in the `fastai` library:
 
-![An exported cell](nbs/images/export_example.png)
-
-Here the function is defined in the first cell (marked with the export flag) and explained, along with a visual example, in the following cells.
+{% include image.html file="export_example_full.png" alt="Exporting from nbdev" max-width="700" caption="Here the function is defined in the first cell (marked with the export flag) and explained, along with a visual example, in the following cells." %}
 
 Using notebooks written like this, `nbdev` can create and run any of the following with a single command:
 
@@ -70,7 +68,7 @@ In the last cell of your notebook, you can then run:
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
-```
+```python
 from nbdev.export import *
 notebook2script()
 ```
