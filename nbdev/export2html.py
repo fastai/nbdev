@@ -118,7 +118,7 @@ _re_image1 = re.compile(r"<img\ [^>]*>", re.MULTILINE)
 
 #Cell
 def _img2jkl(d, h):
-    if 'width' in d: d['max_width'] = d.pop('width')
+    if 'width' in d: d['max-width'] = d.pop('width')
     if 'src' in d:   d['file'] = d.pop('src')
     return '{% include image.html ' + h.attrs2str() + '%}'
 
