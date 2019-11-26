@@ -23,8 +23,9 @@ class HTMLParseAttrs(HTMLParser):
     def handle_starttag(self, tag, attrs): self.tag,self.attrs = tag,dict(attrs)
 
     def show(self):
-        "Fill all template variables in `s` from `attrs`"
-        return s.format(**self.attrs)
+        "Updated tag"
+        a = ' '.join([f'{k}="{v}"' for k,v in t.items()])
+        return f'<{self.tag} {a} />'
 
     def __call__(self, s):
         "Parse `s` and store attrs"
