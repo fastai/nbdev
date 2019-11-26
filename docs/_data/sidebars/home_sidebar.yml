@@ -28,6 +28,6 @@ entries:
       title: Command line functions
       url: /cli
     output: web
-    title: Notebook
+    title: nbdev
   output: web
   title: Sidebar
