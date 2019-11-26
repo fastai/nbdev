@@ -87,7 +87,7 @@ def make_sidebar():
     open(Config().doc_path/'_data/sidebars/home_sidebar.yml', 'w').write(res_s)
 
 #Cell
-_re_index = re.compile(r'^\d*_index\.ipynb$')
+_re_index = re.compile(r'^(?:\d*_|)index\.ipynb$')
 
 #Cell
 def make_readme():

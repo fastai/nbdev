@@ -308,6 +308,12 @@ process_cells = [remove_fake_headers, remove_hidden, remove_empty]
 process_cell  = [hide_cells, remove_widget_state, add_jekyll_notes]
 
 #Cell
+_re_digits = re.compile(r'^\d+_')
+
+#Cell
+def _nb2htmlfname(nb_path): return Config().doc_path/_re_digits.sub('', nb_path.with_suffix('.html').name)
+
+#Cell
 def convert_nb(fname):
     "Convert a notebook `fname` to html file in `dest_path`."
     fname = Path(fname).absolute()
@@ -319,10 +325,9 @@ def convert_nb(fname):
     nb['cells'] = compose(*process_cells,partial(add_show_docs, cls_lvl=cls_lvl))(nb['cells'])
     nb['cells'] = [compose(partial(copy_images, fname=fname, dest=Config().doc_path), *process_cell, treat_backticks)(c)
                     for c in nb['cells']]
-    dest_name = '.'.join(fname.with_suffix('.html').name.split('_')[1:])
     nb = execute_nb(nb, mod=mod)
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
-    with open(Config().doc_path/dest_name,'w') as f:
+    with open(_nb2htmlfname(fname),'w') as f:
         f.write(_exporter().from_notebook_node(nb, resources=meta_jekyll)[0])
 
 #Cell
@@ -342,7 +347,7 @@ def notebook2html(fname=None, force_all=False):
         # only rebuild modified files
         files,_files = [],files.copy()
         for fname in _files:
-            fname_out = Config().doc_path/'.'.join(fname.with_suffix('.html').name.split('_')[1:])
+            fname_out = _nb2htmlfname(fname)
             if not fname_out.exists() or os.path.getmtime(fname) >= os.path.getmtime(fname_out):
                 files.append(fname)
     if len(files)==0: print("No notebooks were modified")
