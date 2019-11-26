@@ -3,7 +3,7 @@
 __all__ = ['nbdev_build_lib', 'nbdev_update_lib', 'nbdev_diff_nbs', 'nbdev_test_nbs', 'create_default_sidebar',
            'make_sidebar', 'make_readme', 'nbdev_build_docs', 'rm_execution_count', 'clean_cell_output',
            'cell_metadata_keep', 'nb_metadata_keep', 'clean_cell', 'clean_nb', 'nbdev_clean_nbs', 'nbdev_read_nbs',
-           'nbdev_trust_nbs', 'nbdev_install_git_hooks']
+           'nbdev_trust_nbs', 'nbdev_fix_merge', 'nbdev_install_git_hooks']
 
 #Cell
 from .imports import *
@@ -226,6 +226,14 @@ def nbdev_trust_nbs(fname:Param("A notebook name or glob to convert", str)=None,
         nb = read_nb(fn)
         if not NotebookNotary().check_signature(nb): NotebookNotary().sign(nb)
     check_fname.touch(exist_ok=True)
+
+#Cell
+@call_parse
+def nbdev_fix_merge(fname:Param("A notebook filename to fix", str),
+                    fast:Param("Fast fix: automatically fix the merge conflicts in outputs or metadata", bool)=True,
+                    trust_us:Param("Use local outputs/metadata when fast mergning", bool)=True):
+    "Fix merge conflicts in notebook `fname`"
+    fix_conflicts(fname, fast=fast, trust_us=trust_us)
 
 #Cell
 import subprocess

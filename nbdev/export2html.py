@@ -20,8 +20,14 @@ import traitlets
 #Cell
 class HTMLParseAttrs(HTMLParser):
     "Simple HTML parser which stores any attributes in `attrs` dict"
-    def handle_starttag(self, tag, attrs): self.attrs = dict(attrs)
+    def handle_starttag(self, tag, attrs): self.tag,self.attrs = tag,dict(attrs)
+
+    def show(self):
+        "Fill all template variables in `s` from `attrs`"
+        return s.format(**self.attrs)
+
     def __call__(self, s):
+        "Parse `s` and store attrs"
         self.feed(s)
         return self.attrs
 
