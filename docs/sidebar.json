@@ -1,12 +1,12 @@
 {
   "nbdev": {
     "Overview": "/",
-    "Setting up Search": "/search",
-    "Convert to html": "/export2html",
-    "Show doc": "/showdoc",
     "Export to modules": "/export",
-    "Command line functions": "/cli",
+    "Synchronize and diff": "/sync",
+    "Show doc": "/showdoc",
+    "Convert to html": "/export2html",
     "Extract tests": "/test",
-    "Synchronize and diff": "/sync"
+    "Command line functions": "/cli",
+    "Setting up Search": "/search"
   }
 }

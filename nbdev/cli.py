@@ -84,10 +84,12 @@ def _get_title(fname):
     return fname.stem if src is None else src.groups()[0]
 
 #Cell
+from .export2html import _nb2htmlfname
 def create_default_sidebar():
     "Create the default sidebar for the docs website"
     dic = {"Overview": "/"}
-    fnames = [m for m in Config().doc_path.glob('*.html') if m.name.endswith('.html')]
+    files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
+    fnames = [_nb2htmlfname(f) for f in sorted(files)]
     dic.update({_get_title(f):f'/{f.stem}' for f in fnames if f.stem!='index'})
     dic = {Config().lib_name: dic}
     json.dump(dic, open(Config().doc_path/'sidebar.json', 'w'), indent=2)
@@ -130,7 +132,7 @@ def nbdev_build_docs(fname:Param("A notebook name or glob to convert", str)=None
                      mk_readme:Param("Also convert the index notebook to README", bool)=True,):
     "Build the documentation by converting notebooks mathing `fname` to html"
     notebook2html(fname=fname, force_all=force_all)
-    make_sidebar()
+    if fname is None: make_sidebar()
     if mk_readme: make_readme()
 
 #Cell

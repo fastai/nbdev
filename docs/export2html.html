@@ -284,7 +284,7 @@ summary: "The functions that transform the dev notebooks in the documentation of
 Typing <code>&gt; Important: Pay attention! This is important.</code> will render in the docs:
 {% include important.html content="Pay attention! This is important." %}
 Typing <code>&gt; Tip: This is my tip.</code> will render in the docs:
-{% include note.html content="This is my tip." %}
+{% include tip.html content="This is my tip." %}
 Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 {% include note.html content="Take note of this." %}</p>
 
@@ -306,7 +306,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="copy_images" class="doc_header"><code>copy_images</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L104" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>copy_images</code>(<strong><code>cell</code></strong>, <strong><code>fname</code></strong>, <strong><code>dest</code></strong>)</p>
+<h4 id="copy_images" class="doc_header"><code>copy_images</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L101" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>copy_images</code>(<strong><code>cell</code></strong>, <strong><code>fname</code></strong>, <strong><code>dest</code></strong>)</p>
 </blockquote>
 <p>Copy images referenced in <code>cell</code> from <code>fname</code> parent folder to <code>dest</code> folder</p>
 
@@ -365,7 +365,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="adapt_img_path" class="doc_header"><code>adapt_img_path</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L122" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>adapt_img_path</code>(<strong><code>cell</code></strong>, <strong><code>fname</code></strong>, <strong><code>dest</code></strong>)</p>
+<h4 id="adapt_img_path" class="doc_header"><code>adapt_img_path</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L119" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>adapt_img_path</code>(<strong><code>cell</code></strong>, <strong><code>fname</code></strong>, <strong><code>dest</code></strong>)</p>
 </blockquote>
 <p>Adapt path of images referenced in <code>cell</code> from <code>fname</code> to work in folder <code>dest</code></p>
 
@@ -432,7 +432,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="remove_hidden" class="doc_header"><code>remove_hidden</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L137" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_hidden</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="remove_hidden" class="doc_header"><code>remove_hidden</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L134" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_hidden</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Remove in <code>cells</code> the ones with a flag <code>#hide</code>, <code>#default_exp</code> or <code>#default_cls_lvl</code></p>
 
@@ -462,7 +462,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="find_default_level" class="doc_header"><code>find_default_level</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L152" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_default_level</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="find_default_level" class="doc_header"><code>find_default_level</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L149" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_default_level</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Find in <code>cells</code> the default class level.</p>
 
@@ -503,7 +503,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_show_docs" class="doc_header"><code>add_show_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L178" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_show_docs</code>(<strong><code>cells</code></strong>, <strong><code>cls_lvl</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="add_show_docs" class="doc_header"><code>add_show_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L175" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_show_docs</code>(<strong><code>cells</code></strong>, <strong><code>cls_lvl</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Add <a href="/showdoc.html#show_doc"><code>show_doc</code></a> for each exported function or class</p>
 
@@ -540,7 +540,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="remove_fake_headers" class="doc_header"><code>remove_fake_headers</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L202" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_fake_headers</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="remove_fake_headers" class="doc_header"><code>remove_fake_headers</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L199" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_fake_headers</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Remove in <code>cells</code> the fake header</p>
 
@@ -589,7 +589,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="remove_empty" class="doc_header"><code>remove_empty</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L207" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_empty</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="remove_empty" class="doc_header"><code>remove_empty</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L204" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_empty</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Remove in <code>cells</code> the empty cells</p>
 
@@ -622,7 +622,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_metadata" class="doc_header"><code>get_metadata</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L230" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_metadata</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="get_metadata" class="doc_header"><code>get_metadata</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L227" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_metadata</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Find the cell with title and summary in <code>cells</code>.</p>
 
@@ -684,9 +684,9 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="ExecuteShowDocPreprocessor" class="doc_header"><code>class</code> <code>ExecuteShowDocPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L252" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>ExecuteShowDocPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
+<h3 id="ExecuteShowDocPreprocessor" class="doc_header"><code>class</code> <code>ExecuteShowDocPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L249" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>ExecuteShowDocPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
 </blockquote>
-<p>An <code>ExecutePreprocessor</code> that only executes <code>show_doc</code> and <code>import</code> cells</p>
+<p>An <code>ExecutePreprocessor</code> that only executes <a href="/showdoc.html#show_doc"><code>show_doc</code></a> and <code>import</code> cells</p>
 
 </div>
 
@@ -708,9 +708,9 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="execute_nb" class="doc_header"><code>execute_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L271" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>execute_nb</code>(<strong><code>nb</code></strong>, <strong><code>mod</code></strong>=<em><code>None</code></em>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong><code>show_doc_only</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="execute_nb" class="doc_header"><code>execute_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L268" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>execute_nb</code>(<strong><code>nb</code></strong>, <strong><code>mod</code></strong>=<em><code>None</code></em>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong><code>show_doc_only</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
-<p>Execute <code>nb</code> (or only the <code>show_doc</code> cells) with <code>metadata</code></p>
+<p>Execute <code>nb</code> (or only the <a href="/showdoc.html#show_doc"><code>show_doc</code></a> cells) with <code>metadata</code></p>
 
 </div>
 
@@ -768,7 +768,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_tmpl" class="doc_header"><code>write_tmpl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L282" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpl</code>(<strong><code>tmpl</code></strong>, <strong><code>nms</code></strong>, <strong><code>cfg</code></strong>, <strong><code>dest</code></strong>)</p>
+<h4 id="write_tmpl" class="doc_header"><code>write_tmpl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L279" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpl</code>(<strong><code>tmpl</code></strong>, <strong><code>nms</code></strong>, <strong><code>cfg</code></strong>, <strong><code>dest</code></strong>)</p>
 </blockquote>
 <p>Write <code>tmpl</code> to <code>dest</code> (if missing) filling in <code>nms</code> in template using dict <code>cfg</code></p>
 
@@ -792,7 +792,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_tmpls" class="doc_header"><code>write_tmpls</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L290" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpls</code>()</p>
+<h4 id="write_tmpls" class="doc_header"><code>write_tmpls</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L287" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpls</code>()</p>
 </blockquote>
 <p>Write out _config.yml and _data/topnav.yml using templates</p>
 
@@ -847,7 +847,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L318" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>)</p>
+<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L315" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to html file in <code>dest_path</code>.</p>
 
@@ -887,7 +887,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="notebook2html" class="doc_header"><code>notebook2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L342" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2html</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="notebook2html" class="doc_header"><code>notebook2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L339" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2html</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert all notebooks matching <code>fname</code> to html files</p>
 
@@ -919,7 +919,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_md" class="doc_header"><code>convert_md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L358" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_md</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="convert_md" class="doc_header"><code>convert_md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L355" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_md</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to a markdown file in <code>dest_path</code>.</p>
 

@@ -10,26 +10,26 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: Setting up Search
-      url: /search
+      title: Export to modules
+      url: /export
     - output: web,pdf
-      title: Convert to html
-      url: /export2html
+      title: Synchronize and diff
+      url: /sync
     - output: web,pdf
       title: Show doc
       url: /showdoc
     - output: web,pdf
-      title: Export to modules
-      url: /export
-    - output: web,pdf
-      title: Command line functions
-      url: /cli
+      title: Convert to html
+      url: /export2html
     - output: web,pdf
       title: Extract tests
       url: /test
     - output: web,pdf
-      title: Synchronize and diff
-      url: /sync
+      title: Command line functions
+      url: /cli
+    - output: web,pdf
+      title: Setting up Search
+      url: /search
     output: web
     title: nbdev
   output: web
