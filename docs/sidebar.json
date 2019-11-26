@@ -1,6 +1,7 @@
 {
   "nbdev": {
     "Overview": "/",
+    "Setting up Search": "/search",
     "Convert to html": "/export2html",
     "Show doc": "/showdoc",
     "Export to modules": "/export",
