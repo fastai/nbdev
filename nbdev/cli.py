@@ -79,8 +79,8 @@ def create_default_sidebar():
 #Cell
 def make_sidebar():
     "Making sidebar for the doc website"
-    if not (Config().doc_path/'sidebar.json').exists(): create_default_sidebar()
-    else: sidebar_d = json.load(open(Config().doc_path/'sidebar.json', 'r'))
+    if not (Config().doc_path/'sidebar.json').exists() or cfg.custom_sidebar == 'False': create_default_sidebar()
+    sidebar_d = json.load(open(Config().doc_path/'sidebar.json', 'r'))
     res = _side_dict('Sidebar', sidebar_d)
     res = {'entries': [res]}
     res_s = yaml.dump(res, default_flow_style=False)
