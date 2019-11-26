@@ -1,6 +1,8 @@
 # Welcome to nbdev
 
-[//]: <> (This is also a comment.)
+<!-- 
+This is also a comment.
+-->
 
 
 `nbdev` is a library that allows you to fully develop a library in [jupyter notebooks](https://jupyter.org/), putting all your code, tests and documentation in one place. That is: you now have a true [literate programming](https://en.wikipedia.org/wiki/Literate_programming) environment, as envisioned by Donald Knuth back in 1983!
