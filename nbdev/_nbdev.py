@@ -87,7 +87,12 @@ index = {"read_nb": "00_export.ipynb",
          "nbdev_read_nbs": "06_cli.ipynb",
          "nbdev_trust_nbs": "06_cli.ipynb",
          "nbdev_fix_merge": "06_cli.ipynb",
-         "nbdev_install_git_hooks": "06_cli.ipynb"}
+         "nbdev_install_git_hooks": "06_cli.ipynb",
+         "copy_func": "07_tools.ipynb",
+         "patch_to": "07_tools.ipynb",
+         "patch": "07_tools.ipynb",
+         "patch_property": "07_tools.ipynb",
+         "delegates": "07_tools.ipynb"}
 
 modules = ["export.py",
            "sync.py",
@@ -95,4 +100,5 @@ modules = ["export.py",
            "export2html.py",
            "test.py",
            "merge.py",
-           "cli.py"]
+           "cli.py",
+           "tools.py"]
