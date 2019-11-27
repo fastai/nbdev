@@ -34,30 +34,28 @@ def nbdev_diff_nbs():
     diff_nb_script()
 
 #Cell
-import zmq, zmq.error
+import traceback
 
 #Cell
-def _test_one(fname, flags=None):
+def _test_one(fname, tmp_dir=None, flags=None):
     #time.sleep(random.random())
     print(f"testing: {fname}")
     try:
-        test_nb(fname, flags=flags)
+        test_nb(fname, flags=flags, tmp_dir=tmp_dir)
         return True
-    except zmq.ZMQError:
-        print("Caught zmq error 1")
-        return None
-    except zmq.error.ZMQError:
-        print("Caught zmq error 2")
-        return None
     except Exception as e:
-        print(f"Error in {fname}:\n{e}")
-        if "Kernel died replying to " in e:
-            print("Found you!")
-            return None
-        if "zmq.error.ZMQError: Address already in use" in str(e):
-            print("Finally found you!")
-            return None
-        print(e)
+        print(f"Error in {fname}:")
+        #_,_,tb = sys.exc_info()
+        #sm = traceback.StackSummary.extract(traceback.walk_tb(tb))
+        #res = sm.format()
+        #i = 0
+        #while str(tmp_dir) not in res[i]: i+=1
+        #print('\n'.join(res[i:]))
+        tbe = traceback.TracebackException.from_exception(e)
+        start_show=False
+        for l in tbe.format():
+            if not start_show: start_show = str(tmp_dir) in l
+            if start_show: print(l)
         return False
 
 #Cell
@@ -73,16 +71,8 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
 
     # make sure we are inside the notebook folder of the project
     os.chdir(Config().nbs_path)
-    #if n_workers is None: n_workers = min(16, num_cpus())
-    #inps = [((i%n_workers)/10, f) for i,f in enumerate(files)]
-    passed = parallel(_test_one, files, flags=flags, n_workers=n_workers)
-    redo = [f for p,f in zip(passed, files) if p is None]
-    while len(redo)>0:
-        print(redo)
-        passed2 = parallel(_test_one, redo, flags=flags)
-        for i,(p,f) in enumerate(zip(passed, files)):
-            if p is None: passed[i] = passed2[redo.index(f)]
-        redo = [f for p,f in zip(passed, files) if p is None]
+    with tempfile.TemporaryDirectory() as d:
+        passed = parallel(_test_one, files, flags=flags, tmp_dir=Path(d), n_workers=n_workers)
     if all(passed): print("All tests are passing!")
     else:
         print("The following notebooks failed:")
