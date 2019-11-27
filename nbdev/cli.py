@@ -34,9 +34,6 @@ def nbdev_diff_nbs():
     diff_nb_script()
 
 #Cell
-import traceback
-
-#Cell
 def _test_one(fname, flags=None):
     print(f"testing: {fname}")
     try:
