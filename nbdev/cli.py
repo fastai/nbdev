@@ -37,26 +37,14 @@ def nbdev_diff_nbs():
 import traceback
 
 #Cell
-def _test_one(fname, tmp_dir=None, flags=None):
-    #time.sleep(random.random())
+def _test_one(fname, flags=None):
     print(f"testing: {fname}")
     try:
-        test_nb(fname, flags=flags, tmp_dir=tmp_dir)
-        return True
+        test_nb(fname, flags=flags)
+        return None
     except Exception as e:
-        print(f"Error in {fname}:")
-        #_,_,tb = sys.exc_info()
-        #sm = traceback.StackSummary.extract(traceback.walk_tb(tb))
-        #res = sm.format()
-        #i = 0
-        #while str(tmp_dir) not in res[i]: i+=1
-        #print('\n'.join(res[i:]))
-        tbe = traceback.TracebackException.from_exception(e)
-        start_show=False
-        for l in tbe.format():
-            if not start_show: start_show = str(tmp_dir) in l
-            if start_show: print(l)
-        return False
+        print(f'Error in {fname}:\n{e}')
+        return str(e)
 
 #Cell
 @call_parse
@@ -71,12 +59,13 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
 
     # make sure we are inside the notebook folder of the project
     os.chdir(Config().nbs_path)
-    with tempfile.TemporaryDirectory() as d:
-        passed = parallel(_test_one, files, flags=flags, tmp_dir=Path(d), n_workers=n_workers)
+    errors = parallel(_test_one, files, flags=flags, n_workers=n_workers)
+    passed = [e is None for e in errors]
     if all(passed): print("All tests are passing!")
     else:
         print("The following notebooks failed:")
         print('\n'.join([f.name for p,f in zip(passed,files) if not p]))
+        print(errors)
 
 #Cell
 import time,random,warnings
