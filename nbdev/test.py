@@ -92,6 +92,9 @@ class NoExportPreprocessor(ExecutePreprocessor):
         return res
 
 #Cell
+import zmq, zmq.error
+
+#Cell
 def test_nb(fn, flags=None):
     "Execute `nb` (or only the `show_doc` cells) with `metadata`"
     os.environ["IN_TEST"] = '1'
@@ -105,6 +108,8 @@ def test_nb(fn, flags=None):
         pnb = nbformat.from_dict(nb)
         ep.preprocess(pnb)
     except Exception as e:
-        print(f"Error in {fn}")
+        print(f"Error in {fn}:\n{e}")
+        if "zmq.error.ZMQError: Address already in use" in str(e):
+            print("zmq error caught here")
         raise e
     finally: os.environ.pop("IN_TEST")
