@@ -41,10 +41,13 @@ def _test_one(fname, flags=None):
     print(f"testing: {fname}")
     try:
         test_nb(fname, flags=flags)
-        return None
+        return True
     except Exception as e:
+        if "Kernel died before replying to kernel_info" in str(e):
+            time.sleep(random.random())
+            _test_one(fname, flags=flags)
         print(f'Error in {fname}:\n{e}')
-        return str(e)
+        return False
 
 #Cell
 @call_parse
@@ -59,13 +62,11 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
 
     # make sure we are inside the notebook folder of the project
     os.chdir(Config().nbs_path)
-    errors = parallel(_test_one, files, flags=flags, n_workers=n_workers)
-    passed = [e is None for e in errors]
+    passed = parallel(_test_one, files, flags=flags, n_workers=n_workers)
     if all(passed): print("All tests are passing!")
     else:
         print("The following notebooks failed:")
         print('\n'.join([f.name for p,f in zip(passed,files) if not p]))
-        print(errors)
 
 #Cell
 import time,random,warnings
