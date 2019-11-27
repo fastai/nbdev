@@ -10,7 +10,7 @@ docs: $(SRC)
 	nbdev_build_docs
 	touch docs
 
-test
+test:
 	nbdev_test_nbs
 
 pypi: dist
