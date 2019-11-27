@@ -22,7 +22,7 @@ $         # end of line (since re.MULTILINE is passed)
 
 #Cell
 def check_all_flag(cells):
-    "Check for an `# all flag` cell and then return said flag"
+    "Check for an `# all_flag` cell and then return said flag"
     for cell in cells:
         if check_re(cell, _re_all_flag): return check_re(cell, _re_all_flag).groups()[0]
 
