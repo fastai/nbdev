@@ -4,7 +4,6 @@ __all__ = ['extract_cells', 'conflicts', 'get_md_cell', 'quasi_equal', 'analyze_
 
 #Cell
 from .imports import *
-from .export import *
 
 #Cell
 def extract_cells(raw_txt):

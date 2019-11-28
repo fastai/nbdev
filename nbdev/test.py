@@ -27,7 +27,11 @@ def check_all_flag(cells):
         if check_re(cell, _re_all_flag): return check_re(cell, _re_all_flag).groups()[0]
 
 #Cell
-_re_flags = re.compile(f"""
+class _ReTstFlags():
+    def __init__(self): self._re = None
+    @property
+    def re(self):
+        if self._re is None: self._re = re.compile(f"""
 # Matches any line with a test flad and catches it in a group:
 ^               # beginning of line (since re.MULTILINE is passed)
 \s*             # any number of whitespace
@@ -36,12 +40,15 @@ _re_flags = re.compile(f"""
 \s*             # any number of whitespace
 $               # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
+        return self._re
+
+_re_flags = _ReTstFlags()
 
 #Cell
 def get_cell_flags(cell):
     "Check for any special test flag in `cell`"
     if cell['cell_type'] != 'code' or len(Config().get('tst_flags',''))==0: return []
-    return _re_flags.findall(cell['source'])
+    return _re_flags.re.findall(cell['source'])
 
 #Cell
 class NoExportPreprocessor(ExecutePreprocessor):

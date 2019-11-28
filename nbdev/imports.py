@@ -123,3 +123,14 @@ def parallel(f, items, *args, n_workers=None, **kwargs):
     with ProcessPoolExecutor(n_workers) as ex:
         r = ex.map(f,items, *args, **kwargs)
         return list(r)
+    
+#export
+class ReLibName():
+    "Regex expression that's compiled at first use but not before since it needs `Config().lib_name`"
+    def __init__(self, pat, flags=0): self._re,self.pat,self.flags = None,pat,flags
+    @property
+    def re(self):
+        if not hasattr(Config(), 'lib_name'): raise Exception("Please fill in the library name in settings.ini.")
+        self.pat = self.pat.replace('LIB_NAME', Config().lib_name)
+        if self._re is None: self._re = re.compile(self.pat, self.flags)
+        return self._re

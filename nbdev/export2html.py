@@ -277,15 +277,14 @@ def get_metadata(cells):
             'title'   : 'Title'}
 
 #Cell
-#Catches any cell with a show_doc or an import from local
-_re_cell_to_execute = re.compile(r"^\s*show_doc\(([^\)]*)\)|^from " + Config().lib_name + "\.", re.MULTILINE)
+_re_cell_to_execute = ReLibName(r"^\s*show_doc\(([^\)]*)\)|^from LIB_NAME\.", re.MULTILINE)
 
 #Cell
 class ExecuteShowDocPreprocessor(ExecutePreprocessor):
     "An `ExecutePreprocessor` that only executes `show_doc` and `import` cells"
     def preprocess_cell(self, cell, resources, index):
         if 'source' in cell and cell['cell_type'] == "code":
-            if _re_cell_to_execute.search(cell['source']):
+            if _re_cell_to_execute.re.search(cell['source']):
                 return super().preprocess_cell(cell, resources, index)
         return cell, resources
 

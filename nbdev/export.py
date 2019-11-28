@@ -191,16 +191,14 @@ def relative_import(name, fname):
     return '.' * (len(splits)) + '.'.join(mods)
 
 #Cell
-#Catches any from nbdev.bla import something and catches nbdev.bla in group 1, the imported thing(s) in group 2.
-if not hasattr(Config(), 'lib_name'): raise Exception("Please fill in the library name in settings.ini.")
-_re_import = re.compile(r'^(\s*)from (' + Config().lib_name + '.\S*) import (.*)$')
+_re_import = ReLibName(r'^(\s*)from (LIB_NAME.\S*) import (.*)$')
 
 #Cell
 def _deal_import(code_lines, fname):
     def _replace(m):
         sp,mod,obj = m.groups()
         return f"{sp}from {relative_import(mod, fname)} import {obj}"
-    return [_re_import.sub(_replace,line) for line in code_lines]
+    return [_re_import.re.sub(_replace,line) for line in code_lines]
 
 #Cell
 _re_patch_func = re.compile(r"""
