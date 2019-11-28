@@ -104,9 +104,10 @@ summary: "The functions that transform notebooks in a library"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">assert</span> <span class="n">IN_NOTEBOOK</span>
-<span class="k">assert</span> <span class="ow">not</span> <span class="n">IN_COLAB</span>
-<span class="k">assert</span> <span class="n">IN_IPYTHON</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IN_TEST&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">IN_NOTEBOOK</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">IN_COLAB</span>
+    <span class="k">assert</span> <span class="n">IN_IPYTHON</span>
 </pre></div>
 
     </div>

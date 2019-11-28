@@ -34,30 +34,16 @@ def nbdev_diff_nbs():
     diff_nb_script()
 
 #Cell
-import zmq, zmq.error
-
-#Cell
 def _test_one(fname, flags=None):
-    #time.sleep(random.random())
     print(f"testing: {fname}")
     try:
         test_nb(fname, flags=flags)
         return True
-    except zmq.ZMQError:
-        print("Caught zmq error 1")
-        return None
-    except zmq.error.ZMQError:
-        print("Caught zmq error 2")
-        return None
     except Exception as e:
-        print(f"Error in {fname}:\n{e}")
-        if "Kernel died replying to " in e:
-            print("Found you!")
-            return None
-        if "zmq.error.ZMQError: Address already in use" in str(e):
-            print("Finally found you!")
-            return None
-        print(e)
+        if "Kernel died before replying to kernel_info" in str(e):
+            time.sleep(random.random())
+            _test_one(fname, flags=flags)
+        print(f'Error in {fname}:\n{e}')
         return False
 
 #Cell
@@ -73,16 +59,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
 
     # make sure we are inside the notebook folder of the project
     os.chdir(Config().nbs_path)
-    #if n_workers is None: n_workers = min(16, num_cpus())
-    #inps = [((i%n_workers)/10, f) for i,f in enumerate(files)]
     passed = parallel(_test_one, files, flags=flags, n_workers=n_workers)
-    redo = [f for p,f in zip(passed, files) if p is None]
-    while len(redo)>0:
-        print(redo)
-        passed2 = parallel(_test_one, redo, flags=flags)
-        for i,(p,f) in enumerate(zip(passed, files)):
-            if p is None: passed[i] = passed2[redo.index(f)]
-        redo = [f for p,f in zip(passed, files) if p is None]
     if all(passed): print("All tests are passing!")
     else:
         print("The following notebooks failed:")
