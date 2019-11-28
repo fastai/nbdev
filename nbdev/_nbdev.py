@@ -92,7 +92,8 @@ index = {"read_nb": "00_export.ipynb",
          "patch_to": "07_tools.ipynb",
          "patch": "07_tools.ipynb",
          "patch_property": "07_tools.ipynb",
-         "delegates": "07_tools.ipynb"}
+         "delegates": "07_tools.ipynb",
+         "store_attr": "07_tools.ipynb"}
 
 modules = ["export.py",
            "sync.py",
