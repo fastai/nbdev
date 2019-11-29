@@ -1,7 +1,26 @@
 name: CI
 on: [push]
+
 jobs:
-  build:
+  # Snapshot the current code and push to DockerHub so other people don't have to build the environment on each run
+  build_container:
+    name: Build container & push to DockerHub
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build Image & Push to DockerHub
+      run: |
+        cd $GITHUB_WORKSPACE
+        echo ${PASSWORD} | docker login -u $USERNAME --password-stdin
+        docker build -t hamelsmu/nbdev -f Dockerfile .
+        docker push hamelsmu/nbdev
+      env:
+        USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  # Make test run on the environment we built
+  nbdev:
+    name: Run nbdev checks
+    needs: build_container
     runs-on: ubuntu-latest
     container: hamelsmu/nbdev
     steps:
