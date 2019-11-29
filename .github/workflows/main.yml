@@ -22,6 +22,7 @@ jobs:
     name: Run nbdev checks
     needs: build_container
     runs-on: ubuntu-latest
+    # use the container to run the checks
     container: hamelsmu/nbdev
     steps:
     - uses: actions/checkout@v1
