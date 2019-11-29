@@ -201,11 +201,12 @@ def _print_output(nb):
 @call_parse
 def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                     clear_all:Param("Clean all metadata and outputs", bool)=False,
-                    disp:Param("Print the cleaned outputs", bool)=False):
+                    disp:Param("Print the cleaned outputs", bool)=False,
+                    read_input_stream:Param("Read input stram and not nb folder")=False):
     "Clean all notebooks in `fname` to avoid merge conflicts"
     #Git hooks will pass the notebooks in the stdin
-    input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8') if sys.stdin else None
-    if input_stream and fname is None:
+    if read_input_stream and sys.stdin:
+        input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
         nb = json.load(input_stream)
         clean_nb(nb, clear_all=clear_all)
         _print_output(nb)
@@ -287,7 +288,7 @@ nbdev_trust_nbs
 # If you see notebooks not stripped, checked the filters are applied in .gitattributes
 #
 [filter "clean-nbs"]
-        clean = nbdev_clean_nbs
+        clean = nbdev_clean_nbs --read_input_stream True
         smudge = cat
         required = true
 [diff "ipynb"]
