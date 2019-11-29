@@ -56,7 +56,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     if fname is None:
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
-
+    files = [Path(f).absolute() for f in files]
     # make sure we are inside the notebook folder of the project
     os.chdir(Config().nbs_path)
     passed = parallel(_test_one, files, flags=flags, n_workers=n_workers)

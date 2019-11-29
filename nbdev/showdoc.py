@@ -83,8 +83,12 @@ def get_source_link(func):
     func = _unwrapped_func(func)
     try: line = inspect.getsourcelines(func)[1]
     except Exception: return ''
-    module = inspect.getmodule(func).__name__.replace('.', '/') + '.py'
-    return f"{Config().git_url}{module}#L{line}"
+    mod = inspect.getmodule(func)
+    module = mod.__name__.replace('.', '/') + '.py'
+    try:
+        nbdev_mod = importlib.import_module(mod.__package__.split('.')[0] + '._nbdev')
+        return f"{nbdev_mod.git_url}{module}#L{line}"
+    except: return f"{module}#L{line}"
 
 #Cell
 _re_header = re.compile(r"""
