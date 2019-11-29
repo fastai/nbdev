@@ -17,7 +17,7 @@ Create delightful python projects using Jupyter Notebooks
 
 Using the interactive environment, you can easily debug and refactor your code. Add `#export` flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how `combined_cos` is defined and documented in the `fastai` library:
 
-{% include image.html alt="Exporting from nbdev" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" max-width="700" file="nbs/images/export_example.png"%}
+{% include image.html alt="Exporting from nbdev" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" max-width="700" file="nbs/images/export_example.png" %}
 
 Using notebooks written like this, `nbdev` can create and run any of the following with a single command:
 
@@ -29,7 +29,7 @@ Using notebooks written like this, `nbdev` can create and run any of the followi
 
 Since you are in a notebook, you can also add charts, text, links, images, videos, etc, that will included automatically in the documentation of your library. The cells where your code is defined will be hidden and replaced by standardized documentation of your function, showing its name, arguments, docstring, and link to the source code on github. For instance, the cells above are converted to:
 
-{% include image.html alt="Documentation in nbdev" caption="An example of automated documentation from the fastai library" max-width="600" file="nbs/images/doc_example.png"%}
+{% include image.html alt="Documentation in nbdev" caption="An example of automated documentation from the fastai library" max-width="600" file="nbs/images/doc_example.png" %}
 
 See below for *Installing* and *Getting Started*. In the other pages of the documentation, you can get more details about:
 
@@ -123,6 +123,16 @@ To upload your project to pypi, just type `make pypi` in your project root direc
 Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use `nbdev`. As a first step, run `nbdev_install_git_hooks` in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the change you have a conflict.
 
 But if you do get a conflict, simply run `nbdev_fix_merge filename.ipynb`. This will replace any conflicts in cell outputs with your version, and if there are conflicts in input cells, then both cells will be included in the merged file, along with standard conflict markers (e.g. `=====`). Then you can open the notebook in Jupyter and choose which version to keep.
+
+### Using nbdev as part of your CI
+
+You can use [GitHub actions](https://github.com/features/actions) to leverage the functionality of nbedv and easily make a CI that:
+- check the notebooks are readable (with `nbdev_read_nbs`)
+- check the notebooks have been cleaned of needless metadata to avoid merge conflicts (with `nbdev_clean_nbs`)
+- check there is no diff between the notebooks and the exported library (with `nbdev_diff_nbs`)
+- run the tests in your notebooks (with `nbdev_test_nbs`)
+
+The template contains a basic CI that uses the four points above, edit the file `.github/workflows/main.yml` to your liking and comment out the parts you don't want.
 
 ## Contributing
 

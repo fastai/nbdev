@@ -120,7 +120,7 @@ _re_image1 = re.compile(r"<img\ [^>]*>", re.MULTILINE)
 def _img2jkl(d, h):
     if 'width' in d: d['max-width'] = d.pop('width')
     if 'src' in d:   d['file'] = d.pop('src')
-    return '{% include image.html ' + h.attrs2str() + '%}'
+    return '{% include image.html ' + h.attrs2str() + ' %}'
 
 #Cell
 def copy_images(cell, fname, dest):
@@ -379,7 +379,7 @@ def notebook2html(fname=None, force_all=False):
         # only rebuild modified files
         files,_files = [],files.copy()
         for fname in _files:
-            fname_out = _nb2htmlfname(fname)
+            fname_out = _nb2htmlfname(Path(fname).absolute())
             if not fname_out.exists() or os.path.getmtime(fname) >= os.path.getmtime(fname_out):
                 files.append(fname)
     if len(files)==0: print("No notebooks were modified")
