@@ -215,7 +215,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/__main__.py#L3" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
+<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="__main__.py#L3" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
 </blockquote>
 <p>Create the default sidebar for the docs website</p>
 
@@ -529,7 +529,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_clean_nbs" class="doc_header"><code>nbdev_clean_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L201" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_clean_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>clear_all</code></strong>:"Clean all metadata and outputs"=<em><code>False</code></em>, <strong><code>disp</code></strong>:"Print the cleaned outputs"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_clean_nbs" class="doc_header"><code>nbdev_clean_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L201" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_clean_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>clear_all</code></strong>:"Clean all metadata and outputs"=<em><code>False</code></em>, <strong><code>disp</code></strong>:"Print the cleaned outputs"=<em><code>False</code></em>, <strong><code>read_input_stream</code></strong>:"Read input stram and not nb folder"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Clean all notebooks in <code>fname</code> to avoid merge conflicts</p>
 
@@ -543,7 +543,7 @@ summary: "Console commands added by the nbdev library"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>By default (<code>fname</code> left to <code>None</code>), the all the notebooks in <code>lib_folder</code> are cleaned. You can opt in to fully clean the noteobok by removing every bit of metadata and the cell outputs by passing <code>clear_all=True</code>. <code>disp</code> is only used for internal use with git hooks and will print the clean notebook instead of saving it.</p>
+<p>By default (<code>fname</code> left to <code>None</code>), the all the notebooks in <code>lib_folder</code> are cleaned. You can opt in to fully clean the noteobok by removing every bit of metadata and the cell outputs by passing <code>clear_all=True</code>. <code>disp</code> is only used for internal use with git hooks and will print the clean notebook instead of saving it. Same for <code>read_input_stream</code> that will read the notebook from the input stream instead of the file names.</p>
 
 </div>
 </div>
@@ -566,7 +566,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L224" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
+<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L225" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Check all notebooks matching <code>fname</code> can be opened</p>
 
@@ -597,7 +597,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L235" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L236" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Trust noteboks matching <code>fname</code></p>
 
@@ -628,7 +628,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_fix_merge" class="doc_header"><code>nbdev_fix_merge</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L251" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_fix_merge</code>(<strong><code>fname</code></strong>:"A notebook filename to fix", <strong><code>fast</code></strong>:"Fast fix: automatically fix the merge conflicts in outputs or metadata"=<em><code>True</code></em>, <strong><code>trust_us</code></strong>:"Use local outputs/metadata when fast mergning"=<em><code>True</code></em>)</p>
+<h4 id="nbdev_fix_merge" class="doc_header"><code>nbdev_fix_merge</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L252" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_fix_merge</code>(<strong><code>fname</code></strong>:"A notebook filename to fix", <strong><code>fast</code></strong>:"Fast fix: automatically fix the merge conflicts in outputs or metadata"=<em><code>True</code></em>, <strong><code>trust_us</code></strong>:"Use local outputs/metadata when fast mergning"=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Fix merge conflicts in notebook <code>fname</code></p>
 
@@ -669,7 +669,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L262" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
+<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L263" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
 </blockquote>
 <p>Install git hooks to clean/trust notebooks automatically</p>
 

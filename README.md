@@ -38,6 +38,7 @@ See below for *Installing* and *Getting Started*. In the other pages of the docu
 - how [export2html](http://nbdev.fast.ai/export2html.html) builds a documentation for your library
 - how [sync](http://nbdev.fast.ai/sync.html) can allow you to export back form the python modules to the jupyter notebook
 - how to put [test](http://nbdev.fast.ai/test.html)s in your notebooks, which can be run in parallel, and exported to CI from your notebooks
+- get more info about the [additional functionality](http://nbdev.fast.ai/#Additional-functionality)
 
 ## Installing
 
@@ -68,7 +69,7 @@ In the last cell of your notebook, you can then run:
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
-```
+```python
 from nbdev.export import *
 notebook2script()
 ```
