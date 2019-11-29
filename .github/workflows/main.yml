@@ -25,7 +25,6 @@ jobs:
     # use the container to run the checks
     container: fastai/nbdev
     steps:
-    - uses: actions/checkout@v1
     - name: Read all notebooks
       run: |
         nbdev_read_nbs
