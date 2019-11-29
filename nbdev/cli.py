@@ -62,8 +62,8 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     passed = parallel(_test_one, files, flags=flags, n_workers=n_workers)
     if all(passed): print("All tests are passing!")
     else:
-        print("The following notebooks failed:")
-        print('\n'.join([f.name for p,f in zip(passed,files) if not p]))
+        msg = "The following notebooks failed:\n"
+        raise Exception(msg + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
 
 #Cell
 import time,random,warnings
