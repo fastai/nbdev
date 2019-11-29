@@ -7,9 +7,11 @@ __all__ = ['is_enum', 'is_lib_module', 'doc_link', 'add_doc_links', 'get_source_
 from .imports import *
 from .export import *
 from .sync import *
-from IPython.display import Markdown,display
-from IPython.core import page
 from nbconvert import HTMLExporter
+
+if IN_NOTEBOOK:
+    from IPython.display import Markdown,display
+    from IPython.core import page
 
 #Cell
 def is_enum(cls):
