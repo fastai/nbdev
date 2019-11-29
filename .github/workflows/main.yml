@@ -5,9 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Install apt dependencies
-      run: |
-        sudo apt install -y apt-utils clang curl git libblocksruntime-dev libxml2
     - uses: actions/setup-python@v1
       with:
         python-version: '3.6'
