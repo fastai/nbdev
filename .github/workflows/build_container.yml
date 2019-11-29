@@ -9,9 +9,9 @@ jobs:
     - name: Build Image & Push to DockerHub
       run: |
         cd $GITHUB_WORKSPACE
-        # echo ${PASSWORD} | docker login -u $USERNAME --password-stdin
-        docker build -t fastai/nbdev -f Dockerfile .
-        # docker push fastai/nbdev
+        echo ${PASSWORD} | docker login -u $USERNAME --password-stdin
+        docker build -t hamelsmu/nbdev -f Dockerfile .
+        docker push hamelsmu/nbdev
       env:
         USERNAME: ${{ secrets.DOCKER_USERNAME }}
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
