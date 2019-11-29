@@ -12,8 +12,8 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         echo ${PASSWORD} | docker login -u $USERNAME --password-stdin
-        docker build -t hamelsmu/nbdev -f Dockerfile .
-        docker push hamelsmu/nbdev
+        docker build -t fastai/nbdev -f Dockerfile .
+        docker push fastai/nbdev
       env:
         USERNAME: ${{ secrets.DOCKER_USERNAME }}
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -23,7 +23,7 @@ jobs:
     needs: build_container
     runs-on: ubuntu-latest
     # use the container to run the checks
-    container: hamelsmu/nbdev
+    container: fastai/nbdev
     steps:
     - uses: actions/checkout@v1
     - name: Read all notebooks
