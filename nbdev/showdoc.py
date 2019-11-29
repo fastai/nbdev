@@ -28,18 +28,17 @@ def is_lib_module(name):
 def doc_link(name, include_bt:bool=True):
     "Create link to documentation for `name`."
     cname = f'`{name}`' if include_bt else name
-    #Link to modules
+    #Link to modulesn
     if is_lib_module(name): return f"[{cname}](/{'_'.join(name.split('.'))}.html)"
     #Link to local functions
     try_local = source_nb(name, is_name=True)
     if try_local:
         page = '.'.join(try_local.split('_')[1:]).replace('.ipynb', '.html')
         return f'[{cname}](/{page}#{name})'
-    ##Link to PyTorch
-    #try_pytorch = _get_pytorch_index().get(name, None)
-    #if try_pytorch: return f'[{cname}]({try_pytorch})'
-    #Leave as is
-    return cname
+    ##Custom links
+    mod = get_nbdev_module()
+    link = mod.custom_doc_links(name)
+    return f'[{cname}]({link})' if link is not None else cname
 
 #Cell
 _re_backticks = re.compile(r"""
