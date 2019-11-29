@@ -16,6 +16,7 @@ jobs:
       run: |
         pip install packaging
         pip install -e .
+        pip install jupyter_client
     - name: Read all notebooks
       run: |
         nbdev_read_nbs
