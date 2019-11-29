@@ -120,7 +120,7 @@ _re_image1 = re.compile(r"<img\ [^>]*>", re.MULTILINE)
 def _img2jkl(d, h):
     if 'width' in d: d['max-width'] = d.pop('width')
     if 'src' in d:   d['file'] = d.pop('src')
-    return '{% include image.html ' + h.attrs2str() + '%}'
+    return '{% include image.html ' + h.attrs2str() + ' %}'
 
 #Cell
 def copy_images(cell, fname, dest):
