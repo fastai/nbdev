@@ -132,7 +132,7 @@ You can use [GitHub actions](https://github.com/features/actions) to leverage th
 - check there is no diff between the notebooks and the exported library (with `nbdev_diff_nbs`)
 - run the tests in your notebooks (with `nbdev_test_nbs`)
 
-An example can be found in the CI of this repo. Just copy the `.github/` directory of this repo to the repo you want to test, then edit the file `.github/workflows/main.yml` to your liking.
+The template contains a basic CI that uses the four points above, edit the file `.github/workflows/main.yml` to your liking and comment out the parts you don't want.
 
 ## Contributing
 
