@@ -32,4 +32,4 @@ jobs:
         if [ -n "$(git status -uno -s)" ]; then echo -e "!!! Detected unstripped out notebooks\n!!!Remember to run tools/run-after-git-clone"; false; fi
     - name: Run tests
       run: |
-        nbdev_test_nbs
+        if [nbdev_test_nbs | grep -q 'Error']; then false; fi
