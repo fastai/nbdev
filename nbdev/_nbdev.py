@@ -91,6 +91,7 @@ index = {"read_nb": "00_export.ipynb",
          "patch_to": "07_tools.ipynb",
          "patch": "07_tools.ipynb",
          "patch_property": "07_tools.ipynb",
+         "patch_clsmthd": "07_tools.ipynb",
          "delegates": "07_tools.ipynb",
          "store_attr": "07_tools.ipynb"}
 
@@ -102,3 +103,7 @@ modules = ["export.py",
            "merge.py",
            "cli.py",
            "tools.py"]
+
+git_url = "https://github.com/fastai/nbdev/tree/master/"
+
+def custom_doc_links(name): return None
