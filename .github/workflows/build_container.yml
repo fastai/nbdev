@@ -6,7 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: 
     - name: Build Image & Push to DockerHub
       run: |
         cd $GITHUB_WORKSPACE
