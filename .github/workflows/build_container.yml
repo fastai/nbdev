@@ -1,0 +1,18 @@
+name: Refresh Docker Container
+on: [push]
+
+jobs:
+  build:
+  runs-on: ubuntu-latest
+  steps:
+  - uses: actions/checkout@v1
+  - name: 
+  - name: Build Image & Push to DockerHub
+    run: |
+      cd $GITHUB_WORKSPACE
+      # echo ${PASSWORD} | docker login -u $USERNAME --password-stdin
+      docker build -t fastai/nbdev -f Dockerfile .
+      # docker push fastai/nbdev
+    env:
+      USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
