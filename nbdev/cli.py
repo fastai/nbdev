@@ -57,6 +57,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
     files = [Path(f).absolute() for f in files]
+    if len(files)==1 and n_workers is None: n_workers=0
     # make sure we are inside the notebook folder of the project
     os.chdir(Config().nbs_path)
     passed = parallel(_test_one, files, flags=flags, n_workers=n_workers)
@@ -141,9 +142,10 @@ def make_readme():
 @call_parse
 def nbdev_build_docs(fname:Param("A notebook name or glob to convert", str)=None,
                      force_all:Param("Rebuild even notebooks that haven't changed", bool)=False,
-                     mk_readme:Param("Also convert the index notebook to README", bool)=True,):
+                     mk_readme:Param("Also convert the index notebook to README", bool)=True,
+                     n_workers:Param("Number of workers to use", int)=None):
     "Build the documentation by converting notebooks mathing `fname` to html"
-    notebook2html(fname=fname, force_all=force_all)
+    notebook2html(fname=fname, force_all=force_all, n_workers=n_workers)
     if fname is None: make_sidebar()
     if mk_readme: make_readme()
 
