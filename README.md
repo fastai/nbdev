@@ -124,6 +124,16 @@ Jupyter Notebooks can cause challenges with git conflicts, but life becomes much
 
 But if you do get a conflict, simply run `nbdev_fix_merge filename.ipynb`. This will replace any conflicts in cell outputs with your version, and if there are conflicts in input cells, then both cells will be included in the merged file, along with standard conflict markers (e.g. `=====`). Then you can open the notebook in Jupyter and choose which version to keep.
 
+### Using nbdev as part of your CI
+
+You can use [GitHub actions](https://github.com/features/actions) to leverage the functionality of nbedv and easily make a CI that:
+- check the notebooks are readable (with `nbdev_read_nbs`)
+- check the notebooks have been cleaned of needless metadata to avoid merge conflicts (with `nbdev_clean_nbs`)
+- check there is no diff between the notebooks and the exported library (with `nbdev_diff_nbs`)
+- run the tests in your notebooks (with `nbdev_test_nbs`)
+
+An example can be found in the CI of this repo. Just copy the `.github/` directory of this repo to the repo you want to test, then edit the file `.github/workflows/main.yml` to your liking.
+
 ## Contributing
 
 If you want to contribute to `nbdev`, be sure to review the [contributions guidelines](https://github.com/fastai/nbdev/blob/master/CONTRIBUTING.md). This project adheres to fastai`s [code of conduct](https://github.com/fastai/nbdev/blob/master/CODE-OF-CONDUCT.md). By participating, you are expected to uphold this code. In general, the fastai project strives to abide by generally accepted best practices in open-source software development.

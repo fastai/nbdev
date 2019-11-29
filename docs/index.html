@@ -206,6 +206,26 @@ password = your_pypi_password</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Using-nbdev-as-part-of-your-CI">Using nbdev as part of your CI<a class="anchor-link" href="#Using-nbdev-as-part-of-your-CI">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can use <a href="https://github.com/features/actions">GitHub actions</a> to leverage the functionality of nbedv and easily make a CI that:</p>
+<ul>
+<li>check the notebooks are readable (with <a href="/cli.html#nbdev_read_nbs"><code>nbdev_read_nbs</code></a>)</li>
+<li>check the notebooks have been cleaned of needless metadata to avoid merge conflicts (with <a href="/cli.html#nbdev_clean_nbs"><code>nbdev_clean_nbs</code></a>)</li>
+<li>check there is no diff between the notebooks and the exported library (with <a href="/cli.html#nbdev_diff_nbs"><code>nbdev_diff_nbs</code></a>)</li>
+<li>run the tests in your notebooks (with <a href="/cli.html#nbdev_test_nbs"><code>nbdev_test_nbs</code></a>)</li>
+</ul>
+<p>An example can be found in the CI of this repo. Just copy the <code>.github/</code> directory of this repo to the repo you want to test, then edit the file <code>.github/workflows/main.yml</code> to your liking.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Contributing">Contributing<a class="anchor-link" href="#Contributing">&#182;</a></h2>
 </div>
 </div>

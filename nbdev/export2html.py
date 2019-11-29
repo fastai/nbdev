@@ -379,7 +379,7 @@ def notebook2html(fname=None, force_all=False):
         # only rebuild modified files
         files,_files = [],files.copy()
         for fname in _files:
-            fname_out = _nb2htmlfname(fname)
+            fname_out = _nb2htmlfname(Path(fname).absolute())
             if not fname_out.exists() or os.path.getmtime(fname) >= os.path.getmtime(fname_out):
                 files.append(fname)
     if len(files)==0: print("No notebooks were modified")
