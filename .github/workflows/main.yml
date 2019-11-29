@@ -2,9 +2,9 @@ name: CI
 on: [push]
 
 jobs:
-  # Snapshot the current code and push to DockerHub so other people don't have to build the environment on each run
+  # Build an image and push to DockerHub so others don't need to build the environment on each run
   build_container:
-    name: Build container & push to DockerHub
+    name: Docker build & push
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
