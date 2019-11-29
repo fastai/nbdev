@@ -14,10 +14,7 @@ jobs:
         architecture: 'x64'
     - name: Install the library
       run: |
-        pip install packaging
         pip install -e .
-        python3 -m pip install --upgrade pip
-        python3 -m pip install jupyter
     - name: Read all notebooks
       run: |
         nbdev_read_nbs
