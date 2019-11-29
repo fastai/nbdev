@@ -117,20 +117,21 @@ _re_image = re.compile(r"""
 _re_image1 = re.compile(r"<img\ [^>]*>", re.MULTILINE)
 
 #Cell
-def _img2jkl(d, h):
+def _img2jkl(d, h, jekyll=True):
+    if not jekyll: return '<img ' + h.attrs2str() + '>'
     if 'width' in d: d['max-width'] = d.pop('width')
     if 'src' in d:   d['file'] = d.pop('src')
-    return '{% include image.html ' + h.attrs2str() + '%}'
+    return '{% include image.html ' + h.attrs2str() + ' %}'
 
 #Cell
-def copy_images(cell, fname, dest):
+def copy_images(cell, fname, dest, jekyll=True):
     "Copy images referenced in `cell` from `fname` parent folder to `dest` folder"
     if cell['cell_type'] == 'markdown' and _re_image.search(cell['source']):
         grps = _re_image.search(cell['source']).groups()
         if grps[3] is not None:
             h = HTMLParseAttrs()
             dic = h(grps[3])
-            cell['source'] = _img2jkl(dic, h)
+            cell['source'] = _img2jkl(dic, h, jekyll=jekyll)
         src = grps[1] if grps[3] is None else dic['file']
         os.makedirs((Path(dest)/src).parent, exist_ok=True)
         shutil.copy(Path(fname).parent/src, Path(dest)/src)
@@ -145,7 +146,7 @@ def _relative_to(path1, path2):
     return os.path.sep.join(['..' for _ in p2] + list(p1))
 
 #Cell
-def adapt_img_path(cell, fname, dest):
+def adapt_img_path(cell, fname, dest, jekyll=True):
     "Adapt path of images referenced in `cell` from `fname` to work in folder `dest`"
     def _rep(m):
         gps = m.groups()
@@ -157,7 +158,7 @@ def adapt_img_path(cell, fname, dest):
             h = HTMLParseAttrs()
             dic = h(gps[3])
             dic['src'] = _relative_to(fname.parent/dic['src'], dest)
-            return _img2jkl(dic, h)
+            return _img2jkl(dic, h, jekyll=jekyll)
     if cell['cell_type'] == 'markdown': cell['source'] = _re_image.sub(_rep, cell['source'])
     return cell
 
@@ -393,7 +394,7 @@ def convert_md(fname, dest_path, jekyll=True):
     meta_jekyll = get_metadata(nb['cells'])
     meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
     nb['cells'] = compose(*process_cells)(nb['cells'])
-    nb['cells'] = [compose(partial(adapt_img_path, fname=fname, dest=dest_path), *process_cell)(c) for c in nb['cells']]
+    nb['cells'] = [compose(partial(adapt_img_path, fname=fname, dest=dest_path, jekyll=jekyll), *process_cell)(c) for c in nb['cells']]
     fname = Path(fname).absolute()
     dest_name = fname.with_suffix('.md').name
     exp = _exporter(markdown=True, jekyll=jekyll)
