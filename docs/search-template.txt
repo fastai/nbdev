@@ -1,0 +1,16 @@
+  <LookAndFeel element_layout="8" theme="7" custom_theme="true" url_length="full" element_branding="hide" enable_cse_thumbnail="true" promotion_url_length="full" font="1">
+    <Logo/>
+    <Colors url="#008000" background="#347DBE" border="#347DBE" title="#0000CC" text="#000000" visited="#0000CC" title_hover="#0000CC" title_active="#0000CC"/>
+    <Promotions title_color="#0000CC" title_visited_color="#0000CC" url_color="#008000" background_color="#FFFFFF" border_color="#336699" snippet_color="#000000" title_hover_color="#0000CC" title_active_color="#0000CC"/>
+    <SearchControls input_border_color="#D9D9D9" button_border_color="#666666" button_background_color="#CECECE" tab_border_color="#CCCCCC" tab_selected_border_color="#CCCCCC" button_icon_color="#FFFFFF"/>
+    <Results/>
+  </LookAndFeel>
+  <ImageSearchSettings enable="false"/>
+  <autocomplete_settings/>
+  <sort_by_keys label="Relevance" key=""/>
+  <sort_by_keys label="Date" key="date"/>
+  <cse_advance_settings>
+    <search_options link_target="_parent"/>
+  </cse_advance_settings>
+</CustomSearchEngine>
+
