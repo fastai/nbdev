@@ -41,7 +41,7 @@ company_name: {copyright}
 description: {description}
 # Add Google analytics id if you have one and want to use it here
 google_analytics:
-# See Search docs on nbdev.fast.ai for help with adding Search
+# See http://nbdev.fast.ai/search for help with adding Search
 google_search:
 
 host: 127.0.0.1

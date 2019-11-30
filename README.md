@@ -69,7 +69,7 @@ In the last cell of your notebook, you can then run:
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
-```
+```python
 from nbdev.export import *
 notebook2script()
 ```
@@ -126,13 +126,19 @@ But if you do get a conflict, simply run `nbdev_fix_merge filename.ipynb`. This 
 
 ### Using nbdev as part of your CI
 
-You can use [GitHub actions](https://github.com/features/actions) to leverage the functionality of nbedv and easily make a CI that:
+You can use [GitHub actions](https://github.com/features/actions) to leverage the functionality of nbdev and easily make a CI that:
 - check the notebooks are readable (with `nbdev_read_nbs`)
 - check the notebooks have been cleaned of needless metadata to avoid merge conflicts (with `nbdev_clean_nbs`)
 - check there is no diff between the notebooks and the exported library (with `nbdev_diff_nbs`)
 - run the tests in your notebooks (with `nbdev_test_nbs`)
 
 The template contains a basic CI that uses the four points above, edit the file `.github/workflows/main.yml` to your liking and comment out the parts you don't want.
+
+### Custom search engine
+
+For adding search to your docs site, nbdev supports [Google Custom Search](https://cse.google.com/cse/all), including auto-completion as you type your search query. You can try it out by using the search box at the top of this page.
+
+Although we can't fully automate the creation of the search engine (since you need to login to Google to do it) we have made it very easy. Here are the steps you need to follow: [Setting up search](https://nbdev.fast.ai/search).
 
 ## Contributing
 

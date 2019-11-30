@@ -212,7 +212,7 @@ password = your_pypi_password</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can use <a href="https://github.com/features/actions">GitHub actions</a> to leverage the functionality of nbedv and easily make a CI that:</p>
+<p>You can use <a href="https://github.com/features/actions">GitHub actions</a> to leverage the functionality of nbdev and easily make a CI that:</p>
 <ul>
 <li>check the notebooks are readable (with <a href="/cli.html#nbdev_read_nbs"><code>nbdev_read_nbs</code></a>)</li>
 <li>check the notebooks have been cleaned of needless metadata to avoid merge conflicts (with <a href="/cli.html#nbdev_clean_nbs"><code>nbdev_clean_nbs</code></a>)</li>
@@ -220,6 +220,20 @@ password = your_pypi_password</code></pre>
 <li>run the tests in your notebooks (with <a href="/cli.html#nbdev_test_nbs"><code>nbdev_test_nbs</code></a>)</li>
 </ul>
 <p>The template contains a basic CI that uses the four points above, edit the file <code>.github/workflows/main.yml</code> to your liking and comment out the parts you don't want.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Custom-search-engine">Custom search engine<a class="anchor-link" href="#Custom-search-engine">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For adding search to your docs site, nbdev supports <a href="https://cse.google.com/cse/all">Google Custom Search</a>, including auto-completion as you type your search query. You can try it out by using the search box at the top of this page.</p>
+<p>Although we can't fully automate the creation of the search engine (since you need to login to Google to do it) we have made it very easy. Here are the steps you need to follow: <a href="https://nbdev.fast.ai/search">Setting up search</a>.</p>
 
 </div>
 </div>
