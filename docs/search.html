@@ -1,5 +1,5 @@
 ---
-
+toc: false
 title: Setting up Search
 keywords: fastai
 sidebar: home_sidebar
@@ -23,138 +23,23 @@ summary: "Using Google Custom Search"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you want to include Search functionality on your docs site, you need to set up a <a href="https://cse.google.com/cse/all">Google Custom Search</a> engine (click 'add' on this link to create one), and then link it to your <code>_config.yml</code>. In the following sections we've listed all the settings we used for search functionality in docs.fast.ai, since they will probably we a reasonable starting point for you too. Once you've created the custom search engine in Google, copy the "search engine id" and use it as the value for "google_search" in <code>docs/_config.yml</code>.</p>
+<p>If you want to include Search functionality on your docs site, you need to set up a <a href="https://cse.google.com/cse/all">Google Custom Search</a>, and then link it to your nbdev project. Here's all the steps you need to follow (replace anything in <code>{}</code> with the value your have in <code>settings.ini</code>:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Setup">Setup<a class="anchor-link" href="#Setup">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>Basics<ul>
-<li>Search engine name: YOUR_SITE/*</li>
-<li>Search engine description: Search documentation</li>
-<li>Search engine keywords: not currently used - see <a href="https://support.google.com/customsearch//answer/70357">https://support.google.com/customsearch//answer/70357</a> for functionality</li>
-<li>Edition: Free, with ads (the “Get Code” button to the right of Edition is for displaying &amp; copying the source script for embedding the custom search engine)</li>
-<li>Search engine ID: defined by Google (this ID needs to be the value of the cx Javascript variable in the script above)</li>
-<li>Public URL: [read only: for testing the custom search engine functionality outside of the context of any embedding]</li>
-<li>Image Search: Off</li>
-<li>SafeSearch: Off</li>
-<li>Language: English</li>
-<li>Sites to Search: <a href="https://YOUR_SITE">https://YOUR_SITE</a></li>
-<li>NB: It’s possible to submit indexing and removal requests if needed - <a href="https://support.google.com/customsearch/answer/4513925">https://support.google.com/customsearch/answer/4513925</a></li>
-<li>Search the entire web: OFF</li>
-<li>Programmatic Access: via JSON API - not currently used - <a href="https://developers.google.com/custom-search/v1/introduction">https://developers.google.com/custom-search/v1/introduction</a></li>
-<li>Restrict Pages using Schema.org Types: Not currently used</li>
-</ul>
-</li>
-<li>Ads: Left at default settings for Free Edition with Ads</li>
-<li>Admin: Can add other users to add sites, refinements and promotions</li>
-<li>Advanced: CSE context not used</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Look-and-feel">Look and feel<a class="anchor-link" href="#Look-and-feel">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>Layout<ul>
-<li>Currently uses "Overlay" layout</li>
-<li>(Choose from Overlay, Two page, Full width, Two column, Compact, Results only and Google hosted)</li>
-</ul>
-</li>
-<li>Themes: Currently set to "Default"</li>
-<li>Customize: Currently set to default Arial font. Border collar and Background collar set to #347DBE</li>
-<li>Thumbnails: Automatic thumbnails in search results: currently set to ON</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Search-features">Search features<a class="anchor-link" href="#Search-features">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>Promotions: OFF</li>
-<li>Refinements: None added</li>
-<li>Autocomplete: ON<ul>
-<li>NB: "It can take up to 2-4 days for autocomplete to start appearing on your search engine” - <a href="https://support.google.com/customsearch/answer/4542657">https://support.google.com/customsearch/answer/4542657</a></li>
-</ul>
-</li>
-<li>Custom Autocompletions (Included, Excluded, Excluded Patterns): None added</li>
-<li>Synonyms: None added</li>
-<li>Advanced:<ul>
-<li>Results sorting: using defaults: sorted by relevance and date</li>
-<li>Websearch Settings:<ul>
-<li>Refinement Style: Links</li>
-<li>Results Browsing History: Disable</li>
-<li>Structured data in results: Disable</li>
-<li>No Results String: [no value in textbox]</li>
-<li>Link Target: _parent [this is needed so a new browser tab isn't opened when clicking/tapping a result link]</li>
-<li>Query Addition: [no value in textbox]</li>
-<li>Query Parameter Name: [no value in textbox]</li>
-</ul>
-</li>
-<li>Websearch Restricts:<ul>
-<li>Language Restrict: All Languages (restricts search results to documents written in the defined language/s)</li>
-<li>Country Restrict: All Languages (restricts search results to documents originating in the defined countries)</li>
-<li>Boost Results By Locale: All Countries (Boost search results whose country of origin matches the defined values)</li>
-<li>Result Size: [no value in textbox]</li>
-<li>Sort By: relevance</li>
-<li>As Sitesearch: [no value in textbox]</li>
-<li>Extra Query Terms: [no value in textbox]</li>
-<li>Filter: No value set (boolean option True or False)</li>
-</ul>
-</li>
-<li>Imagesearch Settings:<ul>
-<li>Language Restrict: All Languages (restricts search results to documents written in the defined language/s)</li>
-<li>Country Restrict: All Languages (restricts search results to documents originating in the defined countries)</li>
-<li>Boost Results By Locale: All Countries (Boost search results whose country of origin matches the defined values)</li>
-<li>Result Size: [no value in textbox]</li>
-<li>Sort By: relevance</li>
-<li>As Sitesearch: [no value in textbox]</li>
-<li>Extra Query Terms: [no value in textbox]</li>
-<li>Filter: No value set (boolean option True or False)</li>
-<li>Default to Imagesearch: Disable</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Statistics-and-logs">Statistics and logs<a class="anchor-link" href="#Statistics-and-logs">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<ul>
-<li>Currently  left at default settings for all tabs (Stats, Google Analytics, Audit Log)</li>
-<li>Enter the Google Analytics account details - as defined in _config.yml</li>
-</ul>
+<ol>
+<li>Go to <a href="https://cse.google.com/cse/all">Google Custom Search</a> and click 'add'.</li>
+<li>In "Sites to search" type the URL of your docs site (e.g. <code>{owner}.github.io/{lib_name}</code>), and in "Name of the search engine" type "{lib_name} docs". Then click "CREATE"</li>
+<li>In the "Basics" tab, click "Copy to clipboard" in the "Search engine ID" row</li>
+<li>Paste that as the value for "google_search:" in <code>docs/_config.yml</code> in your project. (If you don't already have this file, run <a href="/cli.html#nbdev_build_lib"><code>nbdev_build_lib</code></a> to create it, once you've set up your <code>settings.ini</code>)</li>
+<li>Click "Advanced" (far-right tab), then "CSE Context", then "Download (XML)"</li>
+<li>Open the downloaded <code>cse.xml</code> file in a text editor, and delete everything from the line starting with <code>&lt;LookAndFeel</code> onwards (including that line)</li>
+<li>Replace those lines with the contents of this file: <a href="https://github.com/fastai/nbdev/blob/master/docs/search-template.txt">search-template.txt</a>, and save it</li>
+<li>In your browser, in the same "Advanced" tab you downloaded <code>cse.xml</code> from, click <code>Upload XML file</code> and upload the updated <code>cse.xml</code> file you just save.</li>
+</ol>
 
 </div>
 </div>
