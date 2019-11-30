@@ -371,11 +371,14 @@ def _notebook2html(fname):
     except Exception as e: print(e)
 
 #Cell
-def notebook2html(fname=None, force_all=False):
+def notebook2html(fname=None, force_all=False, n_workers=None):
     "Convert all notebooks matching `fname` to html files"
     if fname is None:
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
+    if len(files)==1:
+        force_all = True
+        if n_workers is None: n_workers=0
     if not force_all:
         # only rebuild modified files
         files,_files = [],files.copy()
@@ -384,7 +387,7 @@ def notebook2html(fname=None, force_all=False):
             if not fname_out.exists() or os.path.getmtime(fname) >= os.path.getmtime(fname_out):
                 files.append(fname)
     if len(files)==0: print("No notebooks were modified")
-    parallel(_notebook2html, files)
+    else: parallel(_notebook2html, files, n_workers=n_workers)
 
 #Cell
 def convert_md(fname, dest_path, jekyll=True):
