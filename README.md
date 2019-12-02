@@ -69,7 +69,7 @@ In the last cell of your notebook, you can then run:
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
-```python
+```
 from nbdev.export import *
 notebook2script()
 ```
