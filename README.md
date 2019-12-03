@@ -49,6 +49,7 @@ pip install nbdev
 
 For an [editable install](https://stackoverflow.com/questions/35064426/when-would-the-e-editable-option-be-useful-with-pip-install), use the following:
 ```
+pip install packaging
 git clone https://github.com/fastai/nbdev
 pip install -e nbdev
 ```
@@ -69,7 +70,7 @@ In the last cell of your notebook, you can then run:
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
-```
+```python
 from nbdev.export import *
 notebook2script()
 ```

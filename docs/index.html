@@ -86,7 +86,8 @@ summary: "Create delightful python projects using Jupyter Notebooks"
 <pre><code>pip install nbdev</code></pre>
 <p>For an <a href="https://stackoverflow.com/questions/35064426/when-would-the-e-editable-option-be-useful-with-pip-install">editable install</a>, use the following:</p>
 
-<pre><code>git clone https://github.com/fastai/nbdev
+<pre><code>pip install packaging
+git clone https://github.com/fastai/nbdev
 pip install -e nbdev</code></pre>
 
 </div>
@@ -198,7 +199,7 @@ password = your_pypi_password</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use <code>nbdev</code>. As a first step, run <a href="/cli.html#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a> in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the change you have a conflict.</p>
+<p>Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use <code>nbdev</code>. As a first step, run <a href="/cli.html#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a> in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the chance you have a conflict.</p>
 <p>But if you do get a conflict, simply run <code>nbdev_fix_merge filename.ipynb</code>. This will replace any conflicts in cell outputs with your version, and if there are conflicts in input cells, then both cells will be included in the merged file, along with standard conflict markers (e.g. <code>=====</code>). Then you can open the notebook in Jupyter and choose which version to keep.</p>
 
 </div>

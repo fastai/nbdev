@@ -234,7 +234,7 @@ def reset_nbdev_module():
 #Cell
 class _EmptyModule():
     def __init__(self): self.index,self.modules,self.git_url = {},[],""
-    def custom_doc_links(name): return None
+    def custom_doc_links(self, name): return None
 
 #Cell
 def get_nbdev_module():
