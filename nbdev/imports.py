@@ -6,7 +6,7 @@ from pathlib import Path
 from textwrap import TextWrapper
 from typing import Union,Optional
 from nbformat.sign import NotebookNotary
-from functools import partial
+from functools import partial,lru_cache
 
 def test_eq(a,b): assert a==b, f'{a}, {b}'
 
@@ -20,6 +20,7 @@ def read_config_file(file):
     config.read(file)
     return config
 
+@lru_cache(maxsize=128)
 class Config:
     "Store the basic information for nbdev to work"
     def __init__(self, cfg_name='settings.ini'):
@@ -36,18 +37,15 @@ class Config:
     def get(self,k,default=None):   return self.d.get(k, default)
     def __setitem__(self,k,v): self.d[k] = str(v)
     def __contains__(self,k):  return k in self.d
-
-    @classmethod
-    def create(cls, lib_name, user, path='.', cfg_name='settings.ini', branch='master',
-               git_url="https://github.com/%(user)s/%(lib_name)s/tree/%(branch)s/", custom_sidebar=False,
-               nbs_path='nbs', lib_path='%(lib_name)s', doc_path='docs', tst_flags='', version='0.0.1'):
-        g = locals()
-        config = {o:g[o] for o in 'lib_name user branch git_url lib_path nbs_path doc_path tst_flags version custom_sidebar'.split()}
-        save_config_file(Path(path)/cfg_name, config)
-        return cls(cfg_name=cfg_name)
-
     def save(self): save_config_file(self.config_file,self.d)
 
+def create_config(lib_name, user, path='.', cfg_name='settings.ini', branch='master',
+               git_url="https://github.com/%(user)s/%(lib_name)s/tree/%(branch)s/", custom_sidebar=False,
+               nbs_path='nbs', lib_path='%(lib_name)s', doc_path='docs', tst_flags='', version='0.0.1'):
+    g = locals()
+    config = {o:g[o] for o in 'lib_name user branch git_url lib_path nbs_path doc_path tst_flags version custom_sidebar'.split()}
+    save_config_file(Path(path)/cfg_name, config)
+        
 def last_index(x, o):
     "Finds the last index of occurence of `x` in `o` (returns -1 if no occurence)"
     try: return next(i for i in reversed(range(len(o))) if o[i] == x)

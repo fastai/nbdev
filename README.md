@@ -56,7 +56,7 @@ pip install -e nbdev
 
 ## Getting Started
 
-To begin your own project, click here: [nbdev template](https://github.com/fastai/nbdev_template/generate). Fill in the requested info and click *Create repository from template*, and a new GitHub repo will be created for you.
+To begin your own project, click here: [nbdev template](https://github.com/fastai/nbdev_template/generate) (you need to be logged in to GitHub for this link to work). Fill in the requested info and click *Create repository from template*, and a new GitHub repo will be created for you.
 
 Now, open your terminal, and clone the repo you just created.
 
