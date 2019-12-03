@@ -120,7 +120,7 @@ To upload your project to pypi, just type `make pypi` in your project root direc
 
 ### Avoiding and handling git conflicts
 
-Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use `nbdev`. As a first step, run `nbdev_install_git_hooks` in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the change you have a conflict.
+Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use `nbdev`. As a first step, run `nbdev_install_git_hooks` in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the chance you have a conflict.
 
 But if you do get a conflict, simply run `nbdev_fix_merge filename.ipynb`. This will replace any conflicts in cell outputs with your version, and if there are conflicts in input cells, then both cells will be included in the merged file, along with standard conflict markers (e.g. `=====`). Then you can open the notebook in Jupyter and choose which version to keep.
 
