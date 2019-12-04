@@ -34,7 +34,7 @@ def nbdev_diff_nbs():
     diff_nb_script()
 
 #Cell
-def _test_one(fname, flags=None):
+def _test_one(fname, flags=None, verbose=True):
     print(f"testing: {fname}")
     try:
         test_nb(fname, flags=flags)
@@ -43,24 +43,25 @@ def _test_one(fname, flags=None):
         if "Kernel died before replying to kernel_info" in str(e):
             time.sleep(random.random())
             _test_one(fname, flags=flags)
-        print(f'Error in {fname}:\n{e}')
+        if verbose: print(f'Error in {fname}:\n{e}')
         return False
 
 #Cell
 @call_parse
 def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                    flags:Param("Space separated list of flags", str)=None,
-                   n_workers:Param("Number of workers to use", int)=None):
+                   n_workers:Param("Number of workers to use", int)=None,
+                   verbose:Param("Print errors along the way", bool)=True):
     "Test in parallel the notebooks matching `fname`, passing along `flags`"
     if flags is not None: flags = flags.split(' ')
     if fname is None:
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
-    files = [Path(f).absolute() for f in files]
+    files = [Path(f).absolute() for f in sorted(files)]
     if len(files)==1 and n_workers is None: n_workers=0
     # make sure we are inside the notebook folder of the project
     os.chdir(Config().nbs_path)
-    passed = parallel(_test_one, files, flags=flags, n_workers=n_workers)
+    passed = parallel(_test_one, files, flags=flags, verbose=verbose, n_workers=n_workers)
     if all(passed): print("All tests are passing!")
     else:
         msg = "The following notebooks failed:\n"
