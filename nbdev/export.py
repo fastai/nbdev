@@ -191,14 +191,18 @@ def relative_import(name, fname):
     return '.' * (len(splits)) + '.'.join(mods)
 
 #Cell
-_re_import = ReLibName(r'^(\s*)from (LIB_NAME.\S*) import (.*)$')
+_re_import = ReLibName(r'^(\s*)from (LIB_NAME\.\S*) import (.*)$')
+_re_import1 = ReLibName(r'^(\s*)import (LIB_NAME\.\S*)(.*)$')
 
 #Cell
 def _deal_import(code_lines, fname):
     def _replace(m):
         sp,mod,obj = m.groups()
         return f"{sp}from {relative_import(mod, fname)} import {obj}"
-    return [_re_import.re.sub(_replace,line) for line in code_lines]
+    def _replace1(m):
+        sp,mod,end = m.groups()
+        return f"{sp}import {relative_import(mod, fname)}{end}"
+    return [_re_import1.re.sub(_replace1, _re_import.re.sub(_replace,line)) for line in code_lines]
 
 #Cell
 _re_patch_func = re.compile(r"""
