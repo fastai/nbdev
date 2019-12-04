@@ -5,6 +5,7 @@ site_title: nbdev
 company_name: fast.ai
 description: Writing a library entirely in notebooks
 google_search: 000837339549978028235:vh0pq0omtgr
+use_math: true
 google_analytics:
 
 host: 127.0.0.1
@@ -22,10 +23,11 @@ exclude: [vendor]
 highlighter: rouge
 markdown: kramdown
 kramdown:
- input: GFM
- auto_ids: true
- hard_wrap: false
- syntax_highlighter: rouge
+  math_engine: katex
+  input: GFM
+  auto_ids: true
+  hard_wrap: false
+  syntax_highlighter: rouge
 
 collections:
   tooltips:

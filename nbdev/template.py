@@ -39,6 +39,8 @@ topnav_title: {title}
 site_title: {title}
 company_name: {copyright}
 description: {description}
+# Set to false to disable KaTeX math
+use_math: true
 # Add Google analytics id if you have one and want to use it here
 google_analytics:
 # See http://nbdev.fast.ai/search for help with adding Search

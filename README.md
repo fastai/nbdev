@@ -135,6 +135,30 @@ You can use [GitHub actions](https://github.com/features/actions) to leverage th
 
 The template contains a basic CI that uses the four points above, edit the file `.github/workflows/main.yml` to your liking and comment out the parts you don't want.
 
+### Math equation support
+
+nbdev supports equations (we use the excellent [KaTeX library](https://katex.org/)). You can include math in your notebook's documentation using the following methods.
+
+Using `$$`, e.g.:
+
+```
+$$\sum_{i=1}^{k+1}i$$
+```
+
+Which is rendered as:
+
+> $$\sum_{i=1}^{k+1}i$$
+
+Using `$`, e.g.:
+
+```
+This version is diplayed inline: $\sum_{i=1}^{k+1}i$ . You can include text before and after.
+```
+
+Which is rendered as:
+
+This version is diplayed inline: $\sum_{i=1}^{k+1}i$ . You can include text before and after.
+
 ### Custom search engine
 
 For adding search to your docs site, nbdev supports [Google Custom Search](https://cse.google.com/cse/all), including auto-completion as you type your search query. You can try it out by using the search box at the top of this page.
