@@ -225,8 +225,9 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
 #Cell
 def md2html(md):
     "Convert markdown `md` to HTML code"
+    import nbconvert
     if nbconvert.__version__ < '5.5.0': return HTMLExporter().markdown2html(md)
-    else: return HTMLExporter().markdown2html(defaultdict(lambda: defaultdict(dict)), md)
+    else: return HTMLExporter().markdown2html(collections.defaultdict(lambda: collections.defaultdict(dict)), md)
 
 #Cell
 def doc(elt):
