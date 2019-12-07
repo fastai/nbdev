@@ -12,7 +12,7 @@ jobs:
     - name: Install the library
       run: |
         pip install packaging
-        pip install -e .
+        pip install -e .[dev]
     - name: Read all notebooks
       run: |
         nbdev_read_nbs
