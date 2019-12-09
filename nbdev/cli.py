@@ -53,7 +53,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                    flags:Param("Space separated list of flags", str)=None,
                    n_workers:Param("Number of workers to use", int)=None,
                    verbose:Param("Print errors along the way", bool)=True,
-                   timing:Param("Timing each notebook to see the ones are slow", bool)=True):
+                   timing:Param("Timing each notebook to see the ones are slow", bool)=False):
     "Test in parallel the notebooks matching `fname`, passing along `flags`"
     if flags is not None: flags = flags.split(' ')
     if fname is None:
@@ -181,7 +181,7 @@ nb_metadata_keep   = ["kernelspec", "jekyll"]
 
 #Cell
 def clean_cell(cell, clear_all=False):
-    "Clen `cell` by removing superluous metadata or everything except the input if `clear_all`"
+    "Clean `cell` by removing superluous metadata or everything except the input if `clear_all`"
     rm_execution_count(cell)
     if 'outputs' in cell:
         if clear_all: cell['outputs'] = []
