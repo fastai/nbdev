@@ -46,7 +46,7 @@ summary: "The functions that transform notebooks in a library"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For bootstrapping <code>nbdev</code> we have a few basic foundations defined in <a href="/imports.html"><code>imports</code></a>, which we test a show here. First, a simple config file class, <code>Config</code> that read the content of your <code>settings.ini</code> file and make it accessible:</p>
+<p>For bootstrapping <code>nbdev</code> we have a few basic foundations defined in <a href="imports.html"><code>imports</code></a>, which we test a show here. First, a simple config file class, <code>Config</code> that read the content of your <code>settings.ini</code> file and make it accessible:</p>
 
 </div>
 </div>
@@ -271,7 +271,7 @@ summary: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="read_nb" class="doc_header"><code>read_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L12" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>read_nb</code>(<strong><code>fname</code></strong>)</p>
+<h4 id="read_nb" class="doc_header"><code>read_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L11" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>read_nb</code>(<strong><code>fname</code></strong>)</p>
 </blockquote>
 <p>Read the notebook in <code>fname</code>.</p>
 
@@ -879,7 +879,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To be able to build back a correspondence between functions and the notebooks they are defined in, we need to store an index. It's done in the private module <a href="/_nbdev.html"><code>_nbdev</code></a> inside your library, and the following function are used to define it.</p>
+<p>To be able to build back a correspondence between functions and the notebooks they are defined in, we need to store an index. It's done in the private module <a href="_nbdev.html"><code>_nbdev</code></a> inside your library, and the following function are used to define it.</p>
 
 </div>
 </div>
@@ -901,7 +901,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="reset_nbdev_module" class="doc_header"><code>reset_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L226" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>reset_nbdev_module</code>()</p>
 </blockquote>
-<p>Create a skeletton for <a href="/_nbdev.html"><code>_nbdev</code></a></p>
+<p>Create a skeletton for <a href="_nbdev.html"><code>_nbdev</code></a></p>
 
 </div>
 
@@ -928,7 +928,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="get_nbdev_module" class="doc_header"><code>get_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L244" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_nbdev_module</code>()</p>
 </blockquote>
-<p>Reads <a href="/_nbdev.html"><code>_nbdev</code></a></p>
+<p>Reads <a href="_nbdev.html"><code>_nbdev</code></a></p>
 
 </div>
 
@@ -955,7 +955,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="save_nbdev_module" class="doc_header"><code>save_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L258" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>save_nbdev_module</code>(<strong><code>mod</code></strong>)</p>
 </blockquote>
-<p>Save <code>mod</code> inside <a href="/_nbdev.html"><code>_nbdev</code></a></p>
+<p>Save <code>mod</code> inside <a href="_nbdev.html"><code>_nbdev</code></a></p>
 
 </div>
 
@@ -983,7 +983,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_mod_file" class="doc_header"><code>create_mod_file</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_mod_file</code>(<strong><code>fname</code></strong>, <strong><code>nb_path</code></strong>)</p>
+<h4 id="create_mod_file" class="doc_header"><code>create_mod_file</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L269" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_mod_file</code>(<strong><code>fname</code></strong>, <strong><code>nb_path</code></strong>)</p>
 </blockquote>
 <p>Create a module file for <code>fname</code>.</p>
 
@@ -1018,7 +1018,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_init" class="doc_header"><code>add_init</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_init</code>(<strong><code>path</code></strong>)</p>
+<h4 id="add_init" class="doc_header"><code>add_init</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L310" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_init</code>(<strong><code>path</code></strong>)</p>
 </blockquote>
 <p>Add <code>__init__.py</code> in all subdirs of <code>path</code> containing python files if it's not there already</p>
 
@@ -1063,7 +1063,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L319" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert notebooks matching <code>fname</code> to modules</p>
 
