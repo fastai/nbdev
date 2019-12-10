@@ -259,9 +259,9 @@ def save_nbdev_module(mod):
     "Save `mod` inside `_nbdev`"
     fname = Config().lib_path/'_nbdev.py'
     with open(fname, 'r') as f: code = f.read()
-    t = ',\n         '.join([f'"{k}": "{v}"' for k,v in mod.index.items()])
+    t = r',\n         '.join([f'"{k}": "{v}"' for k,v in mod.index.items()])
     code = _re_index_idx.sub("index = {"+ t +"}", code)
-    t = ',\n           '.join([f'"{f}"' for f in mod.modules])
+    t = r',\n           '.join([f'"{f}"' for f in mod.modules])
     code = _re_index_mod.sub(f"modules = [{t}]", code)
     with open(fname, 'w') as f: f.write(code)
 

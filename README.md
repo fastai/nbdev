@@ -64,7 +64,7 @@ Next, edit the `settings.ini` file. Note that it contains all the necessary info
 
 Your `settings.ini` is where all parts of nbdev look for any required configuration information. Once you've edited it, run the command `nbdev_build_lib` (which is automatically installed for you when you install `nbdev`. You'll now find that you have a new directory, with the name of whatever you set `lib_name` to in `settings.ini`.
 
-Now, run `jupyter notebook`, and click `00_core.ipynb`. This is where you'll create your first module! Create Jupyter cells as you would in any notebook. For any cells that you want to be included in your python module, type `#export` as the first line of the module.
+Now, run `jupyter notebook`, and click `00_core.ipynb`. This is where you'll create your first module! Create Jupyter cells as you would in any notebook. For any cells that you want to be included in your python module, type `#export` as the first line of the cell. Note that for any new .ipynb that you create, you will also need to type `#default_exp target_module_name`, which will define the name of the generated module (lib_name/target_module_name.py).
 
 In the last cell of your notebook, you can then run:
 <div class="codecell" markdown="1">
@@ -100,6 +100,12 @@ as long as you are somewhere in the folder where you are developing your library
 To enable documentation in your GitHub repo, click 'Settings' on the main repo page, scroll down to 'GitHub Pages', and under 'Source' choose 'master branch /docs folder'. GitHub will then show you a link to your working documentation site.
 
 Finally, edit `index.ipynb`. This will be converted into your projects *README* file, and will also be the index for your documentation (the page you're reading right now actually comes from an `index.ipynb` file!) You can use the module you just exported in this library, which means you can show real working code, and actual outputs. Once you have everything as you want it, run `nbdev_build_docs` in the terminal. This will export HTML versions of your notebooks to the `docs` directory, and will create hyperlinks for any words in backticks (as long as they exist in your module). It will also create a menu for all notebooks you have created, and a table of contents for each.
+
+#### Note if using a subdirectory to contain .ipynb files instead of the project root
+
+If you have set the parameter nbs_path to be anything other than the project root, you will not be able to import your generated modules without an extra step: 
+- either install these modules locally, as their relative import will take you beyond the top-level package, which can be done by running `pip install -e .` in the project root, to install the modules to your environment in editable mode.
+- or make a simlink in your notebook folder to the library folder, which can be done by running `ln -s lib_path lib_name` (adjust `lib_path` and `lib_name` to your use case).
 
 ## Additional functionality
 

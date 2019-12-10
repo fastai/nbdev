@@ -36,22 +36,24 @@ def nbdev_diff_nbs():
 #Cell
 def _test_one(fname, flags=None, verbose=True):
     print(f"testing: {fname}")
+    start = time.time()
     try:
         test_nb(fname, flags=flags)
-        return True
+        return True,time.time()-start
     except Exception as e:
         if "Kernel died before replying to kernel_info" in str(e):
             time.sleep(random.random())
             _test_one(fname, flags=flags)
         if verbose: print(f'Error in {fname}:\n{e}')
-        return False
+        return False,time.time()-start
 
 #Cell
 @call_parse
 def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                    flags:Param("Space separated list of flags", str)=None,
                    n_workers:Param("Number of workers to use", int)=None,
-                   verbose:Param("Print errors along the way", bool)=True):
+                   verbose:Param("Print errors along the way", bool)=True,
+                   timing:Param("Timing each notebook to see the ones are slow", bool)=False):
     "Test in parallel the notebooks matching `fname`, passing along `flags`"
     if flags is not None: flags = flags.split(' ')
     if fname is None:
@@ -61,11 +63,15 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     if len(files)==1 and n_workers is None: n_workers=0
     # make sure we are inside the notebook folder of the project
     os.chdir(Config().nbs_path)
-    passed = parallel(_test_one, files, flags=flags, verbose=verbose, n_workers=n_workers)
+    results = parallel(_test_one, files, flags=flags, verbose=verbose, n_workers=n_workers)
+    passed,times = [r[0] for r in results],[r[1] for r in results]
     if all(passed): print("All tests are passing!")
     else:
         msg = "The following notebooks failed:\n"
         raise Exception(msg + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
+    if timing:
+        for i,t in sorted(enumerate(times), key=lambda o:o[1], reverse=True):
+            print(f"Notebook {files[i].name} took {int(t)} seconds")
 
 #Cell
 import time,random,warnings
@@ -175,7 +181,7 @@ nb_metadata_keep   = ["kernelspec", "jekyll"]
 
 #Cell
 def clean_cell(cell, clear_all=False):
-    "Clen `cell` by removing superluous metadata or everything except the input if `clear_all`"
+    "Clean `cell` by removing superluous metadata or everything except the input if `clear_all`"
     rm_execution_count(cell)
     if 'outputs' in cell:
         if clear_all: cell['outputs'] = []
