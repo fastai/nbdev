@@ -12,7 +12,7 @@ from .sync import *
 from .merge import *
 from .export2html import *
 from .test import *
-from fastscript.fastscript import call_parse, Param
+from fastscript import call_parse, Param
 
 #Cell
 @call_parse
