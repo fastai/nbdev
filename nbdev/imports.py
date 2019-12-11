@@ -31,7 +31,7 @@ class Config:
         self.d = read_config_file(self.config_file)['DEFAULT']
 
     def __getattr__(self,k):
-        if k=='d' or k not in self.d: raise AttributeError
+        if k=='d' or k not in self.d: raise AttributeError(k)
         return self.config_file.parent/self.d[k] if k.endswith('path') else self.d[k]
 
     def get(self,k,default=None):   return self.d.get(k, default)
@@ -45,7 +45,7 @@ def create_config(lib_name, user, path='.', cfg_name='settings.ini', branch='mas
     g = locals()
     config = {o:g[o] for o in 'lib_name user branch git_url lib_path nbs_path doc_path tst_flags version custom_sidebar'.split()}
     save_config_file(Path(path)/cfg_name, config)
-        
+
 def last_index(x, o):
     "Finds the last index of occurence of `x` in `o` (returns -1 if no occurence)"
     try: return next(i for i in reversed(range(len(o))) if o[i] == x)

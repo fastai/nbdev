@@ -31,12 +31,12 @@ def doc_link(name, include_bt:bool=True):
     "Create link to documentation for `name`."
     cname = f'`{name}`' if include_bt else name
     #Link to modulesn
-    if is_lib_module(name): return f"[{cname}](/{'_'.join(name.split('.'))}.html)"
+    if is_lib_module(name): return f"[{cname}]({'_'.join(name.split('.'))}.html)"
     #Link to local functions
     try_local = source_nb(name, is_name=True)
     if try_local:
         page = '.'.join(try_local.split('_')[1:]).replace('.ipynb', '.html')
-        return f'[{cname}](/{page}#{name})'
+        return f'[{cname}]({page}#{name})'
     ##Custom links
     mod = get_nbdev_module()
     link = mod.custom_doc_links(name)

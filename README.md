@@ -70,7 +70,7 @@ In the last cell of your notebook, you can then run:
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
-```python
+```
 from nbdev.export import *
 notebook2script()
 ```
@@ -143,7 +143,7 @@ The template contains a basic CI that uses the four points above, edit the file 
 
 ### Math equation support
 
-nbdev supports equations (we use the excellent [KaTeX library](https://katex.org/)). You can include math in your notebook's documentation using the following methods.
+nbdev supports equations (we use the excellent [KaTeX library](https://katex.org/)). Enable it with `use_math: true` in your `_config.yml` (it's enabled by default). You can include math in your notebook's documentation using the following methods.
 
 Using `$$`, e.g.:
 
@@ -162,6 +162,7 @@ This version is diplayed inline: $\sum_{i=1}^{k+1}i$ . You can include text befo
 ```
 
 Which is rendered as:
+
 > This version is diplayed inline: $\sum_{i=1}^{k+1}i$ . You can include text before and after.
 
 ### Custom search engine
