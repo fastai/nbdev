@@ -45,7 +45,7 @@ def remove_widget_state(cell):
 
 #Cell
 # Matches any cell that has a `show_doc` or an `#export` in it
-_re_cell_to_hide = r's*show_doc\(|^\s*#\s*export\s+'
+_re_cell_to_hide = r's*show_doc\(|^\s*#\s*export\s+|^\s*#\s*hide_input\s+'
 
 #Cell
 def hide_cells(cell):
