@@ -269,6 +269,7 @@ def nbdev_fix_merge(fname:Param("A notebook filename to fix", str),
 def bump_version(version, part=2):
     version = version.split('.')
     version[part] = str(int(version[part]) + 1)
+    for i in range(part+1, 3): version[i] = '0'
     return '.'.join(version)
 
 #Cell
@@ -277,7 +278,7 @@ def nbdev_bump_version(part:Param("Part of version to bump", int)=2):
     "Increment version in `settings.py` by one"
     cfg = Config()
     print(f'Old version: {cfg.version}')
-    cfg.d['version'] = bump_version(Config().version)
+    cfg.d['version'] = bump_version(Config().version, part)
     cfg.save()
     print(f'New version: {cfg.version}')
 
