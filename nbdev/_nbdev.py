@@ -86,6 +86,8 @@ index = {"read_nb": "00_export.ipynb",
          "nbdev_read_nbs": "06_cli.ipynb",
          "nbdev_trust_nbs": "06_cli.ipynb",
          "nbdev_fix_merge": "06_cli.ipynb",
+         "bump_version": "06_cli.ipynb",
+         "nbdev_bump_version": "06_cli.ipynb",
          "nbdev_install_git_hooks": "06_cli.ipynb"}
 
 modules = ["export.py",

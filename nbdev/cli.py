@@ -3,7 +3,7 @@
 __all__ = ['nbdev_build_lib', 'nbdev_update_lib', 'nbdev_diff_nbs', 'nbdev_test_nbs', 'create_default_sidebar',
            'make_sidebar', 'make_readme', 'nbdev_build_docs', 'nbdev_nb2md', 'rm_execution_count', 'clean_cell_output',
            'cell_metadata_keep', 'nb_metadata_keep', 'clean_cell', 'clean_nb', 'nbdev_clean_nbs', 'nbdev_read_nbs',
-           'nbdev_trust_nbs', 'nbdev_fix_merge', 'nbdev_install_git_hooks']
+           'nbdev_trust_nbs', 'nbdev_fix_merge', 'bump_version', 'nbdev_bump_version', 'nbdev_install_git_hooks']
 
 #Cell
 from .imports import *
@@ -264,6 +264,22 @@ def nbdev_fix_merge(fname:Param("A notebook filename to fix", str),
                     trust_us:Param("Use local outputs/metadata when fast mergning", bool)=True):
     "Fix merge conflicts in notebook `fname`"
     fix_conflicts(fname, fast=fast, trust_us=trust_us)
+
+#Cell
+def bump_version(version, part=2):
+    version = version.split('.')
+    version[part] = str(int(version[part]) + 1)
+    return '.'.join(version)
+
+#Cell
+@call_parse
+def nbdev_bump_version(part:Param("Part of version to bump", int)=2):
+    "Increment version in `settings.py` by one"
+    cfg = Config()
+    print(f'Old version: {cfg.version}')
+    cfg.d['version'] = bump_version(Config().version)
+    cfg.save()
+    print(f'New version: {cfg.version}')
 
 #Cell
 import subprocess

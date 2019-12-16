@@ -32,7 +32,7 @@ class Config:
 
     def __getattr__(self,k):
         if k=='d' or k not in self.d: raise AttributeError(k)
-        return self.config_file.parent/self.d[k] if k.endswith('path') else self.d[k]
+        return self.config_file.parent/self.d[k] if k.endswith('_path') else self.d[k]
 
     def get(self,k,default=None):   return self.d.get(k, default)
     def __setitem__(self,k,v): self.d[k] = str(v)
@@ -100,7 +100,7 @@ def num_cpus():
     "Get number of cpus"
     try:                   return len(os.sched_getaffinity(0))
     except AttributeError: return os.cpu_count()
-    
+
 class ProcessPoolExecutor(concurrent.futures.ProcessPoolExecutor):
     "Like `concurrent.futures.ProcessPoolExecutor` but handles 0 `max_workers`."
     def __init__(self, max_workers=None, on_exc=print, **kwargs):
@@ -114,14 +114,14 @@ class ProcessPoolExecutor(concurrent.futures.ProcessPoolExecutor):
         if self.not_parallel: return map(g, items)
         try: return super().map(g, items)
         except Exception as e: self.on_exc(e)
-            
+
 def parallel(f, items, *args, n_workers=None, **kwargs):
     "Applies `func` in parallel to `items`, using `n_workers`"
     if n_workers is None: n_workers = min(16, num_cpus())
     with ProcessPoolExecutor(n_workers) as ex:
         r = ex.map(f,items, *args, **kwargs)
         return list(r)
-    
+
 #export
 class ReLibName():
     "Regex expression that's compiled at first use but not before since it needs `Config().lib_name`"
