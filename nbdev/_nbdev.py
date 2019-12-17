@@ -88,7 +88,9 @@ index = {"read_nb": "00_export.ipynb",
          "nbdev_fix_merge": "06_cli.ipynb",
          "bump_version": "06_cli.ipynb",
          "nbdev_bump_version": "06_cli.ipynb",
-         "nbdev_install_git_hooks": "06_cli.ipynb"}
+         "nbdev_install_git_hooks": "06_cli.ipynb",
+         "say_hello": "tutorial.ipynb",
+         "HelloSayer": "tutorial.ipynb"}
 
 modules = ["export.py",
            "sync.py",
@@ -96,7 +98,8 @@ modules = ["export.py",
            "export2html.py",
            "test.py",
            "merge.py",
-           "cli.py"]
+           "cli.py",
+           "tutorial.py"]
 
 git_url = "https://github.com/fastai/nbdev/tree/master/"
 

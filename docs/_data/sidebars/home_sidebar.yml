@@ -33,6 +33,9 @@ entries:
     - output: web,pdf
       title: Setting up Search
       url: /search
+    - output: web,pdf
+      title: nbdev tutorial
+      url: /tutorial
     output: web
     title: nbdev
   output: web
