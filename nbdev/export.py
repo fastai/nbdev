@@ -278,7 +278,7 @@ def create_mod_file(fname, nb_path):
 def _notebook2script(fname, silent=False, to_dict=None):
     "Finds cells starting with `#export` and puts them into a new module"
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
-    cp = int(Config().cell_spacing)
+    cp = int(Config().get('cell_spacing', '1'))
     fname = Path(fname)
     nb = read_nb(fname)
     default = find_default_export(nb['cells'])
