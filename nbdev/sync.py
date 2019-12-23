@@ -29,10 +29,11 @@ def qual_name(obj):
     return get_name(obj)
 
 # Cell
-def source_nb(func, is_name=None, return_all=False):
+def source_nb(func, is_name=None, return_all=False, mod=None):
     "Return the name of the notebook where `func` was defined"
     is_name = is_name or isinstance(func, str)
-    index = get_nbdev_module().index
+    if mod is None: mod = get_nbdev_module()
+    index = mod.index
     name = func if is_name else qual_name(func)
     while len(name) > 0:
         if name in index: return (name,index[name]) if return_all else index[name]
