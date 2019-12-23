@@ -5,7 +5,6 @@ __all__ = ['HTMLParseAttrs', 'remove_widget_state', 'hide_cells', 'clean_exports
            'remove_fake_headers', 'remove_empty', 'get_metadata', 'ExecuteShowDocPreprocessor', 'execute_nb',
            'write_tmpl', 'write_tmpls', 'process_cells', 'process_cell', 'convert_nb', 'notebook2html', 'convert_md']
 
-
 # Cell
 from .imports import *
 from .sync import *
@@ -17,7 +16,6 @@ from html.parser import HTMLParser
 from nbconvert.preprocessors import ExecutePreprocessor, Preprocessor
 from nbconvert import HTMLExporter,MarkdownExporter
 import traitlets
-
 
 # Cell
 class HTMLParseAttrs(HTMLParser):
@@ -37,7 +35,6 @@ class HTMLParseAttrs(HTMLParser):
         self.feed(s)
         return self.attrs
 
-
 # Cell
 def remove_widget_state(cell):
     "Remove widgets in the output of `cells`"
@@ -46,11 +43,9 @@ def remove_widget_state(cell):
                            if not ('data' in l and 'application/vnd.jupyter.widget-view+json' in l.data)]
     return cell
 
-
 # Cell
 # Matches any cell that has a `show_doc` or an `#export` in it
 _re_cell_to_hide = r's*show_doc\(|^\s*#\s*export\s+|^\s*#\s*hide_input\s+'
-
 
 # Cell
 def hide_cells(cell):
@@ -58,11 +53,9 @@ def hide_cells(cell):
     if check_re(cell, _re_cell_to_hide):  cell['metadata'] = {'hide_input': True}
     return cell
 
-
 # Cell
 # Matches any line containing an #exports
 _re_exports = re.compile(r'^#\s*exports[^\n]*\n')
-
 
 # Cell
 def clean_exports(cell):
@@ -70,13 +63,11 @@ def clean_exports(cell):
     cell['source'] = _re_exports.sub('', cell['source'])
     return cell
 
-
 # Cell
 def treat_backticks(cell):
     "Add links to backticks words in `cell`"
     if cell['cell_type'] == 'markdown': cell['source'] = add_doc_links(cell['source'])
     return cell
-
 
 # Cell
 _re_nb_link = re.compile(r"""
@@ -89,7 +80,6 @@ _re_nb_link = re.compile(r"""
 .ipynb\)    # .ipynb and closing )
 """, re.VERBOSE)
 
-
 # Cell
 _re_block_notes = re.compile(r"""
 # Catches any pattern > Title: content with title in group 1 and content in group 2
@@ -99,7 +89,6 @@ _re_block_notes = re.compile(r"""
 ([^\n]*)     # Catching group for anything but a new line character
 (?:\n|$)     # Non-catching group for either a new line or the end of the text
 """, re.VERBOSE | re.MULTILINE)
-
 
 # Cell
 def add_jekyll_notes(cell):
@@ -112,7 +101,6 @@ def add_jekyll_notes(cell):
     if cell['cell_type'] == 'markdown':
         cell['source'] = _re_block_notes.sub(_inner, cell['source'])
     return cell
-
 
 # Cell
 _re_image = re.compile(r"""
@@ -128,14 +116,12 @@ _re_image = re.compile(r"""
 
 _re_image1 = re.compile(r"<img\ [^>]*>", re.MULTILINE)
 
-
 # Cell
 def _img2jkl(d, h, jekyll=True):
     if not jekyll: return '<img ' + h.attrs2str() + '>'
     if 'width' in d: d['max-width'] = d.pop('width')
     if 'src' in d:   d['file'] = d.pop('src')
     return '{% include image.html ' + h.attrs2str() + ' %}'
-
 
 # Cell
 def copy_images(cell, fname, dest, jekyll=True):
@@ -151,7 +137,6 @@ def copy_images(cell, fname, dest, jekyll=True):
         shutil.copy(Path(fname).parent/src, Path(dest)/src)
     return cell
 
-
 # Cell
 def _relative_to(path1, path2):
     p1,p2 = Path(path1).absolute().parts,Path(path2).absolute().parts
@@ -159,7 +144,6 @@ def _relative_to(path1, path2):
     while i <len(p1) and i<len(p2) and p1[i] == p2[i]: i+=1
     p1,p2 = p1[i:],p2[i:]
     return os.path.sep.join(['..' for _ in p2] + list(p1))
-
 
 # Cell
 def adapt_img_path(cell, fname, dest, jekyll=True):
@@ -178,17 +162,14 @@ def adapt_img_path(cell, fname, dest, jekyll=True):
     if cell['cell_type'] == 'markdown': cell['source'] = _re_image.sub(_rep, cell['source'])
     return cell
 
-
 # Cell
 #Matches any cell with #hide or #default_exp or #default_cls_lvl
 _re_cell_to_remove = re.compile(r'^\s*#\s*(hide|default_exp|default_cls_lvl)\s+')
-
 
 # Cell
 def remove_hidden(cells):
     "Remove in `cells` the ones with a flag `#hide`, `#default_exp` or `#default_cls_lvl`"
     return [c for c in cells if _re_cell_to_remove.search(c['source']) is None]
-
 
 # Cell
 _re_default_cls_lvl = re.compile(r"""
@@ -200,7 +181,6 @@ default_cls_lvl # default_cls_lvl
 \s*$            # Any number of whitespace and end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
 
-
 # Cell
 def find_default_level(cells):
     "Find in `cells` the default class level."
@@ -208,7 +188,6 @@ def find_default_level(cells):
         tst = check_re(cell, _re_default_cls_lvl)
         if tst: return int(tst.groups()[0])
     return 2
-
 
 # Cell
 #Find a cell with #export(s)
@@ -220,7 +199,6 @@ show_doc     # show_doc
 ([^,\)\s]*)  # Catching group for any character but a comma, a closing ) or a whitespace
 [,\)\s]      # A comma, a closing ) or a whitespace
 """, re.MULTILINE | re.VERBOSE)
-
 
 # Cell
 def _show_doc_cell(name, cls_lvl=None):
@@ -243,7 +221,6 @@ def add_show_docs(cells, cls_lvl=None):
                 if n not in documented: res.append(_show_doc_cell(n, cls_lvl=cls_lvl))
     return res
 
-
 # Cell
 _re_fake_header = re.compile(r"""
 # Matches any fake header (one that ends with -)
@@ -254,18 +231,15 @@ _re_fake_header = re.compile(r"""
 $      # End of text
 """, re.VERBOSE)
 
-
 # Cell
 def remove_fake_headers(cells):
     "Remove in `cells` the fake header"
     return [c for c in cells if c['cell_type']=='code' or _re_fake_header.search(c['source']) is None]
 
-
 # Cell
 def remove_empty(cells):
     "Remove in `cells` the empty cells"
     return [c for c in cells if len(c['source']) >0]
-
 
 # Cell
 _re_title_summary = re.compile(r"""
@@ -285,7 +259,6 @@ _re_properties = re.compile(r"""
 (.*?)$     # Any pattern (shortest possible) then end of line
 """, re.MULTILINE | re.VERBOSE)
 
-
 # Cell
 def get_metadata(cells):
     "Find the cell with title and summary in `cells`."
@@ -304,10 +277,8 @@ def get_metadata(cells):
             'summary' : 'summary',
             'title'   : 'Title'}
 
-
 # Cell
 _re_cell_to_execute = ReLibName(r"^\s*show_doc\(([^\)]*)\)|^from LIB_NAME\.", re.MULTILINE)
-
 
 # Cell
 class ExecuteShowDocPreprocessor(ExecutePreprocessor):
@@ -317,7 +288,6 @@ class ExecuteShowDocPreprocessor(ExecutePreprocessor):
             if _re_cell_to_execute.re.search(cell['source']):
                 return super().preprocess_cell(cell, resources, index)
         return cell, resources
-
 
 # Cell
 def _import_show_doc_cell(mod=None):
@@ -340,7 +310,6 @@ def execute_nb(nb, mod=None, metadata=None, show_doc_only=True):
     ep.preprocess(pnb, metadata)
     return pnb
 
-
 # Cell
 def write_tmpl(tmpl, nms, cfg, dest):
     "Write `tmpl` to `dest` (if missing) filling in `nms` in template using dict `cfg`"
@@ -349,7 +318,6 @@ def write_tmpl(tmpl, nms, cfg, dest):
     outp = tmpl.format(**vs)
     dest.write_text(outp)
 
-
 # Cell
 def write_tmpls():
     "Write out _config.yml and _data/topnav.yml using templates"
@@ -357,7 +325,6 @@ def write_tmpls():
     write_tmpl(config_tmpl, 'user lib_name title copyright description', cfg, cfg.doc_path/'_config.yml')
     write_tmpl(topnav_tmpl, 'user lib_name', cfg, cfg.doc_path/'_data'/'topnav.yml')
     write_tmpl(makefile_tmpl, 'nbs_path lib_name', cfg, cfg.config_file.parent/'Makefile')
-
 
 # Cell
 def _exporter(markdown=False, jekyll=True):
@@ -369,19 +336,15 @@ def _exporter(markdown=False, jekyll=True):
     exporter.template_path.append(str(Path(__file__).parent/'templates'))
     return exporter
 
-
 # Cell
 process_cells = [remove_fake_headers, remove_hidden, remove_empty]
 process_cell  = [hide_cells, remove_widget_state, add_jekyll_notes]
 
-
 # Cell
 _re_digits = re.compile(r'^\d+_')
 
-
 # Cell
 def _nb2htmlfname(nb_path): return Config().doc_path/_re_digits.sub('', nb_path.with_suffix('.html').name)
-
 
 # Cell
 def convert_nb(fname):
@@ -400,14 +363,12 @@ def convert_nb(fname):
     with open(_nb2htmlfname(fname),'w') as f:
         f.write(_exporter().from_notebook_node(nb, resources=meta_jekyll)[0])
 
-
 # Cell
 def _notebook2html(fname):
     time.sleep(random.random())
     print(f"converting: {fname}")
     try: convert_nb(fname)
     except Exception as e: print(e)
-
 
 # Cell
 def notebook2html(fname=None, force_all=False, n_workers=None):
@@ -427,7 +388,6 @@ def notebook2html(fname=None, force_all=False, n_workers=None):
                 files.append(fname)
     if len(files)==0: print("No notebooks were modified")
     else: parallel(_notebook2html, files, n_workers=n_workers)
-
 
 # Cell
 def convert_md(fname, dest_path, jekyll=True):

@@ -2,10 +2,8 @@
 
 __all__ = ['extract_cells', 'get_md_cell', 'conflicts', 'same_inputs', 'analyze_cell', 'fix_conflicts']
 
-
 # Cell
 from .imports import *
-
 
 # Cell
 def extract_cells(raw_txt):
@@ -27,7 +25,6 @@ def extract_cells(raw_txt):
     end = '\n'.join(lines[i:])
     return start,cells,end
 
-
 # Cell
 def get_md_cell(txt):
     "A markdown cell with `txt`"
@@ -39,10 +36,8 @@ def get_md_cell(txt):
    ]
   },'''
 
-
 # Cell
 conflicts = '<<<<<<< ======= >>>>>>>'.split()
-
 
 # Cell
 def _split_cell(cell, cf, names):
@@ -57,10 +52,8 @@ def _split_cell(cell, cf, names):
         if cf%2==0: res2.append(line)
     return '\n'.join(res1),'\n'.join(res2),cf,names
 
-
 # Cell
 _re_conflict = re.compile(r'^<<<<<<<', re.MULTILINE)
-
 
 # Cell
 def same_inputs(t1, t2):
@@ -70,7 +63,6 @@ def same_inputs(t1, t2):
         c1,c2 = json.loads(t1[:-1]),json.loads(t2[:-1])
         return c1['source']==c2['source']
     except Exception as e: return False
-
 
 # Cell
 def analyze_cell(cell, cf, names, prev=None, added=False, fast=True, trust_us=True):
@@ -94,7 +86,6 @@ def analyze_cell(cell, cf, names, prev=None, added=False, fast=True, trust_us=Tr
         prev = None
     else: prev = [v2] if prev is None else prev + [v2]
     return '\n'.join([r for r in res if len(r) > 0]),cf,names,prev,added
-
 
 # Cell
 def fix_conflicts(fname, fast=True, trust_us=True):

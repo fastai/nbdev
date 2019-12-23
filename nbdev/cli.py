@@ -5,7 +5,6 @@ __all__ = ['nbdev_build_lib', 'nbdev_update_lib', 'nbdev_diff_nbs', 'nbdev_test_
            'cell_metadata_keep', 'nb_metadata_keep', 'clean_cell', 'clean_nb', 'nbdev_clean_nbs', 'nbdev_read_nbs',
            'nbdev_trust_nbs', 'nbdev_fix_merge', 'bump_version', 'nbdev_bump_version', 'nbdev_install_git_hooks']
 
-
 # Cell
 from .imports import *
 from .export import *
@@ -15,7 +14,6 @@ from .export2html import *
 from .test import *
 from fastscript import call_parse, Param
 
-
 # Cell
 @call_parse
 def nbdev_build_lib(fname:Param("A notebook name or glob to convert", str)=None):
@@ -23,20 +21,17 @@ def nbdev_build_lib(fname:Param("A notebook name or glob to convert", str)=None)
     notebook2script(fname=fname)
     write_tmpls()
 
-
 # Cell
 @call_parse
 def nbdev_update_lib(fname:Param("A notebook name or glob to convert", str)=None):
     "Propagates any change in the modules matching `fname` to the notebooks that created them"
     script2notebook(fname=fname)
 
-
 # Cell
 @call_parse
 def nbdev_diff_nbs():
     "Prints the diff between an export of the library in notebooks and the actual modules"
     diff_nb_script()
-
 
 # Cell
 def _test_one(fname, flags=None, verbose=True):
@@ -51,7 +46,6 @@ def _test_one(fname, flags=None, verbose=True):
             _test_one(fname, flags=flags)
         if verbose: print(f'Error in {fname}:\n{e}')
         return False,time.time()-start
-
 
 # Cell
 @call_parse
@@ -79,17 +73,14 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
         for i,t in sorted(enumerate(times), key=lambda o:o[1], reverse=True):
             print(f"Notebook {files[i].name} took {int(t)} seconds")
 
-
 # Cell
 import time,random,warnings
-
 
 # Cell
 def _leaf(k,v):
     url = 'external_url' if "http" in v else 'url'
     #if url=='url': v=v+'.html'
     return {'title':k, url:v, 'output':'web,pdf'}
-
 
 # Cell
 _k_names = ['folders', 'folderitems', 'subfolders', 'subfolderitems']
@@ -102,10 +93,8 @@ def _side_dict(title, data, level=0):
             else res if title.startswith('empty')
             else {'title': title, 'output':'web', k_name: res})
 
-
 # Cell
 _re_catch_title = re.compile('^title\s*:\s*(\S+.*)$', re.MULTILINE)
-
 
 # Cell
 def _get_title(fname):
@@ -113,7 +102,6 @@ def _get_title(fname):
     with open(fname, 'r') as f: code = f.read()
     src =  _re_catch_title.search(code)
     return fname.stem if src is None else src.groups()[0]
-
 
 # Cell
 from .export2html import _nb2htmlfname
@@ -125,7 +113,6 @@ def create_default_sidebar():
     dic.update({_get_title(f):f'/{f.stem}' for f in fnames if f.stem!='index'})
     dic = {Config().lib_name: dic}
     json.dump(dic, open(Config().doc_path/'sidebar.json', 'w'), indent=2)
-
 
 # Cell
 def make_sidebar():
@@ -144,10 +131,8 @@ def make_sidebar():
 """+res_s
     open(Config().doc_path/'_data/sidebars/home_sidebar.yml', 'w').write(res_s)
 
-
 # Cell
 _re_index = re.compile(r'^(?:\d*_|)index\.ipynb$')
-
 
 # Cell
 def make_readme():
@@ -160,7 +145,6 @@ def make_readme():
     n = Config().config_file.parent/index_fn.with_suffix('.md').name
     shutil.move(n, Config().config_file.parent/'README.md')
 
-
 # Cell
 @call_parse
 def nbdev_build_docs(fname:Param("A notebook name or glob to convert", str)=None,
@@ -172,7 +156,6 @@ def nbdev_build_docs(fname:Param("A notebook name or glob to convert", str)=None
     if fname is None: make_sidebar()
     if mk_readme: make_readme()
 
-
 # Cell
 @call_parse
 def nbdev_nb2md(fname:Param("A notebook file name to convert", str),
@@ -181,12 +164,10 @@ def nbdev_nb2md(fname:Param("A notebook file name to convert", str),
     "Convert the notebook in `fname` to a markdown file"
     convert_md(fname, dest, jekyll=jekyll)
 
-
 # Cell
 def rm_execution_count(o):
     "Remove execution count in `o`"
     if 'execution_count' in o: o['execution_count'] = None
-
 
 # Cell
 def clean_cell_output(cell):
@@ -194,11 +175,9 @@ def clean_cell_output(cell):
     if 'outputs' in cell:
         for o in cell['outputs']: rm_execution_count(o)
 
-
 # Cell
 cell_metadata_keep = ["hide_input"]
 nb_metadata_keep   = ["kernelspec", "jekyll"]
-
 
 # Cell
 def clean_cell(cell, clear_all=False):
@@ -209,17 +188,14 @@ def clean_cell(cell, clear_all=False):
         else:         clean_cell_output(cell)
     cell['metadata'] = {} if clear_all else {k:v for k,v in cell['metadata'].items() if k in cell_metadata_keep}
 
-
 # Cell
 def clean_nb(nb, clear_all=False):
     "Clean `nb` from superfulous metadata, passing `clear_all` to `clean_cell`"
     for c in nb['cells']: clean_cell(c, clear_all=clear_all)
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in nb_metadata_keep }
 
-
 # Cell
 import io,sys,json
-
 
 # Cell
 def _print_output(nb):
@@ -229,7 +205,6 @@ def _print_output(nb):
     _output_stream.write(x)
     _output_stream.write("\n")
     _output_stream.flush()
-
 
 # Cell
 @call_parse
@@ -255,7 +230,6 @@ def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
             NotebookNotary().sign(nb)
             nbformat.write(nb, str(f), version=4)
 
-
 # Cell
 @call_parse
 def nbdev_read_nbs(fname:Param("A notebook name or glob to convert", str)=None):
@@ -266,7 +240,6 @@ def nbdev_read_nbs(fname:Param("A notebook name or glob to convert", str)=None):
         except Exception as e:
             print(f"{nb} is corrupted and can't be opened.")
             raise e
-
 
 # Cell
 @call_parse
@@ -284,7 +257,6 @@ def nbdev_trust_nbs(fname:Param("A notebook name or glob to convert", str)=None,
         if not NotebookNotary().check_signature(nb): NotebookNotary().sign(nb)
     check_fname.touch(exist_ok=True)
 
-
 # Cell
 @call_parse
 def nbdev_fix_merge(fname:Param("A notebook filename to fix", str),
@@ -293,14 +265,12 @@ def nbdev_fix_merge(fname:Param("A notebook filename to fix", str),
     "Fix merge conflicts in notebook `fname`"
     fix_conflicts(fname, fast=fast, trust_us=trust_us)
 
-
 # Cell
 def bump_version(version, part=2):
     version = version.split('.')
     version[part] = str(int(version[part]) + 1)
     for i in range(part+1, 3): version[i] = '0'
     return '.'.join(version)
-
 
 # Cell
 @call_parse
@@ -312,10 +282,8 @@ def nbdev_bump_version(part:Param("Part of version to bump", int)=2):
     cfg.save()
     print(f'New version: {cfg.version}')
 
-
 # Cell
 import subprocess
-
 
 # Cell
 @call_parse

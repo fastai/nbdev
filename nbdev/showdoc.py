@@ -3,7 +3,6 @@
 __all__ = ['is_enum', 'is_lib_module', 'doc_link', 'add_doc_links', 'get_source_link', 'get_nb_source_link',
            'nb_source_link', 'type_repr', 'format_param', 'show_doc', 'md2html', 'doc']
 
-
 # Cell
 from .imports import *
 from .export import *
@@ -14,12 +13,10 @@ if IN_NOTEBOOK:
     from IPython.display import Markdown,display
     from IPython.core import page
 
-
 # Cell
 def is_enum(cls):
     "Check if `cls` is an enum or another type of class"
     return type(cls) in (enum.Enum, enum.EnumMeta)
-
 
 # Cell
 def is_lib_module(name):
@@ -28,7 +25,6 @@ def is_lib_module(name):
         _ = importlib.import_module(f'{Config().lib_name}.{name}')
         return True
     except: return False
-
 
 # Cell
 def doc_link(name, include_bt:bool=True):
@@ -45,7 +41,6 @@ def doc_link(name, include_bt:bool=True):
     mod = get_nbdev_module()
     link = mod.custom_doc_links(name)
     return f'[{cname}]({link})' if link is not None else cname
-
 
 # Cell
 _re_backticks = re.compile(r"""
@@ -65,13 +60,11 @@ _re_backticks = re.compile(r"""
 `        #     Closing `
 """, re.VERBOSE)
 
-
 # Cell
 def add_doc_links(text):
     "Search for doc links for any item between backticks in `text` and isnter them"
     def _replace_link(m): return doc_link(m.group(1) or m.group(2))
     return _re_backticks.sub(_replace_link, text)
-
 
 # Cell
 def _is_type_dispatch(x): return type(x).__name__ == "TypeDispatch"
@@ -86,7 +79,6 @@ def _unwrapped_func(x):
     x = _property_getter(x)
     return x
 
-
 # Cell
 def get_source_link(func):
     "Return link to `func` in source code"
@@ -100,7 +92,6 @@ def get_source_link(func):
         return f"{nbdev_mod.git_url}{module}#L{line}"
     except: return f"{module}#L{line}"
 
-
 # Cell
 _re_header = re.compile(r"""
 # Catches any header in markdown with the title in group 1
@@ -110,7 +101,6 @@ _re_header = re.compile(r"""
 (.*)  # Catching group with anything
 $     # End of text
 """, re.VERBOSE)
-
 
 # Cell
 def get_nb_source_link(func, local=False, is_name=None):
@@ -143,7 +133,6 @@ def get_nb_source_link(func, local=False, is_name=None):
         i-=1
     return f'{pref}{nb_name}'
 
-
 # Cell
 def nb_source_link(func, is_name=None, disp=True):
     "Show a relative link to the notebook where `func` is defined"
@@ -153,10 +142,8 @@ def nb_source_link(func, is_name=None, disp=True):
     if disp: display(Markdown(f'[{func_name}]({link})'))
     else: return link
 
-
 # Cell
 from fastscript import Param
-
 
 # Cell
 def type_repr(t):
@@ -169,7 +156,6 @@ def type_repr(t):
         reprs = ', '.join([type_repr(o) for o in args])
         return f'{doc_link(get_name(t))}\[{reprs}\]'
     else: return doc_link(get_name(t))
-
 
 # Cell
 _arg_prefixes = {inspect._VAR_POSITIONAL: '\*', inspect._VAR_KEYWORD:'\*\*'}
@@ -187,13 +173,11 @@ def format_param(p):
         else: res += f'=*`{repr(default)}`*'
     return res
 
-
 # Cell
 def _format_enum_doc(enum, full_name):
     "Formatted `enum` definition to show in documentation"
     vals = ', '.join(enum.__members__.keys())
     return f'<code>{full_name}</code>',f'<code>Enum</code> = [{vals}]'
-
 
 # Cell
 def _escape_chars(s):
@@ -211,7 +195,6 @@ def _format_func_doc(func, full_name=None):
     f_name = f"<code>class</code> {name}" if inspect.isclass(func) else name
     return f'{f_name}',f'{name}{arg_str}'
 
-
 # Cell
 def _format_cls_doc(cls, full_name):
     "Formatted `cls` definition to show in documentation"
@@ -219,7 +202,6 @@ def _format_cls_doc(cls, full_name):
     name,args = _format_func_doc(cls, full_name)
     if parent_class != object: args += f' :: {doc_link(get_name(parent_class))}'
     return name,args
-
 
 # Cell
 def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, default_cls_level=2):
@@ -240,14 +222,12 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
     if disp: display(Markdown(doc))
     else: return doc
 
-
 # Cell
 def md2html(md):
     "Convert markdown `md` to HTML code"
     import nbconvert
     if nbconvert.__version__ < '5.5.0': return HTMLExporter().markdown2html(md)
     else: return HTMLExporter().markdown2html(collections.defaultdict(lambda: collections.defaultdict(dict)), md)
-
 
 # Cell
 def doc(elt):

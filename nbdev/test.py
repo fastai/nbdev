@@ -2,14 +2,12 @@
 
 __all__ = ['check_all_flag', 'get_cell_flags', 'NoExportPreprocessor', 'test_nb']
 
-
 # Cell
 from .imports import *
 from .sync import *
 from .export import *
 
 from nbconvert.preprocessors import ExecutePreprocessor
-
 
 # Cell
 _re_all_flag = re.compile("""
@@ -22,13 +20,11 @@ all_(\S+) # all_ followed by a group with any non-whitespace chars
 $         # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
 
-
 # Cell
 def check_all_flag(cells):
     "Check for an `# all_flag` cell and then return said flag"
     for cell in cells:
         if check_re(cell, _re_all_flag): return check_re(cell, _re_all_flag).groups()[0]
-
 
 # Cell
 class _ReTstFlags():
@@ -48,13 +44,11 @@ $               # end of line (since re.MULTILINE is passed)
 
 _re_flags = _ReTstFlags()
 
-
 # Cell
 def get_cell_flags(cell):
     "Check for any special test flag in `cell`"
     if cell['cell_type'] != 'code' or len(Config().get('tst_flags',''))==0: return []
     return _re_flags.re.findall(cell['source'])
-
 
 # Cell
 class NoExportPreprocessor(ExecutePreprocessor):
@@ -69,7 +63,6 @@ class NoExportPreprocessor(ExecutePreprocessor):
             if f not in self.flags:  return cell, resources
         res = super().preprocess_cell(cell, resources, index)
         return res
-
 
 # Cell
 def test_nb(fn, flags=None):

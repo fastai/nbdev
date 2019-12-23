@@ -2,11 +2,9 @@
 
 __all__ = ['get_name', 'qual_name', 'source_nb', 'relimport2name', 'script2notebook', 'diff_nb_script']
 
-
 # Cell
 from .imports import *
 from .export import *
-
 
 # Cell
 def _get_property_name(p):
@@ -23,14 +21,12 @@ def get_name(obj):
     elif type(obj)==property:          return _get_property_name(obj)
     else:                              return str(obj).split('.')[-1]
 
-
 # Cell
 def qual_name(obj):
     "Get the qualified name of `obj`"
     if hasattr(obj,'__qualname__'): return obj.__qualname__
     if inspect.ismethod(obj):       return f"{get_name(obj.__self__)}.{get_name(fn)}"
     return get_name(obj)
-
 
 # Cell
 def source_nb(func, is_name=None, return_all=False):
@@ -42,11 +38,9 @@ def source_nb(func, is_name=None, return_all=False):
         if name in index: return (name,index[name]) if return_all else index[name]
         name = '.'.join(name.split('.')[:-1])
 
-
 # Cell
 _re_default_nb = re.compile(r'File to edit: dev/(\S+)\s+')
 _re_cell = re.compile(r'^# Cell|^# Comes from\s+(\S+), cell')
-
 
 # Cell
 def _split(code):
@@ -65,7 +59,6 @@ def _split(code):
         s,e = e,e+1
     return res
 
-
 # Cell
 def relimport2name(name, mod_name):
     "Unwarps a relative import in `name` according to `mod_name`"
@@ -78,12 +71,10 @@ def relimport2name(name, mod_name):
     while name[i] == '.': i += 1
     return '.'.join(mods[:-i] + [name[i:]])
 
-
 # Cell
 #Catches any from .bla import something and catches .bla in group 1, the imported thing(s) in group 2.
 _re_loc_import = re.compile(r'(^\s*)from (\.\S*) import (.*)$')
 _re_loc_import1 = re.compile(r'(^\s*)import (\.\S*)(.*)$')
-
 
 # Cell
 def _deal_loc_import(code, fname):
@@ -94,7 +85,6 @@ def _deal_loc_import(code, fname):
         sp,mod,end = m.groups()
         return f"{sp}import {relimport2name(mod, fname)}{end}"
     return '\n'.join([_re_loc_import1.sub(_replace1, _re_loc_import.sub(_replace,line)) for line in code.split('\n')])
-
 
 # Cell
 def _script2notebook(fname, dic, silent=False):
@@ -119,7 +109,6 @@ def _script2notebook(fname, dic, silent=False):
 
     if not silent: print(f"Converted {fname.relative_to(Config().lib_path)}.")
 
-
 # Cell
 def script2notebook(fname=None, silent=False):
     "Update the notebooks from any changes made in the modules corresponding to `fname`"
@@ -132,11 +121,9 @@ def script2notebook(fname=None, silent=False):
     else: files = glob.glob(fname)
     [ _script2notebook(f, dic, silent=silent) for f in files]
 
-
 # Cell
 import subprocess
 from distutils.dir_util import copy_tree
-
 
 # Cell
 def diff_nb_script():

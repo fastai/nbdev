@@ -4,17 +4,14 @@ __all__ = ['read_nb', 'check_re', 'is_export', 'find_default_export', 'export_na
            'reset_nbdev_module', 'get_nbdev_module', 'save_nbdev_module', 'create_mod_file', 'add_init',
            'notebook2script', 'DocsTestClass']
 
-
 # Cell
 from .imports import *
 from fastscript import *
-
 
 # Cell
 def read_nb(fname):
     "Read the notebook in `fname`."
     with open(Path(fname),'r', encoding='utf8') as f: return nbformat.reads(f.read(), as_version=4)
-
 
 # Cell
 def check_re(cell, pat, code_only=True):
@@ -22,7 +19,6 @@ def check_re(cell, pat, code_only=True):
     if code_only and cell['cell_type'] != 'code': return
     if isinstance(pat, str): pat = re.compile(pat, re.IGNORECASE | re.MULTILINE)
     return pat.search(cell['source'])
-
 
 # Cell
 _re_blank_export = re.compile(r"""
@@ -34,7 +30,6 @@ exports?  # export or exports
 \s*       # any number of whitespace
 $         # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
-
 
 # Cell
 _re_mod_export = re.compile(r"""
@@ -49,7 +44,6 @@ exports?  # export or exports
 $         # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
 
-
 # Cell
 def is_export(cell, default):
     "Check if `cell` is to be exported and returns the name of the module to export it if provided"
@@ -59,7 +53,6 @@ def is_export(cell, default):
         return default
     tst = check_re(cell, _re_mod_export)
     return os.path.sep.join(tst.groups()[0].split('.')) if tst else None
-
 
 # Cell
 _re_default_exp = re.compile(r"""
@@ -74,14 +67,12 @@ default_exp  # export or exports
 $            # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
 
-
 # Cell
 def find_default_export(cells):
     "Find in `cells` the default export module."
     for cell in cells:
         tst = check_re(cell, _re_default_exp)
         if tst: return tst.groups()[0]
-
 
 # Cell
 _re_patch_func = re.compile(r"""
@@ -101,7 +92,6 @@ _re_patch_func = re.compile(r"""
 (?:,|\))       # Non-catching group with either a comma or a closing parenthesis
 """, re.VERBOSE)
 
-
 # Cell
 _re_typedispatch_func = re.compile(r"""
 # Catches any function decorated with @typedispatch
@@ -114,7 +104,6 @@ _re_typedispatch_func = re.compile(r"""
 \)\s*:)         # A closing parenthesis followed by whitespace and :
 """, re.VERBOSE)
 
-
 # Cell
 _re_class_func_def = re.compile(r"""
 # Catches any 0-indented function or class definition with its name in group 1
@@ -126,7 +115,6 @@ _re_class_func_def = re.compile(r"""
 (?:\(|:)       # Non-catching group with either an opening parenthesis or a : (classes don't need ())
 """, re.MULTILINE | re.VERBOSE)
 
-
 # Cell
 _re_obj_def = re.compile(r"""
 # Catches any 0-indented object definition (bla = thing) with its name in group 1
@@ -134,7 +122,6 @@ _re_obj_def = re.compile(r"""
 ([^=\s]*)  # Catching group with any character except a whitespace or an equal sign
 \s*=       # Any number of whitespace followed by an =
 """, re.MULTILINE | re.VERBOSE)
-
 
 # Cell
 def _not_private(n):
@@ -156,7 +143,6 @@ def export_names(code, func_only=False):
     if not func_only: names += _re_obj_def.findall(code)
     return [n for n in names if _not_private(n)]
 
-
 # Cell
 _re_all_def   = re.compile(r"""
 # Catches a cell with defines \_all\_ = [\*\*] and get that \*\* in group 1
@@ -170,7 +156,6 @@ _re_all_def   = re.compile(r"""
 #Same with __all__
 _re__all__def = re.compile(r'^__all__\s*=\s*\[([^\]]*)\]', re.MULTILINE)
 
-
 # Cell
 def extra_add(code):
     "Catch adds to `__all__` required by a cell with `_all_=`"
@@ -183,7 +168,6 @@ def extra_add(code):
         return names.split(','),code
     return [],code
 
-
 # Cell
 def _add2add(fname, names, line_width=120):
     if len(names) == 0: return
@@ -193,7 +177,6 @@ def _add2add(fname, names, line_width=120):
     start,end = re_all.start(),re_all.end()
     text_all = tw.wrap(f"{text[start:end-1]}{'' if text[end-2]=='[' else ', '}{', '.join(names)}]")
     with open(fname, 'w', encoding='utf8') as f: f.write(text[:start] + '\n'.join(text_all) + text[end:])
-
 
 # Cell
 def relative_import(name, fname):
@@ -207,11 +190,9 @@ def relative_import(name, fname):
     while len(mods)>0 and splits[0] == mods[0]: splits,mods = splits[1:],mods[1:]
     return '.' * (len(splits)) + '.'.join(mods)
 
-
 # Cell
 _re_import = ReLibName(r'^(\s*)from (LIB_NAME\.\S*) import (.*)$')
 _re_import1 = ReLibName(r'^(\s*)import (LIB_NAME\.\S*)(.*)$')
-
 
 # Cell
 def _deal_import(code_lines, fname):
@@ -222,7 +203,6 @@ def _deal_import(code_lines, fname):
         sp,mod,end = m.groups()
         return f"{sp}import {relative_import(mod, fname)}{end}"
     return [_re_import1.re.sub(_replace1, _re_import.re.sub(_replace,line)) for line in code_lines]
-
 
 # Cell
 _re_patch_func = re.compile(r"""
@@ -242,7 +222,6 @@ _re_patch_func = re.compile(r"""
 (?:,|\))       # Non-catching group with either a comma or a closing parenthesis
 """, re.VERBOSE)
 
-
 # Cell
 def reset_nbdev_module():
     "Create a skeletton for `_nbdev`"
@@ -257,12 +236,10 @@ def reset_nbdev_module():
         f.write('\n\n\ndef custom_doc_links(name): return None')
         f.write('\n')
 
-
 # Cell
 class _EmptyModule():
     def __init__(self): self.index,self.modules,self.git_url = {},[],""
     def custom_doc_links(self, name): return None
-
 
 # Cell
 def get_nbdev_module():
@@ -274,11 +251,9 @@ def get_nbdev_module():
         return mod
     except: return _EmptyModule()
 
-
 # Cell
 _re_index_idx = re.compile(r'index\s*=\s*{[^}]*}')
 _re_index_mod = re.compile(r'modules\s*=\s*\[[^\]]*\]')
-
 
 # Cell
 def save_nbdev_module(mod):
@@ -291,7 +266,6 @@ def save_nbdev_module(mod):
     code = _re_index_mod.sub(f"modules = [{t}]", code)
     with open(fname, 'w') as f: f.write(code)
 
-
 # Cell
 def create_mod_file(fname, nb_path):
     "Create a module file for `fname`."
@@ -299,13 +273,12 @@ def create_mod_file(fname, nb_path):
     with open(fname, 'w') as f:
         f.write(f"# AUTOGENERATED! DO NOT EDIT! File to edit: dev/{nb_path.name} (unless otherwise specified).")
         f.write('\n\n__all__ = []')
-        f.write('\n')
-
 
 # Cell
 def _notebook2script(fname, silent=False, to_dict=None):
     "Finds cells starting with `#export` and puts them into a new module"
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
+    cp = int(Config().cell_spacing)
     fname = Path(fname)
     nb = read_nb(fname)
     default = find_default_export(nb['cells'])
@@ -318,15 +291,12 @@ def _notebook2script(fname, silent=False, to_dict=None):
     for i,c,e in cells:
         fname_out = Config().lib_path/f'{e}.py'
         orig = ('# C' if e==default else f'# Comes from {fname.name}, c') + 'ell\n'
-        code = '\n\n' + orig + '\n'.join(_deal_import(c['source'].split('\n')[1:], fname_out))
-        # remove trailing spaces
+        code = '\n'*(cp+1) + orig + '\n'.join(_deal_import(c['source'].split('\n')[1:], fname_out))
         names = export_names(code)
         extra,code = extra_add(code)
         if to_dict is None: _add2add(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
         mod.index.update({f: fname.name for f in names})
         code = re.sub(r' +$', '', code, flags=re.MULTILINE)
-        if not code.endswith('\n\n'): # make cell blocks separated not violating pep8
-            code += '\n'
         if code != '\n\n' + orig[:-1]:
             if to_dict is not None: to_dict[fname_out].append((i, fname, code))
             else:
@@ -337,7 +307,6 @@ def _notebook2script(fname, silent=False, to_dict=None):
     if not silent: print(f"Converted {fname.name}.")
     return to_dict
 
-
 # Cell
 def add_init(path):
     "Add `__init__.py` in all subdirs of `path` containing python files if it's not there already"
@@ -346,7 +315,6 @@ def add_init(path):
             if f_.endswith('.py'):
                 if not (Path(p)/'__init__.py').exists(): (Path(p)/'__init__.py').touch()
                 break
-
 
 # Cell
 def notebook2script(fname=None, silent=False, to_dict=False):
@@ -361,7 +329,6 @@ def notebook2script(fname=None, silent=False, to_dict=False):
     for f in sorted(files): d = _notebook2script(f, silent=silent, to_dict=d)
     if to_dict: return d
     else: add_init(Config().lib_path)
-
 
 # Cell
 #export

@@ -2,12 +2,10 @@
 
 __all__ = ['say_hello', 'HelloSayer']
 
-
 # Cell
 def say_hello(to):
     "Say hello to somebody"
     return f'Hello {to}!'
-
 
 # Cell
 class HelloSayer:
