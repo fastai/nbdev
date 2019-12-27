@@ -177,7 +177,7 @@ def clean_cell_output(cell):
 
 # Cell
 cell_metadata_keep = ["hide_input"]
-nb_metadata_keep   = ["kernelspec", "jekyll"]
+nb_metadata_keep   = ["kernelspec", "jekyll", "jupytext"]
 
 # Cell
 def clean_cell(cell, clear_all=False):
