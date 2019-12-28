@@ -280,6 +280,7 @@ def nbdev_bump_version(part:Param("Part of version to bump", int)=2):
     print(f'Old version: {cfg.version}')
     cfg.d['version'] = bump_version(Config().version, part)
     cfg.save()
+    update_version()
     print(f'New version: {cfg.version}')
 
 # Cell

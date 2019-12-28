@@ -2,7 +2,7 @@
 
 __all__ = ['read_nb', 'check_re', 'is_export', 'find_default_export', 'export_names', 'extra_add', 'relative_import',
            'reset_nbdev_module', 'get_nbdev_module', 'save_nbdev_module', 'create_mod_file', 'add_init',
-           'notebook2script', 'DocsTestClass']
+           'update_version', 'notebook2script', 'DocsTestClass']
 
 # Cell
 from .imports import *
@@ -324,12 +324,27 @@ def add_init(path):
                 break
 
 # Cell
+_re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
+
+# Cell
+def update_version():
+    "Add or update `__version__` in the main `__init__.py` of the library"
+    fname = Config().lib_path/'__init__.py'
+    if not fname.exists(): fname.touch()
+    version = f'__version__ = "{Config().version}"'
+    with open(fname, 'r') as f: code = f.read()
+    if _re_version.search(code) is None: code = version + "\n" + code
+    else: code = _re_version.sub(version, code)
+    with open(fname, 'w') as f: f.write(code)
+
+# Cell
 def notebook2script(fname=None, silent=False, to_dict=False):
     "Convert notebooks matching `fname` to modules"
     # initial checks
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
     if fname is None:
         reset_nbdev_module()
+        update_version()
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
     d = collections.defaultdict(list) if to_dict else None
