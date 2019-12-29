@@ -269,7 +269,7 @@ def save_nbdev_module(mod):
     with open(fname, 'r') as f: code = f.read()
     t = r',\n         '.join([f'"{k}": "{v}"' for k,v in mod.index.items()])
     code = _re_index_idx.sub("index = {"+ t +"}", code)
-    t = r',\n           '.join([f'"{f}"' for f in mod.modules])
+    t = r',\n           '.join(['"' + f.replace('\\','/') + '"' for f in mod.modules])
     code = _re_index_mod.sub(f"modules = [{t}]", code)
     with open(fname, 'w') as f: f.write(code)
 
