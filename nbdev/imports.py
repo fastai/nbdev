@@ -25,7 +25,7 @@ _defaults = {"doc_url": "https://%(user)s.github.io/%(lib_name)s/"}
 
 def add_new_defaults(cfg, file):
     for k,v in _defaults.items():
-        if not hasattr(cfg, k): 
+        if cfg.get(v, None) is not None: 
             cfg[k] = v
             save_config_file(file, cfg)
 
