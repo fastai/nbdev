@@ -107,7 +107,7 @@ summary: "A step by step guide"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use <code>nbdev</code>. As a first step, run <a href="cli.html#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a> in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the chance you have a conflict.</p>
+<p>Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use <code>nbdev</code>. As a first step, run <a href="http://nbdev.fast.ai/cli#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a> in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the chance you have a conflict.</p>
 <p>But if you do get a conflict later, simply run <code>nbdev_fix_merge filename.ipynb</code>. This will replace any conflicts in cell outputs with your version, and if there are conflicts in input cells, then both cells will be included in the merged file, along with standard conflict markers (e.g. <code>=====</code>). Then you can open the notebook in Jupyter and choose which version to keep.</p>
 
 </div>
@@ -161,7 +161,7 @@ summary: "A step by step guide"
 <div class="highlight"><pre><span></span><span class="c1">#export</span>
 <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">to</span><span class="p">):</span>
     <span class="s2">&quot;Say hello to somebody&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Hello </span><span class="si">{to}</span><span class="s1">!&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Hello {to}!&#39;</span><span class="p">)</span>
 </pre></div>
 <p>Notice how it includes <code>#export</code> at the top - this means it will be included in our module, and documentation. The documentation will look like this:</p>
 
@@ -246,7 +246,7 @@ summary: "A step by step guide"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span><span class="n">SVG</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span><span class="p">,</span><span class="n">SVG</span>
 <span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="s1">&#39;&lt;svg height=&quot;100&quot;&gt;&lt;circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;40&quot;/&gt;&lt;/svg&gt;&#39;</span><span class="p">))</span>
 </pre></div>
 
@@ -305,7 +305,7 @@ summary: "A step by step guide"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now you can create your python module. To do so, just run <a href="cli.html#nbdev_build_lib"><code>nbdev_build_lib</code></a> from the terminal when anywhere in your project folder.</p>
+<p>Now you can create your python module. To do so, just run <a href="http://nbdev.fast.ai/cli#nbdev_build_lib"><code>nbdev_build_lib</code></a> from the terminal when anywhere in your project folder.</p>
 
 <pre><code>$ nbdev_build_lib
 Converted 00_core.ipynb.
@@ -336,7 +336,7 @@ Converted index.ipynb.</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now you can create your documentation. To do so, just run <a href="cli.html#nbdev_build_docs"><code>nbdev_build_docs</code></a> from the terminal when anywhere in your project folder.</p>
+<p>Now you can create your documentation. To do so, just run <a href="http://nbdev.fast.ai/cli#nbdev_build_docs"><code>nbdev_build_docs</code></a> from the terminal when anywhere in your project folder.</p>
 
 <pre><code>$ nbdev_build_docs
 converting: /home/jhoward/git/nbdev/nbs/00_core.ipynb
@@ -427,7 +427,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="HelloSayer" class="doc_header"><code>class</code> <code>HelloSayer</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/tutorial.py#L11" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>HelloSayer</code>(<strong><code>to</code></strong>)</p>
 </blockquote>
-<p>Say hello to <code>to</code> using <a href="#say_hello"><code>say_hello</code></a></p>
+<p>Say hello to <code>to</code> using <code>say_hello</code></p>
 
 </div>
 
@@ -445,7 +445,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>However, methods aren't automatically documented. To add method docs, use <a href="showdoc.html#show_doc"><code>show_doc</code></a>:</p>
+<p>However, methods aren't automatically documented. To add method docs, use <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a>:</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.showdoc</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">show_doc</span><span class="p">(</span><span class="n">HelloSayer</span><span class="o">.</span><span class="n">say</span><span class="p">)</span>
 </pre></div>
@@ -505,10 +505,10 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Notice above there is a link from our new class documentation to our function. That's because we used backticks in the docstring:</p>
 
-<pre><code>"Say hello to `to` using [`say_hello`](#say_hello)"
+<pre><code>"Say hello to `to` using [`say_hello`](http://nbdev.fast.ai/#say_hello)"
 
 </code></pre>
-<p>These are automatically converted to hyperlinks wherever possible. For instance, here are hyperlinks to <a href="#HelloSayer"><code>HelloSayer</code></a> and <a href="#say_hello"><code>say_hello</code></a> created using backticks.</p>
+<p>These are automatically converted to hyperlinks wherever possible. For instance, here are hyperlinks to <a href="http://nbdev.fast.ai/#HelloSayer"><code>HelloSayer</code></a> and <a href="http://nbdev.fast.ai/#say_hello"><code>say_hello</code></a> created using backticks.</p>
 
 </div>
 </div>
@@ -553,7 +553,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Before you push to github or make a release, you might want to run all your tests. nbdev can run all your notebooks in parallel to check for errors. Just run <a href="cli.html#nbdev_test_nbs"><code>nbdev_test_nbs</code></a> in a terminal.</p>
+<p>Before you push to github or make a release, you might want to run all your tests. nbdev can run all your notebooks in parallel to check for errors. Just run <a href="http://nbdev.fast.ai/cli#nbdev_test_nbs"><code>nbdev_test_nbs</code></a> in a terminal.</p>
 
 <pre><code>(base) jhoward@usf3:~/git/nbdev$ nbdev_test_nbs
 testing: /home/jhoward/git/nbdev/nbs/00_core.ipynb
