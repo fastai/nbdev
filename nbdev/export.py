@@ -240,12 +240,16 @@ def reset_nbdev_module():
         f.write('\n\n__all__ = ["index", "modules", "custom_doc_links", "git_url"]')
         f.write('\n\nindex = {}')
         f.write('\n\nmodules = []')
+        f.write(f'\n\ndoc_url = "{Config().doc_url}"')
         f.write(f'\n\ngit_url = "{Config().git_url}"')
         f.write(f'{sep}def custom_doc_links(name):{prev_code}')
 
 # Cell
 class _EmptyModule():
-    def __init__(self): self.index,self.modules,self.git_url = {},[],""
+    def __init__(self):
+        self.index,self.modules = {},[]
+        self.doc_url,self.git_url = Config().doc_url,Config().git_url
+
     def custom_doc_links(self, name): return None
 
 # Cell
