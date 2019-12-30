@@ -27,14 +27,14 @@ summary: "The functions that transform the dev notebooks in the documentation of
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The most important function defined in this module is <a href="http://nbdev.fast.ai/export2html#notebook2html"><code>notebook2html</code></a>, so you may want to jump to it before scrolling though the rest, which explain the details behind the scenes of the conversion from notebooks to the html documentation. The main things to remember are:</p>
+<p>The most important function defined in this module is <a href="/export2html#notebook2html"><code>notebook2html</code></a>, so you may want to jump to it before scrolling though the rest, which explain the details behind the scenes of the conversion from notebooks to the html documentation. The main things to remember are:</p>
 <ul>
 <li>put a <code>#hide</code> flag at the top of any cell you want to completely hide in the docs</li>
-<li>use the hide input <a href="https://github.com/ipython-contrib/jupyter_contrib_nbextensions">jupyter extension</a> to hide the input of some cells (by default all <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a> cells have that marker added)</li>
-<li>you can define some jekyll metadata in the markdown cell with the title, see <a href="http://nbdev.fast.ai/export2html#get_metadata"><code>get_metadata</code></a></li>
+<li>use the hide input <a href="https://github.com/ipython-contrib/jupyter_contrib_nbextensions">jupyter extension</a> to hide the input of some cells (by default all <a href="/showdoc#show_doc"><code>show_doc</code></a> cells have that marker added)</li>
+<li>you can define some jekyll metadata in the markdown cell with the title, see <a href="/export2html#get_metadata"><code>get_metadata</code></a></li>
 <li>use backsticks for terms you want automatic links to be found, but use <code>&lt;code&gt;</code> and <code>&lt;/code&gt;</code> when you have homonyms and don't want those links</li>
 <li>you can define the default toc level of classes with <code># default_cls_lvl</code> flag followed by a number (default is 2)</li>
-<li>you can add jekyll warnings, important or note banners with appropriate block quotes (see <a href="http://nbdev.fast.ai/export2html#add_jekyll_notes"><code>add_jekyll_notes</code></a>)</li>
+<li>you can add jekyll warnings, important or note banners with appropriate block quotes (see <a href="/export2html#add_jekyll_notes"><code>add_jekyll_notes</code></a>)</li>
 <li>put any images you want to use in the images folder of your notebook folder, they will be automatically copied over to the docs folder</li>
 </ul>
 
@@ -188,7 +188,7 @@ summary: "The functions that transform the dev notebooks in the documentation of
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This concerns all the cells with a <code># export</code> flag and all the cell containing a <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a> for a function or class.</p>
+<p>This concerns all the cells with a <code># export</code> flag and all the cell containing a <a href="/showdoc#show_doc"><code>show_doc</code></a> for a function or class.</p>
 
 </div>
 </div>
@@ -545,7 +545,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="add_show_docs" class="doc_header"><code>add_show_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L211" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_show_docs</code>(<strong><code>cells</code></strong>, <strong><code>cls_lvl</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Add <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a> for each exported function or class</p>
+<p>Add <a href="/showdoc#show_doc"><code>show_doc</code></a> for each exported function or class</p>
 
 </div>
 
@@ -557,7 +557,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This only adds cells with a <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a> for non-documented functions, so if you add yourself a <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a> cell (because you want to change one of the default argument), there won't be any duplicates.</p>
+<p>This only adds cells with a <a href="/showdoc#show_doc"><code>show_doc</code></a> for non-documented functions, so if you add yourself a <a href="/showdoc#show_doc"><code>show_doc</code></a> cell (because you want to change one of the default argument), there won't be any duplicates.</p>
 
 </div>
 </div>
@@ -594,7 +594,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can fake headers in your notebook to navigate them more easily with collapsible headers, just make them finish with a dash and they will be removed. One typicl use case is to have a header of level 2 with the name of a class, since the <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a> cell of that class will create the same anchor, you need to have the one you created manually disappear to avoid any duplicate.</p>
+<p>You can fake headers in your notebook to navigate them more easily with collapsible headers, just make them finish with a dash and they will be removed. One typicl use case is to have a header of level 2 with the name of a class, since the <a href="/showdoc#show_doc"><code>show_doc</code></a> cell of that class will create the same anchor, you need to have the one you created manually disappear to avoid any duplicate.</p>
 
 </div>
 </div>
@@ -731,7 +731,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 <div class="output_markdown rendered_html output_subarea ">
 <h3 id="ExecuteShowDocPreprocessor" class="doc_header"><code>class</code> <code>ExecuteShowDocPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L284" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>ExecuteShowDocPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
 </blockquote>
-<p>An <code>ExecutePreprocessor</code> that only executes <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a> and <code>import</code> cells</p>
+<p>An <code>ExecutePreprocessor</code> that only executes <a href="/showdoc#show_doc"><code>show_doc</code></a> and <code>import</code> cells</p>
 
 </div>
 
@@ -755,7 +755,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="execute_nb" class="doc_header"><code>execute_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L303" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>execute_nb</code>(<strong><code>nb</code></strong>, <strong><code>mod</code></strong>=<em><code>None</code></em>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong><code>show_doc_only</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
-<p>Execute <code>nb</code> (or only the <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a> cells) with <code>metadata</code></p>
+<p>Execute <code>nb</code> (or only the <a href="/showdoc#show_doc"><code>show_doc</code></a> cells) with <code>metadata</code></p>
 
 </div>
 
@@ -767,7 +767,7 @@ Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It's important to execute all <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a> cells before exporting the notebook to html because some of them have just been added automatically or others could have outdated links.</p>
+<p>It's important to execute all <a href="/showdoc#show_doc"><code>show_doc</code></a> cells before exporting the notebook to html because some of them have just been added automatically or others could have outdated links.</p>
 
 </div>
 </div>

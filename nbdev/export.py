@@ -227,7 +227,7 @@ _re_index_custom = re.compile(r'def custom_doc_links\(name\):(.*)$', re.DOTALL)
 
 # Cell
 def reset_nbdev_module():
-    "Create a skeletton for `_nbdev`"
+    "Create a skeletton for <code>_nbdev</code>"
     fname = Config().lib_path/'_nbdev.py'
     fname.parent.mkdir(parents=True, exist_ok=True)
     sep = '\n'* (int(Config().get('cell_spacing', '1'))+1)
@@ -240,7 +240,7 @@ def reset_nbdev_module():
         f.write('\n\n__all__ = ["index", "modules", "custom_doc_links", "git_url"]')
         f.write('\n\nindex = {}')
         f.write('\n\nmodules = []')
-        f.write(f'\n\ndoc_url = "{Config().doc_url}"')
+        f.write(f'\n\ndoc_url = "{Config().doc_host}{Config().doc_baseurl}"')
         f.write(f'\n\ngit_url = "{Config().git_url}"')
         f.write(f'{sep}def custom_doc_links(name):{prev_code}')
 
@@ -248,13 +248,13 @@ def reset_nbdev_module():
 class _EmptyModule():
     def __init__(self):
         self.index,self.modules = {},[]
-        self.doc_url,self.git_url = Config().doc_url,Config().git_url
+        self.doc_url,self.git_url = f"{Config().doc_host}{Config().doc_baseurl}",Config().git_url
 
     def custom_doc_links(self, name): return None
 
 # Cell
 def get_nbdev_module():
-    "Reads `_nbdev`"
+    "Reads <code>_nbdev</code>"
     try:
         spec = importlib.util.spec_from_file_location(f"{Config().lib_name}._nbdev", Config().lib_path/'_nbdev.py')
         mod = importlib.util.module_from_spec(spec)
@@ -268,7 +268,7 @@ _re_index_mod = re.compile(r'modules\s*=\s*\[[^\]]*\]')
 
 # Cell
 def save_nbdev_module(mod):
-    "Save `mod` inside `_nbdev`"
+    "Save `mod` inside <code>_nbdev</code>"
     fname = Config().lib_path/'_nbdev.py'
     with open(fname, 'r') as f: code = f.read()
     t = r',\n         '.join([f'"{k}": "{v}"' for k,v in mod.index.items()])

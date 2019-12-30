@@ -27,7 +27,7 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>All the automatic documentation of functions and classes are generated with the <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a> function. It displays the name, arguments, docstring along with a link to the source code on GitHub.</p>
+<p>All the automatic documentation of functions and classes are generated with the <a href="/showdoc#show_doc"><code>show_doc</code></a> function. It displays the name, arguments, docstring along with a link to the source code on GitHub.</p>
 
 </div>
 </div>
@@ -166,6 +166,7 @@ summary: "Functions to show the doc cells in notebooks"
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#fastai2</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">try_external_doc_link</span><span class="p">(</span><span class="s1">&#39;TfmdDL&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;fastai2&#39;</span><span class="p">]),</span> <span class="s1">&#39;http:/dev.fast.ai/data.core#TfmdDL&#39;</span><span class="p">)</span>
+<span class="c1">#Only works for packages built with nbdev right now</span>
 <span class="k">assert</span> <span class="n">try_external_doc_link</span><span class="p">(</span><span class="s1">&#39;Tensor&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;torch&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span>
 </pre></div>
 
@@ -186,7 +187,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="doc_link" class="doc_header"><code>doc_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L42" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc_link</code>(<strong><code>name</code></strong>, <strong><code>include_bt</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
+<h4 id="doc_link" class="doc_header"><code>doc_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L42" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc_link</code>(<strong><code>name</code></strong>, <strong><code>include_bt</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Create link to documentation for <code>name</code>.</p>
 
@@ -200,7 +201,7 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This function will generate link for a module (pointing to the html conversion of the notebook that created it) and functions (pointing to the hmtl conversion of the notebook they were defined, with the first anchor found before). If the function/module is not part of the library you are writing, it will call the function <code>custom_doc_links</code> generated in <a href="http://nbdev.fast.ai/_nbdev"><code>_nbdev</code></a> (you can customize it to your needs) and just return the name between backsticks if that function returns <code>None</code>.</p>
+<p>This function will generate link for a module (pointing to the html conversion of the notebook that created it) and functions (pointing to the hmtl conversion of the notebook they were defined, with the first anchor found before). If the function/module is not part of the library you are writing, it will call the function <code>custom_doc_links</code> generated in <a href="/_nbdev"><code>_nbdev</code></a> (you can customize it to your needs) and just return the name between backsticks if that function returns <code>None</code>.</p>
 <p>For instance, fastai2 has the following <code>custom_doc_links</code> that tries to find a doc link for <code>name</code> in fastcore then nbdev (in this order):</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_doc_links</span><span class="p">(</span><span class="n">name</span><span class="p">):</span> 
     <span class="kn">from</span> <span class="nn">nbdev.showdoc</span> <span class="kn">import</span> <span class="n">try_external_doc_link</span>
@@ -215,9 +216,9 @@ summary: "Functions to show the doc cells in notebooks"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`export`](http://nbdev.fast.ai/export)&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`DocsTestClass`](http://nbdev.fast.ai/export#DocsTestClass)&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass.test&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`DocsTestClass.test`](http://nbdev.fast.ai/export#DocsTestClass.test)&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`export`](/export)&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`DocsTestClass`](/export#DocsTestClass)&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass.test&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`DocsTestClass.test`](/export#DocsTestClass.test)&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;Tenso&#39;</span><span class="p">),</span><span class="s1">&#39;`Tenso`&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -266,9 +267,9 @@ summary: "Functions to show the doc cells in notebooks"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tst</span> <span class="o">=</span> <span class="n">add_doc_links</span><span class="p">(</span><span class="s1">&#39;This is an example of `DocsTestClass`&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s2">&quot;This is an example of [`DocsTestClass`](http://nbdev.fast.ai/export#DocsTestClass)&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s2">&quot;This is an example of [`DocsTestClass`](/export#DocsTestClass)&quot;</span><span class="p">)</span>
 <span class="n">tst</span> <span class="o">=</span> <span class="n">add_doc_links</span><span class="p">(</span><span class="s1">&#39;This is an example of [`DocsTestClass`](old_link.html)&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s2">&quot;This is an example of [`DocsTestClass`](http://nbdev.fast.ai/export#DocsTestClass)&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s2">&quot;This is an example of [`DocsTestClass`](/export#DocsTestClass)&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -476,6 +477,36 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-25-f09e291beca8&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> tst <span class="ansi-blue-fg">=</span> type_repr<span class="ansi-blue-fg">(</span>Optional<span class="ansi-blue-fg">[</span>DocsTestClass<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>test_eq<span class="ansi-blue-fg">(</span>tst<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;`Optional`\\[[`DocsTestClass`](http://nbdev.fast.ai/export#DocsTestClass)\\]&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span> tst <span class="ansi-blue-fg">=</span> type_repr<span class="ansi-blue-fg">(</span>Union<span class="ansi-blue-fg">[</span>int<span class="ansi-blue-fg">,</span> float<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> test_eq<span class="ansi-blue-fg">(</span>tst<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;`Union`\\[`int`, `float`\\]&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> test_eq<span class="ansi-blue-fg">(</span>type_repr<span class="ansi-blue-fg">(</span>Param<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;description&#34;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;&#34;description&#34;&#39;</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">~/git/nbdev/nbs/nbdev/imports.py</span> in <span class="ansi-cyan-fg">test_eq</span><span class="ansi-blue-fg">(a, b)</span>
+<span class="ansi-green-intense-fg ansi-bold">      9</span> <span class="ansi-green-fg">from</span> functools <span class="ansi-green-fg">import</span> partial<span class="ansi-blue-fg">,</span>lru_cache
+<span class="ansi-green-intense-fg ansi-bold">     10</span> 
+<span class="ansi-green-fg">---&gt; 11</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">def</span> test_eq<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span>b<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span> <span class="ansi-green-fg">assert</span> a<span class="ansi-blue-fg">==</span>b<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">f&#39;{a}, {b}&#39;</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span> 
+<span class="ansi-green-intense-fg ansi-bold">     13</span> <span class="ansi-green-fg">def</span> save_config_file<span class="ansi-blue-fg">(</span>file<span class="ansi-blue-fg">,</span> d<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-red-fg">AssertionError</span>: `Optional`\[[`DocsTestClass`](/export#DocsTestClass)\], `Optional`\[[`DocsTestClass`](http://nbdev.fast.ai/export#DocsTestClass)\]</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
@@ -613,7 +644,7 @@ summary: "Functions to show the doc cells in notebooks"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="doc" class="doc_header"><code>doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L245" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc</code>(<strong><code>elt</code></strong>)</p>
 </blockquote>
-<p>Show <a href="http://nbdev.fast.ai/showdoc#show_doc"><code>show_doc</code></a> info in preview window when used in a notebook</p>
+<p>Show <a href="/showdoc#show_doc"><code>show_doc</code></a> info in preview window when used in a notebook</p>
 
 </div>
 

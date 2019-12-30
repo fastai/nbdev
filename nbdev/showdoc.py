@@ -39,16 +39,16 @@ def try_external_doc_link(name, packages):
         except: return None
 
 # Cell
-def doc_link(name, include_bt:bool=True):
+def doc_link(name, include_bt=True):
     "Create link to documentation for `name`."
     cname = f'`{name}`' if include_bt else name
     #Link to modulesn
-    if is_lib_module(name): return f"[{cname}]({Config().doc_url}{'_'.join(name.split('.'))})"
+    if is_lib_module(name): return f"[{cname}]({Config().doc_baseurl}{'_'.join(name.split('.'))})"
     #Link to local functions
     try_local = source_nb(name, is_name=True)
     if try_local:
         page = '.'.join(try_local.split('_')[1:]).replace('.ipynb', '')
-        return f'[{cname}]({Config().doc_url}{page}#{name})'
+        return f'[{cname}]({Config().doc_baseurl}{page}#{name})'
     ##Custom links
     mod = get_nbdev_module()
     link = mod.custom_doc_links(name)

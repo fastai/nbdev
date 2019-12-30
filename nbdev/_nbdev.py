@@ -103,10 +103,8 @@ modules = ["export.py",
            "cli.py",
            "tutorial.py"]
 
-doc_url = "http://nbdev.fast.ai/"
+doc_url = "https://nbdev.fast.ai/"
 
 git_url = "https://github.com/fastai/nbdev/tree/master/"
 
-def custom_doc_links(name): 
-    a=1
-    return None
+def custom_doc_links(name): return None
