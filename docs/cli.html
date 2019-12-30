@@ -32,7 +32,7 @@ summary: "Console commands added by the nbdev library"
 <li><a href="/cli#nbdev_build_lib"><code>nbdev_build_lib</code></a> builds the library from the notebooks</li>
 <li><a href="/cli#nbdev_update_lib"><code>nbdev_update_lib</code></a> propagates any change in the library back to the notebooks</li>
 <li><a href="/cli#nbdev_diff_nbs"><code>nbdev_diff_nbs</code></a> gives you the diff between the notebooks and the exported library</li>
-<li><code>nbdev_build_doc</code> builds the documentation from the notebooks</li>
+<li><a href="/cli#nbdev_build_docs"><code>nbdev_build_docs</code></a> builds the documentation from the notebooks</li>
 <li><a href="/cli#nbdev_nb2md"><code>nbdev_nb2md</code></a> to convert a notebook to a markdown file</li>
 <li><a href="/cli#nbdev_clean_nbs"><code>nbdev_clean_nbs</code></a> removes all superfluous metadata form the notebooks, to avoid merge conflicts</li>
 <li><a href="/cli#nbdev_read_nbs"><code>nbdev_read_nbs</code></a> read all notebooks to make sure none are broken</li>
@@ -209,6 +209,9 @@ summary: "Console commands added by the nbdev library"
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -216,7 +219,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="__main__.py#L3" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
+<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L108" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
 </blockquote>
 <p>Create the default sidebar for the docs website</p>
 
@@ -475,7 +478,7 @@ summary: "Console commands added by the nbdev library"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="clean_nb" class="doc_header"><code>clean_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L192" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_nb</code>(<strong><code>nb</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Clean <code>nb</code> from superfulous metadata, passing <code>clear_all</code> to <code>clean_cell</code></p>
+<p>Clean <code>nb</code> from superfulous metadata, passing <code>clear_all</code> to <a href="/cli#clean_cell"><code>clean_cell</code></a></p>
 
 </div>
 
@@ -567,7 +570,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
+<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L234" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Check all notebooks matching <code>fname</code> can be opened</p>
 
@@ -598,7 +601,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L245" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Trust noteboks matching <code>fname</code></p>
 
