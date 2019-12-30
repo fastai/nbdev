@@ -20,6 +20,16 @@ def read_config_file(file):
     config.read(file)
     return config
 
+_defaults = {"doc_url": "https://%(user)s.github.io/%(lib_name)s/"}
+
+
+def add_new_defaults(cfg, file):
+    for k,v in _defaults.items():
+        if not hasattr(cfg, k): 
+            cfg[k] = v
+            save_config_file(file, cfg)
+
+
 @lru_cache(maxsize=128)
 class Config:
     "Store the basic information for nbdev to work"
@@ -29,6 +39,7 @@ class Config:
         self.config_file = cfg_path/cfg_name
         assert self.config_file.exists(), "Use `Config.create` to create a `Config` object the first time"
         self.d = read_config_file(self.config_file)['DEFAULT']
+        add_new_defaults(self.d, self.config_file)
 
     def __getattr__(self,k):
         if k=='d' or k not in self.d: raise AttributeError(k)
