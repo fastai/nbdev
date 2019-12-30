@@ -126,15 +126,19 @@ def _img2jkl(d, h, jekyll=True):
 # Cell
 def copy_images(cell, fname, dest, jekyll=True):
     "Copy images referenced in `cell` from `fname` parent folder to `dest` folder"
-    if cell['cell_type'] == 'markdown' and _re_image.search(cell['source']):
-        grps = _re_image.search(cell['source']).groups()
+    def _rep_src(m):
+        grps = m.groups()
         if grps[3] is not None:
             h = HTMLParseAttrs()
             dic = h(grps[3])
-            cell['source'] = _img2jkl(dic, h, jekyll=jekyll)
-        src = grps[1] if grps[3] is None else dic['file']
+            src = dic['src']
+            dic['src'] = Config().doc_baseurl + dic['src']
+        else: src = grps[1]
         os.makedirs((Path(dest)/src).parent, exist_ok=True)
         shutil.copy(Path(fname).parent/src, Path(dest)/src)
+        if grps[3] is not None: return _img2jkl(dic, h, jekyll=jekyll)
+        else:  return f"{grps[0]}{Config().doc_baseurl}{grps[1]}{grps[2]}"
+    cell['source'] = _re_image.sub(_rep_src, cell['source'])
     return cell
 
 # Cell

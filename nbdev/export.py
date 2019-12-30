@@ -2,7 +2,7 @@
 
 __all__ = ['read_nb', 'check_re', 'is_export', 'find_default_export', 'export_names', 'extra_add', 'relative_import',
            'reset_nbdev_module', 'get_nbdev_module', 'save_nbdev_module', 'create_mod_file', 'add_init',
-           'update_version', 'notebook2script', 'DocsTestClass']
+           'update_version', 'update_baseurl', 'notebook2script', 'DocsTestClass']
 
 # Cell
 from .imports import *
@@ -342,6 +342,18 @@ def update_version():
     with open(fname, 'w') as f: f.write(code)
 
 # Cell
+_re_baseurl = re.compile('^baseurl\s*:.*$', re.MULTILINE)
+
+# Cell
+def update_baseurl():
+    "Add or update `baseurl` in `_config.yml` for the docs"
+    fname = Config().doc_path/'_config.yml'
+    with open(fname, 'r') as f: code = f.read()
+    if _re_baseurl.search(code) is None: code = code + f"\nbaseurl: {Config().doc_baseurl}"
+    else: code = _re_baseurl.sub(f"baseurl: {Config().doc_baseurl}", code)
+    with open(fname, 'w') as f: f.write(code)
+
+# Cell
 def notebook2script(fname=None, silent=False, to_dict=False):
     "Convert notebooks matching `fname` to modules"
     # initial checks
@@ -349,6 +361,7 @@ def notebook2script(fname=None, silent=False, to_dict=False):
     if fname is None:
         reset_nbdev_module()
         update_version()
+        update_baseurl()
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
     d = collections.defaultdict(list) if to_dict else None
