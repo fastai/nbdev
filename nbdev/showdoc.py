@@ -21,10 +21,14 @@ def is_enum(cls):
 # Cell
 def is_lib_module(name):
     "Test if `name` is a library module."
+    if name.startswith('_'): return False
     try:
         _ = importlib.import_module(f'{Config().lib_name}.{name}')
         return True
     except: return False
+
+# Cell
+_re_digits_first = re.compile('^[0-9]+_')
 
 # Cell
 def try_external_doc_link(name, packages):
@@ -34,7 +38,7 @@ def try_external_doc_link(name, packages):
             mod = importlib.import_module(f"{p}._nbdev")
             try_pack = source_nb(name, is_name=True, mod=mod)
             if try_pack:
-                page = '.'.join(try_pack.split('_')[1:]).replace('.ipynb', '')
+                page = _re_digits_first.sub('', try_pack).replace('.ipynb', '')
                 return f'{mod.doc_url}{page}#{name}'
         except: return None
 
@@ -47,7 +51,7 @@ def doc_link(name, include_bt=True):
     #Link to local functions
     try_local = source_nb(name, is_name=True)
     if try_local:
-        page = '.'.join(try_local.split('_')[1:]).replace('.ipynb', '')
+        page = _re_digits_first.sub('', try_local).replace('.ipynb', '')
         return f'[{cname}]({Config().doc_baseurl}{page}#{name})'
     ##Custom links
     mod = get_nbdev_module()
