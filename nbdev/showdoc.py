@@ -245,6 +245,9 @@ def md2html(md):
 def doc(elt):
     "Show `show_doc` info in preview window when used in a notebook"
     md = show_doc(elt, disp=False)
+    doc_link = get_doc_link(elt)
+    if doc_link is not None:
+        md += f'\n\n<a href="{doc_link}" target="_blank" rel="noreferrer noopener">Show in docs</a>'
     output = md2html(md)
     if IN_COLAB: get_ipython().run_cell_magic(u'html', u'', output)
     else:
