@@ -105,6 +105,8 @@ def _get_title(fname):
 
 # Cell
 from .export2html import _nb2htmlfname
+
+# Cell
 def create_default_sidebar():
     "Create the default sidebar for the docs website"
     dic = {"Overview": "/"}
