@@ -70,4 +70,8 @@ def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
         nb = json.load(open(f, 'r', encoding='utf-8'))
         clean_nb(nb, clear_all=clear_all)
         if disp: _print_output(nb)
-        else: json.dump(nb, open(f, 'w', encoding='utf-8'), sort_keys=True, indent=1, ensure_ascii=False)
+        else:
+            x = json.dumps(nb, sort_keys=True, indent=1, ensure_ascii=False)
+            with io.open(f, 'w', encoding='utf-8') as f:
+                f.write(x)
+                f.write("\n")
