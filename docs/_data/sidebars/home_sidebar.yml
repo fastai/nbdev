@@ -31,6 +31,9 @@ entries:
       title: Command line functions
       url: /cli
     - output: web,pdf
+      title: Clean notebooks
+      url: /clean
+    - output: web,pdf
       title: Setting up Search
       url: /search
     - output: web,pdf

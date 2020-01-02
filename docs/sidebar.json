@@ -8,6 +8,7 @@
     "Extract tests": "/test",
     "Fix merge conflicts": "/merge",
     "Command line functions": "/cli",
+    "Clean notebooks": "/clean",
     "Setting up Search": "/search",
     "nbdev tutorial": "/tutorial"
   }

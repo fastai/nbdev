@@ -436,7 +436,7 @@ summary: "The functions that transform notebooks in a library"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>{&#39;cell_type&#39;: &#39;code&#39;,
- &#39;execution_count&#39;: 2,
+ &#39;execution_count&#39;: None,
  &#39;metadata&#39;: {&#39;hide_input&#39;: False},
  &#39;outputs&#39;: [],
  &#39;source&#39;: &#39;# export\nfrom nbdev.imports import *\nfrom fastscript import *&#39;}</pre>
@@ -1003,7 +1003,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A new module filename is created each time a notebook has a cell marked with <code># default_exp</code>. In your collection of notebooks, you should only have one notebook that creates a given module since they are re-created each time you do a library build (to ensure the library is clean). Note that any file you create manually will never be overwritten (unless it has the same name as one of the modules defined in a <code># default_exp</code> cell) so you are responsible to clean up those yourself.</p>
-<p><code>nb_fname</code> is the notebook that contained the <code># default_exp</code> cell.</p>
+<p><code>fname</code> is the notebook that contained the <code># default_exp</code> cell.</p>
 
 </div>
 </div>

@@ -111,10 +111,10 @@ _re_image = re.compile(r"""
 ([^\)]*)        #   Catching block with any character but )
 (\))            #   Catching group with closing )
 |               # OR
-(<img\ [^>]*>)  #   Catching group with <img some_html_code>
+^(<img\ [^>]*>)  #   Catching group with <img some_html_code>
 """, re.MULTILINE | re.VERBOSE)
 
-_re_image1 = re.compile(r"<img\ [^>]*>", re.MULTILINE)
+_re_image1 = re.compile(r"^<img\ [^>]*>", re.MULTILINE)
 
 # Cell
 def _img2jkl(d, h, jekyll=True):
