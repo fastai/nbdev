@@ -4,7 +4,7 @@ __all__ = ['rm_execution_count', 'clean_cell_output', 'cell_metadata_keep', 'nb_
            'clean_nb', 'nbdev_clean_nbs']
 
 # Cell
-import io,sys,json
+import io,sys,json,glob
 from fastscript import call_parse,Param
 from .imports import Config
 
