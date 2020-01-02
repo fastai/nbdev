@@ -67,9 +67,7 @@ def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     files = Config().nbs_path.glob('**/*.ipynb') if fname is None else glob.glob(fname)
     for f in files:
         if not str(f).endswith('.ipynb'): continue
-        nb = read_nb(f)
+        nb = json.load(open(f, 'r', encoding='utf-8'))
         clean_nb(nb, clear_all=clear_all)
         if disp: _print_output(nb)
-        else:
-            NotebookNotary().sign(nb)
-            nbformat.write(nb, str(f), version=4)
+        else: json.dump(nb, open(f, 'w', encoding='utf-8'), sort_keys=True, indent=1, ensure_ascii=False)
