@@ -394,7 +394,7 @@ def notebook2html(fname=None, force_all=False, n_workers=None):
     else: parallel(_notebook2html, files, n_workers=n_workers)
 
 # Cell
-def convert_md(fname, dest_path, jekyll=True):
+def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     "Convert a notebook `fname` to a markdown file in `dest_path`."
     fname = Path(fname).absolute()
     nb = read_nb(fname)
@@ -405,5 +405,10 @@ def convert_md(fname, dest_path, jekyll=True):
     fname = Path(fname).absolute()
     dest_name = fname.with_suffix('.md').name
     exp = _exporter(markdown=True, jekyll=jekyll)
-    with (Path(dest_path)/dest_name).open('w') as f:
-        f.write(exp.from_notebook_node(nb, resources=meta_jekyll)[0])
+    export = exp.from_notebook_node(nb, resources=meta_jekyll)
+    md = export[0]
+    for ext in ['png', 'svg']:
+        md = re.sub(r'!\['+ext+'\]\((.+)\)', '!['+ext+'](' + img_path + '\\1)', md)
+    with (Path(dest_path)/dest_name).open('w') as f: f.write(md)
+    for n,o in export[1]['outputs'].items():
+            with open(Path(dest_path)/img_path/n, 'wb') as f: f.write(o)
