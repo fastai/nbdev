@@ -2,7 +2,7 @@
 
 __all__ = ['is_enum', 'get_all', 'is_lib_module', 'try_external_doc_link', 'doc_link', 'add_doc_links',
            'get_source_link', 'get_nb_source_link', 'nb_source_link', 'type_repr', 'format_param', 'show_doc',
-           'md2html', 'doc']
+           'md2html', 'get_doc_link', 'doc']
 
 # Cell
 from .imports import *
@@ -251,6 +251,18 @@ def md2html(md):
     import nbconvert
     if nbconvert.__version__ < '5.5.0': return HTMLExporter().markdown2html(md)
     else: return HTMLExporter().markdown2html(collections.defaultdict(lambda: collections.defaultdict(dict)), md)
+
+# Cell
+def get_doc_link(func):
+    mod = inspect.getmodule(func)
+    module = mod.__name__.replace('.', '/') + '.py'
+    try:
+        nbdev_mod = importlib.import_module(mod.__package__.split('.')[0] + '._nbdev')
+        try_pack = source_nb(func, mod=nbdev_mod)
+        if try_pack:
+            page = '.'.join(try_pack.split('_')[1:]).replace('.ipynb', '')
+            return f'{nbdev_mod.doc_url}{page}#{qual_name(func)}'
+    except: return None
 
 # Cell
 def doc(elt):
