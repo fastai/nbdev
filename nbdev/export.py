@@ -348,6 +348,7 @@ _re_baseurl = re.compile('^baseurl\s*:.*$', re.MULTILINE)
 def update_baseurl():
     "Add or update `baseurl` in `_config.yml` for the docs"
     fname = Config().doc_path/'_config.yml'
+    if not fname.exists(): return
     with open(fname, 'r') as f: code = f.read()
     if _re_baseurl.search(code) is None: code = code + f"\nbaseurl: {Config().doc_baseurl}"
     else: code = _re_baseurl.sub(f"baseurl: {Config().doc_baseurl}", code)

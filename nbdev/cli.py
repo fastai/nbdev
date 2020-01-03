@@ -17,8 +17,8 @@ from fastscript import call_parse, Param
 @call_parse
 def nbdev_build_lib(fname:Param("A notebook name or glob to convert", str)=None):
     "Export notebooks matching `fname` to python modules"
-    notebook2script(fname=fname)
     write_tmpls()
+    notebook2script(fname=fname)
 
 # Cell
 @call_parse
