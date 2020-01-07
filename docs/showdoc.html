@@ -1380,7 +1380,7 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>doc_string</code> determines if we show the docstring of the function or not. <code>name</code> can be used to provide an alternative to the name automatically found. <code>title_level</code> determines the level of the anchor (default 3 for classes and 4 for functions). If <code>disp</code> is <code>False</code>, the function returns the markdown code instead of displaying it.</p>
+<p><code>doc_string</code> determines if we show the docstring of the function or not. <code>name</code> can be used to provide an alternative to the name automatically found. <code>title_level</code> determines the level of the anchor (default 3 for classes and 4 for functions). If <code>disp</code> is <code>False</code>, the function returns the markdown code instead of displaying it. If <code>doc_string</code> is <code>True</code> and <code>monospace_docstrings</code> is set to <code>True</code> in <code>settings.ini</code>, the docstring of the function is formatted in a code block to preserve whitespace.</p>
 
 </div>
 </div>
@@ -1416,7 +1416,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="md2html" class="doc_header"><code>md2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L249" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md2html</code>(<strong><code>md</code></strong>)</p>
+<h4 id="md2html" class="doc_header"><code>md2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L253" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md2html</code>(<strong><code>md</code></strong>)</p>
 </blockquote>
 <p>Convert markdown <code>md</code> to HTML code</p>
 
@@ -1429,36 +1429,24 @@ summary: "Functions to show the doc cells in notebooks"
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fastai2.data.core</span> <span class="k">import</span> <span class="n">TfmdDL</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_doc_link</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="n">mod</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmodule</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="n">module</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.py&#39;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">nbdev_mod</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">__package__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;._nbdev&#39;</span><span class="p">)</span>
-        <span class="n">try_pack</span> <span class="o">=</span> <span class="n">source_nb</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">mod</span><span class="o">=</span><span class="n">nbdev_mod</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">try_pack</span><span class="p">:</span>
-            <span class="n">page</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">try_pack</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.ipynb&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{nbdev_mod.doc_url}{page}</span><span class="s1">#{qual_name(func)}&#39;</span>
-    <span class="k">except</span><span class="p">:</span> <span class="k">return</span> <span class="kc">None</span>
-</pre></div>
+<div class="output_wrapper">
+<div class="output">
 
-    </div>
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="get_doc_link" class="doc_header"><code>get_doc_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L260" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_doc_link</code>(<strong><code>func</code></strong>)</p>
+</blockquote>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -1503,7 +1491,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="doc" class="doc_header"><code>doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L256" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc</code>(<strong><code>elt</code></strong>)</p>
+<h4 id="doc" class="doc_header"><code>doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L272" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc</code>(<strong><code>elt</code></strong>)</p>
 </blockquote>
 <p>Show <a href="/showdoc#show_doc"><code>show_doc</code></a> info in preview window when used in a notebook</p>
 
