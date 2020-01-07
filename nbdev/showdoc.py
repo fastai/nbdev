@@ -241,7 +241,11 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
     title_level = title_level or (default_cls_level if inspect.isclass(elt) else 4)
     doc =  f'<h{title_level} id="{qname}" class="doc_header">{name}{source_link}</h{title_level}>'
     doc += f'\n\n> {args}\n\n' if len(args) > 0 else '\n\n'
-    if doc_string and inspect.getdoc(elt): doc += add_doc_links(inspect.getdoc(elt))
+    if doc_string and inspect.getdoc(elt):
+        s = inspect.getdoc(elt)
+        # doc links don't work inside markdown pre/code blocks
+        s = f'```\n{s}\n```' if Config().get('monospace_docstrings') == 'True' else add_doc_links(s)
+        doc += s
     if disp: display(Markdown(doc))
     else: return doc
 
