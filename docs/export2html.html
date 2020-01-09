@@ -319,13 +319,15 @@ summary: "The functions that transform the dev notebooks in the documentation of
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Supported styles are <code>Warning</code>, <code>Note</code> <code>Tip</code> and <code>Important</code>:</p>
 <p>Typing <code>&gt; Warning: There will be no second warning!</code> will render in the docs:
-{% include warning.html content="There will be no second warning!" %}
+{% include warning.html content='There will be no second warning!' %}
 Typing <code>&gt; Important: Pay attention! This is important.</code> will render in the docs:
-{% include important.html content="Pay attention! This is important." %}
+{% include important.html content='Pay attention! This is important.' %}
 Typing <code>&gt; Tip: This is my tip.</code> will render in the docs:
-{% include tip.html content="This is my tip." %}
+{% include tip.html content='This is my tip.' %}
 Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
-{% include note.html content="Take note of this." %}</p>
+{% include note.html content='Take note of this.' %}
+Typing <code>&gt; Note: A doc link to [`add_jekyll_notes`](/export2html#add_jekyll_notes) should also work fine.</code> will render in the docs:
+{% include note.html content='A doc link to <a href="/export2html#add_jekyll_notes"><code>add_jekyll_notes</code></a> should also work fine.' %}</p>
 
 </div>
 </div>
