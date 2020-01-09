@@ -97,7 +97,7 @@ def add_jekyll_notes(cell):
     def _inner(m):
         title,text = m.groups()
         if title.lower() not in _styles: return f"> {m.groups()[0]}: {m.groups()[1]}"
-        return '{% include '+title.lower()+'.html content="'+text+'" %}'
+        return '{% include '+title.lower()+".html content=\'"+text+"\' %}"
     if cell['cell_type'] == 'markdown':
         cell['source'] = _re_block_notes.sub(_inner, cell['source'])
     return cell
