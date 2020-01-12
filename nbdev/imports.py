@@ -11,6 +11,7 @@ from functools import partial,lru_cache
 def test_eq(a,b): assert a==b, f'{a}, {b}'
 
 def save_config_file(file, d):
+    "Write settings dict to a new config file, or overwrite the existing one."
     config = ConfigParser()
     config['DEFAULT'] = d
     config.write(open(file, 'w'))
@@ -52,9 +53,11 @@ class Config:
 
 def create_config(lib_name, user, path='.', cfg_name='settings.ini', branch='master',
                git_url="https://github.com/%(user)s/%(lib_name)s/tree/%(branch)s/", custom_sidebar=False,
-               nbs_path='nbs', lib_path='%(lib_name)s', doc_path='docs', tst_flags='', version='0.0.1'):
+               nbs_path='nbs', lib_path='%(lib_name)s', doc_path='docs', tst_flags='', version='0.0.1', **kwargs):
+    "Creates a new config file for `lib_name` and `user` and saves it."
     g = locals()
     config = {o:g[o] for o in 'lib_name user branch git_url lib_path nbs_path doc_path tst_flags version custom_sidebar'.split()}
+    config = {**config, **kwargs}
     save_config_file(Path(path)/cfg_name, config)
 
 def last_index(x, o):
