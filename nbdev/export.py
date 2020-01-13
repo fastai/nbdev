@@ -192,15 +192,12 @@ def relative_import(name, fname):
 
 # Cell
 _re_import = ReLibName(r'^(\s*)from (LIB_NAME\.\S*) import (.*)$')
-_re_import1 = ReLibName(r'^(\s*)import (LIB_NAME\.\S*)(.*)$')
 
 # Cell
 def _deal_import(code_lines, fname):
     def _replace(m):
         sp,mod,obj = m.groups()
         return f"{sp}from {relative_import(mod, fname)} import {obj}"
-    for line in code_lines:
-        assert _re_import1.re.search(line) is None, "Relative import only support the syntax `from ... import ...`"
     return [_re_import.re.sub(_replace,line) for line in code_lines]
 
 # Cell
