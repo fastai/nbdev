@@ -199,10 +199,9 @@ def _deal_import(code_lines, fname):
     def _replace(m):
         sp,mod,obj = m.groups()
         return f"{sp}from {relative_import(mod, fname)} import {obj}"
-    def _replace1(m):
-        sp,mod,end = m.groups()
-        return f"{sp}import {relative_import(mod, fname)}{end}"
-    return [_re_import1.re.sub(_replace1, _re_import.re.sub(_replace,line)) for line in code_lines]
+    for line in code_lines:
+        assert _re_import1.re.search(line) is None, "Relative import only support the syntax `from ... import ...`"
+    return [_re_import.re.sub(_replace,line) for line in code_lines]
 
 # Cell
 _re_patch_func = re.compile(r"""
