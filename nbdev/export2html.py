@@ -345,7 +345,7 @@ process_cells = [remove_fake_headers, remove_hidden, remove_empty]
 process_cell  = [hide_cells, remove_widget_state, add_jekyll_notes]
 
 # Cell
-_re_digits = re.compile(r'^\d+_')
+_re_digits = re.compile(r'^\d+\S*_')
 
 # Cell
 def _nb2htmlfname(nb_path): return Config().doc_path/_re_digits.sub('', nb_path.with_suffix('.html').name)
