@@ -91,13 +91,17 @@ _re_block_notes = re.compile(r"""
 """, re.VERBOSE | re.MULTILINE)
 
 # Cell
+def _to_html(text):
+    return text.replace("'", "&#8217;")
+
+# Cell
 def add_jekyll_notes(cell):
     "Convert block quotes to jekyll notes in `cell`"
     _styles = ['note', 'warning', 'tip', 'important']
     def _inner(m):
         title,text = m.groups()
         if title.lower() not in _styles: return f"> {m.groups()[0]}: {m.groups()[1]}"
-        return '{% include '+title.lower()+".html content=\'"+text+"\' %}"
+        return '{% include '+title.lower()+".html content=\'"+_to_html(text)+"\' %}"
     if cell['cell_type'] == 'markdown':
         cell['source'] = _re_block_notes.sub(_inner, cell['source'])
     return cell
