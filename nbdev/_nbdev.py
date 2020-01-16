@@ -94,6 +94,8 @@ index = {"read_nb": "00_export.ipynb",
          "clean_cell": "07_clean.ipynb",
          "clean_nb": "07_clean.ipynb",
          "nbdev_clean_nbs": "07_clean.ipynb",
+         "NbdevSaver": "08_notebookutils.ipynb",
+         "load_ipython_extension": "08_notebookutils.ipynb",
          "say_hello": "tutorial.ipynb",
          "HelloSayer": "tutorial.ipynb"}
 
@@ -105,6 +107,7 @@ modules = ["export.py",
            "merge.py",
            "cli.py",
            "clean.py",
+           "notebookutils.py",
            "tutorial.py"]
 
 doc_url = "https://nbdev.fast.ai/"
