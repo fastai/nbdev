@@ -40,13 +40,12 @@ def source_nb(func, is_name=None, return_all=False, mod=None):
         name = '.'.join(name.split('.')[:-1])
 
 # Cell
-_re_default_nb = re.compile(f'File to edit: {Config().nbs_path.relative_to(Config().config_file.parent)}/(\\S+)\\s+')
 _re_cell = re.compile(r'^# Cell|^# Comes from\s+(\S+), cell')
 
 # Cell
 def _split(code):
     lines = code.split('\n')
-    default_nb = _re_default_nb.search(lines[0]).groups()[0]
+    default_nb = re.search(f'File to edit: {Config().nbs_path.relative_to(Config().config_file.parent)}/(\\S+)\\s+', lines[0]).groups()[0]
     s,res = 1,[]
     while _re_cell.search(lines[s]) is None: s += 1
     e = s+1
