@@ -403,7 +403,8 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     fname = Path(fname).absolute()
     nb = read_nb(fname)
     meta_jekyll = get_metadata(nb['cells'])
-    meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
+    try: meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
+    except: meta_jekyll['nb_path'] = str(fname)
     nb['cells'] = compose(*process_cells)(nb['cells'])
     nb['cells'] = [compose(partial(adapt_img_path, fname=fname, dest=dest_path, jekyll=jekyll), *process_cell)(c) for c in nb['cells']]
     fname = Path(fname).absolute()
