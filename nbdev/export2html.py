@@ -443,6 +443,6 @@ def nb_detach_cells(path_nb, dest=None):
     dest = Path(dest)
     dest.mkdir(exist_ok=True, parents=True)
     j = json.load(path_nb.open())
-    for o in j['cells']:
-        if 'attachments' in o: o['source'] = _nb_detach_cell(o, dest)
-    json.dump(j, path_nb.open('w'))
+    atts = [o for o in j['cells'] if 'attachments' in o]
+    for o in atts: o['source'] = _nb_detach_cell(o, dest)
+    if atts: json.dump(j, path_nb.open('w'))
