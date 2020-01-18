@@ -406,7 +406,8 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     try: meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
     except: meta_jekyll['nb_path'] = str(fname)
     nb['cells'] = compose(*process_cells)(nb['cells'])
-    nb['cells'] = [compose(partial(adapt_img_path, fname=fname, dest=dest_path, jekyll=jekyll), *process_cell)(c) for c in nb['cells']]
+    nb['cells'] = [compose(partial(adapt_img_path, fname=fname, dest=dest_path, jekyll=jekyll), *process_cell)(c)
+                   for c in nb['cells']]
     fname = Path(fname).absolute()
     dest_name = fname.with_suffix('.md').name
     exp = _exporter(markdown=True, jekyll=jekyll)
