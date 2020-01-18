@@ -7,6 +7,7 @@ from textwrap import TextWrapper
 from typing import Union,Optional
 from nbformat.sign import NotebookNotary
 from functools import partial,lru_cache
+from base64 import b64decode,b64encode
 
 def test_eq(a,b): assert a==b, f'{a}, {b}'
 

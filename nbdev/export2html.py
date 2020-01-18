@@ -3,7 +3,8 @@
 __all__ = ['HTMLParseAttrs', 'remove_widget_state', 'hide_cells', 'clean_exports', 'treat_backticks',
            'add_jekyll_notes', 'copy_images', 'adapt_img_path', 'remove_hidden', 'find_default_level', 'add_show_docs',
            'remove_fake_headers', 'remove_empty', 'get_metadata', 'ExecuteShowDocPreprocessor', 'execute_nb',
-           'write_tmpl', 'write_tmpls', 'process_cells', 'process_cell', 'convert_nb', 'notebook2html', 'convert_md']
+           'write_tmpl', 'write_tmpls', 'process_cells', 'process_cell', 'convert_nb', 'notebook2html', 'convert_md',
+           'nb_detach_cells']
 
 # Cell
 from .imports import *
@@ -401,6 +402,9 @@ def notebook2html(fname=None, force_all=False, n_workers=None):
 def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     "Convert a notebook `fname` to a markdown file in `dest_path`."
     fname = Path(fname).absolute()
+    if not img_path: img_path = fname.stem + '_files/'
+    print(img_path)
+    Path(img_path).mkdir(exist_ok=True, parents=True)
     nb = read_nb(fname)
     meta_jekyll = get_metadata(nb['cells'])
     try: meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
@@ -418,3 +422,27 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     with (Path(dest_path)/dest_name).open('w') as f: f.write(md)
     for n,o in export[1]['outputs'].items():
             with open(Path(dest_path)/img_path/n, 'wb') as f: f.write(o)
+
+# Cell
+def _nb_detach_cell(cell, dest):
+    att,src = cell['attachments'],cell['source']
+    mime,img = first(first(att.values()).items())
+    ext = mime.split('/')[1]
+    for i in range(99999):
+        p = dest/(f'att_{i:05d}.{ext}')
+        if not p.exists(): break
+    p.write_bytes(b64decode(img))
+    del(cell['attachments'])
+    return [re.sub('attachment:image.png', str(p), o) for o in src]
+
+# Cell
+def nb_detach_cells(path_nb, dest=None):
+    "Export cell attachments to `dest` and update references"
+    path_nb = Path(path_nb)
+    if not dest: dest = f'{path_nb.stem}_files'
+    dest = Path(dest)
+    dest.mkdir(exist_ok=True, parents=True)
+    j = json.load(path_nb.open())
+    for o in j['cells']:
+        if 'attachments' in o: o['source'] = _nb_detach_cell(o, dest)
+    json.dump(j, path_nb.open('w'))
