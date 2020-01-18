@@ -271,12 +271,12 @@ summary: "Functions to show the doc cells in notebooks"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`export`](/export)&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`DocsTestClass`](/export#DocsTestClass)&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass.test&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`DocsTestClass.test`](/export#DocsTestClass.test)&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`export`](/export)&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`DocsTestClass`](/export#DocsTestClass)&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass.test&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`DocsTestClass.test`](/export#DocsTestClass.test)&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;Tenso&#39;</span><span class="p">),</span><span class="s1">&#39;`Tenso`&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;_nbdev&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;`_nbdev`&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;`__main__`&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;_nbdev&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;`_nbdev`&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;`__main__`&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -417,8 +417,8 @@ summary: "Functions to show the doc cells in notebooks"
 <span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">DocsTestClass</span><span class="p">))</span>
 
 <span class="n">NB_SOURCE_URL</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">git_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;github.com&#39;</span><span class="p">,</span> <span class="s1">&#39;nbviewer.jupyter.org/github&#39;</span><span class="p">)</span><span class="o">+</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">nbs_path</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;/&#39;</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{NB_SOURCE_URL}</span><span class="s1">00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{NB_SOURCE_URL}</span><span class="s1">00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -469,8 +469,8 @@ summary: "Functions to show the doc cells in notebooks"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">nb_source_link</span><span class="p">(</span><span class="s1">&#39;check_re&#39;</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">nb_source_link</span><span class="p">(</span><span class="s1">&#39;check_re&#39;</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -699,7 +699,7 @@ summary: "Functions to show the doc cells in notebooks"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#fastai2</span>
-<span class="kn">from</span> <span class="nn">fastai2.data.core</span> <span class="kn">import</span> <span class="n">TfmdDL</span>
+<span class="kn">from</span> <span class="nn">fastai2.data.core</span> <span class="k">import</span> <span class="n">TfmdDL</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">get_doc_link</span><span class="p">(</span><span class="n">TfmdDL</span><span class="p">),</span> <span class="s1">&#39;https://dev.fast.ai/data.core#TfmdDL&#39;</span><span class="p">)</span>
 </pre></div>
 
