@@ -526,7 +526,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
+<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L228" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
 </blockquote>
 <p>Install git hooks to clean/trust notebooks automatically</p>
 
@@ -563,9 +563,6 @@ summary: "Console commands added by the nbdev library"
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -573,31 +570,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_template_config" class="doc_header"><code>create_template_config</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_template_config</code>(<strong><code>path</code></strong>, <strong><code>lib_name</code></strong>)</p>
-</blockquote>
-<p>Create a template config file in <code>path</code> for <code>libname</code> using the current users git config if it exists.</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_new" class="doc_header"><code>nbdev_new</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L297" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_new</code>(<strong><code>name</code></strong>:"A directory to create the project in")</p>
+<h4 id="nbdev_new" class="doc_header"><code>nbdev_new</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L280" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_new</code>(<strong><code>name</code></strong>:"A directory to create the project in")</p>
 </blockquote>
 <p>Create a new nbdev project with a given name.</p>
 
@@ -611,8 +584,8 @@ summary: "Console commands added by the nbdev library"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="/cli#nbdev_new"><code>nbdev_new</code></a> is a command line tool that creates a new nbdev project based on the <a href="https://github.com/fastai/nbdev_template">nbdev_template repo</a>. It'll initialize a new empty git repo for you and commit the initial state.</p>
-<p>It'll also setup some settings in the project's <code>settings.ini</code>, but keep the <code>settings.ini.example</code> as a reference.</p>
+<p><a href="/cli#nbdev_new"><code>nbdev_new</code></a> is a command line tool that creates a new nbdev project based on the <a href="https://github.com/fastai/nbdev_template">nbdev_template repo</a>. It'll initialize a new git repository and commit the new project.</p>
+<p>After you run <a href="/cli#nbdev_new"><code>nbdev_new</code></a>, please edit <code>settings.ini</code> and run <a href="/cli#nbdev_build_lib"><code>nbdev_build_lib</code></a>.</p>
 
 </div>
 </div>

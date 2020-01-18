@@ -2,8 +2,7 @@
 
 __all__ = ['nbdev_build_lib', 'nbdev_update_lib', 'nbdev_diff_nbs', 'nbdev_test_nbs', 'create_default_sidebar',
            'make_sidebar', 'make_readme', 'nbdev_build_docs', 'nbdev_nb2md', 'nbdev_read_nbs', 'nbdev_trust_nbs',
-           'nbdev_fix_merge', 'bump_version', 'nbdev_bump_version', 'nbdev_install_git_hooks', 'create_template_config',
-           'nbdev_new']
+           'nbdev_fix_merge', 'bump_version', 'nbdev_bump_version', 'nbdev_install_git_hooks', 'nbdev_new']
 
 # Cell
 from .imports import *
@@ -275,24 +274,7 @@ nbdev_trust_nbs
                )
 
 # Cell
-from getpass import getuser
-
-# Cell
 _template_git_repo = "https://github.com/fastai/nbdev_template.git"
-
-# Cell
-def create_template_config(path, lib_name):
-    "Create a template config file in `path` for `libname` using the current users git config if it exists."
-
-    git_config = ConfigParser()
-    git_config.read(Path("~/.gitconfig").expanduser())
-
-    if 'user' in git_config:
-        create_config(lib_name, getuser(), path,
-                  author = git_config.get('user', 'name'),
-                  author_email = git_config.get('user', 'email'),
-                  copyright = git_config.get('user', 'name'))
-
 
 # Cell
 @call_parse
@@ -309,19 +291,10 @@ def nbdev_new(name: Param("A directory to create the project in", str)):
 
     try:
         subprocess.run(f"git clone {_template_git_repo} {path}".split(), check=True, timeout=5000)
-
         shutil.rmtree(path/".git")
         subprocess.run("git init".split(), cwd=path, check=True)
         subprocess.run("git add .".split(), cwd=path, check=True)
         subprocess.run("git commit -am \"Initial\"".split(), cwd=path, check=True)
-
-        settings_path = path/"settings.ini"
-        example_settings_path = path/"settings.ini.example"
-
-        if settings_path.is_file():
-            settings_path.rename(example_settings_path)
-
-        create_template_config(path, name)
 
         print(f"Created a new repo for project {name}. Please edit settings.ini and run nbdev_build_lib to get started.")
     except Exception as e:
