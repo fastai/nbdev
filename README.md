@@ -61,6 +61,8 @@ To begin your own project, click here: [nbdev template](https://github.com/fasta
 
 Now, open your terminal, and clone the repo you just created.
 
+Alternatively, you can use a cli command `nbdev_new` to create a new nbdev project and initialize a git repository locally without creating a github repo.
+
 Next, edit the `settings.ini` file. Note that it contains all the necessary information for when you'll be ready to package your library, so you shouldn't need to change the `setup.py` file provided by the template. The basic structure (that can be personalized provided you change the relevant information in `settings.ini`) is that the root of the repo will contain your notebooks, along with a folder `docs` where the doc will be auto-generated that contains everything for a [jekyll](https://jekyllrb.com/)-powered website. Because [GitHub Pages supports Jekyll](https://help.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll), you can host your site for free on GitHub without any additional setup.
 
 Your `settings.ini` is where all parts of nbdev look for any required configuration information. Once you've edited it, run the command `nbdev_build_lib` (which is automatically installed for you when you install `nbdev`. You'll now find that you have a new directory, with the name of whatever you set `lib_name` to in `settings.ini`.
@@ -71,7 +73,7 @@ In the last cell of your notebook, you can then run:
 <div class="codecell" markdown="1">
 <div class="input_area" markdown="1">
 
-```python
+```
 from nbdev.export import *
 notebook2script()
 ```
@@ -84,8 +86,12 @@ notebook2script()
     Converted 02_showdoc.ipynb.
     Converted 03_export2html.ipynb.
     Converted 04_test.ipynb.
-    Converted 05_cli.ipynb.
-    Converted 99_index.ipynb.
+    Converted 05_merge.ipynb.
+    Converted 06_cli.ipynb.
+    Converted 07_clean.ipynb.
+    Converted 99_search.ipynb.
+    Converted index.ipynb.
+    Converted tutorial.ipynb.
 
 
 </div>
