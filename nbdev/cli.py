@@ -145,6 +145,7 @@ def make_readme():
     for f in Config().nbs_path.glob('*.ipynb'):
         if _re_index.match(f.name): index_fn = f
     assert index_fn is not None, "Could not locate index notebook"
+    print(f"converting {index_fn} to README.md")
     convert_md(index_fn, Config().config_file.parent, jekyll=False)
     n = Config().config_file.parent/index_fn.with_suffix('.md').name
     shutil.move(n, Config().config_file.parent/'README.md')
