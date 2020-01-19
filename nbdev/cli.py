@@ -112,7 +112,7 @@ def create_default_sidebar():
     dic = {"Overview": "/"}
     files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
-    titles = [_get_title(f) for f in fnames]
+    titles = [_get_title(f) for f in fnames if 'index' not in f.stem!='index']
     if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
     dic.update({_get_title(f):f'/{f.stem}' for f in fnames if f.stem!='index'})
     dic = {Config().lib_name: dic}
