@@ -436,7 +436,7 @@ def _nb_detach_cell(cell, dest):
     return [re.sub('attachment:image.png', str(p), o) for o in src]
 
 # Cell
-def nb_detach_cells(path_nb, dest=None):
+def nb_detach_cells(path_nb, dest=None, replace=True):
     "Export cell attachments to `dest` and update references"
     path_nb = Path(path_nb)
     if not dest: dest = f'{path_nb.stem}_files'
@@ -445,4 +445,5 @@ def nb_detach_cells(path_nb, dest=None):
     j = json.load(path_nb.open())
     atts = [o for o in j['cells'] if 'attachments' in o]
     for o in atts: o['source'] = _nb_detach_cell(o, dest)
-    if atts: json.dump(j, path_nb.open('w'))
+    if atts and replace: json.dump(j, path_nb.open('w'))
+    if not replace: return j
