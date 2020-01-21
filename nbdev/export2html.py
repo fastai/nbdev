@@ -3,8 +3,8 @@
 __all__ = ['HTMLParseAttrs', 'remove_widget_state', 'hide_cells', 'clean_exports', 'treat_backticks',
            'add_jekyll_notes', 'copy_images', 'adapt_img_path', 'remove_hidden', 'find_default_level', 'add_show_docs',
            'remove_fake_headers', 'remove_empty', 'get_metadata', 'ExecuteShowDocPreprocessor', 'execute_nb',
-           'write_tmpl', 'write_tmpls', 'process_cells', 'process_cell', 'convert_nb', 'notebook2html', 'convert_md',
-           'nb_detach_cells']
+           'write_tmpl', 'write_tmpls', 'nbdev_exporter', 'process_cells', 'process_cell', 'convert_nb',
+           'notebook2html', 'convert_md', 'nb_detach_cells']
 
 # Cell
 from .imports import *
@@ -336,12 +336,12 @@ def write_tmpls():
     write_tmpl(makefile_tmpl, 'nbs_path lib_name', cfg, cfg.config_file.parent/'Makefile')
 
 # Cell
-def _exporter(markdown=False, jekyll=True):
+def nbdev_exporter(cls=HTMLExporter, template_file=None):
     cfg = traitlets.config.Config()
-    exporter = (HTMLExporter,MarkdownExporter)[markdown](cfg)
+    exporter = cls(cfg)
     exporter.exclude_input_prompt=True
     exporter.exclude_output_prompt=True
-    exporter.template_file = ('jekyll.tpl',('md.tpl','jekyll-md.tpl')[jekyll])[markdown]
+    exporter.template_file = 'jekyll.tpl' if template_file is None else template_file
     exporter.template_path.append(str(Path(__file__).parent/'templates'))
     return exporter
 
@@ -356,7 +356,7 @@ _re_digits = re.compile(r'^\d+\S*?_')
 def _nb2htmlfname(nb_path): return Config().doc_path/_re_digits.sub('', nb_path.with_suffix('.html').name)
 
 # Cell
-def convert_nb(fname):
+def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None):
     "Convert a notebook `fname` to html file in `dest_path`."
     fname = Path(fname).absolute()
     nb = read_nb(fname)
@@ -369,8 +369,9 @@ def convert_nb(fname):
                     for c in nb['cells']]
     nb = execute_nb(nb, mod=mod)
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
+    if exporter is None: exporter = nbdev_exporter(cls=cls, template_file=template_file)
     with open(_nb2htmlfname(fname),'w') as f:
-        f.write(_exporter().from_notebook_node(nb, resources=meta_jekyll)[0])
+        f.write(exporter().from_notebook_node(nb, resources=meta_jekyll)[0])
 
 # Cell
 def _notebook2html(fname):
@@ -414,7 +415,7 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
                    for c in nb['cells']]
     fname = Path(fname).absolute()
     dest_name = fname.with_suffix('.md').name
-    exp = _exporter(markdown=True, jekyll=jekyll)
+    exp = nbdev_exporter(cls=Mark, template_file='jekyll-md.tpl' if jekyll else 'md.tpl')
     export = exp.from_notebook_node(nb, resources=meta_jekyll)
     md = export[0]
     for ext in ['png', 'svg']:
