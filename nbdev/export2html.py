@@ -406,7 +406,6 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     "Convert a notebook `fname` to a markdown file in `dest_path`."
     fname = Path(fname).absolute()
     if not img_path: img_path = fname.stem + '_files/'
-    print(img_path)
     Path(img_path).mkdir(exist_ok=True, parents=True)
     nb = read_nb(fname)
     meta_jekyll = get_metadata(nb['cells'])
