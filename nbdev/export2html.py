@@ -371,7 +371,7 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None):
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
     if exporter is None: exporter = nbdev_exporter(cls=cls, template_file=template_file)
     with open(_nb2htmlfname(fname),'w') as f:
-        f.write(exporter().from_notebook_node(nb, resources=meta_jekyll)[0])
+        f.write(exporter.from_notebook_node(nb, resources=meta_jekyll)[0])
 
 # Cell
 def _notebook2html(fname):
@@ -415,7 +415,7 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
                    for c in nb['cells']]
     fname = Path(fname).absolute()
     dest_name = fname.with_suffix('.md').name
-    exp = nbdev_exporter(cls=Mark, template_file='jekyll-md.tpl' if jekyll else 'md.tpl')
+    exp = nbdev_exporter(cls=MarkdownExporter, template_file='jekyll-md.tpl' if jekyll else 'md.tpl')
     export = exp.from_notebook_node(nb, resources=meta_jekyll)
     md = export[0]
     for ext in ['png', 'svg']:
