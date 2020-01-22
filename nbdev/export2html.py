@@ -353,10 +353,12 @@ process_cell  = [hide_cells, remove_widget_state, add_jekyll_notes]
 _re_digits = re.compile(r'^\d+\S*?_')
 
 # Cell
-def _nb2htmlfname(nb_path): return Config().doc_path/_re_digits.sub('', nb_path.with_suffix('.html').name)
+def _nb2htmlfname(nb_path, dest=None):
+    if dest is None: dest = Config().doc_path
+    return Path(dest)/_re_digits.sub('', nb_path.with_suffix('.html').name)
 
 # Cell
-def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None):
+def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
     "Convert a notebook `fname` to html file in `dest_path`."
     fname = Path(fname).absolute()
     nb = read_nb(fname)
@@ -370,18 +372,18 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None):
     nb = execute_nb(nb, mod=mod)
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
     if exporter is None: exporter = nbdev_exporter(cls=cls, template_file=template_file)
-    with open(_nb2htmlfname(fname),'w') as f:
+    with open(_nb2htmlfname(fname, dest=dest),'w') as f:
         f.write(exporter.from_notebook_node(nb, resources=meta_jekyll)[0])
 
 # Cell
-def _notebook2html(fname):
+def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
     time.sleep(random.random())
     print(f"converting: {fname}")
-    try: convert_nb(fname)
+    try: convert_nb(fname, cls=cls, template_file=template_file, exporter=exporter, dest=dest)
     except Exception as e: print(e)
 
 # Cell
-def notebook2html(fname=None, force_all=False, n_workers=None):
+def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
     "Convert all notebooks matching `fname` to html files"
     if fname is None:
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
@@ -397,7 +399,7 @@ def notebook2html(fname=None, force_all=False, n_workers=None):
             if not fname_out.exists() or os.path.getmtime(fname) >= os.path.getmtime(fname_out):
                 files.append(fname)
     if len(files)==0: print("No notebooks were modified")
-    else: parallel(_notebook2html, files, n_workers=n_workers)
+    else: parallel(_notebook2html, files, n_workers=n_workers, cls=cls, template_file=template_file, exporter=exporter, dest=dest)
 
 # Cell
 def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
