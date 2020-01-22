@@ -426,19 +426,38 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
             with open(Path(dest_path)/img_path/n, 'wb') as f: f.write(o)
 
 # Cell
-def _nb_detach_cell(cell, dest):
+_re_att_ref = re.compile(r' *!\[(.*)\]\(attachment:image.png(?: "(.*)")?\)')
+
+# Cell
+from PIL import Image
+
+# Cell
+_tmpl_img = '<img alt="{title}" width="{width}" caption="{title}" id="{id}" src="{name}">'
+
+def _update_att_ref(line, path, img):
+    m = _re_att_ref.match(line)
+    if not m: return line
+    alt,title = m.groups()
+    w = img.size[0]
+    if alt=='screenshot': w //= 2
+    if not title: title = "TK: add title"
+    return _tmpl_img.format(title=title, width=str(w), id='TK: add it', name=str(path))
+
+# Cell
+def _nb_detach_cell(cell, dest, use_img):
     att,src = cell['attachments'],cell['source']
     mime,img = first(first(att.values()).items())
     ext = mime.split('/')[1]
     for i in range(99999):
         p = dest/(f'att_{i:05d}.{ext}')
         if not p.exists(): break
-    p.write_bytes(b64decode(img))
+    img = b64decode(img)
+    p.write_bytes(img)
     del(cell['attachments'])
-    return [re.sub('attachment:image.png', str(p), o) for o in src]
+    return [_update_att_ref(o,p,Image.open(p)) for o in src]
 
 # Cell
-def nb_detach_cells(path_nb, dest=None, replace=True):
+def nb_detach_cells(path_nb, dest=None, replace=True, use_img=False):
     "Export cell attachments to `dest` and update references"
     path_nb = Path(path_nb)
     if not dest: dest = f'{path_nb.stem}_files'
@@ -446,6 +465,6 @@ def nb_detach_cells(path_nb, dest=None, replace=True):
     dest.mkdir(exist_ok=True, parents=True)
     j = json.load(path_nb.open())
     atts = [o for o in j['cells'] if 'attachments' in o]
-    for o in atts: o['source'] = _nb_detach_cell(o, dest)
+    for o in atts: o['source'] = _nb_detach_cell(o, dest, use_img)
     if atts and replace: json.dump(j, path_nb.open('w'))
     if not replace: return j
