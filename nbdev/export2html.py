@@ -372,13 +372,14 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None):
     if exporter is None: exporter = nbdev_exporter(cls=cls, template_file=template_file)
     with open(_nb2htmlfname(fname),'w') as f:
         f.write(exporter.from_notebook_node(nb, resources=meta_jekyll)[0])
+        print(f'Wrote to: {f.name}')
 
 # Cell
 def _notebook2html(fname):
     time.sleep(random.random())
     print(f"converting: {fname}")
     try: convert_nb(fname)
-    except Exception as e: print(e)
+    except Exception as e: raise Exception(f'Error converting {fname}:\n {e}')
 
 # Cell
 def notebook2html(fname=None, force_all=False, n_workers=None):
