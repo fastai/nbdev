@@ -238,7 +238,8 @@ import subprocess
 @call_parse
 def nbdev_install_git_hooks():
     "Install git hooks to clean/trust notebooks automatically"
-    path = Config().config_file.parent
+    try: path = Config().config_file.parent
+    except: path = Path.cwd()
     fn = path/'.git'/'hooks'/'post-merge'
     #Trust notebooks after merge
     with open(fn, 'w') as f:
