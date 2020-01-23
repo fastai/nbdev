@@ -429,7 +429,8 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
 _re_att_ref = re.compile(r' *!\[(.*)\]\(attachment:image.png(?: "(.*)")?\)')
 
 # Cell
-from PIL import Image
+try: from PIL import Image
+except: pass # Only required for _update_att_ref
 
 # Cell
 _tmpl_img = '<img alt="{title}" width="{width}" caption="{title}" id="{id}" src="{name}">'
@@ -454,7 +455,8 @@ def _nb_detach_cell(cell, dest, use_img):
     img = b64decode(img)
     p.write_bytes(img)
     del(cell['attachments'])
-    return [_update_att_ref(o,p,Image.open(p)) for o in src]
+    if use_img:  return [_update_att_ref(o,p,Image.open(p)) for o in src]
+    else: return [o.replace('attachment:image.png', str(p)) for o in src]
 
 # Cell
 def nb_detach_cells(path_nb, dest=None, replace=True, use_img=False):
