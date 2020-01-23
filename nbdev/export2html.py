@@ -353,10 +353,12 @@ process_cell  = [hide_cells, remove_widget_state, add_jekyll_notes]
 _re_digits = re.compile(r'^\d+\S*?_')
 
 # Cell
-def _nb2htmlfname(nb_path): return Config().doc_path/_re_digits.sub('', nb_path.with_suffix('.html').name)
+def _nb2htmlfname(nb_path, dest=None):
+    if dest is None: dest = Config().doc_path
+    return Path(dest)/_re_digits.sub('', nb_path.with_suffix('.html').name)
 
 # Cell
-def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None):
+def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
     "Convert a notebook `fname` to html file in `dest_path`."
     fname = Path(fname).absolute()
     nb = read_nb(fname)
@@ -370,19 +372,20 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None):
     nb = execute_nb(nb, mod=mod)
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
     if exporter is None: exporter = nbdev_exporter(cls=cls, template_file=template_file)
-    with open(_nb2htmlfname(fname),'w') as f:
+    with open(_nb2htmlfname(fname, dest=dest),'w') as f:
         f.write(exporter.from_notebook_node(nb, resources=meta_jekyll)[0])
         print(f'Wrote to: {f.name}')
 
 # Cell
-def _notebook2html(fname):
+def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
     time.sleep(random.random())
     print(f"converting: {fname}")
-    try: convert_nb(fname)
+    try: convert_nb(fname, cls=cls, template_file=template_file, exporter=exporter, dest=dest)
     except Exception as e: raise Exception(f'Error converting {fname}:\n {e}')
 
+
 # Cell
-def notebook2html(fname=None, force_all=False, n_workers=None):
+def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
     "Convert all notebooks matching `fname` to html files"
     if fname is None:
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
@@ -394,18 +397,17 @@ def notebook2html(fname=None, force_all=False, n_workers=None):
         # only rebuild modified files
         files,_files = [],files.copy()
         for fname in _files:
-            fname_out = _nb2htmlfname(Path(fname).absolute())
+            fname_out = _nb2htmlfname(Path(fname).absolute(), dest=dest)
             if not fname_out.exists() or os.path.getmtime(fname) >= os.path.getmtime(fname_out):
                 files.append(fname)
     if len(files)==0: print("No notebooks were modified")
-    else: parallel(_notebook2html, files, n_workers=n_workers)
+    else: parallel(_notebook2html, files, n_workers=n_workers, cls=cls, template_file=template_file, exporter=exporter, dest=dest)
 
 # Cell
 def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     "Convert a notebook `fname` to a markdown file in `dest_path`."
     fname = Path(fname).absolute()
     if not img_path: img_path = fname.stem + '_files/'
-    print(img_path)
     Path(img_path).mkdir(exist_ok=True, parents=True)
     nb = read_nb(fname)
     meta_jekyll = get_metadata(nb['cells'])
@@ -426,19 +428,38 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
             with open(Path(dest_path)/img_path/n, 'wb') as f: f.write(o)
 
 # Cell
-def _nb_detach_cell(cell, dest):
+_re_att_ref = re.compile(r' *!\[(.*)\]\(attachment:image.png(?: "(.*)")?\)')
+
+# Cell
+from PIL import Image
+
+# Cell
+_tmpl_img = '<img alt="{title}" width="{width}" caption="{title}" id="{id}" src="{name}">'
+
+def _update_att_ref(line, path, img):
+    m = _re_att_ref.match(line)
+    if not m: return line
+    alt,title = m.groups()
+    w = img.size[0]
+    if alt=='screenshot': w //= 2
+    if not title: title = "TK: add title"
+    return _tmpl_img.format(title=title, width=str(w), id='TK: add it', name=str(path))
+
+# Cell
+def _nb_detach_cell(cell, dest, use_img):
     att,src = cell['attachments'],cell['source']
     mime,img = first(first(att.values()).items())
     ext = mime.split('/')[1]
     for i in range(99999):
         p = dest/(f'att_{i:05d}.{ext}')
         if not p.exists(): break
-    p.write_bytes(b64decode(img))
+    img = b64decode(img)
+    p.write_bytes(img)
     del(cell['attachments'])
-    return [re.sub('attachment:image.png', str(p), o) for o in src]
+    return [_update_att_ref(o,p,Image.open(p)) for o in src]
 
 # Cell
-def nb_detach_cells(path_nb, dest=None, replace=True):
+def nb_detach_cells(path_nb, dest=None, replace=True, use_img=False):
     "Export cell attachments to `dest` and update references"
     path_nb = Path(path_nb)
     if not dest: dest = f'{path_nb.stem}_files'
@@ -446,6 +467,6 @@ def nb_detach_cells(path_nb, dest=None, replace=True):
     dest.mkdir(exist_ok=True, parents=True)
     j = json.load(path_nb.open())
     atts = [o for o in j['cells'] if 'attachments' in o]
-    for o in atts: o['source'] = _nb_detach_cell(o, dest)
+    for o in atts: o['source'] = _nb_detach_cell(o, dest, use_img)
     if atts and replace: json.dump(j, path_nb.open('w'))
     if not replace: return j

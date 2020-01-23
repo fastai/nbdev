@@ -60,7 +60,7 @@ Now, run `jupyter notebook`, and click `00_core.ipynb`. This is where you'll cre
 
 In the last cell of your notebook, you can then run:
 
-```
+```python
 from nbdev.export import *
 notebook2script()
 ```
@@ -106,6 +106,11 @@ If you want people to be able to install your project by just typing `pip instal
 [pypi]
 username = your_pypi_username
 password = your_pypi_password
+```
+
+Another thing you will need is `twine`, so you should run once
+``` 
+pip install twine
 ```
 
 To upload your project to pypi, just type `make pypi` in your project root directory. Once it's complete, a link to your project on pypi will be printed.

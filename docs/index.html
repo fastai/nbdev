@@ -118,7 +118,7 @@ pip install -e nbdev</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="k">import</span> <span class="o">*</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">notebook2script</span><span class="p">()</span>
 </pre></div>
 
@@ -200,6 +200,9 @@ Converted tutorial.ipynb.
 <pre><code>[pypi]
 username = your_pypi_username
 password = your_pypi_password</code></pre>
+<p>Another thing you will need is <code>twine</code>, so you should run once</p>
+
+<pre><code>pip install twine</code></pre>
 <p>To upload your project to pypi, just type <code>make pypi</code> in your project root directory. Once it's complete, a link to your project on pypi will be printed.</p>
 <p><strong>NB</strong>: make sure you increment the version number in <code>settings.py</code> each time you want to push a new release to pypi.</p>
 
