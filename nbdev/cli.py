@@ -178,9 +178,10 @@ def nbdev_nb2md(fname:Param("A notebook file name to convert", str),
 # Cell
 @call_parse
 def nbdev_detach(path_nb:Param("Path to notebook"),
-                 dest:Param("Destination folder", str)=""):
+                 dest:Param("Destination folder", str)="",
+                 use_img:Param("Convert markdown images to img tags", bool_arg)=False):
     "Export cell attachments to `dest` and update references"
-    nb_detach_cells(path_nb, dest=dest)
+    nb_detach_cells(path_nb, dest=dest, use_img=use_img)
 
 # Cell
 @call_parse
