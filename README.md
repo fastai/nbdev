@@ -1,3 +1,5 @@
+![](https://github.com/fastai/nbdev/workflows/CI/badge.svg)
+
 # Welcome to nbdev
 > Create delightful python projects using Jupyter Notebooks
 
