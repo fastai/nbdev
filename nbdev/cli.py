@@ -149,6 +149,10 @@ def make_readme():
     convert_md(index_fn, Config().config_file.parent, jekyll=False)
     n = Config().config_file.parent/index_fn.with_suffix('.md').name
     shutil.move(n, Config().config_file.parent/'README.md')
+    if Path(Config().config_file.parent/'PRE_README.md').is_file():
+        with open(Config().config_file.parent/'README.md', 'r') as f: readme = f.read()
+        with open(Config().config_file.parent/'PRE_README.md', 'r') as f: pre_readme = f.read()
+        with open(Config().config_file.parent/'README.md', 'w') as f: f.write(f'{pre_readme}\n{readme}')
 
 # Cell
 @call_parse
