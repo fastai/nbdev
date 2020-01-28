@@ -28,7 +28,7 @@ See below for *Installing* and *Getting Started*. In the other pages of the docu
 - the [export](http://nbdev.fast.ai/export) functionality from jupyter notebooks to a python library
 - the [cli](http://nbdev.fast.ai/cli) commands you can use with nbdev in a terminal
 - how [export2html](http://nbdev.fast.ai/export2html) builds a documentation for your library
-- how [sync](http://nbdev.fast.ai/sync) can allow you to export back form the python modules to the jupyter notebook
+- how [sync](http://nbdev.fast.ai/sync) can allow you to export back from the python modules to the jupyter notebook
 - how to put [tests](http://nbdev.fast.ai/test) in your notebooks, which can be run in parallel, and exported to CI from your notebooks
 - get more info about the [additional functionality](http://nbdev.fast.ai/#Additional-functionality)
 
@@ -63,7 +63,7 @@ Now, run `jupyter notebook`, and click `00_core.ipynb`. This is where you'll cre
 
 In the last cell of your notebook, you can then run:
 
-```python
+```
 from nbdev.export import *
 notebook2script()
 ```
