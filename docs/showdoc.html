@@ -256,7 +256,7 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This function will generate link for a module (pointing to the html conversion of the notebook that created it) and functions (pointing to the hmtl conversion of the notebook they were defined, with the first anchor found before). If the function/module is not part of the library you are writing, it will call the function <code>custom_doc_links</code> generated in <code>_nbdev</code> (you can customize it to your needs) and just return the name between backsticks if that function returns <code>None</code>.</p>
+<p>This function will generate link for a module (pointing to the html conversion of the notebook that created it) and functions (pointing to the hmtl conversion of the notebook they were defined, with the first anchor found before). If the function/module is not part of the library you are writing, it will call the function <code>custom_doc_links</code> generated in <code>_nbdev</code> (you can customize it to your needs) and just return the name between backticks if that function returns <code>None</code>.</p>
 <p>For instance, fastai2 has the following <code>custom_doc_links</code> that tries to find a doc link for <code>name</code> in fastcore then nbdev (in this order):</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_doc_links</span><span class="p">(</span><span class="n">name</span><span class="p">):</span> 
     <span class="kn">from</span> <span class="nn">nbdev.showdoc</span> <span class="kn">import</span> <span class="n">try_external_doc_link</span>
@@ -313,7 +313,7 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This function not only add links to backstick keywords, it also update the links that are already in the text (in case they have changed).</p>
+<p>This function not only add links to backtick keywords, it also update the links that are already in the text (in case they have changed).</p>
 
 </div>
 </div>
