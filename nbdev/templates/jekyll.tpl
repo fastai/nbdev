@@ -10,8 +10,6 @@ sidebar: home_sidebar
 {% include 'autogen.tpl' %}
 
 <div class="container" id="notebook-container">
-    {{ "{% raw %}" }}
         {{ super()  }}
-    {{ "{% endraw %}" }}
 </div>
 {%- endblock body %}
