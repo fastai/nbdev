@@ -39,7 +39,7 @@ class Config:
         cfg_path = Path.cwd()
         while cfg_path != Path('/') and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
         self.config_file = cfg_path/cfg_name
-        assert self.config_file.exists(), "Use `Config.create` to create a `Config` object the first time"
+        assert self.config_file.exists(), "Use `create_config` to create settings.ini for the first time"
         self.d = read_config_file(self.config_file)['DEFAULT']
         add_new_defaults(self.d, self.config_file)
 
