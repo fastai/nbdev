@@ -98,10 +98,10 @@ def _to_html(text):
 # Cell
 def add_jekyll_notes(cell):
     "Convert block quotes to jekyll notes in `cell`"
-    _styles = ['note', 'warning', 'tip', 'important']
+    styles = Config().get('jekyll_styles', 'note,warning,tip,important').split(',')
     def _inner(m):
         title,text = m.groups()
-        if title.lower() not in _styles: return f"> {m.groups()[0]}: {m.groups()[1]}"
+        if title.lower() not in styles: return f"> {m.groups()[0]}: {m.groups()[1]}"
         return '{% include '+title.lower()+".html content=\'"+_to_html(text)+"\' %}"
     if cell['cell_type'] == 'markdown':
         cell['source'] = _re_block_notes.sub(_inner, cell['source'])
