@@ -1304,3 +1304,11 @@ h4 code {
 input.gsc-input {
     font-size: 12px !important;
 }
+
+details.description[open] summary::after {
+  content: attr(data-open);
+}
+
+details.description:not([open]) summary::after {
+  content: attr(data-close);
+}
