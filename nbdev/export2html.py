@@ -176,10 +176,10 @@ def adapt_img_path(cell, fname, dest, jekyll=True):
 _re_cell_to_remove = re.compile(r'^\s*#\s*(hide|default_exp|default_cls_lvl)\s+')
 
 # Cell
-#Matches any cell with #collapse or #collapse_closed
+#Matches any cell with #collapse or #collapse_hide
 _re_cell_to_collapse_closed = re.compile(r'^\s*#\s*(collapse|collapse_hide)\s+')
 
-#Matches any cell with #collapse_open
+#Matches any cell with #collapse_show
 _re_cell_to_collapse_open = re.compile(r'^\s*#\s*(collapse_show)\s+')
 
 # Cell
