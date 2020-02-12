@@ -311,7 +311,7 @@ def _notebook2script(fname, silent=False, to_dict=None):
         mod.index.update({f: fname.name for f in names})
         code = re.sub(r' +$', '', code, flags=re.MULTILINE)
         if code != sep + orig[:-1]:
-            if to_dict is not None: to_dict[fname_out].append((i, fname, code))
+            if to_dict is not None: to_dict[e].append((i, fname, code))
             else:
                 with open(fname_out, 'a', encoding='utf8') as f: f.write(code)
         if f'{e}.py' not in mod.modules: mod.modules.append(f'{e}.py')

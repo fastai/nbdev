@@ -306,7 +306,7 @@ def nbdev_new(name: Param("A directory to create the project in", str)):
     print(f"Creating a new nbdev project {name}.")
 
     try:
-        subprocess.run(f"git clone {_template_git_repo} {path}".split(), check=True, timeout=5000)
+        subprocess.run(['git', 'clone', f'{_template_git_repo}', f'{path}'], check=True, timeout=5000)
         shutil.rmtree(path/".git")
         subprocess.run("git init".split(), cwd=path, check=True)
         subprocess.run("git add .".split(), cwd=path, check=True)
