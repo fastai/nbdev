@@ -119,7 +119,6 @@ def script2notebook(fname=None, silent=False):
     if os.environ.get('IN_TEST',0): return
     dic = notebook2script(silent=True, to_dict=True)
     exported = get_nbdev_module().modules
-
     if fname is None:
         files = [f for f in Config().lib_path.glob('**/*.py') if str(f.relative_to(Config().lib_path)) in exported]
     else: files = glob.glob(fname)
@@ -134,11 +133,11 @@ def diff_nb_script():
     "Print the diff between the notebooks and the library in lib_path"
     lib_folder = Config().lib_path
     with tempfile.TemporaryDirectory() as d1, tempfile.TemporaryDirectory() as d2:
-        copy_tree(Config().lib_path, d1)
+        copy_tree(lib_folder, d1)
         notebook2script(silent=True)
-        copy_tree(Config().lib_path, d2)
-        shutil.rmtree(Config().lib_path)
-        shutil.copytree(d1, str(Config().lib_path))
+        copy_tree(lib_folder, d2)
+        shutil.rmtree(lib_folder)
+        shutil.copytree(d1, str(lib_folder))
         for d in [d1, d2]:
             if (Path(d)/'__pycache__').exists(): shutil.rmtree(Path(d)/'__pycache__')
         res = subprocess.run(['diff', '-ru', d1, d2], stdout=subprocess.PIPE)
