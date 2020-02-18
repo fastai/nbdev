@@ -161,13 +161,13 @@ def adapt_img_path(cell, fname, dest, jekyll=True):
         gps = m.groups()
         if gps[0] is not None:
             start,img,end = gps[:3]
-            if not (img.startswith('http://') or img.startswith('https://')):
+            if not (img.startswith('http:/') or img.startswith('https:/')):
                 img = _relative_to(fname.parent/img, dest)
             return f'{start}{img}{end}'
         else:
             h = HTMLParseAttrs()
             dic = h(gps[3])
-            if not (dic['src'].startswith('http://') or dic['src'].startswith('https://')):
+            if not (dic['src'].startswith('http:/') or dic['src'].startswith('https:/')):
                 dic['src'] = _relative_to(fname.parent/dic['src'], dest)
             return _img2jkl(dic, h, jekyll=jekyll)
     if cell['cell_type'] == 'markdown': cell['source'] = _re_image.sub(_rep, cell['source'])
