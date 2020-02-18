@@ -129,6 +129,10 @@ def _img2jkl(d, h, jekyll=True):
     return '{% include image.html ' + h.attrs2str() + ' %}'
 
 # Cell
+def _is_real_image(src):
+    return not (src.startswith('http://') or src.startswith('https://') or src.startswith('data:image/'))
+
+# Cell
 def copy_images(cell, fname, dest, jekyll=True):
     "Copy images referenced in `cell` from `fname` parent folder to `dest` folder"
     def _rep_src(m):
@@ -138,9 +142,8 @@ def copy_images(cell, fname, dest, jekyll=True):
             dic = h(grps[3])
             src = dic['src']
         else: src = grps[1]
-        if src.startswith('data:image/'): return cell
-        os.makedirs((Path(dest)/src).parent, exist_ok=True)
-        if not ((src.startswith('http://') or src.startswith('https://'))):
+        if _is_real_image(src):
+            os.makedirs((Path(dest)/src).parent, exist_ok=True)
             shutil.copy(Path(fname).parent/src, Path(dest)/src)
             src = Config().doc_baseurl + src
         if grps[3] is not None:
