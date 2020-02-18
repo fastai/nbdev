@@ -138,6 +138,7 @@ def copy_images(cell, fname, dest, jekyll=True):
             dic = h(grps[3])
             src = dic['src']
         else: src = grps[1]
+        if src.startswith('data:image/'): return cell
         os.makedirs((Path(dest)/src).parent, exist_ok=True)
         if not ((src.startswith('http://') or src.startswith('https://'))):
             shutil.copy(Path(fname).parent/src, Path(dest)/src)
