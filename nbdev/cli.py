@@ -97,7 +97,7 @@ def nbdev_build_docs(fname:Param("A notebook name or glob to convert", str)=None
                      force_all:Param("Rebuild even notebooks that haven't changed", bool)=False,
                      mk_readme:Param("Also convert the index notebook to README", bool)=True,
                      n_workers:Param("Number of workers to use", int)=None):
-    "Build the documentation by converting notebooks mathing `fname` to html"
+    "Build the documentation by converting notebooks matching `fname` to html"
     notebook2html(fname=fname, force_all=force_all, n_workers=n_workers)
     if fname is None: make_sidebar()
     if mk_readme: make_readme()
