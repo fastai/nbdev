@@ -5,7 +5,7 @@
 keywords: {{resources.keywords}}
 sidebar: home_sidebar
 {% if resources.tags != "" and resources.tags != nil %}tags: {{resources.tags}}{% endif %}
-{% if resources.summary != "" and resources.summary != nil %}description: "{{resources.summary}}"{% endif %}
+{% if resources.summary != "" and resources.summary != nil %}summary: "{{resources.summary}}"{% endif %}
 ---
 {% include 'autogen.tpl' %}
 
