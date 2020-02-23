@@ -5,7 +5,7 @@ title: Convert to html
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "The functions that transform the dev notebooks in the documentation of the library"
+description: "The functions that transform the dev notebooks in the documentation of the library"
 ---
 <!--
 
@@ -347,6 +347,9 @@ Typing <code>&gt; Note: A doc link to [`add_jekyll_notes`](/export2html#add_jeky
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -354,7 +357,7 @@ Typing <code>&gt; Note: A doc link to [`add_jekyll_notes`](/export2html#add_jeky
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="copy_images" class="doc_header"><code>copy_images</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L132" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>copy_images</code>(<strong><code>cell</code></strong>, <strong><code>fname</code></strong>, <strong><code>dest</code></strong>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="copy_images" class="doc_header"><code>copy_images</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L136" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>copy_images</code>(<strong><code>cell</code></strong>, <strong><code>fname</code></strong>, <strong><code>dest</code></strong>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Copy images referenced in <code>cell</code> from <code>fname</code> parent folder to <code>dest</code> folder</p>
 
@@ -408,7 +411,7 @@ Typing <code>&gt; Note: A doc link to [`add_jekyll_notes`](/export2html#add_jeky
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="adapt_img_path" class="doc_header"><code>adapt_img_path</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L162" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>adapt_img_path</code>(<strong><code>cell</code></strong>, <strong><code>fname</code></strong>, <strong><code>dest</code></strong>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="adapt_img_path" class="doc_header"><code>adapt_img_path</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L165" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>adapt_img_path</code>(<strong><code>cell</code></strong>, <strong><code>fname</code></strong>, <strong><code>dest</code></strong>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Adapt path of images referenced in <code>cell</code> from <code>fname</code> to work in folder <code>dest</code></p>
 
@@ -480,7 +483,7 @@ Typing <code>&gt; Note: A doc link to [`add_jekyll_notes`](/export2html#add_jeky
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="collapse_cells" class="doc_header"><code>collapse_cells</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L192" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>collapse_cells</code>(<strong><code>cell</code></strong>)</p>
+<h4 id="collapse_cells" class="doc_header"><code>collapse_cells</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L195" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>collapse_cells</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
 <p>Add a collapse button to inputs of <code>cell</code> in either the open or closed position</p>
 
@@ -597,7 +600,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="remove_hidden" class="doc_header"><code>remove_hidden</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L199" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_hidden</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="remove_hidden" class="doc_header"><code>remove_hidden</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L202" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_hidden</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Remove in <code>cells</code> the ones with a flag <code>#hide</code>, <code>#default_exp</code> or <code>#default_cls_lvl</code></p>
 
@@ -627,7 +630,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="find_default_level" class="doc_header"><code>find_default_level</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L214" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_default_level</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="find_default_level" class="doc_header"><code>find_default_level</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L217" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_default_level</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Find in <code>cells</code> the default class level.</p>
 
@@ -668,7 +671,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_show_docs" class="doc_header"><code>add_show_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L240" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_show_docs</code>(<strong><code>cells</code></strong>, <strong><code>cls_lvl</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="add_show_docs" class="doc_header"><code>add_show_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L243" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_show_docs</code>(<strong><code>cells</code></strong>, <strong><code>cls_lvl</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Add <a href="/showdoc#show_doc"><code>show_doc</code></a> for each exported function or class</p>
 
@@ -705,7 +708,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="remove_fake_headers" class="doc_header"><code>remove_fake_headers</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L264" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_fake_headers</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="remove_fake_headers" class="doc_header"><code>remove_fake_headers</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L267" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_fake_headers</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Remove in <code>cells</code> the fake header</p>
 
@@ -754,7 +757,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="remove_empty" class="doc_header"><code>remove_empty</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L269" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_empty</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="remove_empty" class="doc_header"><code>remove_empty</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L272" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>remove_empty</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Remove in <code>cells</code> the empty cells</p>
 
@@ -787,7 +790,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_metadata" class="doc_header"><code>get_metadata</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L292" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_metadata</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="get_metadata" class="doc_header"><code>get_metadata</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L295" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_metadata</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Find the cell with title and summary in <code>cells</code>.</p>
 
@@ -854,7 +857,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="ExecuteShowDocPreprocessor" class="doc_header"><code>class</code> <code>ExecuteShowDocPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L313" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>ExecuteShowDocPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
+<h3 id="ExecuteShowDocPreprocessor" class="doc_header"><code>class</code> <code>ExecuteShowDocPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L316" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>ExecuteShowDocPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
 </blockquote>
 <p>An <code>ExecutePreprocessor</code> that only executes <a href="/showdoc#show_doc"><code>show_doc</code></a> and <code>import</code> cells</p>
 
@@ -878,7 +881,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="execute_nb" class="doc_header"><code>execute_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L332" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>execute_nb</code>(<strong><code>nb</code></strong>, <strong><code>mod</code></strong>=<em><code>None</code></em>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong><code>show_doc_only</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="execute_nb" class="doc_header"><code>execute_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L335" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>execute_nb</code>(<strong><code>nb</code></strong>, <strong><code>mod</code></strong>=<em><code>None</code></em>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong><code>show_doc_only</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Execute <code>nb</code> (or only the <a href="/showdoc#show_doc"><code>show_doc</code></a> cells) with <code>metadata</code></p>
 
@@ -938,7 +941,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_tmpl" class="doc_header"><code>write_tmpl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L343" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpl</code>(<strong><code>tmpl</code></strong>, <strong><code>nms</code></strong>, <strong><code>cfg</code></strong>, <strong><code>dest</code></strong>)</p>
+<h4 id="write_tmpl" class="doc_header"><code>write_tmpl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L346" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpl</code>(<strong><code>tmpl</code></strong>, <strong><code>nms</code></strong>, <strong><code>cfg</code></strong>, <strong><code>dest</code></strong>)</p>
 </blockquote>
 <p>Write <code>tmpl</code> to <code>dest</code> (if missing) filling in <code>nms</code> in template using dict <code>cfg</code></p>
 
@@ -962,7 +965,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_tmpls" class="doc_header"><code>write_tmpls</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L351" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpls</code>()</p>
+<h4 id="write_tmpls" class="doc_header"><code>write_tmpls</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L354" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpls</code>()</p>
 </blockquote>
 <p>Write out _config.yml and _data/topnav.yml using templates</p>
 
@@ -1005,7 +1008,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_exporter" class="doc_header"><code>nbdev_exporter</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L359" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_exporter</code>(<strong><code>template_file</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="nbdev_exporter" class="doc_header"><code>nbdev_exporter</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L362" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_exporter</code>(<strong><code>template_file</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -1037,7 +1040,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L381" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L384" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to html file in <code>dest_path</code>.</p>
 
@@ -1064,7 +1067,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="notebook2html" class="doc_header"><code>notebook2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L410" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2html</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>, <strong><code>n_workers</code></strong>=<em><code>None</code></em>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="notebook2html" class="doc_header"><code>notebook2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L413" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2html</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>, <strong><code>n_workers</code></strong>=<em><code>None</code></em>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Convert all notebooks matching <code>fname</code> to html files</p>
 
@@ -1096,7 +1099,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_md" class="doc_header"><code>convert_md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L435" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_md</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>, <strong><code>img_path</code></strong>=<em><code>'docs/images/'</code></em>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="convert_md" class="doc_header"><code>convert_md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L438" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_md</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>, <strong><code>img_path</code></strong>=<em><code>'docs/images/'</code></em>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to a markdown file in <code>dest_path</code>.</p>
 
@@ -1156,7 +1159,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nb_detach_cells" class="doc_header"><code>nb_detach_cells</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L492" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nb_detach_cells</code>(<strong><code>path_nb</code></strong>, <strong><code>dest</code></strong>=<em><code>None</code></em>, <strong><code>replace</code></strong>=<em><code>True</code></em>, <strong><code>use_img</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="nb_detach_cells" class="doc_header"><code>nb_detach_cells</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L495" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nb_detach_cells</code>(<strong><code>path_nb</code></strong>, <strong><code>dest</code></strong>=<em><code>None</code></em>, <strong><code>replace</code></strong>=<em><code>True</code></em>, <strong><code>use_img</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Export cell attachments to <code>dest</code> and update references</p>
 
@@ -1201,7 +1204,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L535" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
+<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L538" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
 </blockquote>
 <p>Create the default sidebar for the docs website</p>
 
@@ -1232,7 +1235,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L547" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
+<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L550" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
 </blockquote>
 <p>Making sidebar for the doc website form the content of <code>doc_folder/sidebar.json</code></p>
 
