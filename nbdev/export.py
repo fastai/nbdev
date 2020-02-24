@@ -28,24 +28,37 @@ def check_re(cell, pat, code_only=True):
 
 # Cell
 _re_blank_export = re.compile(r"""
-# Matches any line with #export or #exports without any module name:
-^         # beginning of line (since re.MULTILINE is passed)
-\s*       # any number of whitespace
-\#\s*     # # then any number of whitespace
-exports?  # export or exports
-\s*       # any number of whitespace
-$         # end of line (since re.MULTILINE is passed)
+# Matches any line with #export or #exports or #exporti without any module name:
+^            # beginning of line (since re.MULTILINE is passed)
+\s*          # any number of whitespace
+\#\s*        # "#", then any number of whitespace
+export[si]?  # export or exports or exporti
+\s*          # any number of whitespace
+$            # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
 
 # Cell
 _re_mod_export = re.compile(r"""
-# Matches any line with #export or #exports with a module name and catches it in group 1:
+# Matches any line with #export or #exports or #exporti with a module name and catches it in group 1:
+^            # beginning of line (since re.MULTILINE is passed)
+\s*          # any number of whitespace
+\#\s*        # "#", then any number of whitespace
+export[si]?  # export or exports or exporti
+\s+          # one or more whitespace chars
+(\S+)        # catch a group with any non-whitespace chars
+\s*          # any number of whitespace
+$            # end of line (since re.MULTILINE is passed)
+""", re.IGNORECASE | re.MULTILINE | re.VERBOSE)
+
+# Cell
+_re_internal_export = re.compile(r"""
+# Matches any line with #export or #exports without any module name:
 ^         # beginning of line (since re.MULTILINE is passed)
 \s*       # any number of whitespace
-\#\s*     # # then any number of whitespace
-exports?  # export or exports
+\#\s*     # "#", then any number of whitespace
+exporti   # export or exports or exporti
 \s*       # any number of whitespace
-(\S+)     # catch a group with any non-whitespace chars
+\S*       # any number of  non-whitespace chars
 \s*       # any number of whitespace
 $         # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
@@ -53,21 +66,23 @@ $         # end of line (since re.MULTILINE is passed)
 # Cell
 def is_export(cell, default):
     "Check if `cell` is to be exported and returns the name of the module to export it if provided"
-    if check_re(cell, _re_blank_export):
+    tst = check_re(cell, _re_blank_export)
+    if tst:
         if default is None:
             print(f"This cell doesn't have an export destination and was ignored:\n{cell['source'][1]}")
-        return default
+        return default, (_re_internal_export.search(tst.string) is None)
     tst = check_re(cell, _re_mod_export)
-    return os.path.sep.join(tst.groups()[0].split('.')) if tst else None
+    if tst: return os.path.sep.join(tst.groups()[0].split('.')), (_re_internal_export.search(tst.string) is None)
+    else: return None
 
 # Cell
 _re_default_exp = re.compile(r"""
 # Matches any line with #default_exp with a module name and catches it in group 1:
 ^            # beginning of line (since re.MULTILINE is passed)
 \s*          # any number of whitespace
-\#\s*        # # then any number of whitespace
-default_exp  # export or exports
-\s*          # any number of whitespace
+\#\s*        # "#", then any number of whitespace
+default_exp  # default_exp
+\s+          # one or more whitespace chars
 (\S+)        # catch a group with any non-whitespace chars
 \s*          # any number of whitespace
 $            # end of line (since re.MULTILINE is passed)
@@ -302,13 +317,14 @@ def _notebook2script(fname, silent=False, to_dict=None):
     mod = get_nbdev_module()
     exports = [is_export(c, default) for c in nb['cells']]
     cells = [(i,c,e) for i,(c,e) in enumerate(zip(nb['cells'],exports)) if e is not None]
-    for i,c,e in cells:
+    for i,c,(e,a) in cells:
         fname_out = Config().lib_path/f'{e}.py'
-        orig = ('# C' if e==default else f'# Comes from {fname.name}, c') + 'ell\n'
+        orig = (f'# {"" if a else "Internal "}C' if e==default else f'# Comes from {fname.name}, c') + 'ell\n'
         code = sep + orig + '\n'.join(_deal_import(c['source'].split('\n')[1:], fname_out))
         names = export_names(code)
         extra,code = extra_add(code)
-        if to_dict is None: _add2add(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
+        if a:
+            if to_dict is None: _add2add(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
         mod.index.update({f: fname.name for f in names})
         code = re.sub(r' +$', '', code, flags=re.MULTILINE)
         if code != sep + orig[:-1]:

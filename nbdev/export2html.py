@@ -181,8 +181,8 @@ def adapt_img_path(cell, fname, dest, jekyll=True):
     return cell
 
 # Cell
-#Matches any cell with #hide or #default_exp or #default_cls_lvl
-_re_cell_to_remove = re.compile(r'^\s*#\s*(hide|default_exp|default_cls_lvl)\s+')
+#Matches any cell with #hide or #default_exp or #default_cls_lvl or #exporti
+_re_cell_to_remove = re.compile(r'^\s*#\s*(hide|default_exp|default_cls_lvl|exporti)\s+')
 
 # Cell
 #Matches any cell with #collapse or #collapse_hide
@@ -200,7 +200,7 @@ def collapse_cells(cell):
 
 # Cell
 def remove_hidden(cells):
-    "Remove in `cells` the ones with a flag `#hide`, `#default_exp` or `#default_cls_lvl`"
+    "Remove in `cells` the ones with a flag `#hide`, `#default_exp` or `#default_cls_lvl` or `#exporti`"
     return [c for c in cells if _re_cell_to_remove.search(c['source']) is None]
 
 # Cell
@@ -390,8 +390,8 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=
     cls_lvl = find_default_level(nb['cells'])
     mod = find_default_export(nb['cells'])
     nb['cells'] = compose(*process_cells,partial(add_show_docs, cls_lvl=cls_lvl))(nb['cells'])
-    nb['cells'] = [compose(partial(copy_images, fname=fname, dest=Config().doc_path), *process_cell, treat_backticks)(c)
-                    for c in nb['cells']]
+    _func = compose(partial(copy_images, fname=fname, dest=Config().doc_path), *process_cell, treat_backticks)
+    nb['cells'] = [_func(c) for c in nb['cells']]
     nb = execute_nb(nb, mod=mod)
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
     if exporter is None: exporter = nbdev_exporter(cls=cls, template_file=template_file)
