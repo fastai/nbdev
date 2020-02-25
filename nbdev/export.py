@@ -101,7 +101,7 @@ _re_patch_func = re.compile(r"""
 @patch         # At any place in the cell, something that begins with @patch
 \s*def         # Any number of whitespace (including a new line probably) followed by def
 \s+            # One whitespace or more
-([^\(\s]*)     # Catch a group composed of anything but whitespace or an opening parenthesis (name of the function)
+([^\(\s]+)     # Catch a group composed of anything but whitespace or an opening parenthesis (name of the function)
 \s*\(          # Any number of whitespace followed by an opening parenthesis
 [^:]*          # Any number of character different of : (the name of the first arg that is type-annotated)
 :\s*           # A column followed by any number of whitespace
@@ -116,13 +116,13 @@ _re_patch_func = re.compile(r"""
 # Cell
 _re_typedispatch_func = re.compile(r"""
 # Catches any function decorated with @typedispatch
-(@typedispatch  # At any place in the cell, catch a group with something that begins with @patch
+(@typedispatch  # At any place in the cell, catch a group with something that begins with @typedispatch
 \s*def          # Any number of whitespace (including a new line probably) followed by def
 \s+             # One whitespace or more
-[^\(]*          # Anything but whitespace or an opening parenthesis (name of the function)
+[^\(]+          # Anything but whitespace or an opening parenthesis (name of the function)
 \s*\(           # Any number of whitespace followed by an opening parenthesis
 [^\)]*          # Any number of character different of )
-\)\s*:)         # A closing parenthesis followed by whitespace and :
+\)[\s\S]*:)     # A closing parenthesis followed by any number of characters and whitespace (type annotation) and :
 """, re.VERBOSE)
 
 # Cell
@@ -131,7 +131,7 @@ _re_class_func_def = re.compile(r"""
 ^              # Beginning of a line (since re.MULTILINE is passed)
 (?:def|class)  # Non-catching group for def or class
 \s+            # One whitespace or more
-([^\(\s]*)     # Catching group with any character except an opening parenthesis or a whitespace (name)
+([^\(\s]+)     # Catching group with any character except an opening parenthesis or a whitespace (name)
 \s*            # Any number of whitespace
 (?:\(|:)       # Non-catching group with either an opening parenthesis or a : (classes don't need ())
 """, re.MULTILINE | re.VERBOSE)
@@ -139,9 +139,10 @@ _re_class_func_def = re.compile(r"""
 # Cell
 _re_obj_def = re.compile(r"""
 # Catches any 0-indented object definition (bla = thing) with its name in group 1
-^          # Beginning of a line (since re.MULTILINE is passed)
-([^=\s]*)  # Catching group with any character except a whitespace or an equal sign
-\s*=       # Any number of whitespace followed by an =
+^                          # Beginning of a line (since re.MULTILINE is passed)
+([_a-zA-Z]+[a-zA-Z0-9_\.]*)  # Catch a group which is a valid python variable name
+\s*                        # Any number of whitespace
+(?::\s*\S.*|)=  # Non-catching group of either a colon followed by a type annotation, or nothing; followed by an =
 """, re.MULTILINE | re.VERBOSE)
 
 # Cell
@@ -220,24 +221,6 @@ def _deal_import(code_lines, fname):
         sp,mod,obj = m.groups()
         return f"{sp}from {relative_import(mod, fname)} import {obj}"
     return [_re_import.re.sub(_replace,line) for line in code_lines]
-
-# Cell
-_re_patch_func = re.compile(r"""
-# Catches any function decorated with @patch, its name in group 1 and the patched class in group 2
-@patch         # At any place in the cell, something that begins with @patch
-\s*def         # Any number of whitespace (including a new line probably) followed by def
-\s+            # One whitespace or more
-([^\(\s]*)     # Catch a group composed of anything but whitespace or an opening parenthesis (name of the function)
-\s*\(          # Any number of whitespace followed by an opening parenthesis
-[^:]*          # Any number of character different of : (the name of the first arg that is type-annotated)
-:\s*           # A column followed by any number of whitespace
-(?:            # Non-catching group with either
-([^,\s\(\)]*)  #    a group composed of anything but a comma, a parenthesis or whitespace (name of the class)
-|              #  or
-(\([^\)]*\)))  #    a group composed of something between parenthesis (tuple of classes)
-\s*            # Any number of whitespace
-(?:,|\))       # Non-catching group with either a comma or a closing parenthesis
-""", re.VERBOSE)
 
 # Cell
 _re_index_custom = re.compile(r'def custom_doc_links\(name\):(.*)$', re.DOTALL)
