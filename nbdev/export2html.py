@@ -364,6 +364,7 @@ def nbdev_exporter(cls=HTMLExporter, template_file=None):
     exporter = cls(cfg)
     exporter.exclude_input_prompt=True
     exporter.exclude_output_prompt=True
+    exporter.anchor_link_text = ''
     exporter.template_file = 'jekyll.tpl' if template_file is None else template_file
     exporter.template_path.append(str(Path(__file__).parent/'templates'))
     return exporter
