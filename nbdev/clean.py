@@ -21,7 +21,7 @@ def clean_cell_output(cell):
 
 # Cell
 cell_metadata_keep = ["hide_input"]
-nb_metadata_keep   = ["kernelspec", "jekyll", "jupytext"]
+nb_metadata_keep   = ["kernelspec", "jekyll", "jupytext", "doc"]
 
 # Cell
 def clean_cell(cell, clear_all=False):

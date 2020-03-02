@@ -28,24 +28,37 @@ def check_re(cell, pat, code_only=True):
 
 # Cell
 _re_blank_export = re.compile(r"""
-# Matches any line with #export or #exports without any module name:
-^         # beginning of line (since re.MULTILINE is passed)
-\s*       # any number of whitespace
-\#\s*     # # then any number of whitespace
-exports?  # export or exports
-\s*       # any number of whitespace
-$         # end of line (since re.MULTILINE is passed)
+# Matches any line with #export or #exports or #exporti without any module name:
+^            # beginning of line (since re.MULTILINE is passed)
+\s*          # any number of whitespace
+\#\s*        # "#", then any number of whitespace
+export[si]?  # export or exports or exporti
+\s*          # any number of whitespace
+$            # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
 
 # Cell
 _re_mod_export = re.compile(r"""
-# Matches any line with #export or #exports with a module name and catches it in group 1:
+# Matches any line with #export or #exports or #exporti with a module name and catches it in group 1:
+^            # beginning of line (since re.MULTILINE is passed)
+\s*          # any number of whitespace
+\#\s*        # "#", then any number of whitespace
+export[si]?  # export or exports or exporti
+\s+          # one or more whitespace chars
+(\S+)        # catch a group with any non-whitespace chars
+\s*          # any number of whitespace
+$            # end of line (since re.MULTILINE is passed)
+""", re.IGNORECASE | re.MULTILINE | re.VERBOSE)
+
+# Cell
+_re_internal_export = re.compile(r"""
+# Matches any line with #export or #exports without any module name:
 ^         # beginning of line (since re.MULTILINE is passed)
 \s*       # any number of whitespace
-\#\s*     # # then any number of whitespace
-exports?  # export or exports
+\#\s*     # "#", then any number of whitespace
+exporti   # export or exports or exporti
 \s*       # any number of whitespace
-(\S+)     # catch a group with any non-whitespace chars
+\S*       # any number of  non-whitespace chars
 \s*       # any number of whitespace
 $         # end of line (since re.MULTILINE is passed)
 """, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
@@ -53,21 +66,23 @@ $         # end of line (since re.MULTILINE is passed)
 # Cell
 def is_export(cell, default):
     "Check if `cell` is to be exported and returns the name of the module to export it if provided"
-    if check_re(cell, _re_blank_export):
+    tst = check_re(cell, _re_blank_export)
+    if tst:
         if default is None:
             print(f"This cell doesn't have an export destination and was ignored:\n{cell['source'][1]}")
-        return default
+        return default, (_re_internal_export.search(tst.string) is None)
     tst = check_re(cell, _re_mod_export)
-    return os.path.sep.join(tst.groups()[0].split('.')) if tst else None
+    if tst: return os.path.sep.join(tst.groups()[0].split('.')), (_re_internal_export.search(tst.string) is None)
+    else: return None
 
 # Cell
 _re_default_exp = re.compile(r"""
 # Matches any line with #default_exp with a module name and catches it in group 1:
 ^            # beginning of line (since re.MULTILINE is passed)
 \s*          # any number of whitespace
-\#\s*        # # then any number of whitespace
-default_exp  # export or exports
-\s*          # any number of whitespace
+\#\s*        # "#", then any number of whitespace
+default_exp  # default_exp
+\s+          # one or more whitespace chars
 (\S+)        # catch a group with any non-whitespace chars
 \s*          # any number of whitespace
 $            # end of line (since re.MULTILINE is passed)
@@ -86,7 +101,7 @@ _re_patch_func = re.compile(r"""
 @patch         # At any place in the cell, something that begins with @patch
 \s*def         # Any number of whitespace (including a new line probably) followed by def
 \s+            # One whitespace or more
-([^\(\s]*)     # Catch a group composed of anything but whitespace or an opening parenthesis (name of the function)
+([^\(\s]+)     # Catch a group composed of anything but whitespace or an opening parenthesis (name of the function)
 \s*\(          # Any number of whitespace followed by an opening parenthesis
 [^:]*          # Any number of character different of : (the name of the first arg that is type-annotated)
 :\s*           # A column followed by any number of whitespace
@@ -101,13 +116,13 @@ _re_patch_func = re.compile(r"""
 # Cell
 _re_typedispatch_func = re.compile(r"""
 # Catches any function decorated with @typedispatch
-(@typedispatch  # At any place in the cell, catch a group with something that begins with @patch
+(@typedispatch  # At any place in the cell, catch a group with something that begins with @typedispatch
 \s*def          # Any number of whitespace (including a new line probably) followed by def
 \s+             # One whitespace or more
-[^\(]*          # Anything but whitespace or an opening parenthesis (name of the function)
+[^\(]+          # Anything but whitespace or an opening parenthesis (name of the function)
 \s*\(           # Any number of whitespace followed by an opening parenthesis
 [^\)]*          # Any number of character different of )
-\)\s*:)         # A closing parenthesis followed by whitespace and :
+\)[\s\S]*:)     # A closing parenthesis followed by any number of characters and whitespace (type annotation) and :
 """, re.VERBOSE)
 
 # Cell
@@ -116,7 +131,7 @@ _re_class_func_def = re.compile(r"""
 ^              # Beginning of a line (since re.MULTILINE is passed)
 (?:def|class)  # Non-catching group for def or class
 \s+            # One whitespace or more
-([^\(\s]*)     # Catching group with any character except an opening parenthesis or a whitespace (name)
+([^\(\s]+)     # Catching group with any character except an opening parenthesis or a whitespace (name)
 \s*            # Any number of whitespace
 (?:\(|:)       # Non-catching group with either an opening parenthesis or a : (classes don't need ())
 """, re.MULTILINE | re.VERBOSE)
@@ -124,9 +139,10 @@ _re_class_func_def = re.compile(r"""
 # Cell
 _re_obj_def = re.compile(r"""
 # Catches any 0-indented object definition (bla = thing) with its name in group 1
-^          # Beginning of a line (since re.MULTILINE is passed)
-([^=\s]*)  # Catching group with any character except a whitespace or an equal sign
-\s*=       # Any number of whitespace followed by an =
+^                          # Beginning of a line (since re.MULTILINE is passed)
+([_a-zA-Z]+[a-zA-Z0-9_\.]*)  # Catch a group which is a valid python variable name
+\s*                        # Any number of whitespace
+(?::\s*\S.*|)=  # Non-catching group of either a colon followed by a type annotation, or nothing; followed by an =
 """, re.MULTILINE | re.VERBOSE)
 
 # Cell
@@ -207,24 +223,6 @@ def _deal_import(code_lines, fname):
     return [_re_import.re.sub(_replace,line) for line in code_lines]
 
 # Cell
-_re_patch_func = re.compile(r"""
-# Catches any function decorated with @patch, its name in group 1 and the patched class in group 2
-@patch         # At any place in the cell, something that begins with @patch
-\s*def         # Any number of whitespace (including a new line probably) followed by def
-\s+            # One whitespace or more
-([^\(\s]*)     # Catch a group composed of anything but whitespace or an opening parenthesis (name of the function)
-\s*\(          # Any number of whitespace followed by an opening parenthesis
-[^:]*          # Any number of character different of : (the name of the first arg that is type-annotated)
-:\s*           # A column followed by any number of whitespace
-(?:            # Non-catching group with either
-([^,\s\(\)]*)  #    a group composed of anything but a comma, a parenthesis or whitespace (name of the class)
-|              #  or
-(\([^\)]*\)))  #    a group composed of something between parenthesis (tuple of classes)
-\s*            # Any number of whitespace
-(?:,|\))       # Non-catching group with either a comma or a closing parenthesis
-""", re.VERBOSE)
-
-# Cell
 _re_index_custom = re.compile(r'def custom_doc_links\(name\):(.*)$', re.DOTALL)
 
 # Cell
@@ -283,8 +281,9 @@ def save_nbdev_module(mod):
 def create_mod_file(fname, nb_path):
     "Create a module file for `fname`."
     fname.parent.mkdir(parents=True, exist_ok=True)
+    file_path = os.path.relpath(nb_path, Config().config_file.parent).replace('\\', '/')
     with open(fname, 'w') as f:
-        f.write(f"# AUTOGENERATED! DO NOT EDIT! File to edit: {os.path.relpath(nb_path, Config().config_file.parent)} (unless otherwise specified).")
+        f.write(f"# AUTOGENERATED! DO NOT EDIT! File to edit: {file_path} (unless otherwise specified).")
         f.write('\n\n__all__ = []')
 
 # Cell
@@ -301,17 +300,18 @@ def _notebook2script(fname, silent=False, to_dict=None):
     mod = get_nbdev_module()
     exports = [is_export(c, default) for c in nb['cells']]
     cells = [(i,c,e) for i,(c,e) in enumerate(zip(nb['cells'],exports)) if e is not None]
-    for i,c,e in cells:
+    for i,c,(e,a) in cells:
         fname_out = Config().lib_path/f'{e}.py'
-        orig = ('# C' if e==default else f'# Comes from {fname.name}, c') + 'ell\n'
+        orig = (f'# {"" if a else "Internal "}C' if e==default else f'# Comes from {fname.name}, c') + 'ell\n'
         code = sep + orig + '\n'.join(_deal_import(c['source'].split('\n')[1:], fname_out))
         names = export_names(code)
         extra,code = extra_add(code)
-        if to_dict is None: _add2add(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
+        if a:
+            if to_dict is None: _add2add(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
         mod.index.update({f: fname.name for f in names})
         code = re.sub(r' +$', '', code, flags=re.MULTILINE)
         if code != sep + orig[:-1]:
-            if to_dict is not None: to_dict[fname_out].append((i, fname, code))
+            if to_dict is not None: to_dict[e].append((i, fname, code))
             else:
                 with open(fname_out, 'a', encoding='utf8') as f: f.write(code)
         if f'{e}.py' not in mod.modules: mod.modules.append(f'{e}.py')

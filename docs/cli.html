@@ -6,6 +6,7 @@ keywords: fastai
 sidebar: home_sidebar
 
 summary: "Console commands added by the nbdev library"
+description: "Console commands added by the nbdev library"
 ---
 <!--
 
@@ -18,7 +19,8 @@ summary: "Console commands added by the nbdev library"
 -->
 
 <div class="container" id="notebook-container">
-    
+    {% raw %}
+        
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -62,7 +64,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_build_lib" class="doc_header"><code>nbdev_build_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
+<h4 id="nbdev_build_lib" class="doc_header"><code>nbdev_build_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Export notebooks matching <code>fname</code> to python modules</p>
 
@@ -93,7 +95,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L25" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
+<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L24" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Propagates any change in the modules matching <code>fname</code> to the notebooks that created them</p>
 
@@ -124,7 +126,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_diff_nbs" class="doc_header"><code>nbdev_diff_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L31" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_diff_nbs</code>()</p>
+<h4 id="nbdev_diff_nbs" class="doc_header"><code>nbdev_diff_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_diff_nbs</code>()</p>
 </blockquote>
 <p>Prints the diff between an export of the library in notebooks and the actual modules</p>
 
@@ -157,7 +159,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_test_nbs" class="doc_header"><code>nbdev_test_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L51" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_test_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>flags</code></strong>:"Space separated list of flags"=<em><code>None</code></em>, <strong><code>n_workers</code></strong>:"Number of workers to use"=<em><code>None</code></em>, <strong><code>verbose</code></strong>:"Print errors along the way"=<em><code>True</code></em>, <strong><code>timing</code></strong>:"Timing each notebook to see the ones are slow"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_test_nbs" class="doc_header"><code>nbdev_test_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L50" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_test_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>flags</code></strong>:"Space separated list of flags"=<em><code>None</code></em>, <strong><code>n_workers</code></strong>:"Number of workers to use"=<em><code>None</code></em>, <strong><code>verbose</code></strong>:"Print errors along the way"=<em><code>True</code></em>, <strong><code>timing</code></strong>:"Timing each notebook to see the ones are slow"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Test in parallel the notebooks matching <code>fname</code>, passing along <code>flags</code></p>
 
@@ -197,21 +199,6 @@ summary: "Console commands added by the nbdev library"
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
 <div class="output_wrapper">
 <div class="output">
 
@@ -219,94 +206,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L110" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
-</blockquote>
-<p>Create the default sidebar for the docs website</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The default sidebar lists all html pages with their respective title, except the index that is named "Overview". To build a custom sidebar, set the flag <code>custom_sidebar</code> in your <code>settings.ini</code> to <code>True</code> then change the <code>sidebar.json</code> file in the <code>doc_folder</code> to your liking. Otherwise, the sidebar is updated at each doc build.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L122" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
-</blockquote>
-<p>Making sidebar for the doc website form the content of <code>doc_folder/sidebar.json</code></p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Path</span><span class="p">(</span><span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">config_file</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">&#39;PRE_README.md&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="make_readme" class="doc_header"><code>make_readme</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L142" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_readme</code>()</p>
+<h4 id="make_readme" class="doc_header"><code>make_readme</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L79" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_readme</code>()</p>
 </blockquote>
 <p>Convert the index notebook to README.md</p>
 
@@ -330,7 +230,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L158" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Rebuild even notebooks that haven't changed"=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:"Also convert the index notebook to README"=<em><code>True</code></em>, <strong><code>n_workers</code></strong>:"Number of workers to use"=<em><code>None</code></em>)</p>
+<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L95" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Rebuild even notebooks that haven't changed"=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:"Also convert the index notebook to README"=<em><code>True</code></em>, <strong><code>n_workers</code></strong>:"Number of workers to use"=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Build the documentation by converting notebooks mathing <code>fname</code> to html</p>
 
@@ -361,7 +261,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_nb2md" class="doc_header"><code>nbdev_nb2md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L169" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_nb2md</code>(<strong><code>fname</code></strong>:"A notebook file name to convert", <strong><code>dest</code></strong>:"The destination folder"=<em><code>'.'</code></em>, <strong><code>img_path</code></strong>:"Folder to export images to"=<em><code>''</code></em>, <strong><code>jekyll</code></strong>:"To use jekyll metadata for your markdown file or not"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_nb2md" class="doc_header"><code>nbdev_nb2md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L106" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_nb2md</code>(<strong><code>fname</code></strong>:"A notebook file name to convert", <strong><code>dest</code></strong>:"The destination folder"=<em><code>'.'</code></em>, <strong><code>img_path</code></strong>:"Folder to export images to"=<em><code>''</code></em>, <strong><code>jekyll</code></strong>:"To use jekyll metadata for your markdown file or not"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert the notebook in <code>fname</code> to a markdown file</p>
 
@@ -385,7 +285,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_detach" class="doc_header"><code>nbdev_detach</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L179" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_detach</code>(<strong><code>path_nb</code></strong>:"Path to notebook", <strong><code>dest</code></strong>:"Destination folder"=<em><code>''</code></em>, <strong><code>use_img</code></strong>:"Convert markdown images to img tags"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_detach" class="doc_header"><code>nbdev_detach</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L116" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_detach</code>(<strong><code>path_nb</code></strong>:"Path to notebook", <strong><code>dest</code></strong>:"Destination folder"=<em><code>''</code></em>, <strong><code>use_img</code></strong>:"Convert markdown images to img tags"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Export cell attachments to <code>dest</code> and update references</p>
 
@@ -415,7 +315,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L187" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
+<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L124" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Check all notebooks matching <code>fname</code> can be opened</p>
 
@@ -446,7 +346,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L198" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L135" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Trust noteboks matching <code>fname</code></p>
 
@@ -477,7 +377,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_fix_merge" class="doc_header"><code>nbdev_fix_merge</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L214" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_fix_merge</code>(<strong><code>fname</code></strong>:"A notebook filename to fix", <strong><code>fast</code></strong>:"Fast fix: automatically fix the merge conflicts in outputs or metadata"=<em><code>True</code></em>, <strong><code>trust_us</code></strong>:"Use local outputs/metadata when fast mergning"=<em><code>True</code></em>)</p>
+<h4 id="nbdev_fix_merge" class="doc_header"><code>nbdev_fix_merge</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L151" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_fix_merge</code>(<strong><code>fname</code></strong>:"A notebook filename to fix", <strong><code>fast</code></strong>:"Fast fix: automatically fix the merge conflicts in outputs or metadata"=<em><code>True</code></em>, <strong><code>trust_us</code></strong>:"Use local outputs/metadata when fast mergning"=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Fix merge conflicts in notebook <code>fname</code></p>
 
@@ -509,7 +409,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="bump_version" class="doc_header"><code>bump_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L222" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bump_version</code>(<strong><code>version</code></strong>, <strong><code>part</code></strong>=<em><code>2</code></em>)</p>
+<h4 id="bump_version" class="doc_header"><code>bump_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L159" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bump_version</code>(<strong><code>version</code></strong>, <strong><code>part</code></strong>=<em><code>2</code></em>)</p>
 </blockquote>
 
 </div>
@@ -546,7 +446,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_bump_version" class="doc_header"><code>nbdev_bump_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L229" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_bump_version</code>(<strong><code>part</code></strong>:"Part of version to bump"=<em><code>2</code></em>)</p>
+<h4 id="nbdev_bump_version" class="doc_header"><code>nbdev_bump_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L166" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_bump_version</code>(<strong><code>part</code></strong>:"Part of version to bump"=<em><code>2</code></em>)</p>
 </blockquote>
 <p>Increment version in <code>settings.py</code> by one</p>
 
@@ -579,7 +479,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L243" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
+<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L180" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
 </blockquote>
 <p>Install git hooks to clean/trust notebooks automatically</p>
 
@@ -623,7 +523,7 @@ summary: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_new" class="doc_header"><code>nbdev_new</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L296" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_new</code>(<strong><code>name</code></strong>:"A directory to create the project in")</p>
+<h4 id="nbdev_new" class="doc_header"><code>nbdev_new</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L233" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_new</code>(<strong><code>name</code></strong>:"A directory to create the project in")</p>
 </blockquote>
 <p>Create a new nbdev project with a given name.</p>
 
@@ -649,6 +549,7 @@ summary: "Console commands added by the nbdev library"
 </div>
 </div>
 </div>
+    {% endraw %}
 </div>
  
 

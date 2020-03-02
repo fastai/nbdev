@@ -4,6 +4,7 @@
 {% if resources.date != "" and resources.date != nil %}date: {{resources.date}}{% endif %}
 {% if resources.tags != "" and resources.tags != nil %}tags: {{resources.tags}}{% endif %}
 {% if resources.summary != "" and resources.summary != nil %}summary: "{{resources.summary}}"{% endif %}
+{% if resources.summary != "" and resources.summary != nil %}description: "{{resources.summary}}"{% endif %}
 ---
 
 {{ super() }}

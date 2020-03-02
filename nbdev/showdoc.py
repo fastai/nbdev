@@ -53,17 +53,19 @@ def try_external_doc_link(name, packages):
 def doc_link(name, include_bt=True):
     "Create link to documentation for `name`."
     cname = f'`{name}`' if include_bt else name
-    #Link to modulesn
-    if is_lib_module(name): return f"[{cname}]({Config().doc_baseurl}{'_'.join(name.split('.'))})"
-    #Link to local functions
-    try_local = source_nb(name, is_name=True)
-    if try_local:
-        page = _re_digits_first.sub('', try_local).replace('.ipynb', '')
-        return f'[{cname}]({Config().doc_baseurl}{page}#{name})'
-    ##Custom links
-    mod = get_nbdev_module()
-    link = mod.custom_doc_links(name)
-    return f'[{cname}]({link})' if link is not None else cname
+    try:
+        #Link to modulesn
+        if is_lib_module(name): return f"[{cname}]({Config().doc_baseurl}{'_'.join(name.split('.'))})"
+        #Link to local functions
+        try_local = source_nb(name, is_name=True)
+        if try_local:
+            page = _re_digits_first.sub('', try_local).replace('.ipynb', '')
+            return f'[{cname}]({Config().doc_baseurl}{page}#{name})'
+        ##Custom links
+        mod = get_nbdev_module()
+        link = mod.custom_doc_links(name)
+        return f'[{cname}]({link})' if link is not None else cname
+    except: return cname
 
 # Cell
 _re_backticks = re.compile(r"""
@@ -243,8 +245,11 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
     doc += f'\n\n> {args}\n\n' if len(args) > 0 else '\n\n'
     if doc_string and inspect.getdoc(elt):
         s = inspect.getdoc(elt)
+        # show_doc is used by doc so should not rely on Config
+        try: monospace = (Config().get('monospace_docstrings') == 'True')
+        except: monospace = False
         # doc links don't work inside markdown pre/code blocks
-        s = f'```\n{s}\n```' if Config().get('monospace_docstrings') == 'True' else add_doc_links(s)
+        s = f'```\n{s}\n```' if monospace else add_doc_links(s)
         doc += s
     if disp: display(Markdown(doc))
     else: return doc

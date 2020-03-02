@@ -6,6 +6,7 @@ keywords: fastai
 sidebar: home_sidebar
 
 summary: "Functions to show the doc cells in notebooks"
+description: "Functions to show the doc cells in notebooks"
 ---
 <!--
 
@@ -18,7 +19,8 @@ summary: "Functions to show the doc cells in notebooks"
 -->
 
 <div class="container" id="notebook-container">
-    
+    {% raw %}
+        
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
@@ -299,7 +301,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_doc_links" class="doc_header"><code>add_doc_links</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L87" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_doc_links</code>(<strong><code>text</code></strong>)</p>
+<h4 id="add_doc_links" class="doc_header"><code>add_doc_links</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L89" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_doc_links</code>(<strong><code>text</code></strong>)</p>
 </blockquote>
 <p>Search for doc links for any item between backticks in <code>text</code> and isnter them</p>
 
@@ -355,7 +357,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_source_link" class="doc_header"><code>get_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L106" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_source_link</code>(<strong><code>func</code></strong>)</p>
+<h4 id="get_source_link" class="doc_header"><code>get_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L108" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_source_link</code>(<strong><code>func</code></strong>)</p>
 </blockquote>
 <p>Return link to <code>func</code> in source code</p>
 
@@ -396,7 +398,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_nb_source_link" class="doc_header"><code>get_nb_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L129" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_nb_source_link</code>(<strong><code>func</code></strong>, <strong><code>local</code></strong>=<em><code>False</code></em>, <strong><code>is_name</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="get_nb_source_link" class="doc_header"><code>get_nb_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L131" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_nb_source_link</code>(<strong><code>func</code></strong>, <strong><code>local</code></strong>=<em><code>False</code></em>, <strong><code>is_name</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Return a link to the notebook where <code>func</code> is defined.</p>
 
@@ -445,7 +447,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nb_source_link" class="doc_header"><code>nb_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L160" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nb_source_link</code>(<strong><code>func</code></strong>, <strong><code>is_name</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="nb_source_link" class="doc_header"><code>nb_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L162" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nb_source_link</code>(<strong><code>func</code></strong>, <strong><code>is_name</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Show a relative link to the notebook where <code>func</code> is defined</p>
 
@@ -499,7 +501,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="type_repr" class="doc_header"><code>type_repr</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L172" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>type_repr</code>(<strong><code>t</code></strong>)</p>
+<h4 id="type_repr" class="doc_header"><code>type_repr</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L174" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>type_repr</code>(<strong><code>t</code></strong>)</p>
 </blockquote>
 <p>Representation of type <code>t</code> (in a type annotation)</p>
 
@@ -547,7 +549,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="format_param" class="doc_header"><code>format_param</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L186" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>format_param</code>(<strong><code>p</code></strong>)</p>
+<h4 id="format_param" class="doc_header"><code>format_param</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L188" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>format_param</code>(<strong><code>p</code></strong>)</p>
 </blockquote>
 <p>Formats function param to <code>param:Type=val</code> with font weights: param=bold, val=italic</p>
 
@@ -595,7 +597,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="show_doc" class="doc_header"><code>show_doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L230" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>show_doc</code>(<strong><code>elt</code></strong>, <strong><code>doc_string</code></strong>=<em><code>True</code></em>, <strong><code>name</code></strong>=<em><code>None</code></em>, <strong><code>title_level</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>, <strong><code>default_cls_level</code></strong>=<em><code>2</code></em>)</p>
+<h4 id="show_doc" class="doc_header"><code>show_doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L232" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>show_doc</code>(<strong><code>elt</code></strong>, <strong><code>doc_string</code></strong>=<em><code>True</code></em>, <strong><code>name</code></strong>=<em><code>None</code></em>, <strong><code>title_level</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>, <strong><code>default_cls_level</code></strong>=<em><code>2</code></em>)</p>
 </blockquote>
 <p>Show documentation for element <code>elt</code>. Supported types: class, function, and enum.</p>
 
@@ -645,7 +647,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="md2html" class="doc_header"><code>md2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L253" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md2html</code>(<strong><code>md</code></strong>)</p>
+<h4 id="md2html" class="doc_header"><code>md2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L258" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md2html</code>(<strong><code>md</code></strong>)</p>
 </blockquote>
 <p>Convert markdown <code>md</code> to HTML code</p>
 
@@ -669,7 +671,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_doc_link" class="doc_header"><code>get_doc_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L260" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_doc_link</code>(<strong><code>func</code></strong>)</p>
+<h4 id="get_doc_link" class="doc_header"><code>get_doc_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L265" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_doc_link</code>(<strong><code>func</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -720,7 +722,7 @@ summary: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="doc" class="doc_header"><code>doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L272" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc</code>(<strong><code>elt</code></strong>)</p>
+<h4 id="doc" class="doc_header"><code>doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L277" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc</code>(<strong><code>elt</code></strong>)</p>
 </blockquote>
 <p>Show <a href="/showdoc#show_doc"><code>show_doc</code></a> info in preview window when used in a notebook</p>
 
@@ -732,6 +734,7 @@ summary: "Functions to show the doc cells in notebooks"
 </div>
 
 </div>
+    {% endraw %}
 </div>
  
 

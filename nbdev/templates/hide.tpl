@@ -1,7 +1,18 @@
 {%- extends 'basic.tpl' -%}
 
 {% block input_group -%}
-{%- if cell.metadata.hide_input or nb.metadata.hide_input -%}
+{%- if cell.metadata.collapse_show -%}
+    <details class="description" open>
+      <summary data-open="Hide Code" data-close="Show Code"></summary>
+        {{ super() }}
+    </details>
+{%- elif cell.metadata.collapse_hide -%}
+    <details class="description">
+      <summary data-open="Hide Code" data-close="Show Code"></summary>
+        <summary></summary>
+        {{ super() }}
+    </details>
+{%- elif cell.metadata.hide_input or nb.metadata.hide_input -%}
 {%- else -%}
     {{ super()  }}
 {%- endif -%}
