@@ -149,7 +149,7 @@ _re_obj_def = re.compile(r"""
 def _not_private(n):
     for t in n.split('.'):
         if (t.startswith('_') and not t.startswith('__')) or t.startswith('@'): return False
-    return '\\' not in t and '^' not in t and '[' not in t
+    return '\\' not in t and '^' not in t and '[' not in t and t != 'else'
 
 def export_names(code, func_only=False):
     "Find the names of the objects, functions or classes defined in `code` that are exported."
