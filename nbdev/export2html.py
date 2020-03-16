@@ -181,10 +181,6 @@ def adapt_img_path(cell, fname, dest, jekyll=True):
     return cell
 
 # Cell
-#Matches any cell with #hide or #default_exp or #default_cls_lvl or #exporti
-_re_cell_to_remove = re.compile(r'^\s*#\s*(hide|default_exp|default_cls_lvl|exporti)\s+')
-
-# Cell
 #Matches any cell with #collapse or #collapse_hide
 _re_cell_to_collapse_closed = re.compile(r'^\s*#\s*(collapse|collapse_hide|collapse-hide)\s+')
 
@@ -197,6 +193,10 @@ def collapse_cells(cell):
     if check_re(cell, _re_cell_to_collapse_closed):  cell['metadata'] = {'collapse_hide': True}
     elif check_re(cell, _re_cell_to_collapse_open):  cell['metadata'] = {'collapse_show': True}
     return cell
+
+# Cell
+#Matches any cell with #hide or #default_exp or #default_cls_lvl or #exporti
+_re_cell_to_remove = re.compile(r'^\s*#\s*(hide|default_exp|default_cls_lvl|exporti|all_([^\s]*))\s*')
 
 # Cell
 def remove_hidden(cells):
