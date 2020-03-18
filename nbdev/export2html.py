@@ -196,7 +196,7 @@ def collapse_cells(cell):
 
 # Cell
 #Matches any cell with #hide or #default_exp or #default_cls_lvl or #exporti
-_re_cell_to_remove = re.compile(r'^\s*#\s*(hide|default_exp|default_cls_lvl|exporti|all_([^\s]*))\s*')
+_re_cell_to_remove = re.compile(r'^\s*#\s*(hide\s|default_exp|default_cls_lvl|exporti|all_([^\s]*))\s*')
 
 # Cell
 def remove_hidden(cells):
