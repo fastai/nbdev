@@ -150,7 +150,7 @@ def copy_images(cell, fname, dest, jekyll=True):
             dic['src'] = src
             return _img2jkl(dic, h, jekyll=jekyll)
         else:  return f"{grps[0]}{src}{grps[2]}"
-    cell['source'] = _re_image.sub(_rep_src, cell['source'])
+    if cell['cell_type'] == 'markdown': cell['source'] = _re_image.sub(_rep_src, cell['source'])
     return cell
 
 # Cell
