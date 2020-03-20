@@ -19,14 +19,21 @@ description: "The functions that transform notebooks in a library"
 -->
 
 <div class="container" id="notebook-container">
-    {% raw %}
         
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The most important function defined in this module is <code>notebooks2script</code>, so you may want to jump to it before scrolling though the rest, which explain the details behind the scenes of the conversion from notebooks to library. The main things to remember are:</p>
@@ -55,6 +62,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -76,6 +85,10 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -96,6 +109,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We derive some useful variables to check what environment we're in:</p>
@@ -103,6 +118,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -119,6 +136,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Then we have a few util functions.</p>
@@ -126,6 +145,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -147,6 +168,10 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -162,6 +187,10 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -183,6 +212,10 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -200,6 +233,10 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -221,6 +258,10 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -244,9 +285,17 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -268,6 +317,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Reading-a-notebook">Reading a notebook<a class="anchor-link" href="#Reading-a-notebook"> </a></h2>
@@ -287,9 +338,15 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -311,6 +368,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>fname</code> can be a string or a pathlib object.</p>
@@ -318,6 +377,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -331,6 +392,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The root has four keys: <code>cells</code> contains the cells of the notebook, <code>metadata</code> some stuff around the version of python used to execute the notebook, <code>nbformat</code> and <code>nbformat_minor</code> the version of nbformat.</p>
@@ -338,6 +401,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -367,6 +432,10 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -399,6 +468,10 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -428,6 +501,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The cells key then contains a list of cells. Each one is a new dictionary that contains entries like the type (code or markdown), the source (what is written in the cell) and the output (for code cells).</p>
@@ -435,6 +510,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -468,6 +545,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Finding-patterns">Finding patterns<a class="anchor-link" href="#Finding-patterns"> </a></h3>
@@ -481,9 +560,15 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -505,6 +590,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>pat</code> can be a string or a compiled regex, if <code>code_only=True</code>, this function ignores markdown cells.</p>
@@ -512,6 +599,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -531,18 +620,38 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -564,6 +673,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The cells to export are marked with an <code>#export</code>, <code>#exports</code> or <code>#exporti</code> code, potentially with a module name where we want it exported. The default module is given in a cell of the form <code>#default_exp bla</code> inside the notebook (usually at the top), though in this function, it needs the be passed (the final script will read the whole notebook to find it).</p>
@@ -578,6 +689,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -608,12 +721,24 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -635,6 +760,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Stops at the first cell containing a <code># default_exp</code> flag (if there are several) and returns the value behind. Returns <code>None</code> if there are no cell with that code.</p>
@@ -642,6 +769,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -656,6 +785,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Listing-all-exported-objects">Listing all exported objects<a class="anchor-link" href="#Listing-all-exported-objects"> </a></h3>
@@ -669,21 +800,43 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -705,6 +858,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This function only picks the zero-indented objects on the left side of an =, functions or classes (we don't want the class methods for instance) and excludes private names (that begin with <code>_</code>) but no dunder names. It only returns func and class names (not the objects) when <code>func_only=True</code>.</p>
@@ -713,6 +868,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -762,12 +919,24 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -789,6 +958,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Sometimes objects are not picked to be automatically added to the <code>__all__</code> of the module so you will need to add them manually. To do so, create an exported cell with the following code <code>_all_ = ["name"]</code> (the single underscores are intentional)&gt;</p>
@@ -796,6 +967,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -812,9 +985,17 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -839,9 +1020,17 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -863,6 +1052,8 @@ description: "The functions that transform notebooks in a library"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>When we say from</p>
@@ -882,6 +1073,8 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -899,12 +1092,22 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Create-the-library">Create the library<a class="anchor-link" href="#Create-the-library"> </a></h2>
@@ -924,12 +1127,22 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -951,12 +1164,24 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -978,12 +1203,24 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -1005,15 +1242,23 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Create-the-modules">Create the modules<a class="anchor-link" href="#Create-the-modules"> </a></h3>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -1035,6 +1280,8 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A new module filename is created each time a notebook has a cell marked with <code># default_exp</code>. In your collection of notebooks, you should only have one notebook that creates a given module since they are re-created each time you do a library build (to ensure the library is clean). Note that any file you create manually will never be overwritten (unless it has the same name as one of the modules defined in a <code># default_exp</code> cell) so you are responsible to clean up those yourself.</p>
@@ -1043,12 +1290,22 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -1070,6 +1327,10 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -1091,12 +1352,24 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -1118,12 +1391,24 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -1145,9 +1430,17 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -1169,6 +1462,8 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Finds cells starting with <code>#export</code> and puts them into the appropriate module. If <code>fname</code> is not specified, this will convert all notebook not beginning with an underscore in the <code>nb_folder</code> defined in <code>setting.ini</code>. Otherwise <code>fname</code> can be a single filename or a glob expression.</p>
@@ -1177,7 +1472,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 </div>
 </div>
-    {% endraw %}
 </div>
  
 

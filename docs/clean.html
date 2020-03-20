@@ -19,14 +19,21 @@ description: "Strip notebooks from superfluous metadata"
 -->
 
 <div class="container" id="notebook-container">
-    {% raw %}
         
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To avoid pointless conflicts while working with jupyter notebooks (with different execution counts or cell metadata), it is recommended to clean the notebooks before commiting anything (done automatically if you install the git hooks with <a href="/cli#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a>). The following functions are used to do that.</p>
@@ -40,9 +47,15 @@ description: "Strip notebooks from superfluous metadata"
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -64,9 +77,17 @@ description: "Strip notebooks from superfluous metadata"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -88,12 +109,24 @@ description: "Strip notebooks from superfluous metadata"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -115,6 +148,10 @@ description: "Strip notebooks from superfluous metadata"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -147,9 +184,17 @@ description: "Strip notebooks from superfluous metadata"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -171,6 +216,10 @@ description: "Strip notebooks from superfluous metadata"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 
@@ -198,21 +247,37 @@ description: "Strip notebooks from superfluous metadata"
 </div>
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Main-function">Main function<a class="anchor-link" href="#Main-function"> </a></h2>
 </div>
 </div>
 </div>
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 </div>
+    {% endraw %}
+
+    {% raw %}
+    
 <div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
@@ -234,6 +299,8 @@ description: "Strip notebooks from superfluous metadata"
 </div>
 
 </div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>By default (<code>fname</code> left to <code>None</code>), the all the notebooks in <code>lib_folder</code> are cleaned. You can opt in to fully clean the noteobok by removing every bit of metadata and the cell outputs by passing <code>clear_all=True</code>. <code>disp</code> is only used for internal use with git hooks and will print the clean notebook instead of saving it. Same for <code>read_input_stream</code> that will read the notebook from the input stream instead of the file names.</p>
@@ -241,7 +308,6 @@ description: "Strip notebooks from superfluous metadata"
 </div>
 </div>
 </div>
-    {% endraw %}
 </div>
  
 
