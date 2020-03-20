@@ -1,5 +1,11 @@
 {%- extends 'basic.tpl' -%}
 
+{% block codecell %}
+    {{ "{% raw %}" }}
+    {{ super() }}
+    {{ "{% endraw %}" }}
+{% endblock codecell %}
+
 {% block input_group -%}
 {%- if cell.metadata.collapse_show -%}
     <details class="description" open>
