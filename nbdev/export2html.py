@@ -141,7 +141,11 @@ def copy_images(cell, fname, dest, jekyll=True):
             h = HTMLParseAttrs()
             dic = h(grps[3])
             src = dic['src']
-        else: src = grps[1]
+        else:
+            cap = re.search(r'(\s"[^"]*")', grps[1])
+            if cap is not None:
+                grps = (grps[0], re.sub(r'\s"[^"]*"', '', grps[1]), cap.groups()[0] + grps[2], grps[3])
+            src = grps[1]
         if _is_real_image(src):
             os.makedirs((Path(dest)/src).parent, exist_ok=True)
             shutil.copy(Path(fname).parent/src, Path(dest)/src)
