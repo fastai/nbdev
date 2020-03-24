@@ -7,6 +7,7 @@ __all__ = ['rm_execution_count', 'clean_cell_output', 'cell_metadata_keep', 'nb_
 import io,sys,json,glob
 from fastscript import call_parse,Param
 from .imports import Config
+from pathlib import Path
 
 # Cell
 def rm_execution_count(o):
@@ -64,7 +65,10 @@ def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
         clean_nb(nb, clear_all=clear_all)
         _print_output(nb)
         return
-    files = Config().nbs_path.glob('**/*.ipynb') if fname is None else glob.glob(fname)
+    if fname is None:
+        try: path = Config().nbs_path
+        except Exception as e: path = Path.cwd()
+    files = path.glob('**/*.ipynb') if fname is None else glob.glob(fname)
     for f in files:
         if not str(f).endswith('.ipynb'): continue
         nb = json.load(open(f, 'r', encoding='utf-8'))
