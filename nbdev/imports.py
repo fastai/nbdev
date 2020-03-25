@@ -37,7 +37,7 @@ class Config:
     "Store the basic information for nbdev to work"
     def __init__(self, cfg_name='settings.ini'):
         cfg_path = Path.cwd()
-        while cfg_path != Path('/') and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
+        while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
         self.config_file = cfg_path/cfg_name
         assert self.config_file.exists(), "Use `create_config` to create settings.ini for the first time"
         self.d = read_config_file(self.config_file)['DEFAULT']
