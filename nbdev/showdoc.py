@@ -55,7 +55,7 @@ def doc_link(name, include_bt=True):
     cname = f'`{name}`' if include_bt else name
     try:
         #Link to modulesn
-        if is_lib_module(name): return f"[{cname}]({Config().doc_baseurl}{'_'.join(name.split('.'))})"
+        if is_lib_module(name): return f"[{cname}]({Config().doc_baseurl}{name})"
         #Link to local functions
         try_local = source_nb(name, is_name=True)
         if try_local:
