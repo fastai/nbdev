@@ -191,7 +191,7 @@ _re_latex = re.compile(r'^(\$\$.*\$\$)$', re.MULTILINE)
 # Cell
 def escape_latex(cell):
     if cell['cell_type'] != 'markdown': return cell
-    cell['source'] = _re_latex.sub(r'{{% raw %}}\n\1\n{{% endraw %}}', cell['source'])
+    cell['source'] = _re_latex.sub(r'{% raw %}\n\1\n{% endraw %}', cell['source'])
     return cell
 
 # Cell
