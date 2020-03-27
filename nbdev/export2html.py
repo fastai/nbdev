@@ -396,6 +396,36 @@ def _nb2htmlfname(nb_path, dest=None):
     return Path(dest)/_re_digits.sub('', nb_path.with_suffix('.html').name)
 
 # Cell
+_re_cite = re.compile(r"(\\cite{)([^}]*)(})", re.MULTILINE | re.VERBOSE) # Catches citations used with `\cite{}`
+
+# Cell
+def _textcite2link(text):
+    citations = _re_cite.finditer(text)
+    out = []
+    start_pos = 0
+    for cit_group in citations:
+        cit_pos_st =  cit_group.span()[0]
+        cit_pos_fin =  cit_group.span()[1]
+        out.append(text[start_pos:cit_pos_st])
+        out.append('[')
+        cit_group = cit_group[2].split(',')
+        for i, cit in enumerate(cit_group):
+            cit=cit.strip()
+            out.append(f"""<a class="latex_cit" id="call-{cit}" href="#cit-{cit}">{cit}</a>""")
+            if i != len(cit_group) - 1:
+                out.append(',')
+        out.append(']')
+        start_pos = cit_pos_fin
+    out.append(text[start_pos:])
+    return ''.join(out)
+
+# Cell
+def _cite2link(cell):
+    _rep_citelink = r"""[<a class="latex_cit" id="call-\2" href="#cit-\2">\2</a>]"""
+    if cell['cell_type'] == 'markdown': cell['source'] = _textcite2link(cell['source'])
+    return cell
+
+# Cell
 def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
     "Convert a notebook `fname` to html file in `dest_path`."
     fname = Path(fname).absolute()
