@@ -129,7 +129,7 @@ _re_typedispatch_func = re.compile(r"""
 _re_class_func_def = re.compile(r"""
 # Catches any 0-indented function or class definition with its name in group 1
 ^              # Beginning of a line (since re.MULTILINE is passed)
-(?:def|class)  # Non-catching group for def or class
+(?:async\sdef|def|class)  # Non-catching group for def or class
 \s+            # One whitespace or more
 ([^\(\s]+)     # Catching group with any character except an opening parenthesis or a whitespace (name)
 \s*            # Any number of whitespace
