@@ -1,6 +1,7 @@
 from pkg_resources import parse_version
 from configparser import ConfigParser
 import setuptools
+import re
 assert parse_version(setuptools.__version__)>=parse_version('36.2')
 
 # note: all settings are in settings.ini; edit there, not here
@@ -23,6 +24,12 @@ py_versions = '2.0 2.1 2.2 2.3 2.4 2.5 2.6 2.7 3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 3
 requirements = cfg.get('requirements','').split()
 lic = licenses[cfg['license']]
 min_python = cfg['min_python']
+
+readme_content = open('README.md').read()
+# ![png](docs/images/output_13_0.png)
+for ext in ['png', 'svg']:
+    readme_content = re.sub(r'!\['+ext+'\]\((.*)\)', '!['+ext+']('+'https://raw.githubusercontent.com/{}/{}'.format(cfg['user'],cfg['lib_name'])+'/'+cfg['branch']+'/\\1)', readme_content)
+    readme_content = re.sub(r'src=\"(.*)\.'+ext+'\"', 'src=\"https://raw.githubusercontent.com/{}/{}'.format(cfg['user'],cfg['lib_name'])+'/'+cfg['branch']+'/\\1.'+ext+'\"', readme_content)
 
 setuptools.setup(
     name = cfg['lib_name'],
