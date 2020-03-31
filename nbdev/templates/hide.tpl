@@ -26,6 +26,12 @@
 
 {% block output_group -%}
 {%- if cell.metadata.hide_output -%}
+{%- elif cell.metadata.collapse_output -%}
+    <details class="description">
+      <summary data-open="Hide Output" data-close="Show Output"></summary>
+        <summary></summary>
+        {{ super() }}
+    </details>
 {%- else -%}
     {{ super()  }}
 {%- endif -%}

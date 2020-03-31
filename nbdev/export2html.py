@@ -205,11 +205,15 @@ _re_cell_to_collapse_closed = re.compile(r'^\s*#\s*(collapse|collapse_hide|colla
 #Matches any cell with #collapse_show
 _re_cell_to_collapse_open = re.compile(r'^\s*#\s*(collapse_show|collapse-show)\s+')
 
+#Matches any cell with #collapse_output or #collapse-output
+_re_cell_to_collapse_output = re.compile(r'^\s*#\s*(collapse_output|collapse-output)\s+')
+
 # Cell
 def collapse_cells(cell):
     "Add a collapse button to inputs of `cell` in either the open or closed position"
     if check_re(cell, _re_cell_to_collapse_closed):  cell['metadata'] = {'collapse_hide': True}
     elif check_re(cell, _re_cell_to_collapse_open):  cell['metadata'] = {'collapse_show': True}
+    elif check_re(cell, _re_cell_to_collapse_output):  cell['metadata'] = {'collapse_output': True}
     return cell
 
 # Cell
