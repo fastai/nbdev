@@ -49,10 +49,14 @@ def remove_widget_state(cell):
 # Matches any cell that has a `show_doc` or an `#export` in it
 _re_cell_to_hide = r's*show_doc\(|^\s*#\s*export\s+|^\s*#\s*hide_input\s+'
 
+# Matches any cell with `#hide_output` or `#hide_output`
+_re_hide_output = r'^\s*#\s*hide-output\s+|^\s*#\s*hide_output\s+'
+
 # Cell
 def hide_cells(cell):
     "Hide inputs of `cell` that need to be hidden"
     if check_re(cell, _re_cell_to_hide):  cell['metadata'] = {'hide_input': True}
+    elif check_re(cell, _re_hide_output):  cell['metadata'] = {'hide_output': True}
     return cell
 
 # Cell
