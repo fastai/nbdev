@@ -49,10 +49,14 @@ def remove_widget_state(cell):
 # Matches any cell that has a `show_doc` or an `#export` in it
 _re_cell_to_hide = r's*show_doc\(|^\s*#\s*export\s+|^\s*#\s*hide_input\s+'
 
+# Matches any cell with `#hide_output` or `#hide_output`
+_re_hide_output = r'^\s*#\s*hide-output\s+|^\s*#\s*hide_output\s+'
+
 # Cell
 def hide_cells(cell):
     "Hide inputs of `cell` that need to be hidden"
     if check_re(cell, _re_cell_to_hide):  cell['metadata'] = {'hide_input': True}
+    elif check_re(cell, _re_hide_output):  cell['metadata'] = {'hide_output': True}
     return cell
 
 # Cell
@@ -201,11 +205,15 @@ _re_cell_to_collapse_closed = re.compile(r'^\s*#\s*(collapse|collapse_hide|colla
 #Matches any cell with #collapse_show
 _re_cell_to_collapse_open = re.compile(r'^\s*#\s*(collapse_show|collapse-show)\s+')
 
+#Matches any cell with #collapse_output or #collapse-output
+_re_cell_to_collapse_output = re.compile(r'^\s*#\s*(collapse_output|collapse-output)\s+')
+
 # Cell
 def collapse_cells(cell):
     "Add a collapse button to inputs of `cell` in either the open or closed position"
     if check_re(cell, _re_cell_to_collapse_closed):  cell['metadata'] = {'collapse_hide': True}
     elif check_re(cell, _re_cell_to_collapse_open):  cell['metadata'] = {'collapse_show': True}
+    elif check_re(cell, _re_cell_to_collapse_output):  cell['metadata'] = {'collapse_output': True}
     return cell
 
 # Cell
