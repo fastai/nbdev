@@ -1,6 +1,7 @@
 from pkg_resources import parse_version
 from configparser import ConfigParser
 import setuptools
+import re
 assert parse_version(setuptools.__version__)>=parse_version('36.2')
 
 # note: all settings are in settings.ini; edit there, not here
@@ -24,6 +25,12 @@ requirements = cfg.get('requirements','').split()
 lic = licenses[cfg['license']]
 min_python = cfg['min_python']
 
+long_description = open('README.md').read()
+# ![png](docs/images/output_13_0.png)
+for ext in ['png', 'svg']:
+    long_description = re.sub(r'!\['+ext+'\]\((.*)\)', '!['+ext+']('+'https://raw.githubusercontent.com/{}/{}'.format(cfg['user'],cfg['lib_name'])+'/'+cfg['branch']+'/\\1)', long_description)
+    long_description = re.sub(r'src=\"(.*)\.'+ext+'\"', 'src=\"https://raw.githubusercontent.com/{}/{}'.format(cfg['user'],cfg['lib_name'])+'/'+cfg['branch']+'/\\1.'+ext+'\"', long_description)
+
 setuptools.setup(
     name = cfg['lib_name'],
     license = lic[0],
@@ -38,7 +45,7 @@ setuptools.setup(
     include_package_data = True,
     install_requires = requirements,
     python_requires  = '>=' + cfg['min_python'],
-    long_description = open('README.md').read(),
+    long_description = long_description,
     long_description_content_type = 'text/markdown',
     zip_safe = False,
     entry_points = { 'console_scripts': cfg.get('console_scripts','').split() },
