@@ -65,7 +65,7 @@ description: "Strip notebooks from superfluous metadata"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="rm_execution_count" class="doc_header"><code>rm_execution_count</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L12" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rm_execution_count</code>(<strong><code>o</code></strong>)</p>
+<h4 id="rm_execution_count" class="doc_header"><code>rm_execution_count</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L13" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rm_execution_count</code>(<strong><code>o</code></strong>)</p>
 </blockquote>
 <p>Remove execution count in <code>o</code></p>
 
@@ -97,7 +97,7 @@ description: "Strip notebooks from superfluous metadata"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="clean_cell_output" class="doc_header"><code>clean_cell_output</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell_output</code>(<strong><code>cell</code></strong>)</p>
+<h4 id="clean_cell_output" class="doc_header"><code>clean_cell_output</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell_output</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
 <p>Remove execution count in <code>cell</code></p>
 
@@ -136,7 +136,7 @@ description: "Strip notebooks from superfluous metadata"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="clean_cell" class="doc_header"><code>clean_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L27" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell</code>(<strong><code>cell</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="clean_cell" class="doc_header"><code>clean_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L28" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell</code>(<strong><code>cell</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Clean <code>cell</code> by removing superluous metadata or everything except the input if <code>clear_all</code></p>
 
@@ -204,9 +204,9 @@ description: "Strip notebooks from superfluous metadata"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="clean_nb" class="doc_header"><code>clean_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L36" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_nb</code>(<strong><code>nb</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="clean_nb" class="doc_header"><code>clean_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L37" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_nb</code>(<strong><code>nb</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Clean <code>nb</code> from superfulous metadata, passing <code>clear_all</code> to <a href="/clean#clean_cell"><code>clean_cell</code></a></p>
+<p>Clean <code>nb</code> from superfulous metadata, passing <code>clear_all</code> to <code>clean_cell</code></p>
 
 </div>
 
@@ -287,7 +287,7 @@ description: "Strip notebooks from superfluous metadata"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_clean_nbs" class="doc_header"><code>nbdev_clean_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L54" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_clean_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>clear_all</code></strong>:"Clean all metadata and outputs"=<em><code>False</code></em>, <strong><code>disp</code></strong>:"Print the cleaned outputs"=<em><code>False</code></em>, <strong><code>read_input_stream</code></strong>:"Read input stram and not nb folder"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_clean_nbs" class="doc_header"><code>nbdev_clean_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L55" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_clean_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>clear_all</code></strong>:"Clean all metadata and outputs"=<em><code>False</code></em>, <strong><code>disp</code></strong>:"Print the cleaned outputs"=<em><code>False</code></em>, <strong><code>read_input_stream</code></strong>:"Read input stram and not nb folder"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Clean all notebooks in <code>fname</code> to avoid merge conflicts</p>
 
