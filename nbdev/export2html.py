@@ -407,7 +407,7 @@ def write_tmpls():
     "Write out _config.yml and _data/topnav.yml using templates"
     cfg = Config()
     write_tmpl(config_tmpl, 'user lib_name title copyright description', cfg, cfg.doc_path/'_config.yml')
-    write_tmpl(topnav_tmpl, 'user lib_name', cfg, cfg.doc_path/'_data'/'topnav.yml')
+    write_tmpl(topnav_tmpl, 'host git_url', cfg, cfg.doc_path/'_data'/'topnav.yml')
     write_tmpl(makefile_tmpl, 'nbs_path lib_name', cfg, cfg.config_file.parent/'Makefile')
 
 # Cell

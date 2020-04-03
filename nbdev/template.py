@@ -31,19 +31,8 @@ clean:
 topnav_tmpl = """topnav:
 - title: Topnav
   items:
-    - title: GitHub
-      external_url: https://github.com/{user}/{lib_name}
-
-#Topnav dropdowns
-topnav_dropdowns:
-- title: Topnav dropdowns
-  folders:"""
-
-topnva_tmpl_gitlab = """topnav:
-- title: Topnav
-  items:
-    - title: GitLab 
-      external_url: https://{gitlab_link}
+    - title: {host}
+      external_url: {git_url}
 
 #Topnav dropdowns
 topnav_dropdowns:
