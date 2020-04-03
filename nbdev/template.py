@@ -39,6 +39,17 @@ topnav_dropdowns:
 - title: Topnav dropdowns
   folders:"""
 
+topnva_tmpl_gitlab = """topnav:
+- title: Topnav
+  items:
+    - title: GitLab 
+      external_url: https://{gitlab_link}
+
+#Topnav dropdowns
+topnav_dropdowns:
+- title: Topnav dropdowns
+  folders:"""
+
 config_tmpl = """repository: {user}/{lib_name}
 output: web
 topnav_title: {title}
