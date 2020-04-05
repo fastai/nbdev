@@ -313,6 +313,16 @@ _re_properties = re.compile(r"""
 (.*?)$     # Any pattern (shortest possible) then end of line
 """, re.MULTILINE | re.VERBOSE)
 
+_re_mdlinks = re.compile(r"\[(.+)]\((.+)\)", re.MULTILINE)
+
+# Cell
+def _md2html_links(s):
+    matches = _re_mdlinks.findall(s)
+    for name,ref in matches:
+        s = s.replace(f'({ref})', f'{name}</a>')
+        s = s.replace(f'[{name}]', f"<a href='{ref}'>")
+    return s
+
 # Cell
 def get_metadata(cells):
     "Find the cell with title and summary in `cells`."
@@ -323,8 +333,8 @@ def get_metadata(cells):
                 cells.pop(i)
                 attrs = {k:v for k,v in _re_properties.findall(cell['source'])}
                 return {'keywords': 'fastai',
-                        'summary' : match.groups()[1],
-                        'title'   : match.groups()[0],
+                        'summary' : _md2html_links(match.groups()[1]),
+                        'title'   : _md2html_links(match.groups()[0]),
                         **attrs}
 
     return {'keywords': 'fastai',
