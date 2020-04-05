@@ -317,6 +317,7 @@ _re_mdlinks = re.compile(r"\[(.+)]\((.+)\)", re.MULTILINE)
 
 # Cell
 def _md2html_links(s):
+    'Converts markdown links to html links'
     matches = _re_mdlinks.findall(s)
     for name,ref in matches:
         s = s.replace(f'({ref})', f'{name}</a>')
