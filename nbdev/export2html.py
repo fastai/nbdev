@@ -313,6 +313,13 @@ _re_properties = re.compile(r"""
 (.*?)$     # Any pattern (shortest possible) then end of line
 """, re.MULTILINE | re.VERBOSE)
 
+_re_mdlinks = re.compile(r"\[(.+)]\((.+)\)", re.MULTILINE)
+
+# Cell
+def _md2html_links(s):
+    'Converts markdown links to html links'
+    return _re_mdlinks.sub(r"<a href='\2'>\1</a>", s)
+
 # Cell
 def get_metadata(cells):
     "Find the cell with title and summary in `cells`."
@@ -323,7 +330,7 @@ def get_metadata(cells):
                 cells.pop(i)
                 attrs = {k:v for k,v in _re_properties.findall(cell['source'])}
                 return {'keywords': 'fastai',
-                        'summary' : match.groups()[1],
+                        'summary' : _md2html_links(match.groups()[1]),
                         'title'   : match.groups()[0],
                         **attrs}
 

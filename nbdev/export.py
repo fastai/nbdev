@@ -99,6 +99,7 @@ def find_default_export(cells):
 _re_patch_func = re.compile(r"""
 # Catches any function decorated with @patch, its name in group 1 and the patched class in group 2
 @patch         # At any place in the cell, something that begins with @patch
+(?:\s*@.*)*    # Any other decorator applied to the function
 \s*def         # Any number of whitespace (including a new line probably) followed by def
 \s+            # One whitespace or more
 ([^\(\s]+)     # Catch a group composed of anything but whitespace or an opening parenthesis (name of the function)
