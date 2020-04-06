@@ -335,7 +335,7 @@ def get_metadata(cells):
                 attrs = {k:v for k,v in _re_properties.findall(cell['source'])}
                 return {'keywords': 'fastai',
                         'summary' : _md2html_links(match.groups()[1]),
-                        'title'   : _md2html_links(match.groups()[0]),
+                        'title'   : match.groups()[0],
                         **attrs}
 
     return {'keywords': 'fastai',
