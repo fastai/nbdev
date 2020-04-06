@@ -40,7 +40,7 @@ setuptools.setup(
         'License :: ' + lic[1],
         'Natural Language :: ' + cfg['language'].title(),
     ] + ['Programming Language :: Python :: '+o for o in py_versions[py_versions.index(min_python):]],
-    url = 'https://github.com/{}/{}'.format(cfg['user'],cfg['lib_name']),
+    url = cfg['git_url'], 
     packages = setuptools.find_packages(),
     include_package_data = True,
     install_requires = requirements,
