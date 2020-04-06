@@ -22,7 +22,7 @@ def read_config_file(file):
     config.read(file)
     return config
 
-_defaults = {"doc_host": "https://%(user)s.github.io", "doc_baseurl": "/%(lib_name)s/"}
+_defaults = {"host": "github", "doc_host": "https://%(user)s.github.io", "doc_baseurl": "/%(lib_name)s/"}
 
 
 def add_new_defaults(cfg, file):
