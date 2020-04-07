@@ -339,6 +339,16 @@ def get_metadata(cells):
             'title'   : 'Title'}
 
 # Cell
+_re_mod_export = re.compile(r"^\s*#\s*export[s]? \s*(\S+)\s*$", re.IGNORECASE | re.MULTILINE)
+
+def _gather_export_mods(cells):
+    res = []
+    for cell in cells:
+        if check_re(cell, _re_mod_export) is not None:
+            res.append(check_re(cell, _re_mod_export).groups()[0])
+    return res
+
+# Cell
 _re_cell_to_execute = ReLibName(r"^\s*show_doc\(([^\)]*)\)|^from LIB_NAME\.", re.MULTILINE)
 
 # Cell
@@ -351,10 +361,11 @@ class ExecuteShowDocPreprocessor(ExecutePreprocessor):
         return cell, resources
 
 # Cell
-def _import_show_doc_cell(mod=None):
+def _import_show_doc_cell(mods=None):
     "Add an import show_doc cell."
     source = f"#export\nfrom nbdev.showdoc import show_doc"
-    if mod:  source += f"\nfrom {Config().lib_name}.{mod} import *"
+    if mods is not None:
+        for mod in mods: source += f"\nfrom {Config().lib_name}.{mod} import *"
     return {'cell_type': 'code',
             'execution_count': None,
             'metadata': {'hide_input': True},
@@ -363,7 +374,8 @@ def _import_show_doc_cell(mod=None):
 
 def execute_nb(nb, mod=None, metadata=None, show_doc_only=True):
     "Execute `nb` (or only the `show_doc` cells) with `metadata`"
-    nb['cells'].insert(0, _import_show_doc_cell(mod))
+    mods = ([] if mod is None else [mod]) + _gather_export_mods(nb['cells'])
+    nb['cells'].insert(0, _import_show_doc_cell(mods))
     ep_cls = ExecuteShowDocPreprocessor if show_doc_only else ExecutePreprocessor
     ep = ep_cls(timeout=600, kernel_name='python3')
     metadata = metadata or {}
