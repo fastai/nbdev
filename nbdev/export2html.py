@@ -306,6 +306,15 @@ _re_title_summary = re.compile(r"""
 ([^\n]*)   # Catching group for any character except a new line
 """, re.VERBOSE)
 
+#export
+_re_title_only = re.compile(r"""
+# Catches the title presented as # Title without a summary
+^\s*       # Beginning of text followe by any number of whitespace
+\#\s+      # # followed by one or more of whitespace
+([^\n]*)   # Catching group for any character except a new line
+(?:\n|$)    # New line or end of text
+""", re.VERBOSE)
+
 _re_properties = re.compile(r"""
 ^-\s+      # Beginnig of a line followed by - and at least one space
 (.*?)      # Any pattern (shortest possible)
@@ -333,9 +342,15 @@ def get_metadata(cells):
                         'summary' : _md2html_links(match.groups()[1]),
                         'title'   : match.groups()[0],
                         **attrs}
+            elif _re_title_only.search(cell['source']) is not None:
+                title = _re_title_only.search(cell['source']).groups()[0]
+                cells.pop(i)
+                attrs = {k:v for k,v in _re_properties.findall(cell['source'])}
+                return {'keywords': 'fastai',
+                        'title'   : title,
+                        **attrs}
 
     return {'keywords': 'fastai',
-            'summary' : 'summary',
             'title'   : 'Title'}
 
 # Cell
