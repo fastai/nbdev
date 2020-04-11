@@ -57,6 +57,6 @@ defaults:
 
 sidebars: [home_sidebar]
 permalink: pretty
-baseurl: /
+baseurl: 
 #theme: jekyll-theme-cayman
 
