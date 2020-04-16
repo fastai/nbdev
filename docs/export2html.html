@@ -1170,6 +1170,13 @@ Note that the output always shows with `#collapse`.
     
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -1177,7 +1184,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_metadata" class="doc_header"><code>get_metadata</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L317" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_metadata</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="get_metadata" class="doc_header"><code>get_metadata</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L333" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_metadata</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Find the cell with title and summary in <code>cells</code>.</p>
 
@@ -1217,9 +1224,7 @@ Note that the output always shows with `#collapse`.
     <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s1">&#39;Export to modules&#39;</span><span class="p">})</span>
 
 <span class="c1">#The cell with the metada is popped out, so if we do it a second time we get the default.</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">get_metadata</span><span class="p">(</span><span class="n">tst_nb</span><span class="p">[</span><span class="s1">&#39;cells&#39;</span><span class="p">]),</span> <span class="p">{</span><span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="s1">&#39;fastai&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;summary&#39;</span> <span class="p">:</span> <span class="s1">&#39;summary&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;title&#39;</span>   <span class="p">:</span> <span class="s1">&#39;Title&#39;</span><span class="p">})</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">get_metadata</span><span class="p">(</span><span class="n">tst_nb</span><span class="p">[</span><span class="s1">&#39;cells&#39;</span><span class="p">]),</span> <span class="p">{</span><span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="s1">&#39;fastai&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span>   <span class="p">:</span> <span class="s1">&#39;Title&#39;</span><span class="p">})</span>
 </pre></div>
 
     </div>
@@ -1245,6 +1250,39 @@ Note that the output always shows with `#collapse`.
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cells</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;markdown&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;#export ignored&#39;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;#export&#39;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;#export normal&#39;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;#exports show&#39;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;#exporti hidden&#39;</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s1">&#39;#export</span><span class="se">\n</span><span class="s1">@call_parse&#39;</span><span class="p">}</span>
+<span class="p">]</span>
+
+<span class="n">test_eq</span><span class="p">(</span><span class="n">_gather_export_mods</span><span class="p">(</span><span class="n">cells</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;show&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
@@ -1260,7 +1298,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="ExecuteShowDocPreprocessor" class="doc_header"><code>class</code> <code>ExecuteShowDocPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L338" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>ExecuteShowDocPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
+<h3 id="ExecuteShowDocPreprocessor" class="doc_header"><code>class</code> <code>ExecuteShowDocPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L370" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>ExecuteShowDocPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
 </blockquote>
 <p>An <code>ExecutePreprocessor</code> that only executes <a href="/showdoc#show_doc"><code>show_doc</code></a> and <code>import</code> cells</p>
 
@@ -1292,7 +1330,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="execute_nb" class="doc_header"><code>execute_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L357" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>execute_nb</code>(<strong><code>nb</code></strong>, <strong><code>mod</code></strong>=<em><code>None</code></em>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong><code>show_doc_only</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="execute_nb" class="doc_header"><code>execute_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L390" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>execute_nb</code>(<strong><code>nb</code></strong>, <strong><code>mod</code></strong>=<em><code>None</code></em>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong><code>show_doc_only</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Execute <code>nb</code> (or only the <a href="/showdoc#show_doc"><code>show_doc</code></a> cells) with <code>metadata</code></p>
 
@@ -1344,7 +1382,7 @@ Note that the output always shows with `#collapse`.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="cite2link" class="doc_header"><code>cite2link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L392" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cite2link</code>(<strong><code>cell</code></strong>)</p>
+<h4 id="cite2link" class="doc_header"><code>cite2link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L426" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>cite2link</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
 <p>Creates links from \cite{} to Refenrence section generated by jupyter_latex_envs</p>
 
@@ -1425,7 +1463,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_tmpl" class="doc_header"><code>write_tmpl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L398" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpl</code>(<strong><code>tmpl</code></strong>, <strong><code>nms</code></strong>, <strong><code>cfg</code></strong>, <strong><code>dest</code></strong>)</p>
+<h4 id="write_tmpl" class="doc_header"><code>write_tmpl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L432" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpl</code>(<strong><code>tmpl</code></strong>, <strong><code>nms</code></strong>, <strong><code>cfg</code></strong>, <strong><code>dest</code></strong>)</p>
 </blockquote>
 <p>Write <code>tmpl</code> to <code>dest</code> (if missing) filling in <code>nms</code> in template using dict <code>cfg</code></p>
 
@@ -1457,7 +1495,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_tmpls" class="doc_header"><code>write_tmpls</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L406" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpls</code>()</p>
+<h4 id="write_tmpls" class="doc_header"><code>write_tmpls</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L439" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_tmpls</code>()</p>
 </blockquote>
 <p>Write out _config.yml and _data/topnav.yml using templates</p>
 
@@ -1512,7 +1550,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_exporter" class="doc_header"><code>nbdev_exporter</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L414" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_exporter</code>(<strong><code>template_file</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="nbdev_exporter" class="doc_header"><code>nbdev_exporter</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L447" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_exporter</code>(<strong><code>template_file</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -1564,7 +1602,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L437" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L470" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to html file in <code>dest_path</code>.</p>
 
@@ -1603,7 +1641,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="notebook2html" class="doc_header"><code>notebook2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L466" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2html</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>, <strong><code>n_workers</code></strong>=<em><code>None</code></em>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="notebook2html" class="doc_header"><code>notebook2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L499" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2html</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>, <strong><code>n_workers</code></strong>=<em><code>None</code></em>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Convert all notebooks matching <code>fname</code> to html files</p>
 
@@ -1643,7 +1681,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_md" class="doc_header"><code>convert_md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L491" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_md</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>, <strong><code>img_path</code></strong>=<em><code>'docs/images/'</code></em>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="convert_md" class="doc_header"><code>convert_md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L524" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_md</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>, <strong><code>img_path</code></strong>=<em><code>'docs/images/'</code></em>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to a markdown file in <code>dest_path</code>.</p>
 
@@ -1731,7 +1769,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nb_detach_cells" class="doc_header"><code>nb_detach_cells</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L548" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nb_detach_cells</code>(<strong><code>path_nb</code></strong>, <strong><code>dest</code></strong>=<em><code>None</code></em>, <strong><code>replace</code></strong>=<em><code>True</code></em>, <strong><code>use_img</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="nb_detach_cells" class="doc_header"><code>nb_detach_cells</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L581" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nb_detach_cells</code>(<strong><code>path_nb</code></strong>, <strong><code>dest</code></strong>=<em><code>None</code></em>, <strong><code>replace</code></strong>=<em><code>True</code></em>, <strong><code>use_img</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Export cell attachments to <code>dest</code> and update references</p>
 
@@ -1804,7 +1842,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L591" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
+<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L624" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
 </blockquote>
 <p>Create the default sidebar for the docs website</p>
 
@@ -1843,7 +1881,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L603" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
+<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L636" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
 </blockquote>
 <p>Making sidebar for the doc website form the content of <code>doc_folder/sidebar.json</code></p>
 
