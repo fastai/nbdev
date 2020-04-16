@@ -431,7 +431,6 @@ def cite2link(cell):
 # Cell
 def write_tmpl(tmpl, nms, cfg, dest):
     "Write `tmpl` to `dest` (if missing) filling in `nms` in template using dict `cfg`"
-    if dest.exists(): return
     vs = {o:cfg.d[o] for o in nms.split()}
     outp = tmpl.format(**vs)
     dest.write_text(outp)
