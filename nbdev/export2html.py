@@ -354,7 +354,7 @@ def get_metadata(cells):
             'title'   : 'Title'}
 
 # Cell
-_re_mod_export = re.compile(r"^\s*#\s*export[s]? \s*(\S+)\s*$", re.IGNORECASE | re.MULTILINE)
+_re_mod_export = re.compile(r"^\s*#\s*export[s]? [^\S\r\n]*(\S+)\s*$", re.IGNORECASE | re.MULTILINE)
 
 def _gather_export_mods(cells):
     res = []
