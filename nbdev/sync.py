@@ -40,7 +40,7 @@ def source_nb(func, is_name=None, return_all=False, mod=None):
         name = '.'.join(name.split('.')[:-1])
 
 # Cell
-_re_cell = re.compile(r'^# Cell|^# Comes from\s+(\S+), cell')
+_re_cell = re.compile(r'^# Cell|^# Internal Cell|^# Comes from\s+(\S+), cell')
 
 # Cell
 def _split(code):
@@ -97,7 +97,7 @@ def _script2notebook(fname, dic, silent=False):
     splits = _split(code)
     rel_name = fname.absolute().resolve().relative_to(Config().lib_path)
     key = str(rel_name.with_suffix(''))
-    assert len(splits)==len(dic[key]), f"Exported file from notebooks should have {len(dic[key])} cells but has {len(splits)}."
+    assert len(splits)==len(dic[key]), f'"{rel_name}" exported from notebooks should have {len(dic[key])} cells but has {len(splits)}.'
     assert all([c1[0]==c2[1]] for c1,c2 in zip(splits, dic[key]))
     splits = [(c2[0],c1[0],c1[1]) for c1,c2 in zip(splits, dic[key])]
     nb_fnames = {Config().nbs_path/s[1] for s in splits}

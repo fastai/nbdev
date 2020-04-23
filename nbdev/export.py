@@ -378,3 +378,8 @@ def notebook2script(fname=None, silent=False, to_dict=False):
 #for tests only
 class DocsTestClass:
     def test(): pass
+
+# Internal Cell
+#exporti
+#for tests only
+def update_lib_with_exporti_testfn(): pass
