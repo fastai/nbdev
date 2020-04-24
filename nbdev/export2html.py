@@ -81,7 +81,7 @@ _re_nb_link = re.compile(r"""
 \[          # Opening [
 ([^\]]*)    # Catching group for any character except ]
 \]\(        # Closing ], opening (
-([^http]    # Catching group that must not begin by html (local notebook)
+([^http]    # Catching group that must not begin with http (local notebook)
 [^\)]*)     # and containing anything but )
 .ipynb\)    # .ipynb and closing )
 """, re.VERBOSE)
