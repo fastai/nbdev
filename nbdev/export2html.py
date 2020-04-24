@@ -46,11 +46,11 @@ def remove_widget_state(cell):
     return cell
 
 # Cell
-# Matches any cell that has a `show_doc` or an `#export` in it
-_re_cell_to_hide = r's*show_doc\(|^\s*#\s*export\s+|^\s*#\s*hide_input\s+'
+# Matches any cell that has `show_doc`, `%nbdev_export` or `%nbdev_hide_input` in it
+_re_cell_to_hide = r's*show_doc\(|^%nbdev_export\s+|^%nbdev_hide_input\s+'
 
-# Matches any cell with `#hide_output` or `#hide_output`
-_re_hide_output = r'^\s*#\s*hide-output\s+|^\s*#\s*hide_output\s+'
+# Matches any cell with `%nbdev_hide_output`
+_re_hide_output = r'^%nbdev_hide_output\s+'
 
 # Cell
 def hide_cells(cell):
@@ -60,12 +60,12 @@ def hide_cells(cell):
     return cell
 
 # Cell
-# Matches any line containing an #exports
-_re_exports = re.compile(r'^#\s*exports[^\n]*\n')
+# Matches any line containing an %nbdev_export_and_show
+_re_exports = re.compile(r'^%nbdev_export_and_show[^\n]*\n')
 
 # Cell
 def clean_exports(cell):
-    "Remove exports flag from `cell`"
+    "Remove `%nbdev_export_and_show` flag from `cell`"
     cell['source'] = _re_exports.sub('', cell['source'])
     return cell
 
@@ -199,14 +199,14 @@ def escape_latex(cell):
     return cell
 
 # Cell
-#Matches any cell with #collapse or #collapse_hide
-_re_cell_to_collapse_closed = re.compile(r'^\s*#\s*(collapse|collapse_hide|collapse-hide)\s+')
+#Matches any cell with %nbdev_collapse_input without open option
+_re_cell_to_collapse_closed = re.compile(r'^%nbdev_collapse_input\s*$', re.MULTILINE)
 
-#Matches any cell with #collapse_show
-_re_cell_to_collapse_open = re.compile(r'^\s*#\s*(collapse_show|collapse-show)\s+')
+#Matches any cell with %nbdev_collapse_input with open option
+_re_cell_to_collapse_open = re.compile(r'^%nbdev_collapse_input[ \t]+open\s*$', re.MULTILINE)
 
-#Matches any cell with #collapse_output or #collapse-output
-_re_cell_to_collapse_output = re.compile(r'^\s*#\s*(collapse_output|collapse-output)\s+')
+#Matches any cell with %nbdev_collapse_output without open option
+_re_cell_to_collapse_output = re.compile(r'^%nbdev_collapse_output\s*$', re.MULTILINE)
 
 # Cell
 def collapse_cells(cell):
@@ -217,23 +217,24 @@ def collapse_cells(cell):
     return cell
 
 # Cell
-#Matches any cell with #hide or #default_exp or #default_cls_lvl or #exporti
-_re_cell_to_remove = re.compile(r'^\s*#\s*(hide\s|default_exp|default_cls_lvl|exporti|all_([^\s]*))\s*')
+#Matches any cell flagged with; hide, default export, default class level, export internal or a all test flag
+_re_cell_to_remove = re.compile(
+    r'^%nbdev_(hide|default_export|default_class_level|export_internal|([\S]*)_test[ \t]+all)([ \t]+\S+)?\s*$',
+    re.MULTILINE)
 
 # Cell
 def remove_hidden(cells):
-    "Remove in `cells` the ones with a flag `#hide`, `#default_exp` or `#default_cls_lvl` or `#exporti`"
+    "Remove `cells` flagged with; hide, default export, default class level, export internal or an all test flag"
     return [c for c in cells if _re_cell_to_remove.search(c['source']) is None]
 
 # Cell
 _re_default_cls_lvl = re.compile(r"""
-^               # Beginning of line (since re.MULTILINE is passed)
-\s*\#\s*        # Any number of whitespace, #, any number of whitespace
-default_cls_lvl # default_cls_lvl
-\s*             # Any number of whitespace
-(\d*)           # Catching group for any number of digits
-\s*$            # Any number of whitespace and end of line (since re.MULTILINE is passed)
-""", re.IGNORECASE | re.MULTILINE | re.VERBOSE)
+^%nbdev_            # beginning of line (since re.MULTILINE is passed) and start of magic flag
+default_class_level # default class level
+\s*                 # Any number of whitespace
+(\d*)               # Catching group for any number of digits
+\s*$                # Any number of whitespace and end of line (since re.MULTILINE is passed)
+""", re.MULTILINE | re.VERBOSE)
 
 # Cell
 def find_default_level(cells):
@@ -244,10 +245,10 @@ def find_default_level(cells):
     return 2
 
 # Cell
-#Find a cell with #export(s)
-_re_export = re.compile(r'^\s*#\s*exports?\s*', re.IGNORECASE | re.MULTILINE)
+# catches any cell with %nbdev_export or %nbdev_export_and_show without module name
+_re_export = re.compile(r'^%nbdev_export(|_and_show)\s*$', re.IGNORECASE | re.MULTILINE)
+# catches any show_doc and get the first argument in group 1
 _re_show_doc = re.compile(r"""
-# First one catches any cell with a #export or #exports, second one catches any show_doc and get the first argument in group 1
 show_doc     # show_doc
 \s*\(\s*     # Any number of whitespace, opening (, any number of whitespace
 ([^,\)\s]*)  # Catching group for any character but a comma, a closing ) or a whitespace
@@ -306,7 +307,6 @@ _re_title_summary = re.compile(r"""
 ([^\n]*)   # Catching group for any character except a new line
 """, re.VERBOSE)
 
-#export
 _re_title_only = re.compile(r"""
 # Catches the title presented as # Title without a summary
 ^\s*       # Beginning of text followe by any number of whitespace
@@ -354,7 +354,8 @@ def get_metadata(cells):
             'title'   : 'Title'}
 
 # Cell
-_re_mod_export = re.compile(r"^\s*#\s*export[s]? [^\S\r\n]*(\S+)\s*$", re.IGNORECASE | re.MULTILINE)
+#Find a cell with %nbdev_export or %nbdev_export_and_show with module name
+_re_mod_export = re.compile(r'^%nbdev_export(?:|_and_show)[ \t]+(\S+)\s*$', re.IGNORECASE | re.MULTILINE)
 
 def _gather_export_mods(cells):
     res = []
@@ -378,7 +379,7 @@ class ExecuteShowDocPreprocessor(ExecutePreprocessor):
 # Cell
 def _import_show_doc_cell(mods=None):
     "Add an import show_doc cell."
-    source = f"#export\nfrom nbdev.showdoc import show_doc"
+    source = "from nbdev.showdoc import show_doc"
     if mods is not None:
         for mod in mods: source += f"\nfrom {Config().lib_name}.{mod} import *"
     return {'cell_type': 'code',

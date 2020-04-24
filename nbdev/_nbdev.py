@@ -13,6 +13,7 @@ index = {"first": "00_export.ipynb",
          "reset_nbdev_module": "00_export.ipynb",
          "get_nbdev_module": "00_export.ipynb",
          "save_nbdev_module": "00_export.ipynb",
+         "split_flags_and_code": "00_export.ipynb",
          "create_mod_file": "00_export.ipynb",
          "add_init": "00_export.ipynb",
          "update_version": "00_export.ipynb",
@@ -103,6 +104,8 @@ index = {"first": "00_export.ipynb",
          "clean_cell": "07_clean.ipynb",
          "clean_nb": "07_clean.ipynb",
          "nbdev_clean_nbs": "07_clean.ipynb",
+         "CellMigrator": "09_migrate2magic.ipynb",
+         "nbdev_migrate2magic": "09_migrate2magic.ipynb",
          "say_hello": "tutorial.ipynb",
          "HelloSayer": "tutorial.ipynb"}
 
@@ -114,6 +117,7 @@ modules = ["export.py",
            "merge.py",
            "cli.py",
            "clean.py",
+           "migrate2magic.py",
            "tutorial.py"]
 
 doc_url = "https://nbdev.fast.ai/"

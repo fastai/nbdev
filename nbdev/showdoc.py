@@ -24,7 +24,6 @@ def get_all(package):
     mod = importlib.import_module(pacakge)
     path = Path(mod.__path__)
 
-
 # Cell
 def is_lib_module(name):
     "Test if `name` is a library module."

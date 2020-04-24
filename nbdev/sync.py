@@ -97,7 +97,7 @@ def _script2notebook(fname, dic, silent=False):
     splits = _split(code)
     rel_name = fname.absolute().resolve().relative_to(Config().lib_path)
     key = str(rel_name.with_suffix(''))
-    assert len(splits)==len(dic[key]), f'"{rel_name}" exported from notebooks should have {len(dic[key])} cells but has {len(splits)}.'
+    assert len(splits)==len(dic[key]), f"{rel_name} exported from notebooks should have {len(dic[key])} cells but has {len(splits)}."
     assert all([c1[0]==c2[1]] for c1,c2 in zip(splits, dic[key]))
     splits = [(c2[0],c1[0],c1[1]) for c1,c2 in zip(splits, dic[key])]
     nb_fnames = {Config().nbs_path/s[1] for s in splits}
@@ -106,7 +106,7 @@ def _script2notebook(fname, dic, silent=False):
         for i,f,c in splits:
             c = _deal_loc_import(c, str(fname))
             if f == nb_fname.name:
-                l = nb['cells'][i]['source'].split('\n')[0]
+                l = split_flags_and_code(nb['cells'][i], str)[0]
                 nb['cells'][i]['source'] = l + '\n' + c
         NotebookNotary().sign(nb)
         nbformat.write(nb, str(nb_fname), version=4)

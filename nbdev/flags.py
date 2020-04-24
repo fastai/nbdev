@@ -23,7 +23,7 @@ def nbdev_default_export(line):
     `%nbdev_export` magic: `%nbdev_export special.module`"""
     if not _validate_param(line, 'nbdev_default_export', 'module_name', True): return
     print(f'Cells will be exported to {Config().get("lib_name", "lib_name")}.{line},')
-    print('unless a different module is specified after the `%nbdev_export` magic: `%nbdev_export special.module`')
+    print('unless a different module is specified after an export flag: `%nbdev_export special.module`')
 
 def nbdev_export(line):
     """Put an `%nbdev_export` magic on each cell you want exported but not shown in the docs.

@@ -11,35 +11,39 @@ from nbconvert.preprocessors import ExecutePreprocessor
 
 # Cell
 _re_all_flag = re.compile("""
-# Matches any line with #all_something and catches that something in a group:
-^         # beginning of line (since re.MULTILINE is passed)
-\s*       # any number of whitespace
-\#\s*     # # then any number of whitespace
-all_(\S+) # all_ followed by a group with any non-whitespace chars
+# Matches any line that is a test flag with the all option and catches the test flag name in a group:
+^%nbdev_  # beginning of line (since re.MULTILINE is passed) and start of magic flag
+(\S+)     # the tst flag: group with any non-whitespace chars
+_test     # end of magic
+[ \t]+all # the all option
 \s*       # any number of whitespace
 $         # end of line (since re.MULTILINE is passed)
-""", re.IGNORECASE | re.MULTILINE | re.VERBOSE)
+""", re.MULTILINE | re.VERBOSE)
 
 # Cell
 def check_all_flag(cells):
-    "Check for an `# all_flag` cell and then return said flag"
+    "Check for a cell containing a test flag with the all option and then return said flag"
     for cell in cells:
         if check_re(cell, _re_all_flag): return check_re(cell, _re_all_flag).groups()[0]
 
 # Cell
+def _compile_re_tst_flags(tst_flags):
+    "Return a regex pattern to find `tst_flags`"
+    if tst_flags is None: return re.compile("^~Dont match ANYTHING~$")
+    return re.compile(f"""
+# Matches any line with a test flad and catches it in a group:
+^%nbdev_        # beginning of line (since re.MULTILINE is passed) and start of magic flag
+({tst_flags})   # pipe delimited list of test flags
+_test           # end of magic
+\s*             # any number of whitespace
+$               # end of line (since re.MULTILINE is passed)
+""", re.MULTILINE | re.VERBOSE)
+
 class _ReTstFlags():
     def __init__(self): self._re = None
     @property
     def re(self):
-        if self._re is None: self._re = re.compile(f"""
-# Matches any line with a test flad and catches it in a group:
-^               # beginning of line (since re.MULTILINE is passed)
-\s*             # any number of whitespace
-\#\s*           # # then any number of whitespace
-({Config().get('tst_flags', '')})
-\s*             # any number of whitespace
-$               # end of line (since re.MULTILINE is passed)
-""", re.IGNORECASE | re.MULTILINE | re.VERBOSE)
+        if self._re is None: self._re = _compile_re_tst_flags(Config().get('tst_flags'))
         return self._re
 
 _re_flags = _ReTstFlags()
@@ -47,7 +51,7 @@ _re_flags = _ReTstFlags()
 # Cell
 def get_cell_flags(cell):
     "Check for any special test flag in `cell`"
-    if cell['cell_type'] != 'code' or len(Config().get('tst_flags',''))==0: return []
+    if cell['cell_type'] != 'code' or len(Config().get('tst_flags'))==0: return []
     return _re_flags.re.findall(cell['source'])
 
 # Cell
