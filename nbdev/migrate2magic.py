@@ -67,7 +67,7 @@ def _migrate2magic(nb, update_md=False):
     code_cell_migrator=CellMigrator(_code_patterns_and_replace_fns())
     [code_cell_migrator(cell) for cell in nb.cells if cell.cell_type=='code']
     if code_cell_migrator.upd_count!=0:
-        nb.cells.insert(0, nbformat.v4.new_code_cell('from nbdev import *', metadata={'hide_input': True}))
+        nb.cells.insert(0, nbformat.v4.new_code_cell('from nbdev import *'))
     NotebookNotary().sign(nb)
     return nb
 
