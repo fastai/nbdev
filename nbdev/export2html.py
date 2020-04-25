@@ -47,10 +47,10 @@ def remove_widget_state(cell):
 
 # Cell
 # Matches any cell that has a `show_doc` or an `#export` in it
-_re_cell_to_hide = r's*show_doc\(|^\s*#\s*export\s+|^\s*#\s*hide_input\s+'
+_re_cell_to_hide = re.compile(r's*show_doc\(|^\s*#\s*export\s+|^\s*#\s*hide_input\s+|^\s*#\s*hide-input\s+', re.IGNORECASE | re.MULTILINE)
 
 # Matches any cell with `#hide_output` or `#hide_output`
-_re_hide_output = r'^\s*#\s*hide-output\s+|^\s*#\s*hide_output\s+'
+_re_hide_output = re.compile(r'^\s*#\s*hide-output\s+|^\s*#\s*hide_output\s+', re.IGNORECASE | re.MULTILINE)
 
 # Cell
 def hide_cells(cell):
@@ -200,13 +200,13 @@ def escape_latex(cell):
 
 # Cell
 #Matches any cell with #collapse or #collapse_hide
-_re_cell_to_collapse_closed = re.compile(r'^\s*#\s*(collapse|collapse_hide|collapse-hide)\s+')
+_re_cell_to_collapse_closed = re.compile(r'^\s*#\s*(collapse|collapse_hide|collapse-hide)\s+',  re.IGNORECASE | re.MULTILINE)
 
 #Matches any cell with #collapse_show
-_re_cell_to_collapse_open = re.compile(r'^\s*#\s*(collapse_show|collapse-show)\s+')
+_re_cell_to_collapse_open = re.compile(r'^\s*#\s*(collapse_show|collapse-show)\s+',  re.IGNORECASE | re.MULTILINE)
 
 #Matches any cell with #collapse_output or #collapse-output
-_re_cell_to_collapse_output = re.compile(r'^\s*#\s*(collapse_output|collapse-output)\s+')
+_re_cell_to_collapse_output = re.compile(r'^\s*#\s*(collapse_output|collapse-output)\s+',  re.IGNORECASE | re.MULTILINE)
 
 # Cell
 def collapse_cells(cell):
