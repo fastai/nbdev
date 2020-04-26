@@ -192,7 +192,7 @@ def extra_add(code):
     return [],code
 
 # Cell
-def _add2add(fname, names, line_width=120):
+def _add2all(fname, names, line_width=120):
     if len(names) == 0: return
     with open(fname, 'r', encoding='utf8') as f: text = f.read()
     tw = TextWrapper(width=120, initial_indent='', subsequent_indent=' '*11, break_long_words=False)
@@ -308,7 +308,7 @@ def _notebook2script(fname, silent=False, to_dict=None):
         names = export_names(code)
         extra,code = extra_add(code)
         if a:
-            if to_dict is None: _add2add(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
+            if to_dict is None: _add2all(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
         mod.index.update({f: fname.name for f in names})
         code = re.sub(r' +$', '', code, flags=re.MULTILINE)
         if code != sep + orig[:-1]:
