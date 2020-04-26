@@ -30,41 +30,28 @@ description: "Console commands added by the nbdev library"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev</span> <span class="kn">import</span> <span class="o">*</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
 
 </div>
     {% endraw %}
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>nbdev</code> comes with the following commands. To use any of them, you must be in one of the subfolders of your project: they will search for the <code>settings.ini</code> recursively in the parent directory but need to access it to be able to work. Their names all begin by nbdev so you can easily get a list with tab completion.</p>
+<p><code>nbdev</code> comes with the following commands. To use any of them, you must be in one of the subfolders of your project: they will search for the <code>settings.ini</code> recursively in the parent directory but need to access it to be able to work. Their names all begin with nbdev so you can easily get a list with tab completion.</p>
 <ul>
-<li><a href="/cli#nbdev_build_lib"><code>nbdev_build_lib</code></a> builds the library from the notebooks</li>
-<li><a href="/cli#nbdev_update_lib"><code>nbdev_update_lib</code></a> propagates any change in the library back to the notebooks</li>
-<li><a href="/cli#nbdev_diff_nbs"><code>nbdev_diff_nbs</code></a> gives you the diff between the notebooks and the exported library</li>
 <li><a href="/cli#nbdev_build_docs"><code>nbdev_build_docs</code></a> builds the documentation from the notebooks</li>
-<li><a href="/cli#nbdev_nb2md"><code>nbdev_nb2md</code></a> converts a notebook to a markdown file</li>
+<li><a href="/cli#nbdev_build_lib"><code>nbdev_build_lib</code></a> builds the library from the notebooks</li>
+<li><a href="/cli#nbdev_bump_version"><code>nbdev_bump_version</code></a> increments version in <code>settings.py</code> by one</li>
 <li><a href="/clean#nbdev_clean_nbs"><code>nbdev_clean_nbs</code></a> removes all superfluous metadata form the notebooks, to avoid merge conflicts</li>
-<li><a href="/cli#nbdev_read_nbs"><code>nbdev_read_nbs</code></a> reads all notebooks to make sure none are broken</li>
-<li><a href="/cli#nbdev_trust_nbs"><code>nbdev_trust_nbs</code></a> trusts all notebooks (so that the HTML content is shown)</li>
+<li><a href="/cli#nbdev_detach"><code>nbdev_detach</code></a> exports cell attachments to <code>dest</code> and updates references</li>
+<li><a href="/cli#nbdev_diff_nbs"><code>nbdev_diff_nbs</code></a> gives you the diff between the notebooks and the exported library</li>
 <li><a href="/cli#nbdev_fix_merge"><code>nbdev_fix_merge</code></a> will fix merge conflicts in a notebook file</li>
-<li><a href="/cli#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a> installs the git hooks that use the last two command automatically on each commit/merge.</li>
+<li><a href="/cli#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a> installs the git hooks that use the last two command automatically on each commit/merge</li>
+<li><a href="/cli#nbdev_nb2md"><code>nbdev_nb2md</code></a> converts a notebook to a markdown file</li>
+<li><a href="/cli#nbdev_new"><code>nbdev_new</code></a> creates a new nbdev project</li>
+<li><a href="/cli#nbdev_read_nbs"><code>nbdev_read_nbs</code></a> reads all notebooks to make sure none are broken</li>
+<li><a href="/cli#nbdev_test_nbs"><code>nbdev_test_nbs</code></a> runs tests in notebooks</li>
+<li><a href="/cli#nbdev_trust_nbs"><code>nbdev_trust_nbs</code></a> trusts all notebooks (so that the HTML content is shown)</li>
+<li><a href="/cli#nbdev_update_lib"><code>nbdev_update_lib</code></a> propagates any change in the library back to the notebooks</li>
 </ul>
 
 </div>
