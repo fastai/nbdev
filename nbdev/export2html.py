@@ -47,10 +47,10 @@ def remove_widget_state(cell):
 
 # Cell
 # Matches any cell that has `show_doc`, `%nbdev_export` or `%nbdev_hide_input` in it
-_re_cell_to_hide = r's*show_doc\(|^%nbdev_export\s+|^%nbdev_hide_input\s+'
+_re_cell_to_hide = re.compile(r's*show_doc\(|^%nbdev_export\s+|^%nbdev_hide_input\s+', re.MULTILINE)
 
 # Matches any cell with `%nbdev_hide_output`
-_re_hide_output = r'^%nbdev_hide_output\s+'
+_re_hide_output = re.compile(r'^%nbdev_hide_output\s+', re.MULTILINE)
 
 # Cell
 def hide_cells(cell):
