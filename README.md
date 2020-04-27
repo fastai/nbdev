@@ -78,19 +78,6 @@ In the last cell of your notebook, you can then run:
 notebook2script()
 </pre>
 
-```python
-from nbdev import *
-%nbdev_hide_input
-# we could do a real notebook2script call
-# notebook2script()
-# but the docs are a little neater if we fake it
-print('Converted 00_export.ipynb.')
-print('Converted 01_sync.ipynb.')
-print('...')
-print('Converted index.ipynb.')
-print('Converted tutorial.ipynb.')
-```
-
     Converted 00_export.ipynb.
     Converted 01_sync.ipynb.
     ...
