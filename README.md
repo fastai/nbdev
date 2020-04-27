@@ -77,13 +77,13 @@ In the last cell of your notebook, you can then run:
 &percnt;nbdev_hide
 notebook2script()
 </pre>
-
-    Converted 00_export.ipynb.
-    Converted 01_sync.ipynb.
-    ...
-    Converted index.ipynb.
-    Converted tutorial.ipynb.
-
+```
+Converted 00_export.ipynb.
+Converted 01_sync.ipynb.
+...
+Converted index.ipynb.
+Converted tutorial.ipynb.
+```
 
 Or in the command line, you can run:
 ``` bash
