@@ -14,4 +14,4 @@ class HelloSayer:
 
     def say(self):
         "Do the saying"
-        say_hello(self.to)
+        return say_hello(self.to)
