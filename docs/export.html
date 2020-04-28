@@ -459,25 +459,7 @@ description: "The functions that transform notebooks into a library"
 <pre>{&#39;jupytext&#39;: {&#39;split_at_heading&#39;: True},
  &#39;kernelspec&#39;: {&#39;display_name&#39;: &#39;Python 3&#39;,
   &#39;language&#39;: &#39;python&#39;,
-  &#39;name&#39;: &#39;python3&#39;},
- &#39;language_info&#39;: {&#39;codemirror_mode&#39;: {&#39;name&#39;: &#39;ipython&#39;, &#39;version&#39;: 3},
-  &#39;file_extension&#39;: &#39;.py&#39;,
-  &#39;mimetype&#39;: &#39;text/x-python&#39;,
-  &#39;name&#39;: &#39;python&#39;,
-  &#39;nbconvert_exporter&#39;: &#39;python&#39;,
-  &#39;pygments_lexer&#39;: &#39;ipython3&#39;,
-  &#39;version&#39;: &#39;3.7.7&#39;},
- &#39;toc&#39;: {&#39;base_numbering&#39;: 1,
-  &#39;nav_menu&#39;: {},
-  &#39;number_sections&#39;: True,
-  &#39;sideBar&#39;: True,
-  &#39;skip_h1_title&#39;: False,
-  &#39;title_cell&#39;: &#39;Table of Contents&#39;,
-  &#39;title_sidebar&#39;: &#39;Contents&#39;,
-  &#39;toc_cell&#39;: False,
-  &#39;toc_position&#39;: {},
-  &#39;toc_section_display&#39;: True,
-  &#39;toc_window_display&#39;: False}}</pre>
+  &#39;name&#39;: &#39;python3&#39;}}</pre>
 </div>
 
 </div>
@@ -551,7 +533,7 @@ description: "The functions that transform notebooks into a library"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>{&#39;cell_type&#39;: &#39;code&#39;,
- &#39;execution_count&#39;: 1,
+ &#39;execution_count&#39;: None,
  &#39;metadata&#39;: {},
  &#39;outputs&#39;: [{&#39;name&#39;: &#39;stdout&#39;,
    &#39;output_type&#39;: &#39;stream&#39;,
@@ -642,7 +624,7 @@ description: "The functions that transform notebooks into a library"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>{&#39;cell_type&#39;: &#39;code&#39;,
- &#39;execution_count&#39;: 2,
+ &#39;execution_count&#39;: None,
  &#39;metadata&#39;: {&#39;hide_input&#39;: False},
  &#39;outputs&#39;: [],
  &#39;source&#39;: &#39;%nbdev_export\nfrom nbdev.imports import *\nfrom fastscript import *&#39;}</pre>
@@ -1101,35 +1083,6 @@ description: "The functions that transform notebooks into a library"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#hide</span>
-<span class="n">fname</span> <span class="o">=</span> <span class="s1">&#39;test_add.txt&#39;</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Bla</span><span class="se">\n</span><span class="s2">__all__ = [my_file, MyClas]</span><span class="se">\n</span><span class="s2">Bli&quot;</span><span class="p">)</span>
-<span class="n">_add2all</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;new_function&#39;</span><span class="p">])</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> 
-    <span class="n">test_eq</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s2">&quot;Bla</span><span class="se">\n</span><span class="s2">__all__ = [my_file, MyClas, new_function]</span><span class="se">\n</span><span class="s2">Bli&quot;</span><span class="p">)</span>
-<span class="n">_add2all</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;new_function</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> 
-    <span class="n">test_eq</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="s2">&quot;&quot;&quot;Bla</span>
-<span class="s2">__all__ = [my_file, MyClas, new_function, new_function0, new_function1, new_function2, new_function3, new_function4,</span>
-<span class="s2">           new_function5, new_function6, new_function7, new_function8, new_function9]</span>
-<span class="s2">Bli&quot;&quot;&quot;</span><span class="p">)</span>
-<span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
