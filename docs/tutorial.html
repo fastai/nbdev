@@ -43,6 +43,46 @@ description: "A step by step guide"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Set-up-Your-Jupyter-Server">Set up Your Jupyter Server<a class="anchor-link" href="#Set-up-Your-Jupyter-Server"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Jupyter-Environment">Jupyter Environment<a class="anchor-link" href="#Jupyter-Environment"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To complete this tutorial, you'll need a Jupyter Notebook Server configured on your machine. If you have not installed Jupyter before, you may find the <a href="https://www.anaconda.com/products/individual">Anaconda Individual Edition</a> the simplest to install.</p>
+<p>If you already have experience with Jupyter, please note that everything in this tutorial must be run using the same kernel.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Install-nbdev">Install <code>nbdev</code><a class="anchor-link" href="#Install-nbdev"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>No matter how you installed Jupyter, you'll need to manually install <code>nbdev</code>. There is not a <code>conda</code> package for <code>nbdev</code>, so you'll need to use <code>pip</code> to install it. And you'll need to do that from a terminal window.</p>
+<p>Jupyter notebook has a terminal window available, so we'll use that:</p>
+<ol>
+<li>Start <code>jupyter notebook</code></li>
+<li>From the "New" dropdown on the right side, choose <code>Terminal</code>.</li>
+<li>Enter "<code>python -m pip install nbdev</code>"</li>
+</ol>
+<p>When the command completes, you're ready to go.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Set-up-Repo">Set up Repo<a class="anchor-link" href="#Set-up-Repo"> </a></h2>
 </div>
 </div>
@@ -167,7 +207,7 @@ description: "A step by step guide"
 <div class="highlight"><pre><span></span><span class="c1">#export</span>
 <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">to</span><span class="p">):</span>
     <span class="s2">&quot;Say hello to somebody&quot;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Hello </span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s1">!&#39;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Hello </span><span class="si">{to}</span><span class="s1">!&#39;</span>
 </pre></div>
 <p>Notice how it includes <code>#export</code> at the top - this means it will be included in our module, and documentation. The documentation will look like this:</p>
 
@@ -459,7 +499,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="HelloSayer" class="doc_header"><code>class</code> <code>HelloSayer</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/tutorial.py#L11" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>HelloSayer</code>(<strong><code>to</code></strong>)</p>
 </blockquote>
-<p>Say hello to <code>to</code> using <a href="/tutorial#say_hello"><code>say_hello</code></a></p>
+<p>Say hello to <code>to</code> using <code>say_hello</code></p>
 
 </div>
 
