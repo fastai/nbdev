@@ -5,15 +5,16 @@ import sys, re
 
 def _validate_param(line, magic_name, param_name=None, required=False, fixed_value=None):
     "Checks that `line` contains a single parameter, if required"
+    # print warnings, rather than raise exceptions, as we don't want to be intrusive
     line = line.strip()
     if required and line == '':
-        print(f'Warning: {param_name} is missing. Usage `%{magic_name} {param_name}`')
+        print(f'UsageError: {param_name} is missing. Usage `%{magic_name} {param_name}`')
         return False
     if re.search('\s', line):
-        print(f'Warning: {param_name} "{line}" must not contain whitespace')
+        print(f'UsageError: {param_name} "{line}" must not contain whitespace')
         return False
     if fixed_value is not None and line != '' and line != fixed_value:
-        print(f'Warning: Invalid option "{line}". Usage `%{magic_name} [{fixed_value}]`')
+        print(f'UsageError: Invalid option "{line}". Usage `%{magic_name} [{fixed_value}]`')
     return True
 
 def nbdev_default_export(line):
@@ -57,7 +58,7 @@ def nbdev_default_class_level(line):
         class_level = int(line)
         if not 1 <= class_level <= 6: raise ValueError()
     except ValueError:
-        print(f'Warning: Invalid class level "{line}". Usage `%nbdev_default_class_level [int between 1 and 6]`')
+        print(f'UsageError: Invalid class level "{line}". Usage `%nbdev_default_class_level [int between 1 and 6]`')
 
 def nbdev_collapse_input(line):
     """Put an `%nbdev_collapse_input` magic to inlcude your code in the docs under a collapsable element that is closed by default.
