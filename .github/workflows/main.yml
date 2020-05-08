@@ -19,7 +19,7 @@ jobs:
     - name: Check if all notebooks are cleaned
       run: |
         echo "Check we are starting with clean git checkout"
-        if [ -n "$(git status -uno -s)" ]; then echo "git status is not clean"; false; fi
+        if [ -n "$(git status -uno -s)" ]; then echo "git status is not clean\nTry to upgrade your local nbdev, run nbdev_read_nbs and checkout"; false; fi
         echo "Trying to strip out notebooks"
         nbdev_clean_nbs
         echo "Check that strip out was unnecessary"
