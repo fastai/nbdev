@@ -6,6 +6,9 @@ all: {lib_name} docs
 	nbdev_build_lib
 	touch {lib_name}
 
+sync:
+	nbdev_update_lib
+
 docs_serve: docs
 	cd docs && bundle exec jekyll serve
 

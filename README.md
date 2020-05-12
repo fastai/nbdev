@@ -45,12 +45,14 @@ git clone https://github.com/fastai/nbdev
 pip install -e nbdev
 ```
 
+_Note that `nbdev` must be installed into the same python environment that you use for both your Jupyter Server and your workspace._
+
 ## Getting Started
 
 To begin your own project: 
 
 - click [here](https://github.com/fastai/nbdev_template/generate) for GitHub (you need to be logged in to GitHub for this link to work).
-- click [here](https://gitlab.com/thomas.capelle/nbdev_template/generate) for GitLab (you need to be logged in to GitLab for this link to work). 
+- click [here](https://gitlab.com/thomas.capelle/nbdev_template/) for GitLab (you need to be logged in to GitLab for this link to work). 
 
 Fill in the requested info and click *Create repository from template*, and a new GitHub or GitLab repo will be created for you.
 
