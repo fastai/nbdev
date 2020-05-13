@@ -37,7 +37,7 @@ description: "Flags are custom ipython magics, that tell nbdev how to process ce
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="TODO:-move-this-section-to-00_export/tutorial?">TODO: move this section to 00_export/tutorial?<a class="anchor-link" href="#TODO:-move-this-section-to-00_export/tutorial?"> </a></h2>
+<h2 id="We-need-to-import-flags-before-we-can-use-them">We need to import flags before we can use them<a class="anchor-link" href="#We-need-to-import-flags-before-we-can-use-them"> </a></h2>
 </div>
 </div>
 </div>
@@ -70,6 +70,21 @@ description: "Flags are custom ipython magics, that tell nbdev how to process ce
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>once imported, we can see that some flags can print warnings</p>
+<pre>
+&percnt;nbdev_export bad module name
+</pre><pre>Warning: module_name "bad module name" must not contain whitespace</pre><p>and/or feedback</p>
+<pre>
+&percnt;nbdev_default_export _dummy_flags
+</pre><pre>
+Cells will be exported to nbdev._dummy_flags,
+unless a different module is specified after the `%nbdev_export` magic: `%nbdev_export special.module`
+</pre>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="We-can-test-magics-in-ipython-...">We can test magics in ipython ...<a class="anchor-link" href="#We-can-test-magics-in-ipython-..."> </a></h2>
@@ -109,8 +124,7 @@ description: "Flags are custom ipython magics, that tell nbdev how to process ce
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="...-but-we-need-tests-to-run-in-normal-python-too-for-CI-etc">... but we need tests to run in normal python too for CI etc<a class="anchor-link" href="#...-but-we-need-tests-to-run-in-normal-python-too-for-CI-etc"> </a></h2><p>do we need need to run tests in normal python? even if we don't, this kind of testing needs much less code than the above</p>
-<p>Note: We don't <code>del</code> the functions in <code>flags.py</code> so that we can test them here</p>
+<h2 id="...-but-we-need-much-less-code-to-tests-normal-python">... but we need much less code to tests normal python<a class="anchor-link" href="#...-but-we-need-much-less-code-to-tests-normal-python"> </a></h2><p>Note: We don't <code>del</code> the functions in <code>flags.py</code> so that we can test them here</p>
 
 </div>
 </div>
@@ -176,47 +190,6 @@ description: "Flags are custom ipython magics, that tell nbdev how to process ce
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Open-questions">Open questions<a class="anchor-link" href="#Open-questions"> </a></h1>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="have-i-missed-any-flags?">have i missed any flags?<a class="anchor-link" href="#have-i-missed-any-flags?"> </a></h2><p>do we need to add any more?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Is-it-OK-to-not-support-the-current-comment-flags-when-we-switch-to-magics?">Is it OK to not support the current comment flags when we switch to magics?<a class="anchor-link" href="#Is-it-OK-to-not-support-the-current-comment-flags-when-we-switch-to-magics?"> </a></h2><p>Assuming we write a migration script to replace "comment flags" with "magic flags" in existing projects.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="nbdev_default_export">nbdev_default_export<a class="anchor-link" href="#nbdev_default_export"> </a></h2><h3 id="Would-now-be-a-good-time-to-make-the-notebook-name-the-module-name?">Would now be a good time to make the notebook name the module name?<a class="anchor-link" href="#Would-now-be-a-good-time-to-make-the-notebook-name-the-module-name?"> </a></h3><p>maybe %nbdev_default_export with no module name means we should use the nb name?</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="how-about-we-consolidate-to-just-2-collapse-flags-...">how about we consolidate to just 2 collapse flags ...<a class="anchor-link" href="#how-about-we-consolidate-to-just-2-collapse-flags-..."> </a></h2><p>that are closed by default - but have a single option to make the collapse element open by default</p>
-<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">nbdev_collapse_input</span>
-<span class="o">%</span><span class="n">nbdev_collapse_input</span> <span class="nb">open</span>
-
-<span class="o">%</span><span class="n">nbdev_collapse_output</span>
-<span class="o">%</span><span class="n">nbdev_collapse_output</span> <span class="nb">open</span>
-</pre></div>
-<p>we currently have collapse, collapse_show, collapse-show, collapse_hide, collapse-hide, collapse_output, collapse-output (and the docs refer to collapse_open &lt;- might be a mistake?)</p>
-
-</div>
-</div>
-</div>
 </div>
  
 

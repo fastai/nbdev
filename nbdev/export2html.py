@@ -245,8 +245,8 @@ def find_default_level(cells):
     return 2
 
 # Cell
-# catches any cell with %nbdev_export or %nbdev_export_and_show without module name
-_re_export = re.compile(r'^%nbdev_export(|_and_show)\s*$', re.IGNORECASE | re.MULTILINE)
+# catches any line in a cell starting with %nbdev_export or %nbdev_export_and_show
+_re_export = re.compile(r'^%nbdev_export(|_and_show)\s*', re.MULTILINE)
 # catches any show_doc and get the first argument in group 1
 _re_show_doc = re.compile(r"""
 show_doc     # show_doc
@@ -355,7 +355,7 @@ def get_metadata(cells):
 
 # Cell
 #Find a cell with %nbdev_export or %nbdev_export_and_show with module name
-_re_mod_export = re.compile(r'^%nbdev_export(?:|_and_show)[ \t]+(\S+)\s*$', re.IGNORECASE | re.MULTILINE)
+_re_mod_export = re.compile(r'^%nbdev_export(?:|_and_show)[ \t]+(\S+)\s*$', re.MULTILINE)
 
 def _gather_export_mods(cells):
     res = []
