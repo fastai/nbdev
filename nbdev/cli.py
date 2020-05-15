@@ -38,7 +38,8 @@ def _code_patterns_and_replace_fns():
 # Internal Cell
 class CellMigrator():
     """Can migrate a cell using `patterns_and_replace_fns`.
-    Keeps track of the number of cells updated in `upd_count`"""
+    Keeps track of the number of cells updated in `upd_count`.
+    Saves the 1st cell procesed in `first_cell`."""
     def __init__(self, patterns_and_replace_fns):
         self.patterns_and_replace_fns,self.upd_count,self.first_cell=patterns_and_replace_fns,0,None
     def __call__(self, cell):
