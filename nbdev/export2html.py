@@ -11,6 +11,7 @@ __all__ = ['HTMLParseAttrs', 'remove_widget_state', 'hide_cells', 'clean_exports
 from .imports import *
 from .sync import *
 from .export import *
+from .export import _mk_flag_re
 from .showdoc import *
 from .template import *
 
@@ -46,21 +47,29 @@ def remove_widget_state(cell):
     return cell
 
 # Cell
-# Matches any cell that has a `show_doc` or an `#export` in it
-_re_cell_to_hide = re.compile(r's*show_doc\(|^\s*#\s*export\s+|^\s*#\s*hide_input\s+|^\s*#\s*hide-input\s+', re.IGNORECASE | re.MULTILINE)
-
+_re_show_doc = re.compile(r"""
+# Catches any show_doc and get the first argument in group 1
+show_doc     # show_doc
+\s*\(\s*     # Any number of whitespace, opening (, any number of whitespace
+([^,\)\s]*)  # Catching group for any character but a comma, a closing ) or a whitespace
+[,\)\s]      # A comma, a closing ) or a whitespace
+""", re.MULTILINE | re.VERBOSE)
+# Matches any cell that has `show_doc`, `#export`, `#hide_input` or `#hide-input` in it
+_re_cell_to_hide = re.compile(r'^\s*#\s*export\s+|^\s*#\s*hide_input\s+|^\s*#\s*hide-input\s+', re.IGNORECASE | re.MULTILINE)
+# Matches any cell that has `%nbdev_export` in it
+_re_cell_to_hide_magic = re.compile(r'^%nbdev_export\s+', re.MULTILINE)
 # Matches any cell with `#hide_output` or `#hide_output`
 _re_hide_output = re.compile(r'^\s*#\s*hide-output\s+|^\s*#\s*hide_output\s+', re.IGNORECASE | re.MULTILINE)
 
 # Cell
 def hide_cells(cell):
     "Hide inputs of `cell` that need to be hidden"
-    if check_re(cell, _re_cell_to_hide):  cell['metadata'] = {'hide_input': True}
-    elif check_re(cell, _re_hide_output):  cell['metadata'] = {'hide_output': True}
+    if check_re_multi(cell, [_re_show_doc, _re_cell_to_hide, _re_cell_to_hide_magic]):
+        cell['metadata'] = {'hide_input': True}
+    elif check_re(cell, _re_hide_output): cell['metadata'] = {'hide_output': True}
     return cell
 
 # Cell
-# Matches any line containing an #exports
 _re_exports = re.compile(r'^#\s*exports[^\n]*\n')
 
 # Cell
@@ -199,7 +208,6 @@ def escape_latex(cell):
     return cell
 
 # Cell
-#Matches any cell with #collapse or #collapse_hide
 _re_cell_to_collapse_closed = re.compile(r'^\s*#\s*(collapse|collapse_hide|collapse-hide)\s+',  re.IGNORECASE | re.MULTILINE)
 
 #Matches any cell with #collapse_show
@@ -217,7 +225,6 @@ def collapse_cells(cell):
     return cell
 
 # Cell
-#Matches any cell with #hide or #default_exp or #default_cls_lvl or #exporti
 _re_cell_to_remove = re.compile(r'^\s*#\s*(hide\s|default_exp|default_cls_lvl|exporti|all_([^\s]*))\s*')
 
 # Cell
@@ -244,15 +251,10 @@ def find_default_level(cells):
     return 2
 
 # Cell
-#Find a cell with #export(s)
-_re_export = re.compile(r'^\s*#\s*exports?\s*', re.IGNORECASE | re.MULTILINE)
-_re_show_doc = re.compile(r"""
-# First one catches any cell with a #export or #exports, second one catches any show_doc and get the first argument in group 1
-show_doc     # show_doc
-\s*\(\s*     # Any number of whitespace, opening (, any number of whitespace
-([^,\)\s]*)  # Catching group for any character but a comma, a closing ) or a whitespace
-[,\)\s]      # A comma, a closing ) or a whitespace
-""", re.MULTILINE | re.VERBOSE)
+_re_export = _mk_flag_re(False, "exports?", (0,1),
+    "Matches any line with #export or #exports with or without module name")
+_re_export_magic = _mk_flag_re(True, "export", (0,1),
+    "Matches any line with %nbdev_export with or without module name")
 
 # Cell
 def _show_doc_cell(name, cls_lvl=None):
@@ -269,7 +271,7 @@ def add_show_docs(cells, cls_lvl=None):
     res = []
     for cell in cells:
         res.append(cell)
-        if check_re(cell, _re_export):
+        if check_re_multi(cell, [_re_export, _re_export_magic]):
             names = export_names(cell['source'], func_only=True)
             for n in names:
                 if n not in documented: res.append(_show_doc_cell(n, cls_lvl=cls_lvl))
@@ -354,13 +356,16 @@ def get_metadata(cells):
             'title'   : 'Title'}
 
 # Cell
-_re_mod_export = re.compile(r"^\s*#\s*export[s]? [^\S\r\n]*(\S+)\s*$", re.IGNORECASE | re.MULTILINE)
+_re_mod_export = _mk_flag_re(False, "export[s]?", 1,
+    "Matches any line with #export or #exports with a module name and catches it in group 1")
+_re_mod_export_magic = _mk_flag_re(True, "export", 1,
+    "Matches any line with %nbdev_export with a module name and catches it in group 1")
 
 def _gather_export_mods(cells):
     res = []
     for cell in cells:
-        if check_re(cell, _re_mod_export) is not None:
-            res.append(check_re(cell, _re_mod_export).groups()[0])
+        tst = check_re_multi(cell, [_re_mod_export, _re_mod_export_magic])
+        if tst is not None: res.append(tst.groups()[0])
     return res
 
 # Cell

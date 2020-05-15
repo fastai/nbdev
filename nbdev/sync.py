@@ -74,7 +74,6 @@ def relimport2name(name, mod_name):
     return '.'.join(mods[:-i] + [name[i:]])
 
 # Cell
-#Catches any from .bla import something and catches .bla in group 1, the imported thing(s) in group 2.
 _re_loc_import = re.compile(r'(^\s*)from (\.\S*) import (.*)$')
 _re_loc_import1 = re.compile(r'(^\s*)import (\.\S*)(.*)$')
 
