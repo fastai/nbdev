@@ -244,9 +244,16 @@ def nbdev_new(name: Param("A directory to create the project in", str)):
 
     print(f"Creating a new nbdev project {name}.")
 
+    def rmtree_onerror(func, path, exc_info):
+        """`onerror` handler for `shutil.rmtree` that will try to remove read-only flag
+        then re-try the operation that failed (which was probably `os.unlink`)"""
+        os.chmod(path, stat.S_IWRITE)
+        func(path)
+
     try:
         subprocess.run(['git', 'clone', f'{_template_git_repo}', f'{path}'], check=True, timeout=5000)
-        shutil.rmtree(path/".git")
+        # Note: on windows, .git is created with a read-only flag
+        shutil.rmtree(path/".git", onerror=rmtree_onerror)
         subprocess.run("git init".split(), cwd=path, check=True)
         subprocess.run("git add .".split(), cwd=path, check=True)
         subprocess.run("git commit -am \"Initial\"".split(), cwd=path, check=True)
@@ -255,4 +262,9 @@ def nbdev_new(name: Param("A directory to create the project in", str)):
     except Exception as e:
         print("An error occured while copying nbdev project template:")
         print(e)
-        if os.path.isdir(path): shutil.rmtree(path)
+        if os.path.isdir(path):
+            try:
+                shutil.rmtree(path, onerror=rmtree_onerror)
+            except Exception as e2:
+                print(f"An error occured while cleaning up. Failed to delete {path}:")
+                print(e2)
