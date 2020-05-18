@@ -245,8 +245,7 @@ def nbdev_new(name: Param("A directory to create the project in", str)):
     print(f"Creating a new nbdev project {name}.")
 
     def rmtree_onerror(func, path, exc_info):
-        """`onerror` handler for `shutil.rmtree` that will try to remove read-only flag
-        then re-try the operation that failed (which was probably `os.unlink`)"""
+        "Use with `shutil.rmtree` when you need to delete files/folders that might be read-only."
         os.chmod(path, stat.S_IWRITE)
         func(path)
 
