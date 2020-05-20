@@ -1,4 +1,4 @@
-{%- extends 'markdown.tpl' -%}{% block body %}---
+{%- extends 'hide-md.tpl' -%}{% block body %}---
 {% if resources.title != "" and resources.title != nil %}title: {{resources.title}}{% endif %}
 {% if resources.author != "" and resources.author != nil %}author: {{resources.author}}{% endif %}
 {% if resources.date != "" and resources.date != nil %}date: {{resources.date}}{% endif %}
