@@ -29,19 +29,14 @@ def check_re(cell, pat, code_only=True):
 
 # Cell
 def check_re_multi(cell, pats, code_only=True):
-    """Check if `cell` contains a line matching any regex in `pats`,
-    returning the first match found"""
+    "Check if `cell` contains a line matching any regex in `pats`, returning the first match found"
     for pat in pats:
         tst = check_re(cell, pat)
         if tst: return tst
 
 # Cell
 def _mk_flag_re(magic_flag, body, n_params, comment):
-    """Compiles a regex for finding nbdev flags.
-    `magic_flag` pass True to find magic flags, False to find comment flags,
-    `body` regex fragment to match one or more flags,
-    `n_params` number of flag parameters to match and catch,
-    `comment` explains what the compiled regex should do."""
+    "Compiles a regex for finding nbdev flags"
     prefix = r"%nbdev_" if magic_flag else r"\s*\#\s*"
     param_group = ""
     if n_params == 1: param_group = r"[ \t]+(\S+)"
@@ -83,9 +78,7 @@ $         # end of line (since re.MULTILINE is passed)
 
 # Cell
 def is_export(cell, default):
-    """Returns a tuple of ("module name", "external boolean") if `cell` is to be exported
-    or `None` if `cell` will not be exported.
-    "external boolean" will be `False` for an internal export."""
+    "Check if `cell` is to be exported and returns the name of the module to export it if provided"
     tst = check_re_multi(cell, [_re_blank_export, _re_blank_export_magic])
     if tst:
         if default is None:
@@ -300,9 +293,7 @@ def save_nbdev_module(mod):
 
 # Cell
 def split_flags_and_code(cell, return_type=list):
-    """Splits the `source` of a cell into 2 parts and returns (flags, code).
-    Ignoring comments and blank lines, the 1st line that is not a flag is the start of "code" even if more flags follow.
-    `return_type` tells us if the tuple returned will contain `list`s of lines or `str`ings."""
+    "Splits the `source` of a cell into 2 parts and returns (flags, code)"
     code_lines = cell['source'].split('\n')
     for i, line in enumerate(code_lines):
         if not line.strip().startswith('#') and not line.startswith('%nbdev_') and line.strip(): break

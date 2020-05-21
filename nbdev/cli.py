@@ -37,9 +37,7 @@ def _code_patterns_and_replace_fns():
 
 # Internal Cell
 class CellMigrator():
-    """Can migrate a cell using `patterns_and_replace_fns`.
-    Keeps track of the number of cells updated in `upd_count`.
-    Saves the 1st cell procesed in `first_cell`."""
+    "Can migrate a cell using `patterns_and_replace_fns`"
     def __init__(self, patterns_and_replace_fns):
         self.patterns_and_replace_fns,self.upd_count,self.first_cell=patterns_and_replace_fns,0,None
     def __call__(self, cell):
@@ -63,7 +61,7 @@ def _migrate2magic(nb, update_md=False):
 # Cell
 @call_parse
 def nbdev_migrate2magic():
-    """Update all notebooks in `nbs_path` to use magic flags."""
+    "Update all notebooks in `nbs_path` to use magic flags"
     for fname in Config().nbs_path.glob('*.ipynb'):
         print('Migrating', fname)
         nbformat.write(_migrate2magic(read_nb(fname)), str(fname), version=4)
