@@ -54,27 +54,28 @@ $            # end of line (since re.MULTILINE is passed)
 # Cell
 _re_blank_export = _mk_flag_re(False, "export[si]?", 0,
     "Matches any line with #export, #exports or #exporti without any module name")
-_re_blank_export_magic = _mk_flag_re(True, "export", 0,
-    "Matches any line with %nbdev_export without any module name")
+_re_blank_export_magic = _mk_flag_re(True, "export(?:|_and_show|_internal)", 0,
+    "Matches any line with any kind of export magic without any module name")
+# any kind of export magic = %nbdev_export, %nbdev_export_and_show or %nbdev_export_internal
 
 # Cell
 _re_mod_export = _mk_flag_re(False, "export[si]?", 1,
     "Matches any line with #export, #exports or #exporti with a module name and catches it in group 1")
-_re_mod_export_magic = _mk_flag_re(True, "export", 1,
-    "Matches any line with %nbdev_export with a module name and catches it in group 1")
+_re_mod_export_magic = _mk_flag_re(True, "export(?:|_and_show|_internal)", 1,
+    "Matches any line with any kind of export magic with a module name and catches it in group 1")
 
 # Cell
-_re_internal_export = re.compile(r"""
-# Matches any line with #export or #exports without any module name:
-^         # beginning of line (since re.MULTILINE is passed)
-\s*       # any number of whitespace
-\#\s*     # "#", then any number of whitespace
-exporti   # export or exports or exporti
-\s*       # any number of whitespace
-\S*       # any number of  non-whitespace chars
-\s*       # any number of whitespace
-$         # end of line (since re.MULTILINE is passed)
-""", re.IGNORECASE | re.MULTILINE | re.VERBOSE)
+_re_internal_export = _mk_flag_re(False, "exporti", (0,1),
+    "Matches any line with #exporti with or without a module name")
+_re_internal_export_magic = _mk_flag_re(True, "export_internal", (0,1),
+    "Matches any line with export internal magic with or without a module name")
+
+# Internal Cell
+def _is_external_export(tst):
+    "Check if a cell is an external or internal export. `tst` is an re match"
+    if _re_internal_export.search(tst.string) is not None: return False
+    if _re_internal_export_magic.search(tst.string) is not None: return False
+    return True
 
 # Cell
 def is_export(cell, default):
@@ -83,9 +84,9 @@ def is_export(cell, default):
     if tst:
         if default is None:
             print(f"This cell doesn't have an export destination and was ignored:\n{cell['source'][1]}")
-        return default, (_re_internal_export.search(tst.string) is None)
+        return default, _is_external_export(tst)
     tst = check_re_multi(cell, [_re_mod_export, _re_mod_export_magic])
-    if tst: return os.path.sep.join(tst.groups()[0].split('.')), (_re_internal_export.search(tst.string) is None)
+    if tst: return os.path.sep.join(tst.groups()[0].split('.')), _is_external_export(tst)
     else: return None
 
 # Cell
