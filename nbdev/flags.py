@@ -22,6 +22,18 @@ def nbdev_export(line):
     Optionally override `%nbdev_default_export` by specifying a module: `%nbdev_export special.module`"""
     _validate_param(line, 'nbdev_export', 'module_name')
 
+def nbdev_export_and_show(line):
+    """Put an `%nbdev_export_and_show` magic on each cell you want exported with source code shown in the docs.
+    Optionally override `%nbdev_default_export` by specifying a module: `%nbdev_export_and_show special.module`"""
+    _validate_param(line, 'nbdev_export_and_show', 'module_name')
+
+def nbdev_export_internal(line):
+    """Put an `%nbdev_export_internal` magic on each cell you want exported without it being added to `__all__`,
+    and without it showing up in the docs.
+    Optionally override `%nbdev_default_export` by specifying a module: `%nbdev_export_internal special.module`"""
+    _validate_param(line, 'nbdev_export_internal', 'module_name')
+
 if IN_IPYTHON:
     from IPython.core.magic import register_line_magic
-    register_line_magic(nbdev_export)
+    fns = [nbdev_export, nbdev_export_and_show, nbdev_export_internal]
+    for fn in fns: register_line_magic(fn)

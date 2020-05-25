@@ -54,7 +54,7 @@ show_doc     # show_doc
 ([^,\)\s]*)  # Catching group for any character but a comma, a closing ) or a whitespace
 [,\)\s]      # A comma, a closing ) or a whitespace
 """, re.MULTILINE | re.VERBOSE)
-# Matches any cell that has `show_doc`, `#export`, `#hide_input` or `#hide-input` in it
+# Matches any cell that has `#export`, `#hide_input` or `#hide-input` in it
 _re_cell_to_hide = re.compile(r'^\s*#\s*export\s+|^\s*#\s*hide_input\s+|^\s*#\s*hide-input\s+', re.IGNORECASE | re.MULTILINE)
 # Matches any cell that has `%nbdev_export` in it
 _re_cell_to_hide_magic = re.compile(r'^%nbdev_export\s+', re.MULTILINE)
@@ -70,12 +70,10 @@ def hide_cells(cell):
     return cell
 
 # Cell
-_re_exports = re.compile(r'^#\s*exports[^\n]*\n')
-
-# Cell
 def clean_exports(cell):
-    "Remove exports flag from `cell`"
-    cell['source'] = _re_exports.sub('', cell['source'])
+    "Remove all flags from code `cell`s"
+    if cell['cell_type'] == 'code':
+        cell['source'] = split_flags_and_code(cell, str)[1]
     return cell
 
 # Cell
@@ -225,12 +223,22 @@ def collapse_cells(cell):
     return cell
 
 # Cell
-_re_cell_to_remove = re.compile(r'^\s*#\s*(hide\s|default_exp|default_cls_lvl|exporti|all_([^\s]*))\s*')
+_re_hide = _mk_flag_re(False, 'hide', 0, 'Matches any cell with #hide')
+_re_cell_to_remove = _mk_flag_re(False, '(default_exp|default_cls_lvl|exporti|all_(?:[^\s]*))', (0,1),
+    'Matches any cell with #default_exp or #default_cls_lvl or #exporti or an all test flag')
+#Matches any cell with %nbdev_export_internal
+_re_cell_to_remove_magic = _mk_flag_re(True, 'export_internal', (0,1),
+    'Matches any cell with %nbdev_export_internal')
 
 # Cell
 def remove_hidden(cells):
     "Remove in `cells` the ones with a flag `#hide`, `#default_exp` or `#default_cls_lvl` or `#exporti`"
-    return [c for c in cells if _re_cell_to_remove.search(c['source']) is None]
+    def _hidden(cell):
+        "Check if `cell` should be hidden"
+        if check_re(cell, _re_hide, code_only=False): return True
+        if check_re_multi(cell, [_re_cell_to_remove, _re_cell_to_remove_magic]): return True
+        return False
+    return [c for c in cells if not _hidden(c)]
 
 # Cell
 _re_default_cls_lvl = re.compile(r"""
@@ -253,8 +261,8 @@ def find_default_level(cells):
 # Cell
 _re_export = _mk_flag_re(False, "exports?", (0,1),
     "Matches any line with #export or #exports with or without module name")
-_re_export_magic = _mk_flag_re(True, "export", (0,1),
-    "Matches any line with %nbdev_export with or without module name")
+_re_export_magic = _mk_flag_re(True, "export(|_and_show)", (0,1),
+    "Matches any line with %nbdev_export or %nbdev_export_and_show with or without module name")
 
 # Cell
 def _show_doc_cell(name, cls_lvl=None):
@@ -358,8 +366,8 @@ def get_metadata(cells):
 # Cell
 _re_mod_export = _mk_flag_re(False, "export[s]?", 1,
     "Matches any line with #export or #exports with a module name and catches it in group 1")
-_re_mod_export_magic = _mk_flag_re(True, "export", 1,
-    "Matches any line with %nbdev_export with a module name and catches it in group 1")
+_re_mod_export_magic = _mk_flag_re(True, "export(?:|_and_show)", 1,
+    "Matches any line with %nbdev_export or %nbdev_export_and_show catching module name in group 1")
 
 def _gather_export_mods(cells):
     res = []
