@@ -35,7 +35,7 @@ def is_lib_module(name):
     except: return False
 
 # Cell
-_re_digits_first = re.compile('^[0-9]+_')
+_re_digits_first = re.compile('^[0-9]+[a-z]*_')
 
 # Cell
 def try_external_doc_link(name, packages):
