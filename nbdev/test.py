@@ -6,49 +6,45 @@ __all__ = ['check_all_flag', 'get_cell_flags', 'NoExportPreprocessor', 'test_nb'
 from .imports import *
 from .sync import *
 from .export import *
+from .export import _mk_flag_re
 
 from nbconvert.preprocessors import ExecutePreprocessor
 
 # Cell
-_re_all_flag = re.compile("""
-# Matches any line with #all_something and catches that something in a group:
-^         # beginning of line (since re.MULTILINE is passed)
-\s*       # any number of whitespace
-\#\s*     # # then any number of whitespace
-all_(\S+) # all_ followed by a group with any non-whitespace chars
-\s*       # any number of whitespace
-$         # end of line (since re.MULTILINE is passed)
-""", re.IGNORECASE | re.MULTILINE | re.VERBOSE)
+class _ReTstFlags():
+    "Provides test flag matching regular expressions"
+    def __init__(self, all_flag): self.all_flag = all_flag
+
+    @property
+    def re(self):
+        "Compile at first use but not before since patterns need `Config().tst_flags`"
+        if not hasattr(self, '_re'):
+            tst_flags = Config().get('tst_flags', '')
+            _re_all, _re_magic_all = ('all_', '[ \t]+all') if self.all_flag else ('', '')
+            self._re = _mk_flag_re(False, f"{_re_all}({tst_flags})", 0,
+                "Matches any line with a test flag and catches it in a group")
+            self._re_magic = _mk_flag_re(True, f"({tst_flags})_test{_re_magic_all}", 0,
+                "Matches any line with a magic test flag and catches it in a group")
+        return self._re, self._re_magic
+
+# Cell
+_re_all_flag = _ReTstFlags(True)
 
 # Cell
 def check_all_flag(cells):
     "Check for an `# all_flag` cell and then return said flag"
     for cell in cells:
-        if check_re(cell, _re_all_flag): return check_re(cell, _re_all_flag).groups()[0]
+        m = check_re_multi(cell, _re_all_flag.re)
+        if m: return m.groups()[0]
 
 # Cell
-class _ReTstFlags():
-    def __init__(self): self._re = None
-    @property
-    def re(self):
-        if self._re is None: self._re = re.compile(f"""
-# Matches any line with a test flad and catches it in a group:
-^               # beginning of line (since re.MULTILINE is passed)
-\s*             # any number of whitespace
-\#\s*           # # then any number of whitespace
-({Config().get('tst_flags', '')})
-\s*             # any number of whitespace
-$               # end of line (since re.MULTILINE is passed)
-""", re.IGNORECASE | re.MULTILINE | re.VERBOSE)
-        return self._re
-
-_re_flags = _ReTstFlags()
+_re_flags = _ReTstFlags(False)
 
 # Cell
 def get_cell_flags(cell):
     "Check for any special test flag in `cell`"
     if cell['cell_type'] != 'code' or len(Config().get('tst_flags',''))==0: return []
-    return _re_flags.re.findall(cell['source'])
+    return _re_flags.re[0].findall(cell['source']) + _re_flags.re[1].findall(cell['source'])
 
 # Cell
 class NoExportPreprocessor(ExecutePreprocessor):

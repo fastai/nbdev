@@ -33,7 +33,20 @@ def nbdev_export_internal(line):
     Optionally override `%nbdev_default_export` by specifying a module: `%nbdev_export_internal special.module`"""
     _validate_param(line, 'nbdev_export_internal', 'module_name')
 
+def _new_test_flag_fn(flag):
+    "Create a new test flag function and magic"
+    # don't create "empty" test flags if tst_flags is not set, set to whitespace, has trailing | etc
+    if not flag.strip(): return
+    exec(f'''def nbdev_{flag}_test(line):
+    """Put an `%nbdev_{flag}_test` magic on each "{flag}" test cell that you do not want to be run by default.
+    To apply this flag to all tests in a notebook, one cell should contain: `%nbdev_{flag}_test all`
+    These tests can be executed with the command line tool: `nbdev_test_nbs --flags {flag}`'."""
+    _validate_param(line, 'nbdev_{flag}_test', fixed_value='all')''')
+    exec(f'sys.modules[__name__].nbdev_{flag}_test = nbdev_{flag}_test')
+    exec(f'register_line_magic(nbdev_{flag}_test)')
+
 if IN_IPYTHON:
     from IPython.core.magic import register_line_magic
     fns = [nbdev_export, nbdev_export_and_show, nbdev_export_internal]
     for fn in fns: register_line_magic(fn)
+    for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)

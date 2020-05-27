@@ -24,17 +24,22 @@ def _code_patterns_and_replace_fns():
 
     def _replace_fn(magic, m):
         "Return a magic flag for a comment flag matched in `m`"
+        if not m.groups() or not m.group(1): return f'%{magic}'
         return f'%{magic}' if m.group(1) is None else f'%{magic} {m.group(1)}'
 
-    def _add_pattern_and_replace_fn(comment_flag, magic_flag):
+    def _add_pattern_and_replace_fn(comment_flag, magic_flag, n_params=(0,1)):
         "Add a pattern/function tuple to go from comment to magic flag"
-        pattern = _mk_flag_re(False, comment_flag, (0,1), "")
+        pattern = _mk_flag_re(False, comment_flag, n_params, "")
         # note: fn has to be single arg so we can use it in `pattern.sub` calls later
         patterns_and_replace_fns.append((pattern, partial(_replace_fn, magic_flag)))
 
     _add_pattern_and_replace_fn('exports', 'nbdev_export_and_show')
     _add_pattern_and_replace_fn('exporti', 'nbdev_export_internal')
     _add_pattern_and_replace_fn('export', 'nbdev_export')
+    for flag in Config().get('tst_flags', '').split('|'):
+        if flag.strip():
+            _add_pattern_and_replace_fn(f'all_{flag}', f'nbdev_{flag}_test all', 0)
+            _add_pattern_and_replace_fn(flag, f'nbdev_{flag}_test', 0)
     return patterns_and_replace_fns
 
 # Internal Cell
