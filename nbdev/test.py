@@ -52,7 +52,7 @@ def get_cell_flags(cell):
 
 # Cell
 class NoExportPreprocessor(ExecutePreprocessor):
-    "An `ExecutePreprocessor` that executes cells that are not exported and don't have a flag in `flags`"
+    "An `ExecutePreprocessor` that executes cells that don't have a flag in `flags`"
     def __init__(self, flags, **kwargs):
         self.flags = flags
         super().__init__(**kwargs)
