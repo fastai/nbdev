@@ -2,8 +2,8 @@
 
 __all__ = ['first', 'read_nb', 'check_re', 'check_re_multi', 'is_export', 'find_default_export', 'export_names',
            'extra_add', 'relative_import', 'reset_nbdev_module', 'get_nbdev_module', 'save_nbdev_module',
-           'split_flags_and_code', 'create_mod_file', 'add_init', 'update_version', 'update_baseurl', 'notebook2script',
-           'DocsTestClass']
+           'split_flags_and_code', 'create_mod_file', 'create_mod_files', 'add_init', 'update_version',
+           'update_baseurl', 'notebook2script', 'DocsTestClass']
 
 # Cell
 from .imports import *
@@ -312,8 +312,23 @@ def create_mod_file(fname, nb_path):
         f.write('\n\n__all__ = []')
 
 # Cell
-def _notebook2script(fname, silent=False, to_dict=None):
-    "Finds cells starting with `#export` and puts them into a new module"
+def create_mod_files(files, to_dict=False):
+    "Create mod files for default exports found in `files`"
+    modules = []
+    for f in files:
+        fname = Path(f)
+        nb = read_nb(fname)
+        default = find_default_export(nb['cells'])
+        if default is not None:
+            default = os.path.sep.join(default.split('.'))
+            modules.append(default)
+            if not to_dict:
+                create_mod_file(Config().lib_path/f'{default}.py', Config().nbs_path/f'{fname}')
+    return modules
+
+# Cell
+def _notebook2script(fname, modules, silent=False, to_dict=None):
+    "Finds cells starting with `#export` and puts them into a module created by `create_mod_files`"
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
     sep = '\n'* (int(Config().get('cell_spacing', '1'))+1)
     fname = Path(fname)
@@ -321,11 +336,11 @@ def _notebook2script(fname, silent=False, to_dict=None):
     default = find_default_export(nb['cells'])
     if default is not None:
         default = os.path.sep.join(default.split('.'))
-        if to_dict is None: create_mod_file(Config().lib_path/f'{default}.py', Config().nbs_path/f'{fname}')
     mod = get_nbdev_module()
     exports = [is_export(c, default) for c in nb['cells']]
     cells = [(i,c,e) for i,(c,e) in enumerate(zip(nb['cells'],exports)) if e is not None]
     for i,c,(e,a) in cells:
+        if e not in modules: print(f'Warning: Exporting to "{e}.py" but this module is not part of this build')
         fname_out = Config().lib_path/f'{e}.py'
         orig = (f'# {"" if a else "Internal "}C' if e==default else f'# Comes from {fname.name}, c') + 'ell\n'
         code_lines = split_flags_and_code(c)[1]
@@ -395,7 +410,8 @@ def notebook2script(fname=None, silent=False, to_dict=False):
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
     d = collections.defaultdict(list) if to_dict else None
-    for f in sorted(files): d = _notebook2script(f, silent=silent, to_dict=d)
+    modules = create_mod_files(files, to_dict)
+    for f in sorted(files): d = _notebook2script(f, modules, silent=silent, to_dict=d)
     if to_dict: return d
     else: add_init(Config().lib_path)
 
