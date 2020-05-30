@@ -33,6 +33,7 @@ def _code_patterns_and_replace_fns():
         # note: fn has to be single arg so we can use it in `pattern.sub` calls later
         patterns_and_replace_fns.append((pattern, partial(_replace_fn, magic_flag)))
 
+    _add_pattern_and_replace_fn('default_exp', 'nbdev_default_export')
     _add_pattern_and_replace_fn('exports', 'nbdev_export_and_show')
     _add_pattern_and_replace_fn('exporti', 'nbdev_export_internal')
     _add_pattern_and_replace_fn('export', 'nbdev_export')

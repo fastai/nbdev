@@ -17,6 +17,15 @@ def _validate_param(line, magic_name, param_name=None, required=False, fixed_val
         print(f'UsageError: Invalid option "{line}". Usage `%{magic_name} [{fixed_value}]`')
     return True
 
+def nbdev_default_export(line):
+    """One cell should contain a `%nbdev_default_export` magic followed by the name of the module
+    (with points for submodules and without the py extension) everything should be exported in.
+    If one specific cell needs to be exported in a different module, just indicate it after the
+    `%nbdev_export` magic: `%nbdev_export special.module`"""
+    if not _validate_param(line, 'nbdev_default_export', 'module_name', True): return
+    print(f'Cells will be exported to {Config().get("lib_name", "lib_name")}.{line},')
+    print('unless a different module is specified after an export flag: `%nbdev_export special.module`')
+
 def nbdev_export(line):
     """Put an `%nbdev_export` magic on each cell you want exported but not shown in the docs.
     Optionally override `%nbdev_default_export` by specifying a module: `%nbdev_export special.module`"""
@@ -47,6 +56,6 @@ def _new_test_flag_fn(flag):
 
 if IN_IPYTHON:
     from IPython.core.magic import register_line_magic
-    fns = [nbdev_export, nbdev_export_and_show, nbdev_export_internal]
+    fns = [nbdev_default_export, nbdev_export, nbdev_export_and_show, nbdev_export_internal]
     for fn in fns: register_line_magic(fn)
     for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)

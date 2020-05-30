@@ -11,23 +11,7 @@ from .export import _mk_flag_re
 from nbconvert.preprocessors import ExecutePreprocessor
 
 # Cell
-class _ReTstFlags():
-    "Provides test flag matching regular expressions"
-    def __init__(self, all_flag): self.all_flag = all_flag
-
-    def findall(self, source):
-        "Compile at first use but not before since patterns need `Config().tst_flags`"
-        if not hasattr(self, '_re'):
-            tst_flags = Config().get('tst_flags', '')
-            _re_all, _re_magic_all = ('all_', '[ \t]+all') if self.all_flag else ('', '')
-            self._re = _mk_flag_re(False, f"{_re_all}({tst_flags})", 0,
-                "Matches any line with a test flag and catches it in a group")
-            self._re_magic = _mk_flag_re(True, f"({tst_flags})_test{_re_magic_all}", 0,
-                "Matches any line with a magic test flag and catches it in a group")
-        return self._re.findall(source) + self._re_magic.findall(source)
-
-# Cell
-_re_all_flag = _ReTstFlags(True)
+_re_all_flag = ReTstFlags(True)
 
 # Cell
 def get_all_flags(cells):
@@ -39,7 +23,7 @@ def get_all_flags(cells):
     return set(result)
 
 # Cell
-_re_flags = _ReTstFlags(False)
+_re_flags = ReTstFlags(False)
 
 # Cell
 def get_cell_flags(cell):
