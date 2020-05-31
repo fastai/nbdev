@@ -314,9 +314,12 @@ def save_nbdev_module(mod):
 def split_flags_and_code(cell, return_type=list):
     "Splits the `source` of a cell into 2 parts and returns (flags, code)"
     code_lines = cell['source'].split('\n')
+    split_pos = 0 if code_lines[0].strip().startswith('#') else -1
     for i, line in enumerate(code_lines):
-        if not line.strip().startswith('#') and not line.startswith('%nbdev_') and line.strip(): break
-    res = code_lines[:i], code_lines[i:]
+        if line.startswith('%nbdev_'): split_pos=i
+        elif not line.startswith('#') and line.strip(): break
+    split_pos+=1
+    res = code_lines[:split_pos], code_lines[split_pos:]
     if return_type is list: return res
     return tuple('\n'.join(r) for r in res)
 
@@ -434,8 +437,12 @@ def notebook2script(fname=None, silent=False, to_dict=False):
     else: add_init(Config().lib_path)
 
 # Cell
+#export
+#for tests only
 class DocsTestClass:
     def test(): pass
 
 # Internal Cell
+#exporti
+#for tests only
 def update_lib_with_exporti_testfn(): pass

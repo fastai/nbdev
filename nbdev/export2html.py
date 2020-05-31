@@ -47,6 +47,7 @@ def remove_widget_state(cell):
     return cell
 
 # Cell
+# Note: `_re_show_doc` will catch show_doc even if it's commented out etc
 _re_show_doc = re.compile(r"""
 # Catches any show_doc and get the first argument in group 1
 show_doc     # show_doc
@@ -206,6 +207,7 @@ def escape_latex(cell):
     return cell
 
 # Cell
+#Matches any cell with #collapse or #collapse_hide
 _re_cell_to_collapse_closed = re.compile(r'^\s*#\s*(collapse|collapse_hide|collapse-hide)\s+',  re.IGNORECASE | re.MULTILINE)
 
 #Matches any cell with #collapse_show
