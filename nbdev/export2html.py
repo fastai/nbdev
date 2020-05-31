@@ -226,19 +226,19 @@ def collapse_cells(cell):
 
 # Cell
 _re_hide = _mk_flag_re(False, 'hide', 0, 'Matches any cell with #hide')
-_re_cell_to_remove = _mk_flag_re(False, '(default_exp|default_cls_lvl|exporti|all_(?:[^\s]*))', (0,1),
-    'Matches any cell with #default_exp or #default_cls_lvl or #exporti or an all test flag')
-#Matches any cell with %nbdev_export_internal
-_re_cell_to_remove_magic = _mk_flag_re(True, 'export_internal', (0,1),
-    'Matches any cell with %nbdev_export_internal')
+_re_all_flag = ReTstFlags(True)
+_re_cell_to_remove = _mk_flag_re(False, '(default_exp|default_cls_lvl|exporti)', (0,1),
+    'Matches any cell with #default_exp or #default_cls_lvl or #exporti')
+_re_cell_to_remove_magic = _mk_flag_re(True, '(default_export|export_internal)', (0,1),
+    'Matches any cell with %nbdev_default_export or %nbdev_export_internal')
 
 # Cell
 def remove_hidden(cells):
-    "Remove in `cells` the ones with a flag `#hide`, `#default_exp` or `#default_cls_lvl` or `#exporti`"
+    "Remove in `cells` the ones with a flag `#hide`, `#default_exp`, `#default_cls_lvl` or `#exporti`"
     def _hidden(cell):
         "Check if `cell` should be hidden"
         if check_re(cell, _re_hide, code_only=False): return True
-        if check_re_multi(cell, [_re_cell_to_remove, _re_cell_to_remove_magic]): return True
+        if check_re_multi(cell, [_re_all_flag, _re_cell_to_remove, _re_cell_to_remove_magic]): return True
         return False
     return [c for c in cells if not _hidden(c)]
 
