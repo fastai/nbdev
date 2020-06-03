@@ -207,21 +207,30 @@ def escape_latex(cell):
     return cell
 
 # Cell
-#Matches any cell with #collapse or #collapse_hide
-_re_cell_to_collapse_closed = re.compile(r'^\s*#\s*(collapse|collapse_hide|collapse-hide)\s+',  re.IGNORECASE | re.MULTILINE)
+_re_cell_to_collapse_closed = [
+    _mk_flag_re(False, '(collapse|collapse_hide|collapse-hide)', 0,
+        "Matches any cell with #collapse or #collapse_hide"),
+    _mk_flag_re(True, 'collapse_input', 0,
+        "Matches any cell with %nbdev_collapse_input")]
 
-#Matches any cell with #collapse_show
-_re_cell_to_collapse_open = re.compile(r'^\s*#\s*(collapse_show|collapse-show)\s+',  re.IGNORECASE | re.MULTILINE)
+_re_cell_to_collapse_open = [
+    _mk_flag_re(False, '(collapse_show|collapse-show)', 0,
+        "Matches any cell with #collapse_show"),
+    _mk_flag_re(True, r'collapse_input[ \t]+open', 0,
+        "Matches any cell with %nbdev_collapse_input open")]
 
-#Matches any cell with #collapse_output or #collapse-output
-_re_cell_to_collapse_output = re.compile(r'^\s*#\s*(collapse_output|collapse-output)\s+',  re.IGNORECASE | re.MULTILINE)
+_re_cell_to_collapse_output = [
+    _mk_flag_re(False, '(collapse_output|collapse-output)', 0,
+        "Matches any cell with #collapse_output"),
+    _mk_flag_re(True, 'collapse_output', 0,
+        "Matches any cell with %nbdev_collapse_output")]
 
 # Cell
 def collapse_cells(cell):
     "Add a collapse button to inputs of `cell` in either the open or closed position"
-    if check_re(cell, _re_cell_to_collapse_closed):  cell['metadata'] = {'collapse_hide': True}
-    elif check_re(cell, _re_cell_to_collapse_open):  cell['metadata'] = {'collapse_show': True}
-    elif check_re(cell, _re_cell_to_collapse_output):  cell['metadata'] = {'collapse_output': True}
+    if check_re_multi(cell, _re_cell_to_collapse_closed):  cell['metadata'] = {'collapse_hide': True}
+    elif check_re_multi(cell, _re_cell_to_collapse_open):  cell['metadata'] = {'collapse_show': True}
+    elif check_re_multi(cell, _re_cell_to_collapse_output):  cell['metadata'] = {'collapse_output': True}
     return cell
 
 # Cell

@@ -42,6 +42,16 @@ def nbdev_export_internal(line):
     Optionally override `%nbdev_default_export` by specifying a module: `%nbdev_export_internal special.module`"""
     _validate_param(line, 'nbdev_export_internal', 'module_name')
 
+def nbdev_collapse_input(line):
+    """Put an `%nbdev_collapse_input` magic to inlcude your code in the docs under a collapsable element that is closed by default.
+    To make the collapsable element open by default: `%nbdev_collapse_input open`"""
+    _validate_param(line, 'nbdev_collapse_input', fixed_value='open')
+
+def nbdev_collapse_output(line):
+    """Put an `%nbdev_collapse_output` magic to inlcude output in the docs under a collapsable element that is closed by default.
+    To make the collapsable element open by default: `%nbdev_collapse_output open`"""
+    _validate_param(line, 'nbdev_collapse_output', fixed_value='open')
+    
 def _new_test_flag_fn(flag):
     "Create a new test flag function and magic"
     # don't create "empty" test flags if tst_flags is not set, set to whitespace, has trailing | etc
@@ -56,6 +66,7 @@ def _new_test_flag_fn(flag):
 
 if IN_IPYTHON:
     from IPython.core.magic import register_line_magic
-    fns = [nbdev_default_export, nbdev_export, nbdev_export_and_show, nbdev_export_internal]
+    fns = [nbdev_default_export, nbdev_export, nbdev_export_and_show, nbdev_export_internal,
+           nbdev_collapse_input, nbdev_collapse_output]
     for fn in fns: register_line_magic(fn)
     for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)
