@@ -305,7 +305,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="first" class="doc_header"><code>first</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L12" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>first</code>(<strong><code>x</code></strong>)</p>
+<h4 id="first" class="doc_header"><code>first</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L13" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>first</code>(<strong><code>x</code></strong>)</p>
 </blockquote>
 <p>First element of <code>x</code>, or None if missing</p>
 
@@ -356,7 +356,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="read_nb" class="doc_header"><code>read_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>read_nb</code>(<strong><code>fname</code></strong>)</p>
+<h4 id="read_nb" class="doc_header"><code>read_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L19" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>read_nb</code>(<strong><code>fname</code></strong>)</p>
 </blockquote>
 <p>Read the notebook in <code>fname</code>.</p>
 
@@ -495,7 +495,7 @@ description: "The functions that transform notebooks in a library"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{test_nb[&#39;nbformat&#39;]}</span><span class="s2">.</span><span class="si">{test_nb[&#39;nbformat_minor&#39;]}</span><span class="s2">&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">test_nb</span><span class="p">[</span><span class="s1">&#39;nbformat&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">test_nb</span><span class="p">[</span><span class="s1">&#39;nbformat_minor&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
 </pre></div>
 
     </div>
@@ -596,7 +596,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="check_re" class="doc_header"><code>check_re</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L23" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_re</code>(<strong><code>cell</code></strong>, <strong><code>pat</code></strong>, <strong><code>code_only</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="check_re" class="doc_header"><code>check_re</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L24" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_re</code>(<strong><code>cell</code></strong>, <strong><code>pat</code></strong>, <strong><code>code_only</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Check if <code>cell</code> contains a line with regex <code>pat</code></p>
 
@@ -651,6 +651,81 @@ description: "The functions that transform notebooks in a library"
     
 <div class="cell border-box-sizing code_cell rendered">
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="check_re_multi" class="doc_header"><code>check_re_multi</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L31" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_re_multi</code>(<strong><code>cell</code></strong>, <strong><code>pats</code></strong>, <strong><code>code_only</code></strong>=<em><code>True</code></em>)</p>
+</blockquote>
+<p>Check if <code>cell</code> contains a line matching any regex in <code>pats</code>, returning the first match found</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cell</span> <span class="o">=</span> <span class="n">test_nb</span><span class="p">[</span><span class="s1">&#39;cells&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;a b c&quot;</span>
+<span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="c1"># show that searching with paterns [&#39;d&#39;,&#39;b&#39;,&#39;a&#39;] will match &#39;b&#39;</span>
+<span class="c1"># i.e. &#39;d&#39; is not found and we don&#39;t search for &#39;a&#39;</span>
+<span class="k">assert</span> <span class="n">check_re_multi</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">span</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This function returns a regex object that can be used to find nbdev flags in multiline text</p>
+<ul>
+<li><code>magic_flag</code> pass True to find magic flags, False to find comment flags,</li>
+<li><code>body</code> regex fragment to match one or more flags,</li>
+<li><code>n_params</code> number of flag parameters to match and catch,</li>
+<li><code>comment</code> explains what the compiled regex should do.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 </div>
     {% endraw %}
 
@@ -679,7 +754,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="is_export" class="doc_header"><code>is_export</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L67" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>is_export</code>(<strong><code>cell</code></strong>, <strong><code>default</code></strong>)</p>
+<h4 id="is_export" class="doc_header"><code>is_export</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L81" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>is_export</code>(<strong><code>cell</code></strong>, <strong><code>default</code></strong>)</p>
 </blockquote>
 <p>Check if <code>cell</code> is to be exported and returns the name of the module to export it if provided</p>
 
@@ -695,6 +770,14 @@ description: "The functions that transform notebooks in a library"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="/export#is_export"><code>is_export</code></a> returns;</p>
+<ul>
+<li>a tuple of ("module name", "external boolean") if <code>cell</code> is to be exported or <ul>
+<li>"external boolean" will be <code>False</code> for an internal export</li>
+</ul>
+</li>
+<li><code>None</code> if <code>cell</code> will not be exported.</li>
+</ul>
 <p>The cells to export are marked with an <code>#export</code>, <code>#exports</code> or <code>#exporti</code> code, potentially with a module name where we want it exported. The default module is given in a cell of the form <code>#default_exp bla</code> inside the notebook (usually at the top), though in this function, it needs the be passed (the final script will read the whole notebook to find it).</p>
 <ul>
 <li>a cell marked with <code># export</code>, <code># exports</code> or <code># exporti</code> will be exported to the default module</li>
@@ -716,21 +799,41 @@ description: "The functions that transform notebooks in a library"
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cell</span> <span class="o">=</span> <span class="n">test_nb</span><span class="p">[</span><span class="s1">&#39;cells&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export</span><span class="se">\n</span><span class="s2">from nbdev.imports import *&quot;</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# exports&quot;</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export_and_show&quot;</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# exporti&quot;</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+<span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export_internal&quot;</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# export mod&quot;</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;mod&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export mod</span><span class="se">\n</span><span class="s2">from nbdev.imports import *&quot;</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;mod&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# export mod.file&quot;</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{os.path.sep}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="si">}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export mod.file&quot;</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="si">}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# exporti mod.file&quot;</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{os.path.sep}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="si">}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+<span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export_internal mod.file&quot;</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="si">}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# expt mod.file&quot;</span>
 <span class="k">assert</span> <span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# exportmod.file&quot;</span>
 <span class="k">assert</span> <span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# exportsmod.file&quot;</span>
+<span class="k">assert</span> <span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export_and_showmod.file&quot;</span>
+<span class="k">assert</span> <span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export_internalmod.file&quot;</span>
+<span class="k">assert</span> <span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# exporti mod file&quot;</span>
+<span class="k">assert</span> <span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export_internal mod file&quot;</span>
 <span class="k">assert</span> <span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
 </pre></div>
 
@@ -766,7 +869,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="find_default_export" class="doc_header"><code>find_default_export</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L92" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_default_export</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="find_default_export" class="doc_header"><code>find_default_export</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L99" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_default_export</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Find in <code>cells</code> the default export module.</p>
 
@@ -799,6 +902,45 @@ description: "The functions that transform notebooks in a library"
 </pre></div>
 
     </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Note: <a href="/export#ReTstFlags"><code>ReTstFlags</code></a> isn't used during export but is needed by <a href="/export2html"><code>export2html</code></a> and <a href="/test"><code>test</code></a>.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h3 id="ReTstFlags" class="doc_header"><code>class</code> <code>ReTstFlags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L106" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>ReTstFlags</code>(<strong><code>all_flag</code></strong>)</p>
+</blockquote>
+<p>Provides test flag matching regular expressions</p>
+
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -902,7 +1044,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="export_names" class="doc_header"><code>export_names</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L155" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_names</code>(<strong><code>code</code></strong>, <strong><code>func_only</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="export_names" class="doc_header"><code>export_names</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L187" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_names</code>(<strong><code>code</code></strong>, <strong><code>func_only</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Find the names of the objects, functions or classes defined in <code>code</code> that are exported.</p>
 
@@ -1002,7 +1144,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="extra_add" class="doc_header"><code>extra_add</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L183" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extra_add</code>(<strong><code>code</code></strong>)</p>
+<h4 id="extra_add" class="doc_header"><code>extra_add</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L215" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extra_add</code>(<strong><code>code</code></strong>)</p>
 </blockquote>
 <p>Catch adds to <code>__all__</code> required by a cell with <code>_all_=</code></p>
 
@@ -1084,7 +1226,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="relative_import" class="doc_header"><code>relative_import</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L205" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>relative_import</code>(<strong><code>name</code></strong>, <strong><code>fname</code></strong>)</p>
+<h4 id="relative_import" class="doc_header"><code>relative_import</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L237" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>relative_import</code>(<strong><code>name</code></strong>, <strong><code>fname</code></strong>)</p>
 </blockquote>
 <p>Convert a module <code>name</code> to a name relative to <code>fname</code></p>
 
@@ -1196,7 +1338,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="reset_nbdev_module" class="doc_header"><code>reset_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L230" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>reset_nbdev_module</code>()</p>
+<h4 id="reset_nbdev_module" class="doc_header"><code>reset_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L262" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>reset_nbdev_module</code>()</p>
 </blockquote>
 <p>Create a skeletton for <code>_nbdev</code></p>
 
@@ -1235,7 +1377,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_nbdev_module" class="doc_header"><code>get_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L257" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_nbdev_module</code>()</p>
+<h4 id="get_nbdev_module" class="doc_header"><code>get_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L289" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_nbdev_module</code>()</p>
 </blockquote>
 <p>Reads <code>_nbdev</code></p>
 
@@ -1274,7 +1416,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="save_nbdev_module" class="doc_header"><code>save_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L271" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>save_nbdev_module</code>(<strong><code>mod</code></strong>)</p>
+<h4 id="save_nbdev_module" class="doc_header"><code>save_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L303" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>save_nbdev_module</code>(<strong><code>mod</code></strong>)</p>
 </blockquote>
 <p>Save <code>mod</code> inside <code>_nbdev</code></p>
 
@@ -1312,7 +1454,94 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_mod_file" class="doc_header"><code>create_mod_file</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L282" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_mod_file</code>(<strong><code>fname</code></strong>, <strong><code>nb_path</code></strong>)</p>
+<h4 id="split_flags_and_code" class="doc_header"><code>split_flags_and_code</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L314" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>split_flags_and_code</code>(<strong><code>cell</code></strong>, <strong><code>return_type</code></strong>=<em><code>'list'</code></em>)</p>
+</blockquote>
+<p>Splits the <code>source</code> of a cell into 2 parts and returns (flags, code)</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>return_type</code> tells us if the tuple returned will contain <code>list</code>s of lines or <code>str</code>ings with line breaks.</p>
+<p>If no magic flags are found, treat the first comment line as a flag</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include image.html alt="split_flags_and_code example" align="left" max-width="450" file="/images/split_flags_and_code.png" %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If magic flags are found, the flags part can contain multiple lines</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include image.html alt="split_flags_and_code example" align="left" max-width="450" file="/images/split_flags_and_code_magic.png" %}</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">_test_split_flags_and_code</span><span class="p">(</span><span class="n">expected_flags</span><span class="p">,</span> <span class="n">expected_code</span><span class="p">):</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">nbformat</span><span class="o">.</span><span class="n">v4</span><span class="o">.</span><span class="n">new_code_cell</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expected_flags</span> <span class="o">+</span> <span class="n">expected_code</span><span class="p">))</span>
+    <span class="n">test_eq</span><span class="p">((</span><span class="n">expected_flags</span><span class="p">,</span> <span class="n">expected_code</span><span class="p">),</span> <span class="n">split_flags_and_code</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span>
+    <span class="n">expected</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expected_flags</span><span class="p">),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expected_code</span><span class="p">))</span>
+    <span class="n">test_eq</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="n">split_flags_and_code</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span>
+    
+<span class="n">_test_split_flags_and_code</span><span class="p">([</span>
+    <span class="s1">&#39;#export&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;# TODO: write this function&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;def func(x): pass&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="create_mod_file" class="doc_header"><code>create_mod_file</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L327" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_mod_file</code>(<strong><code>fname</code></strong>, <strong><code>nb_path</code></strong>)</p>
 </blockquote>
 <p>Create a module file for <code>fname</code>.</p>
 
@@ -1345,6 +1574,60 @@ depending on where we are. This function deals with those imports renaming.</p>
     
 <div class="cell border-box-sizing code_cell rendered">
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="create_mod_files" class="doc_header"><code>create_mod_files</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L336" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_mod_files</code>(<strong><code>files</code></strong>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>)</p>
+</blockquote>
+<p>Create mod files for default exports found in <code>files</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Create module files for all <code>#default_exp</code> tags found in <code>files</code> and return a list containing the names of modules created.</p>
+<p>Note: The number if modules returned will be less that the number of files passed in if files do not <code>#default_exp</code>.</p>
+<p>By creating all module files before calling <code>_notebook2script</code>, the order of execution no longer matters - so you can now export to a notebook that is run "later".</p>
+<p>You might still have problems when</p>
+<ul>
+<li>converting a subset of notebooks or</li>
+<li>exporting to a module that does not have a <code>#default_exp</code> yet</li>
+</ul>
+<p>in which case <code>_notebook2script</code> will print warnings like;</p>
+
+<pre><code>Warning: Exporting to "core.py" but this module is not part of this build</code></pre>
+<p>If you see a warning like this</p>
+<ul>
+<li>and the module file (e.g. "core.py") does not exist, you'll see a <code>FileNotFoundError</code></li>
+<li>if the module file exists, the exported cell will be written - even if the exported cell is already in the module file</li>
+</ul>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 </div>
     {% endraw %}
 
@@ -1359,7 +1642,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_init" class="doc_header"><code>add_init</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L325" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_init</code>(<strong><code>path</code></strong>)</p>
+<h4 id="add_init" class="doc_header"><code>add_init</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L387" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_init</code>(<strong><code>path</code></strong>)</p>
 </blockquote>
 <p>Add <code>__init__.py</code> in all subdirs of <code>path</code> containing python files if it's not there already</p>
 
@@ -1423,7 +1706,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="update_version" class="doc_header"><code>update_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L337" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_version</code>()</p>
+<h4 id="update_version" class="doc_header"><code>update_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L399" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_version</code>()</p>
 </blockquote>
 <p>Add or update <code>__version__</code> in the main <code>__init__.py</code> of the library</p>
 
@@ -1462,7 +1745,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="update_baseurl" class="doc_header"><code>update_baseurl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L351" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_baseurl</code>()</p>
+<h4 id="update_baseurl" class="doc_header"><code>update_baseurl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L413" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_baseurl</code>()</p>
 </blockquote>
 <p>Add or update <code>baseurl</code> in <code>_config.yml</code> for the docs</p>
 
@@ -1494,7 +1777,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L361" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L423" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert notebooks matching <code>fname</code> to modules</p>
 

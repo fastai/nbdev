@@ -36,7 +36,7 @@ description: "The functions that grab the cells containing tests (filtering with
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Everything that is not an exported cell is considered a test, so you should make sure your notebooks can all run smoothly (and fast) if you want to use this functionality as the CLI. You can mark some cells with special flags (like slow) to make sure they are only executed when you authorize it. Those flags should be configured in your <code>settings.ini</code> (separated by a <code>|</code> if you have several of them). You can also apply a flag to one entire notebook by putting <code># all_flag</code> in one of its cells.</p>
+<p>Everything that is not an exported cell is considered a test, so you should make sure your notebooks can all run smoothly (and fast) if you want to use this functionality as the CLI. You can mark some cells with special flags (like slow) to make sure they are only executed when you authorize it. Those flags should be configured in your <code>settings.ini</code> (separated by a <code>|</code> if you have several of them). You can also apply flags to one entire notebook by putting any number of "all flags", e.g. <code># all_flag</code>, in code cells.</p>
 
 </div>
 </div>
@@ -79,9 +79,9 @@ description: "The functions that grab the cells containing tests (filtering with
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="check_all_flag" class="doc_header"><code>check_all_flag</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L24" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_all_flag</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="get_all_flags" class="doc_header"><code>get_all_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_all_flags</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
-<p>Check for an <code># all_flag</code> cell and then return said flag</p>
+<p>Check for all test flags in <code>cells</code></p>
 
 </div>
 
@@ -101,7 +101,7 @@ description: "The functions that grab the cells containing tests (filtering with
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">nb</span> <span class="o">=</span> <span class="n">read_nb</span><span class="p">(</span><span class="s2">&quot;04_test.ipynb&quot;</span><span class="p">)</span>
-<span class="k">assert</span> <span class="n">check_all_flag</span><span class="p">(</span><span class="n">nb</span><span class="p">[</span><span class="s1">&#39;cells&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="k">assert</span> <span class="n">get_all_flags</span><span class="p">(</span><span class="n">nb</span><span class="p">[</span><span class="s1">&#39;cells&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">set</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -136,7 +136,7 @@ description: "The functions that grab the cells containing tests (filtering with
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_cell_flags" class="doc_header"><code>get_cell_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L48" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_cell_flags</code>(<strong><code>cell</code></strong>)</p>
+<h4 id="get_cell_flags" class="doc_header"><code>get_cell_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L29" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_cell_flags</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
 <p>Check for any special test flag in <code>cell</code></p>
 
@@ -192,9 +192,9 @@ description: "The functions that grab the cells containing tests (filtering with
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="NoExportPreprocessor" class="doc_header"><code>class</code> <code>NoExportPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L54" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NoExportPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
+<h2 id="NoExportPreprocessor" class="doc_header"><code>class</code> <code>NoExportPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L35" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NoExportPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
 </blockquote>
-<p>An <code>ExecutePreprocessor</code> that executes cells that are not exported and don't have a flag in <code>flags</code></p>
+<p>An <code>ExecutePreprocessor</code> that executes cells that don't have a flag in <a href="/flags"><code>flags</code></a></p>
 
 </div>
 
@@ -224,9 +224,9 @@ description: "The functions that grab the cells containing tests (filtering with
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="test_nb" class="doc_header"><code>test_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L68" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>test_nb</code>(<strong><code>fn</code></strong>, <strong><code>flags</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="test_nb" class="doc_header"><code>test_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L49" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>test_nb</code>(<strong><code>fn</code></strong>, <strong><code>flags</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Execute tests in notebook in <code>fn</code> with <code>flags</code></p>
+<p>Execute tests in notebook in <code>fn</code> with <a href="/flags"><code>flags</code></a></p>
 
 </div>
 
