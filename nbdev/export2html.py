@@ -50,7 +50,7 @@ def remove_widget_state(cell):
 # Note: `_re_show_doc` will catch show_doc even if it's commented out etc
 _re_show_doc = re.compile(r"""
 # Catches any show_doc and get the first argument in group 1
-show_doc     # show_doc
+^\s*show_doc # line can start with any amount of whitespace followed by show_doc
 \s*\(\s*     # Any number of whitespace, opening (, any number of whitespace
 ([^,\)\s]*)  # Catching group for any character but a comma, a closing ) or a whitespace
 [,\)\s]      # A comma, a closing ) or a whitespace
@@ -388,15 +388,20 @@ def _gather_export_mods(cells):
     return res
 
 # Cell
-_re_cell_to_execute = ReLibName(r"^\s*show_doc\(([^\)]*)\)|^from LIB_NAME\.", re.MULTILINE)
+# match any cell containing a zero indented import from the current lib
+_re_lib_import = ReLibName(r"^from LIB_NAME\.", re.MULTILINE)
+# match any cell containing a zero indented import
+_re_import = re.compile(r"^from[ \t]|^import[ \t]", re.MULTILINE)
 
 # Cell
 class ExecuteShowDocPreprocessor(ExecutePreprocessor):
     "An `ExecutePreprocessor` that only executes `show_doc` and `import` cells"
     def preprocess_cell(self, cell, resources, index):
-        if 'source' in cell and cell['cell_type'] == "code":
-            if _re_cell_to_execute.re.search(cell['source']):
-                return super().preprocess_cell(cell, resources, index)
+        if check_re_multi(cell, [_re_show_doc, _re_lib_import.re]):
+            return super().preprocess_cell(cell, resources, index)
+        elif check_re(cell, _re_import):
+            try: return super().preprocess_cell(cell, resources, index)
+            except: pass
         return cell, resources
 
 # Cell
