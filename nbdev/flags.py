@@ -17,6 +17,12 @@ def _validate_param(line, magic_name, param_name=None, required=False, fixed_val
         print(f'UsageError: Invalid option "{line}". Usage `%{magic_name} [{fixed_value}]`')
     return True
 
+def _validate_no_param(line, magic_name):
+    "Checks that `line` contains no parameters"
+    line = line.strip()
+    if line != '':
+        print(f'UsageError: Invalid option "{line}". Usage `%{magic_name}`')
+    
 def nbdev_default_export(line):
     """One cell should contain a `%nbdev_default_export` magic followed by the name of the module
     (with points for submodules and without the py extension) everything should be exported in.
@@ -41,6 +47,18 @@ def nbdev_export_internal(line):
     and without it showing up in the docs.
     Optionally override `%nbdev_default_export` by specifying a module: `%nbdev_export_internal special.module`"""
     _validate_param(line, 'nbdev_export_internal', 'module_name')
+
+def nbdev_hide(line):
+    """Put an `%nbdev_hide` magic at the top of any cell you want to completely hide in the docs"""
+    _validate_no_param(line, 'nbdev_hide')
+
+def nbdev_hide_input(line):
+    """Put an `%nbdev_hide_input` magic at the top of any cell you want input hidden but output shown in the docs"""
+    _validate_no_param(line, 'nbdev_hide_input')
+
+def nbdev_hide_output(line):
+    """Put an `%nbdev_hide_output` magic at the top of any cell you want output hidden but input shown in the docs"""
+    _validate_no_param(line, 'nbdev_hide_output')
 
 def nbdev_collapse_input(line):
     """Put an `%nbdev_collapse_input` magic to inlcude your code in the docs under a collapsable element that is closed by default.
@@ -67,6 +85,7 @@ def _new_test_flag_fn(flag):
 if IN_IPYTHON:
     from IPython.core.magic import register_line_magic
     fns = [nbdev_default_export, nbdev_export, nbdev_export_and_show, nbdev_export_internal,
+           nbdev_hide, nbdev_hide_input, nbdev_hide_output,
            nbdev_collapse_input, nbdev_collapse_output]
     for fn in fns: register_line_magic(fn)
     for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)

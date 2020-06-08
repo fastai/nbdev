@@ -33,14 +33,17 @@ def _code_patterns_and_replace_fns():
         # note: fn has to be single arg so we can use it in `pattern.sub` calls later
         patterns_and_replace_fns.append((pattern, partial(_replace_fn, magic_flag)))
 
-    _add_pattern_and_replace_fn('default_exp', 'nbdev_default_export')
+    _add_pattern_and_replace_fn('default_exp', 'nbdev_default_export', 1)
     _add_pattern_and_replace_fn('exports', 'nbdev_export_and_show')
     _add_pattern_and_replace_fn('exporti', 'nbdev_export_internal')
     _add_pattern_and_replace_fn('export', 'nbdev_export')
-    _add_pattern_and_replace_fn('collapse[_-]output', 'nbdev_collapse_output')
-    _add_pattern_and_replace_fn('collapse[_-]show', 'nbdev_collapse_input open')
-    _add_pattern_and_replace_fn('collapse[_-]hide', 'nbdev_collapse_input')
-    _add_pattern_and_replace_fn('collapse', 'nbdev_collapse_input')
+    _add_pattern_and_replace_fn('hide_input', 'nbdev_hide_input', 0)
+    _add_pattern_and_replace_fn('hide_output', 'nbdev_hide_output', 0)
+    _add_pattern_and_replace_fn('hide', 'nbdev_hide', 0) # keep at index 6 - see _migrate2magic
+    _add_pattern_and_replace_fn('collapse[_-]output', 'nbdev_collapse_output', 0)
+    _add_pattern_and_replace_fn('collapse[_-]show', 'nbdev_collapse_input open', 0)
+    _add_pattern_and_replace_fn('collapse[_-]hide', 'nbdev_collapse_input', 0)
+    _add_pattern_and_replace_fn('collapse', 'nbdev_collapse_input', 0)
     for flag in Config().get('tst_flags', '').split('|'):
         if flag.strip():
             _add_pattern_and_replace_fn(f'all_{flag}', f'nbdev_{flag}_test all', 0)
@@ -60,8 +63,12 @@ class CellMigrator():
             if source!=cell.source: self.upd_count+=1
 
 # Internal Cell
-def _migrate2magic(nb, update_md=False):
+def _migrate2magic(nb):
     "Migrate a single notebook"
+    # migrate #hide in markdown
+    m=CellMigrator(_code_patterns_and_replace_fns()[6:7])
+    [m(cell) for cell in nb.cells if cell.cell_type=='markdown']
+    # migrate everything in code_patterns_and_replace_fns in code cells
     m=CellMigrator(_code_patterns_and_replace_fns())
     [m(cell) for cell in nb.cells if cell.cell_type=='code']
     imp,fc='from nbdev import *',m.first_cell

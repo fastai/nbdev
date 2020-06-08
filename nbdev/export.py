@@ -31,7 +31,7 @@ def check_re(cell, pat, code_only=True):
 def check_re_multi(cell, pats, code_only=True):
     "Check if `cell` contains a line matching any regex in `pats`, returning the first match found"
     for pat in pats:
-        tst = check_re(cell, pat)
+        tst = check_re(cell, pat, code_only)
         if tst: return tst
 
 # Cell
@@ -47,7 +47,7 @@ def _mk_flag_re(magic_flag, body, n_params, comment):
 {prefix}
 {body}
 {param_group}
-\s*          # any number of whitespace
+[ \t]*       # any number of spaces and/or tabs
 $            # end of line (since re.MULTILINE is passed)
 """, re.MULTILINE | re.VERBOSE if magic_flag else re.IGNORECASE | re.MULTILINE | re.VERBOSE)
 
