@@ -340,7 +340,8 @@ _template_git_repo = "https://github.com/fastai/nbdev_template.git"
 
 # Cell
 @call_parse
-def nbdev_new(name: Param("A directory to create the project in", str)):
+def nbdev_new(name: Param("A directory to create the project in", str),
+              template_git_repo: Param("url to template repo", str)=_template_git_repo):
     "Create a new nbdev project with a given name."
 
     path = Path(f"./{name}").absolute()
@@ -357,7 +358,7 @@ def nbdev_new(name: Param("A directory to create the project in", str)):
         func(path)
 
     try:
-        subprocess.run(['git', 'clone', f'{_template_git_repo}', f'{path}'], check=True, timeout=5000)
+        subprocess.run(['git', 'clone', f'{template_git_repo}', f'{path}'], check=True, timeout=5000)
         # Note: on windows, .git is created with a read-only flag
         shutil.rmtree(path/".git", onerror=rmtree_onerror)
         subprocess.run("git init".split(), cwd=path, check=True)
