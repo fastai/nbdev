@@ -340,7 +340,8 @@ _template_git_repo = "https://github.com/fastai/nbdev_template.git"
 
 # Cell
 @call_parse
-def nbdev_new(name: Param("A directory to create the project in", str)):
+def nbdev_new(name: Param("A directory to create the project in", str),
+              template_git_repo: Param("url to template repo", str)=_template_git_repo):
     "Create a new nbdev project with a given name."
 
     path = Path(f"./{name}").absolute()

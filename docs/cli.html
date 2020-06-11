@@ -762,7 +762,7 @@ description: "Console commands added by the nbdev library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_new" class="doc_header"><code>nbdev_new</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L342" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_new</code>(<strong><code>name</code></strong>:"A directory to create the project in")</p>
+<h4 id="nbdev_new" class="doc_header"><code>nbdev_new</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L342" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_new</code>(<strong><code>name</code></strong>:"A directory to create the project in", <strong><code>template_git_repo</code></strong>:"url to template repo"=<em><code>'https://github.com/fastai/nbdev_template.git'</code></em>)</p>
 </blockquote>
 <p>Create a new nbdev project with a given name.</p>
 
@@ -778,7 +778,7 @@ description: "Console commands added by the nbdev library"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="/cli#nbdev_new"><code>nbdev_new</code></a> is a command line tool that creates a new nbdev project based on the <a href="https://github.com/fastai/nbdev_template">nbdev_template repo</a>. It'll initialize a new git repository and commit the new project.</p>
+<p><a href="/cli#nbdev_new"><code>nbdev_new</code></a> is a command line tool that creates a new nbdev project based on the <a href="https://github.com/fastai/nbdev_template">nbdev_template repo</a>. You can use a custom template by passing in <code>template_git_repo</code>. It'll initialize a new git repository and commit the new project.</p>
 <p>After you run <a href="/cli#nbdev_new"><code>nbdev_new</code></a>, please edit <code>settings.ini</code> and run <a href="/cli#nbdev_build_lib"><code>nbdev_build_lib</code></a>.</p>
 
 </div>

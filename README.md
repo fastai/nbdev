@@ -70,7 +70,7 @@ Now, run `jupyter notebook`, and click `00_core.ipynb`. This is where you'll cre
 
 In the last cell of your notebook, you can then run:
 
-```python
+```
 from nbdev.export import *
 notebook2script()
 ```
