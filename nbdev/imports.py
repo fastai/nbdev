@@ -68,13 +68,8 @@ def last_index(x, o):
 
 def in_ipython():
     "Check if the code is running in the ipython environment (jupyter including)"
-    program_name = os.path.basename(os.getenv('_', ''))
-    if ('jupyter-notebook' in program_name or # jupyter-notebook
-        'ipython'          in program_name or # ipython
-        'JPY_PARENT_PID'   in os.environ):    # ipython-notebook
-        return True
-    else:
-        return False
+    try: get_ipython(); return True
+    except: return False
 
 IN_IPYTHON = in_ipython()
 
