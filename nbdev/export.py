@@ -8,6 +8,7 @@ __all__ = ['first', 'read_nb', 'check_re', 'check_re_multi', 'is_export', 'find_
 # Cell
 from .imports import *
 from fastscript import *
+from keyword import iskeyword
 
 # Cell
 def first(x):
@@ -196,7 +197,7 @@ def export_names(code, func_only=False):
     code = _re_patch_func.sub(_f, code)
     names = _re_class_func_def.findall(code)
     if not func_only: names += _re_obj_def.findall(code)
-    return [n for n in names if _not_private(n)]
+    return [n for n in names if _not_private(n) and not iskeyword(n)]
 
 # Cell
 _re_all_def   = re.compile(r"""
