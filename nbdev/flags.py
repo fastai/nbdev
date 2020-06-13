@@ -60,6 +60,15 @@ def nbdev_hide_output(line):
     """Put an `%nbdev_hide_output` magic at the top of any cell you want output hidden but input shown in the docs"""
     _validate_no_param(line, 'nbdev_hide_output')
 
+def nbdev_default_class_level(line):
+    """Define the default toc level of classes with a `%nbdev_default_class_level` magic followed by a number
+    (default is 2)"""
+    try:
+        class_level = int(line)
+        if not 1 <= class_level <= 6: raise ValueError()
+    except ValueError:
+        print(f'UsageError: Invalid class level "{line}". Usage `%nbdev_default_class_level [int between 1 and 6]`')
+
 def nbdev_collapse_input(line):
     """Put an `%nbdev_collapse_input` magic to inlcude your code in the docs under a collapsable element that is closed by default.
     To make the collapsable element open by default: `%nbdev_collapse_input open`"""
@@ -85,7 +94,7 @@ def _new_test_flag_fn(flag):
 if IN_IPYTHON:
     from IPython.core.magic import register_line_magic
     fns = [nbdev_default_export, nbdev_export, nbdev_export_and_show, nbdev_export_internal,
-           nbdev_hide, nbdev_hide_input, nbdev_hide_output,
+           nbdev_hide, nbdev_hide_input, nbdev_hide_output, nbdev_default_class_level,
            nbdev_collapse_input, nbdev_collapse_output]
     for fn in fns: register_line_magic(fn)
     for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)

@@ -253,10 +253,14 @@ _re_hide = [
     _mk_flag_re(True, 'hide', 0, 'Matches any cell with %nbdev_hide')]
 _re_all_flag = ReTstFlags(True)
 _re_cell_to_remove = [
-    _mk_flag_re(False, '(default_exp|default_cls_lvl|exporti)', (0,1),
-        'Matches any cell with #default_exp or #default_cls_lvl or #exporti'),
+    _mk_flag_re(False, '(default_exp|exporti)', (0,1),
+        'Matches any cell with #default_exp or #exporti'),
     _mk_flag_re(True, '(default_export|export_internal)', (0,1),
         'Matches any cell with %nbdev_default_export or %nbdev_export_internal')]
+_re_default_cls_lvl = [
+    _mk_flag_re(False, 'default_cls_lvl', 1, "Matches any cell with #default_cls_lvl"),
+    _mk_flag_re(True, 'default_class_level', 1, "Matches any cell with %nbdev_default_class_level"),
+]
 
 # Cell
 def remove_hidden(cells):
@@ -264,25 +268,15 @@ def remove_hidden(cells):
     def _hidden(cell):
         "Check if `cell` should be hidden"
         if check_re_multi(cell, _re_hide, code_only=False): return True
-        if check_re_multi(cell, [_re_all_flag, *_re_cell_to_remove]): return True
+        if check_re_multi(cell, [_re_all_flag, *_re_cell_to_remove, *_re_default_cls_lvl]): return True
         return False
     return [c for c in cells if not _hidden(c)]
-
-# Cell
-_re_default_cls_lvl = re.compile(r"""
-^               # Beginning of line (since re.MULTILINE is passed)
-\s*\#\s*        # Any number of whitespace, #, any number of whitespace
-default_cls_lvl # default_cls_lvl
-\s*             # Any number of whitespace
-(\d*)           # Catching group for any number of digits
-\s*$            # Any number of whitespace and end of line (since re.MULTILINE is passed)
-""", re.IGNORECASE | re.MULTILINE | re.VERBOSE)
 
 # Cell
 def find_default_level(cells):
     "Find in `cells` the default class level."
     for cell in cells:
-        tst = check_re(cell, _re_default_cls_lvl)
+        tst = check_re_multi(cell, _re_default_cls_lvl)
         if tst: return int(tst.groups()[0])
     return 2
 
@@ -409,16 +403,19 @@ def _gather_export_mods(cells):
 _re_lib_import = ReLibName(r"^from LIB_NAME\.", re.MULTILINE)
 # match any cell containing a zero indented import
 _re_import = re.compile(r"^from[ \t]|^import[ \t]", re.MULTILINE)
+# match any cell containing a zero indented call to notebook2script
+_re_notebook2script = re.compile(r"^notebook2script\(", re.MULTILINE)
 
 # Cell
 class ExecuteShowDocPreprocessor(ExecutePreprocessor):
     "An `ExecutePreprocessor` that only executes `show_doc` and `import` cells"
     def preprocess_cell(self, cell, resources, index):
-        if check_re_multi(cell, [_re_show_doc, _re_lib_import.re]):
-            return super().preprocess_cell(cell, resources, index)
-        elif check_re(cell, _re_import):
-            try: return super().preprocess_cell(cell, resources, index)
-            except: pass
+        if not check_re(cell, _re_notebook2script):
+            if check_re_multi(cell, [_re_show_doc, _re_lib_import.re]):
+                return super().preprocess_cell(cell, resources, index)
+            elif check_re(cell, _re_import):
+                try: return super().preprocess_cell(cell, resources, index)
+                except: pass
         return cell, resources
 
 # Cell

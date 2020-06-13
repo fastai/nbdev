@@ -40,6 +40,7 @@ def _code_patterns_and_replace_fns():
     _add_pattern_and_replace_fn('hide_input', 'nbdev_hide_input', 0)
     _add_pattern_and_replace_fn('hide_output', 'nbdev_hide_output', 0)
     _add_pattern_and_replace_fn('hide', 'nbdev_hide', 0) # keep at index 6 - see _migrate2magic
+    _add_pattern_and_replace_fn('default_cls_lvl', 'nbdev_default_class_level', 1)
     _add_pattern_and_replace_fn('collapse[_-]output', 'nbdev_collapse_output', 0)
     _add_pattern_and_replace_fn('collapse[_-]show', 'nbdev_collapse_input open', 0)
     _add_pattern_and_replace_fn('collapse[_-]hide', 'nbdev_collapse_input', 0)
