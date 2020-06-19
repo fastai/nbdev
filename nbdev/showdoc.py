@@ -2,12 +2,13 @@
 
 __all__ = ['is_enum', 'get_all', 'is_lib_module', 'try_external_doc_link', 'doc_link', 'add_doc_links',
            'get_source_link', 'get_nb_source_link', 'nb_source_link', 'type_repr', 'format_param', 'show_doc',
-           'md2html', 'get_doc_link', 'doc']
+           'parse_nbdev_show_doc', 'nbdev_show_doc', 'md2html', 'get_doc_link', 'doc']
 
 # Cell
 from .imports import *
 from .export import *
 from .sync import *
+from .flags import parse_line
 from nbconvert import HTMLExporter
 
 if IN_NOTEBOOK:
@@ -234,10 +235,10 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
     elt = getattr(elt, '__func__', elt)
     qname = name or qual_name(elt)
     if inspect.isclass(elt):
-        if is_enum(elt.__class__):   name,args = _format_enum_doc(elt, qname)
-        else:                        name,args = _format_cls_doc (elt, qname)
+        if is_enum(elt): name,args = _format_enum_doc(elt, qname)
+        else:            name,args = _format_cls_doc (elt, qname)
     elif callable(elt):  name,args = _format_func_doc(elt, qname)
-    else:                            name,args = f"<code>{qname}</code>", ''
+    else:                name,args = f"<code>{qname}</code>", ''
     link = get_source_link(elt)
     source_link = f'<a href="{link}" class="source_link" style="float:right">[source]</a>'
     title_level = title_level or (default_cls_level if inspect.isclass(elt) else 4)
@@ -253,6 +254,59 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
         doc += s
     if disp: display(Markdown(doc))
     else: return doc
+
+# Cell
+def _extract_level(line, param_names, kwargs):
+    "Add parameter to `kwargs` and return `line` with the parameter removed"
+    m = re.search(f'(?:{param_names})[ \t]*=[ \t]*(\d+)', line)
+    if not m: return line
+    kwargs[param_names.split('|')[0]] = int(m.group(1))
+    return m.re.sub('', line)
+
+def parse_nbdev_show_doc(line, namespace=None):
+    "Return a tuple of names, wild_names and kwargs found in a show doc `line`"
+    names, wild_names, kwargs = [], [], {}
+    line = _extract_level(line, 'title_level', kwargs)
+    line = _extract_level(line, 'default_cls_level|default_cls_lvl|default_class_level', kwargs)
+    elts = parse_line(line)
+    def inspect_elt(i):
+        "Find names of members of element `i`"
+        wild_names.append(elts[i])
+        if not namespace: return
+        elt = eval(elts[i],namespace)
+        try:    members = [(name, getattr(elt,name)) for name in elt._docs]
+        except: members = [(name, value) for name, value in inspect.getmembers(elt) if (
+                (name.startswith('__') or not name.startswith('_')) and name in elt.__dict__ and
+                (callable(value) or isinstance(value, property)))]
+        for name, value in members: names.append(elts[i]+'.'+name)
+    pinned_name = None
+    for i, elt in enumerate(elts):
+        if not re.search('[^*.]', elt):
+            if '*' in elt: inspect_elt(i-1)
+            if '.' in elt: pinned_name = elts[i-1]
+        else: names.append(pinned_name+'.'+elt if pinned_name else elt)
+    return names, wild_names, kwargs
+
+# Cell
+def nbdev_show_doc(line, local_ns):
+    """Show documentation for one or more elements. Supported types: class, function, and enum.
+    To show doc for multiple elements and specify title level:
+        `%nbdev_show_doc name_1, name_2, title_level=3`.
+    To show doc for a class and some of its members and specify class level:
+        `%nbdev_show_doc MyClass . __init__, my_method, default_cls_level=3`
+    To show doc for a class and all of its "public" members:
+        `%nbdev_show_doc MyClass *`"""
+    names, wild_names, kwargs = parse_nbdev_show_doc(line, local_ns)
+    for k,v in kwargs.items():
+        if not 1 <= v <= 6:
+            print(f'UsageError: Invalid {k} "{v}". Usage `%nbdev_show_doc name_1 {k}=[int between 1 and 6]`')
+    if not names:
+        print(f'UsageError: List of names is missing. Usage `%nbdev_show_doc name_1, name_2`')
+    for name in names: show_doc(eval(name,local_ns), name=name, **kwargs)
+
+if IN_IPYTHON:
+    from IPython.core.magic import register_line_magic, needs_local_scope
+    register_line_magic(needs_local_scope(nbdev_show_doc))
 
 # Cell
 def md2html(md):

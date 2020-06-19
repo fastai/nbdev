@@ -9,6 +9,7 @@ __all__ = ['first', 'read_nb', 'check_re', 'check_re_multi', 'is_export', 'find_
 from .imports import *
 from fastscript import *
 from keyword import iskeyword
+from .flags import parse_line
 
 # Cell
 def first(x):
@@ -40,6 +41,7 @@ def _mk_flag_re(magic_flag, body, n_params, comment):
     "Compiles a regex for finding nbdev flags"
     prefix = r"%nbdev_" if magic_flag else r"\s*\#\s*"
     param_group = ""
+    if n_params == -1: param_group = r"[ \t]+(.+)"
     if n_params == 1: param_group = r"[ \t]+(\S+)"
     if n_params == (0,1): param_group = r"(?:[ \t]+(\S+))?"
     return re.compile(rf"""
@@ -212,17 +214,22 @@ _re_all_def   = re.compile(r"""
 #Same with __all__
 _re__all__def = re.compile(r'^__all__\s*=\s*\[([^\]]*)\]', re.MULTILINE)
 
+_re_all_def_magic = _mk_flag_re(True, 'add2__all__', -1,
+    "# Catches a cell with %nbdev_add2__all__ \*\* and get that \*\* in group 1")
+
 # Cell
 def extra_add(code):
     "Catch adds to `__all__` required by a cell with `_all_=`"
-    if _re_all_def.search(code):
-        names = _re_all_def.search(code).groups()[0]
-        names = re.sub('\s*,\s*', ',', names)
-        names = names.replace('"', "'")
-        code = _re_all_def.sub('', code)
-        code = re.sub(r'([^\n]|^)\n*$', r'\1', code)
-        return names.split(','),code
-    return [],code
+    m = check_re_multi({'source': code}, [_re_all_def, _re_all_def_magic], False)
+    if not m: return [], code
+    code = m.re.sub('', code)
+    code = re.sub(r'([^\n]|^)\n*$', r'\1', code)
+    def clean_quotes(s):
+        "Return `s` enclosed in single quotes, removing double quotes if needed"
+        if s.startswith("'") and s.endswith("'"): return s
+        if s.startswith('"') and s.endswith('"'): s = s[1:-1]
+        return f"'{s}'"
+    return [clean_quotes(s) for s in parse_line(m.group(1))], code
 
 # Cell
 def _add2all(fname, names, line_width=120):

@@ -56,6 +56,9 @@ _re_show_doc = re.compile(r"""
 [,\)\s]      # A comma, a closing ) or a whitespace
 """, re.MULTILINE | re.VERBOSE)
 
+_re_show_doc_magic = _mk_flag_re(True, 'show_doc', -1,
+    "# Catches a cell with %nbdev_show_doc \*\* and get that \*\* in group 1")
+
 _re_hide_input = [
     _mk_flag_re(False, 'export', (0,1),
         "Matches any cell that has `#export in it"),
@@ -80,7 +83,7 @@ def upd_metadata(cell, key, value=True):
 # Cell
 def hide_cells(cell):
     "Hide inputs of `cell` that need to be hidden"
-    if check_re_multi(cell, [_re_show_doc, *_re_hide_input]): upd_metadata(cell, 'hide_input')
+    if check_re_multi(cell, [_re_show_doc, _re_show_doc_magic, *_re_hide_input]): upd_metadata(cell, 'hide_input')
     elif check_re_multi(cell, _re_hide_output): upd_metadata(cell, 'hide_output')
     return cell
 
@@ -296,15 +299,27 @@ def _show_doc_cell(name, cls_lvl=None):
 
 def add_show_docs(cells, cls_lvl=None):
     "Add `show_doc` for each exported function or class"
-    documented = [_re_show_doc.search(cell['source']).groups()[0] for cell in cells
-                  if cell['cell_type']=='code' and _re_show_doc.search(cell['source']) is not None]
-    res = []
+    res, documented, documented_wild = [], [], []
+    for cell in cells:
+        m = check_re_multi(cell, [_re_show_doc, _re_show_doc_magic])
+        if not m: continue
+        if m.re is _re_show_doc:
+            documented.append(m.group(1))
+        else:
+            names, wild_names, kwargs = parse_nbdev_show_doc(m.group(1))
+            documented.extend(names)
+            documented_wild.extend(wild_names)
+
+    def _documented(name):
+        if name in documented: return True
+        # assume that docs will have been shown for all members of everything in documented_wild
+        if name.rfind('.') != -1 and name[0:name.rfind('.')] in documented_wild: return True
+
     for cell in cells:
         res.append(cell)
         if check_re_multi(cell, [_re_export, _re_export_magic]):
-            names = export_names(cell['source'], func_only=True)
-            for n in names:
-                if n not in documented: res.append(_show_doc_cell(n, cls_lvl=cls_lvl))
+            for n in export_names(cell['source'], func_only=True):
+                if not _documented(n): res.append(_show_doc_cell(n, cls_lvl=cls_lvl))
     return res
 
 # Cell
@@ -411,7 +426,7 @@ class ExecuteShowDocPreprocessor(ExecutePreprocessor):
     "An `ExecutePreprocessor` that only executes `show_doc` and `import` cells"
     def preprocess_cell(self, cell, resources, index):
         if not check_re(cell, _re_notebook2script):
-            if check_re_multi(cell, [_re_show_doc, _re_lib_import.re]):
+            if check_re_multi(cell, [_re_show_doc, _re_show_doc_magic, _re_lib_import.re]):
                 return super().preprocess_cell(cell, resources, index)
             elif check_re(cell, _re_import):
                 try: return super().preprocess_cell(cell, resources, index)
