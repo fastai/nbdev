@@ -78,7 +78,22 @@ def nbdev_collapse_output(line):
     """Put an `%nbdev_collapse_output` magic to inlcude output in the docs under a collapsable element that is closed by default.
     To make the collapsable element open by default: `%nbdev_collapse_output open`"""
     _validate_param(line, 'nbdev_collapse_output', fixed_value='open')
+
+def parse_line(line):
+    "Convert line magic input to a list of parameters"
+    line = line.strip()
+    if line.startswith('[') and line.endswith(']'): line=line[1:-1]
+    return [s for s in re.split('[ ,]+', line) if s]
     
+def nbdev_add2all(line, local_ns):
+    """To add something to `__all__` if it's not picked automatically,
+    write an exported cell with something like: `%nbdev_add2all name_1, name_2 ...`"""
+    if line.strip() == '':
+        print(f'UsageError: List of names is missing. Usage `%nbdev_add2all name_1, name_2`')
+        return
+    try: [eval(s, local_ns) for s in parse_line(line)]
+    except Exception as ex: print(f'UsageError: {ex}')
+
 def _new_test_flag_fn(flag):
     "Create a new test flag function and magic"
     # don't create "empty" test flags if tst_flags is not set, set to whitespace, has trailing | etc
@@ -92,9 +107,9 @@ def _new_test_flag_fn(flag):
     exec(f'register_line_magic(nbdev_{flag}_test)')
 
 if IN_IPYTHON:
-    from IPython.core.magic import register_line_magic
+    from IPython.core.magic import register_line_magic, needs_local_scope
     fns = [nbdev_default_export, nbdev_export, nbdev_export_and_show, nbdev_export_internal,
            nbdev_hide, nbdev_hide_input, nbdev_hide_output, nbdev_default_class_level,
-           nbdev_collapse_input, nbdev_collapse_output]
+           nbdev_collapse_input, nbdev_collapse_output, needs_local_scope(nbdev_add2all)]
     for fn in fns: register_line_magic(fn)
     for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)
