@@ -51,7 +51,7 @@ def _code_patterns_and_replace_fns():
             _add_pattern_and_replace_fn(f'all_{flag}', f'nbdev_{flag}_test all', 0)
             _add_pattern_and_replace_fn(flag, f'nbdev_{flag}_test', 0)
     patterns_and_replace_fns.append(
-        (_re_all_def, lambda m: '%nbdev_add2__all__ ' + ','.join(parse_line(m.group(1)))))
+        (_re_all_def, lambda m: '%nbdev_add2all ' + ','.join(parse_line(m.group(1)))))
     return patterns_and_replace_fns
 
 # Internal Cell

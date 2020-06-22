@@ -85,11 +85,11 @@ def parse_line(line):
     if line.startswith('[') and line.endswith(']'): line=line[1:-1]
     return [s for s in re.split('[ ,]+', line) if s]
     
-def nbdev_add2__all__(line, local_ns):
+def nbdev_add2all(line, local_ns):
     """To add something to `__all__` if it's not picked automatically,
-    write an exported cell with something like: `%nbev_add2__all__ name_1, name_2 ...`"""
+    write an exported cell with something like: `%nbdev_add2all name_1, name_2 ...`"""
     if line.strip() == '':
-        print(f'UsageError: List of names is missing. Usage `%nbev_add2__all__ name_1, name_2`')
+        print(f'UsageError: List of names is missing. Usage `%nbdev_add2all name_1, name_2`')
         return
     try: [eval(s, local_ns) for s in parse_line(line)]
     except Exception as ex: print(f'UsageError: {ex}')
@@ -110,6 +110,6 @@ if IN_IPYTHON:
     from IPython.core.magic import register_line_magic, needs_local_scope
     fns = [nbdev_default_export, nbdev_export, nbdev_export_and_show, nbdev_export_internal,
            nbdev_hide, nbdev_hide_input, nbdev_hide_output, nbdev_default_class_level,
-           nbdev_collapse_input, nbdev_collapse_output, needs_local_scope(nbdev_add2__all__)]
+           nbdev_collapse_input, nbdev_collapse_output, needs_local_scope(nbdev_add2all)]
     for fn in fns: register_line_magic(fn)
     for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)

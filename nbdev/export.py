@@ -214,8 +214,8 @@ _re_all_def   = re.compile(r"""
 #Same with __all__
 _re__all__def = re.compile(r'^__all__\s*=\s*\[([^\]]*)\]', re.MULTILINE)
 
-_re_all_def_magic = _mk_flag_re(True, 'add2__all__', -1,
-    "# Catches a cell with %nbdev_add2__all__ \*\* and get that \*\* in group 1")
+_re_all_def_magic = _mk_flag_re(True, 'add2all', -1,
+    "# Catches a cell with %nbdev_add2all \*\* and get that \*\* in group 1")
 
 # Cell
 def extra_add(code):
