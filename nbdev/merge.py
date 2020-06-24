@@ -41,7 +41,7 @@ conflicts = '<<<<<<< ======= >>>>>>>'.split()
 
 # Cell
 def _split_cell(cell, cf, names):
-    "Splict `cell` between `conflicts` given state in `cf`, save `names` of branches if seen"
+    "Split `cell` between `conflicts` given state in `cf`, save `names` of branches if seen"
     res1,res2 = [],[]
     for line in cell.split('\n'):
         if line.startswith(conflicts[cf]):

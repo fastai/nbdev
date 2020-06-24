@@ -70,12 +70,12 @@ def nbdev_default_class_level(line):
         print(f'UsageError: Invalid class level "{line}". Usage `%nbdev_default_class_level [int between 1 and 6]`')
 
 def nbdev_collapse_input(line):
-    """Put an `%nbdev_collapse_input` magic to inlcude your code in the docs under a collapsable element that is closed by default.
+    """Put an `%nbdev_collapse_input` magic to include your code in the docs under a collapsable element that is closed by default.
     To make the collapsable element open by default: `%nbdev_collapse_input open`"""
     _validate_param(line, 'nbdev_collapse_input', fixed_value='open')
 
 def nbdev_collapse_output(line):
-    """Put an `%nbdev_collapse_output` magic to inlcude output in the docs under a collapsable element that is closed by default.
+    """Put an `%nbdev_collapse_output` magic to include output in the docs under a collapsable element that is closed by default.
     To make the collapsable element open by default: `%nbdev_collapse_output open`"""
     _validate_param(line, 'nbdev_collapse_output', fixed_value='open')
 
