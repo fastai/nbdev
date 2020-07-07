@@ -353,7 +353,6 @@ _re_title_summary = re.compile(r"""
 ([^\n]*)   # Catching group for any character except a new line
 """, re.VERBOSE)
 
-#export
 _re_title_only = re.compile(r"""
 # Catches the title presented as # Title without a summary
 ^\s*       # Beginning of text followe by any number of whitespace
@@ -436,7 +435,7 @@ class ExecuteShowDocPreprocessor(ExecutePreprocessor):
 # Cell
 def _import_show_doc_cell(mods=None):
     "Add an import show_doc cell."
-    source = f"#export\nfrom nbdev.showdoc import show_doc"
+    source = f"from nbdev.showdoc import show_doc"
     if mods is not None:
         for mod in mods: source += f"\nfrom {Config().lib_name}.{mod} import *"
     return {'cell_type': 'code',

@@ -108,7 +108,9 @@ def find_default_export(cells):
 # Cell
 class ReTstFlags():
     "Provides test flag matching regular expressions"
-    def __init__(self, all_flag): self.all_flag = all_flag
+    def __init__(self, all_flag):
+        "`all_flag` tells us to match flags applied to all cells (`True`) or individual cells (`False`)"
+        self.all_flag = all_flag
 
     def _deferred_init(self):
         "Compile at first use but not before since patterns need `Config().tst_flags`"
@@ -121,10 +123,12 @@ class ReTstFlags():
                 "Matches any line with a magic test flag and catches it in a group")
 
     def findall(self, source):
+        "Return all test flags found in `source`"
         self._deferred_init()
         return self._re.findall(source) + self._re_magic.findall(source)
 
     def search(self, source):
+        "Return a match object for the first test flag found in `source`"
         self._deferred_init()
         for pat in [self._re, self._re_magic]:
             tst = pat.search(source)
@@ -219,7 +223,7 @@ _re_all_def_magic = _mk_flag_re(True, 'add2all', -1,
 
 # Cell
 def extra_add(code):
-    "Catch adds to `__all__` required by a cell with `_all_=`"
+    "Catch adds to `__all__` required by a cell with `_all_=` or `%nbdev_add2all`"
     m = check_re_multi({'source': code}, [_re_all_def, _re_all_def_magic], False)
     if not m: return [], code
     code = m.re.sub('', code)
@@ -445,12 +449,10 @@ def notebook2script(fname=None, silent=False, to_dict=False):
     else: add_init(Config().lib_path)
 
 # Cell
-#export
 #for tests only
 class DocsTestClass:
     def test(): pass
 
 # Internal Cell
-#exporti
 #for tests only
 def update_lib_with_exporti_testfn(): pass
