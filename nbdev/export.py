@@ -223,7 +223,7 @@ _re_all_def_magic = _mk_flag_re(True, 'add2all', -1,
 
 # Cell
 def extra_add(code):
-    "Catch adds to `__all__` required by a cell with `%nbdev_add2all`"
+    "Catch adds to `__all__` required by a cell with `_all_=` or `%nbdev_add2all`"
     m = check_re_multi({'source': code}, [_re_all_def, _re_all_def_magic], False)
     if not m: return [], code
     code = m.re.sub('', code)
