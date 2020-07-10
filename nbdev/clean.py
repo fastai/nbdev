@@ -21,7 +21,7 @@ def clean_cell_output(cell):
         for o in cell['outputs']: rm_execution_count(o)
 
 # Cell
-cell_metadata_keep = ["hide_input"]
+cell_metadata_keep = ["hide_input", "tags"]
 nb_metadata_keep   = ["kernelspec", "jekyll", "jupytext", "doc"]
 
 # Cell
