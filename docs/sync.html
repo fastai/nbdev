@@ -139,7 +139,7 @@ description: "The functions that propagates small changes in the library back to
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Qualified name is different from name in python for methos and properties:</p>
+<p>Qualified name is different from name in python for methods and properties:</p>
 
 </div>
 </div>
@@ -287,11 +287,11 @@ description: "The functions that propagates small changes in the library back to
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.submodule</span> <span class="kn">import</span> <span class="n">bla</span>
 </pre></div>
 <p>in a module, it needs to be converted to something like</p>
-
-<pre><code>from module.submodule import bla</code></pre>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">module.submodule</span> <span class="kn">import</span> <span class="n">bla</span>
+</pre></div>
 <p>or</p>
-
-<pre><code>from module1.module2.submodule import bla</code></pre>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">module1.module2.submodule</span> <span class="kn">import</span> <span class="n">bla</span>
+</pre></div>
 <p>depending on where we are. This function deals with those imports renaming.</p>
 
 </div>

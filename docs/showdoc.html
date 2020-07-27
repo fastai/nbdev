@@ -105,7 +105,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="is_enum" class="doc_header"><code>is_enum</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>is_enum</code>()</p>
+<h4 id="is_enum" class="doc_header"><code>is_enum</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L19" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>is_enum</code>()</p>
 </blockquote>
 <p>Check if <code>cls</code> is an enum or another type of class</p>
 
@@ -128,6 +128,7 @@ description: "Functions to show the doc cells in notebooks"
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">e</span> <span class="o">=</span> <span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;a b&#39;</span><span class="p">)</span>
 <span class="k">assert</span> <span class="n">is_enum</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">is_enum</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
 <span class="k">assert</span> <span class="ow">not</span> <span class="n">is_enum</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 </pre></div>
 
@@ -162,38 +163,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_all" class="doc_header"><code>get_all</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L23" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_all</code>(<strong><code>package</code></strong>)</p>
-</blockquote>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="is_lib_module" class="doc_header"><code>is_lib_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L29" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>is_lib_module</code>(<strong><code>name</code></strong>)</p>
+<h4 id="is_lib_module" class="doc_header"><code>is_lib_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L24" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>is_lib_module</code>(<strong><code>name</code></strong>)</p>
 </blockquote>
 <p>Test if <code>name</code> is a library module.</p>
 
@@ -250,7 +220,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="try_external_doc_link" class="doc_header"><code>try_external_doc_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L41" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>try_external_doc_link</code>(<strong><code>name</code></strong>, <strong><code>packages</code></strong>)</p>
+<h4 id="try_external_doc_link" class="doc_header"><code>try_external_doc_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L36" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>try_external_doc_link</code>(<strong><code>name</code></strong>, <strong><code>packages</code></strong>)</p>
 </blockquote>
 <p>Try to find a doc link for <code>name</code> in <code>packages</code></p>
 
@@ -309,7 +279,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="doc_link" class="doc_header"><code>doc_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L53" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc_link</code>(<strong><code>name</code></strong>, <strong><code>include_bt</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="doc_link" class="doc_header"><code>doc_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L48" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc_link</code>(<strong><code>name</code></strong>, <strong><code>include_bt</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Create link to documentation for <code>name</code>.</p>
 
@@ -382,7 +352,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_doc_links" class="doc_header"><code>add_doc_links</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L89" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_doc_links</code>(<strong><code>text</code></strong>)</p>
+<h4 id="add_doc_links" class="doc_header"><code>add_doc_links</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L84" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_doc_links</code>(<strong><code>text</code></strong>)</p>
 </blockquote>
 <p>Search for doc links for any item between backticks in <code>text</code> and isnter them</p>
 
@@ -454,7 +424,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_source_link" class="doc_header"><code>get_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L108" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_source_link</code>(<strong><code>func</code></strong>)</p>
+<h4 id="get_source_link" class="doc_header"><code>get_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L103" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_source_link</code>(<strong><code>func</code></strong>)</p>
 </blockquote>
 <p>Return link to <code>func</code> in source code</p>
 
@@ -507,7 +477,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_nb_source_link" class="doc_header"><code>get_nb_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L131" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_nb_source_link</code>(<strong><code>func</code></strong>, <strong><code>local</code></strong>=<em><code>False</code></em>, <strong><code>is_name</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="get_nb_source_link" class="doc_header"><code>get_nb_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L126" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_nb_source_link</code>(<strong><code>func</code></strong>, <strong><code>local</code></strong>=<em><code>False</code></em>, <strong><code>is_name</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Return a link to the notebook where <code>func</code> is defined.</p>
 
@@ -532,7 +502,7 @@ description: "Functions to show the doc cells in notebooks"
 <span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">DocsTestClass</span><span class="p">))</span>
 
 <span class="n">NB_SOURCE_URL</span> <span class="o">=</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">git_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;github.com&#39;</span><span class="p">,</span> <span class="s1">&#39;nbviewer.jupyter.org/github&#39;</span><span class="p">)</span><span class="o">+</span> <span class="n">Config</span><span class="p">()</span><span class="o">.</span><span class="n">nbs_path</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;/&#39;</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">NB_SOURCE_URL</span><span class="si">}</span><span class="s1">00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{NB_SOURCE_URL}</span><span class="s1">00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -568,7 +538,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nb_source_link" class="doc_header"><code>nb_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L162" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nb_source_link</code>(<strong><code>func</code></strong>, <strong><code>is_name</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="nb_source_link" class="doc_header"><code>nb_source_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L157" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nb_source_link</code>(<strong><code>func</code></strong>, <strong><code>is_name</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Show a relative link to the notebook where <code>func</code> is defined</p>
 
@@ -638,7 +608,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="type_repr" class="doc_header"><code>type_repr</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L174" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>type_repr</code>(<strong><code>t</code></strong>)</p>
+<h4 id="type_repr" class="doc_header"><code>type_repr</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L169" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>type_repr</code>(<strong><code>t</code></strong>)</p>
 </blockquote>
 <p>Representation of type <code>t</code> (in a type annotation)</p>
 
@@ -698,7 +668,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="format_param" class="doc_header"><code>format_param</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L188" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>format_param</code>(<strong><code>p</code></strong>)</p>
+<h4 id="format_param" class="doc_header"><code>format_param</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L183" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>format_param</code>(<strong><code>p</code></strong>)</p>
 </blockquote>
 <p>Formats function param to <code>param:Type=val</code> with font weights: param=bold, val=italic</p>
 
@@ -770,7 +740,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="show_doc" class="doc_header"><code>show_doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L232" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>show_doc</code>(<strong><code>elt</code></strong>, <strong><code>doc_string</code></strong>=<em><code>True</code></em>, <strong><code>name</code></strong>=<em><code>None</code></em>, <strong><code>title_level</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>, <strong><code>default_cls_level</code></strong>=<em><code>2</code></em>)</p>
+<h4 id="show_doc" class="doc_header"><code>show_doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L227" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>show_doc</code>(<strong><code>elt</code></strong>, <strong><code>doc_string</code></strong>=<em><code>True</code></em>, <strong><code>name</code></strong>=<em><code>None</code></em>, <strong><code>title_level</code></strong>=<em><code>None</code></em>, <strong><code>disp</code></strong>=<em><code>True</code></em>, <strong><code>default_cls_level</code></strong>=<em><code>2</code></em>)</p>
 </blockquote>
 <p>Show documentation for element <code>elt</code>. Supported types: class, function, and enum.</p>
 
@@ -797,13 +767,373 @@ description: "Functions to show the doc cells in notebooks"
 <div class="highlight"><pre><span></span><span class="n">show_doc</span><span class="p">(</span><span class="n">notebook2script</span><span class="p">)</span>
 </pre></div>
 <p>will display</p>
-<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L277" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_pkl</code></strong>=<em><code>False</code></em>)</p>
-</blockquote>
-<p>Convert <code>fname</code> or all the notebook satisfying <code>all_fs</code>.</p>
 
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L435" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>)</p>
+</blockquote>
+<p>Convert notebooks matching <code>fname</code> to modules</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Show-doc-magic-flag">Show doc magic flag<a class="anchor-link" href="#Show-doc-magic-flag"> </a></h3>
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="parse_nbdev_show_doc" class="doc_header"><code>parse_nbdev_show_doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L260" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parse_nbdev_show_doc</code>(<strong><code>line</code></strong>, <strong><code>namespace</code></strong>=<em><code>None</code></em>)</p>
+</blockquote>
+<p>Return a tuple of names, wild_names and kwargs found in a show doc <code>line</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Wild names directly preceed a <code>*</code></p>
+<p>This function can be used to:</p>
+<ul>
+<li>Statically parse a line (if <code>namespace</code> is not provided)<ul>
+<li>In which case wild names will not be inspected</li>
+<li>So you might assume that docs will have been shown for all members of everything in <code>wild_names</code></li>
+</ul>
+</li>
+<li>Dynamically parse a line <ul>
+<li>Where we create and inpect "live" objects of wild names using the <code>namespace</code> provided</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">line</span><span class="p">,</span> <span class="n">expected</span> <span class="ow">in</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">([],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;a b&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;a,b&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;A.a&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A.a&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;A.a b&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A.a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;,A.a, A.b,,,&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A.a&#39;</span><span class="p">,</span> <span class="s1">&#39;A.b&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;A . a&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A.a&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;A . a,b&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A.a&#39;</span><span class="p">,</span> <span class="s1">&#39;A.b&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;A . a b&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A.a&#39;</span><span class="p">,</span> <span class="s1">&#39;A.b&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;A . a B . a&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A.a&#39;</span><span class="p">,</span> <span class="s1">&#39;A.B&#39;</span><span class="p">,</span> <span class="s1">&#39;B.a&#39;</span><span class="p">],[],{})],</span> <span class="c1"># using multiple dots is not recommend</span>
+    <span class="p">[</span><span class="s1">&#39;A *&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">],[</span><span class="s1">&#39;A&#39;</span><span class="p">],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;A * a B *&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">],[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;  A  a B  *  &#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">],[</span><span class="s1">&#39;B&#39;</span><span class="p">],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;A *. _a&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A._a&#39;</span><span class="p">],[</span><span class="s1">&#39;A&#39;</span><span class="p">],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;A.a._a *&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A.a._a&#39;</span><span class="p">],[</span><span class="s1">&#39;A.a._a&#39;</span><span class="p">],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;arg=2&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;arg=2&#39;</span><span class="p">],[],{})],</span> <span class="c1"># this would be a mistake</span>
+    <span class="p">[</span><span class="s1">&#39;title_level=2 default_cls_level=1&#39;</span><span class="p">,</span> <span class="p">([],[],</span><span class="nb">dict</span><span class="p">(</span><span class="n">title_level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">default_cls_level</span><span class="o">=</span><span class="mi">1</span><span class="p">))],</span>
+    <span class="p">[</span><span class="s1">&#39;default_cls_lvl=2, title_level=1&#39;</span><span class="p">,</span> <span class="p">([],[],</span><span class="nb">dict</span><span class="p">(</span><span class="n">title_level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">default_cls_level</span><span class="o">=</span><span class="mi">2</span><span class="p">))],</span>
+    <span class="p">[</span><span class="s1">&#39;default_class_level=55&#39;</span><span class="p">,</span> <span class="p">([],[],</span><span class="nb">dict</span><span class="p">(</span><span class="n">default_cls_level</span><span class="o">=</span><span class="mi">55</span><span class="p">))],</span>
+    <span class="p">[</span><span class="s1">&#39;A.a title_level=2 default_cls_level=1&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A.a&#39;</span><span class="p">],[],</span><span class="nb">dict</span><span class="p">(</span><span class="n">title_level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">default_cls_level</span><span class="o">=</span><span class="mi">1</span><span class="p">))],</span>
+    <span class="p">[</span><span class="s1">&#39;A * title_level=2 default_cls_level=1&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">],[</span><span class="s1">&#39;A&#39;</span><span class="p">],</span><span class="nb">dict</span><span class="p">(</span><span class="n">title_level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">default_cls_level</span><span class="o">=</span><span class="mi">1</span><span class="p">))]]:</span>
+    <span class="n">test_eq</span><span class="p">(</span><span class="n">parse_nbdev_show_doc</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="n">expected</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;*&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span> 
+        <span class="c1"># dynamic parse only makes a difference when using wildcard</span>
+        <span class="n">test_eq</span><span class="p">(</span><span class="n">parse_nbdev_show_doc</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="nb">globals</span><span class="p">()),</span> <span class="n">expected</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">try</span><span class="p">:</span> <span class="n">parse_nbdev_show_doc</span><span class="p">(</span><span class="s1">&#39;A *&#39;</span><span class="p">,</span> <span class="nb">globals</span><span class="p">());</span> <span class="n">call_failed</span><span class="o">=</span><span class="kc">False</span>
+<span class="k">except</span><span class="p">:</span> <span class="n">call_failed</span><span class="o">=</span><span class="kc">True</span>
+<span class="k">assert</span> <span class="n">call_failed</span><span class="p">,</span> <span class="s1">&#39;dynamic parse should fail because A does not exist&#39;</span>
+
+<span class="k">for</span> <span class="n">line</span><span class="p">,</span> <span class="n">expected</span> <span class="ow">in</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">([],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;,A.a, A.b,,,&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A.a&#39;</span><span class="p">,</span> <span class="s1">&#39;A.b&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;A . a&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;A.a&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;ReTstFlags . findall search&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;ReTstFlags&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.findall&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.search&#39;</span><span class="p">],[],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;ReTstFlags * &#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;ReTstFlags&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.__init__&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.findall&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.search&#39;</span><span class="p">],[</span><span class="s1">&#39;ReTstFlags&#39;</span><span class="p">],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;ReTstFlags * a&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;ReTstFlags&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.__init__&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.findall&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.search&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">],[</span><span class="s1">&#39;ReTstFlags&#39;</span><span class="p">],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;ReTstFlags *. a&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;ReTstFlags&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.__init__&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.findall&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.search&#39;</span><span class="p">,</span> <span class="s1">&#39;ReTstFlags.a&#39;</span><span class="p">],[</span><span class="s1">&#39;ReTstFlags&#39;</span><span class="p">],{})],</span>
+    <span class="p">[</span><span class="s1">&#39;DocsTestClass * a&#39;</span><span class="p">,</span> <span class="p">([</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">,</span> <span class="s1">&#39;DocsTestClass.test&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">],[</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">],{})]]:</span>
+    <span class="n">test_eq</span><span class="p">(</span><span class="n">parse_nbdev_show_doc</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="nb">globals</span><span class="p">()),</span> <span class="n">expected</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="nbdev_show_doc" class="doc_header"><code>nbdev_show_doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L285" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_show_doc</code>(<strong><code>line</code></strong>, <strong><code>local_ns</code></strong>)</p>
+</blockquote>
+<p>Show documentation for one or more elements. Supported types: class, function, and enum.
+To show doc for multiple elements and specify title level:
+    <code>%nbdev_show_doc name_1, name_2, title_level=3</code>.
+To show doc for a class and some of its members and specify class level:
+    <code>%nbdev_show_doc MyClass . __init__, my_method, default_cls_level=3</code>
+To show doc for a class and all of its "public" members:
+    <code>%nbdev_show_doc MyClass *</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>List of names can be space and/or comma separated.</li>
+<li>Arguments cannot contain spaces. i.e. <code>title_level = 3</code> won't work<ul>
+<li><code>default_cls_lvl</code> and <code>default_class_level</code> are aliases for <code>default_cls_level</code>.</li>
+</ul>
+</li>
+<li>The <code>*</code> wildcard will show doc for<ul>
+<li>everything in <code>_docs</code> if possible, or</li>
+<li>all members that<ul>
+<li>are part of the class (i.e. methods defined in parent classes will not be shown),</li>
+<li>are classes, functions or properties and</li>
+<li>have names that do not start with <code>_</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>If you want to show doc for a class and some of its members, the dot is important:</p>
+<p>Without a dot, <code>%nbdev_show_doc</code> will look for a thing called "test"</p>
+<div class="highlight"><pre><span></span><span class="n">test</span><span class="o">=</span><span class="s2">&quot;i am not a method&quot;</span>
+<span class="o">%</span><span class="n">nbdev_show_doc</span> <span class="n">DocsTestClass</span> <span class="n">test</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L453" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DocsTestClass</code>()</p>
+</blockquote>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="test" class="doc_header"><code>test</code><a href="" class="source_link" style="float:right">[source]</a></h4><p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>With a dot, <code>%nbdev_show_doc</code> will look for an attribute of <a href="/export#DocsTestClass"><code>DocsTestClass</code></a> called "test"</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">nbdev_show_doc</span> <span class="n">DocsTestClass</span> <span class="o">.</span> <span class="n">test</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L453" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>DocsTestClass</code>()</p>
+</blockquote>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="DocsTestClass.test" class="doc_header"><code>DocsTestClass.test</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L454" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DocsTestClass.test</code>()</p>
+</blockquote>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using <code>*.</code> together allows you to show doc for a class, all of its "public" members and methods defined by a parent class etc</p>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">nbdev_show_doc</span> <span class="n">DocsTestClass</span> <span class="o">*.</span> <span class="fm">__init__</span> <span class="n">default_cls_level</span><span class="o">=</span><span class="mi">3</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h3 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L453" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>DocsTestClass</code>()</p>
+</blockquote>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="DocsTestClass.test" class="doc_header"><code>DocsTestClass.test</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L454" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DocsTestClass.test</code>()</p>
+</blockquote>
+
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="DocsTestClass.__init__" class="doc_header"><code>DocsTestClass.__init__</code><a href="" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>DocsTestClass.__init__</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>)</p>
+</blockquote>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="The-doc-command">The doc command<a class="anchor-link" href="#The-doc-command"> </a></h3>
@@ -828,7 +1158,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="md2html" class="doc_header"><code>md2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L258" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md2html</code>(<strong><code>md</code></strong>)</p>
+<h4 id="md2html" class="doc_header"><code>md2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L306" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>md2html</code>(<strong><code>md</code></strong>)</p>
 </blockquote>
 <p>Convert markdown <code>md</code> to HTML code</p>
 
@@ -860,7 +1190,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_doc_link" class="doc_header"><code>get_doc_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L265" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_doc_link</code>(<strong><code>func</code></strong>)</p>
+<h4 id="get_doc_link" class="doc_header"><code>get_doc_link</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L313" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_doc_link</code>(<strong><code>func</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -926,7 +1256,7 @@ description: "Functions to show the doc cells in notebooks"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="doc" class="doc_header"><code>doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L277" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc</code>(<strong><code>elt</code></strong>)</p>
+<h4 id="doc" class="doc_header"><code>doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L325" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc</code>(<strong><code>elt</code></strong>)</p>
 </blockquote>
 <p>Show <a href="/showdoc#show_doc"><code>show_doc</code></a> info in preview window when used in a notebook</p>
 
