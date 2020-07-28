@@ -1329,3 +1329,7 @@ div.input + details {
     /* show/hide output */
     margin-top: -25px;
 }
+
+.output_wrapper{
+    overflow: scroll;
+}
