@@ -53,11 +53,11 @@ def test_nb(fn, flags=None):
     if flags is None: flags = []
     try:
         nb = read_nb(fn)
-        nb = call_cb('on_test_nb_begin', nb, fn, flags)
+        nb = call_cb('begin_test_nb', nb, fn, flags)
         for f in get_all_flags(nb['cells']):
             if f not in flags: return
         ep = NoExportPreprocessor(flags, timeout=600, kernel_name='python3')
         pnb = nbformat.from_dict(nb)
         ep.preprocess(pnb)
-        nb = call_cb('on_test_nb_end', fn)
+        nb = call_cb('after_test_nb', fn)
     finally: os.environ.pop("IN_TEST")
