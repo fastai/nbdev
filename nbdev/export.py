@@ -238,6 +238,20 @@ def extra_add(flags, code):
     return [clean_quotes(s) for s in parse_line(m.group(1))], code
 
 # Cell
+_re_from_future_import = re.compile(r"^from[ \t]+__future__[ \t]+import.*$", re.MULTILINE)
+
+def _from_future_import(fname, code, to_dict=None):
+    "Write `__future__` imports to `fname` and return `code` with `__future__` imports commented out"
+    m=check_re({'source': code}, _re_from_future_import, False)
+    if not m: return code
+    if to_dict is not None: return m.re.sub('#nbdev_comment \g<0>', code)
+    with open(fname, 'r', encoding='utf8') as f: text = f.read()
+    start = _re__all__def.search(text).start()
+    with open(fname, 'w', encoding='utf8') as f:
+        f.write('\n'.join([text[:start], *_re_from_future_import.findall(code), '\n', text[start:]]))
+    return m.re.sub('#nbdev_comment \g<0>', code)
+
+# Cell
 def _add2all(fname, names, line_width=120):
     if len(names) == 0: return
     with open(fname, 'r', encoding='utf8') as f: text = f.read()
@@ -383,6 +397,7 @@ def _notebook2script(fname, modules, silent=False, to_dict=None):
         code = sep + orig + '\n'.join(code_lines)
         names = export_names(code)
         extra,code = extra_add('\n'.join(flag_lines), code)
+        code = _from_future_import(fname_out, code, to_dict)
         if a:
             if to_dict is None: _add2all(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
         mod.index.update({f: fname.name for f in names})
