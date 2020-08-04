@@ -41,7 +41,7 @@ class NoExportPreprocessor(ExecutePreprocessor):
     def preprocess_cell(self, cell, resources, index):
         if 'source' not in cell or cell['cell_type'] != "code": return cell, resources
         for f in get_cell_flags(cell):
-            if f not in self.flags:  return cell, resources
+            if f not in self.flags: return cell, resources
         res = super().preprocess_cell(cell, resources, index)
         return res
 
