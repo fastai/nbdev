@@ -1,0 +1,4 @@
+{
+    "name": "nbdev-codespaces",
+    "extensions": ["ms-python.python"]
+}
