@@ -7,6 +7,7 @@ from .imports import *
 from .sync import *
 from .export import *
 from .export import _mk_flag_re
+from .export2html import _re_notebook2script
 
 from nbconvert.preprocessors import ExecutePreprocessor
 
@@ -42,8 +43,8 @@ class NoExportPreprocessor(ExecutePreprocessor):
         if 'source' not in cell or cell['cell_type'] != "code": return cell, resources
         for f in get_cell_flags(cell):
             if f not in self.flags: return cell, resources
-        res = super().preprocess_cell(cell, resources, index)
-        return res
+        if check_re(cell, _re_notebook2script): return cell, resources
+        return super().preprocess_cell(cell, resources, index)
 
 # Cell
 def test_nb(fn, flags=None):
@@ -52,9 +53,11 @@ def test_nb(fn, flags=None):
     if flags is None: flags = []
     try:
         nb = read_nb(fn)
+        nb = call_cb('begin_test_nb', nb, fn, flags)
         for f in get_all_flags(nb['cells']):
             if f not in flags: return
         ep = NoExportPreprocessor(flags, timeout=600, kernel_name='python3')
         pnb = nbformat.from_dict(nb)
         ep.preprocess(pnb)
+        nb = call_cb('after_test_nb', fn)
     finally: os.environ.pop("IN_TEST")

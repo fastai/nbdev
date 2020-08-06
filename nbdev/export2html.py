@@ -143,13 +143,12 @@ _re_image = re.compile(r"""
 ^(!\[           #   Beginning of line (since re.MULTILINE is passed) followed by ![ in a catching group
 [^\]]*          #   Anything but ]
 \]\()           #   Closing ] and opening (, end of the first catching group
-([^\)]*)        #   Catching block with any character but )
-(\))            #   Catching group with closing )
+[ \t]*          #   Whitespace before the image path
+([^\) \t]*)     #   Catching block with any character that is not ) or whitespace
+(\)| |\t)       #   Catching group with closing ) or whitespace
 |               # OR
-^(<img\ [^>]*>)  #   Catching group with <img some_html_code>
+^(<img\ [^>]*>) #   Catching group with <img some_html_code>
 """, re.MULTILINE | re.VERBOSE)
-
-_re_image1 = re.compile(r"^<img\ [^>]*>", re.MULTILINE)
 
 # Cell
 def _img2jkl(d, h, jekyll=True):
@@ -171,11 +170,7 @@ def copy_images(cell, fname, dest, jekyll=True):
             h = HTMLParseAttrs()
             dic = h(grps[3])
             src = dic['src']
-        else:
-            cap = re.search(r'(\s"[^"]*")', grps[1])
-            if cap is not None:
-                grps = (grps[0], re.sub(r'\s"[^"]*"', '', grps[1]), cap.groups()[0] + grps[2], grps[3])
-            src = grps[1]
+        else: src = grps[1]
         if _is_real_image(src):
             os.makedirs((Path(dest)/src).parent, exist_ok=True)
             shutil.copy(Path(fname).parent/src, Path(dest)/src)
@@ -183,7 +178,7 @@ def copy_images(cell, fname, dest, jekyll=True):
         if grps[3] is not None:
             dic['src'] = src
             return _img2jkl(dic, h, jekyll=jekyll)
-        else:  return f"{grps[0]}{src}{grps[2]}"
+        else: return f"{grps[0]}{src}{grps[2]}"
     if cell['cell_type'] == 'markdown': cell['source'] = _re_image.sub(_rep_src, cell['source'])
     return cell
 
@@ -529,6 +524,7 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=
     "Convert a notebook `fname` to html file in `dest_path`."
     fname = Path(fname).absolute()
     nb = read_nb(fname)
+    call_cb('begin_doc_nb', nb, fname, 'html')
     meta_jekyll = get_metadata(nb['cells'])
     meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
     cls_lvl = find_default_level(nb['cells'])
@@ -538,9 +534,11 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=
     nb['cells'] = [_func(c) for c in nb['cells']]
     nb = execute_nb(nb, mod=mod)
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
+    call_cb('after_doc_nb_preprocess', nb, fname, 'html')
     if exporter is None: exporter = nbdev_exporter(cls=cls, template_file=template_file)
     with open(_nb2htmlfname(fname, dest=dest),'w') as f:
         f.write(exporter.from_notebook_node(nb, resources=meta_jekyll)[0])
+    call_cb('after_doc_nb', fname, 'html')
 
 # Cell
 def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
@@ -585,12 +583,14 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     if not img_path: img_path = fname.stem + '_files/'
     Path(img_path).mkdir(exist_ok=True, parents=True)
     nb = read_nb(fname)
+    call_cb('begin_doc_nb', nb, fname, 'md')
     meta_jekyll = get_metadata(nb['cells'])
     try: meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
     except: meta_jekyll['nb_path'] = str(fname)
     nb['cells'] = compose(*process_cells)(nb['cells'])
     nb['cells'] = [compose(partial(adapt_img_path, fname=fname, dest=dest_path, jekyll=jekyll), *process_cell)(c)
                    for c in nb['cells']]
+    call_cb('after_doc_nb_preprocess', nb, fname, 'md')
     fname = Path(fname).absolute()
     dest_name = fname.with_suffix('.md').name
     exp = nbdev_exporter(cls=MarkdownExporter, template_file='jekyll-md.tpl' if jekyll else 'md.tpl')
@@ -602,6 +602,7 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     if hasattr(export[1]['outputs'], 'items'):
         for n,o in export[1]['outputs'].items():
             with open(Path(dest_path)/img_path/n, 'wb') as f: f.write(o)
+    call_cb('after_doc_nb', fname, 'md')
 
 # Cell
 _re_att_ref = re.compile(r' *!\[(.*)\]\(attachment:image.png(?: "(.*)")?\)')
