@@ -28,6 +28,9 @@ entries:
       title: Fix merge conflicts
       url: /merge
     - output: web,pdf
+      title: Conda packaging
+      url: /conda
+    - output: web,pdf
       title: Command line functions
       url: /cli
     - output: web,pdf

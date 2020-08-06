@@ -129,8 +129,7 @@ description: "Flags are custom ipython magics, that tell nbdev how to process ce
 <span class="kn">import</span> <span class="nn">io</span>
 
 <span class="k">if</span> <span class="n">IN_IPYTHON</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">test_flag_output</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">exp</span><span class="p">):</span>
-        <span class="n">test_eq</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">exp</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">test_flag_output</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">exp</span><span class="p">):</span> <span class="n">test_eq</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">exp</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
         <span class="o">%</span><span class="k">nbdev_export</span>
@@ -186,7 +185,7 @@ description: "Flags are custom ipython magics, that tell nbdev how to process ce
 <span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_hide</span><span class="p">,</span> <span class="n">nbdev_hide_input</span><span class="p">,</span> <span class="n">nbdev_hide_output</span>
 <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nbdev_hide</span><span class="p">,</span> <span class="n">nbdev_hide_input</span><span class="p">,</span> <span class="n">nbdev_hide_output</span><span class="p">]:</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-    <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;anything&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UsageError: Invalid option &quot;anything&quot;. Usage `%</span><span class="si">{f.__name__}</span><span class="s1">`&#39;</span><span class="p">)</span>
+    <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;anything&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UsageError: Invalid option &quot;anything&quot;. Usage `%</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">`&#39;</span><span class="p">)</span>
     
 <span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_default_class_level</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">):</span>
@@ -206,7 +205,7 @@ description: "Flags are custom ipython magics, that tell nbdev how to process ce
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39; open &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;open&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-    <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;OPEN&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UsageError: Invalid option &quot;OPEN&quot;. Usage `%</span><span class="si">{f.__name__}</span><span class="s1"> [open]`&#39;</span><span class="p">)</span>
+    <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;OPEN&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UsageError: Invalid option &quot;OPEN&quot;. Usage `%</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> [open]`&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
