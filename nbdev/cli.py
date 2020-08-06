@@ -314,7 +314,7 @@ def nbdev_conda_package(path:Param("Path where package will be created", str)='c
     except subprocess.CalledProcessError as e: print(f"{e.output}\n\nBuild failed.")
     if 'anaconda upload' not in res: print(f"{res}\n\Build failed.")
 
-    upload_str = re.findall('(anaconda upload .*)', res.decode())[0]
+    upload_str = re.findall('(anaconda upload .*)', res)[0]
     if upload_user: upload_str = upload_str.replace('anaconda upload ', f'anaconda upload -u {upload_user} ')
     try: res = check_output(upload_str.split(), stderr=STDOUT).decode()
     except subprocess.CalledProcessError as e: print(f"{e.output}\n\nUpload failed.")
