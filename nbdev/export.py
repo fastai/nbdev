@@ -238,6 +238,21 @@ def extra_add(flags, code):
     return [clean_quotes(s) for s in parse_line(m.group(1))], code
 
 # Cell
+_re_from_future_import = re.compile(r"^from[ \t]+__future__[ \t]+import.*$", re.MULTILINE)
+
+def _from_future_import(fname, flags, code, to_dict=None):
+    "Write `__future__` imports to `fname` and return `code` with `__future__` imports commented out"
+    from_future_imports = _re_from_future_import.findall(code)
+    if from_future_imports: code = _re_from_future_import.sub('#nbdev_comment \g<0>', code)
+    else: from_future_imports = _re_from_future_import.findall(flags)
+    if not from_future_imports or to_dict is not None: return code
+    with open(fname, 'r', encoding='utf8') as f: text = f.read()
+    start = _re__all__def.search(text).start()
+    with open(fname, 'w', encoding='utf8') as f:
+        f.write('\n'.join([text[:start], *from_future_imports, '\n', text[start:]]))
+    return code
+
+# Cell
 def _add2all(fname, names, line_width=120):
     if len(names) == 0: return
     with open(fname, 'r', encoding='utf8') as f: text = f.read()
@@ -331,7 +346,7 @@ def split_flags_and_code(cell, return_type=list):
     split_pos = 0 if code_lines[0].strip().startswith('#') else -1
     for i, line in enumerate(code_lines):
         if line.startswith('%nbdev_'): split_pos=i
-        elif not line.startswith('#') and line.strip(): break
+        elif not line.startswith('#') and line.strip() and not _re_from_future_import.match(line): break
     split_pos+=1
     res = code_lines[:split_pos], code_lines[split_pos:]
     if return_type is list: return res
@@ -382,7 +397,9 @@ def _notebook2script(fname, modules, silent=False, to_dict=None):
         code_lines = _deal_import(code_lines, fname_out)
         code = sep + orig + '\n'.join(code_lines)
         names = export_names(code)
-        extra,code = extra_add('\n'.join(flag_lines), code)
+        flags = '\n'.join(flag_lines)
+        extra,code = extra_add(flags, code)
+        code = _from_future_import(fname_out, flags, code, to_dict)
         if a:
             if to_dict is None: _add2all(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
         mod.index.update({f: fname.name for f in names})
