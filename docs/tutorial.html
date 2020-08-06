@@ -168,14 +168,12 @@ description: "A step by step guide"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, run <code>jupyter notebook</code>, and click <code>00_core.ipynb</code> (you don't <em>have</em> to start your notebook names with a number like we do here; but we find it helpful to show the order you've created your project in). You'll see something that looks a bit like this:</p>
-<div class="highlight"><pre><span></span><span class="c1"># default_exp core</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">%</span><span class="n">nbdev_default_export</span> <span class="n">core</span>
 </pre></div>
 <p><strong>module name here</strong></p>
 <blockquote><p>API details.</p>
 </blockquote>
-<div class="highlight"><pre><span></span><span class="c1">#hide</span>
-<span class="kn">from</span> <span class="nn">nbdev.showdoc</span> <span class="kn">import</span> <span class="o">*</span>
-</pre></div>
 <p>Let's explain what these special cells mean.</p>
 
 </div>
@@ -183,14 +181,31 @@ description: "A step by step guide"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Add-cell-comments">Add cell comments<a class="anchor-link" href="#Add-cell-comments"> </a></h3>
+<h3 id="nbdev-flags"><code>nbdev</code> flags<a class="anchor-link" href="#nbdev-flags"> </a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There are certain special comments that, when placed as the first line of the cell, provide important information to nbdev.</p>
-<p>The cell <code>#default_exp core</code>, defines the name of the generated module (lib_name/core.py). For any cells that you want to be included in your python module, type <code>#export</code> as the first line of the cell. Each of those cells will be added to your module.</p>
+<p>There are certain special <a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html">magics</a> that, when placed in a cell, provide important information to nbdev.</p>
+<p>Before you can use the magic flags, you need to import them: <code>from nbdev import *</code>. This also imports the <a href="/showdoc#show_doc"><code>show_doc</code></a> and <a href="/export#notebook2script"><code>notebook2script</code></a> functions.</p>
+<p>The flag <code>%nbdev_default_export core</code>, defines the name of the generated module (lib_name/core.py). For any cells that you want to be included in your python module, type <code>%nbdev_export</code> as the first line of the cell. Each of those cells will be added to your module.</p>
+<p>You can explore the available flags and their documentation without leaving your notebook:</p>
+<p>{% include image.html alt="tab completion of nbdev magics" max-width="900" file="/images/inspect_magics.png" %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Module-name-and-summary">Module name and summary<a class="anchor-link" href="#Module-name-and-summary"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The markdown cell uses special syntax to define the title and summary of your module. Feel free to replace "module name here" with a title and "API details." with a summary for your module.</p>
+<p>This cell can optionally be used to define jekyll metadata, see <a href="/export2html#get_metadata"><code>get_metadata</code></a> for more details.</p>
 
 </div>
 </div>
@@ -204,12 +219,12 @@ description: "A step by step guide"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's add a function to this notebook, e.g.:</p>
-<div class="highlight"><pre><span></span><span class="c1">#export</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">nbdev_export</span>
 <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">to</span><span class="p">):</span>
     <span class="s2">&quot;Say hello to somebody&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Hello </span><span class="si">{to}</span><span class="s1">!&#39;</span>
 </pre></div>
-<p>Notice how it includes <code>#export</code> at the top - this means it will be included in our module, and documentation. The documentation will look like this:</p>
+<p>Notice how it includes <code>%nbdev_export</code> at the top - this means it will be included in your module, and documentation. The documentation will look like this:</p>
 
 </div>
 </div>
@@ -469,10 +484,14 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create a class in <code>00_core.ipynb</code> as follows:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">HelloSayer</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">nbdev_export</span>
+<span class="k">class</span> <span class="nc">HelloSayer</span><span class="p">:</span>
     <span class="s2">&quot;Say hello to `to` using `say_hello`&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">to</span>
-    <span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="n">say_hello</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Do the saying&quot;</span>
+        <span class="k">return</span> <span class="n">say_hello</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">)</span>
 </pre></div>
 <p>This will automatically appear in the docs like this:</p>
 
@@ -499,7 +518,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="HelloSayer" class="doc_header"><code>class</code> <code>HelloSayer</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/tutorial.py#L11" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>HelloSayer</code>(<strong><code>to</code></strong>)</p>
 </blockquote>
-<p>Say hello to <code>to</code> using <code>say_hello</code></p>
+<p>Say hello to <code>to</code> using <a href="/tutorial#say_hello"><code>say_hello</code></a></p>
 
 </div>
 
@@ -520,8 +539,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>However, methods aren't automatically documented. To add method docs, use <a href="/showdoc#show_doc"><code>show_doc</code></a>:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.showdoc</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">show_doc</span><span class="p">(</span><span class="n">HelloSayer</span><span class="o">.</span><span class="n">say</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">show_doc</span><span class="p">(</span><span class="n">HelloSayer</span><span class="o">.</span><span class="n">say</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -574,6 +592,22 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;Hello Alexis!&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
     {% endraw %}
 
@@ -586,10 +620,8 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Notice above there is a link from our new class documentation to our function. That's because we used backticks in the docstring:</p>
-
-<pre><code>"Say hello to `to` using [`say_hello`](/tutorial#say_hello)"
-
-</code></pre>
+<div class="highlight"><pre><span></span><span class="s2">&quot;Say hello to `to` using `say_hello`&quot;</span>
+</pre></div>
 <p>These are automatically converted to hyperlinks wherever possible. For instance, here are hyperlinks to <a href="/tutorial#HelloSayer"><code>HelloSayer</code></a> and <a href="/tutorial#say_hello"><code>say_hello</code></a> created using backticks.</p>
 
 </div>
@@ -619,9 +651,8 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It's helpful to be able to export all your modules directly from a notebook, rather than going to the terminal to do it. All nbdev commands are available directly from a notebook in Python. Add these lines to any cell and run it to exports your modules (I normally make this the last cell of my scripts).</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="kn">import</span> <span class="n">notebook2script</span>
-<span class="n">notebook2script</span><span class="p">()</span>
+<p>It's helpful to be able to export all your modules directly from a notebook, rather than going to the terminal to do it. All nbdev commands are available directly from a notebook in Python. Add this line to any cell and run it to export your modules (I normally make this the last cell of my scripts).</p>
+<div class="highlight"><pre><span></span><span class="n">notebook2script</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -697,9 +728,7 @@ All tests are passing!</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>To test and use your modules in other projects, and use your console scripts (if you have any), the easiest approach is to use an <a href="http://codumentary.blogspot.com/2014/11/python-tip-of-year-pip-install-editable.html">editable install</a>. To do this, <code>cd</code> to the root of your repo in the terminal, and type:</p>
 
-<pre><code>pip install -e .
-
-</code></pre>
+<pre><code>pip install -e .</code></pre>
 <p>(Note that the trailing period is important.) Your module changes will be automatically picked up without reinstalling. If you add any additional console scripts, you will need to run this command again.</p>
 
 </div>

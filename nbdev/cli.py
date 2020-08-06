@@ -2,7 +2,7 @@
 
 __all__ = ['nbdev_upgrade', 'nbdev_build_lib', 'nbdev_update_lib', 'nbdev_diff_nbs', 'nbdev_test_nbs', 'make_readme',
            'nbdev_build_docs', 'nbdev_nb2md', 'nbdev_detach', 'nbdev_read_nbs', 'nbdev_trust_nbs', 'nbdev_fix_merge',
-           'bump_version', 'nbdev_bump_version', 'nbdev_install_git_hooks', 'nbdev_new']
+           'bump_version', 'nbdev_bump_version', 'nbdev_conda_package', 'nbdev_install_git_hooks', 'nbdev_new']
 
 # Cell
 from .imports import *
@@ -11,7 +11,9 @@ from .sync import *
 from .merge import *
 from .export2html import *
 from .test import *
+from .conda import *
 from fastscript import call_parse,Param,bool_arg
+from subprocess import check_output,STDOUT
 
 # Cell
 import re,nbformat
@@ -290,6 +292,33 @@ def nbdev_bump_version(part:Param("Part of version to bump", int)=2):
     cfg.save()
     update_version()
     print(f'New version: {cfg.version}')
+
+# Cell
+@call_parse
+def nbdev_conda_package(path:Param("Path where package will be created", str)='conda',
+                       do_build:Param("Run `conda build` step", bool)=True,
+                       do_upload:Param("Run `anaconda upload` step", bool)=True,
+                       upload_user:Param("Optional user to upload package to")=None):
+    "Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it"
+    write_conda_meta(path)
+    cfg = Config()
+    name = cfg.get('lib_name')
+    out = f"Done. Next steps:\n```\`cd {path}\n"""
+    out_upl = f"anaconda upload $CONDA_PREFIX/conda-bld/noarch/{name}-{cfg.get('version')}-py_0.tar.bz2"
+    if not do_build:
+        print(f"{out}conda build {name}\n{out_upl}\n```")
+        return
+
+    os.chdir(path)
+    try: res = check_output(f"conda build {name}".split()).decode()
+    except subprocess.CalledProcessError as e: print(f"{e.output}\n\nBuild failed.")
+    if 'anaconda upload' not in res: print(f"{res}\n\Build failed.")
+
+    upload_str = re.findall('(anaconda upload .*)', res)[0]
+    if upload_user: upload_str = upload_str.replace('anaconda upload ', f'anaconda upload -u {upload_user} ')
+    try: res = check_output(upload_str.split(), stderr=STDOUT).decode()
+    except subprocess.CalledProcessError as e: print(f"{e.output}\n\nUpload failed.")
+    if 'Upload complete' not in res: print(f"{res}\n\nUpload failed.")
 
 # Cell
 import subprocess

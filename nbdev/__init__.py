@@ -1,4 +1,4 @@
-__version__ = "0.2.19"
+__version__ = "0.2.24"
 
 from .imports import IN_IPYTHON
 

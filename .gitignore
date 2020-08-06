@@ -1,3 +1,5 @@
+pythonenv*/
+conda/
 test_settings.ini
 .gitconfig
 *.tgz

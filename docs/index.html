@@ -30,7 +30,7 @@ description: "Create delightful python projects using Jupyter Notebooks"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>nbdev</code> is a library that allows you to fully develop a library in <a href="https://jupyter.org/">Jupyter Notebooks</a>, putting all your code, tests and documentation in one place. That is: you now have a true <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a> environment, as envisioned by Donald Knuth back in 1983!</p>
-<p>Using the interactive environment, you can easily debug and refactor your code. Add <code>#export</code> flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how <code>combined_cos</code> is defined and documented in the <code>fastai</code> library:</p>
+<p>Using the interactive environment, you can easily debug and refactor your code. Add <code>%nbdev_export</code> flags to the cells that define the functions you want to include in your python modules. Here, for instance, is how <code>combined_cos</code> is defined and documented in the <code>fastai</code> library:</p>
 
 </div>
 </div>
@@ -131,7 +131,7 @@ pip install -e nbdev</code></pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="kn">import</span> <span class="o">*</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">notebook2script</span><span class="p">()</span>
 </pre></div>
 
@@ -153,6 +153,7 @@ Converted 04_test.ipynb.
 Converted 05_merge.ipynb.
 Converted 06_cli.ipynb.
 Converted 07_clean.ipynb.
+Converted 08_flag_tests.ipynb.
 Converted 99_search.ipynb.
 Converted index.ipynb.
 Converted tutorial.ipynb.
