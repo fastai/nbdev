@@ -19,7 +19,7 @@ docs: $(SRC)
 test:
 	nbdev_test_nbs
 
-release: pypi
+release: pypi conda-build
 	nbdev_bump_version
 
 conda-build:
