@@ -222,12 +222,14 @@ _re_all_def_magic = _mk_flag_re(True, 'add2all', -1,
     "# Catches a cell with %nbdev_add2all \*\* and get that \*\* in group 1")
 
 # Cell
-def extra_add(code):
+def extra_add(flags, code):
     "Catch adds to `__all__` required by a cell with `_all_=` or `%nbdev_add2all`"
     m = check_re_multi({'source': code}, [_re_all_def, _re_all_def_magic], False)
+    if m:
+        code = m.re.sub('#nbdev_comment \g<0>', code)
+        code = re.sub(r'([^\n]|^)\n*$', r'\1', code)
+    if not m: m = check_re({'source': flags}, _re_all_def_magic, False)
     if not m: return [], code
-    code = m.re.sub('', code)
-    code = re.sub(r'([^\n]|^)\n*$', r'\1', code)
     def clean_quotes(s):
         "Return `s` enclosed in single quotes, removing double quotes if needed"
         if s.startswith("'") and s.endswith("'"): return s
@@ -376,11 +378,11 @@ def _notebook2script(fname, modules, silent=False, to_dict=None):
         if e not in modules: print(f'Warning: Exporting to "{e}.py" but this module is not part of this build')
         fname_out = Config().lib_path/f'{e}.py'
         orig = (f'# {"" if a else "Internal "}C' if e==default else f'# Comes from {fname.name}, c') + 'ell\n'
-        code_lines = split_flags_and_code(c)[1]
+        flag_lines,code_lines = split_flags_and_code(c)
         code_lines = _deal_import(code_lines, fname_out)
         code = sep + orig + '\n'.join(code_lines)
         names = export_names(code)
-        extra,code = extra_add(code)
+        extra,code = extra_add('\n'.join(flag_lines), code)
         if a:
             if to_dict is None: _add2all(fname_out, [f"'{f}'" for f in names if '.' not in f and len(f) > 0] + extra)
         mod.index.update({f: fname.name for f in names})

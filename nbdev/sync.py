@@ -107,7 +107,7 @@ def _script2notebook(fname, dic, silent=False):
             c = _deal_loc_import(c, str(fname))
             if f == nb_fname.name:
                 flags = split_flags_and_code(nb['cells'][i], str)[0]
-                nb['cells'][i]['source'] = flags + '\n' + c
+                nb['cells'][i]['source'] = flags + '\n' + c.replace('#nbdev_comment ', '')
         NotebookNotary().sign(nb)
         nbformat.write(nb, str(nb_fname), version=4)
 
