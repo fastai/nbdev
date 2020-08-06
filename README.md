@@ -1,4 +1,4 @@
-![](https://github.com/fastai/nbdev/workflows/CI/badge.svg)
+[![](https://github.com/fastai/nbdev/workflows/CI/badge.svg)](https://github.com/fastai/nbdev/actions?query=workflow%3ACI) [![PyPI](https://img.shields.io/pypi/v/nbdev?color=blue&label=pypi%20version)](https://pypi.org/project/nbdev/#description) [![Conda (channel only)](https://img.shields.io/conda/vn/fastai/nbdev?color=seagreen&label=conda%20version)](https://anaconda.org/fastai/nbdev) 
 
 
 # Welcome to nbdev
