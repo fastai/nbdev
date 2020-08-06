@@ -13,12 +13,10 @@ import yaml
 # Cell
 def _get_conda_meta():
     cfg = Config()
-    name = cfg.get('lib_name')
-    ver  = cfg.get('version')
-    basic_pkgs = ['pip', 'python']
+    name,ver = cfg.get('lib_name'),cfg.get('version')
     url = cfg.get('doc_host') or cfg.get('git_url')
 
-    reqs = basic_pkgs
+    reqs = ['pip', 'python', 'packaging']
     if cfg.get('requirements'): reqs += cfg.get('requirements').split()
     if cfg.get('conda_requirements'): reqs += cfg.get('conda_requirements').split()
 
@@ -26,6 +24,7 @@ def _get_conda_meta():
     pypi = json.loads(pypi_t)
     rel = [o for o in pypi['urls'] if o['packagetype']=='sdist'][0]
 
+    # Work around conda build bug - 'package' and 'source' must be first
     d1 = {
         'package': {'name': name, 'version': ver},
         'source': {'url':rel['url'], 'sha256':rel['digests']['sha256']}
@@ -48,6 +47,7 @@ def _get_conda_meta():
 
 # Cell
 def write_conda_meta(path='conda'):
+    "Writes a `meta.yaml` file to the `conda` directory of the current directory"
     name,d1,d2 = _get_conda_meta()
     path = Path(path)
     p = path/name
