@@ -1,3 +1,6 @@
+.ONESHELL:
+SHELL := /bin/bash
+
 SRC = $(wildcard nbs/*.ipynb)
 
 all: nbdev docs
@@ -18,6 +21,14 @@ test:
 
 release: pypi
 	nbdev_bump_version
+
+conda-build:
+	nbdev_conda_package
+	cd conda
+	conda build nbdev
+	anaconda upload -u fastai ${CONDA_PREFIX}/conda-bld/noarch/*-py_0.tar.bz2
+	rm ${CONDA_PREFIX}/conda-bld/noarch/*-py_0.tar.bz2
+	cd ..
 
 pypi: dist
 	twine upload --repository pypi dist/*

@@ -2,7 +2,7 @@
 
 __all__ = ['nbdev_upgrade', 'nbdev_build_lib', 'nbdev_update_lib', 'nbdev_diff_nbs', 'nbdev_test_nbs', 'make_readme',
            'nbdev_build_docs', 'nbdev_nb2md', 'nbdev_detach', 'nbdev_read_nbs', 'nbdev_trust_nbs', 'nbdev_fix_merge',
-           'bump_version', 'nbdev_bump_version', 'nbdev_install_git_hooks', 'nbdev_new']
+           'bump_version', 'nbdev_bump_version', 'nbdev_conda_package', 'nbdev_install_git_hooks', 'nbdev_new']
 
 # Cell
 from .imports import *
@@ -11,6 +11,7 @@ from .sync import *
 from .merge import *
 from .export2html import *
 from .test import *
+from .conda import *
 from fastscript import call_parse,Param,bool_arg
 
 # Cell
@@ -290,6 +291,21 @@ def nbdev_bump_version(part:Param("Part of version to bump", int)=2):
     cfg.save()
     update_version()
     print(f'New version: {cfg.version}')
+
+# Cell
+@call_parse
+def nbdev_conda_package(path:Param("Path where package will be created", str)='conda'):
+    "Create a `meta.yaml` file ready to be built into a package"
+    write_conda_meta(path)
+    cfg = Config()
+    name = cfg.get('lib_name')
+    out = f"""Conda directory created. To build and upload:
+```
+cd {path}
+conda build {name}
+anaconda upload $CONDA_PREFIX/conda-bld/noarch/{name}-{cfg.get('version')}-py_0.tar.bz2
+```"""
+    print(out)
 
 # Cell
 import subprocess
