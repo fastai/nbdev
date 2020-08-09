@@ -84,7 +84,7 @@ description: "The functions that grab the cells containing tests (filtering with
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_all_flags" class="doc_header"><code>get_all_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_all_flags</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="get_all_flags" class="doc_header"><code>get_all_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_all_flags</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Check for all test flags in <code>cells</code></p>
 
@@ -141,7 +141,7 @@ description: "The functions that grab the cells containing tests (filtering with
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_cell_flags" class="doc_header"><code>get_cell_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L29" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_cell_flags</code>(<strong><code>cell</code></strong>)</p>
+<h4 id="get_cell_flags" class="doc_header"><code>get_cell_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_cell_flags</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
 <p>Check for any special test flag in <code>cell</code></p>
 
@@ -197,7 +197,7 @@ description: "The functions that grab the cells containing tests (filtering with
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="NoExportPreprocessor" class="doc_header"><code>class</code> <code>NoExportPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L35" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NoExportPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
+<h2 id="NoExportPreprocessor" class="doc_header"><code>class</code> <code>NoExportPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L36" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NoExportPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
 </blockquote>
 <p>An <code>ExecutePreprocessor</code> that executes cells that don't have a flag in <a href="/flags"><code>flags</code></a></p>
 
@@ -229,12 +229,87 @@ description: "The functions that grab the cells containing tests (filtering with
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="test_nb" class="doc_header"><code>test_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L49" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>test_nb</code>(<strong><code>fn</code></strong>, <strong><code>flags</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="test_nb" class="doc_header"><code>test_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L50" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>test_nb</code>(<strong><code>fn</code></strong>, <strong><code>flags</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Execute tests in notebook in <code>fn</code> with <a href="/flags"><code>flags</code></a></p>
 
 </div>
 
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">TestCallbacks</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">begin_test_nb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">flags</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">begin_test_nb_data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">nb</span><span class="o">=</span><span class="n">nb</span><span class="p">,</span><span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span><span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">nb</span>
+    <span class="k">def</span> <span class="nf">after_test_nb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">after_test_nb_data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
+<span class="n">test_callbacks</span><span class="o">=</span><span class="n">TestCallbacks</span><span class="p">()</span>
+<span class="n">call_cb</span><span class="p">(</span><span class="s1">&#39;this makes sure nbdev_callbacks is loaded from the right place&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">nbdev_callbacks</span>
+<span class="n">original_callbacks</span><span class="o">=</span><span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">begin_test_nb</span><span class="p">,</span><span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">after_test_nb</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">begin_test_nb</span><span class="o">=</span><span class="n">test_callbacks</span><span class="o">.</span><span class="n">begin_test_nb</span>
+    <span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">after_test_nb</span><span class="o">=</span><span class="n">test_callbacks</span><span class="o">.</span><span class="n">after_test_nb</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">test_callbacks</span><span class="p">,</span><span class="s1">&#39;begin_test_nb_data&#39;</span><span class="p">)</span>
+    <span class="n">expected_file_name</span><span class="p">,</span><span class="n">expected_flags</span><span class="o">=</span><span class="s1">&#39;../test/single-cell-index.ipynb&#39;</span><span class="p">,[</span><span class="s1">&#39;slow&#39;</span><span class="p">,</span><span class="s1">&#39;cuda&#39;</span><span class="p">]</span>
+    <span class="n">test_nb</span><span class="p">(</span><span class="n">expected_file_name</span><span class="p">,</span><span class="n">expected_flags</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_callbacks</span><span class="o">.</span><span class="n">begin_test_nb_data</span><span class="p">[</span><span class="s1">&#39;nb&#39;</span><span class="p">][</span><span class="s1">&#39;cells&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">assert</span> <span class="n">test_callbacks</span><span class="o">.</span><span class="n">begin_test_nb_data</span><span class="p">[</span><span class="s1">&#39;file_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">expected_file_name</span>
+    <span class="k">assert</span> <span class="n">test_callbacks</span><span class="o">.</span><span class="n">begin_test_nb_data</span><span class="p">[</span><span class="s1">&#39;flags&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">expected_flags</span>
+    <span class="k">assert</span> <span class="n">test_callbacks</span><span class="o">.</span><span class="n">after_test_nb_data</span><span class="p">[</span><span class="s1">&#39;file_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">expected_file_name</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">begin_test_nb</span><span class="p">,</span><span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">after_test_nb</span><span class="o">=</span><span class="n">original_callbacks</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">FileNotFoundError</span>                         Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-7-1f8e42f6c306&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>     <span class="ansi-green-fg">assert</span> <span class="ansi-green-fg">not</span> hasattr<span class="ansi-blue-fg">(</span>test_callbacks<span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">&#39;begin_test_nb_data&#39;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>     expected_file_name<span class="ansi-blue-fg">,</span>expected_flags<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;../test/single-cell-index.ipynb&#39;</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;slow&#39;</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">&#39;cuda&#39;</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-fg">---&gt; 16</span><span class="ansi-red-fg">     </span>test_nb<span class="ansi-blue-fg">(</span>expected_file_name<span class="ansi-blue-fg">,</span>expected_flags<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     17</span>     <span class="ansi-green-fg">assert</span> len<span class="ansi-blue-fg">(</span>test_callbacks<span class="ansi-blue-fg">.</span>begin_test_nb_data<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;nb&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;cells&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">1</span>
+<span class="ansi-green-intense-fg ansi-bold">     18</span>     <span class="ansi-green-fg">assert</span> test_callbacks<span class="ansi-blue-fg">.</span>begin_test_nb_data<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;file_name&#39;</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">==</span> expected_file_name
+
+<span class="ansi-green-fg">~/git/nbdev/nbdev/test.py</span> in <span class="ansi-cyan-fg">test_nb</span><span class="ansi-blue-fg">(fn, flags)</span>
+<span class="ansi-green-intense-fg ansi-bold">     53</span>     <span class="ansi-green-fg">if</span> flags <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span> flags <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">     54</span>     <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 55</span><span class="ansi-red-fg">         </span>nb <span class="ansi-blue-fg">=</span> read_nb<span class="ansi-blue-fg">(</span>fn<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     56</span>         nb <span class="ansi-blue-fg">=</span> call_cb<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;begin_test_nb&#39;</span><span class="ansi-blue-fg">,</span> nb<span class="ansi-blue-fg">,</span> fn<span class="ansi-blue-fg">,</span> flags<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     57</span>         <span class="ansi-green-fg">for</span> f <span class="ansi-green-fg">in</span> get_all_flags<span class="ansi-blue-fg">(</span>nb<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;cells&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">~/git/nbdev/nbdev/export.py</span> in <span class="ansi-cyan-fg">read_nb</span><span class="ansi-blue-fg">(fname)</span>
+<span class="ansi-green-intense-fg ansi-bold">     21</span> <span class="ansi-green-fg">def</span> read_nb<span class="ansi-blue-fg">(</span>fname<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">     22</span>     <span class="ansi-blue-fg">&#34;Read the notebook in `fname`.&#34;</span>
+<span class="ansi-green-fg">---&gt; 23</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">with</span> open<span class="ansi-blue-fg">(</span>Path<span class="ansi-blue-fg">(</span>fname<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span><span class="ansi-blue-fg">&#39;r&#39;</span><span class="ansi-blue-fg">,</span> encoding<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;utf8&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> f<span class="ansi-blue-fg">:</span> <span class="ansi-green-fg">return</span> nbformat<span class="ansi-blue-fg">.</span>reads<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">.</span>read<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> as_version<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">4</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     24</span> 
+<span class="ansi-green-intense-fg ansi-bold">     25</span> <span class="ansi-red-fg"># Cell</span>
+
+<span class="ansi-red-fg">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;../test/single-cell-index.ipynb&#39;</pre>
+</div>
 </div>
 
 </div>

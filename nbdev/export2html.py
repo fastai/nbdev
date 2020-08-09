@@ -555,7 +555,8 @@ def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, d
 def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
     "Convert all notebooks matching `fname` to html files"
     if fname is None:
-        files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
+        files = [f for f in Config().nbs_path.glob('**/*.ipynb')
+                 if not f.name.startswith('_') and not '/.' in str(f)]
     else:
         p = Path(fname)
         files = list(p.parent.glob(p.name))
@@ -571,7 +572,8 @@ def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter,
                 files.append(fname)
     if len(files)==0: print("No notebooks were modified")
     else:
-        passed = parallel(_notebook2html, files, n_workers=n_workers, cls=cls, template_file=template_file, exporter=exporter, dest=dest)
+        passed = parallel(_notebook2html, files, n_workers=n_workers, cls=cls,
+                          template_file=template_file, exporter=exporter, dest=dest)
         if not all(passed):
             msg = "Conversion failed on the following:\n"
             raise Exception(msg + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
