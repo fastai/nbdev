@@ -1,6 +1,7 @@
 __all__ = []
 
-from .imports import Config, IN_IPYTHON
+from .imports import Config
+from fastcore.utils import IN_IPYTHON
 import sys, re
 
 def _validate_param(line, magic_name, param_name=None, required=False, fixed_value=None):
@@ -22,7 +23,7 @@ def _validate_no_param(line, magic_name):
     line = line.strip()
     if line != '':
         print(f'UsageError: Invalid option "{line}". Usage `%{magic_name}`')
-    
+
 def nbdev_default_export(line):
     """One cell should contain a `%nbdev_default_export` magic followed by the name of the module
     (with points for submodules and without the py extension) everything should be exported in.

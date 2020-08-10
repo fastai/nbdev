@@ -153,17 +153,14 @@ def nbdev_diff_nbs():
     diff_nb_script()
 
 # Cell
-def _test_one(item, n=1, flags=None, verbose=True):
-    idx,fname = item
-    # nbconvert doesn't like starting lots of procs at same time, so wait a bit based on idx
-    if 0<idx<n and n>1: time.sleep(idx/2)
-    print(f"testing {idx}: {fname}")
+def _test_one(fname, flags=None, verbose=True):
+    print(f"testing {fname}")
     start = time.time()
     try:
         test_nb(fname, flags=flags)
         return True,time.time()-start
     except Exception as e:
-        if "ZMQError" in str(e): _test_one(item, n=n, flags=flags, verbose=verbose)
+        if "ZMQError" in str(e): _test_one(item, flags=flags, verbose=verbose)
         if verbose: print(f'Error in {fname}:\n{e}')
         return False,time.time()-start
 
@@ -173,7 +170,8 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                    flags:Param("Space separated list of flags", str)=None,
                    n_workers:Param("Number of workers to use", int)=None,
                    verbose:Param("Print errors along the way", bool)=True,
-                   timing:Param("Timing each notebook to see the ones are slow", bool)=False):
+                   timing:Param("Timing each notebook to see the ones are slow", bool)=False,
+                   pause:Param("Pause time (in secs) between notebooks to avoid race conditions", float)=0.2):
     "Test in parallel the notebooks matching `fname`, passing along `flags`"
     if flags is not None: flags = flags.split(' ')
     if fname is None:
@@ -183,8 +181,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
     # make sure we are inside the notebook folder of the project
     os.chdir(Config().nbs_path)
-    items = list(enumerate(files))
-    results = parallel(_test_one, items, n=n_workers, flags=flags, verbose=verbose, n_workers=n_workers)
+    results = parallel(_test_one, files, flags=flags, verbose=verbose, n_workers=n_workers, pause=pause)
     passed,times = [r[0] for r in results],[r[1] for r in results]
     if all(passed): print("All tests are passing!")
     else:

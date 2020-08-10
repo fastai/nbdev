@@ -1,8 +1,8 @@
-__version__ = "0.2.35"
+__version__ = "0.2.37"
 
-from .imports import IN_IPYTHON
+from fastcore.utils import IN_IPYTHON
 
 if IN_IPYTHON:
     from .flags import *
     from .showdoc import show_doc
-    from .export import notebook2script
+    #from .export import notebook2script
