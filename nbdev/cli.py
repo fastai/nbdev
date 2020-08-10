@@ -163,7 +163,7 @@ def _test_one(item, n=1, flags=None, verbose=True):
         test_nb(fname, flags=flags)
         return True,time.time()-start
     except Exception as e:
-        if "ZMQError" in str(e): _test_one(fname, flags=flags)
+        if "ZMQError" in str(e): _test_one(item, n=n, flags=flags, verbose=verbose)
         if verbose: print(f'Error in {fname}:\n{e}')
         return False,time.time()-start
 
@@ -180,7 +180,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
         files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
     files = [Path(f).absolute() for f in sorted(files)]
-    if len(files)==1 and n_workers is None: n_workers=0
+    if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
     # make sure we are inside the notebook folder of the project
     os.chdir(Config().nbs_path)
     items = list(enumerate(files))
