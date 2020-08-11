@@ -7,6 +7,7 @@ sidebar: home_sidebar
 
 summary: "The functions that transform notebooks in a library"
 description: "The functions that transform notebooks in a library"
+nb_path: "nbs/00_export.ipynb"
 ---
 <!--
 
@@ -73,7 +74,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="Config" class="doc_header"><code>Config</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/imports.py#L36" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>Config</code>(<strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>)</p>
+<h3 id="Config" class="doc_header"><code>Config</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/imports.py#L37" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>Config</code>(<strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>)</p>
 </blockquote>
 <p>Store the basic information for nbdev to work</p>
 
@@ -156,7 +157,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="last_index" class="doc_header"><code>last_index</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/imports.py#L64" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>last_index</code>(<strong><code>x</code></strong>, <strong><code>o</code></strong>)</p>
+<h4 id="last_index" class="doc_header"><code>last_index</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/utils.py#L142" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>last_index</code>(<strong><code>x</code></strong>, <strong><code>o</code></strong>)</p>
 </blockquote>
 <p>Finds the last index of occurence of <code>x</code> in <code>o</code> (returns -1 if no occurence)</p>
 
@@ -200,7 +201,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="compose" class="doc_header"><code>compose</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/imports.py#L97" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>compose</code>(<strong>*<code>funcs</code></strong>, <strong><code>order</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="compose" class="doc_header"><code>compose</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/utils.py#L363" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>compose</code>(<strong>*<code>funcs</code></strong>, <strong><code>order</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Create a function that composes all functions in <code>funcs</code>, passing along remaining <code>*args</code> and <code>**kwargs</code> to all</p>
 
@@ -246,7 +247,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="parallel" class="doc_header"><code>parallel</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/imports.py#L128" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parallel</code>(<strong><code>f</code></strong>, <strong><code>items</code></strong>, <strong>*<code>args</code></strong>, <strong><code>n_workers</code></strong>=<em><code>None</code></em>, <strong>**<code>kwargs</code></strong>)</p>
+<h4 id="parallel" class="doc_header"><code>parallel</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/utils.py#L702" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>parallel</code>(<strong><code>f</code></strong>, <strong><code>items</code></strong>, <strong>*<code>args</code></strong>, <strong><code>n_workers</code></strong>=<em><code>4</code></em>, <strong><code>total</code></strong>=<em><code>None</code></em>, <strong><code>progress</code></strong>=<em><code>None</code></em>, <strong><code>pause</code></strong>=<em><code>0</code></em>, <strong>**<code>kwargs</code></strong>)</p>
 </blockquote>
 <p>Applies <code>func</code> in parallel to <code>items</code>, using <code>n_workers</code></p>
 
@@ -305,7 +306,7 @@ description: "The functions that transform notebooks in a library"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="first" class="doc_header"><code>first</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>first</code>(<strong><code>x</code></strong>)</p>
+<h4 id="first" class="doc_header"><code>first</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/utils.py#L197" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>first</code>(<strong><code>x</code></strong>)</p>
 </blockquote>
 <p>First element of <code>x</code>, or None if missing</p>
 
@@ -495,7 +496,7 @@ description: "The functions that transform notebooks in a library"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">test_nb</span><span class="p">[</span><span class="s1">&#39;nbformat&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">test_nb</span><span class="p">[</span><span class="s1">&#39;nbformat_minor&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{test_nb[&#39;nbformat&#39;]}</span><span class="s2">.</span><span class="si">{test_nb[&#39;nbformat_minor&#39;]}</span><span class="s2">&quot;</span>
 </pre></div>
 
     </div>
@@ -816,13 +817,13 @@ description: "The functions that transform notebooks in a library"
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export mod</span><span class="se">\n</span><span class="s2">from nbdev.imports import *&quot;</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;mod&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# export mod.file&quot;</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="si">}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{os.path.sep}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export mod.file&quot;</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="si">}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{os.path.sep}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# exporti mod.file&quot;</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="si">}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{os.path.sep}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;%nbdev_export_internal mod.file&quot;</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="si">}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;mod</span><span class="si">{os.path.sep}</span><span class="s1">file&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# expt mod.file&quot;</span>
 <span class="k">assert</span> <span class="n">is_export</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;# exportmod.file&quot;</span>

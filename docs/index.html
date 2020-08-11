@@ -7,6 +7,7 @@ sidebar: home_sidebar
 
 summary: "Create delightful python projects using Jupyter Notebooks"
 description: "Create delightful python projects using Jupyter Notebooks"
+nb_path: "nbs/index.ipynb"
 ---
 <!--
 
@@ -314,6 +315,31 @@ $$\sum_{i=1}^{k+1}i$$
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>For adding search to your docs site, nbdev supports <a href="https://cse.google.com/cse/all">Google Custom Search</a>, including auto-completion as you type your search query. You can try it out by using the search box at the top of this page.</p>
 <p>Although we can't fully automate the creation of the search engine (since you need to login to Google to do it) we have made it very easy. Here are the steps you need to follow: <a href="https://nbdev.fast.ai/search">Setting up search</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Google-Colab-Badges">Google Colab Badges<a class="anchor-link" href="#Google-Colab-Badges"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Because both the documentation and code for nbdev is written in notebooks, you can optionally view and run nbdev documentation in <a href="https://colab.research.google.com/">Google Colab</a>. You can enable Google Colab badges that link to the appropriate notebook(s) in your GitHub repository.</p>
+<p>You can toggle the this feature on or off in your <code>/_config.yml</code> file:</p>
+<div class="highlight"><pre><span></span><span class="c1"># This specifies what badges are turned on by default for notebook docs.</span>
+<span class="nt">default_badges</span><span class="p">:</span>
+  <span class="nt">colab</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+<p>Furthermore, If you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter <code>hide_colab_badge: true</code>.  For example, if you wanted to hide the Colab badge from showing up on the notebook <code>nbs/06_cli.ipynb</code>, your front matter (in the form of a markdown cell at the top of the notebook will look like this:</p>
+
+<pre><code># Command line functions
+&gt; Console commands added by the nbdev library
+
+- hide_colab_badge:true</code></pre>
+<p>Note how in the above example, the title <code>Command line functions</code> is formatted as a markdown heading and the summary <code>Console commands added by the nbdev library</code> is formatted as a markdown block quote. The additional option <code>hide_colab_badge</code> is a list item.  It is important that this list item is separated from the summary by 2 newlines as shown above, in the same notebook markdown cell.</p>
 
 </div>
 </div>

@@ -34,7 +34,10 @@ See below for *Installing* and *Getting Started*. In the other pages of the docu
 
 ## Installing
 
-nbdev is is on PyPI and conda so you can just run `pip install nbdev` or `conda install -c fastai nbdev`.
+nbdev is is on PyPI so you can just run:
+``` 
+pip install nbdev
+```
 
 For an [editable install](https://stackoverflow.com/questions/35064426/when-would-the-e-editable-option-be-useful-with-pip-install), use the following:
 ```
@@ -67,7 +70,7 @@ Now, run `jupyter notebook`, and click `00_core.ipynb`. This is where you'll cre
 
 In the last cell of your notebook, you can then run:
 
-```
+```python
 from nbdev import *
 notebook2script()
 ```
@@ -172,6 +175,28 @@ Which is rendered as:
 For adding search to your docs site, nbdev supports [Google Custom Search](https://cse.google.com/cse/all), including auto-completion as you type your search query. You can try it out by using the search box at the top of this page.
 
 Although we can't fully automate the creation of the search engine (since you need to login to Google to do it) we have made it very easy. Here are the steps you need to follow: [Setting up search](https://nbdev.fast.ai/search).
+
+### Google Colab Badges
+
+Because both the documentation and code for nbdev is written in notebooks, you can optionally view and run nbdev documentation in [Google Colab](https://colab.research.google.com/). You can enable Google Colab badges that link to the appropriate notebook(s) in your GitHub repository.  
+
+You can toggle the this feature on or off in your `/_config.yml` file:
+
+```yaml
+# This specifies what badges are turned on by default for notebook docs.
+default_badges:
+  colab: true
+```
+
+Furthermore, If you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter `hide_colab_badge: true`.  For example, if you wanted to hide the Colab badge from showing up on the notebook `nbs/06_cli.ipynb`, your front matter (in the form of a markdown cell at the top of the notebook will look like this:
+
+```
+# Command line functions
+> Console commands added by the nbdev library
+
+- hide_colab_badge:true```
+
+Note how in the above example, the title `Command line functions` is formatted as a markdown heading and the summary `Console commands added by the nbdev library` is formatted as a markdown block quote. The additional option `hide_colab_badge` is a list item.  It is important that this list item is separated from the summary by 2 newlines as shown above, in the same notebook markdown cell.
 
 ## Contributing
 
