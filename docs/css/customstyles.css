@@ -333,7 +333,7 @@ div#toc >ul::before {
     margin-left:auto;
     margin-right:auto;
     width:70px;
-    padding-top:150px;
+    padding-top:0px;
     padding-bottom:40px;
     padding-left:10px;
 }
