@@ -25,9 +25,6 @@ exclude: [vendor]
 default_badges:
   colab: true
 
-github_username: fastai
-github_repo: nbdev
-
 highlighter: rouge
 markdown: kramdown
 kramdown:
