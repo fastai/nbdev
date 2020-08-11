@@ -7,6 +7,7 @@ sidebar: home_sidebar
 {% if resources.tags != "" and resources.tags != nil %}tags: {{resources.tags}}{% endif %}
 {% if resources.summary != "" and resources.summary != nil %}summary: "{{resources.summary}}"{% endif %}
 {% if resources.summary != "" and resources.summary != nil %}description: "{{resources.summary}}"{% endif %}
+{% if resources.nb_path != "" and resources.nb_path != nil %}nb_path: "{{resources.nb_path}}"{% endif %}
 ---
 {% include 'autogen.tpl' %}
 
