@@ -5,6 +5,9 @@ layout: default
 <div class="post-header">
     <a id="{{page.title}}"></a>
     <h1 class="post-title-main">{{ page.title }}</h1>
+    {% if page.nb_path and site.github_username and site.github_repo %}
+        {% unless site.default_badges.colab != true %}{% include notebook_colab_link.html %}{% endunless %}
+    {% endif -%}
 </div>
 
 {% if page.simple_map == true %}
@@ -30,11 +33,9 @@ layout: default
 {% endif %}
 
 <div class="post-content">
-
    {% if page.summary %}
     <div class="summary">{{page.summary}}</div>
    {% endif %}
-
     {% unless page.toc == false %}
     {% include toc.html %}
     {% endunless %}

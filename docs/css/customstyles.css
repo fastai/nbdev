@@ -1333,3 +1333,7 @@ div.input + details {
 .output_wrapper{
     overflow: scroll;
 }
+
+.notebook-badge-image {
+  border:0 !important;
+}
