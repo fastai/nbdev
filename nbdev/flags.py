@@ -85,7 +85,7 @@ def parse_line(line):
     line = line.strip()
     if line.startswith('[') and line.endswith(']'): line=line[1:-1]
     return [s for s in re.split('[ ,]+', line) if s]
-    
+
 def nbdev_add2all(line, local_ns):
     """To add something to `__all__` if it's not picked automatically,
     write an exported cell with something like: `%nbdev_add2all name_1, name_2 ...`"""
@@ -95,17 +95,17 @@ def nbdev_add2all(line, local_ns):
     try: [eval(s, local_ns) for s in parse_line(line)]
     except Exception as ex: print(f'UsageError: {ex}')
 
+"""
 def _new_test_flag_fn(flag):
     "Create a new test flag function and magic"
     # don't create "empty" test flags if tst_flags is not set, set to whitespace, has trailing | etc
     if not flag.strip(): return
     exec(f'''def nbdev_{flag}_test(line):
-    """Put an `%nbdev_{flag}_test` magic on each "{flag}" test cell that you do not want to be run by default.
-    To apply this flag to all tests in a notebook, one cell should contain: `%nbdev_{flag}_test all`
-    These tests can be executed with the command line tool: `nbdev_test_nbs --flags {flag}`'."""
+    "Put an `%nbdev_{flag}_test` magic on each "{flag}" test cell that you do not want to be run by default."
     _validate_param(line, 'nbdev_{flag}_test', fixed_value='all')''')
     exec(f'sys.modules[__name__].nbdev_{flag}_test = nbdev_{flag}_test')
     exec(f'register_line_magic(nbdev_{flag}_test)')
+"""
 
 if IN_IPYTHON:
     from IPython.core.magic import register_line_magic, needs_local_scope
@@ -113,4 +113,5 @@ if IN_IPYTHON:
            nbdev_hide, nbdev_hide_input, nbdev_hide_output, nbdev_default_class_level,
            nbdev_collapse_input, nbdev_collapse_output, needs_local_scope(nbdev_add2all)]
     for fn in fns: register_line_magic(fn)
-    for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)
+    #for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)
+

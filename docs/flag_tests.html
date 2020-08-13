@@ -186,7 +186,7 @@ nb_path: "nbs/08_flag_tests.ipynb"
 <span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_hide</span><span class="p">,</span> <span class="n">nbdev_hide_input</span><span class="p">,</span> <span class="n">nbdev_hide_output</span>
 <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nbdev_hide</span><span class="p">,</span> <span class="n">nbdev_hide_input</span><span class="p">,</span> <span class="n">nbdev_hide_output</span><span class="p">]:</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-    <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;anything&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UsageError: Invalid option &quot;anything&quot;. Usage `%</span><span class="si">{f.__name__}</span><span class="s1">`&#39;</span><span class="p">)</span>
+    <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;anything&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UsageError: Invalid option &quot;anything&quot;. Usage `%</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">`&#39;</span><span class="p">)</span>
     
 <span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_default_class_level</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">):</span>
@@ -195,18 +195,18 @@ nb_path: "nbs/08_flag_tests.ipynb"
 <span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_default_class_level</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: Invalid class level &quot;7&quot;. Usage `%nbdev_default_class_level [int between 1 and 6]`&#39;</span><span class="p">)</span>
 <span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_default_class_level</span><span class="p">,</span> <span class="s1">&#39;not_a_num&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: Invalid class level &quot;not_a_num&quot;. Usage `%nbdev_default_class_level [int between 1 and 6]`&#39;</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_fastai2_test</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_fastai2_test</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_fastai2_test</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_fastai2_test</span><span class="p">,</span> <span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_fastai2_test</span><span class="p">,</span> <span class="s1">&#39;All&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: Invalid option &quot;All&quot;. Usage `%nbdev_fastai2_test [all]`&#39;</span><span class="p">)</span>
+<span class="c1"># from nbdev.flags import nbdev_fastai2_test</span>
+<span class="c1"># test_flag_output(nbdev_fastai2_test, &#39;&#39;, &#39;&#39;)</span>
+<span class="c1"># test_flag_output(nbdev_fastai2_test, &#39; &#39;, &#39;&#39;)</span>
+<span class="c1"># test_flag_output(nbdev_fastai2_test, &#39;all&#39;, &#39;&#39;)</span>
+<span class="c1"># test_flag_output(nbdev_fastai2_test, &#39;All&#39;, &#39;UsageError: Invalid option &quot;All&quot;. Usage `%nbdev_fastai2_test [all]`&#39;)</span>
 
 <span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_collapse_input</span><span class="p">,</span> <span class="n">nbdev_collapse_output</span>
 <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nbdev_collapse_input</span><span class="p">,</span> <span class="n">nbdev_collapse_output</span><span class="p">]:</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39; open &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;open&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-    <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;OPEN&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UsageError: Invalid option &quot;OPEN&quot;. Usage `%</span><span class="si">{f.__name__}</span><span class="s1"> [open]`&#39;</span><span class="p">)</span>
+    <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;OPEN&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UsageError: Invalid option &quot;OPEN&quot;. Usage `%</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> [open]`&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
