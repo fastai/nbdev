@@ -553,7 +553,8 @@ def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, d
         return False
 
 # Cell
-def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
+def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter, template_file=None,
+                  exporter=None, dest=None, pause=0):
     "Convert all notebooks matching `fname` to html files"
     if fname is None:
         files = [f for f in Config().nbs_path.glob('**/*.ipynb')
@@ -574,7 +575,7 @@ def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter,
     if len(files)==0: print("No notebooks were modified")
     else:
         passed = parallel(_notebook2html, files, n_workers=n_workers, cls=cls,
-                          template_file=template_file, exporter=exporter, dest=dest)
+                          template_file=template_file, exporter=exporter, dest=dest, pause=pause)
         if not all(passed):
             msg = "Conversion failed on the following:\n"
             raise Exception(msg + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
