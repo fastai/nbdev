@@ -13,7 +13,7 @@ Using the interactive environment, you can easily debug and refactor your code. 
 
 Using notebooks written like this, `nbdev` can create and run any of the following with a single command:
 
-- Searchable, hyperlinked documentation; any word you surround in backticks will by *automatically* hyperlinked to the appropriate documentation
+- Searchable, hyperlinked documentation; any word you surround in backticks will be *automatically* hyperlinked to the appropriate documentation
 - Python modules, following best practices such as automatically defining `__all__` ([more details](http://xion.io/post/code/python-all-wild-imports.html)) with your exported functions, classes, and variables
 - Pip installers (uploaded to pypi for you)
 - Tests (defined directly in your notebooks, and run in parallel)
