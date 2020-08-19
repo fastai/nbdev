@@ -42,7 +42,7 @@ def try_external_doc_link(name, packages):
             if try_pack:
                 page = _re_digits_first.sub('', try_pack).replace('.ipynb', '')
                 return f'{mod.doc_url}{page}#{name}'
-        except: return None
+        except ModuleNotFoundError: return None
 
 # Cell
 def doc_link(name, include_bt=True):
