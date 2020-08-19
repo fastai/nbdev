@@ -1,4 +1,4 @@
-__version__ = "0.2.40"
+__version__ = "0.2.41"
 
 from fastcore.utils import IN_IPYTHON
 

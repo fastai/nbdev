@@ -2,7 +2,7 @@
 
 __all__ = ['HTMLParseAttrs', 'remove_widget_state', 'upd_metadata', 'hide_cells', 'clean_exports', 'treat_backticks',
            'add_jekyll_notes', 'copy_images', 'adapt_img_path', 'escape_latex', 'collapse_cells', 'remove_hidden',
-           'find_default_level', 'add_show_docs', 'remove_fake_headers', 'remove_empty', 'get_metadata',
+           'find_default_level', 'nb_code_cell', 'add_show_docs', 'remove_fake_headers', 'remove_empty', 'get_metadata',
            'ExecuteShowDocPreprocessor', 'execute_nb', 'cite2link', 'write_tmpl', 'write_tmpls', 'nbdev_exporter',
            'process_cells', 'process_cell', 'convert_nb', 'notebook2html', 'convert_md', 'nb_detach_cells',
            'create_default_sidebar', 'make_sidebar']
@@ -285,12 +285,13 @@ _re_export_magic = _mk_flag_re(True, "export(|_and_show)", (0,1),
     "Matches any line with %nbdev_export or %nbdev_export_and_show with or without module name")
 
 # Cell
+def nb_code_cell(source):
+    "A code cell (as a dict) containing `source`"
+    return {'cell_type': 'code', 'execution_count': None, 'metadata': {}, 'outputs': [], 'source': source}
+
+# Cell
 def _show_doc_cell(name, cls_lvl=None):
-    return {'cell_type': 'code',
-            'execution_count': None,
-            'metadata': {},
-            'outputs': [],
-            'source': f"show_doc({name}{'' if cls_lvl is None else f', default_cls_level={cls_lvl}'})"}
+    return nb_code_cell(f"show_doc({name}{'' if cls_lvl is None else f', default_cls_level={cls_lvl}'})")
 
 def add_show_docs(cells, cls_lvl=None):
     "Add `show_doc` for each exported function or class"
