@@ -34,7 +34,7 @@ See below for *Installing* and *Getting Started*. In the other pages of the docu
 
 ## Installing
 
-nbdev is is on PyPI and conda so you can just run `pip install nbdev` or `conda install -c fastai nbdev`.
+nbdev is on PyPI and conda so you can just run `pip install nbdev` or `conda install -c fastai nbdev`.
 
 For an [editable install](https://stackoverflow.com/questions/35064426/when-would-the-e-editable-option-be-useful-with-pip-install), use the following:
 ```
