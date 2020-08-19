@@ -187,10 +187,11 @@ def format_param(p):
     if hasattr(p, 'annotation') and p.annotation != p.empty: res += f':{type_repr(p.annotation)}'
     if p.default != p.empty:
         default = getattr(p.default, 'func', p.default) #For partials
-        default = getattr(default, '__name__', default) #Tries to find a name
+        if hasattr(default,'__name__'): default = getattr(default, '__name__')
+        else: default = repr(default)
         if is_enum(default.__class__):                  #Enum have a crappy repr
             res += f'=*`{default.__class__.__name__}.{default.name}`*'
-        else: res += f'=*`{repr(default)}`*'
+        else: res += f'=*`{default}`*'
     return res
 
 # Cell

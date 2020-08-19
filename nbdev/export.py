@@ -226,7 +226,7 @@ def extra_add(flags, code):
     "Catch adds to `__all__` required by a cell with `_all_=` or `%nbdev_add2all`"
     m = check_re_multi({'source': code}, [_re_all_def, _re_all_def_magic], False)
     if m:
-        code = m.re.sub('#nbdev_comment \g<0>', code)
+        code = m.re.sub('#nbdev_' + 'comment \g<0>', code)
         code = re.sub(r'([^\n]|^)\n*$', r'\1', code)
     if not m: m = check_re({'source': flags}, _re_all_def_magic, False)
     if not m: return [], code
@@ -243,7 +243,7 @@ _re_from_future_import = re.compile(r"^from[ \t]+__future__[ \t]+import.*$", re.
 def _from_future_import(fname, flags, code, to_dict=None):
     "Write `__future__` imports to `fname` and return `code` with `__future__` imports commented out"
     from_future_imports = _re_from_future_import.findall(code)
-    if from_future_imports: code = _re_from_future_import.sub('#nbdev_comment \g<0>', code)
+    if from_future_imports: code = _re_from_future_import.sub('#nbdev' + '_comment \g<0>', code)
     else: from_future_imports = _re_from_future_import.findall(flags)
     if not from_future_imports or to_dict is not None: return code
     with open(fname, 'r', encoding='utf8') as f: text = f.read()
