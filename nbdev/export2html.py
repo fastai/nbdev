@@ -513,12 +513,9 @@ process_cells = [remove_fake_headers, remove_hidden, remove_empty]
 process_cell  = [hide_cells, collapse_cells, remove_widget_state, add_jekyll_notes, escape_latex, cite2link]
 
 # Cell
-_re_digits = re.compile(r'^\d+\S*?_')
-
-# Cell
 def _nb2htmlfname(nb_path, dest=None):
     if dest is None: dest = Config().doc_path
-    return Path(dest)/_re_digits.sub('', nb_path.with_suffix('.html').name)
+    return Path(dest)/re_digits_first.sub('', nb_path.with_suffix('.html').name)
 
 # Cell
 def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
