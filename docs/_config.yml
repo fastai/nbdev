@@ -60,7 +60,6 @@ defaults:
       tooltip: true
 
 sidebars: [home_sidebar]
-#permalink: pretty
 baseurl: /
 #theme: jekyll-theme-cayman
 

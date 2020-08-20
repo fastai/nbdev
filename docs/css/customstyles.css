@@ -1254,15 +1254,15 @@ h4.panel-title {
 }
 
 .input_area pre {
-        padding-bottom: 3;
+        padding-top: 3px;
+        padding-bottom: 3px;
         margin-top: 10px;
         background-color: #f5f1e0;
         border: 0px;
 }
 .output_area pre {
-        padding-top: 3;
-        margin-top: -25px;
-        margin-bottom: 10px;
+        padding-top: 3px;
+        padding-bottom: 3px;
         border: 0px;
         padding-left: 2em;
 }
@@ -1331,7 +1331,7 @@ div.input + details {
 }
 
 .output_wrapper{
-    overflow: scroll;
+    /*overflow: scroll;*/
 }
 
 .notebook-badge-image {

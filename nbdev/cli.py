@@ -213,8 +213,8 @@ def make_readme():
 # Cell
 @call_parse
 def nbdev_build_docs(fname:Param("A notebook name or glob to convert", str)=None,
-                     force_all:Param("Rebuild even notebooks that haven't changed", bool)=False,
-                     mk_readme:Param("Also convert the index notebook to README", bool)=True,
+                     force_all:Param("Rebuild even notebooks that haven't changed", bool_arg)=False,
+                     mk_readme:Param("Also convert the index notebook to README", bool_arg)=True,
                      n_workers:Param("Number of workers to use", int)=None,
                      pause:Param("Pause time (in secs) between notebooks to avoid race conditions", float)=0.2):
     "Build the documentation by converting notebooks mathing `fname` to html"

@@ -683,8 +683,7 @@ def _get_title(fname):
     "Grabs the title of html file `fname`"
     with open(fname, 'r') as f: code = f.read()
     src =  _re_catch_title.search(code)
-    res = fname.stem if src is None else src.groups()[0]
-    return res+'.html'
+    return fname.stem if src is None else src.groups()[0]
 
 # Cell
 def _create_default_sidebar():
@@ -694,7 +693,7 @@ def _create_default_sidebar():
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if 'index' not in f.stem!='index']
     if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
-    dic.update({_get_title(f):f'{f.stem}' for f in fnames if f.stem!='index'})
+    dic.update({_get_title(f):f'{f.name}' for f in fnames if f.stem!='index'})
     return dic
 
 # Cell
@@ -706,8 +705,10 @@ def create_default_sidebar():
 # Cell
 def make_sidebar():
     "Making sidebar for the doc website form the content of `doc_folder/sidebar.json`"
-    if not (Config().doc_path/'sidebar.json').exists() or Config().custom_sidebar == 'False': create_default_sidebar()
-    sidebar_d = json.load(open(Config().doc_path/'sidebar.json', 'r'))
+    cfg = Config()
+    if not (cfg.doc_path/'sidebar.json').exists() or cfg.get('custom_sidebar', 'False') == 'False':
+        create_default_sidebar()
+    sidebar_d = json.load(open(cfg.doc_path/'sidebar.json', 'r'))
     res = _side_dict('Sidebar', sidebar_d)
     res = {'entries': [res]}
     res_s = yaml.dump(res, default_flow_style=False)
@@ -718,4 +719,4 @@ def make_sidebar():
 #################################################
 # Instead edit {'../../sidebar.json'}
 """+res_s
-    open(Config().doc_path/'_data/sidebars/home_sidebar.yml', 'w').write(res_s)
+    open(cfg.doc_path/'_data/sidebars/home_sidebar.yml', 'w').write(res_s)
