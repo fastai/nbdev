@@ -15,7 +15,7 @@ Using notebooks written like this, `nbdev` can create and run any of the followi
 
 - Searchable, hyperlinked documentation; any word you surround in backticks will be *automatically* hyperlinked to the appropriate documentation
 - Python modules, following best practices such as automatically defining `__all__` ([more details](http://xion.io/post/code/python-all-wild-imports.html)) with your exported functions, classes, and variables
-- Pip installers (uploaded to pypi for you)
+- Pip and conda installers (uploaded to pypi and anaconda for you)
 - Tests (defined directly in your notebooks, and run in parallel)
 - Navigate and edit your code in a standard text editor or IDE, and export any changes automatically back into your notebooks
 
@@ -67,7 +67,7 @@ Now, run `jupyter notebook`, and click `00_core.ipynb`. This is where you'll cre
 
 In the last cell of your notebook, you can then run:
 
-```
+```python
 from nbdev import *
 notebook2script()
 ```
@@ -106,7 +106,7 @@ If you have set the parameter nbs_path to be anything other than the project roo
 
 There's a lot of functionality in `nbdev`; see the docs for each module in the sidebar to learn about all the features. Here we'll briefly highlight a couple.
 
-### Adding your project to pypi
+### Adding your project to pypi and conda
 
 If you want people to be able to install your project by just typing `pip install your-project` then you need to upload it to [pypi](https://pypi.org/). The good news is, we've already created a fully pypi compliant installer for your project! So all you need to do is register at pypi, if you haven't previously done so, and then create a file called `~/.pypirc` with your login details. It should have these contents:
 
@@ -123,7 +123,9 @@ pip install twine
 
 To upload your project to pypi, just type `make pypi` in your project root directory. Once it's complete, a link to your project on pypi will be printed.
 
-**NB**: make sure you increment the version number in `settings.ini` each time you want to push a new release to pypi.
+To also upload your project to anaconda, [create an account](https://docs.anaconda.com/anaconda-repository/user-guide/tasks/create-account/) and then type `anaconda login` at your terminal. The use `make release` instead of `make pypi` - that will create and upload the pypi and conda packages and will also increment your version number.
+
+**NB**: make sure you increment the version number in `settings.ini` each time you want to push a new release to pypi. If you call `make release` that will be done for you.
 
 ### Avoiding and handling git conflicts
 

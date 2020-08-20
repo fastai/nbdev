@@ -49,7 +49,7 @@ nb_path: "nbs/index.ipynb"
 <ul>
 <li>Searchable, hyperlinked documentation; any word you surround in backticks will by <em>automatically</em> hyperlinked to the appropriate documentation</li>
 <li>Python modules, following best practices such as automatically defining <code>__all__</code> (<a href="http://xion.io/post/code/python-all-wild-imports.html">more details</a>) with your exported functions, classes, and variables</li>
-<li>Pip installers (uploaded to pypi for you)</li>
+<li>Pip and conda installers (uploaded to pypi and anaconda for you)</li>
 <li>Tests (defined directly in your notebooks, and run in parallel)</li>
 <li>Navigate and edit your code in a standard text editor or IDE, and export any changes automatically back into your notebooks</li>
 </ul>
@@ -204,7 +204,7 @@ Converted tutorial.ipynb.
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Adding-your-project-to-pypi">Adding your project to pypi<a class="anchor-link" href="#Adding-your-project-to-pypi"> </a></h3>
+<h3 id="Adding-your-project-to-pypi-and-conda">Adding your project to pypi and conda<a class="anchor-link" href="#Adding-your-project-to-pypi-and-conda"> </a></h3>
 </div>
 </div>
 </div>
@@ -219,7 +219,8 @@ password = your_pypi_password</code></pre>
 
 <pre><code>pip install twine</code></pre>
 <p>To upload your project to pypi, just type <code>make pypi</code> in your project root directory. Once it's complete, a link to your project on pypi will be printed.</p>
-<p><strong>NB</strong>: make sure you increment the version number in <code>settings.py</code> each time you want to push a new release to pypi.</p>
+<p>To also upload your project to anaconda, <a href="https://docs.anaconda.com/anaconda-repository/user-guide/tasks/create-account/">create an account</a> and then type <code>anaconda login</code> at your terminal. The use <code>make release</code> instead of <code>make pypi</code> - that will create and upload the pypi and conda packages and will also increment your version number.</p>
+<p><strong>NB</strong>: make sure you increment the version number in <code>settings.py</code> each time you want to push a new release to pypi. If you call <code>make release</code> that will be done for you.</p>
 
 </div>
 </div>

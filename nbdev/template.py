@@ -1,4 +1,6 @@
-makefile_tmpl = """SRC = $(wildcard {nbs_path}/*.ipynb)
+makefile_tmpl = """.ONESHELL:
+SHELL := /bin/bash
+SRC = $(wildcard {nbs_path}/*.ipynb)
 
 all: {lib_name} docs
 
@@ -20,6 +22,7 @@ test:
 	nbdev_test_nbs
 
 release: pypi
+	nbdev_conda_package
 	nbdev_bump_version
 
 pypi: dist
