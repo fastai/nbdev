@@ -1,16 +1,16 @@
 {
   "nbdev": {
     "Overview": "/",
-    "Export to modules": "/export",
-    "Synchronize and diff": "/sync",
-    "Show doc": "/showdoc",
-    "Convert to html": "/export2html",
-    "Extract tests": "/test",
-    "Fix merge conflicts": "/merge",
-    "Conda packaging": "/conda",
-    "Command line functions": "/cli",
-    "Clean notebooks": "/clean",
-    "Setting up Search": "/search",
-    "nbdev tutorial": "/tutorial"
+    "Export to modules": "export.html",
+    "Synchronize and diff": "sync.html",
+    "Show doc": "showdoc.html",
+    "Convert to html": "export2html.html",
+    "Extract tests": "test.html",
+    "Fix merge conflicts": "merge.html",
+    "Conda packaging": "conda.html",
+    "Command line functions": "cli.html",
+    "Clean notebooks": "clean.html",
+    "Setting up Search": "search.html",
+    "nbdev tutorial": "tutorial.html"
   }
 }

@@ -70,7 +70,7 @@ nb_path: "nbs/tutorial.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>No matter how you installed Jupyter, you'll need to manually install <code>nbdev</code>. There is not a <a href="/conda"><code>conda</code></a> package for <code>nbdev</code>, so you'll need to use <code>pip</code> to install it. And you'll need to do that from a terminal window.</p>
+<p>No matter how you installed Jupyter, you'll need to manually install <code>nbdev</code>. There is not a <a href="/conda.html"><code>conda</code></a> package for <code>nbdev</code>, so you'll need to use <code>pip</code> to install it. And you'll need to do that from a terminal window.</p>
 <p>Jupyter notebook has a terminal window available, so we'll use that:</p>
 <ol>
 <li>Start <code>jupyter notebook</code></li>
@@ -125,7 +125,7 @@ nb_path: "nbs/tutorial.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Next, edit the <code>settings.ini</code> file in your cloned repo. This file contains all the necessary information for when you'll be ready to package your library. The basic structure (that can be personalized provided you change the relevant information in <code>settings.ini</code>) is that the root of the repo will contain your notebooks, the <code>docs</code> folder will contain your auto-generated docs, and a folder with a name you select will contain your auto-generated modules.</p>
+<p>Next, edit the <code>settings.ini</code> file in your cloned repo. This file contains all the necessary information for when you'll be ready to package your library. The basic structure (that can be personalized provided you change the relevant information in <code>settings.ini</code>) is that the root of the repo will contain your notebooks, the <a href="/docs.html"><code>docs</code></a> folder will contain your auto-generated docs, and a folder with a name you select will contain your auto-generated modules.</p>
 
 </div>
 </div>
@@ -154,7 +154,7 @@ nb_path: "nbs/tutorial.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use <code>nbdev</code>. As a first step, run <a href="/cli#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a> in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the chance you have a conflict.</p>
+<p>Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use <code>nbdev</code>. As a first step, run <a href="/cli.html#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a> in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the chance you have a conflict.</p>
 <p>But if you do get a conflict later, simply run <code>nbdev_fix_merge filename.ipynb</code>. This will replace any conflicts in cell outputs with your version, and if there are conflicts in input cells, then both cells will be included in the merged file, along with standard conflict markers (e.g. <code>=====</code>). Then you can open the notebook in Jupyter and choose which version to keep.</p>
 
 </div>
@@ -189,7 +189,7 @@ nb_path: "nbs/tutorial.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>There are certain special <a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html">magics</a> that, when placed in a cell, provide important information to nbdev.</p>
-<p>Before you can use the magic flags, you need to import them: <code>from nbdev import *</code>. This also imports the <a href="/showdoc#show_doc"><code>show_doc</code></a> and <a href="/export#notebook2script"><code>notebook2script</code></a> functions.</p>
+<p>Before you can use the magic flags, you need to import them: <code>from nbdev import *</code>. This also imports the <a href="/showdoc.html#show_doc"><code>show_doc</code></a> and <a href="/export.html#notebook2script"><code>notebook2script</code></a> functions.</p>
 <p>The flag <code>%nbdev_default_export core</code>, defines the name of the generated module (lib_name/core.py). For any cells that you want to be included in your python module, type <code>%nbdev_export</code> as the first line of the cell. Each of those cells will be added to your module.</p>
 <p>You can explore the available flags and their documentation without leaving your notebook:</p>
 <p>{% include image.html alt="tab completion of nbdev magics" max-width="900" file="/images/inspect_magics.png" %}</p>
@@ -206,7 +206,7 @@ nb_path: "nbs/tutorial.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The markdown cell uses special syntax to define the title and summary of your module. Feel free to replace "module name here" with a title and "API details." with a summary for your module.</p>
-<p>This cell can optionally be used to define jekyll metadata, see <a href="/export2html#get_metadata"><code>get_metadata</code></a> for more details.</p>
+<p>This cell can optionally be used to define jekyll metadata, see <a href="/export2html.html#get_metadata"><code>get_metadata</code></a> for more details.</p>
 
 </div>
 </div>
@@ -387,7 +387,7 @@ nb_path: "nbs/tutorial.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now you can create your python module. To do so, just run <a href="/cli#nbdev_build_lib"><code>nbdev_build_lib</code></a> from the terminal when anywhere in your project folder.</p>
+<p>Now you can create your python module. To do so, just run <a href="/cli.html#nbdev_build_lib"><code>nbdev_build_lib</code></a> from the terminal when anywhere in your project folder.</p>
 
 <pre><code>$ nbdev_build_lib
 Converted 00_core.ipynb.
@@ -418,7 +418,7 @@ Converted index.ipynb.</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now you can create your documentation. To do so, just run <a href="/cli#nbdev_build_docs"><code>nbdev_build_docs</code></a> from the terminal when anywhere in your project folder.</p>
+<p>Now you can create your documentation. To do so, just run <a href="/cli.html#nbdev_build_docs"><code>nbdev_build_docs</code></a> from the terminal when anywhere in your project folder.</p>
 
 <pre><code>$ nbdev_build_docs
 converting: /home/jhoward/git/nbdev/nbs/00_core.ipynb
@@ -519,7 +519,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="HelloSayer" class="doc_header"><code>class</code> <code>HelloSayer</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/tutorial.py#L11" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>HelloSayer</code>(<strong><code>to</code></strong>)</p>
 </blockquote>
-<p>Say hello to <code>to</code> using <a href="/tutorial#say_hello"><code>say_hello</code></a></p>
+<p>Say hello to <code>to</code> using <a href="/tutorial.html#say_hello"><code>say_hello</code></a></p>
 
 </div>
 
@@ -539,7 +539,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>However, methods aren't automatically documented. To add method docs, use <a href="/showdoc#show_doc"><code>show_doc</code></a>:</p>
+<p>However, methods aren't automatically documented. To add method docs, use <a href="/showdoc.html#show_doc"><code>show_doc</code></a>:</p>
 <div class="highlight"><pre><span></span><span class="n">show_doc</span><span class="p">(</span><span class="n">HelloSayer</span><span class="o">.</span><span class="n">say</span><span class="p">)</span>
 </pre></div>
 
@@ -623,7 +623,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <p>Notice above there is a link from our new class documentation to our function. That's because we used backticks in the docstring:</p>
 <div class="highlight"><pre><span></span><span class="s2">&quot;Say hello to `to` using `say_hello`&quot;</span>
 </pre></div>
-<p>These are automatically converted to hyperlinks wherever possible. For instance, here are hyperlinks to <a href="/tutorial#HelloSayer"><code>HelloSayer</code></a> and <a href="/tutorial#say_hello"><code>say_hello</code></a> created using backticks.</p>
+<p>These are automatically converted to hyperlinks wherever possible. For instance, here are hyperlinks to <a href="/tutorial.html#HelloSayer"><code>HelloSayer</code></a> and <a href="/tutorial.html#say_hello"><code>say_hello</code></a> created using backticks.</p>
 
 </div>
 </div>
@@ -667,7 +667,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Before you push to github or make a release, you might want to run all your tests. nbdev can run all your notebooks in parallel to check for errors. Just run <a href="/cli#nbdev_test_nbs"><code>nbdev_test_nbs</code></a> in a terminal.</p>
+<p>Before you push to github or make a release, you might want to run all your tests. nbdev can run all your notebooks in parallel to check for errors. Just run <a href="/cli.html#nbdev_test_nbs"><code>nbdev_test_nbs</code></a> in a terminal.</p>
 
 <pre><code>(base) jhoward@usf3:~/git/nbdev$ nbdev_test_nbs
 testing: /home/jhoward/git/nbdev/nbs/00_core.ipynb
@@ -685,7 +685,7 @@ All tests are passing!</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you want to look at your docs locally before you push to Github, you can do so by running a jekyll server. First, install Jekyll by <a href="https://jekyllrb.com/docs/installation/ubuntu/">following these steps</a>. Then, install the modules needed for serving nbdev docs by <code>cd</code>ing to the <code>docs</code> directory, and typing <code>bundle install</code>. Finally, cd back to your repo root and type <code>make docs_serve</code>. This will launch a server on port 4000 (by default) which you can connect to with your browser to view your docs.</p>
+<p>If you want to look at your docs locally before you push to Github, you can do so by running a jekyll server. First, install Jekyll by <a href="https://jekyllrb.com/docs/installation/ubuntu/">following these steps</a>. Then, install the modules needed for serving nbdev docs by <code>cd</code>ing to the <a href="/docs.html"><code>docs</code></a> directory, and typing <code>bundle install</code>. Finally, cd back to your repo root and type <code>make docs_serve</code>. This will launch a server on port 4000 (by default) which you can connect to with your browser to view your docs.</p>
 <p>If Github pages fails to build your docs, running locally with Jekyll is the easiest way to find out what the problem is.</p>
 
 </div>

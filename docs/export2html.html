@@ -37,17 +37,17 @@ nb_path: "nbs/03_export2html.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The most important function defined in this module is <a href="/export2html#notebook2html"><code>notebook2html</code></a>, so you may want to jump to it before scrolling though the rest, which explain the details behind the scenes of the conversion from notebooks to the html documentation. The main things to remember are:</p>
+<p>The most important function defined in this module is <a href="/export2html.html#notebook2html"><code>notebook2html</code></a>, so you may want to jump to it before scrolling though the rest, which explain the details behind the scenes of the conversion from notebooks to the html documentation. The main things to remember are:</p>
 <ul>
 <li>put a <code>#hide</code> or <code>%nbdev_hide</code> flag at the top of any cell you want to completely hide in the docs</li>
-<li>use the hide input <a href="https://github.com/ipython-contrib/jupyter_contrib_nbextensions">jupyter extension</a> to hide the input of some cells (by default all <a href="/showdoc#show_doc"><code>show_doc</code></a> cells have that marker added)</li>
-<li>you can define some jekyll metadata in the markdown cell with the title, see <a href="/export2html#get_metadata"><code>get_metadata</code></a></li>
+<li>use the hide input <a href="https://github.com/ipython-contrib/jupyter_contrib_nbextensions">jupyter extension</a> to hide the input of some cells (by default all <a href="/showdoc.html#show_doc"><code>show_doc</code></a> cells have that marker added)</li>
+<li>you can define some jekyll metadata in the markdown cell with the title, see <a href="/export2html.html#get_metadata"><code>get_metadata</code></a></li>
 <li>use backsticks for terms you want automatic links to be found, but use <code>&lt;code&gt;</code> and <code>&lt;/code&gt;</code> when you have homonyms and don't want those links</li>
 <li>you can define the default toc level of classes with <code>%nbdev_default_class_level</code> flag followed by a number (default is 2)</li>
-<li>you can add jekyll warnings, important or note banners with appropriate block quotes (see <a href="/export2html#add_jekyll_notes"><code>add_jekyll_notes</code></a>)</li>
+<li>you can add jekyll warnings, important or note banners with appropriate block quotes (see <a href="/export2html.html#add_jekyll_notes"><code>add_jekyll_notes</code></a>)</li>
 <li>put any images you want to use in the images folder of your notebook folder, they will be automatically copied over to the docs folder</li>
 <li>put a <code>#hide_input</code> or <code>%nbdev_hide_input</code> flag at the top of a cell if you don't want code to be shown in the docs<ul>
-<li>cells containing <code>%nbdev_export</code> or <a href="/showdoc#show_doc"><code>show_doc</code></a> have their code hidden automatically</li>
+<li>cells containing <code>%nbdev_export</code> or <a href="/showdoc.html#show_doc"><code>show_doc</code></a> have their code hidden automatically</li>
 </ul>
 </li>
 <li>put a <code>#hide_output</code> or <code>%nbdev_hide_output</code> flag at the top of a cell if you don't want output to be shown in the docs</li>
@@ -276,7 +276,7 @@ nb_path: "nbs/03_export2html.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This concerns all the cells with <code>%nbdev_export</code> or <code>%nbdev_hide_input</code> flags and all the cell containing a <a href="/showdoc#show_doc"><code>show_doc</code></a> for a function or class.</p>
+<p>This concerns all the cells with <code>%nbdev_export</code> or <code>%nbdev_hide_input</code> flags and all the cell containing a <a href="/showdoc.html#show_doc"><code>show_doc</code></a> for a function or class.</p>
 
 </div>
 </div>
@@ -524,8 +524,8 @@ Typing <code>&gt; Tip: This is my tip.</code> will render in the docs:
 {% include tip.html content='This is my tip.' %}
 Typing <code>&gt; Note: Take note of this.</code> will render in the docs:
 {% include note.html content='Take note of this.' %}
-Typing <code>&gt; Note: A doc link to [`add_jekyll_notes`](/export2html#add_jekyll_notes) should also work fine.</code> will render in the docs:
-{% include note.html content='A doc link to <a href="/export2html#add_jekyll_notes"><code>add_jekyll_notes</code></a> should also work fine.' %}</p>
+Typing <code>&gt; Note: A doc link to [`add_jekyll_notes`](/export2html.html#add_jekyll_notes) should also work fine.</code> will render in the docs:
+{% include note.html content='A doc link to <a href="/export2html.html#add_jekyll_notes"><code>add_jekyll_notes</code></a> should also work fine.' %}</p>
 
 </div>
 </div>
@@ -1169,7 +1169,7 @@ However, the OUTPUT of this cell is collapsed by default but you can expand it!
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="add_show_docs" class="doc_header"><code>add_show_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L296" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_show_docs</code>(<strong><code>cells</code></strong>, <strong><code>cls_lvl</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Add <a href="/showdoc#show_doc"><code>show_doc</code></a> for each exported function or class</p>
+<p>Add <a href="/showdoc.html#show_doc"><code>show_doc</code></a> for each exported function or class</p>
 
 </div>
 
@@ -1183,7 +1183,7 @@ However, the OUTPUT of this cell is collapsed by default but you can expand it!
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This only adds cells with a <a href="/showdoc#show_doc"><code>show_doc</code></a> for non-documented functions, so if you add yourself a <a href="/showdoc#show_doc"><code>show_doc</code></a> cell (because you want to change one of the default argument), there won't be any duplicates.</p>
+<p>This only adds cells with a <a href="/showdoc.html#show_doc"><code>show_doc</code></a> for non-documented functions, so if you add yourself a <a href="/showdoc.html#show_doc"><code>show_doc</code></a> cell (because you want to change one of the default argument), there won't be any duplicates.</p>
 
 </div>
 </div>
@@ -1271,7 +1271,7 @@ However, the OUTPUT of this cell is collapsed by default but you can expand it!
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can fake headers in your notebook to navigate them more easily with collapsible headers, just make them finish with a dash and they will be removed. One typical use case is to have a header of level 2 with the name of a class, since the <a href="/showdoc#show_doc"><code>show_doc</code></a> cell of that class will create the same anchor, you need to have the one you created manually disappear to avoid any duplicate.</p>
+<p>You can fake headers in your notebook to navigate them more easily with collapsible headers, just make them finish with a dash and they will be removed. One typical use case is to have a header of level 2 with the name of a class, since the <a href="/showdoc.html#show_doc"><code>show_doc</code></a> cell of that class will create the same anchor, you need to have the one you created manually disappear to avoid any duplicate.</p>
 
 </div>
 </div>
@@ -1458,7 +1458,7 @@ However, the OUTPUT of this cell is collapsed by default but you can expand it!
 <div class="output_markdown rendered_html output_subarea ">
 <h3 id="ExecuteShowDocPreprocessor" class="doc_header"><code>class</code> <code>ExecuteShowDocPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L420" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>ExecuteShowDocPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
 </blockquote>
-<p>An <code>ExecutePreprocessor</code> that only executes <a href="/showdoc#show_doc"><code>show_doc</code></a> and <code>import</code> cells</p>
+<p>An <code>ExecutePreprocessor</code> that only executes <a href="/showdoc.html#show_doc"><code>show_doc</code></a> and <code>import</code> cells</p>
 
 </div>
 
@@ -1474,12 +1474,12 @@ However, the OUTPUT of this cell is collapsed by default but you can expand it!
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Cells containing:</p>
 <ul>
-<li>a zero indented call to <a href="/export#notebook2script"><code>notebook2script</code></a></li>
+<li>a zero indented call to <a href="/export.html#notebook2script"><code>notebook2script</code></a></li>
 </ul>
 <p>are not run while building docs. This avoids failures caused by importing empty or partially built modules.</p>
 <p>Cells containing:</p>
 <ul>
-<li><a href="/showdoc#show_doc"><code>show_doc</code></a> (which could be indented) or</li>
+<li><a href="/showdoc.html#show_doc"><code>show_doc</code></a> (which could be indented) or</li>
 <li>a "library import" (zero indent import from current library) e.g. <code>from LIB_NAME.core import *</code></li>
 </ul>
 <p>are executed and must run without error. If running these cells raises an exception, the build will stop.</p>
@@ -1489,7 +1489,7 @@ However, the OUTPUT of this cell is collapsed by default but you can expand it!
 <li><code>import module</code></li>
 </ul>
 <p>are executed but errors will not stop the build.</p>
-<p>If you need to <a href="/showdoc#show_doc"><code>show_doc</code></a> something, please make sure it's imported via a cell that does not depend on previous cells being run. The easiest way to do this is to use a cell that contains nothing but imports.</p>
+<p>If you need to <a href="/showdoc.html#show_doc"><code>show_doc</code></a> something, please make sure it's imported via a cell that does not depend on previous cells being run. The easiest way to do this is to use a cell that contains nothing but imports.</p>
 
 </div>
 </div>
@@ -1514,7 +1514,7 @@ However, the OUTPUT of this cell is collapsed by default but you can expand it!
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="execute_nb" class="doc_header"><code>execute_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L443" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>execute_nb</code>(<strong><code>nb</code></strong>, <strong><code>mod</code></strong>=<em><code>None</code></em>, <strong><code>metadata</code></strong>=<em><code>None</code></em>, <strong><code>show_doc_only</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
-<p>Execute <code>nb</code> (or only the <a href="/showdoc#show_doc"><code>show_doc</code></a> cells) with <code>metadata</code></p>
+<p>Execute <code>nb</code> (or only the <a href="/showdoc.html#show_doc"><code>show_doc</code></a> cells) with <code>metadata</code></p>
 
 </div>
 
@@ -1589,7 +1589,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It's important to execute all <a href="/showdoc#show_doc"><code>show_doc</code></a> cells before exporting the notebook to html because some of them have just been added automatically or others could have outdated links.</p>
+<p>It's important to execute all <a href="/showdoc.html#show_doc"><code>show_doc</code></a> cells before exporting the notebook to html because some of them have just been added automatically or others could have outdated links.</p>
 
 </div>
 </div>
@@ -2017,6 +2017,13 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
     
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -2024,7 +2031,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L689" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
+<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L701" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
 </blockquote>
 <p>Create the default sidebar for the docs website</p>
 
@@ -2063,7 +2070,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L701" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
+<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L707" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
 </blockquote>
 <p>Making sidebar for the doc website form the content of <code>doc_folder/sidebar.json</code></p>
 

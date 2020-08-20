@@ -468,8 +468,8 @@ def notebook2script(fname=None, silent=False, to_dict=False):
     else: add_init(Config().lib_path)
 
 # Cell
-#for tests only
 class DocsTestClass:
+    "for tests only"
     def test(): pass
 
 # Internal Cell

@@ -37,7 +37,7 @@ nb_path: "nbs/01_sync.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The library is primarily developed in notebooks so any big changes should be made there. But sometimes, it's easier to fix small bugs or typos in the modules directly. <a href="/sync#script2notebook"><code>script2notebook</code></a> is the function that will propagate those changes back to the corresponding notebooks. Note that you can't create new cells with that functionality, so your corrections should remain limited.</p>
+<p>The library is primarily developed in notebooks so any big changes should be made there. But sometimes, it's easier to fix small bugs or typos in the modules directly. <a href="/sync.html#script2notebook"><code>script2notebook</code></a> is the function that will propagate those changes back to the corresponding notebooks. Note that you can't create new cells with that functionality, so your corrections should remain limited.</p>
 
 </div>
 </div>
@@ -198,7 +198,7 @@ nb_path: "nbs/01_sync.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>You can either pass an object or its name (by default <code>is_name</code> will look if <code>func</code> is a string or not to determine if it should be <code>True</code> or <code>False</code>, but you can override if there is some inconsistent behavior).</p>
 <p>If passed a method of a class, the function will return the notebook in which the largest part of the function name was defined in case there is a monkey-matching that defines <code>class.method</code> in a different notebook than <code>class</code>. If <code>return_all=True</code>, the function will return a tuple with the name by which the function was found and the notebook.</p>
-<p>For properties defined using <code>property</code> or our own <code>add_props</code> helper, we approximate the name by looking at their getter functions, since we don't seem to have access to the property name itself. If everything fails (a getter cannot be found), we return the name of the object that contains the property. This suffices for <a href="/sync#source_nb"><code>source_nb</code></a> to work.</p>
+<p>For properties defined using <code>property</code> or our own <code>add_props</code> helper, we approximate the name by looking at their getter functions, since we don't seem to have access to the property name itself. If everything fails (a getter cannot be found), we return the name of the object that contains the property. This suffices for <a href="/sync.html#source_nb"><code>source_nb</code></a> to work.</p>
 
 </div>
 </div>

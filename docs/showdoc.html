@@ -37,7 +37,7 @@ nb_path: "nbs/02_showdoc.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>All the automatic documentation of functions and classes are generated with the <a href="/showdoc#show_doc"><code>show_doc</code></a> function. It displays the name, arguments, docstring along with a link to the source code on GitHub.</p>
+<p>All the automatic documentation of functions and classes are generated with the <a href="/showdoc.html#show_doc"><code>show_doc</code></a> function. It displays the name, arguments, docstring along with a link to the source code on GitHub.</p>
 
 </div>
 </div>
@@ -277,9 +277,9 @@ nb_path: "nbs/02_showdoc.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`export`](/export)&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`DocsTestClass`](/export#DocsTestClass)&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass.test&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`DocsTestClass.test`](/export#DocsTestClass.test)&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`export`](/export.html)&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`DocsTestClass`](/export.html#DocsTestClass)&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass.test&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`DocsTestClass.test`](/export.html#DocsTestClass.test)&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;Tenso&#39;</span><span class="p">),</span><span class="s1">&#39;`Tenso`&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;_nbdev&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;`_nbdev`&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;`__main__`&#39;</span><span class="p">)</span>
@@ -346,9 +346,9 @@ nb_path: "nbs/02_showdoc.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tst</span> <span class="o">=</span> <span class="n">add_doc_links</span><span class="p">(</span><span class="s1">&#39;This is an example of `DocsTestClass`&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s2">&quot;This is an example of [`DocsTestClass`](/export#DocsTestClass)&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s2">&quot;This is an example of [`DocsTestClass`](/export.html#DocsTestClass)&quot;</span><span class="p">)</span>
 <span class="n">tst</span> <span class="o">=</span> <span class="n">add_doc_links</span><span class="p">(</span><span class="s1">&#39;This is an example of [`DocsTestClass`](old_link.html)&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s2">&quot;This is an example of [`DocsTestClass`](/export#DocsTestClass)&quot;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s2">&quot;This is an example of [`DocsTestClass`](/export.html#DocsTestClass)&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -420,23 +420,6 @@ nb_path: "nbs/02_showdoc.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">colab</span><span class="o">.</span><span class="n">research</span><span class="o">.</span><span class="n">google</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">github</span><span class="o">/</span><span class="n">fastai</span><span class="o">/</span><span class="n">nbdev</span><span class="o">/</span><span class="n">blob</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jhoward</span><span class="o">/</span><span class="n">git</span><span class="o">/</span><span class="n">nbdev</span><span class="o">/</span><span class="n">nbs</span><span class="o">/</span><span class="mi">02</span><span class="n">_showdoc</span><span class="o">.</span><span class="n">ipynb</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
@@ -699,7 +682,7 @@ nb_path: "nbs/02_showdoc.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">tst</span> <span class="o">=</span> <span class="n">type_repr</span><span class="p">(</span><span class="n">Optional</span><span class="p">[</span><span class="n">DocsTestClass</span><span class="p">])</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s1">&#39;`Optional`</span><span class="se">\\</span><span class="s1">[[`DocsTestClass`](/export#DocsTestClass)</span><span class="se">\\</span><span class="s1">]&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s1">&#39;`Optional`</span><span class="se">\\</span><span class="s1">[[`DocsTestClass`](/export.html#DocsTestClass)</span><span class="se">\\</span><span class="s1">]&#39;</span><span class="p">)</span>
 <span class="n">tst</span> <span class="o">=</span> <span class="n">type_repr</span><span class="p">(</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">tst</span><span class="p">,</span> <span class="s1">&#39;`Union`</span><span class="se">\\</span><span class="s1">[`int`, `float`</span><span class="se">\\</span><span class="s1">]&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">type_repr</span><span class="p">(</span><span class="n">Param</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">)),</span> <span class="s1">&#39;&quot;description&quot;&#39;</span><span class="p">)</span>
@@ -1098,7 +1081,7 @@ errors defaults to 'strict'.</p>
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>With a dot, <code>%nbdev_show_doc</code> will look for an attribute of <a href="/export#DocsTestClass"><code>DocsTestClass</code></a> called "test"</p>
+<p>With a dot, <code>%nbdev_show_doc</code> will look for an attribute of <a href="/export.html#DocsTestClass"><code>DocsTestClass</code></a> called "test"</p>
 <div class="highlight"><pre><span></span><span class="o">%</span><span class="n">nbdev_show_doc</span> <span class="n">DocsTestClass</span> <span class="o">.</span> <span class="n">test</span>
 </pre></div>
 
@@ -1320,7 +1303,7 @@ errors defaults to 'strict'.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="doc" class="doc_header"><code>doc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/showdoc.py#L334" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>doc</code>(<strong><code>elt</code></strong>)</p>
 </blockquote>
-<p>Show <a href="/showdoc#show_doc"><code>show_doc</code></a> info in preview window when used in a notebook</p>
+<p>Show <a href="/showdoc.html#show_doc"><code>show_doc</code></a> info in preview window when used in a notebook</p>
 
 </div>
 

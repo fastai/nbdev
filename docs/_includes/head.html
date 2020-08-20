@@ -4,22 +4,22 @@
 <meta name="description" content="{% if page.summary %}{{ page.summary | strip_html | strip_newlines | truncate: 160 }}{% endif %}">
 <meta name="keywords" content="{{page.tags}}{% if page.tags %}, {% endif %} {{page.keywords}}">
 <title>{{ page.title }} | {{ site.site_title }}</title>
-<link rel="stylesheet" href="{{ "css/syntax.css" | prepend: site.baseurl }}">
+<link rel="stylesheet" href="{{ "css/syntax.css" | relative_url }}">
 
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!--<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">-->
-<link rel="stylesheet" href="{{ "css/modern-business.css" | prepend: site.baseurl }}">
+<link rel="stylesheet" href="{{ "css/modern-business.css" | relative_url }}">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" href="{{ "css/customstyles.css" | prepend: site.baseurl }}">
-<link rel="stylesheet" href="{{ "css/boxshadowproperties.css" | prepend: site.baseurl }}">
+<link rel="stylesheet" href="{{ "css/customstyles.css" | relative_url }}">
+<link rel="stylesheet" href="{{ "css/boxshadowproperties.css" | relative_url }}">
 <!-- most color styles are extracted out to here -->
-<link rel="stylesheet" href="{{ "css/theme-blue.css" | prepend: site.baseurl }}">
+<link rel="stylesheet" href="{{ "css/theme-blue.css" | relative_url }}">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="{{ "js/jquery.navgoco.min.js" | prepend: site.baseurl }}"></script>
+<script src="{{ "js/jquery.navgoco.min.js" | relative_url }}"></script>
 
 {% if site.use_math %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
@@ -42,10 +42,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Anchor.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/2.0.0/anchor.min.js"></script>
-<script src="{{ "js/toc.js" | prepend: site.baseurl }}"></script>
-<script src="{{ "js/customscripts.js" | prepend: site.baseurl }}"></script>
+<script src="{{ "js/toc.js" | relative_url }}"></script>
+<script src="{{ "js/customscripts.js" | relative_url }}"></script>
 
-<link rel="shortcut icon" href="{{ "images/favicon.ico?"  | prepend: site.baseurl }}">
+<link rel="shortcut icon" href="{{ "images/favicon.ico?"  | relative_url }}">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "feed.xml" | prepend: site.baseurl | prepend: site.url }}">
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "feed.xml" | relative_url | prepend: site.url }}">
 
 <!-- Twitter cards -->
 {% if site.twitter_username %}

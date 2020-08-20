@@ -161,7 +161,7 @@ nb_path: "nbs/09_nbdev_callback_test.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It is expected that you'll want to modify and return <code>nb</code> but your callback handler <em>could</em> create and return a new notebook.</p>
 <p><code>file_name</code> can't be modified as it has already been used to create <code>nb</code>.</p>
-<p><a href="/test#test_nb"><code>test_nb</code></a> calls <code>begin_test_nb</code> before checking flags so you <em>could</em> use callbacks to modify flags before testing starts.</p>
+<p><a href="/test.html#test_nb"><code>test_nb</code></a> calls <code>begin_test_nb</code> before checking flags so you <em>could</em> use callbacks to modify flags before testing starts.</p>
 
 </div>
 </div>
@@ -221,8 +221,8 @@ nb_path: "nbs/09_nbdev_callback_test.ipynb"
 <p>It is expected that you'll want to modify and return <code>nb</code> but your callback handler <em>could</em> create and return a new notebook.</p>
 <p><code>file_name</code> can't be modified as it has already been used to create <code>nb</code>.</p>
 <ul>
-<li>When building HTML docs, <a href="/export2html#convert_nb"><code>convert_nb</code></a> will set <code>output_type='html'</code></li>
-<li>When building markdown docs, <a href="/export2html#convert_md"><code>convert_md</code></a> will set <code>output_type='md'</code></li>
+<li>When building HTML docs, <a href="/export2html.html#convert_nb"><code>convert_nb</code></a> will set <code>output_type='html'</code></li>
+<li>When building markdown docs, <a href="/export2html.html#convert_md"><code>convert_md</code></a> will set <code>output_type='md'</code></li>
 </ul>
 
 </div>
@@ -257,7 +257,7 @@ nb_path: "nbs/09_nbdev_callback_test.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This callback handler gets the same arguments as <code>begin_doc_nb</code> but <code>nb</code> will have been modifed by processors that do things like:</p>
 <ul>
-<li>add <a href="/showdoc#show_doc"><code>show_doc</code></a> calls for for exported functions and classes</li>
+<li>add <a href="/showdoc.html#show_doc"><code>show_doc</code></a> calls for for exported functions and classes</li>
 <li>remove empty cells</li>
 <li>copy images and modify image paths</li>
 <li>add collapse metadata etc</li>

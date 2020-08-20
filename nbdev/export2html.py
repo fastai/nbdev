@@ -683,12 +683,13 @@ def _get_title(fname):
     "Grabs the title of html file `fname`"
     with open(fname, 'r') as f: code = f.read()
     src =  _re_catch_title.search(code)
-    return fname.stem if src is None else src.groups()[0]
+    res = fname.stem if src is None else src.groups()[0]
+    return res+'.html'
 
 # Cell
 def _create_default_sidebar():
     "Create the default sidebar for the docs website"
-    dic = {"Overview": ""}
+    dic = {"Overview": "/"}
     files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if 'index' not in f.stem!='index']

@@ -11,37 +11,37 @@ entries:
       url: /
     - output: web,pdf
       title: Export to modules
-      url: /export
+      url: export.html
     - output: web,pdf
       title: Synchronize and diff
-      url: /sync
+      url: sync.html
     - output: web,pdf
       title: Show doc
-      url: /showdoc
+      url: showdoc.html
     - output: web,pdf
       title: Convert to html
-      url: /export2html
+      url: export2html.html
     - output: web,pdf
       title: Extract tests
-      url: /test
+      url: test.html
     - output: web,pdf
       title: Fix merge conflicts
-      url: /merge
+      url: merge.html
     - output: web,pdf
       title: Conda packaging
-      url: /conda
+      url: conda.html
     - output: web,pdf
       title: Command line functions
-      url: /cli
+      url: cli.html
     - output: web,pdf
       title: Clean notebooks
-      url: /clean
+      url: clean.html
     - output: web,pdf
       title: Setting up Search
-      url: /search
+      url: search.html
     - output: web,pdf
       title: nbdev tutorial
-      url: /tutorial
+      url: tutorial.html
     output: web
     title: nbdev
   output: web

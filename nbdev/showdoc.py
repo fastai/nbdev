@@ -50,12 +50,12 @@ def doc_link(name, include_bt=True):
     cname = f'`{name}`' if include_bt else name
     try:
         #Link to modulesn
-        if is_lib_module(name): return f"[{cname}]({Config().doc_baseurl}{name})"
+        if is_lib_module(name): return f"[{cname}]({Config().doc_baseurl}{name}.html)"
         #Link to local functions
         try_local = source_nb(name, is_name=True)
         if try_local:
             page = _re_digits_first.sub('', try_local).replace('.ipynb', '')
-            return f'[{cname}]({Config().doc_baseurl}{page}#{name})'
+            return f'[{cname}]({Config().doc_baseurl}{page}.html#{name})'
         ##Custom links
         mod = get_nbdev_module()
         link = mod.custom_doc_links(name)
