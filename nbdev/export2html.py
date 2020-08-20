@@ -686,15 +686,20 @@ def _get_title(fname):
     return fname.stem if src is None else src.groups()[0]
 
 # Cell
-def create_default_sidebar():
+def _create_default_sidebar():
     "Create the default sidebar for the docs website"
-    dic = {"Overview": "/"}
+    dic = {"Overview": ""}
     files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if 'index' not in f.stem!='index']
     if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
-    dic.update({_get_title(f):f'/{f.stem}' for f in fnames if f.stem!='index'})
-    dic = {Config().lib_name: dic}
+    dic.update({_get_title(f):f'{f.stem}' for f in fnames if f.stem!='index'})
+    return dic
+
+# Cell
+def create_default_sidebar():
+    "Create the default sidebar for the docs website"
+    dic = {Config().lib_name: _create_default_sidebar()}
     json.dump(dic, open(Config().doc_path/'sidebar.json', 'w'), indent=2)
 
 # Cell
