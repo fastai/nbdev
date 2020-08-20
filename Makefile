@@ -2,12 +2,14 @@
 SHELL := /bin/bash
 
 SRC = $(wildcard nbs/*.ipynb)
+mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
+current_dir := $(notdir $(patsubst %/,%,$(dir $(mkfile_path))))
 
-all: nbdev docs
+all: build docs
 
-nbdev: $(SRC)
+build: $(SRC)
 	nbdev_build_lib
-	touch nbdev
+	touch $(current_dir)
 
 docs_serve: docs
 	cd docs && bundle exec jekyll serve
