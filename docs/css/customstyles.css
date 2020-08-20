@@ -821,7 +821,7 @@ pre, table code {
 }
 
 pre {
-    margin: 25px 0px;
+    /*margin: 25px 0px;*/
 }
 
 #json-box-container pre {
@@ -1256,15 +1256,16 @@ h4.panel-title {
 .input_area pre {
         padding-top: 3px;
         padding-bottom: 3px;
-        margin-top: 10px;
+        margin: 10px 0px 0px 0px;
         background-color: #f5f1e0;
-        border: 0px;
+        /*border: 0px;*/
 }
 .output_area pre {
         padding-top: 3px;
         padding-bottom: 3px;
-        border: 0px;
         padding-left: 2em;
+        margin: 0px 0px 10px 0px;
+        /*border: 0px;*/
 }
 .pytest_card {
     padding: 10px 1em 4px 1em;
