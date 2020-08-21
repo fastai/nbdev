@@ -21,7 +21,6 @@ exclude:
  
 exclude: [vendor]
 
-# This specifies what badges are turned on by default for notebook docs.
 default_badges:
   colab: true
 
