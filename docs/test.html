@@ -2,6 +2,7 @@
 
 title: Extract tests
 
+
 keywords: fastai
 sidebar: home_sidebar
 
@@ -38,10 +39,10 @@ nb_path: "nbs/04_test.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Everything that is not an exported cell is considered a test, so you should make sure your notebooks can all run smoothly (and fast) if you want to use this functionality as the CLI. You can mark some cells with special flags (like slow) to make sure they are only executed when you authorize it. Those flags should be configured in your <code>settings.ini</code> (separated by a <code>|</code> if you have several of them). You can also apply flags to one entire notebook by using the <code>all</code> option of the test flag, e.g. <code>%nbdev_slow_test all</code>, in code cells.</p>
-<p>If <code>tst_flags=slow|fastai2</code> in <code>settings.ini</code>, you can:</p>
+<p>If <code>tst_flags=slow|fastai</code> in <code>settings.ini</code>, you can:</p>
 <ul>
 <li>mark slow tests with the <code>%nbdev_slow_test</code> flag</li>
-<li>mark tests that depend on fastai2 with the <code>%nbdev_fastai2_test</code> flag.</li>
+<li>mark tests that depend on fastai with the <code>%nbdev_fastai_test</code> flag.</li>
 </ul>
 
 </div>
@@ -163,7 +164,7 @@ nb_path: "nbs/04_test.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">get_cell_flags</span><span class="p">({</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s2">&quot;%nbdev_hide</span><span class="se">\n</span><span class="s2">%nbdev_fastai2_test</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">}),</span> <span class="p">[</span><span class="s1">&#39;fastai2&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">get_cell_flags</span><span class="p">({</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s2">&quot;%nbdev_hide</span><span class="se">\n</span><span class="s2">%nbdev_fastai_test</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">}),</span> <span class="p">[</span><span class="s1">&#39;fastai&#39;</span><span class="p">])</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">get_cell_flags</span><span class="p">({</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="s2">&quot;%nbdev_hide</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">}),</span> <span class="p">[])</span>
 </pre></div>
 
