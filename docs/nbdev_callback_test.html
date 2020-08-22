@@ -41,6 +41,24 @@ nb_path: "nbs/09_nbdev_callback_test.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">nbdev.imports</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
 <div class="output">
@@ -92,9 +110,40 @@ nb_path: "nbs/09_nbdev_callback_test.ipynb"
     <span class="n">call_cb</span><span class="p">(</span><span class="s1">&#39;begin_test_nb&#39;</span><span class="p">,</span> <span class="s1">&#39;arg1&#39;</span><span class="p">)</span>
     <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;An error should be raised as we passed the wrong number of arguments to the cb&#39;</span>
 <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span> <span class="k">pass</span>
+</pre></div>
 
-<span class="kn">import</span> <span class="nn">nbdev_callbacks</span>
-<span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">raise_err</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="mi">0</span>
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbdev_callbacks</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">raise_err</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="mi">0</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">call_cb</span><span class="p">(</span><span class="s1">&#39;raise_err&#39;</span><span class="p">)</span>
     <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;An error should be raised because the cb handler raised an error&#39;</span>
@@ -123,7 +172,23 @@ nb_path: "nbs/09_nbdev_callback_test.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">call_cb</span><span class="p">(</span><span class="s1">&#39;This makes sure nbdev_callbacks is loaded from the right place&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">nbdev_callbacks</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbdev_callbacks</span>
 </pre></div>
 
     </div>
@@ -294,7 +359,19 @@ nb_path: "nbs/09_nbdev_callback_test.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="What-kind-of-things-can-you-do-with-these-callbacks?">What kind of things can you do with these callbacks?<a class="anchor-link" href="#What-kind-of-things-can-you-do-with-these-callbacks?"> </a></h1><h2 id="Move-img-tags-to-the-start-of-a-new-line">Move img tags to the start of a new line<a class="anchor-link" href="#Move-img-tags-to-the-start-of-a-new-line"> </a></h2><p>To display images side-by-side we could use some HTML like:</p>
+<h2 id="What-kind-of-things-can-you-do-with-these-callbacks?">What kind of things can you do with these callbacks?<a class="anchor-link" href="#What-kind-of-things-can-you-do-with-these-callbacks?"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Move-img-tags-to-the-start-of-a-new-line">Move img tags to the start of a new line<a class="anchor-link" href="#Move-img-tags-to-the-start-of-a-new-line"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To display images side-by-side we could use some HTML like:</p>
 
 <pre><code>&lt;figure&gt;
     &lt;div style="display:flex"&gt;
@@ -328,7 +405,13 @@ nb_path: "nbs/09_nbdev_callback_test.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Count-the-number-of-tests-cells">Count the number of tests cells<a class="anchor-link" href="#Count-the-number-of-tests-cells"> </a></h2><p>To output the number of tests that have been run, you could count each cell that is not exported to your library:</p>
+<h3 id="Count-the-number-of-tests-cells">Count the number of tests cells<a class="anchor-link" href="#Count-the-number-of-tests-cells"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To output the number of tests that have been run, you could count each cell that is not exported to your library:</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="kn">import</span> <span class="n">find_default_export</span><span class="p">,</span><span class="n">is_export</span>
 
 <span class="k">def</span> <span class="nf">begin_test_nb</span><span class="p">(</span><span class="n">nb</span><span class="p">,</span><span class="n">file_name</span><span class="p">,</span><span class="n">flags</span><span class="p">):</span>
@@ -352,7 +435,13 @@ nb_path: "nbs/09_nbdev_callback_test.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Reserved-callback-handler-names">Reserved callback handler names<a class="anchor-link" href="#Reserved-callback-handler-names"> </a></h1><table>
+<h2 id="Reserved-callback-handler-names">Reserved callback handler names<a class="anchor-link" href="#Reserved-callback-handler-names"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<table>
 <thead><tr>
 <th>Callback handler</th>
 <th></th>

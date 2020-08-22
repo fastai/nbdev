@@ -260,8 +260,40 @@ nb_path: "nbs/04_test.ipynb"
         <span class="bp">self</span><span class="o">.</span><span class="n">after_test_nb_data</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">file_name</span><span class="o">=</span><span class="n">file_name</span><span class="p">)</span>
 <span class="n">test_callbacks</span><span class="o">=</span><span class="n">TestCallbacks</span><span class="p">()</span>
 <span class="n">call_cb</span><span class="p">(</span><span class="s1">&#39;this makes sure nbdev_callbacks is loaded from the right place&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">nbdev_callbacks</span>
-<span class="n">original_callbacks</span><span class="o">=</span><span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">begin_test_nb</span><span class="p">,</span><span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">after_test_nb</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">nbdev_callbacks</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">original_callbacks</span><span class="o">=</span><span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">begin_test_nb</span><span class="p">,</span><span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">after_test_nb</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">begin_test_nb</span><span class="o">=</span><span class="n">test_callbacks</span><span class="o">.</span><span class="n">begin_test_nb</span>
     <span class="n">nbdev_callbacks</span><span class="o">.</span><span class="n">after_test_nb</span><span class="o">=</span><span class="n">test_callbacks</span><span class="o">.</span><span class="n">after_test_nb</span>

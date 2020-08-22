@@ -417,15 +417,24 @@ _re_import = re.compile(r"^from[ \t]|^import[ \t]", re.MULTILINE)
 _re_notebook2script = re.compile(r"^notebook2script\(", re.MULTILINE)
 
 # Cell
+def _non_comment_code(s):
+    if re.match(r'\s*#', s): return False
+    if _re_import.findall(s) or _re_lib_import.re.findall(s): return False
+    return re.match(r'\s*\w', s)
+
+# Cell
 class ExecuteShowDocPreprocessor(ExecutePreprocessor):
     "An `ExecutePreprocessor` that only executes `show_doc` and `import` cells"
     def preprocess_cell(self, cell, resources, index):
         if not check_re(cell, _re_notebook2script):
-            if check_re_multi(cell, [_re_show_doc, _re_show_doc_magic, _re_lib_import.re]):
+            if check_re_multi(cell, [_re_show_doc, _re_show_doc_magic]):
                 return super().preprocess_cell(cell, resources, index)
-            elif check_re(cell, _re_import):
-                try: return super().preprocess_cell(cell, resources, index)
-                except: pass
+            elif check_re_multi(cell, [_re_import, _re_lib_import.re]):
+#                 r = list(filter(_non_comment_code, cell['source'].split('\n')))
+#                 if r: print("You have import statements mixed with other code", r)
+                return super().preprocess_cell(cell, resources, index)
+#                 try: return super().preprocess_cell(cell, resources, index)
+#                 except: pass
         return cell, resources
 
 # Cell

@@ -129,8 +129,23 @@ nb_path: "nbs/08_flag_tests.ipynb"
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.imports</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">redirect_stdout</span>
 <span class="kn">import</span> <span class="nn">io</span>
+</pre></div>
 
-<span class="k">if</span> <span class="n">IN_IPYTHON</span><span class="p">:</span>
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">IN_IPYTHON</span><span class="p">:</span>
     <span class="k">def</span> <span class="nf">test_flag_output</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">exp</span><span class="p">):</span> <span class="n">test_eq</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">exp</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
@@ -168,29 +183,153 @@ nb_path: "nbs/08_flag_tests.ipynb"
     <span class="n">s</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
     <span class="k">with</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="n">f</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
     <span class="n">test_eq</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">exp</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></div>
 
-<span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_default_export</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_default_export</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: module_name is missing. Usage `%nbdev_default_export module_name`&#39;</span><span class="p">)</span>
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_default_export</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_default_export</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: module_name is missing. Usage `%nbdev_default_export module_name`&#39;</span><span class="p">)</span>
 <span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_default_export</span><span class="p">,</span> <span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: module_name is missing. Usage `%nbdev_default_export module_name`&#39;</span><span class="p">)</span>
 <span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_default_export</span><span class="p">,</span> <span class="s1">&#39;bad module name&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: module_name &quot;bad module name&quot; must not contain whitespace&#39;</span><span class="p">)</span>
 <span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_default_export</span><span class="p">,</span> <span class="s1">&#39;special.module&#39;</span><span class="p">,</span> 
             <span class="s1">&#39;Cells will be exported to nbdev.special.module,</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span>
             <span class="s1">&#39;unless a different module is specified after an export flag: `%nbdev_export special.module`&#39;</span><span class="p">)</span>
+</pre></div>
 
-<span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_export</span><span class="p">,</span> <span class="n">nbdev_export_and_show</span><span class="p">,</span> <span class="n">nbdev_export_internal</span>
-<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nbdev_export</span><span class="p">,</span> <span class="n">nbdev_export_and_show</span><span class="p">,</span> <span class="n">nbdev_export_internal</span><span class="p">]:</span>
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_export</span><span class="p">,</span> <span class="n">nbdev_export_and_show</span><span class="p">,</span> <span class="n">nbdev_export_internal</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nbdev_export</span><span class="p">,</span> <span class="n">nbdev_export_and_show</span><span class="p">,</span> <span class="n">nbdev_export_internal</span><span class="p">]:</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;special.module&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;bad module name&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: module_name &quot;bad module name&quot; must not contain whitespace&#39;</span><span class="p">)</span>
+</pre></div>
 
-<span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_hide</span><span class="p">,</span> <span class="n">nbdev_hide_input</span><span class="p">,</span> <span class="n">nbdev_hide_output</span>
-<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nbdev_hide</span><span class="p">,</span> <span class="n">nbdev_hide_input</span><span class="p">,</span> <span class="n">nbdev_hide_output</span><span class="p">]:</span>
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_hide</span><span class="p">,</span> <span class="n">nbdev_hide_input</span><span class="p">,</span> <span class="n">nbdev_hide_output</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nbdev_hide</span><span class="p">,</span> <span class="n">nbdev_hide_input</span><span class="p">,</span> <span class="n">nbdev_hide_output</span><span class="p">]:</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;anything&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UsageError: Invalid option &quot;anything&quot;. Usage `%</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">`&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
     
-<span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_default_class_level</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">):</span>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_default_class_level</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">):</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_default_class_level</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
 <span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_default_class_level</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: Invalid class level &quot;0&quot;. Usage `%nbdev_default_class_level [int between 1 and 6]`&#39;</span><span class="p">)</span>
 <span class="n">test_flag_output</span><span class="p">(</span><span class="n">nbdev_default_class_level</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: Invalid class level &quot;7&quot;. Usage `%nbdev_default_class_level [int between 1 and 6]`&#39;</span><span class="p">)</span>
@@ -201,66 +340,44 @@ nb_path: "nbs/08_flag_tests.ipynb"
 <span class="c1"># test_flag_output(nbdev_fastai_test, &#39; &#39;, &#39;&#39;)</span>
 <span class="c1"># test_flag_output(nbdev_fastai_test, &#39;all&#39;, &#39;&#39;)</span>
 <span class="c1"># test_flag_output(nbdev_fastai_test, &#39;All&#39;, &#39;UsageError: Invalid option &quot;All&quot;. Usage `%nbdev_fastai_test [all]`&#39;)</span>
+</pre></div>
 
-<span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_collapse_input</span><span class="p">,</span> <span class="n">nbdev_collapse_output</span>
-<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nbdev_collapse_input</span><span class="p">,</span> <span class="n">nbdev_collapse_output</span><span class="p">]:</span>
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_collapse_input</span><span class="p">,</span> <span class="n">nbdev_collapse_output</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nbdev_collapse_input</span><span class="p">,</span> <span class="n">nbdev_collapse_output</span><span class="p">]:</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39; open &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;open&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="n">test_flag_output</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;OPEN&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UsageError: Invalid option &quot;OPEN&quot;. Usage `%</span><span class="si">{</span><span class="n">f</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> [open]`&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.flags</span> <span class="kn">import</span> <span class="n">nbdev_add2all</span>
-<span class="n">fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">nbdev_add2all</span><span class="p">,</span> <span class="n">local_ns</span><span class="o">=</span><span class="nb">globals</span><span class="p">())</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: List of names is missing. Usage `%nbdev_add2all name_1, name_2`&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;str int max&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;str,int,max,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;str, int, max&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39; [ str ,,,&quot;int&quot; max ]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;[str, &quot;int&quot;, max &#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: unexpected EOF while parsing (&lt;string&gt;, line 1)&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;&quot;bad_name&quot; max&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;bad_name max&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: name </span><span class="se">\&#39;</span><span class="s1">bad_name</span><span class="se">\&#39;</span><span class="s1"> is not defined&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;&quot;bad_name max&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: EOL while scanning string literal (&lt;string&gt;, line 1)&#39;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.showdoc</span> <span class="kn">import</span> <span class="n">nbdev_show_doc</span>
-<span class="n">fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">nbdev_show_doc</span><span class="p">,</span> <span class="n">local_ns</span><span class="o">=</span><span class="nb">globals</span><span class="p">())</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: List of names is missing. Usage `%nbdev_show_doc name_1, name_2`&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;title_level=1&#39;</span><span class="p">,</span> <span class="s1">&#39;UsageError: List of names is missing. Usage `%nbdev_show_doc name_1, name_2`&#39;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;title_level=0 default_cls_level=2&#39;</span><span class="p">,</span> 
-<span class="sd">&quot;&quot;&quot;UsageError: Invalid title_level &quot;0&quot;. Usage `%nbdev_show_doc name_1 title_level=[int between 1 and 6]`</span>
-<span class="sd">UsageError: List of names is missing. Usage `%nbdev_show_doc name_1, name_2`&quot;&quot;&quot;</span><span class="p">)</span>
-<span class="n">test_flag_output</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s1">&#39;title_level=1 default_cls_level=7&#39;</span><span class="p">,</span> 
-<span class="sd">&quot;&quot;&quot;UsageError: Invalid default_cls_level &quot;7&quot;. Usage `%nbdev_show_doc name_1 default_cls_level=[int between 1 and 6]`</span>
-<span class="sd">UsageError: List of names is missing. Usage `%nbdev_show_doc name_1, name_2`&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>

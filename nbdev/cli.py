@@ -307,11 +307,11 @@ def nbdev_conda_package(path:Param("Path where package will be created", str)='c
     out = f"Done. Next steps:\n```\`cd {path}\n"""
     out_upl = f"anaconda upload $CONDA_PREFIX/conda-bld/noarch/{name}-{cfg.get('version')}-py_0.tar.bz2"
     if not do_build:
-        print(f"{out}conda build {name}\n{out_upl}\n```")
+        print(f"{out}conda build .\n{out_upl}\n```")
         return
 
     os.chdir(path)
-    try: res = check_output(f"conda build {build_args} {name}".split()).decode()
+    try: res = check_output(f"conda build {build_args} .".split()).decode()
     except subprocess.CalledProcessError as e: print(f"{e.output}\n\nBuild failed.")
     if 'anaconda upload' not in res:
         print(f"{res}\n\Build failed.")
