@@ -13,7 +13,7 @@ Using the interactive environment, you can easily debug and refactor your code. 
 
 Using notebooks written like this, `nbdev` can create and run any of the following with a single command:
 
-- Searchable, hyperlinked documentation; any word you surround in backticks will by *automatically* hyperlinked to the appropriate documentation
+- Searchable, hyperlinked documentation; any word you surround in backticks will be *automatically* hyperlinked to the appropriate documentation
 - Python modules, following best practices such as automatically defining `__all__` ([more details](http://xion.io/post/code/python-all-wild-imports.html)) with your exported functions, classes, and variables
 - Pip and conda installers (uploaded to pypi and anaconda for you)
 - Tests (defined directly in your notebooks, and run in parallel)
@@ -125,7 +125,7 @@ To upload your project to pypi, just type `make pypi` in your project root direc
 
 To also upload your project to anaconda, [create an account](https://docs.anaconda.com/anaconda-repository/user-guide/tasks/create-account/) and then type `anaconda login` at your terminal. The use `make release` instead of `make pypi` - that will create and upload the pypi and conda packages and will also increment your version number.
 
-**NB**: make sure you increment the version number in `settings.py` each time you want to push a new release to pypi. If you call `make release` that will be done for you.
+**NB**: make sure you increment the version number in `settings.ini` each time you want to push a new release to pypi. If you call `make release` that will be done for you.
 
 ### Avoiding and handling git conflicts
 
@@ -179,7 +179,7 @@ Although we can't fully automate the creation of the search engine (since you ne
 
 Because both the documentation and code for nbdev is written in notebooks, you can optionally view and run nbdev documentation in [Google Colab](https://colab.research.google.com/). You can enable Google Colab badges that link to the appropriate notebook(s) in your GitHub repository.  
 
-You can toggle the this feature on or off in your `/_config.yml` file:
+You can toggle this feature on or off in your `/_config.yml` file:
 
 ```yaml
 # This specifies what badges are turned on by default for notebook docs.
@@ -187,7 +187,7 @@ default_badges:
   colab: true
 ```
 
-Furthermore, If you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter `hide_colab_badge: true`.  For example, if you wanted to hide the Colab badge from showing up on the notebook `nbs/06_cli.ipynb`, your front matter (in the form of a markdown cell at the top of the notebook will look like this:
+Furthermore, if you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter `hide_colab_badge: true`.  For example, if you wanted to hide the Colab badge from showing up on the notebook `nbs/06_cli.ipynb`, your front matter (in the form of a markdown cell at the top of the notebook) will look like this:
 
 ```
 # Command line functions
