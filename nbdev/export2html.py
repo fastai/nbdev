@@ -585,7 +585,7 @@ def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter,
                           template_file=template_file, exporter=exporter, dest=dest, pause=pause)
         if not all(passed):
             msg = "Conversion failed on the following:\n"
-            raise Exception(msg + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
+            print(msg + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
 
 # Cell
 def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
