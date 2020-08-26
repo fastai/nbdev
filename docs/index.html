@@ -48,7 +48,7 @@ nb_path: "nbs/index.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Using notebooks written like this, <code>nbdev</code> can create and run any of the following with a single command:</p>
 <ul>
-<li>Searchable, hyperlinked documentation; any word you surround in backticks will by <em>automatically</em> hyperlinked to the appropriate documentation</li>
+<li>Searchable, hyperlinked documentation; any word you surround in backticks will be <em>automatically</em> hyperlinked to the appropriate documentation</li>
 <li>Python modules, following best practices such as automatically defining <code>__all__</code> (<a href="http://xion.io/post/code/python-all-wild-imports.html">more details</a>) with your exported functions, classes, and variables</li>
 <li>Pip and conda installers (uploaded to pypi and anaconda for you)</li>
 <li>Tests (defined directly in your notebooks, and run in parallel)</li>
@@ -221,7 +221,7 @@ password = your_pypi_password</code></pre>
 <pre><code>pip install twine</code></pre>
 <p>To upload your project to pypi, just type <code>make pypi</code> in your project root directory. Once it's complete, a link to your project on pypi will be printed.</p>
 <p>To also upload your project to anaconda, <a href="https://docs.anaconda.com/anaconda-repository/user-guide/tasks/create-account/">create an account</a> and then type <code>anaconda login</code> at your terminal. The use <code>make release</code> instead of <code>make pypi</code> - that will create and upload the pypi and conda packages and will also increment your version number.</p>
-<p><strong>NB</strong>: make sure you increment the version number in <code>settings.py</code> each time you want to push a new release to pypi. If you call <code>make release</code> that will be done for you.</p>
+<p><strong>NB</strong>: make sure you increment the version number in <code>settings.ini</code> each time you want to push a new release to pypi. If you call <code>make release</code> that will be done for you.</p>
 
 </div>
 </div>
@@ -328,12 +328,12 @@ $$\sum_{i=1}^{k+1}i$$
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Because both the documentation and code for nbdev is written in notebooks, you can optionally view and run nbdev documentation in <a href="https://colab.research.google.com/">Google Colab</a>. You can enable Google Colab badges that link to the appropriate notebook(s) in your GitHub repository.</p>
-<p>You can toggle the this feature on or off in your <code>/_config.yml</code> file:</p>
+<p>You can toggle this feature on or off in your <code>/_config.yml</code> file:</p>
 <div class="highlight"><pre><span></span><span class="c1"># This specifies what badges are turned on by default for notebook docs.</span>
 <span class="nt">default_badges</span><span class="p">:</span>
   <span class="nt">colab</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
-<p>Furthermore, If you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter <code>hide_colab_badge: true</code>.  For example, if you wanted to hide the Colab badge from showing up on the notebook <code>nbs/06_cli.ipynb</code>, your front matter (in the form of a markdown cell at the top of the notebook will look like this:</p>
+<p>Furthermore, if you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter <code>hide_colab_badge: true</code>.  For example, if you wanted to hide the Colab badge from showing up on the notebook <code>nbs/06_cli.ipynb</code>, your front matter (in the form of a markdown cell at the top of the notebook) will look like this:</p>
 
 <pre><code># Command line functions
 &gt; Console commands added by the nbdev library

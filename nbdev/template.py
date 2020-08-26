@@ -105,7 +105,6 @@ defaults:
 
 sidebars:
 - home_sidebar
-permalink: pretty
 
 theme: jekyll-theme-cayman"""
 
