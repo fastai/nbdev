@@ -22,7 +22,7 @@ exclude:
 exclude: [vendor]
 
 default_badges:
-  colab: true
+  colab: false
 
 highlighter: rouge
 markdown: kramdown
@@ -61,4 +61,3 @@ defaults:
 sidebars: [home_sidebar]
 baseurl: /
 #theme: jekyll-theme-cayman
-
