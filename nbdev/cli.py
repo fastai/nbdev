@@ -186,7 +186,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     if all(passed): print("All tests are passing!")
     else:
         msg = "The following notebooks failed:\n"
-        raise Exception(msg + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
+        print(msg + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
     if timing:
         for i,t in sorted(enumerate(times), key=lambda o:o[1], reverse=True):
             print(f"Notebook {files[i].name} took {int(t)} seconds")
