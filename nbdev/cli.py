@@ -313,6 +313,7 @@ def nbdev_conda_package(path:Param("Path where package will be created", str)='c
     os.chdir(path)
     try: res = check_output(f"conda build {build_args} .".split()).decode()
     except subprocess.CalledProcessError as e: print(f"{e.output}\n\nBuild failed.")
+    if 'to anaconda.org' in res: return
     if 'anaconda upload' not in res:
         print(f"{res}\n\Build failed.")
         return
