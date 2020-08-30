@@ -162,12 +162,12 @@ Which is rendered as:
 Using `$`, e.g.:
 
 ```
-This version is diplayed inline: $\sum_{i=1}^{k+1}i$ . You can include text before and after.
+This version is displayed inline: $\sum_{i=1}^{k+1}i$ . You can include text before and after.
 ```
 
 Which is rendered as:
 
-> This version is diplayed inline:$\sum_{i=1}^{k+1}i$ . You can include text before and after.
+> This version is displayed inline:$\sum_{i=1}^{k+1}i$ . You can include text before and after.
 
 ### Custom search engine
 
