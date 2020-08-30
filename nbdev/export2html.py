@@ -412,7 +412,7 @@ def _gather_export_mods(cells):
 # match any cell containing a zero indented import from the current lib
 _re_lib_import = ReLibName(r"^from LIB_NAME\.", re.MULTILINE)
 # match any cell containing a zero indented import
-_re_import = re.compile(r"^from[ \t]|^import[ \t]", re.MULTILINE)
+_re_import = re.compile(r"^from[ \t]+\S+[ \t]+import|^import[ \t]", re.MULTILINE)
 # match any cell containing a zero indented call to notebook2script
 _re_notebook2script = re.compile(r"^notebook2script\(", re.MULTILINE)
 
