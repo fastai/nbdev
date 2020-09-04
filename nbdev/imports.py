@@ -85,6 +85,3 @@ def call_cb(cb_name, *args):
         finally: sys.path=_sys_path
     if not hasattr(nbdev_callbacks, cb_name): return args[0] if args else None
     return getattr(nbdev_callbacks, cb_name)(*args)
-
-# do this now so that other code can just `import nbdev_callbacks` without knowing about call_cb
-call_cb('This makes sure nbdev_callbacks is loaded from the right place')
