@@ -10,6 +10,9 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
+      title: Tutorial
+      url: tutorial.html
+    - output: web,pdf
       title: Export to modules
       url: export.html
     - output: web,pdf
@@ -40,8 +43,11 @@ entries:
       title: Setting up Search
       url: search.html
     - output: web,pdf
-      title: nbdev tutorial
-      url: tutorial.html
+      title: Magic Flags
+      url: magic_flags.html
+    - output: web,pdf
+      title: Callbacks
+      url: nbdev_callbacks.html
     output: web
     title: nbdev
   output: web

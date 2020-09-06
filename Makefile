@@ -23,6 +23,12 @@ release: pypi
 	nbdev_conda_package --upload_user fastai
 	nbdev_bump_version
 
+tag:
+	TAG="$(python setup.py version)"
+	git tag "${TAG}"
+	git push --tags
+	gh api repos/:owner/:repo/releases -F tag_name="${TAG}" -F name="${TAG}"
+
 pypi: dist
 	twine upload --repository pypi dist/*
 

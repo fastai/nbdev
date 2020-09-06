@@ -6,7 +6,7 @@ __all__ = ['pypi_json', 'latest_pypi', 'write_pip_conda_meta', 'write_conda_meta
 from .imports import *
 from .export import *
 
-import urllib.request,json,yaml
+import yaml
 from copy import deepcopy
 try: from packaging.version import parse
 except ImportError: from pip._vendor.packaging.version import parse
@@ -16,8 +16,7 @@ _PYPI_URL = 'https://pypi.org/pypi/'
 # Cell
 def pypi_json(s):
     "Dictionary decoded JSON for PYPI path `s`"
-    url = f'{_PYPI_URL}{s}/json'
-    return json.loads(urllib.request.urlopen(url).read())
+    return urljson(f'{_PYPI_URL}{s}/json')
 
 # Cell
 def latest_pypi(name):

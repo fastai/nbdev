@@ -67,7 +67,7 @@ Now, run `jupyter notebook`, and click `00_core.ipynb`. This is where you'll cre
 
 In the last cell of your notebook, you can then run:
 
-```
+```python
 from nbdev import *
 notebook2script()
 ```
@@ -162,12 +162,12 @@ Which is rendered as:
 Using `$`, e.g.:
 
 ```
-This version is diplayed inline: $\sum_{i=1}^{k+1}i$ . You can include text before and after.
+This version is displayed inline: $\sum_{i=1}^{k+1}i$ . You can include text before and after.
 ```
 
 Which is rendered as:
 
-> This version is diplayed inline:$\sum_{i=1}^{k+1}i$ . You can include text before and after.
+> This version is displayed inline:$\sum_{i=1}^{k+1}i$ . You can include text before and after.
 
 ### Custom search engine
 
@@ -193,7 +193,8 @@ Furthermore, if you want to hide a badge on an individual document but still sho
 # Command line functions
 > Console commands added by the nbdev library
 
-- hide_colab_badge:true```
+- hide_colab_badge:true
+```
 
 Note how in the above example, the title `Command line functions` is formatted as a markdown heading and the summary `Console commands added by the nbdev library` is formatted as a markdown block quote. The additional option `hide_colab_badge` is a list item.  It is important that this list item is separated from the summary by 2 newlines as shown above, in the same notebook markdown cell.
 
