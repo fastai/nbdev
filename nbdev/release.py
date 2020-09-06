@@ -3,12 +3,10 @@
 __all__ = ['GH_HOST', 'FastRelease']
 
 # Cell
-from .imports import *
-from fastcore.all import *
-from .export import *
 from datetime import datetime
 from textwrap import fill
-import requests
+from urllib.request import Request,urlopen
+from urllib.error import HTTPError
 
 # Cell
 GH_HOST = "https://api.github.com"
@@ -30,35 +28,31 @@ class FastRelease:
     def __init__(self, owner=None, repo=None, token=None, **groups):
         "Create CHANGELOG.md from GitHub issues"
         if not groups: groups = dict(breaking="Breaking Changes", enhancement="New Features", bug="Bugs Squashed")
-        self.groups = groups
         cfg = Config()
         os.chdir(cfg.config_file.parent)
         if not owner: owner = cfg.user
         if not repo:  repo  = cfg.lib_name
         if not token: token = Path('token').read_text().strip()
-        store_attr()
-        self.session = requests.Session()
-        self.session.headers['Authorization'] = f'token {token}'
+        self.owner,self.repo,self.token,self.groups = owner,repo,token,groups
+        self.headers = { 'Authorization' : f'token {token}' }
         self.repo_url = f"{GH_HOST}/repos/{owner}/{repo}"
 
+    def _get(self, path, complete=False):
+        if not complete: path = f"{self.repo_url}/{path}"
+        with urlopen(Request(path, headers=self.headers)) as res: return json.loads(res.read())
+
     def _tag_date(self, tag):
-        tag_url = f"{self.repo_url}/git/ref/tags/{tag}"
-        try: tag_d = self.session.get(tag_url).json()
+        try: tag_d = self._get(f"git/ref/tags/{tag}")
         except HTTPError: raise Exception(f"Failed to find tag {tag}")
-        commit_d = self.session.get(tag_d["object"]["url"]).json()
+        commit_d = self._get(tag_d["object"]["url"], True)
         self.commit_date = commit_d["committer"]["date"].replace('Z', '+00:00')
         return self.commit_date
 
     def _issues(self, label):
-        return self.session.get(f"{self.repo_url}/issues?state=closed&sort=created&filter=all&"+
-                            f"since={self.commit_date}&labels={label}").json()
+        return self._get(f"issues?state=closed&sort=created&filter=all&since={self.commit_date}&labels={label}")
 
-    def _issue_groups(self):
-        return parallel(self._issues, self.groups.keys(), progress=False).map(L)
-
-    def _latest_release(self):
-        rel_url = f"{self.repo_url}/releases/latest"
-        return self.session.get(rel_url).json()["tag_name"]
+    def _issue_groups(self): return map(self._issues, self.groups.keys())
+    def _latest_release(self): return self._get("releases/latest")["tag_name"]
 
     def changelog(self, debug=False):
         "Create the CHANGELOG.md file, or return the proposed text if `debug` is `True`"
@@ -70,7 +64,7 @@ class FastRelease:
         self._tag_date(ver)
         res = f"## {ver}\n"
         issues = self._issue_groups()
-        res += '\n'.join(L(issues, self.groups.values()).zip().starmap(_issues_txt))
+        res += '\n'.join(_issues_txt(*o) for o in zip(issues, self.groups.values()))
         res = txt.replace(marker, marker+res)
         if debug: return res
         else: Path(fn).write_text(res)
