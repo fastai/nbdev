@@ -40,6 +40,9 @@ entries:
       title: Clean notebooks
       url: clean.html
     - output: web,pdf
+      title: Release notes
+      url: release.html
+    - output: web,pdf
       title: Setting up Search
       url: search.html
     - output: web,pdf

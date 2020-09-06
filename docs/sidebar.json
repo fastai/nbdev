@@ -11,6 +11,7 @@
     "Conda packaging": "conda.html",
     "Command line functions": "cli.html",
     "Clean notebooks": "clean.html",
+    "Release notes": "release.html",
     "Setting up Search": "search.html",
     "Magic Flags":  "magic_flags.html",
     "Callbacks": "nbdev_callbacks.html"
