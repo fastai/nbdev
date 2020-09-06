@@ -24,16 +24,27 @@ def _issues_txt(iss, label):
     res = f"### {label}\n\n"
     return res + '\n'.join(map(_issue_txt, iss))
 
+def _config(cfg_name="settings.ini"):
+    cfg_path = Path()
+    while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
+    config_file = cfg_path/cfg_name
+    assert config_file.exists(), f"Couldn't find {cfg_name}"
+    config = ConfigParser()
+    config.read(config_file)
+    return config['DEFAULT'],cfg_path
+
 # Cell
 class FastRelease:
     def __init__(self, owner=None, repo=None, token=None, **groups):
         "Create CHANGELOG.md from GitHub issues"
         if not groups: groups = dict(breaking="Breaking Changes", enhancement="New Features", bug="Bugs Squashed")
-        cfg = Config()
-        os.chdir(cfg.config_file.parent)
-        if not owner: owner = cfg.user
-        if not repo:  repo  = cfg.lib_name
-        if not token: token = Path('token').read_text().strip()
+        cfg,cfg_path = _config()
+        os.chdir(cfg_path)
+        if not owner: owner = cfg['user']
+        if not repo:  repo  = cfg['lib_name']
+        if not token:
+            assert Path('token').exists, "Failed to find token"
+            token = Path('token').read_text().strip()
         self.owner,self.repo,self.token,self.groups = owner,repo,token,groups
         self.headers = { 'Authorization' : f'token {token}' }
         self.repo_url = f"{GH_HOST}/repos/{owner}/{repo}"

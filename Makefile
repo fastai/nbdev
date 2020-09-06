@@ -19,7 +19,7 @@ docs: $(SRC)
 test:
 	nbdev_test_nbs
 
-release: pypi
+release: pypi tag
 	nbdev_conda_package --upload_user fastai
 	nbdev_bump_version
 

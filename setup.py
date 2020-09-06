@@ -1,7 +1,6 @@
 from pkg_resources import parse_version
 from configparser import ConfigParser
-import setuptools
-import re
+import setuptools,re,sys
 assert parse_version(setuptools.__version__)>=parse_version('36.2')
 
 # note: all settings are in settings.ini; edit there, not here
@@ -13,6 +12,10 @@ cfg_keys = 'version description keywords author author_email'.split()
 expected = cfg_keys + "lib_name user branch license status min_python audience language".split()
 for o in expected: assert o in cfg, "missing expected setting: {}".format(o)
 setup_cfg = {o:cfg[o] for o in cfg_keys}
+
+if len(sys.argv)>1 and sys.argv[1]=='version':
+    print(setup_cfg['version'])
+    exit()
 
 licenses = {
     'apache2': ('Apache Software License 2.0','OSI Approved :: Apache Software License'),
