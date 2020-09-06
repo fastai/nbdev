@@ -217,7 +217,7 @@ def format_param(p):
 def _format_enum_doc(enum, full_name):
     "Formatted `enum` definition to show in documentation"
     vals = ', '.join(enum.__members__.keys())
-    return f'<code>{full_name}</code>',f'<code>Enum</code> = [{vals}]'
+    return f'<code>{full_name}</code>',f'<code>Enum</code> = [{vals}]',f''
 
 # Cell
 def _escape_chars(s):
@@ -250,9 +250,9 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
     elt = getattr(elt, '__func__', elt)
     qname = name or qual_name(elt)
     if inspect.isclass(elt):
-        if is_enum(elt): name,args,source = *_format_enum_doc(elt, qname), ''
-        else:            name,args,source =  _format_cls_doc (elt, qname)
-    elif callable(elt):  name,args,source =  _format_func_doc(elt, qname)
+        if is_enum(elt): name,args,source = _format_enum_doc(elt, qname)
+        else:            name,args,source = _format_cls_doc (elt, qname)
+    elif callable(elt):  name,args,source = _format_func_doc(elt, qname)
     else:                name,args,source = f"<code>{qname}</code>", '', ''
     link = get_source_link(elt)
     source_link = f'<a href="{link}" class="source_link" style="float:right">[source]</a>'
