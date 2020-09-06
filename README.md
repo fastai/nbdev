@@ -31,6 +31,7 @@ See below for *Installing* and *Getting Started*. In the other pages of the docu
 - how [sync](http://nbdev.fast.ai/sync) can allow you to export back from the python modules to the jupyter notebook
 - how to put [tests](http://nbdev.fast.ai/test) in your notebooks, which can be run in parallel, and exported to CI from your notebooks
 - get more info about the [additional functionality](http://nbdev.fast.ai/#Additional-functionality)
+- [release notes](https://github.com/fastai/nbdev/blob/master/CHANGELOG.md)
 
 ## Installing
 
@@ -67,7 +68,7 @@ Now, run `jupyter notebook`, and click `00_core.ipynb`. This is where you'll cre
 
 In the last cell of your notebook, you can then run:
 
-```
+```python
 from nbdev import *
 notebook2script()
 ```
