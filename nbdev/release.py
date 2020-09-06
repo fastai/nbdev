@@ -7,6 +7,7 @@ from datetime import datetime
 from textwrap import fill
 from urllib.request import Request,urlopen
 from urllib.error import HTTPError
+from concurrent.futures import ProcessPoolExecutor
 
 # Cell
 GH_HOST = "https://api.github.com"
@@ -51,7 +52,9 @@ class FastRelease:
     def _issues(self, label):
         return self._get(f"issues?state=closed&sort=created&filter=all&since={self.commit_date}&labels={label}")
 
-    def _issue_groups(self): return map(self._issues, self.groups.keys())
+    def _issue_groups(self):
+        with ProcessPoolExecutor() as ex: return ex.map(self._issues, self.groups.keys())
+
     def _latest_release(self): return self._get("releases/latest")["tag_name"]
 
     def changelog(self, debug=False):
