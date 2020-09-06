@@ -232,27 +232,28 @@ def _format_func_doc(func, full_name=None):
     except: fmt_params = []
     name = f'<code>{full_name or func.__name__}</code>'
     arg_str = f"({', '.join(fmt_params)})"
+    source = get_ipython().inspector._info(func, detail_level=1)["source"]
     f_name = f"<code>class</code> {name}" if inspect.isclass(func) else name
-    return f'{f_name}',f'{name}{arg_str}'
+    return f'{f_name}',f'{name}{arg_str}',f"```python\n{source}\n```"
 
 # Cell
 def _format_cls_doc(cls, full_name):
     "Formatted `cls` definition to show in documentation"
     parent_class = inspect.getclasstree([cls])[-1][0][1][0]
-    name,args = _format_func_doc(cls, full_name)
+    name,args,source = _format_func_doc(cls, full_name)
     if parent_class != object: args += f' :: {doc_link(get_name(parent_class))}'
-    return name,args
+    return name,args,source
 
 # Cell
-def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, default_cls_level=2):
+def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, default_cls_level=2, show_source=False):
     "Show documentation for element `elt`. Supported types: class, function, and enum."
     elt = getattr(elt, '__func__', elt)
     qname = name or qual_name(elt)
     if inspect.isclass(elt):
-        if is_enum(elt): name,args = _format_enum_doc(elt, qname)
-        else:            name,args = _format_cls_doc (elt, qname)
-    elif callable(elt):  name,args = _format_func_doc(elt, qname)
-    else:                name,args = f"<code>{qname}</code>", ''
+        if is_enum(elt): name,args,source = *_format_enum_doc(elt, qname), ''
+        else:            name,args,source =  _format_cls_doc (elt, qname)
+    elif callable(elt):  name,args,source =  _format_func_doc(elt, qname)
+    else:                name,args,source = f"<code>{qname}</code>", '', ''
     link = get_source_link(elt)
     source_link = f'<a href="{link}" class="source_link" style="float:right">[source]</a>'
     title_level = title_level or (default_cls_level if inspect.isclass(elt) else 4)
@@ -266,6 +267,7 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
         # doc links don't work inside markdown pre/code blocks
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
         doc += s
+    doc += f"\n\n{source}\n" if show_source else ''
     if disp: display(Markdown(doc))
     else: return doc
 
