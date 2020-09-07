@@ -111,5 +111,7 @@ if IN_IPYTHON:
            nbdev_hide, nbdev_hide_input, nbdev_hide_output, nbdev_default_class_level,
            nbdev_collapse_input, nbdev_collapse_output, needs_local_scope(nbdev_add2all)]
     for fn in fns: register_line_magic(fn)
-    for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)
+    try: 
+        for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)
+    except: pass # do not fail if we can't find config
 
