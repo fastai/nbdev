@@ -1,6 +1,13 @@
 # Release notes
 
 <!-- do not remove -->
+
+## 1.0.11
+
+### New Features
+
+- Automated tag/release process ([#237](https://api.github.com/repos/fastai/nbdev/issues/237))
+
 ## 1.0.10
 
 ### New Features
