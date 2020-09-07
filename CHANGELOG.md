@@ -7,6 +7,7 @@
 ### New Features
 
 - Automated tag/release process ([#237](https://api.github.com/repos/fastai/nbdev/issues/237))
+  - Run `nbdev_release` to tag and create a release in GitHub for the current version
 
 ## 1.0.10
 
