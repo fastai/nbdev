@@ -9,7 +9,6 @@
     "Extract tests": "test.html",
     "Fix merge conflicts": "merge.html",
     "Conda packaging": "conda.html",
-    "Creating a release": "release.html",
     "Command line functions": "cli.html",
     "Clean notebooks": "clean.html",
     "Setting up Search": "search.html",

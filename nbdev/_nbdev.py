@@ -95,8 +95,6 @@ index = {"first": "00_export.ipynb",
          "latest_pypi": "05a_conda.ipynb",
          "write_pip_conda_meta": "05a_conda.ipynb",
          "write_conda_meta": "05a_conda.ipynb",
-         "nbdev_changelog": "06_cli.ipynb",
-         "nbdev_release": "06_cli.ipynb",
          "nbdev_build_lib": "06_cli.ipynb",
          "nbdev_update_lib": "06_cli.ipynb",
          "nbdev_diff_nbs": "06_cli.ipynb",
@@ -124,10 +122,6 @@ index = {"first": "00_export.ipynb",
          "clean_cell": "07_clean.ipynb",
          "clean_nb": "07_clean.ipynb",
          "nbdev_clean_nbs": "07_clean.ipynb",
-         "GH_HOST": "10_release.ipynb",
-         "run_proc": "10_release.ipynb",
-         "do_request": "10_release.ipynb",
-         "FastRelease": "10_release.ipynb",
          "say_hello": "tutorial.ipynb",
          "HelloSayer": "tutorial.ipynb"}
 
@@ -140,7 +134,6 @@ modules = ["export.py",
            "conda.py",
            "cli.py",
            "clean.py",
-           "release.py",
            "tutorial.py"]
 
 doc_url = "https://nbdev.fast.ai/"
