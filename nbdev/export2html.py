@@ -566,7 +566,7 @@ def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter,
     "Convert all notebooks matching `fname` to html files"
     if fname is None:
         files = [f for f in Config().nbs_path.glob('**/*.ipynb')
-                 if not f.name.startswith('_') and not '/.' in str(f)]
+                 if not f.name.startswith('_') and not '/.' in f.as_posix()]
     else:
         p = Path(fname)
         files = list(p.parent.glob(p.name))
