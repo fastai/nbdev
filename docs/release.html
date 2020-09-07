@@ -50,6 +50,12 @@ nb_path: "nbs/10_release.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Helper-functions">Helper functions<a class="anchor-link" href="#Helper-functions"> </a></h2>
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -68,7 +74,7 @@ nb_path: "nbs/10_release.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="FastRelease" class="doc_header"><code>class</code> <code>FastRelease</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/release.py#L40" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>FastRelease</code>(<strong><code>owner</code></strong>=<em><code>None</code></em>, <strong><code>repo</code></strong>=<em><code>None</code></em>, <strong><code>token</code></strong>=<em><code>None</code></em>, <strong>**<code>groups</code></strong>)</p>
+<h4 id="run_proc" class="doc_header"><code>run_proc</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/release.py#L41" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>run_proc</code>(<strong>*<code>args</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -84,16 +90,6 @@ nb_path: "nbs/10_release.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rel</span> <span class="o">=</span> <span class="n">FastRelease</span><span class="p">(</span><span class="n">breaking</span><span class="o">=</span><span class="s2">&quot;Breaking Changes&quot;</span><span class="p">,</span> <span class="n">enhancement</span><span class="o">=</span><span class="s2">&quot;New Features&quot;</span><span class="p">,</span> <span class="n">bug</span><span class="o">=</span><span class="s2">&quot;Bugs Squashed&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
@@ -101,17 +97,6 @@ nb_path: "nbs/10_release.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">l</span> <span class="o">=</span> <span class="n">rel</span><span class="o">.</span><span class="n">latest_release</span><span class="p">()</span>
-<span class="n">l</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 <div class="output_wrapper">
 <div class="output">
@@ -119,30 +104,15 @@ nb_path: "nbs/10_release.ipynb"
 <div class="output_area">
 
 
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="do_request" class="doc_header"><code>do_request</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/release.py#L47" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>do_request</code>(<strong><code>url</code></strong>, <strong><code>post</code></strong>=<em><code>False</code></em>, <strong><code>headers</code></strong>=<em><code>None</code></em>, <strong>**<code>data</code></strong>)</p>
+</blockquote>
+<p>Call GET or json-encoded POST on <code>url</code>, depending on <code>post</code></p>
 
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;1.0.10&#39;</pre>
-</div>
-
-</div>
-
-</div>
 </div>
 
 </div>
-    {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cfg</span><span class="p">,</span><span class="n">cfg_path</span> <span class="o">=</span> <span class="n">_config</span><span class="p">()</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -152,16 +122,6 @@ nb_path: "nbs/10_release.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ver</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;version&#39;</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 </div>
     {% endraw %}
@@ -169,16 +129,6 @@ nb_path: "nbs/10_release.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;tag&#39;</span><span class="p">,</span> <span class="n">ver</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
 
 <div class="output_wrapper">
 <div class="output">
@@ -186,100 +136,14 @@ nb_path: "nbs/10_release.ipynb"
 <div class="output_area">
 
 
-
-<div class="output_text output_subarea output_execute_result">
-<pre>CompletedProcess(args=[&#39;git&#39;, &#39;tag&#39;, &#39;1.0.11&#39;], returncode=0, stdout=b&#39;&#39;, stderr=b&#39;&#39;)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;push&#39;</span><span class="p">,</span> <span class="s1">&#39;--tags&#39;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>CompletedProcess(args=[&#39;git&#39;, &#39;push&#39;, &#39;--tags&#39;], returncode=0, stdout=b&#39;&#39;, stderr=b&#39;To github.com:fastai/nbdev.git\n * [new tag]         1.0.11 -&gt; 1.0.11\n&#39;)</pre>
-</div>
+<div class="output_markdown rendered_html output_subarea ">
+<h2 id="FastRelease" class="doc_header"><code>class</code> <code>FastRelease</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/release.py#L57" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>FastRelease</code>(<strong><code>owner</code></strong>=<em><code>None</code></em>, <strong><code>repo</code></strong>=<em><code>None</code></em>, <strong><code>token</code></strong>=<em><code>None</code></em>, <strong>**<code>groups</code></strong>)</p>
+</blockquote>
 
 </div>
 
 </div>
-</div>
 
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;git&#39;</span><span class="p">,</span> <span class="s1">&#39;pull&#39;</span><span class="p">,</span> <span class="s1">&#39;--tags&#39;</span><span class="p">],</span> <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>CompletedProcess(args=[&#39;git&#39;, &#39;pull&#39;, &#39;--tags&#39;], returncode=0, stdout=b&#39;Created autostash: 37f4c01\nHEAD is now at d69f3d8 remove Config\nCurrent branch master is up to date.\n&#39;, stderr=b&#39;Applied autostash.\n&#39;)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">echo</span> <span class="s2">&quot;$$(python setup.py version)&quot;</span>
-<span class="n">echo</span> <span class="s2">&quot;$$</span><span class="si">{TAG}</span><span class="s2">&quot;</span>
-<span class="n">git</span> <span class="n">tag</span> <span class="s2">&quot;$$</span><span class="si">{TAG}</span><span class="s2">&quot;</span>
-<span class="n">git</span> <span class="n">push</span> <span class="o">--</span><span class="n">tags</span>
-<span class="n">gh</span> <span class="n">api</span> <span class="n">repos</span><span class="o">/</span><span class="p">:</span><span class="n">owner</span><span class="o">/</span><span class="p">:</span><span class="n">repo</span><span class="o">/</span><span class="n">releases</span> <span class="o">-</span><span class="n">F</span> <span class="n">tag_name</span><span class="o">=</span><span class="s2">&quot;$$</span><span class="si">{TAG}</span><span class="s2">&quot;</span> <span class="o">-</span><span class="n">F</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;$$</span><span class="si">{TAG}</span><span class="s2">&quot;</span>
-</pre></div>
-
-    </div>
 </div>
 </div>
 
@@ -304,7 +168,7 @@ nb_path: "nbs/10_release.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="FastRelease.changelog" class="doc_header"><code>FastRelease.changelog</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/release.py#L77" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.changelog</code>(<strong><code>debug</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="FastRelease.changelog" class="doc_header"><code>FastRelease.changelog</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/release.py#L95" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.changelog</code>(<strong><code>debug</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Create the CHANGELOG.md file, or return the proposed text if <code>debug</code> is <code>True</code></p>
 
@@ -318,6 +182,18 @@ nb_path: "nbs/10_release.ipynb"
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The default mapping from labels to markdown headings is:</p>
+<ul>
+<li><strong>breaking</strong>: "Breaking Changes"</li>
+<li><strong>enhancement</strong>: "New Features"</li>
+<li><strong>bug</strong>: "Bugs Squashed"</li>
+</ul>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -335,6 +211,38 @@ nb_path: "nbs/10_release.ipynb"
 </div>
     {% endraw %}
 
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="FastRelease.release" class="doc_header"><code>FastRelease.release</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/release.py#L110" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.release</code>()</p>
+</blockquote>
+<p>Tag and create a release in GitHub for the current version</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This uses the version information from your <code>settings.ini</code>.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Utility-methods">Utility methods<a class="anchor-link" href="#Utility-methods"> </a></h3>
@@ -352,7 +260,7 @@ nb_path: "nbs/10_release.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="FastRelease.latest_release" class="doc_header"><code>FastRelease.latest_release</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/release.py#L73" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.latest_release</code>()</p>
+<h4 id="FastRelease.latest_release" class="doc_header"><code>FastRelease.latest_release</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/release.py#L91" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.latest_release</code>()</p>
 </blockquote>
 <p>Tag for the latest release</p>
 
@@ -377,7 +285,7 @@ nb_path: "nbs/10_release.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="FastRelease.gh" class="doc_header"><code>FastRelease.gh</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/release.py#L55" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.gh</code>(<strong><code>path</code></strong>, <strong><code>complete</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="FastRelease.gh" class="doc_header"><code>FastRelease.gh</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/release.py#L72" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.gh</code>(<strong><code>path</code></strong>, <strong><code>complete</code></strong>=<em><code>False</code></em>, <strong><code>post</code></strong>=<em><code>False</code></em>, <strong>**<code>data</code></strong>)</p>
 </blockquote>
 <p>Call GitHub API <code>path</code></p>
 

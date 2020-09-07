@@ -34,6 +34,9 @@ entries:
       title: Conda packaging
       url: conda.html
     - output: web,pdf
+      title: Creating a release
+      url: release.html
+    - output: web,pdf
       title: Command line functions
       url: cli.html
     - output: web,pdf

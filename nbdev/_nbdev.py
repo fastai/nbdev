@@ -125,6 +125,8 @@ index = {"first": "00_export.ipynb",
          "clean_nb": "07_clean.ipynb",
          "nbdev_clean_nbs": "07_clean.ipynb",
          "GH_HOST": "10_release.ipynb",
+         "run_proc": "10_release.ipynb",
+         "do_request": "10_release.ipynb",
          "FastRelease": "10_release.ipynb",
          "say_hello": "tutorial.ipynb",
          "HelloSayer": "tutorial.ipynb"}
