@@ -2,6 +2,22 @@
 
 <!-- do not remove -->
 
+## 1.0.13
+
+### New Features
+
+- Automated tag/release process ([#237](https://api.github.com/repos/fastai/nbdev/issues/237))
+
+### Bugs Squashed
+
+- allow nbdev imports when not in an nbdev project ([#238](https://api.github.com/repos/fastai/nbdev/issues/238))
+  - really sorry @jph00 we need this change to fix
+    https://forums.fast.ai/t/create-config-when-pip-install-uqq-
+    fastbook/78340/6    all the colab testing i did last week was on
+    full nbdev projects )o: i'll add "nbdev import from a standalone
+    nb" to my pre-PR checklist
+
+
 ## 1.0.10
 
 ### New Features
