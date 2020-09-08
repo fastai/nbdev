@@ -1,6 +1,6 @@
 __version__ = "1.0.13"
 
-from fastcore.utils import IN_IPYTHON
+from fastcore.imports import IN_IPYTHON
 from .imports import *
 
 if IN_IPYTHON:

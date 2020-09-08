@@ -84,7 +84,7 @@ def _get_conda_meta():
         'build': {'number': '0', 'noarch': 'python',
                   'script': '{{ PYTHON }} -m pip install . -vv'},
         'requirements': {'host':reqs, 'run':reqs},
-        'test': {'imports': ['numpy', name]},
+        'test': {'imports': [name]},
         'about': {
             'license': 'Apache Software',
             'license_family': 'APACHE',
