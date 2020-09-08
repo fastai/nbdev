@@ -3,19 +3,13 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: fastai/jekyll
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-python@v1
-      with:
-        python-version: '3.6'
-        architecture: 'x64'
     - name: Install the library
-      run: |
-        pip install packaging jupyter
-        pip install -e .
+      run: pip install -e .
     - name: Read all notebooks
-      run: |
-        nbdev_read_nbs
+      run: nbdev_read_nbs
     - name: Check if all notebooks are cleaned
       run: |
         echo "Check we are starting with clean git checkout"
@@ -29,5 +23,4 @@ jobs:
       run: |
         if [ -n "$(nbdev_diff_nbs)" ]; then echo -e "!!! Detected difference between the notebooks and the library"; false; fi
     - name: Run tests
-      run: |
-        nbdev_test_nbs
+      run: nbdev_test_nbs
