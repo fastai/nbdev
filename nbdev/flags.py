@@ -116,4 +116,7 @@ if IN_IPYTHON:
     except: pass # do not fail if we can't find config
 
 def load_ipython_extension(ipython):
-    "This function makes `nbdev.flags` an ipython extension. No logic needed - we just need imports to run"
+    "You can `%load_ext nbdev.flags` to make magic flags, show_doc and notebook2script available in a notebook"
+    from .showdoc import show_doc
+    from .export import notebook2script
+    ipython.push(dict(show_doc=show_doc,notebook2script=notebook2script))
