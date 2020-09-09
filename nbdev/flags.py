@@ -115,3 +115,5 @@ if IN_IPYTHON:
         for flag in Config().get('tst_flags', '').split('|'): _new_test_flag_fn(flag)
     except: pass # do not fail if we can't find config
 
+def load_ipython_extension(ipython):
+    "This function makes `nbdev.flags` an ipython extension. No logic needed - we just need imports to run"
