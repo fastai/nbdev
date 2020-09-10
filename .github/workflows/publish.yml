@@ -1,4 +1,3 @@
-#.github/workflows/publish.yml
 name: publish-release
 on:
   workflow_dispatch:
