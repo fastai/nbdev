@@ -554,7 +554,7 @@ def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, d
     time.sleep(random.random())
     print(f"converting: {fname}")
     try:
-        convert_nb(fname, cls=cls, template_file=template_file, exporter=exporter, dest=dest, execute=True)
+        convert_nb(fname, cls=cls, template_file=template_file, exporter=exporter, dest=dest, execute=execute)
         return True
     except Exception as e:
         print(e)
