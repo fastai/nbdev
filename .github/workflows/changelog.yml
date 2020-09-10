@@ -7,6 +7,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Update CHANGELOG.md
-      uses: ./action/changelog
+      uses: fastai/action/changelog
       with:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
