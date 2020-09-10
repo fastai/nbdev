@@ -2,6 +2,17 @@
 
 <!-- do not remove -->
 
+## 1.0.15
+
+### New Features
+
+- add option to not exec nb for fastpages ([#244](https://api.github.com/repos/fastai/nbdev/issues/244))
+- Enable Codespaces for nbdev ([#243](https://api.github.com/repos/fastai/nbdev/issues/243))
+
+### Bugs Squashed
+
+- Fix: correct notebook2html path operation for Windows. ([#239](https://api.github.com/repos/fastai/nbdev/issues/239))
+
 ## 1.0.13
 
 ### New Features
