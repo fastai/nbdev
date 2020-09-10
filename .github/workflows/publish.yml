@@ -22,6 +22,7 @@ jobs:
         conda-build:
           anaconda_token: fa-5a8ca5e3-3c13-4260-8a54-362fa83d91f6
         EOF
+        pip install anaconda-cli
     - uses: fastai/fastrelease/action/publish@master
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USER }}
