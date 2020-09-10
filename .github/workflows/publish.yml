@@ -1,5 +1,5 @@
 #.github/workflows/publish.yml
-name: publish release
+name: publish-release
 on:
   workflow_dispatch:
   #push:
