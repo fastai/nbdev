@@ -8,7 +8,9 @@ env:
   HOME: /root
 jobs:
   build:
-    #if: (github.event.head_commit.author.username == 'github-actions[bot]') && contains(github.event.head_commit.message, 'Update CHANGELOG.md')
+    if: |
+      (github.event_name == 'workflow_dispatch') || 
+      (github.event_name == 'push' && (github.event.head_commit.author.username == 'github-actions[bot]') && contains(github.event.head_commit.message, 'Update CHANGELOG.md'))
     runs-on: ubuntu-latest
     container: fastai/miniconda
     steps:
