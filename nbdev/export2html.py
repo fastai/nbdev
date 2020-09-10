@@ -528,7 +528,7 @@ def _nb2htmlfname(nb_path, dest=None):
     return Path(dest)/re_digits_first.sub('', nb_path.with_suffix('.html').name)
 
 # Cell
-def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
+def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None, execute=True):
     "Convert a notebook `fname` to html file in `dest_path`."
     fname = Path(fname).absolute()
     os.chdir(fname.parent)
@@ -541,7 +541,7 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=
     nb['cells'] = compose(*process_cells,partial(add_show_docs, cls_lvl=cls_lvl))(nb['cells'])
     _func = compose(partial(copy_images, fname=fname, dest=Config().doc_path), *process_cell, treat_backticks)
     nb['cells'] = [_func(c) for c in nb['cells']]
-    nb = execute_nb(nb, mod=mod)
+    if execute: nb = execute_nb(nb, mod=mod)
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
     call_cb('after_doc_nb_preprocess', nb, fname, 'html')
     if exporter is None: exporter = nbdev_exporter(cls=cls, template_file=template_file)
@@ -550,11 +550,11 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=
     call_cb('after_doc_nb', fname, 'html')
 
 # Cell
-def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None):
+def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None, execute=True):
     time.sleep(random.random())
     print(f"converting: {fname}")
     try:
-        convert_nb(fname, cls=cls, template_file=template_file, exporter=exporter, dest=dest)
+        convert_nb(fname, cls=cls, template_file=template_file, exporter=exporter, dest=dest, execute=True)
         return True
     except Exception as e:
         print(e)
@@ -562,7 +562,7 @@ def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, d
 
 # Cell
 def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter, template_file=None,
-                  exporter=None, dest=None, pause=0):
+                  exporter=None, dest=None, pause=0, execute=True):
     "Convert all notebooks matching `fname` to html files"
     if fname is None:
         files = [f for f in Config().nbs_path.glob('**/*.ipynb')
@@ -583,7 +583,7 @@ def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter,
     if len(files)==0: print("No notebooks were modified")
     else:
         passed = parallel(_notebook2html, files, n_workers=n_workers, cls=cls,
-                          template_file=template_file, exporter=exporter, dest=dest, pause=pause)
+                          template_file=template_file, exporter=exporter, dest=dest, pause=pause, execute=execute)
         if not all(passed):
             msg = "Conversion failed on the following:\n"
             print(msg + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
