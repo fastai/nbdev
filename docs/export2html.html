@@ -1038,8 +1038,8 @@ However, the OUTPUT of this cell is collapsed by default but you can expand it!
     <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;%nbdev_default_export notebook.export&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;show_doc(read_nb)&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;#default_cls_lvl 3&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;#all_slow&#39;</span><span class="p">),</span> <span class="c1"># slow is not in setting.ini tst_flags</span>
-    <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;%nbdev_slow_test all&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;#all_foo&#39;</span><span class="p">),</span> <span class="c1"># foo is not in setting.ini tst_flags</span>
+    <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;%nbdev_foo_test all&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;#all_fastai&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;%nbdev_fastai_test all&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;#hide (last test of to_concat)&#39;</span><span class="p">),</span>
@@ -1051,7 +1051,8 @@ However, the OUTPUT of this cell is collapsed by default but you can expand it!
     <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;#hide</span><span class="se">\n\n</span><span class="s1">to hide&#39;</span><span class="p">),</span> 
     <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;#comment</span><span class="se">\n</span><span class="s1">%nbdev_hide</span><span class="se">\n</span><span class="s1">to hide&#39;</span><span class="p">)]]</span>
 
-<span class="n">test_eq</span><span class="p">([</span><span class="n">cell</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">cells</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;hide&#39;</span><span class="p">]],</span> <span class="n">remove_hidden</span><span class="p">(</span><span class="n">cells</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">cell</span> <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">cells</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;hide&#39;</span><span class="p">]],</span> <span class="n">remove_hidden</span><span class="p">(</span><span class="n">cells</span><span class="p">)):</span>
+    <span class="n">test_eq</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1785,7 +1786,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L531" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L531" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>, <strong><code>execute</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to html file in <code>dest_path</code>.</p>
 
@@ -1824,7 +1825,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="notebook2html" class="doc_header"><code>notebook2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L564" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2html</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>, <strong><code>n_workers</code></strong>=<em><code>None</code></em>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>, <strong><code>pause</code></strong>=<em><code>0</code></em>)</p>
+<h4 id="notebook2html" class="doc_header"><code>notebook2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L564" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2html</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>, <strong><code>n_workers</code></strong>=<em><code>None</code></em>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>, <strong><code>pause</code></strong>=<em><code>0</code></em>, <strong><code>execute</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Convert all notebooks matching <code>fname</code> to html files</p>
 
