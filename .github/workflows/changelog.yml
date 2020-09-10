@@ -1,0 +1,12 @@
+#.github/workflows/changelog.yaml
+name: changelog
+on: workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Update CHANGELOG.md
+      uses: ./action/changelog
+      with:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
