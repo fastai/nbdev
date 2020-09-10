@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: fastai/workflows/conda-env@master
     - name: Create condarc
-    - run: |
+      run: |
         cat >> ~/.condarc << EOF
         conda-build:
           anaconda_token: fa-5a8ca5e3-3c13-4260-8a54-362fa83d91f6
