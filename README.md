@@ -69,7 +69,12 @@ Now, run `jupyter notebook`, and click `00_core.ipynb`. This is where you'll cre
 In the last cell of your notebook, you can then run:
 
 ```python
-from nbdev import *
+from nbdev.export import *
+notebook2script()
+```
+
+```python
+from nbdev.export import *
 notebook2script()
 ```
 
@@ -79,11 +84,13 @@ notebook2script()
     Converted 03_export2html.ipynb.
     Converted 04_test.ipynb.
     Converted 05_merge.ipynb.
+    Converted 05a_conda.ipynb.
     Converted 06_cli.ipynb.
     Converted 07_clean.ipynb.
-    Converted 08_flag_tests.ipynb.
     Converted 99_search.ipynb.
     Converted index.ipynb.
+    Converted magic_flags.ipynb.
+    Converted nbdev_callbacks.ipynb.
     Converted tutorial.ipynb.
 
 
