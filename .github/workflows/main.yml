@@ -44,8 +44,6 @@ jobs:
       run: |
         cd data
         mkdir -p /fastpages
-        cp _action_files/action_entrypoint.sh /fastpages
-        cp _action_files/word2post.sh /fastpages
-        cp _action_files/settings.ini /fastpages
+        cp -r _action_files/* /fastpages/
         /fastpages/action_entrypoint.sh
   
