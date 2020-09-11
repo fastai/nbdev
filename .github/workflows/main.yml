@@ -26,3 +26,14 @@ jobs:
         pip install -qe .
         pip install -qU fastcore
         make test
+
+  fastai-integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: pip install -qe .
+      - uses: actions/checkout@v2
+        with:
+          repo: "fastai/fastpages"
+      - run: |
+          ls
