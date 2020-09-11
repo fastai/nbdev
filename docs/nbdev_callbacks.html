@@ -66,7 +66,7 @@ nb_path: "nbs/nbdev_callbacks.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="call_cb" class="doc_header"><code>call_cb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/imports.py#L76" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>call_cb</code>(<strong><code>cb_name</code></strong>, <strong>*<code>args</code></strong>)</p>
+<h4 id="call_cb" class="doc_header"><code>call_cb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/imports.py#L77" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>call_cb</code>(<strong><code>cb_name</code></strong>, <strong>*<code>args</code></strong>)</p>
 </blockquote>
 <p>Calls <code>cb_name</code> from the <code>nbdev_callbacks</code> module but won't fail if it doesn't exist</p>
 
@@ -96,31 +96,6 @@ nb_path: "nbs/nbdev_callbacks.ipynb"
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_callbacks.begin_test_nb" class="doc_header"><code>nbdev_callbacks.begin_test_nb</code><a href="nbdev_callbacks.py#L3" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_callbacks.begin_test_nb</code>(<strong><code>nb</code></strong>, <strong><code>file_name</code></strong>, <strong><code>flags</code></strong>)</p>
-</blockquote>
-<p>Called before testing a notebook. Return the notebook to be tested</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It is expected that you'll want to modify and return <code>nb</code> but your callback handler <em>could</em> create and return a new notebook.</p>
@@ -130,56 +105,6 @@ nb_path: "nbs/nbdev_callbacks.ipynb"
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_callbacks.after_test_nb" class="doc_header"><code>nbdev_callbacks.after_test_nb</code><a href="nbdev_callbacks.py#L7" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_callbacks.after_test_nb</code>(<strong><code>file_name</code></strong>)</p>
-</blockquote>
-<p>Called after testing a notebook</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_callbacks.begin_doc_nb" class="doc_header"><code>nbdev_callbacks.begin_doc_nb</code><a href="nbdev_callbacks.py#L11" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_callbacks.begin_doc_nb</code>(<strong><code>nb</code></strong>, <strong><code>file_name</code></strong>, <strong><code>output_type</code></strong>)</p>
-</blockquote>
-<p>Called before converting a notebook to documentation. Return the notebook to be converted</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It is expected that you'll want to modify and return <code>nb</code> but your callback handler <em>could</em> create and return a new notebook.</p>
@@ -192,34 +117,9 @@ nb_path: "nbs/nbdev_callbacks.ipynb"
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_callbacks.after_doc_nb_preprocess" class="doc_header"><code>nbdev_callbacks.after_doc_nb_preprocess</code><a href="nbdev_callbacks.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_callbacks.after_doc_nb_preprocess</code>(<strong><code>nb</code></strong>, <strong><code>file_name</code></strong>, <strong><code>output_type</code></strong>)</p>
-</blockquote>
-<p>Called after pre-processing a notebook, before converting to documentation. Return the notebook to be converted</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This callback handler gets the same arguments as <code>begin_doc_nb</code> but <code>nb</code> will have been modifed by processors that do things like:</p>
+<p><code>after_doc_nb_preprocess</code> gets the same arguments as <code>begin_doc_nb</code> but <code>nb</code> will have been modifed by processors that do things like:</p>
 <ul>
 <li>add <a href="/showdoc.html#show_doc"><code>show_doc</code></a> calls for for exported functions and classes</li>
 <li>remove empty cells</li>
@@ -230,31 +130,6 @@ nb_path: "nbs/nbdev_callbacks.ipynb"
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_callbacks.after_doc_nb" class="doc_header"><code>nbdev_callbacks.after_doc_nb</code><a href="nbdev_callbacks.py#L19" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_callbacks.after_doc_nb</code>(<strong><code>file_name</code></strong>, <strong><code>output_type</code></strong>)</p>
-</blockquote>
-<p>Called after converting a notebook to documentation</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="What-kind-of-things-can-you-do-with-these-callbacks?">What kind of things can you do with these callbacks?<a class="anchor-link" href="#What-kind-of-things-can-you-do-with-these-callbacks?"> </a></h2>

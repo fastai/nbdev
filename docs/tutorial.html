@@ -221,7 +221,7 @@ nb_path: "nbs/tutorial.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's add a function to this notebook, e.g.:</p>
-<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">nbdev_export</span>
+<div class="highlight"><pre><span></span><span class="c1">#export</span>
 <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">to</span><span class="p">):</span>
     <span class="s2">&quot;Say hello to somebody&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Hello </span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s1">!&#39;</span>
@@ -502,7 +502,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create a class in <code>00_core.ipynb</code> as follows:</p>
-<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">nbdev_export</span>
+<div class="highlight"><pre><span></span><span class="c1">#export</span>
 <span class="k">class</span> <span class="nc">HelloSayer</span><span class="p">:</span>
     <span class="s2">&quot;Say hello to `to` using `say_hello`&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">to</span>

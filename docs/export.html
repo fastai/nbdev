@@ -610,7 +610,7 @@ nb_path: "nbs/00_export.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>{&#39;cell_type&#39;: &#39;code&#39;,
- &#39;execution_count&#39;: 1,
+ &#39;execution_count&#39;: None,
  &#39;metadata&#39;: {&#39;hide_input&#39;: True},
  &#39;outputs&#39;: [{&#39;name&#39;: &#39;stdout&#39;,
    &#39;output_type&#39;: &#39;stream&#39;,
@@ -686,12 +686,12 @@ nb_path: "nbs/00_export.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">cell</span> <span class="o">=</span> <span class="n">test_nb</span><span class="p">[</span><span class="s1">&#39;cells&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;%nbdev_export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-<span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;%nbdev_export&#39;</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;#export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;#export&#39;</span><span class="p">))</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 <span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;# bla&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;cell_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;markdown&#39;</span>
-<span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;%nbdev_export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-<span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;%nbdev_export&#39;</span><span class="p">,</span> <span class="n">code_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;#export&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+<span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;#export&#39;</span><span class="p">,</span> <span class="n">code_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 </pre></div>
 
     </div>
@@ -1301,7 +1301,7 @@ nb_path: "nbs/00_export.ipynb"
 </pre></div>
 <p>or magic flags:</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
-<span class="o">%</span><span class="n">nbdev_export</span>
+<span class="c1">#export</span>
 <span class="k">class</span> <span class="err">...</span>
 </pre></div>
 <p>Notice that <code>%nbdev_export</code> is after the <code>__future__</code> import. Because <code>__future__</code> imports must occur at the beginning of the file, nbdev allows <code>__future__</code> imports in the flags section of a cell.</p>

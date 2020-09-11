@@ -430,9 +430,10 @@ class ExecuteShowDocPreprocessor(ExecutePreprocessor):
             if check_re_multi(cell, [_re_show_doc, _re_show_doc_magic]):
                 return super().preprocess_cell(cell, resources, index)
             elif check_re_multi(cell, [_re_import, _re_lib_import.re]):
-#                 r = list(filter(_non_comment_code, cell['source'].split('\n')))
-#                 if r: print("You have import statements mixed with other code", r)
-                return super().preprocess_cell(cell, resources, index)
+                if check_re_multi(cell, [_re_export, _re_export_magic, 'show_doc', '^\s*#\s*import']):
+#                     r = list(filter(_non_comment_code, cell['source'].split('\n')))
+#                     if r: print("You have import statements mixed with other code", r)
+                    return super().preprocess_cell(cell, resources, index)
 #                 try: return super().preprocess_cell(cell, resources, index)
 #                 except: pass
         return cell, resources
