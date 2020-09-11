@@ -2,6 +2,12 @@
 
 <!-- do not remove -->
 
+## 1.0.16
+
+### Bugs Squashed
+
+- When generating docs, import cells are run even if not exported ([#248](https://api.github.com/repos/fastai/nbdev/issues/248))
+
 ## 1.0.15
 
 ### New Features
