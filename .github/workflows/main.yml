@@ -38,7 +38,7 @@ jobs:
         pip install -qU fastcore   
     - uses: actions/checkout@v2
       with:
-        repo: "fastai/fastpages"
+        repository: "fastai/fastpages"
         path: "fastpages"
     - name: convert posts  
       run: |
