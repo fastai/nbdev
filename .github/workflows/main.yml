@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run tests
-    - run: |
+      run: |
         pip install -qe .
         pip install -qU fastcore
         make test
