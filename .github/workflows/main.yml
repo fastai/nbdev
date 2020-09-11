@@ -27,7 +27,7 @@ jobs:
         pip install -qU fastcore
         make test
 
-  fastpages-integration-test:
+  fastpages-integration:
     runs-on: ubuntu-latest
     container: fastai/jekyll
     steps:
