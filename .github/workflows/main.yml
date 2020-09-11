@@ -39,9 +39,12 @@ jobs:
     - uses: actions/checkout@v2
       with:
         repository: "fastai/fastpages"
-        path: "fastpages"
+        path: "data"
     - name: convert posts  
       run: |
-        cd fastpages
+        cd data
+        mkdir -p /fastpages
+        cp _action_files/action_entrypoint.sh /fastpages
+        cp _action_files/word2post.sh /fastpages
         /fastpages/action_entrypoint.sh
   
