@@ -53,7 +53,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                    n_workers:Param("Number of workers to use", int)=None,
                    verbose:Param("Print errors along the way", bool)=True,
                    timing:Param("Timing each notebook to see the ones are slow", bool)=False,
-                   pause:Param("Pause time (in secs) between notebooks to avoid race conditions", float)=0.2):
+                   pause:Param("Pause time (in secs) between notebooks to avoid race conditions", float)=0.5):
     "Test in parallel the notebooks matching `fname`, passing along `flags`"
     if flags is not None: flags = flags.split(' ')
     if fname is None:
@@ -98,7 +98,7 @@ def nbdev_build_docs(fname:Param("A notebook name or glob to convert", str)=None
                      force_all:Param("Rebuild even notebooks that haven't changed", bool_arg)=False,
                      mk_readme:Param("Also convert the index notebook to README", bool_arg)=True,
                      n_workers:Param("Number of workers to use", int)=None,
-                     pause:Param("Pause time (in secs) between notebooks to avoid race conditions", float)=0.2):
+                     pause:Param("Pause time (in secs) between notebooks to avoid race conditions", float)=0.5):
     "Build the documentation by converting notebooks mathing `fname` to html"
     notebook2html(fname=fname, force_all=force_all, n_workers=n_workers, pause=pause)
     if fname is None: make_sidebar()
