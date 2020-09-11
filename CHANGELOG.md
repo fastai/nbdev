@@ -2,6 +2,12 @@
 
 <!-- do not remove -->
 
+## 1.0.17
+
+### Bugs Squashed
+
+- restrict nbconvert<6 to avoid upgrade problems ([#249](https://api.github.com/repos/fastai/nbdev/issues/249))
+
 ## 1.0.16
 
 ### Bugs Squashed
