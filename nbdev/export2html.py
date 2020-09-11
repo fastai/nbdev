@@ -532,7 +532,7 @@ def _nb2htmlfname(nb_path, dest=None):
 def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None, execute=True):
     "Convert a notebook `fname` to html file in `dest_path`."
     fname = Path(fname).absolute()
-    os.chdir(fname.parent)
+#     os.chdir(fname.parent)
     nb = read_nb(fname)
     call_cb('begin_doc_nb', nb, fname, 'html')
     meta_jekyll = get_metadata(nb['cells'])
