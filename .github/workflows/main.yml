@@ -1,12 +1,18 @@
 name: CI
 on: [push, pull_request]
+env:
+  HOME: /root
+defaults:
+  run:
+    shell: bash
+
 jobs:
   nb-sync:
     runs-on: ubuntu-latest
     container: fastai/jekyll
     steps:
     - uses: actions/checkout@v2
-    - run: pip install -e .
+    - run: pip install -qe .
     - name: Check if notebooks are synced and cleaned
       uses: fastai/workflows/nb@master
 
@@ -14,7 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     container: fastai/jekyll
     steps:
-    - uses: actions/checkout@v1
-    - run: pip install -e .
+    - uses: actions/checkout@v2
     - name: Run tests
-      run: make test
+    - run: |
+        pip install -qe .
+        pip install -qU fastcore
+        make test
