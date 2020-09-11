@@ -43,5 +43,5 @@ jobs:
     - name: convert posts  
       run: |
         cd fastpages
-        fastpages/action_entrypoint.sh
+        /fastpages/action_entrypoint.sh
   
