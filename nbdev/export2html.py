@@ -510,19 +510,14 @@ def write_tmpls():
 
 # Cell
 def nbdev_exporter(cls=HTMLExporter, template_file=None):
-    # For backwards comaptability of 5.x style templates, we pass a full template_file path
-    # instead of manipulating template_paths
-    if not template_file:
-        template_file = 'jekyll.tpl'
-    if template_file and not os.path.isabs(template_file):
-        template_file = str(Path(__file__).parent/'templates'/template_file)
-    cfg = traitlets.config.Config(
-        exclude_input_prompt=True,
-        exclude_output_prompt=True,
-        anchor_link_text=' ',
-        template_file=template_file,
-    )
-    return cls(cfg)
+    cfg = traitlets.config.Config()
+    exporter = cls(cfg)
+    exporter.exclude_input_prompt=True
+    exporter.exclude_output_prompt=True
+    exporter.anchor_link_text = ' '
+    exporter.template_file = 'jekyll.tpl' if template_file is None else template_file
+    exporter.template_path.append(str(Path(__file__).parent/'templates'))
+    return exporter
 
 # Cell
 process_cells = [remove_fake_headers, remove_hidden, remove_empty]
