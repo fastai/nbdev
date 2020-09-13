@@ -1,4 +1,4 @@
-{%- extends 'markdown/index.md.j2' -%}
+{%- extends 'markdown.tpl' -%}
 
 {% block input_group -%}
 {%- if cell.metadata.collapse_show -%}
