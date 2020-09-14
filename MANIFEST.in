@@ -1,4 +1,4 @@
-include CONTIBUTING.md
+include CONTRIBUTING.md
 include LICENSE
 include README.md
 include nbdev/templates/*tpl
