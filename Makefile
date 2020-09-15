@@ -21,7 +21,6 @@ test:
 
 release: pypi
 	fastrelease_conda_package --upload_user fastai
-	fastrelease_release
 	nbdev_bump_version
 
 conda_release:
