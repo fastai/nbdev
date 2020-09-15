@@ -20,11 +20,12 @@ test:
 	nbdev_test_nbs --flags ''
 
 release: pypi
-	nbdev_conda_package --upload_user fastai
+	fastrelease_conda_package --upload_user fastai
+	fastrelease_release
 	nbdev_bump_version
 
 conda_release:
-	nbdev_conda_package --upload_user fastai
+	fastrelease_conda_package --upload_user fastai
 
 pypi: dist
 	twine upload --repository pypi dist/*
