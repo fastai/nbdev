@@ -6,34 +6,34 @@
 
 ### Bugs Squashed
 
-- restrict nbconvert<6 to avoid upgrade problems ([#249](https://api.github.com/repos/fastai/nbdev/issues/249))
+- restrict nbconvert<6 to avoid upgrade problems ([#249](https://github.com/fastai/nbdev/issues/249))
 
 ## 1.0.16
 
 ### Bugs Squashed
 
-- When generating docs, import cells are run even if not exported ([#248](https://api.github.com/repos/fastai/nbdev/issues/248))
+- When generating docs, import cells are run even if not exported ([#248](https://github.com/fastai/nbdev/issues/248))
 
 ## 1.0.15
 
 ### New Features
 
-- add option to not exec nb for fastpages ([#244](https://api.github.com/repos/fastai/nbdev/issues/244))
-- Enable Codespaces for nbdev ([#243](https://api.github.com/repos/fastai/nbdev/issues/243))
+- add option to not exec nb for fastpages ([#244](https://github.com/fastai/nbdev/issues/244))
+- Enable Codespaces for nbdev ([#243](https://github.com/fastai/nbdev/issues/243))
 
 ### Bugs Squashed
 
-- Fix: correct notebook2html path operation for Windows. ([#239](https://api.github.com/repos/fastai/nbdev/issues/239))
+- Fix: correct notebook2html path operation for Windows. ([#239](https://github.com/fastai/nbdev/issues/239))
 
 ## 1.0.13
 
 ### New Features
 
-- remove numpy conda dep and update to fastcore 1.0.5 ([#241](https://api.github.com/repos/fastai/nbdev/issues/241))
+- remove numpy conda dep and update to fastcore 1.0.5 ([#241](https://github.com/fastai/nbdev/issues/241))
 
 ### Bugs Squashed
 
-- allow nbdev imports when not in an nbdev project ([#238](https://api.github.com/repos/fastai/nbdev/issues/238))
+- allow nbdev imports when not in an nbdev project ([#238](https://github.com/fastai/nbdev/issues/238))
 
 ## 1.0.10
 
