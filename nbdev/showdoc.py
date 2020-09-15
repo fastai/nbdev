@@ -182,7 +182,7 @@ def nb_source_link(func, is_name=None, disp=True, local=True):
     else: return link
 
 # Cell
-from fastscript import Param
+from fastcore.script import Param
 
 # Cell
 def type_repr(t):

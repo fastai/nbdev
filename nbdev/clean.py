@@ -5,7 +5,7 @@ __all__ = ['rm_execution_count', 'clean_output_data_vnd', 'colab_json', 'clean_c
 
 # Cell
 import io,sys,json,glob
-from fastscript import call_parse,Param
+from fastcore.script import call_parse,Param
 from .imports import Config
 from pathlib import Path
 

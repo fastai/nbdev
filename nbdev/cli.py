@@ -11,7 +11,7 @@ from .sync import *
 from .merge import *
 from .export2html import *
 from .test import *
-from fastscript import call_parse,Param,bool_arg
+from fastcore.script import call_parse,Param,bool_arg
 from subprocess import check_output,STDOUT
 
 # Cell

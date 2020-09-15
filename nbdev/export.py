@@ -7,7 +7,7 @@ __all__ = ['first', 'read_nb', 'check_re', 'check_re_multi', 'is_export', 'find_
 
 # Cell
 from .imports import *
-from fastscript import *
+from fastcore.script import *
 from keyword import iskeyword
 from .flags import parse_line
 
