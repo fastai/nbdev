@@ -73,16 +73,3 @@ class ReLibName():
         self.pat = self.pat.replace('LIB_NAME', Config().lib_name)
         if self._re is None: self._re = re.compile(self.pat, self.flags)
         return self._re
-
-def call_cb(cb_name, *args):
-    "Calls `cb_name` from the `nbdev_callbacks` module but won't fail if it doesn't exist"
-    if 'nbdev_callbacks' not in globals():
-        _sys_path=sys.path
-        try:
-            cfg=Config()
-            sys.path=[str(cfg.config_file.parent/cfg.get('callbacks_path', '.'))]
-            try: import nbdev_callbacks
-            except: nbdev_callbacks={}
-        finally: sys.path=_sys_path
-    if not hasattr(nbdev_callbacks, cb_name): return args[0] if args else None
-    return getattr(nbdev_callbacks, cb_name)(*args)

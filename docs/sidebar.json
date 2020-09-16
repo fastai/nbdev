@@ -12,7 +12,6 @@
     "Command line functions": "cli.html",
     "Clean notebooks": "clean.html",
     "Setting up Search": "search.html",
-    "Magic Flags":  "magic_flags.html",
-    "Callbacks": "nbdev_callbacks.html"
+    "Magic Flags":  "magic_flags.html"
   }
 }
