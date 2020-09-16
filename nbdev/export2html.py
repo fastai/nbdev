@@ -534,7 +534,6 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=
     fname = Path(fname).absolute()
 #     os.chdir(fname.parent)
     nb = read_nb(fname)
-    call_cb('begin_doc_nb', nb, fname, 'html')
     meta_jekyll = get_metadata(nb['cells'])
     meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
     cls_lvl = find_default_level(nb['cells'])
@@ -544,11 +543,9 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=
     nb['cells'] = [_func(c) for c in nb['cells']]
     if execute: nb = execute_nb(nb, mod=mod)
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
-    call_cb('after_doc_nb_preprocess', nb, fname, 'html')
     if exporter is None: exporter = nbdev_exporter(cls=cls, template_file=template_file)
     with open(_nb2htmlfname(fname, dest=dest),'w') as f:
         f.write(exporter.from_notebook_node(nb, resources=meta_jekyll)[0])
-    call_cb('after_doc_nb', fname, 'html')
 
 # Cell
 def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None, execute=True):
@@ -596,14 +593,12 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     if not img_path: img_path = fname.stem + '_files/'
     Path(img_path).mkdir(exist_ok=True, parents=True)
     nb = read_nb(fname)
-    call_cb('begin_doc_nb', nb, fname, 'md')
     meta_jekyll = get_metadata(nb['cells'])
     try: meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
     except: meta_jekyll['nb_path'] = str(fname)
     nb['cells'] = compose(*process_cells)(nb['cells'])
     nb['cells'] = [compose(partial(adapt_img_path, fname=fname, dest=dest_path, jekyll=jekyll), *process_cell)(c)
                    for c in nb['cells']]
-    call_cb('after_doc_nb_preprocess', nb, fname, 'md')
     fname = Path(fname).absolute()
     dest_name = fname.with_suffix('.md').name
     exp = nbdev_exporter(cls=MarkdownExporter, template_file='jekyll-md.tpl' if jekyll else 'md.tpl')
@@ -615,7 +610,6 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     if hasattr(export[1]['outputs'], 'items'):
         for n,o in export[1]['outputs'].items():
             with open(Path(dest_path)/img_path/n, 'wb') as f: f.write(o)
-    call_cb('after_doc_nb', fname, 'md')
 
 # Cell
 _re_att_ref = re.compile(r' *!\[(.*)\]\(attachment:image.png(?: "(.*)")?\)')
