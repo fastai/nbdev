@@ -315,7 +315,7 @@ def add_show_docs(cells, cls_lvl=None):
         res.append(cell)
         if check_re_multi(cell, [_re_export, _re_export_magic]):
             for n in export_names(cell['source'], func_only=True):
-                if not _documented(n): res.append(_show_doc_cell(n, cls_lvl=cls_lvl))
+                if not _documented(n): res.insert(len(res)-1, _show_doc_cell(n, cls_lvl=cls_lvl))
     return res
 
 # Cell
