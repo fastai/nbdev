@@ -2,8 +2,7 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"first": "00_export.ipynb",
-         "read_nb": "00_export.ipynb",
+index = {"read_nb": "00_export.ipynb",
          "check_re": "00_export.ipynb",
          "check_re_multi": "00_export.ipynb",
          "is_export": "00_export.ipynb",
@@ -44,8 +43,6 @@ index = {"first": "00_export.ipynb",
          "type_repr": "02_showdoc.ipynb",
          "format_param": "02_showdoc.ipynb",
          "show_doc": "02_showdoc.ipynb",
-         "parse_nbdev_show_doc": "02_showdoc.ipynb",
-         "nbdev_show_doc": "02_showdoc.ipynb",
          "md2html": "02_showdoc.ipynb",
          "get_doc_link": "02_showdoc.ipynb",
          "doc": "02_showdoc.ipynb",

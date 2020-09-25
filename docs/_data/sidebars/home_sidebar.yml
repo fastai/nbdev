@@ -45,9 +45,6 @@ entries:
     - output: web,pdf
       title: Magic Flags
       url: magic_flags.html
-    - output: web,pdf
-      title: Callbacks
-      url: nbdev_callbacks.html
     output: web
     title: nbdev
   output: web

@@ -14,6 +14,7 @@ from .export import *
 from .export import _mk_flag_re
 from .showdoc import *
 from .template import *
+from fastcore.foundation import *
 
 from html.parser import HTMLParser
 from nbconvert.preprocessors import ExecutePreprocessor, Preprocessor
@@ -56,24 +57,11 @@ _re_show_doc = re.compile(r"""
 [,\)\s]      # A comma, a closing ) or a whitespace
 """, re.MULTILINE | re.VERBOSE)
 
-_re_show_doc_magic = _mk_flag_re(True, 'show_doc', -1,
-    "# Catches a cell with %nbdev_show_doc \*\* and get that \*\* in group 1")
-
 _re_hide_input = [
-    _mk_flag_re(False, 'export', (0,1),
-        "Matches any cell that has `#export in it"),
-    _mk_flag_re(False, '(hide_input|hide-input)', 0,
-        "Matches any cell that has `#hide_input` or `#hide-input` in it"),
-    _mk_flag_re(True, 'export', (0,1),
-        "Matches any cell that has `%nbdev_export` in it"),
-    _mk_flag_re(True, 'hide_input', 0,
-        "Matches any cell that has `%nbdev_hide_input` in it")]
+    _mk_flag_re('export', (0,1), "Cell that has `#export"),
+    _mk_flag_re('(hide_input|hide-input)', 0, "Cell that has `#hide_input` or `#hide-input`")]
 
-_re_hide_output = [
-    _mk_flag_re(False, '(hide_output|hide-output)', 0,
-        "Matches any cell that has `#hide_output` or `#hide-output` in it"),
-    _mk_flag_re(True, 'hide_output', 0,
-        "Matches any cell that has `%nbdev_hide_output` in it")]
+_re_hide_output = _mk_flag_re('(hide_output|hide-output)', 0, "Cell that has `#hide_output` or `#hide-output`")
 
 # Cell
 def upd_metadata(cell, key, value=True):
@@ -83,15 +71,14 @@ def upd_metadata(cell, key, value=True):
 # Cell
 def hide_cells(cell):
     "Hide inputs of `cell` that need to be hidden"
-    if check_re_multi(cell, [_re_show_doc, _re_show_doc_magic, *_re_hide_input]): upd_metadata(cell, 'hide_input')
-    elif check_re_multi(cell, _re_hide_output): upd_metadata(cell, 'hide_output')
+    if check_re_multi(cell, [_re_show_doc, *_re_hide_input]): upd_metadata(cell, 'hide_input')
+    elif check_re(cell, _re_hide_output): upd_metadata(cell, 'hide_output')
     return cell
 
 # Cell
 def clean_exports(cell):
     "Remove all flags from code `cell`s"
-    if cell['cell_type'] == 'code':
-        cell['source'] = split_flags_and_code(cell, str)[1]
+    if cell['cell_type'] == 'code': cell['source'] = split_flags_and_code(cell, str)[1]
     return cell
 
 # Cell
@@ -219,54 +206,31 @@ def escape_latex(cell):
     return cell
 
 # Cell
-_re_cell_to_collapse_closed = [
-    _mk_flag_re(False, '(collapse|collapse_hide|collapse-hide)', 0,
-        "Matches any cell with #collapse or #collapse_hide"),
-    _mk_flag_re(True, 'collapse_input', 0,
-        "Matches any cell with %nbdev_collapse_input")]
-
-_re_cell_to_collapse_open = [
-    _mk_flag_re(False, '(collapse_show|collapse-show)', 0,
-        "Matches any cell with #collapse_show"),
-    _mk_flag_re(True, r'collapse_input[ \t]+open', 0,
-        "Matches any cell with %nbdev_collapse_input open")]
-
-_re_cell_to_collapse_output = [
-    _mk_flag_re(False, '(collapse_output|collapse-output)', 0,
-        "Matches any cell with #collapse_output"),
-    _mk_flag_re(True, 'collapse_output', 0,
-        "Matches any cell with %nbdev_collapse_output")]
+_re_cell_to_collapse_closed = _mk_flag_re('(collapse|collapse_hide|collapse-hide)', 0, "Cell with #collapse or #collapse_hide")
+_re_cell_to_collapse_open = _mk_flag_re('(collapse_show|collapse-show)', 0, "Cell with #collapse_show")
+_re_cell_to_collapse_output = _mk_flag_re('(collapse_output|collapse-output)', 0, "Cell with #collapse_output")
 
 # Cell
 def collapse_cells(cell):
     "Add a collapse button to inputs or outputs of `cell` in either the open or closed position"
-    if check_re_multi(cell, _re_cell_to_collapse_closed): upd_metadata(cell,'collapse_hide')
-    elif check_re_multi(cell, _re_cell_to_collapse_open): upd_metadata(cell,'collapse_show')
-    elif check_re_multi(cell, _re_cell_to_collapse_output): upd_metadata(cell,'collapse_output')
+    if check_re(cell, _re_cell_to_collapse_closed): upd_metadata(cell,'collapse_hide')
+    elif check_re(cell, _re_cell_to_collapse_open): upd_metadata(cell,'collapse_show')
+    elif check_re(cell, _re_cell_to_collapse_output): upd_metadata(cell,'collapse_output')
     return cell
 
 # Cell
-_re_hide = [
-    _mk_flag_re(False, 'hide', 0, 'Matches any cell with #hide'),
-    _mk_flag_re(True, 'hide', 0, 'Matches any cell with %nbdev_hide')]
+_re_hide = _mk_flag_re('hide', 0, 'Cell with #hide')
 _re_all_flag = ReTstFlags(True)
-_re_cell_to_remove = [
-    _mk_flag_re(False, '(default_exp|exporti)', (0,1),
-        'Matches any cell with #default_exp or #exporti'),
-    _mk_flag_re(True, '(default_export|export_internal)', (0,1),
-        'Matches any cell with %nbdev_default_export or %nbdev_export_internal')]
-_re_default_cls_lvl = [
-    _mk_flag_re(False, 'default_cls_lvl', 1, "Matches any cell with #default_cls_lvl"),
-    _mk_flag_re(True, 'default_class_level', 1, "Matches any cell with %nbdev_default_class_level"),
-]
+_re_cell_to_remove = _mk_flag_re('(default_exp|exporti)', (0,1), 'Cell with #default_exp or #exporti')
+_re_default_cls_lvl = _mk_flag_re('default_cls_lvl', 1, "Cell with #default_cls_lvl")
 
 # Cell
 def remove_hidden(cells):
     "Remove in `cells` the ones with a flag `#hide`, `#default_exp`, `#default_cls_lvl` or `#exporti`"
     def _hidden(cell):
         "Check if `cell` should be hidden"
-        if check_re_multi(cell, _re_hide, code_only=False): return True
-        if check_re_multi(cell, [_re_all_flag, *_re_cell_to_remove, *_re_default_cls_lvl]): return True
+        if check_re(cell, _re_hide, code_only=False): return True
+        if check_re_multi(cell, [_re_all_flag, _re_cell_to_remove, _re_default_cls_lvl]): return True
         return False
     return [c for c in cells if not _hidden(c)]
 
@@ -279,10 +243,8 @@ def find_default_level(cells):
     return 2
 
 # Cell
-_re_export = _mk_flag_re(False, "exports?", (0,1),
+_re_export = _mk_flag_re("exports?", (0,1),
     "Matches any line with #export or #exports with or without module name")
-_re_export_magic = _mk_flag_re(True, "export(|_and_show)", (0,1),
-    "Matches any line with %nbdev_export or %nbdev_export_and_show with or without module name")
 
 # Cell
 def nb_code_cell(source):
@@ -295,25 +257,17 @@ def _show_doc_cell(name, cls_lvl=None):
 
 def add_show_docs(cells, cls_lvl=None):
     "Add `show_doc` for each exported function or class"
-    res, documented, documented_wild = [], [], []
+    res, documented = [], []
     for cell in cells:
-        m = check_re_multi(cell, [_re_show_doc, _re_show_doc_magic])
+        m = check_re(cell, _re_show_doc)
         if not m: continue
-        if m.re is _re_show_doc:
-            documented.append(m.group(1))
-        else:
-            names, wild_names, kwargs = parse_nbdev_show_doc(m.group(1))
-            documented.extend(names)
-            documented_wild.extend(wild_names)
+        documented.append(m.group(1))
 
-    def _documented(name):
-        if name in documented: return True
-        # assume that docs will have been shown for all members of everything in documented_wild
-        if name.rfind('.') != -1 and name[0:name.rfind('.')] in documented_wild: return True
+    def _documented(name): return name in documented
 
     for cell in cells:
         res.append(cell)
-        if check_re_multi(cell, [_re_export, _re_export_magic]):
+        if check_re(cell, _re_export):
             for n in export_names(cell['source'], func_only=True):
                 if not _documented(n): res.insert(len(res)-1, _show_doc_cell(n, cls_lvl=cls_lvl))
     return res
@@ -396,15 +350,13 @@ def get_metadata(cells):
             'title'   : 'Title'}
 
 # Cell
-_re_mod_export = _mk_flag_re(False, "export[s]?", 1,
+_re_mod_export = _mk_flag_re("export[s]?", 1,
     "Matches any line with #export or #exports with a module name and catches it in group 1")
-_re_mod_export_magic = _mk_flag_re(True, "export(?:|_and_show)", 1,
-    "Matches any line with %nbdev_export or %nbdev_export_and_show catching module name in group 1")
 
 def _gather_export_mods(cells):
     res = []
     for cell in cells:
-        tst = check_re_multi(cell, [_re_mod_export, _re_mod_export_magic])
+        tst = check_re(cell, _re_mod_export)
         if tst is not None: res.append(tst.groups()[0])
     return res
 
@@ -427,10 +379,10 @@ class ExecuteShowDocPreprocessor(ExecutePreprocessor):
     "An `ExecutePreprocessor` that only executes `show_doc` and `import` cells"
     def preprocess_cell(self, cell, resources, index):
         if not check_re(cell, _re_notebook2script):
-            if check_re_multi(cell, [_re_show_doc, _re_show_doc_magic]):
+            if check_re(cell, _re_show_doc):
                 return super().preprocess_cell(cell, resources, index)
             elif check_re_multi(cell, [_re_import, _re_lib_import.re]):
-                if check_re_multi(cell, [_re_export, _re_export_magic, 'show_doc', '^\s*#\s*import']):
+                if check_re_multi(cell, [_re_export, 'show_doc', '^\s*#\s*import']):
 #                     r = list(filter(_non_comment_code, cell['source'].split('\n')))
 #                     if r: print("You have import statements mixed with other code", r)
                     return super().preprocess_cell(cell, resources, index)
@@ -532,7 +484,6 @@ def _nb2htmlfname(nb_path, dest=None):
 def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None, execute=True):
     "Convert a notebook `fname` to html file in `dest_path`."
     fname = Path(fname).absolute()
-#     os.chdir(fname.parent)
     nb = read_nb(fname)
     meta_jekyll = get_metadata(nb['cells'])
     meta_jekyll['nb_path'] = str(fname.relative_to(Config().lib_path.parent))
