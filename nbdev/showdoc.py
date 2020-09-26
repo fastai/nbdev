@@ -8,7 +8,6 @@ __all__ = ['is_enum', 'is_lib_module', 're_digits_first', 'try_external_doc_link
 from .imports import *
 from .export import *
 from .sync import *
-from .flags import parse_line
 from nbconvert import HTMLExporter
 
 if IN_NOTEBOOK:

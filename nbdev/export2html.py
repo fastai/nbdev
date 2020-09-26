@@ -2,10 +2,10 @@
 
 __all__ = ['HTMLParseAttrs', 'remove_widget_state', 'upd_metadata', 'hide_cells', 'clean_exports', 'treat_backticks',
            'add_jekyll_notes', 'copy_images', 'adapt_img_path', 'escape_latex', 'collapse_cells', 'remove_hidden',
-           'find_default_level', 'nb_code_cell', 'add_show_docs', 'remove_fake_headers', 'remove_empty', 'get_metadata',
-           'ExecuteShowDocPreprocessor', 'execute_nb', 'cite2link', 'write_tmpl', 'write_tmpls', 'nbdev_exporter',
-           'process_cells', 'process_cell', 'convert_nb', 'notebook2html', 'convert_md', 'nb_detach_cells',
-           'create_default_sidebar', 'make_sidebar']
+           'find_default_level', 'nb_code_cell', 'add_show_docs', 'add_show_docs', 'remove_fake_headers',
+           'remove_empty', 'get_metadata', 'ExecuteShowDocPreprocessor', 'execute_nb', 'cite2link', 'write_tmpl',
+           'write_tmpls', 'nbdev_exporter', 'process_cells', 'process_cell', 'convert_nb', 'notebook2html',
+           'convert_md', 'nb_detach_cells', 'create_default_sidebar', 'make_sidebar']
 
 # Cell
 from .imports import *
@@ -220,31 +220,23 @@ def collapse_cells(cell):
 
 # Cell
 _re_hide = _mk_flag_re('hide', 0, 'Cell with #hide')
-_re_all_flag = ReTstFlags(True)
 _re_cell_to_remove = _mk_flag_re('(default_exp|exporti)', (0,1), 'Cell with #default_exp or #exporti')
 _re_default_cls_lvl = _mk_flag_re('default_cls_lvl', 1, "Cell with #default_cls_lvl")
 
 # Cell
 def remove_hidden(cells):
     "Remove in `cells` the ones with a flag `#hide`, `#default_exp`, `#default_cls_lvl` or `#exporti`"
-    def _hidden(cell):
-        "Check if `cell` should be hidden"
-        if check_re(cell, _re_hide, code_only=False): return True
-        if check_re_multi(cell, [_re_all_flag, _re_cell_to_remove, _re_default_cls_lvl]): return True
-        return False
-    return [c for c in cells if not _hidden(c)]
+    _hidden = lambda c: check_re(c, _re_hide, code_only=False) or check_re(c, _re_cell_to_remove)
+    return L(cells).filter(_hidden, negate=True)
 
 # Cell
 def find_default_level(cells):
     "Find in `cells` the default class level."
-    for cell in cells:
-        tst = check_re_multi(cell, _re_default_cls_lvl)
-        if tst: return int(tst.groups()[0])
-    return 2
+    res = L(cells).map_first(check_re_multi, pats=_re_default_cls_lvl)
+    return int(res.groups()[0]) if res else 2
 
 # Cell
-_re_export = _mk_flag_re("exports?", (0,1),
-    "Matches any line with #export or #exports with or without module name")
+_re_export = _mk_flag_re("exports?", (0,1), "Line with #export or #exports with or without module name")
 
 # Cell
 def nb_code_cell(source):
@@ -257,7 +249,7 @@ def _show_doc_cell(name, cls_lvl=None):
 
 def add_show_docs(cells, cls_lvl=None):
     "Add `show_doc` for each exported function or class"
-    res, documented = [], []
+    documented = []
     for cell in cells:
         m = check_re(cell, _re_show_doc)
         if not m: continue
@@ -270,6 +262,21 @@ def add_show_docs(cells, cls_lvl=None):
         if check_re(cell, _re_export):
             for n in export_names(cell['source'], func_only=True):
                 if not _documented(n): res.insert(len(res)-1, _show_doc_cell(n, cls_lvl=cls_lvl))
+    return res
+
+# Cell
+def _show_doc_cell(name, cls_lvl=None):
+    return nb_code_cell(f"show_doc({name}{'' if cls_lvl is None else f', default_cls_level={cls_lvl}'})")
+
+def add_show_docs(cells, cls_lvl=None):
+    "Add `show_doc` for each exported function or class"
+    documented = L(cells).map_filter(check_re, pat=_re_show_doc).map(Self.group(1))
+    res = []
+    for cell in cells:
+        res.append(cell)
+        if check_re(cell, _re_export):
+            for n in export_names(cell['source'], func_only=True):
+                if not n in documented: res.insert(len(res)-1, _show_doc_cell(n, cls_lvl=cls_lvl))
     return res
 
 # Cell

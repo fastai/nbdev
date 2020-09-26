@@ -73,3 +73,10 @@ class ReLibName():
         self.pat = self.pat.replace('LIB_NAME', Config().lib_name)
         if self._re is None: self._re = re.compile(self.pat, self.flags)
         return self._re
+
+def parse_line(line):
+    "Convert list-like string into a list"
+    line = line.strip()
+    if line.startswith('[') and line.endswith(']'): line=line[1:-1]
+    return [s for s in re.split('[ ,]+', line) if s]
+

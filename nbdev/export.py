@@ -10,7 +10,6 @@ from .imports import *
 from fastcore.script import *
 from fastcore.foundation import *
 from keyword import iskeyword
-from .flags import parse_line
 
 # Cell
 def read_nb(fname):

@@ -11,7 +11,6 @@
     "Conda packaging": "conda.html",
     "Command line functions": "cli.html",
     "Clean notebooks": "clean.html",
-    "Setting up Search": "search.html",
-    "Magic Flags":  "magic_flags.html"
+    "Setting up Search": "search.html"
   }
 }

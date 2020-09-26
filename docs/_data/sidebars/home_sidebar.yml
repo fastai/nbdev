@@ -42,9 +42,6 @@ entries:
     - output: web,pdf
       title: Setting up Search
       url: search.html
-    - output: web,pdf
-      title: Magic Flags
-      url: magic_flags.html
     output: web
     title: nbdev
   output: web
