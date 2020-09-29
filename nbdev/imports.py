@@ -1,5 +1,3 @@
-#import warnings; warnings.warn('hi')
-
 from fastcore.imports import *
 from fastcore.utils import *
 from fastcore.test import *
