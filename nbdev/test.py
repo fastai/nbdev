@@ -12,19 +12,41 @@ from .export2html import _re_notebook2script
 from nbconvert.preprocessors import ExecutePreprocessor
 
 # Cell
-_re_all_flag = ReTstFlags(True)
+class _ReTstFlags():
+    "Test flag matching regular expressions"
+    def __init__(self, all_flag):
+        "match flags applied to all cells?"
+        self.all_flag = all_flag
+
+    def _deferred_init(self):
+        "Compile at first use but not before since patterns need `Config().tst_flags`"
+        if hasattr(self, '_re'): return
+        tst_flags = Config().get('tst_flags', '')
+        tst_flags += f'|skip' if tst_flags else 'skip'
+        _re_all = 'all_' if self.all_flag else ''
+        self._re = _mk_flag_re(f"{_re_all}({tst_flags})", 0, "Any line with a test flag")
+
+    def findall(self, source):
+        self._deferred_init()
+        return self._re.findall(source)
+
+    def search(self, source):
+        self._deferred_init()
+        return self._re.search(source)
+
+# Cell
+_re_all_flag = _ReTstFlags(True)
 
 # Cell
 def get_all_flags(cells):
     "Check for all test flags in `cells`"
-    if len(Config().get('tst_flags',''))==0: return []
     result = []
     for cell in cells:
         if cell['cell_type'] == 'code': result.extend(_re_all_flag.findall(cell['source']))
     return set(result)
 
 # Cell
-_re_flags = ReTstFlags(False)
+_re_flags = _ReTstFlags(False)
 
 # Cell
 def get_cell_flags(cell):

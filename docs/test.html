@@ -72,6 +72,13 @@ nb_path: "nbs/04_test.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
 <div class="output_wrapper">
 <div class="output">
 
@@ -79,7 +86,7 @@ nb_path: "nbs/04_test.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_all_flags" class="doc_header"><code>get_all_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_all_flags</code>(<strong><code>cells</code></strong>)</p>
+<h4 id="get_all_flags" class="doc_header"><code>get_all_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L41" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_all_flags</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
 <p>Check for all test flags in <code>cells</code></p>
 
@@ -136,7 +143,7 @@ nb_path: "nbs/04_test.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_cell_flags" class="doc_header"><code>get_cell_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_cell_flags</code>(<strong><code>cell</code></strong>)</p>
+<h4 id="get_cell_flags" class="doc_header"><code>get_cell_flags</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L52" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_cell_flags</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
 <p>Check for any special test flag in <code>cell</code></p>
 
@@ -191,7 +198,7 @@ nb_path: "nbs/04_test.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="NoExportPreprocessor" class="doc_header"><code>class</code> <code>NoExportPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L36" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NoExportPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
+<h2 id="NoExportPreprocessor" class="doc_header"><code>class</code> <code>NoExportPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L58" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NoExportPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
 </blockquote>
 <p>An <code>ExecutePreprocessor</code> that executes cells that don't have a flag in <code>flags</code></p>
 
@@ -223,7 +230,7 @@ nb_path: "nbs/04_test.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="test_nb" class="doc_header"><code>test_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L50" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>test_nb</code>(<strong><code>fn</code></strong>, <strong><code>flags</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="test_nb" class="doc_header"><code>test_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L72" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>test_nb</code>(<strong><code>fn</code></strong>, <strong><code>flags</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Execute tests in notebook in <code>fn</code> with <code>flags</code></p>
 
