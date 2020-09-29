@@ -4,8 +4,9 @@ __all__ = ['HTMLParseAttrs', 'remove_widget_state', 'upd_metadata', 'hide_cells'
            'add_jekyll_notes', 'copy_images', 'adapt_img_path', 'escape_latex', 'collapse_cells', 'remove_hidden',
            'find_default_level', 'nb_code_cell', 'add_show_docs', 'add_show_docs', 'remove_fake_headers',
            'remove_empty', 'get_metadata', 'ExecuteShowDocPreprocessor', 'execute_nb', 'cite2link', 'write_tmpl',
-           'write_tmpls', 'nbdev_exporter', 'process_cells', 'process_cell', 'convert_nb', 'notebook2html',
-           'convert_md', 'nb_detach_cells', 'create_default_sidebar', 'make_sidebar']
+           'write_tmpls', 'nbdev_build_lib', 'nbdev_exporter', 'process_cells', 'process_cell', 'convert_nb',
+           'notebook2html', 'convert_md', 'nbdev_detach', 'make_readme', 'nbdev_build_docs', 'nbdev_nb2md',
+           'create_default_sidebar', 'make_sidebar']
 
 # Cell
 from .imports import *
@@ -15,11 +16,13 @@ from .export import _mk_flag_re
 from .showdoc import *
 from .template import *
 from fastcore.foundation import *
+from fastcore.script import *
 
 from html.parser import HTMLParser
 from nbconvert.preprocessors import ExecutePreprocessor, Preprocessor
 from nbconvert import HTMLExporter,MarkdownExporter
 import traitlets
+import nbformat
 
 # Cell
 class HTMLParseAttrs(HTMLParser):
@@ -468,6 +471,13 @@ def write_tmpls():
     write_tmpl(makefile_tmpl, 'nbs_path lib_name', cfg, cfg.config_file.parent/'Makefile')
 
 # Cell
+@call_parse
+def nbdev_build_lib(fname:Param("A notebook name or glob to convert", str)=None):
+    "Export notebooks matching `fname` to python modules"
+    write_tmpls()
+    notebook2script(fname=fname)
+
+# Cell
 def nbdev_exporter(cls=HTMLExporter, template_file=None):
     cfg = traitlets.config.Config()
     exporter = cls(cfg)
@@ -603,7 +613,11 @@ def _nb_detach_cell(cell, dest, use_img):
     else: return [o.replace('attachment:image.png', str(p)) for o in src]
 
 # Cell
-def nb_detach_cells(path_nb, dest=None, replace=True, use_img=False):
+@call_parse
+def nbdev_detach(path_nb:Param("Path to notebook"),
+                 dest:Param("Destination folder", str)="",
+                 use_img:Param("Convert markdown images to img tags", bool_arg)=False,
+                 replace:Param("Write replacement notebook back to `path_bn`", bool_arg)=True):
     "Export cell attachments to `dest` and update references"
     path_nb = Path(path_nb)
     if not dest: dest = f'{path_nb.stem}_files'
@@ -614,6 +628,47 @@ def nb_detach_cells(path_nb, dest=None, replace=True, use_img=False):
     for o in atts: o['source'] = _nb_detach_cell(o, dest, use_img)
     if atts and replace: json.dump(j, path_nb.open('w'))
     if not replace: return j
+
+# Cell
+_re_index = re.compile(r'^(?:\d*_|)index\.ipynb$')
+
+# Cell
+def make_readme():
+    "Convert the index notebook to README.md"
+    index_fn = None
+    for f in Config().nbs_path.glob('*.ipynb'):
+        if _re_index.match(f.name): index_fn = f
+    assert index_fn is not None, "Could not locate index notebook"
+    print(f"converting {index_fn} to README.md")
+    convert_md(index_fn, Config().config_file.parent, jekyll=False)
+    n = Config().config_file.parent/index_fn.with_suffix('.md').name
+    shutil.move(n, Config().config_file.parent/'README.md')
+    if Path(Config().config_file.parent/'PRE_README.md').is_file():
+        with open(Config().config_file.parent/'README.md', 'r') as f: readme = f.read()
+        with open(Config().config_file.parent/'PRE_README.md', 'r') as f: pre_readme = f.read()
+        with open(Config().config_file.parent/'README.md', 'w') as f: f.write(f'{pre_readme}\n{readme}')
+
+# Cell
+@call_parse
+def nbdev_build_docs(fname:Param("A notebook name or glob to convert", str)=None,
+                     force_all:Param("Rebuild even notebooks that haven't changed", bool_arg)=False,
+                     mk_readme:Param("Also convert the index notebook to README", bool_arg)=True,
+                     n_workers:Param("Number of workers to use", int)=None,
+                     pause:Param("Pause time (in secs) between notebooks to avoid race conditions", float)=0.5):
+    "Build the documentation by converting notebooks mathing `fname` to html"
+    notebook2html(fname=fname, force_all=force_all, n_workers=n_workers, pause=pause)
+    if fname is None: make_sidebar()
+    if mk_readme: make_readme()
+
+# Cell
+@call_parse
+def nbdev_nb2md(fname:Param("A notebook file name to convert", str),
+                dest:Param("The destination folder", str)='.',
+                img_path:Param("Folder to export images to")="",
+                jekyll:Param("To use jekyll metadata for your markdown file or not", bool_arg)=False,):
+    "Convert the notebook in `fname` to a markdown file"
+    nb_detach_cells(fname, dest=img_path)
+    convert_md(fname, dest, jekyll=jekyll, img_path=img_path)
 
 # Cell
 import time,random,warnings

@@ -38,7 +38,7 @@ nb_path: "nbs/01_sync.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The library is primarily developed in notebooks so any big changes should be made there. But sometimes, it's easier to fix small bugs or typos in the modules directly. <a href="/sync.html#script2notebook"><code>script2notebook</code></a> is the function that will propagate those changes back to the corresponding notebooks. Note that you can't create new cells with that functionality, so your corrections should remain limited.</p>
+<p>The library is primarily developed in notebooks so any big changes should be made there. But sometimes, it's easier to fix small bugs or typos in the modules directly. <a href="/sync.html#nbdev_update_lib"><code>nbdev_update_lib</code></a> is the function that will propagate those changes back to the corresponding notebooks. Note that you can't create new cells with that functionality, so your corrections should remain limited.</p>
 
 </div>
 </div>
@@ -67,7 +67,7 @@ nb_path: "nbs/01_sync.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_name" class="doc_header"><code>get_name</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L16" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_name</code>(<strong><code>obj</code></strong>)</p>
+<h4 id="get_name" class="doc_header"><code>get_name</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L20" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_name</code>(<strong><code>obj</code></strong>)</p>
 </blockquote>
 <p>Get the name of <code>obj</code></p>
 
@@ -134,7 +134,7 @@ nb_path: "nbs/01_sync.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="qual_name" class="doc_header"><code>qual_name</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L25" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>qual_name</code>(<strong><code>obj</code></strong>)</p>
+<h4 id="qual_name" class="doc_header"><code>qual_name</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L29" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>qual_name</code>(<strong><code>obj</code></strong>)</p>
 </blockquote>
 <p>Get the qualified name of <code>obj</code></p>
 
@@ -190,7 +190,7 @@ nb_path: "nbs/01_sync.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="source_nb" class="doc_header"><code>source_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L32" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>source_nb</code>(<strong><code>func</code></strong>, <strong><code>is_name</code></strong>=<em><code>None</code></em>, <strong><code>return_all</code></strong>=<em><code>False</code></em>, <strong><code>mod</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="source_nb" class="doc_header"><code>source_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L36" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>source_nb</code>(<strong><code>func</code></strong>, <strong><code>is_name</code></strong>=<em><code>None</code></em>, <strong><code>return_all</code></strong>=<em><code>False</code></em>, <strong><code>mod</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Return the name of the notebook where <code>func</code> was defined</p>
 
@@ -278,7 +278,7 @@ nb_path: "nbs/01_sync.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="relimport2name" class="doc_header"><code>relimport2name</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L65" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>relimport2name</code>(<strong><code>name</code></strong>, <strong><code>mod_name</code></strong>)</p>
+<h4 id="relimport2name" class="doc_header"><code>relimport2name</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L69" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>relimport2name</code>(<strong><code>name</code></strong>, <strong><code>mod_name</code></strong>)</p>
 </blockquote>
 <p>Unwarps a relative import in <code>name</code> according to <code>mod_name</code></p>
 
@@ -368,9 +368,9 @@ nb_path: "nbs/01_sync.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="script2notebook" class="doc_header"><code>script2notebook</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L117" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>script2notebook</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L121" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>silent</code></strong>:"Don't print results"=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Update the notebooks from any changes made in the modules corresponding to <code>fname</code></p>
+<p>Propagates any change in the modules matching <code>fname</code> to the notebooks that created them</p>
 
 </div>
 
@@ -399,7 +399,7 @@ nb_path: "nbs/01_sync.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Diff-notebook---library">Diff notebook - library<a class="anchor-link" href="#Diff-notebook---library"> </a></h2>
+<h2 id="Diff-&amp;-trust-notebooks">Diff &amp; trust notebooks<a class="anchor-link" href="#Diff-&amp;-trust-notebooks"> </a></h2>
 </div>
 </div>
 </div>
@@ -428,9 +428,9 @@ nb_path: "nbs/01_sync.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="diff_nb_script" class="doc_header"><code>diff_nb_script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L133" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>diff_nb_script</code>()</p>
+<h4 id="nbdev_diff_nbs" class="doc_header"><code>nbdev_diff_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L139" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_diff_nbs</code>()</p>
 </blockquote>
-<p>Print the diff between the notebooks and the library in lib_path</p>
+<p>Prints the diff between an export of the library in notebooks and the actual modules</p>
 
 </div>
 
@@ -456,120 +456,10 @@ nb_path: "nbs/01_sync.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">diff_nb_script</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-No export destination, ignored:
-e
-Warning: Exporting to &#34;None.py&#34; but this module is not part of this build
-Warning: Exporting to &#34;None.py&#34; but this module is not part of this build
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">AttributeError</span>                            Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-26-8db166738431&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>diff_nb_script<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">&lt;ipython-input-25-a34b70f9fc98&gt;</span> in <span class="ansi-cyan-fg">diff_nb_script</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span>     <span class="ansi-green-fg">with</span> tempfile<span class="ansi-blue-fg">.</span>TemporaryDirectory<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> d1<span class="ansi-blue-fg">,</span> tempfile<span class="ansi-blue-fg">.</span>TemporaryDirectory<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> d2<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      6</span>         copy_tree<span class="ansi-blue-fg">(</span>Config<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>lib_path<span class="ansi-blue-fg">,</span> d1<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">----&gt; 7</span><span class="ansi-red-fg">         </span>notebook2script<span class="ansi-blue-fg">(</span>silent<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      8</span>         copy_tree<span class="ansi-blue-fg">(</span>Config<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>lib_path<span class="ansi-blue-fg">,</span> d2<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      9</span>         shutil<span class="ansi-blue-fg">.</span>rmtree<span class="ansi-blue-fg">(</span>Config<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>lib_path<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/git/nbdev/nbs/nbdev/export.py</span> in <span class="ansi-cyan-fg">notebook2script</span><span class="ansi-blue-fg">(fname, silent, to_dict)</span>
-<span class="ansi-green-intense-fg ansi-bold">    434</span>     d <span class="ansi-blue-fg">=</span> collections<span class="ansi-blue-fg">.</span>defaultdict<span class="ansi-blue-fg">(</span>list<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">if</span> to_dict <span class="ansi-green-fg">else</span> <span class="ansi-green-fg">None</span>
-<span class="ansi-green-intense-fg ansi-bold">    435</span>     modules <span class="ansi-blue-fg">=</span> create_mod_files<span class="ansi-blue-fg">(</span>files<span class="ansi-blue-fg">,</span> to_dict<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 436</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">for</span> f <span class="ansi-green-fg">in</span> sorted<span class="ansi-blue-fg">(</span>files<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span> d <span class="ansi-blue-fg">=</span> _notebook2script<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">,</span> modules<span class="ansi-blue-fg">,</span> silent<span class="ansi-blue-fg">=</span>silent<span class="ansi-blue-fg">,</span> to_dict<span class="ansi-blue-fg">=</span>d<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    437</span>     <span class="ansi-green-fg">if</span> to_dict<span class="ansi-blue-fg">:</span> <span class="ansi-green-fg">return</span> d
-<span class="ansi-green-intense-fg ansi-bold">    438</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span> add_init<span class="ansi-blue-fg">(</span>Config<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>lib_path<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/git/nbdev/nbs/nbdev/export.py</span> in <span class="ansi-cyan-fg">_notebook2script</span><span class="ansi-blue-fg">(fname, modules, silent, to_dict)</span>
-<span class="ansi-green-intense-fg ansi-bold">    372</span>         code <span class="ansi-blue-fg">=</span> _from_future_import<span class="ansi-blue-fg">(</span>fname_out<span class="ansi-blue-fg">,</span> flags<span class="ansi-blue-fg">,</span> code<span class="ansi-blue-fg">,</span> to_dict<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    373</span>         <span class="ansi-green-fg">if</span> a<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 374</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">if</span> to_dict <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span> _add2all<span class="ansi-blue-fg">(</span>fname_out<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">f&#34;&#39;{f}&#39;&#34;</span> <span class="ansi-green-fg">for</span> f <span class="ansi-green-fg">in</span> names <span class="ansi-green-fg">if</span> <span class="ansi-blue-fg">&#39;.&#39;</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">in</span> f <span class="ansi-green-fg">and</span> len<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">&gt;</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">+</span> extra<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    375</span>         mod<span class="ansi-blue-fg">.</span>index<span class="ansi-blue-fg">.</span>update<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">{</span>f<span class="ansi-blue-fg">:</span> fname<span class="ansi-blue-fg">.</span>name <span class="ansi-green-fg">for</span> f <span class="ansi-green-fg">in</span> names<span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    376</span>         code <span class="ansi-blue-fg">=</span> re<span class="ansi-blue-fg">.</span>sub<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">r&#39; +$&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;&#39;</span><span class="ansi-blue-fg">,</span> code<span class="ansi-blue-fg">,</span> flags<span class="ansi-blue-fg">=</span>re<span class="ansi-blue-fg">.</span>MULTILINE<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/git/nbdev/nbs/nbdev/export.py</span> in <span class="ansi-cyan-fg">_add2all</span><span class="ansi-blue-fg">(fname, names, line_width)</span>
-<span class="ansi-green-intense-fg ansi-bold">    230</span>     tw <span class="ansi-blue-fg">=</span> TextWrapper<span class="ansi-blue-fg">(</span>width<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">120</span><span class="ansi-blue-fg">,</span> initial_indent<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;&#39;</span><span class="ansi-blue-fg">,</span> subsequent_indent<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39; &#39;</span><span class="ansi-blue-fg">*</span><span class="ansi-cyan-fg">11</span><span class="ansi-blue-fg">,</span> break_long_words<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">False</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    231</span>     re_all <span class="ansi-blue-fg">=</span> _re__all__def<span class="ansi-blue-fg">.</span>search<span class="ansi-blue-fg">(</span>text<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 232</span><span class="ansi-red-fg">     </span>start<span class="ansi-blue-fg">,</span>end <span class="ansi-blue-fg">=</span> re_all<span class="ansi-blue-fg">.</span>start<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span>re_all<span class="ansi-blue-fg">.</span>end<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    233</span>     text_all <span class="ansi-blue-fg">=</span> tw<span class="ansi-blue-fg">.</span>wrap<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">f&#34;{text[start:end-1]}{&#39;&#39; if text[end-2]==&#39;[&#39; else &#39;, &#39;}{&#39;, &#39;.join(names)}]&#34;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    234</span>     <span class="ansi-green-fg">with</span> open<span class="ansi-blue-fg">(</span>fname<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;w&#39;</span><span class="ansi-blue-fg">,</span> encoding<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">&#39;utf8&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> f<span class="ansi-blue-fg">:</span> f<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span>text<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span>start<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">+</span> <span class="ansi-blue-fg">&#39;\n&#39;</span><span class="ansi-blue-fg">.</span>join<span class="ansi-blue-fg">(</span>text_all<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">+</span> text<span class="ansi-blue-fg">[</span>end<span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">AttributeError</span>: &#39;NoneType&#39; object has no attribute &#39;start&#39;</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -578,11 +468,43 @@ Warning: Exporting to &#34;None.py&#34; but this module is not part of this buil
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If you receive an output, you'll need to either run <code>notebook2script()</code> or <code>script2notebook()</code> to fix the difference.</p>
+<p>If you receive an output, you'll need to either run <code>notebook2script()</code> or <code>nbdev_update_lib()</code> to fix the difference.</p>
 
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L155" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
+</blockquote>
+<p>Trust noteboks matching <code>fname</code></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
 </div>
  
 

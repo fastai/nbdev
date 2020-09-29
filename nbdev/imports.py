@@ -1,15 +1,16 @@
+#import warnings; warnings.warn('hi')
+
 from fastcore.imports import *
 from fastcore.utils import *
 from fastcore.test import *
 
-import os,re,json,glob,collections,pickle,shutil,nbformat,inspect,yaml,tempfile,enum,stat,time,random,sys
+import os,re,json,glob,collections,pickle,shutil,inspect,yaml,tempfile,enum,stat,time,random,sys
 import importlib.util
 from pdb import set_trace
 from configparser import ConfigParser
 from pathlib import Path
 from textwrap import TextWrapper
 from typing import Union,Optional
-from nbformat.sign import NotebookNotary
 from functools import partial,lru_cache
 from base64 import b64decode,b64encode
 

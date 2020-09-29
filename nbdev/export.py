@@ -10,6 +10,7 @@ from .imports import *
 from fastcore.script import *
 from fastcore.foundation import *
 from keyword import iskeyword
+import nbformat
 
 # Cell
 def read_nb(fname):

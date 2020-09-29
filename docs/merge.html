@@ -38,7 +38,7 @@ nb_path: "nbs/05_merge.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When working with jupyter notebooks (which are json files behind the scenes) and GitHub, it is very common that a merge conflict (that will add new lines in the notebook source file) will break some notebooks you are working on. This module defines the function <a href="/merge.html#fix_conflicts"><code>fix_conflicts</code></a> to fix those notebooks for you, and attempt to automatically merge standard conflicts. The remaining ones will be delimited by markdown cells like this:</p>
+<p>When working with jupyter notebooks (which are json files behind the scenes) and GitHub, it is very common that a merge conflict (that will add new lines in the notebook source file) will break some notebooks you are working on. This module defines the function <code>fix_conflicts</code> to fix those notebooks for you, and attempt to automatically merge standard conflicts. The remaining ones will be delimited by markdown cells like this:</p>
 
 </div>
 </div>
@@ -169,7 +169,7 @@ nb_path: "nbs/05_merge.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Note that in this example, the second conflict is easily solved: it just concerns the execution count of the second cell and can be solved by choosing either option without really impacting your notebook. This is the kind of conflicts <a href="/merge.html#fix_conflicts"><code>fix_conflicts</code></a> will (by default) fix automatically. The first conflict is more complicated as it spans across two cells and there is a cell present in one version, not the other. Such a conflict (and generally the ones where the inputs of the cells change form one version to the other) aren't automatically fixed, but <a href="/merge.html#fix_conflicts"><code>fix_conflicts</code></a> will return a proper json file where the annotations introduced by git will be placed in markdown cells.</p>
+<p>Note that in this example, the second conflict is easily solved: it just concerns the execution count of the second cell and can be solved by choosing either option without really impacting your notebook. This is the kind of conflicts <code>fix_conflicts</code> will (by default) fix automatically. The first conflict is more complicated as it spans across two cells and there is a cell present in one version, not the other. Such a conflict (and generally the ones where the inputs of the cells change form one version to the other) aren't automatically fixed, but <code>fix_conflicts</code> will return a proper json file where the annotations introduced by git will be placed in markdown cells.</p>
 <p>The first step to do this is to walk the raw text file to extract the cells. We can't read it as a JSON since it's broken, so we have to parse the text.</p>
 
 </div>
@@ -186,7 +186,7 @@ nb_path: "nbs/05_merge.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="extract_cells" class="doc_header"><code>extract_cells</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L9" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_cells</code>(<strong><code>raw_txt</code></strong>)</p>
+<h4 id="extract_cells" class="doc_header"><code>extract_cells</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L10" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_cells</code>(<strong><code>raw_txt</code></strong>)</p>
 </blockquote>
 <p>Manually extract cells in potential broken json <code>raw_txt</code></p>
 
@@ -272,7 +272,7 @@ nb_path: "nbs/05_merge.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_md_cell" class="doc_header"><code>get_md_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L29" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_md_cell</code>(<strong><code>txt</code></strong>)</p>
+<h4 id="get_md_cell" class="doc_header"><code>get_md_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_md_cell</code>(<strong><code>txt</code></strong>)</p>
 </blockquote>
 <p>A markdown cell with <code>txt</code></p>
 
@@ -349,7 +349,7 @@ nb_path: "nbs/05_merge.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="same_inputs" class="doc_header"><code>same_inputs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L59" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>same_inputs</code>(<strong><code>t1</code></strong>, <strong><code>t2</code></strong>)</p>
+<h4 id="same_inputs" class="doc_header"><code>same_inputs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L60" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>same_inputs</code>(<strong><code>t1</code></strong>, <strong><code>t2</code></strong>)</p>
 </blockquote>
 <p>Test if the cells described in <code>t1</code> and <code>t2</code> have the same inputs</p>
 
@@ -405,7 +405,7 @@ nb_path: "nbs/05_merge.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="analyze_cell" class="doc_header"><code>analyze_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L68" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>analyze_cell</code>(<strong><code>cell</code></strong>, <strong><code>cf</code></strong>, <strong><code>names</code></strong>, <strong><code>prev</code></strong>=<em><code>None</code></em>, <strong><code>added</code></strong>=<em><code>False</code></em>, <strong><code>fast</code></strong>=<em><code>True</code></em>, <strong><code>trust_us</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="analyze_cell" class="doc_header"><code>analyze_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L69" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>analyze_cell</code>(<strong><code>cell</code></strong>, <strong><code>cf</code></strong>, <strong><code>names</code></strong>, <strong><code>prev</code></strong>=<em><code>None</code></em>, <strong><code>added</code></strong>=<em><code>False</code></em>, <strong><code>fast</code></strong>=<em><code>True</code></em>, <strong><code>trust_us</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Analyze and solve conflicts in <code>cell</code></p>
 
@@ -428,7 +428,7 @@ nb_path: "nbs/05_merge.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is the main function used to walk through the cells of a notebook. <code>cell</code> is the cell we're at, <code>cf</code> the conflict state: <code>0</code> if we're not in any conflict, <code>1</code> if we are inside the first part of a conflict (between <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> and <code>=======</code>) and <code>2</code> for the second part of a conflict. <code>names</code> contains the names of the branches (they start at <code>[None,None]</code> and get updated as we pass along conflicts). <code>prev</code> contains a copy of what should be included at the start of the second version (if <code>cf=1</code> or <code>cf=2</code>). <code>added</code> starts at <code>False</code> and keeps track of whether we added any markdown cells (this flag allows us to know if a fast merge didn't leave any conflicts at the end). <code>fast</code> and <code>trust_us</code> are passed along by <a href="/merge.html#fix_conflicts"><code>fix_conflicts</code></a>: if <code>fast</code> is <code>True</code>, we don't point out conflict between cells if the inputs in the two versions are the same. Instead we merge using the local or remote branch, depending on <code>trust_us</code>.</p>
+<p>This is the main function used to walk through the cells of a notebook. <code>cell</code> is the cell we're at, <code>cf</code> the conflict state: <code>0</code> if we're not in any conflict, <code>1</code> if we are inside the first part of a conflict (between <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> and <code>=======</code>) and <code>2</code> for the second part of a conflict. <code>names</code> contains the names of the branches (they start at <code>[None,None]</code> and get updated as we pass along conflicts). <code>prev</code> contains a copy of what should be included at the start of the second version (if <code>cf=1</code> or <code>cf=2</code>). <code>added</code> starts at <code>False</code> and keeps track of whether we added any markdown cells (this flag allows us to know if a fast merge didn't leave any conflicts at the end). <code>fast</code> and <code>trust_us</code> are passed along by <code>fix_conflicts</code>: if <code>fast</code> is <code>True</code>, we don't point out conflict between cells if the inputs in the two versions are the same. Instead we merge using the local or remote branch, depending on <code>trust_us</code>.</p>
 <p>The function then returns the updated text (with one or several cells, depending on the conflicts to solve), the updated <code>cf</code>, <code>names</code>, <code>prev</code> and <code>added</code>.</p>
 
 </div>
@@ -481,9 +481,9 @@ nb_path: "nbs/05_merge.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="fix_conflicts" class="doc_header"><code>fix_conflicts</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L91" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fix_conflicts</code>(<strong><code>fname</code></strong>, <strong><code>fast</code></strong>=<em><code>True</code></em>, <strong><code>trust_us</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="nbdev_fix_merge" class="doc_header"><code>nbdev_fix_merge</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L92" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_fix_merge</code>(<strong><code>fname</code></strong>:"A notebook filename to fix", <strong><code>fast</code></strong>:"Fast fix: automatically fix the merge conflicts in outputs or metadata"=<em><code>True</code></em>, <strong><code>trust_us</code></strong>:"Use local outputs/metadata when fast mergning"=<em><code>True</code></em>)</p>
 </blockquote>
-<p>Fix broken notebook in <code>fname</code></p>
+<p>Fix merge conflicts in notebook <code>fname</code></p>
 
 </div>
 
@@ -504,7 +504,7 @@ nb_path: "nbs/05_merge.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The function will begin by backing the notebook <code>fname</code> to <code>fname.bak</code> in case something goes wrong. Then it parses the broken json, solving conflicts in cells. If <code>fast=True</code>, every conflict that only involves metadata or outputs of cells will be solved automatically by using the local (<code>trust_us=True</code>) or the remote (<code>trust_us=False</code>) branch. Otherwise, or for conflicts involving the inputs of cells, the json will be repaired by including the two version of the conflicted cell(s) with markdown cells indicating the conflicts. You will be able to open the notebook again and search for the conflicts (look for <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>) then fix them as you wish.</p>
+<p>This begins by backing the notebook <code>fname</code> to <code>fname.bak</code> in case something goes wrong. Then it parses the broken json, solving conflicts in cells. If <code>fast=True</code>, every conflict that only involves metadata or outputs of cells will be solved automatically by using the local (<code>trust_us=True</code>) or the remote (<code>trust_us=False</code>) branch. Otherwise, or for conflicts involving the inputs of cells, the json will be repaired by including the two version of the conflicted cell(s) with markdown cells indicating the conflicts. You will be able to open the notebook again and search for the conflicts (look for <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>) then fix them as you wish.</p>
 <p>If <code>fast=True</code>, the function will print a message indicating whether the notebook was fully merged or if conflicts remain.</p>
 
 </div>
