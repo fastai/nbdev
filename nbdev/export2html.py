@@ -708,7 +708,7 @@ def _create_default_sidebar():
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if 'index' not in f.stem!='index']
     if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
-    dic.update({_get_title(f):f'{f.name}' for f in fnames if f.stem!='index'})
+    dic.update({_get_title(f):f'{f.stem}' for f in fnames if f.stem!='index'})
     return dic
 
 # Cell
