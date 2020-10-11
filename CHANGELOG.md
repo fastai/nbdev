@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 1.1.1
+
+### New Features
+
+- Make CLI faster by removing unneeded imports and moving CLI commands to source modules ([#271](https://github.com/fastai/nbdev/issues/271))
+- Move `Config` to fastcore ([#280](https://github.com/fastai/nbdev/issues/280))
+
 ## 1.1.0
 ### Breaking Changes
 
