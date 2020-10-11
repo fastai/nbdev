@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 1.1.2
+
+### Bugs Squashed
+
+- update fastcore requirement ([#281](https://github.com/fastai/nbdev/issues/281))
+
+
 ## 1.1.1
 
 ### New Features
