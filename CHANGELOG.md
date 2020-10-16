@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 1.1.3
+
+### New Features
+
+- Place source code below heading on #exports ([#265](https://github.com/fastai/nbdev/pull/265)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
+
 ## 1.1.2
 
 ### Bugs Squashed
