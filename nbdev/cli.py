@@ -80,7 +80,7 @@ nbdev_trust_nbs
     else:
         print("Failed to trust repo's .gitconfig")
         if result.stderr: print(f"Error: {result.stderr.decode('utf-8')}")
-    try: nb_path = Config().nbs_path
+    try: nb_path = Config().path("nbs_path")
     except: nb_path = Path.cwd()
     with open(nb_path/'.gitattributes', 'w') as f:
         f.write("""**/*.ipynb filter=clean-nbs

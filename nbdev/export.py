@@ -238,7 +238,7 @@ _re_index_custom = re.compile(r'def custom_doc_links\(name\):(.*)$', re.DOTALL)
 # Cell
 def reset_nbdev_module():
     "Create a skeletton for <code>_nbdev</code>"
-    fname = Config().lib_path/'_nbdev.py'
+    fname = Config().path("lib_path")/'_nbdev.py'
     fname.parent.mkdir(parents=True, exist_ok=True)
     sep = '\n'* (int(Config().get('cell_spacing', '1'))+1)
     if fname.is_file():
@@ -266,7 +266,7 @@ class _EmptyModule():
 def get_nbdev_module():
     "Reads <code>_nbdev</code>"
     try:
-        spec = importlib.util.spec_from_file_location(f"{Config().lib_name}._nbdev", Config().lib_path/'_nbdev.py')
+        spec = importlib.util.spec_from_file_location(f"{Config().lib_name}._nbdev", Config().path("lib_path")/'_nbdev.py')
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         return mod
@@ -279,7 +279,7 @@ _re_index_mod = re.compile(r'modules\s*=\s*\[[^\]]*\]')
 # Cell
 def save_nbdev_module(mod):
     "Save `mod` inside <code>_nbdev</code>"
-    fname = Config().lib_path/'_nbdev.py'
+    fname = Config().path("lib_path")/'_nbdev.py'
     with open(fname, 'r') as f: code = f.read()
     t = r',\n         '.join([f'"{k}": "{v}"' for k,v in mod.index.items()])
     code = _re_index_idx.sub("index = {"+ t +"}", code)
@@ -320,7 +320,7 @@ def create_mod_files(files, to_dict=False):
             default = os.path.sep.join(default.split('.'))
             modules.append(default)
             if not to_dict:
-                create_mod_file(Config().lib_path/f'{default}.py', Config().nbs_path/f'{fname}')
+                create_mod_file(Config().path("lib_path")/f'{default}.py', Config().path("nbs_path")/f'{fname}')
     return modules
 
 # Cell
@@ -338,7 +338,7 @@ def _notebook2script(fname, modules, silent=False, to_dict=None):
     cells = [(i,c,e) for i,(c,e) in enumerate(zip(nb['cells'],exports)) if e is not None]
     for i,c,(e,a) in cells:
         if e not in modules: print(f'Warning: Exporting to "{e}.py" but this module is not part of this build')
-        fname_out = Config().lib_path/f'{e}.py'
+        fname_out = Config().path("lib_path")/f'{e}.py'
         orig = (f'# {"" if a else "Internal "}C' if e==default else f'# Comes from {fname.name}, c') + 'ell\n'
         flag_lines,code_lines = split_flags_and_code(c)
         code_lines = _deal_import(code_lines, fname_out)
@@ -376,7 +376,7 @@ _re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
 # Cell
 def update_version():
     "Add or update `__version__` in the main `__init__.py` of the library"
-    fname = Config().lib_path/'__init__.py'
+    fname = Config().path("lib_path")/'__init__.py'
     if not fname.exists(): fname.touch()
     version = f'__version__ = "{Config().version}"'
     with open(fname, 'r') as f: code = f.read()
@@ -390,7 +390,7 @@ _re_baseurl = re.compile('^baseurl\s*:.*$', re.MULTILINE)
 # Cell
 def update_baseurl():
     "Add or update `baseurl` in `_config.yml` for the docs"
-    fname = Config().doc_path/'_config.yml'
+    fname = Config().path("doc_path")/'_config.yml'
     if not fname.exists(): return
     with open(fname, 'r') as f: code = f.read()
     if _re_baseurl.search(code) is None: code = code + f"\nbaseurl: {Config().doc_baseurl}"
@@ -406,13 +406,13 @@ def notebook2script(fname=None, silent=False, to_dict=False):
         reset_nbdev_module()
         update_version()
         update_baseurl()
-        files = [f for f in Config().nbs_path.glob('*.ipynb') if not f.name.startswith('_')]
+        files = [f for f in Config().path("nbs_path").glob('*.ipynb') if not f.name.startswith('_')]
     else: files = glob.glob(fname)
     d = collections.defaultdict(list) if to_dict else None
     modules = create_mod_files(files, to_dict)
     for f in sorted(files): d = _notebook2script(f, modules, silent=silent, to_dict=d)
     if to_dict: return d
-    else: add_init(Config().lib_path)
+    else: add_init(Config().path("lib_path"))
 
 # Cell
 class DocsTestClass:

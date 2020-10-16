@@ -49,7 +49,7 @@ _re_cell = re.compile(r'^# Cell|^# Internal Cell|^# Comes from\s+(\S+), cell')
 # Cell
 def _split(code):
     lines = code.split('\n')
-    nbs_path = Config().nbs_path.relative_to(Config().config_file.parent)
+    nbs_path = Config().path("nbs_path").relative_to(Config().config_file.parent)
     prefix = '' if nbs_path == Path('.') else f'{nbs_path}/'
     default_nb = re.search(f'File to edit: {prefix}(\\S+)\\s+', lines[0]).groups()[0]
     s,res = 1,[]
@@ -99,12 +99,12 @@ def _script2notebook(fname, dic, silent=False):
     fname = Path(fname)
     with open(fname, encoding='utf8') as f: code = f.read()
     splits = _split(code)
-    rel_name = fname.absolute().resolve().relative_to(Config().lib_path)
+    rel_name = fname.absolute().resolve().relative_to(Config().path("lib_path"))
     key = str(rel_name.with_suffix(''))
     assert len(splits)==len(dic[key]), f'"{rel_name}" exported from notebooks should have {len(dic[key])} cells but has {len(splits)}.'
     assert all([c1[0]==c2[1]] for c1,c2 in zip(splits, dic[key]))
     splits = [(c2[0],c1[0],c1[1]) for c1,c2 in zip(splits, dic[key])]
-    nb_fnames = {Config().nbs_path/s[1] for s in splits}
+    nb_fnames = {Config().path("nbs_path")/s[1] for s in splits}
     for nb_fname in nb_fnames:
         nb = read_nb(nb_fname)
         for i,f,c in splits:
@@ -127,7 +127,7 @@ def nbdev_update_lib(fname:Param("A notebook name or glob to convert", str)=None
     exported = get_nbdev_module().modules
 
     if fname is None:
-        files = [f for f in Config().lib_path.glob('**/*.py') if str(f.relative_to(Config().lib_path)) in exported]
+        files = [f for f in Config().path("lib_path").glob('**/*.py') if str(f.relative_to(Config().path("lib_path"))) in exported]
     else: files = glob.glob(fname)
     [ _script2notebook(f, dic, silent=silent) for f in files]
 
@@ -139,13 +139,13 @@ from distutils.dir_util import copy_tree
 @call_parse
 def nbdev_diff_nbs():
     "Prints the diff between an export of the library in notebooks and the actual modules"
-    lib_folder = Config().lib_path
+    lib_folder = Config().path("lib_path")
     with tempfile.TemporaryDirectory() as d1, tempfile.TemporaryDirectory() as d2:
-        copy_tree(Config().lib_path, d1)
+        copy_tree(Config().path("lib_path"), d1)
         notebook2script(silent=True)
-        copy_tree(Config().lib_path, d2)
-        shutil.rmtree(Config().lib_path)
-        shutil.copytree(d1, str(Config().lib_path))
+        copy_tree(Config().path("lib_path"), d2)
+        shutil.rmtree(Config().path("lib_path"))
+        shutil.copytree(d1, str(Config().path("lib_path")))
         for d in [d1, d2]:
             if (Path(d)/'__pycache__').exists(): shutil.rmtree(Path(d)/'__pycache__')
         res = subprocess.run(['diff', '-ru', d1, d2], stdout=subprocess.PIPE)
@@ -156,9 +156,9 @@ def nbdev_diff_nbs():
 def nbdev_trust_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                     force_all:Param("Trust even notebooks that haven't changed", bool)=False):
     "Trust noteboks matching `fname`"
-    check_fname = Config().nbs_path/".last_checked"
+    check_fname = Config().path("nbs_path")/".last_checked"
     last_checked = os.path.getmtime(check_fname) if check_fname.exists() else None
-    files = Config().nbs_path.glob('**/*.ipynb') if fname is None else glob.glob(fname)
+    files = Config().path("nbs_path").glob('**/*.ipynb') if fname is None else glob.glob(fname)
     for fn in files:
         if last_checked and not force_all:
             last_changed = os.path.getmtime(fn)

@@ -46,7 +46,7 @@ def try_external_doc_link(name, packages):
 # Cell
 def is_doc_name(name):
     "Test if `name` corresponds to a notebook that could be converted to a doc page"
-    for f in Config().nbs_path.glob(f'*{name}.ipynb'):
+    for f in Config().path("nbs_path").glob(f'*{name}.ipynb'):
         if re_digits_first.sub('', f.name) == f'{name}.ipynb': return True
     return False
 
@@ -143,7 +143,7 @@ def colab_link(path):
 def get_nb_source_link(func, local=False, is_name=None):
     "Return a link to the notebook where `func` is defined."
     func = _unwrapped_type_dispatch_func(func)
-    pref = '' if local else Config().git_url.replace('github.com', 'nbviewer.jupyter.org/github')+ Config().nbs_path.name+'/'
+    pref = '' if local else Config().git_url.replace('github.com', 'nbviewer.jupyter.org/github')+ Config().path("nbs_path").name+'/'
     is_name = is_name or isinstance(func, str)
     src = source_nb(func, is_name=is_name, return_all=True)
     if src is None: return '' if is_name else get_source_link(func)

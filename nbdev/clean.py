@@ -78,7 +78,7 @@ def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
         _print_output(nb)
         return
     if fname is None:
-        try: path = Config().nbs_path
+        try: path = Config().path("nbs_path")
         except Exception as e: path = Path.cwd()
     files = path.glob('**/*.ipynb') if fname is None else glob.glob(fname)
     for f in files:
