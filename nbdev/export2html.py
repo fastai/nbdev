@@ -465,7 +465,7 @@ def write_tmpl(tmpl, nms, cfg, dest):
 def write_tmpls():
     "Write out _config.yml and _data/topnav.yml using templates"
     cfg = Config()
-    path = Path(cfg.get('doc_src_path', cfg.doc_path))
+    path = Path(cfg.get('doc_src_path', cfg.path("doc_path")))
     write_tmpl(config_tmpl, 'user lib_name title copyright description', cfg, path/'_config.yml')
     write_tmpl(topnav_tmpl, 'host git_url', cfg, path/'_data'/'topnav.yml')
     write_tmpl(makefile_tmpl, 'nbs_path lib_name', cfg, cfg.config_file.parent/'Makefile')
@@ -721,9 +721,9 @@ def create_default_sidebar():
 def make_sidebar():
     "Making sidebar for the doc website form the content of `doc_folder/sidebar.json`"
     cfg = Config()
-    if not (cfg.doc_path/'sidebar.json').exists() or cfg.get('custom_sidebar', 'False') == 'False':
+    if not (cfg.path("doc_path")/'sidebar.json').exists() or cfg.get('custom_sidebar', 'False') == 'False':
         create_default_sidebar()
-    sidebar_d = json.load(open(cfg.doc_path/'sidebar.json', 'r'))
+    sidebar_d = json.load(open(cfg.path("doc_path")/'sidebar.json', 'r'))
     res = _side_dict('Sidebar', sidebar_d)
     res = {'entries': [res]}
     res_s = yaml.dump(res, default_flow_style=False)
@@ -734,4 +734,4 @@ def make_sidebar():
 #################################################
 # Instead edit {'../../sidebar.json'}
 """+res_s
-    open(cfg.doc_path/'_data/sidebars/home_sidebar.yml', 'w').write(res_s)
+    open(cfg.path("doc_path")/'_data/sidebars/home_sidebar.yml', 'w').write(res_s)

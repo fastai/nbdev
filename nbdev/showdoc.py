@@ -136,7 +136,7 @@ $     # End of text
 def colab_link(path):
     "Get a link to the notebook at `path` on Colab"
     cfg = Config()
-    res = f'https://colab.research.google.com/github/{cfg.user}/{cfg.lib_name}/blob/{cfg.branch}/{cfg.nbs_path.name}/{path}.ipynb'
+    res = f'https://colab.research.google.com/github/{cfg.user}/{cfg.lib_name}/blob/{cfg.branch}/{cfg.path("nbs_path").name}/{path}.ipynb'
     display(Markdown(f'[Open `{path}` in Colab]({res})'))
 
 # Cell
