@@ -667,7 +667,7 @@ def nbdev_nb2md(fname:Param("A notebook file name to convert", str),
                 img_path:Param("Folder to export images to")="",
                 jekyll:Param("To use jekyll metadata for your markdown file or not", bool_arg)=False,):
     "Convert the notebook in `fname` to a markdown file"
-    nb_detach_cells(fname, dest=img_path)
+    nb_detach(fname, dest=img_path)
     convert_md(fname, dest, jekyll=jekyll, img_path=img_path)
 
 # Cell
