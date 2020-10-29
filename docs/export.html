@@ -75,9 +75,9 @@ nb_path: "nbs/00_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="Config" class="doc_header"><code>Config</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/imports.py#L39" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>Config</code>(<strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>)</p>
+<h3 id="Config" class="doc_header"><code>Config</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/foundation.py#L330" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>Config</code>(<strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>)</p>
 </blockquote>
-<p>Store the basic information for nbdev to work</p>
+<p>Reading and writing <code>settings.ini</code></p>
 
 </div>
 
@@ -100,9 +100,9 @@ nb_path: "nbs/00_export.ipynb"
 <span class="n">cfg</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="n">cfg_name</span><span class="o">=</span><span class="s1">&#39;test_settings.ini&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">lib_name</span><span class="p">,</span> <span class="s1">&#39;nbdev&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">git_url</span><span class="p">,</span> <span class="s2">&quot;https://github.com/fastai/nbdev/tree/master/&quot;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">lib_path</span><span class="p">,</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">&#39;nbdev&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">nbs_path</span><span class="p">,</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">doc_path</span><span class="p">,</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">&#39;docs&#39;</span><span class="p">)</span>
+<span class="c1"># test_eq(cfg.path(&quot;lib_path&quot;), Path.cwd().parent/&#39;nbdev&#39;)</span>
+<span class="c1"># test_eq(cfg.path(&quot;nbs_path&quot;), Path.cwd())</span>
+<span class="c1"># test_eq(cfg.path(&quot;doc_path&quot;), Path.cwd().parent/&#39;docs&#39;)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">custom_sidebar</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -253,25 +253,7 @@ nb_path: "nbs/00_export.ipynb"
 <pre>{&#39;jupytext&#39;: {&#39;split_at_heading&#39;: True},
  &#39;kernelspec&#39;: {&#39;display_name&#39;: &#39;Python 3&#39;,
   &#39;language&#39;: &#39;python&#39;,
-  &#39;name&#39;: &#39;python3&#39;},
- &#39;language_info&#39;: {&#39;codemirror_mode&#39;: {&#39;name&#39;: &#39;ipython&#39;, &#39;version&#39;: 3},
-  &#39;file_extension&#39;: &#39;.py&#39;,
-  &#39;mimetype&#39;: &#39;text/x-python&#39;,
-  &#39;name&#39;: &#39;python&#39;,
-  &#39;nbconvert_exporter&#39;: &#39;python&#39;,
-  &#39;pygments_lexer&#39;: &#39;ipython3&#39;,
-  &#39;version&#39;: &#39;3.7.7&#39;},
- &#39;toc&#39;: {&#39;base_numbering&#39;: 1,
-  &#39;nav_menu&#39;: {},
-  &#39;number_sections&#39;: False,
-  &#39;sideBar&#39;: True,
-  &#39;skip_h1_title&#39;: True,
-  &#39;title_cell&#39;: &#39;Table of Contents&#39;,
-  &#39;title_sidebar&#39;: &#39;Contents&#39;,
-  &#39;toc_cell&#39;: False,
-  &#39;toc_position&#39;: {},
-  &#39;toc_section_display&#39;: True,
-  &#39;toc_window_display&#39;: False}}</pre>
+  &#39;name&#39;: &#39;python3&#39;}}</pre>
 </div>
 
 </div>
