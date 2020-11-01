@@ -8,7 +8,6 @@
     "Convert to html": "export2html.html",
     "Extract tests": "test.html",
     "Fix merge conflicts": "merge.html",
-    "Conda packaging": "conda.html",
     "Command line functions": "cli.html",
     "Clean notebooks": "clean.html",
     "Setting up Search": "search.html"
