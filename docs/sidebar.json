@@ -2,6 +2,7 @@
   "nbdev": {
     "Overview": "/",
     "Tutorial": "tutorial.html",
+    "A minimal example": "example.html",
     "Export to modules": "export.html",
     "Synchronize and diff": "sync.html",
     "Show doc": "showdoc.html",
