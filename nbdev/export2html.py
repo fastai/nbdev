@@ -273,7 +273,7 @@ def _show_doc_cell(name, cls_lvl=None):
 
 def add_show_docs(cells, cls_lvl=None):
     "Add `show_doc` for each exported function or class"
-    documented = L(cells).map_filter(check_re, pat=_re_show_doc).map(Self.group(1))
+    documented = L(cells).map(check_re, pat=_re_show_doc).filter().map(Self.group(1))
     res = []
     for cell in cells:
         res.append(cell)
