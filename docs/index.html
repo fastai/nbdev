@@ -31,53 +31,49 @@ nb_path: "nbs/index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>nbdev</code> is a library that allows you to fully develop a library in <a href="https://jupyter.org/">Jupyter Notebooks</a>, putting all your code, tests and documentation in one place. That is: you now have a true <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a> environment, as envisioned by Donald Knuth back in 1983!</p>
-<p>Using the interactive environment, you can easily debug and refactor your code. Add <code>#export</code> to the cells that define the functions you want to include in your python modules. Here, for instance, is how <code>combined_cos</code> is defined and documented in the <code>fastai</code> library:</p>
+<p><code>nbdev</code> is a library that allows you to develop a python library in <a href="https://jupyter.org/">Jupyter Notebooks</a>, putting all your code, tests and documentation in one place. That is: you now have a true <a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a> environment, as envisioned by Donald Knuth back in 1983!</p>
+<p><code>nbdev</code> makes debugging and refactor your code much easier relative to traditional programming environments. Furthermore, using nbdev promotes software engineering best practices because tests and documentation are first class citizens.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include image.html alt="Exporting from nbdev" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" max-width="700" file="/images/export_example.png" %}</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Using notebooks written like this, <code>nbdev</code> can create and run any of the following with a single command:</p>
+<h2 id="Features-of-Nbdev">Features of Nbdev<a class="anchor-link" href="#Features-of-Nbdev"> </a></h2><p><code>nbdev</code> provides the following tools for developers:</p>
 <ul>
-<li>Searchable, hyperlinked documentation; any word you surround in backticks will be <em>automatically</em> hyperlinked to the appropriate documentation</li>
-<li>Python modules, following best practices such as automatically defining <code>__all__</code> (<a href="http://xion.io/post/code/python-all-wild-imports.html">more details</a>) with your exported functions, classes, and variables</li>
-<li>Pip and conda installers (uploaded to pypi and anaconda for you)</li>
-<li>Tests (defined directly in your notebooks, and run in parallel)</li>
-<li>Navigate and edit your code in a standard text editor or IDE, and export any changes automatically back into your notebooks</li>
+<li><strong>Automatically generate docs</strong> from Jupyter notebooks.  These docs are searchable and automatically hyperlinked to appropriate documentation pages by introspecting keywords you surround in backticks.</li>
+<li>Utilities to <strong>automate the publishing of pypi and conda packages</strong> including version number management.</li>
+<li>A robust, <strong>two-way sync between notebooks and source code</strong>, which allow you to use your IDE for code navigation or quick edits if desired.</li>
+<li><strong>Fine-grained control on hiding/showing cells</strong>: you can choose to hide entire cells, just the output, or just the input.  Furthermore, you can embed cells in collapsible elements that are open or closed by default.</li>
+<li>Ability to <strong>write tests directly in notebooks</strong> without having to learn special APIs.  These tests get executed in parallel with a single CLI command.  You can even define certain groups of tests such that you don't have to always run long-running tests. </li>
+<li>Tools for <strong>merge/conflict resolution</strong> with notebooks in a <strong>human readable format</strong>.</li>
+<li><strong>Continuous integration (CI) comes setup for you with <a href="https://github.com/features/actions">GitHub Actions</a></strong> out of the box, that will run tests automatically for you.  Even if you are not familiar with CI or GitHub Actions, this starts working right away for you without any manual intervention.</li>
+<li><strong>Integration With GitHub Pages for docs hosting</strong>: nbdev allows you to easily host your documentation for free, using GitHub pages.</li>
+<li>Create Python modules, following <strong>best practices such as automatically defining <code>__all__</code></strong> (<a href="http://xion.io/post/code/python-all-wild-imports.html">more details</a>) with your exported functions, classes, and variables.</li>
+<li><strong>Math equation support</strong> with LaTeX.</li>
+<li>... and much more!  See the <a href="https://nbdev.fast.ai/#Getting-Started">Getting Started</a> section below for more information.</li>
 </ul>
-<p>Since you are in a notebook, you can also add charts, text, links, images, videos, etc, that will included automatically in the documentation of your library. The cells where your code is defined will be hidden and replaced by standardized documentation of your function, showing its name, arguments, docstring, and link to the source code on github. For instance, the cells above are converted to:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include image.html alt="Documentation in nbdev" caption="An example of automated documentation from the fastai library" max-width="600" file="/images/doc_example.png" %}</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>See below for <em>Installing</em> and <em>Getting Started</em>. In the other pages of the documentation, you can get more details about:</p>
-<ul>
-<li>the <a href="http://nbdev.fast.ai/export">export</a> functionality from jupyter notebooks to a python library</li>
-<li>the <a href="http://nbdev.fast.ai/cli">cli</a> commands you can use with nbdev in a terminal</li>
-<li>how <a href="http://nbdev.fast.ai/export2html">export2html</a> builds a documentation for your library</li>
-<li>how <a href="http://nbdev.fast.ai/sync">sync</a> can allow you to export back from the python modules to the jupyter notebook</li>
-<li>how to put <a href="http://nbdev.fast.ai/test">tests</a> in your notebooks, which can be run in parallel, and exported to CI from your notebooks</li>
-<li>get more info about the <a href="http://nbdev.fast.ai/#Additional-functionality">additional functionality</a></li>
-<li><a href="https://github.com/fastai/nbdev/blob/master/CHANGELOG.md">release notes</a></li>
-</ul>
+<h2 id="A-Motivating-Example">A Motivating Example<a class="anchor-link" href="#A-Motivating-Example"> </a></h2><p>For example, lets define a class that represents a playing card, with associated docs and tests in a Jupyter Notebook:</p>
+<p><img src="/images/att_00027.png" alt="image.png"></p>
+<p>In the above screenshot, we have code, tests and documentation in one context! <code>nbdev</code> renders this into searchable docs (which are optionally hosted for free on GitHub Pages).  Below is an annotated screenshot of the generated docs for further explanation:</p>
+<p><img src="/images/att_00016.png" alt="image.png"></p>
+<p>The above illustration is a subset of the <a href="https://nbdev.fast.ai/example.html">this nbdev tutorial with a minimal example</a>, which uses code from <a href="https://github.com/AllenDowney/ThinkPython2">Think Python 2</a> by Allen Downey.</p>
+<h3 id="Explanation-of-annotations:">Explanation of annotations:<a class="anchor-link" href="#Explanation-of-annotations:"> </a></h3><ol>
+<li>The heading <strong>Card</strong> corresponds to the first <code>H1</code> heading in a notebook with a note block <em>API Details</em> as the summary.</li>
+<li><code>nbdev</code> automatically renders a Table of Contents for you.</li>
+<li><code>nbdev</code> automatically renders the signature of your class or function as a heading.  </li>
+<li>The cells where your code is defined will be hidden and replaced by standardized documentation of your function, showing its name, arguments, docstring, and link to the source code on github.</li>
+<li>This part of docs is rendered automatically from the docstring.</li>
+<li>The rest of the notebook is rendered as usual.  You can hide entire cells, hide only cell input or hide only output by using the <a href="https://nbdev.fast.ai/export2html.html">flags described on this page</a>.</li>
+<li>nbdev supports special block quotes that render as colored boxes in the documentation.  You can read more about them <a href="https://nbdev.fast.ai/export2html.html#add_jekyll_notes">here</a>.  In this specific example, we are using the <code>Note</code> block quote. </li>
+<li>Words you surround in backticks will be automatically hyperlinked to the associated documentation where appropriate. This is a trivial case where <code>Card</code> class is defined immediately above, however this works across pages and modules.  We will see another example of this in later steps.</li>
+</ol>
 
 </div>
 </div>
@@ -102,250 +98,14 @@ pip install -e nbdev</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Getting-Started">Getting Started<a class="anchor-link" href="#Getting-Started"> </a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>To begin your own project:</p>
+<h2 id="Getting-Started">Getting Started<a class="anchor-link" href="#Getting-Started"> </a></h2><p>The following are helpful resources for getting started with nbdev:</p>
 <ul>
-<li>click <a href="https://github.com/fastai/nbdev_template/generate">here</a> for GitHub (you need to be logged in to GitHub for this link to work).</li>
-<li>click <a href="https://gitlab.com/thomas.capelle/nbdev_template/">here</a> for GitLab (you need to be logged in to GitLab for this link to work). </li>
+<li>The <a href="https://nbdev.fast.ai/tutorial.html">tutorial</a>.</li>
+<li>A <a href="https://nbdev.fast.ai/example.html">minimal, end-to-end example</a> of using nbdev.  We suggest replicating this example after reading through the tutorial to solidify your understanding.</li>
+<li>The <a href="https://nbdev.fast.ai/">docs</a>.</li>
+<li><a href="https://github.com/fastai/nbdev/blob/master/CHANGELOG.md">release notes</a>.</li>
 </ul>
-<p>Fill in the requested info and click <em>Create repository from template</em>, and a new GitHub or GitLab repo will be created for you.</p>
-<p><strong>NB:</strong> The name of your project will become the name of the Python package generated by nbdev. For that reason, it is a good idea to pick a short, all-lowercase name with <em>no dashes</em> between words (underscores are allowed).</p>
-<p>Now, open your terminal, and clone the repo you just created.</p>
-<p>Alternatively, you can use a cli command <a href="/cli.html#nbdev_new"><code>nbdev_new</code></a> to create a new nbdev project and initialize a git repository locally without creating a github repo.</p>
-<p>Next, edit the <code>settings.ini</code> file. Note that it contains all the necessary information for when you'll be ready to package your library, so you shouldn't need to change the <code>setup.py</code> file provided by the template. The basic structure (that can be personalized provided you change the relevant information in <code>settings.ini</code>) is that the root of the repo will contain your notebooks, along with a folder <code>docs</code> where the doc will be auto-generated that contains everything for a <a href="https://jekyllrb.com/">jekyll</a>-powered website. Because <a href="https://help.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll">GitHub Pages supports Jekyll</a>, you can host your site for free on GitHub without any additional setup.</p>
-<p>Your <code>settings.ini</code> is where all parts of nbdev look for any required configuration information. Once you've edited it, run the command <a href="/cli.html#nbdev_build_lib"><code>nbdev_build_lib</code></a> (which is automatically installed for you when you install <code>nbdev</code>. You'll now find that you have a new directory, with the name of whatever you set <code>lib_name</code> to in <code>settings.ini</code>.</p>
-<p>Now, run <code>jupyter notebook</code>, and click <code>00_core.ipynb</code>. This is where you'll create your first module! Create Jupyter cells as you would in any notebook. For any cells that you want to be included in your python module, type <code>#export</code> as the first line of the cell. Note that for any new .ipynb that you create, you will also need to type <code>#default_exp target_module_name</code>, which will define the name of the generated module (lib_name/target_module_name.py).</p>
-<p>In the last cell of your notebook, you can then run:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">notebook2script</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.export</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="n">notebook2script</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Converted 00_export.ipynb.
-Converted 01_sync.ipynb.
-Converted 02_showdoc.ipynb.
-Converted 03_export2html.ipynb.
-Converted 04_test.ipynb.
-Converted 05_merge.ipynb.
-Converted 05a_conda.ipynb.
-Converted 06_cli.ipynb.
-Converted 07_clean.ipynb.
-Converted 99_search.ipynb.
-Converted index.ipynb.
-Converted magic_flags.ipynb.
-Converted nbdev_callbacks.ipynb.
-Converted tutorial.ipynb.
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Or in the command line, you can run:</p>
-<div class="highlight"><pre><span></span>nbdev_build_lib
-</pre></div>
-<p>as long as you are somewhere in the folder where you are developing your library. Either of these will do the same thing: update your module to include all exported cells in your notebook.</p>
-<p>To enable documentation in your GitHub repo, click 'Settings' on the main repo page, scroll down to 'GitHub Pages', and under 'Source' choose 'master branch /docs folder'. GitHub will then show you a link to your working documentation site.</p>
-<p>Finally, edit <code>index.ipynb</code>. This will be converted into your projects <em>README</em> file, and will also be the index for your documentation (the page you're reading right now actually comes from an <code>index.ipynb</code> file!) You can use the module you just exported in this library, which means you can show real working code, and actual outputs. Once you have everything as you want it, run <a href="/cli.html#nbdev_build_docs"><code>nbdev_build_docs</code></a> in the terminal. This will export HTML versions of your notebooks to the <code>docs</code> directory, and will create hyperlinks for any words in backticks (as long as they exist in your module). It will also create a menu for all notebooks you have created, and a table of contents for each.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Note-if-using-a-subdirectory-to-contain-.ipynb-files-instead-of-the-project-root">Note if using a subdirectory to contain .ipynb files instead of the project root<a class="anchor-link" href="#Note-if-using-a-subdirectory-to-contain-.ipynb-files-instead-of-the-project-root"> </a></h4><p>If you have set the parameter nbs_path to be anything other than the project root, you will not be able to import your generated modules without an extra step:</p>
-<ul>
-<li>either install these modules locally, as their relative import will take you beyond the top-level package, which can be done by running <code>pip install -e .</code> in the project root, to install the modules to your environment in editable mode.</li>
-<li>or make a simlink in your notebook folder to the library folder, which can be done by running <code>ln -s lib_path lib_name</code> (adjust <code>lib_path</code> and <code>lib_name</code> to your use case).</li>
-</ul>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Additional-functionality">Additional functionality<a class="anchor-link" href="#Additional-functionality"> </a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>There's a lot of functionality in <code>nbdev</code>; see the docs for each module in the sidebar to learn about all the features. Here we'll briefly highlight a couple.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Adding-your-project-to-pypi-and-conda">Adding your project to pypi and conda<a class="anchor-link" href="#Adding-your-project-to-pypi-and-conda"> </a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If you want people to be able to install your project by just typing <code>pip install your-project</code> then you need to upload it to <a href="https://pypi.org/">pypi</a>. The good news is, we've already created a fully pypi compliant installer for your project! So all you need to do is register at pypi, if you haven't previously done so, and then create a file called <code>~/.pypirc</code> with your login details. It should have these contents:</p>
-
-<pre><code>[pypi]
-username = your_pypi_username
-password = your_pypi_password</code></pre>
-<p>Another thing you will need is <code>twine</code>, so you should run once</p>
-
-<pre><code>pip install twine</code></pre>
-<p>To upload your project to pypi, just type <code>make pypi</code> in your project root directory. Once it's complete, a link to your project on pypi will be printed.</p>
-<p>To also upload your project to anaconda, <a href="https://docs.anaconda.com/anaconda-repository/user-guide/tasks/create-account/">create an account</a> and then type <code>anaconda login</code> at your terminal. The use <code>make release</code> instead of <code>make pypi</code> - that will create and upload the pypi and conda packages and will also increment your version number.</p>
-<p><strong>NB</strong>: make sure you increment the version number in <code>settings.ini</code> each time you want to push a new release to pypi. If you call <code>make release</code> that will be done for you.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Avoiding-and-handling-git-conflicts">Avoiding and handling git conflicts<a class="anchor-link" href="#Avoiding-and-handling-git-conflicts"> </a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use <code>nbdev</code>. As a first step, run <a href="/cli.html#nbdev_install_git_hooks"><code>nbdev_install_git_hooks</code></a> in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the chance you have a conflict.</p>
-<p>But if you do get a conflict, simply run <code>nbdev_fix_merge filename.ipynb</code>. This will replace any conflicts in cell outputs with your version, and if there are conflicts in input cells, then both cells will be included in the merged file, along with standard conflict markers (e.g. <code>=====</code>). Then you can open the notebook in Jupyter and choose which version to keep.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Using-nbdev-as-part-of-your-CI">Using nbdev as part of your CI<a class="anchor-link" href="#Using-nbdev-as-part-of-your-CI"> </a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You can use <a href="https://github.com/features/actions">GitHub actions</a> to leverage the functionality of nbdev and easily make a CI that:</p>
-<ul>
-<li>check the notebooks are readable (with <a href="/cli.html#nbdev_read_nbs"><code>nbdev_read_nbs</code></a>)</li>
-<li>check the notebooks have been cleaned of needless metadata to avoid merge conflicts (with <a href="/clean.html#nbdev_clean_nbs"><code>nbdev_clean_nbs</code></a>)</li>
-<li>check there is no diff between the notebooks and the exported library (with <a href="/cli.html#nbdev_diff_nbs"><code>nbdev_diff_nbs</code></a>)</li>
-<li>run the tests in your notebooks (with <a href="/cli.html#nbdev_test_nbs"><code>nbdev_test_nbs</code></a>)</li>
-</ul>
-<p>The template contains a basic CI that uses the four points above, edit the file <code>.github/workflows/main.yml</code> to your liking and comment out the parts you don't want.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Math-equation-support">Math equation support<a class="anchor-link" href="#Math-equation-support"> </a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>nbdev supports equations (we use the excellent <a href="https://katex.org/">KaTeX library</a>). Enable it with <code>use_math: true</code> in your <code>_config.yml</code> (it's enabled by default). You can include math in your notebook's documentation using the following methods.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Using <code>$$</code>, e.g.:</p>
-
-<pre><code>{% raw %}
-$$\sum_{i=1}^{k+1}i$$
-{% endraw %}</code></pre>
-<p>Which is rendered as:</p>
-<blockquote>$$\sum_{i=1}^{k+1}i$$
-</blockquote>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Using <code>$</code>, e.g.:</p>
-
-<pre><code>This version is displayed inline: $\sum_{i=1}^{k+1}i$ . You can include text before and after.</code></pre>
-<p>Which is rendered as:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<blockquote><p>This version is displayed inline:$\sum_{i=1}^{k+1}i$ . You can include text before and after.</p>
-</blockquote>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Custom-search-engine">Custom search engine<a class="anchor-link" href="#Custom-search-engine"> </a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For adding search to your docs site, nbdev supports <a href="https://cse.google.com/cse/all">Google Custom Search</a>, including auto-completion as you type your search query. You can try it out by using the search box at the top of this page.</p>
-<p>Although we can't fully automate the creation of the search engine (since you need to login to Google to do it) we have made it very easy. Here are the steps you need to follow: <a href="https://nbdev.fast.ai/search">Setting up search</a>.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Google-Colab-Badges">Google Colab Badges<a class="anchor-link" href="#Google-Colab-Badges"> </a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Because both the documentation and code for nbdev is written in notebooks, you can optionally view and run nbdev documentation in <a href="https://colab.research.google.com/">Google Colab</a>. You can enable Google Colab badges that link to the appropriate notebook(s) in your GitHub repository.</p>
-<p>You can toggle this feature on or off in your <code>/_config.yml</code> file:</p>
-<div class="highlight"><pre><span></span><span class="c1"># This specifies what badges are turned on by default for notebook docs.</span>
-<span class="nt">default_badges</span><span class="p">:</span>
-  <span class="nt">colab</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-</pre></div>
-<p>Furthermore, if you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter <code>hide_colab_badge: true</code>.  For example, if you wanted to hide the Colab badge from showing up on the notebook <code>nbs/06_cli.ipynb</code>, your front matter (in the form of a markdown cell at the top of the notebook) will look like this:</p>
-
-<pre><code># Command line functions
-&gt; Console commands added by the nbdev library
-
-- hide_colab_badge:true</code></pre>
-<p>Note how in the above example, the title <code>Command line functions</code> is formatted as a markdown heading and the summary <code>Console commands added by the nbdev library</code> is formatted as a markdown block quote. The additional option <code>hide_colab_badge</code> is a list item.  It is important that this list item is separated from the summary by 2 newlines as shown above, in the same notebook markdown cell.</p>
+<h2 id="If-Someone-Tells-You-That-You-Shouldn't-Use-Notebooks-For-Software-Development">If Someone Tells You That You Shouldn't Use Notebooks For Software Development<a class="anchor-link" href="#If-Someone-Tells-You-That-You-Shouldn't-Use-Notebooks-For-Software-Development"> </a></h2><p><a href="https://youtu.be/9Q6sLbz37gk">Watch this video</a>.</p>
 
 </div>
 </div>
@@ -376,6 +136,27 @@ $$\sum_{i=1}^{k+1}i$$
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Copyright 2019 onwards, fast.ai, Inc. Licensed under the Apache License, Version 2.0 (the "License"); you may not use this project's files except in compliance with the License. A copy of the License is provided in the LICENSE file in this repository.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Appendix">Appendix<a class="anchor-link" href="#Appendix"> </a></h2><h3 id="nbdev-and-fastai">nbdev and fastai<a class="anchor-link" href="#nbdev-and-fastai"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>nbdev</code> has been used to build innovative software used by many developers, such as <a href="https://docs.fast.ai/">fastai</a>, a deep learning library which implements a <a href="https://arxiv.org/abs/2002.04688">unique layered api and callback system</a>, and <a href="https://fastcore.fast.ai/">fastcore</a>, an extension to the Python programming language. Furthermore, <code>nbdev</code> allows a very small number of developers to maintain and grow a <a href="https://github.com/fastai">large ecosystem</a> of software engineering, data science, machine learning and devops tools.</p>
+<p>Here, for instance, is how <code>combined_cos</code> is defined and documented in the <code>fastai</code> library:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include image.html alt="Exporting from nbdev" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" max-width="700" file="/images/export_example.png" %}</p>
 
 </div>
 </div>
