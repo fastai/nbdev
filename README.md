@@ -5,33 +5,48 @@
 > Create delightful python projects using Jupyter Notebooks
 
 
-`nbdev` is a library that allows you to fully develop a library in [Jupyter Notebooks](https://jupyter.org/), putting all your code, tests and documentation in one place. That is: you now have a true [literate programming](https://en.wikipedia.org/wiki/Literate_programming) environment, as envisioned by Donald Knuth back in 1983!
+`nbdev` is a library that allows you to develop a python library in [Jupyter Notebooks](https://jupyter.org/), putting all your code, tests and documentation in one place. That is: you now have a true [literate programming](https://en.wikipedia.org/wiki/Literate_programming) environment, as envisioned by Donald Knuth back in 1983!
 
-Using the interactive environment, you can easily debug and refactor your code. Add `#export` to the cells that define the functions you want to include in your python modules. Here, for instance, is how `combined_cos` is defined and documented in the `fastai` library:
+`nbdev` makes debugging and refactor your code much easier relative to traditional programming environments. Furthermore, using nbdev promotes software engineering best practices because tests and documentation are first class citizens.  
 
-<img alt="Exporting from nbdev" width="700" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" src="nbs/images/export_example.png">
+## Features of Nbdev
 
-Using notebooks written like this, `nbdev` can create and run any of the following with a single command:
+`nbdev` provides the following tools for developers:
 
-- Searchable, hyperlinked documentation; any word you surround in backticks will be *automatically* hyperlinked to the appropriate documentation
-- Python modules, following best practices such as automatically defining `__all__` ([more details](http://xion.io/post/code/python-all-wild-imports.html)) with your exported functions, classes, and variables
-- Pip and conda installers (uploaded to pypi and anaconda for you)
-- Tests (defined directly in your notebooks, and run in parallel)
-- Navigate and edit your code in a standard text editor or IDE, and export any changes automatically back into your notebooks
+- **Automatically generate docs** from Jupyter notebooks.  These docs are searchable and automatically hyperlinked to appropriate documentation pages by introspecting keywords you surround in backticks.
+- Utilities to **automate the publishing of pypi and conda packages** including version number management.
+- A robust, **two-way sync between notebooks and source code**, which allow you to use your IDE for code navigation or quick edits if desired.
+- **Fine-grained control on hiding/showing cells**: you can choose to hide entire cells, just the output, or just the input.  Furthermore, you can embed cells in collapsible elements that are open or closed by default.
+- Ability to **write tests directly in notebooks** without having to learn special APIs.  These tests get executed in parallel with a single CLI command.  You can even define certain groups of tests such that you don't have to always run long-running tests. 
+- Tools for **merge/conflict resolution** with notebooks in a **human readable format**.
+- **Continuous integration (CI) comes setup for you with [GitHub Actions](https://github.com/features/actions)** out of the box, that will run tests automatically for you.  Even if you are not familiar with CI or GitHub Actions, this starts working right away for you without any manual intervention.
+- **Integration With GitHub Pages for docs hosting**: nbdev allows you to easily host your documentation for free, using GitHub pages.
+- Create Python modules, following **best practices such as automatically defining `__all__`** ([more details](http://xion.io/post/code/python-all-wild-imports.html)) with your exported functions, classes, and variables.
+- **Math equation support** with LaTeX.
+- ... and much more!  See the [Getting Started](https://nbdev.fast.ai/#Getting-Started) section below for more information.
 
-Since you are in a notebook, you can also add charts, text, links, images, videos, etc, that will included automatically in the documentation of your library. The cells where your code is defined will be hidden and replaced by standardized documentation of your function, showing its name, arguments, docstring, and link to the source code on github. For instance, the cells above are converted to:
+## A Motivating Example
 
-<img alt="Documentation in nbdev" width="600" caption="An example of automated documentation from the fastai library" src="nbs/images/doc_example.png">
+For example, lets define a class that represents a playing card, with associated docs and tests in a Jupyter Notebook:
 
-See below for *Installing* and *Getting Started*. In the other pages of the documentation, you can get more details about:
+![image.png](nbs/images/att_00027.png)
 
-- the [export](http://nbdev.fast.ai/export) functionality from jupyter notebooks to a python library
-- the [cli](http://nbdev.fast.ai/cli) commands you can use with nbdev in a terminal
-- how [export2html](http://nbdev.fast.ai/export2html) builds a documentation for your library
-- how [sync](http://nbdev.fast.ai/sync) can allow you to export back from the python modules to the jupyter notebook
-- how to put [tests](http://nbdev.fast.ai/test) in your notebooks, which can be run in parallel, and exported to CI from your notebooks
-- get more info about the [additional functionality](http://nbdev.fast.ai/#Additional-functionality)
-- [release notes](https://github.com/fastai/nbdev/blob/master/CHANGELOG.md)
+In the above screenshot, we have code, tests and documentation in one context! `nbdev` renders this into searchable docs (which are optionally hosted for free on GitHub Pages).  Below is an annotated screenshot of the generated docs for further explanation:
+
+![image.png](nbs/images/att_00016.png)
+
+The above illustration is a subset of the [this nbdev tutorial with a minimal example](https://nbdev.fast.ai/example.html), which uses code from [Think Python 2](https://github.com/AllenDowney/ThinkPython2) by Allen Downey.
+
+### Explanation of annotations:
+
+1. The heading **Card** corresponds to the first `H1` heading in a notebook with a note block _API Details_ as the summary.
+2. `nbdev` automatically renders a Table of Contents for you.
+3. `nbdev` automatically renders the signature of your class or function as a heading.  
+4.  The cells where your code is defined will be hidden and replaced by standardized documentation of your function, showing its name, arguments, docstring, and link to the source code on github.
+5. This part of docs is rendered automatically from the docstring.
+6. The rest of the notebook is rendered as usual.  You can hide entire cells, hide only cell input or hide only output by using the [flags described on this page](https://nbdev.fast.ai/export2html.html).
+7.  nbdev supports special block quotes that render as colored boxes in the documentation.  You can read more about them [here](https://nbdev.fast.ai/export2html.html#add_jekyll_notes).  In this specific example, we are using the `Note` block quote. 
+8. Words you surround in backticks will be automatically hyperlinked to the associated documentation where appropriate. This is a trivial case where `Card` class is defined immediately above, however this works across pages and modules.  We will see another example of this in later steps.
 
 ## Installing
 
@@ -47,164 +62,17 @@ _Note that `nbdev` must be installed into the same python environment that you u
 
 ## Getting Started
 
-To begin your own project: 
+The following are helpful resources for getting started with nbdev:
 
-- click [here](https://github.com/fastai/nbdev_template/generate) for GitHub (you need to be logged in to GitHub for this link to work).
-- click [here](https://gitlab.com/thomas.capelle/nbdev_template/) for GitLab (you need to be logged in to GitLab for this link to work). 
-
-Fill in the requested info and click *Create repository from template*, and a new GitHub or GitLab repo will be created for you.
-
-**NB:** The name of your project will become the name of the Python package generated by nbdev. For that reason, it is a good idea to pick a short, all-lowercase name with _no dashes_ between words (underscores are allowed).
-
-Now, open your terminal, and clone the repo you just created.
-
-Alternatively, you can use a cli command `nbdev_new` to create a new nbdev project and initialize a git repository locally without creating a github repo.
-
-Next, edit the `settings.ini` file. Note that it contains all the necessary information for when you'll be ready to package your library, so you shouldn't need to change the `setup.py` file provided by the template. The basic structure (that can be personalized provided you change the relevant information in `settings.ini`) is that the root of the repo will contain your notebooks, along with a folder `docs` where the doc will be auto-generated that contains everything for a [jekyll](https://jekyllrb.com/)-powered website. Because [GitHub Pages supports Jekyll](https://help.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll), you can host your site for free on GitHub without any additional setup.
-
-Your `settings.ini` is where all parts of nbdev look for any required configuration information. Once you've edited it, run the command `nbdev_build_lib` (which is automatically installed for you when you install `nbdev`. You'll now find that you have a new directory, with the name of whatever you set `lib_name` to in `settings.ini`.
-
-Now, run `jupyter notebook`, and click `00_core.ipynb`. This is where you'll create your first module! Create Jupyter cells as you would in any notebook. For any cells that you want to be included in your python module, type `#export` as the first line of the cell. Note that for any new .ipynb that you create, you will also need to type `#default_exp target_module_name`, which will define the name of the generated module (lib_name/target_module_name.py).
-
-In the last cell of your notebook, you can then run:
-
-```python
-from nbdev.export import *
-notebook2script()
-```
-
-```
-from nbdev.export import *
-notebook2script()
-```
-
-    Converted 00_export.ipynb.
-    Converted 01_sync.ipynb.
-    Converted 02_showdoc.ipynb.
-    Converted 03_export2html.ipynb.
-    Converted 04_test.ipynb.
-    Converted 05_merge.ipynb.
-    Converted 05a_conda.ipynb.
-    Converted 06_cli.ipynb.
-    Converted 07_clean.ipynb.
-    Converted 99_search.ipynb.
-    Converted index.ipynb.
-    Converted magic_flags.ipynb.
-    Converted nbdev_callbacks.ipynb.
-    Converted tutorial.ipynb.
+- The [tutorial](https://nbdev.fast.ai/tutorial.html).
+- A [minimal, end-to-end example](https://nbdev.fast.ai/example.html) of using nbdev.  We suggest replicating this example after reading through the tutorial to solidify your understanding.
+- The [docs](https://nbdev.fast.ai/).
+- [release notes](https://github.com/fastai/nbdev/blob/master/CHANGELOG.md).
 
 
-Or in the command line, you can run:
-``` bash
-nbdev_build_lib
-```
-as long as you are somewhere in the folder where you are developing your library. Either of these will do the same thing: update your module to include all exported cells in your notebook.
+## If Someone Tells You That You Shouldn't Use Notebooks For Software Development
 
-To enable documentation in your GitHub repo, click 'Settings' on the main repo page, scroll down to 'GitHub Pages', and under 'Source' choose 'master branch /docs folder'. GitHub will then show you a link to your working documentation site.
-
-Finally, edit `index.ipynb`. This will be converted into your projects *README* file, and will also be the index for your documentation (the page you're reading right now actually comes from an `index.ipynb` file!) You can use the module you just exported in this library, which means you can show real working code, and actual outputs. Once you have everything as you want it, run `nbdev_build_docs` in the terminal. This will export HTML versions of your notebooks to the `docs` directory, and will create hyperlinks for any words in backticks (as long as they exist in your module). It will also create a menu for all notebooks you have created, and a table of contents for each.
-
-#### Note if using a subdirectory to contain .ipynb files instead of the project root
-
-If you have set the parameter nbs_path to be anything other than the project root, you will not be able to import your generated modules without an extra step: 
-- either install these modules locally, as their relative import will take you beyond the top-level package, which can be done by running `pip install -e .` in the project root, to install the modules to your environment in editable mode.
-- or make a simlink in your notebook folder to the library folder, which can be done by running `ln -s lib_path lib_name` (adjust `lib_path` and `lib_name` to your use case).
-
-## Additional functionality
-
-There's a lot of functionality in `nbdev`; see the docs for each module in the sidebar to learn about all the features. Here we'll briefly highlight a couple.
-
-### Adding your project to pypi and conda
-
-If you want people to be able to install your project by just typing `pip install your-project` then you need to upload it to [pypi](https://pypi.org/). The good news is, we've already created a fully pypi compliant installer for your project! So all you need to do is register at pypi, if you haven't previously done so, and then create a file called `~/.pypirc` with your login details. It should have these contents:
-
-```
-[pypi]
-username = your_pypi_username
-password = your_pypi_password
-```
-
-Another thing you will need is `twine`, so you should run once
-``` 
-pip install twine
-```
-
-To upload your project to pypi, just type `make pypi` in your project root directory. Once it's complete, a link to your project on pypi will be printed.
-
-To also upload your project to anaconda, [create an account](https://docs.anaconda.com/anaconda-repository/user-guide/tasks/create-account/) and then type `anaconda login` at your terminal. The use `make release` instead of `make pypi` - that will create and upload the pypi and conda packages and will also increment your version number.
-
-**NB**: make sure you increment the version number in `settings.ini` each time you want to push a new release to pypi. If you call `make release` that will be done for you.
-
-### Avoiding and handling git conflicts
-
-Jupyter Notebooks can cause challenges with git conflicts, but life becomes much easier when you use `nbdev`. As a first step, run `nbdev_install_git_hooks` in the terminal from your project folder. This will set up git hooks which will remove metadata from your notebooks when you commit, greatly reducing the chance you have a conflict.
-
-But if you do get a conflict, simply run `nbdev_fix_merge filename.ipynb`. This will replace any conflicts in cell outputs with your version, and if there are conflicts in input cells, then both cells will be included in the merged file, along with standard conflict markers (e.g. `=====`). Then you can open the notebook in Jupyter and choose which version to keep.
-
-### Using nbdev as part of your CI
-
-You can use [GitHub actions](https://github.com/features/actions) to leverage the functionality of nbdev and easily make a CI that:
-- check the notebooks are readable (with `nbdev_read_nbs`)
-- check the notebooks have been cleaned of needless metadata to avoid merge conflicts (with `nbdev_clean_nbs`)
-- check there is no diff between the notebooks and the exported library (with `nbdev_diff_nbs`)
-- run the tests in your notebooks (with `nbdev_test_nbs`)
-
-The template contains a basic CI that uses the four points above, edit the file `.github/workflows/main.yml` to your liking and comment out the parts you don't want.
-
-### Math equation support
-
-nbdev supports equations (we use the excellent [KaTeX library](https://katex.org/)). Enable it with `use_math: true` in your `_config.yml` (it's enabled by default). You can include math in your notebook's documentation using the following methods.
-
-Using `$$`, e.g.:
-
-```
-{% raw %}
-$$\sum_{i=1}^{k+1}i$$
-{% endraw %}
-```
-
-Which is rendered as:
-
-> $$\sum_{i=1}^{k+1}i$$
-
-Using `$`, e.g.:
-
-```
-This version is displayed inline: $\sum_{i=1}^{k+1}i$ . You can include text before and after.
-```
-
-Which is rendered as:
-
-> This version is displayed inline:$\sum_{i=1}^{k+1}i$ . You can include text before and after.
-
-### Custom search engine
-
-For adding search to your docs site, nbdev supports [Google Custom Search](https://cse.google.com/cse/all), including auto-completion as you type your search query. You can try it out by using the search box at the top of this page.
-
-Although we can't fully automate the creation of the search engine (since you need to login to Google to do it) we have made it very easy. Here are the steps you need to follow: [Setting up search](https://nbdev.fast.ai/search).
-
-### Google Colab Badges
-
-Because both the documentation and code for nbdev is written in notebooks, you can optionally view and run nbdev documentation in [Google Colab](https://colab.research.google.com/). You can enable Google Colab badges that link to the appropriate notebook(s) in your GitHub repository.  
-
-You can toggle this feature on or off in your `/_config.yml` file:
-
-```yaml
-# This specifies what badges are turned on by default for notebook docs.
-default_badges:
-  colab: true
-```
-
-Furthermore, if you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter `hide_colab_badge: true`.  For example, if you wanted to hide the Colab badge from showing up on the notebook `nbs/06_cli.ipynb`, your front matter (in the form of a markdown cell at the top of the notebook) will look like this:
-
-```
-# Command line functions
-> Console commands added by the nbdev library
-
-- hide_colab_badge:true
-```
-
-Note how in the above example, the title `Command line functions` is formatted as a markdown heading and the summary `Console commands added by the nbdev library` is formatted as a markdown block quote. The additional option `hide_colab_badge` is a list item.  It is important that this list item is separated from the summary by 2 newlines as shown above, in the same notebook markdown cell.
+[Watch this video](https://youtu.be/9Q6sLbz37gk).
 
 ## Contributing
 
@@ -219,3 +87,13 @@ in the cloned repository folder.
 ## Copyright
 
 Copyright 2019 onwards, fast.ai, Inc. Licensed under the Apache License, Version 2.0 (the "License"); you may not use this project's files except in compliance with the License. A copy of the License is provided in the LICENSE file in this repository.
+
+## Appendix
+
+### nbdev and fastai
+
+`nbdev` has been used to build innovative software used by many developers, such as [fastai](https://docs.fast.ai/), a deep learning library which implements a [unique layered api and callback system](https://arxiv.org/abs/2002.04688), and [fastcore](https://fastcore.fast.ai/), an extension to the Python programming language. Furthermore, `nbdev` allows a very small number of developers to maintain and grow a [large ecosystem](https://github.com/fastai) of software engineering, data science, machine learning and devops tools.
+
+Here, for instance, is how `combined_cos` is defined and documented in the `fastai` library:
+
+<img alt="Exporting from nbdev" width="700" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" src="nbs/images/export_example.png">

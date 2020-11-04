@@ -143,18 +143,22 @@ In the very first cell of <a href="https://github.com/fastai/deck_of_cards/blob/
 <p>If you navigate to the cards page at <code>http://127.0.0.1:4000/deck_of_cards/card.html</code>, you will see the docs that we just wrote, which we have annotated for further explanation:</p>
 <p><img src="/images/att_00016.png" alt="image.png"></p>
 <h4 id="Explanation-of-annotations:">Explanation of annotations:<a class="anchor-link" href="#Explanation-of-annotations:"> </a></h4><ol>
-<li>The heading corresponds to the first <code>H1</code> heading in a notebook, with a note block as the summary, which is produced by this markdown:</li>
-</ol>
-
-<pre><code># Card
-&gt; API Details</code></pre>
-<ol>
-<li><code>nbdev</code> automatically renders a Table of Contents for you.</li>
-<li><code>nbdev</code> automatically renders the signature of your class or function as a heading.  </li>
-<li><code>nbdev</code> automatically adds a link to the corresponding source code (which is a plain-text python file) on GitHub.  Remember, <code>nbdev</code> converts Jupyter notebooks to source code with the command <a href="/export2html.html#nbdev_build_lib"><code>nbdev_build_lib</code></a>.  </li>
-<li>This part of docs is rendered automatically from the docstring.</li>
-<li>The rest of the notebook is rendered as usual.  You can hide entire cells, hide only cell input or hide only output by using the <a href="https://nbdev.fast.ai/export2html.html">flags described on this page</a>.7.  nbdev supports special block quotes that render as colored boxes in the documentation.  You can read more about them <a href="https://nbdev.fast.ai/export2html.html#add_jekyll_notes">here</a>.  In this specific example, we are using the <code>Note</code> block quote. </li>
-<li>Words you surround in backticks will be automatically hyperlinked to the associated documentation where appropriate. This is a trivial case where <code>Card</code> class is defined immediately above, however this works across pages and modules.  We will see another example of this in later steps.</li>
+<li><p>The heading <strong>Card</strong> corresponds to the first <code>H1</code> heading in a notebook with a note block <em>API Details</em> as the summary.</p>
+</li>
+<li><p><code>nbdev</code> automatically renders a Table of Contents for you.</p>
+</li>
+<li><p><code>nbdev</code> automatically renders the signature of your class or function as a heading.</p>
+</li>
+<li><p><code>nbdev</code> automatically adds a link to the corresponding source code (which is a plain-text python file) on GitHub.  Remember, <code>nbdev</code> converts Jupyter notebooks to source code with the command <a href="/export2html.html#nbdev_build_lib"><code>nbdev_build_lib</code></a>.</p>
+</li>
+<li><p>This part of docs is rendered automatically from the docstring.</p>
+</li>
+<li><p>The rest of the notebook is rendered as usual.  You can hide entire cells, hide only cell input or hide only output by using the <a href="https://nbdev.fast.ai/export2html.html">flags described on this page</a>.</p>
+</li>
+<li><p>nbdev supports special block quotes that render as colored boxes in the documentation.  You can read more about them <a href="https://nbdev.fast.ai/export2html.html#add_jekyll_notes">here</a>.  In this specific example, we are using the <code>Note</code> block quote.</p>
+</li>
+<li><p>Words you surround in backticks will be automatically hyperlinked to the associated documentation where appropriate. This is a trivial case where <code>Card</code> class is defined immediately above, however this works across pages and modules.  We will see another example of this in later steps.</p>
+</li>
 </ol>
 <h3 id="show_doc">show_doc<a class="anchor-link" href="#show_doc"> </a></h3><p><a href="/showdoc.html#show_doc"><code>show_doc</code></a> allows you to control how documentation is shown on the docs.  You can control the location, order, heading and other details of how documentation is rendered.  You can read more <a href="https://nbdev.fast.ai/showdoc.html#show_doc">about it here</a>.   For example, this is how you can use <a href="/showdoc.html#show_doc"><code>show_doc</code></a> to render the docs for the <code>__eq__</code> method of <code>Card</code> (notice how the tests are naturally included below the documentation):</p>
 <p><img src="/images/att_00017.png" alt="image.png"></p>
