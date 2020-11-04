@@ -284,7 +284,7 @@ def get_doc_link(func):
         nbdev_mod = importlib.import_module(mod.__package__.split('.')[0] + '._nbdev')
         try_pack = source_nb(func, mod=nbdev_mod)
         if try_pack:
-            page = '.'.join(try_pack.split('_')[1:]).replace('.ipynb', '')
+            page = '.'.join(try_pack.partition('_')[-1:]).replace('.ipynb', '')
             return f'{nbdev_mod.doc_url}{page}#{qual_name(func)}'
     except: return None
 
