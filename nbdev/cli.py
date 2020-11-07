@@ -93,7 +93,8 @@ def nbdev_new():
     FILES_URL = 'https://files.fast.ai/files/'
     extract_tgz(f'{FILES_URL}nbdev_files.tgz')
     path = Path()
-    for o in (path/'nbdev_files').ls(): shutil.move(str(o), './')
+    for o in (path/'nbdev_files').ls():
+        if not Path(f'./{o.name}').exists(): shutil.move(str(o), './')
     shutil.rmtree('nbdev_files')
     if first(path.glob('*.ipynb')): print("00_core.ipynb not downloaded since a notebook already exists.")
     else: urlsave(f'{FILES_URL}00_core.ipynb')
