@@ -79,17 +79,17 @@ def relimport2name(name, mod_name):
 
 # Cell
 #Catches any from .bla import something and catches .bla in group 1, the imported thing(s) in group 2.
-_re_loc_import = re.compile(r'(^\s*)from (\.\S*) import (.*)$')
-_re_loc_import1 = re.compile(r'(^\s*)import (\.\S*)(.*)$')
+_re_loc_import = re.compile(r'(\s*)from(\s+)(\.\S*)(\s+)import(\s+)(.*)$')
+_re_loc_import1 = re.compile(r'(\s*)import(\s+)(\.\S*)(.*)$')
 
 # Cell
 def _deal_loc_import(code, fname):
     def _replace(m):
-        sp,mod,obj = m.groups()
-        return f"{sp}from {relimport2name(mod, fname)} import {obj}"
+        s1,s2,mod,s3,s4,obj = m.groups()
+        return f"{s1}from{s2}{relimport2name(mod, fname)}{s3}import{s4}{obj}"
     def _replace1(m):
-        sp,mod,end = m.groups()
-        return f"{sp}import {relimport2name(mod, fname)}{end}"
+        s1,s2,mod,end = m.groups()
+        return f"{s1}import{s2}{relimport2name(mod, fname)}{end}"
     return '\n'.join([_re_loc_import1.sub(_replace1, _re_loc_import.sub(_replace,line)) for line in code.split('\n')])
 
 # Cell
