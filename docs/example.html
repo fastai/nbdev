@@ -31,7 +31,7 @@ nb_path: "nbs/example.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This section assumes you have gone through the <a href="https://nbdev.fast.ai/tutorial.html">tutorial</a>.  The following is a minimal example of creating a nbdev project from scratch, with some commentary around why certain things work they way they do.</p>
+<p>This section assumes you have gone through the <a href="https://nbdev.fast.ai/tutorial.html">tutorial</a>.  The following is a minimal example of creating a nbdev project from scratch, with some commentary around why certain things work the way they do.</p>
 <p>For this example, we will use code from <a href="https://github.com/AllenDowney/ThinkPython2">Allen Downey's excellent book, Think Python 2</a>, particularly the <a href="https://github.com/AllenDowney/ThinkPython2/blob/master/code/Card.py">Card</a> module.  We will not cover all the features of <code>nbdev</code> as we focus on providing you with just enough information to become productive. We recommend reading the rest of <a href="https://nbdev.fast.ai/">the docs</a> when you are done with this example.</p>
 
 </div>
@@ -46,7 +46,7 @@ nb_path: "nbs/example.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Per the instructions in <a href="https://nbdev.fast.ai/tutorial.html">the tutorial</a>, we will make a new repository using <a href="https://github.com/fastai/nbdev_template">the template</a>.  In this case, we make a repository called <a href="https://github.com/fastai/deck_of_cards">deck_of_cards</a>:
-{% include note.html content='If you plan on writing installable python modules, we highly recommend naming your repo after your python module.' %}</p>
+{% include note.html content='If you plan on writing installable Python modules, we highly recommend naming your repo after your python module.' %}</p>
 
 </div>
 </div>
@@ -91,12 +91,13 @@ The values in settings.ini file are propagated to various systems for you automa
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Next, we take the <a href="https://github.com/AllenDowney/ThinkPython2/blob/master/code/Card.py#L17">Card module from the ThinkPython2 repo</a> and write it in nbdev.</p>
 <p>The first step is to copy and paste the <code>Card</code> class from <a href="https://github.com/AllenDowney/ThinkPython2/blob/master/code/Card.py">Card.py</a> into a new Jupyter notebook, which we have named <a href="https://github.com/fastai/deck_of_cards/blob/master/00_card.ipynb">00_card.ipynb</a>. Copying and pasting code from python files is a reasonable way to convert existing python scripts into Jupyter notebooks.  A useful trick for copying big blocks of code into notebooks is to copy the whole file into a single cell and use <code>ctrl-shift-minus</code> to split the code into separate cells.</p>
-<p>If you are trying to convert an existing python project to <code>nbdev</code>, we recommend incrementally converting specific files to <code>nbdev</code> over time. Specifically, we recommend choosing one python file to begin with like the example with <code>card.py</code> shown below.
-{% include note.html content='The number at the beginning of the filename is not required, and is a convention we use keep notebooks in a desired sorted order in the file system. ' %}
-In the very first cell of <a href="https://github.com/fastai/deck_of_cards/blob/master/00_card.ipynb">the notebook</a>, you should write a comment that looks like this:</p>
+<p>If you are trying to convert an existing python project to <code>nbdev</code>, we recommend incrementally converting specific files to <code>nbdev</code> over time. Specifically, we recommend choosing one python file to begin with like the example with <code>card.py</code> shown below.</p>
+<blockquote><p>The number at the beginning of the filename is not required; it is a convention we use to keep notebooks in a desired order when they are sorted by the the file system.</p>
+</blockquote>
+<p>In the first cell of <a href="https://github.com/fastai/deck_of_cards/blob/master/00_card.ipynb">the notebook</a>, write a comment that looks like this (this is not required but we do it here to highlight an important feature of nbdev):</p>
 <div class="highlight"><pre><span></span><span class="c1"># default_exp card</span>
 </pre></div>
-<p>In this case, the argument <code>card</code> specifies that code exported from this notebook should be placed in the destination <code>card.py</code> by default.  You can read more about this <a href="https://nbdev.fast.ai/export.html">here</a>. A reasonable way to arrange the notebook will be like this:</p>
+<p>In this case, the argument <code>card</code> specifies that code exported from this notebook will be placed in the destination <code>card.py</code> by default.  You can read more about how python modules are created from notebooks <a href="https://nbdev.fast.ai/export.html">here</a>. A reasonable way to arrange the notebook will be like this:</p>
 <p><img src="/images/att_00011.png" alt="image.png"></p>
 
 </div>
@@ -104,11 +105,22 @@ In the very first cell of <a href="https://github.com/fastai/deck_of_cards/blob/
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Where-The-Magic-Happens:-Write-Documentation-And-Tests">Where The Magic Happens: Write Documentation And Tests<a class="anchor-link" href="#Where-The-Magic-Happens:-Write-Documentation-And-Tests"> </a></h3><p>In the original code base, tests for Card are separate, and located in <a href="https://github.com/AllenDowney/ThinkPython2/blob/master/code/Card_test.py">Card_test.py</a>.  Furthermore, the documentation for <code>Card</code> is primarily located in the <a href="https://github.com/AllenDowney/ThinkPython2/tree/master/book">book folder</a> of Allen's repo as well as some documentation in the docstring.  While this is a typical arrangement for a python project, we believe <code>nbdev</code> can make your workflow much easier by organizing the docs, tests and source code into a single context.  We believe this allows developers to write higher quality documentation and code, and encourages more testing.</p>
+<h3 id="Flags">Flags<a class="anchor-link" href="#Flags"> </a></h3><p>nbdev uses special comments, or flags, as a markup language that allows you to control various aspects of the docs and how code is exported to modules, and how code is tested. In addition to <code>default_exp</code>, the the following other flags are present in this notebook:</p>
+<p><code>&#35;hide</code>
+{% include note.html content='This comment instructs nbdev to hide this cell when generating the docs.' %}</p>
+<p><code>&#35;export</code>
+{% include note.html content='This comment intructs nbdev to export this cell to the appropriate python file.  When no argument is provided to <a href="/export.html"><code>export</code></a>, this defaults to the module specified by <code>default_exp</code> as described above.' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Where-The-Magic-Happens:-Write-Documentation-And-Tests">Where The Magic Happens: Write Documentation And Tests<a class="anchor-link" href="#Where-The-Magic-Happens:-Write-Documentation-And-Tests"> </a></h3><p>In the original code base, tests for Card are separate, located in <a href="https://github.com/AllenDowney/ThinkPython2/blob/master/code/Card_test.py">Card_test.py</a>.  Furthermore, the documentation for <code>Card</code> is primarily located in the <a href="https://github.com/AllenDowney/ThinkPython2/tree/master/book">book folder</a> of Allen's repo as well as some documentation in the docstring.  While this is a typical arrangement for a Python project, we believe <code>nbdev</code> can make your workflow easier by organizing the docs, tests and source code into a single context.  We believe this allows developers to write higher quality documentation and code, and encourages more testing.</p>
 <p>Here is what the documentation + code looks like for Card:</p>
 <p><img src="/images/att_00012.png" alt="image.png"></p>
 <p>These comments and tests are rendered by the documentation system which is discussed in a later section.  Furthermore, the assert statements automatically become tests that are run by the <a href="https://nbdev.fast.ai/tutorial.html#CI">continuous integration system setup by default in nbdev</a> in your GitHub repository. 
-{% include note.html content='The nbdev programming environment comes setup with a <a href="https://nbdev.fast.ai/tutorial.html#CI">continuous integration (CI)</a> system for you.  You don&#8217;t have to do anything extra to enable it, and it starts working immediately.  This is great especially for people who have no experience with CI, it is a gentle way to start using it.' %}{% include important.html content='There are testing utilities provided by <a href="https://fastcore.fast.ai/test.html">fastcore&#8217;s testing utilities</a>, which provide wrappers around common types of assert statements and also provide better default error messages.  Using these are optional, but recommended.' %}</p>
+{% include note.html content='The nbdev programming environment comes set up with a <a href="https://nbdev.fast.ai/tutorial.html#CI">continuous integration (CI)</a> system for you.  You don&#8217;t have to do anything extra to enable it, and it starts working immediately.  This is especially great for people who have no experience with CI; it is a gentle way to start using it.' %}{% include important.html content='There are testing utilities provided by <a href="https://fastcore.fast.ai/test.html">fastcore&#8217;s testing utilities</a>, which provide wrappers around common types of assert statements and also provide better default error messages.  Using these is optional, but recommended.' %}</p>
 
 </div>
 </div>
@@ -123,13 +135,13 @@ In the very first cell of <a href="https://github.com/fastai/deck_of_cards/blob/
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>nbdev</code> repositories require a notebook named <code>index.ipynb</code>, which is included in your repository when you use the template.  <code>index.ipynb</code> serves two purposes:</p>
 <ol>
-<li>Becomes the README for your repo (this notebook is converted to <code>README.md</code>)</li>
-<li>Becomes home page (<code>index.html</code>) for your documentation. </li>
+<li>It becomes the README for your repo (this notebook is converted to <code>README.md</code>)</li>
+<li>It becomes home page (<code>index.html</code>) for your documentation. </li>
 </ol>
 <p>You will notice the following boilerplate in <code>index.ipynb</code>:</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">your_lib.core</span> <span class="kn">import</span> <span class="o">*</span>
 </pre></div>
-<p>You should remove this line of code or comment it out, as it will cause a syntax error.  Later, when you are finished creating your module, you can replace this with the appropriate import statement.</p>
+<p>You should remove this line of code or comment it out, as it will cause a syntax error.  Later, when you are finished creating your module, you can replace this with the appropriate import statement.  We left this line in here on purpose so that you can experience how the continuous integration system (discussed above) warns you of errors.</p>
 
 </div>
 </div>
@@ -153,7 +165,7 @@ In the very first cell of <a href="https://github.com/fastai/deck_of_cards/blob/
 </li>
 <li><p>This part of docs is rendered automatically from the docstring.</p>
 </li>
-<li><p>The rest of the notebook is rendered as usual.  You can hide entire cells, hide only cell input or hide only output by using the <a href="https://nbdev.fast.ai/export2html.html">flags described on this page</a>.</p>
+<li><p>The rest of the notebook is rendered by converting your markdown into HTML, showing the inputs and outputs of each of your cells (including charts and images), and so forth. You can hide entire cells, hide only cell input or hide only output by using the <a href="https://nbdev.fast.ai/export2html.html">flags described on this page</a>.</p>
 </li>
 <li><p>nbdev supports special block quotes that render as colored boxes in the documentation.  You can read more about them <a href="https://nbdev.fast.ai/export2html.html#add_jekyll_notes">here</a>.  In this specific example, we are using the <code>Note</code> block quote.</p>
 </li>

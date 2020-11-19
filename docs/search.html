@@ -43,7 +43,7 @@ nb_path: "nbs/99_search.ipynb"
 <li>In "Sites to search" type the URL of your docs site (e.g. <code>{owner}.github.io/{lib_name}</code>), and in "Name of the search engine" type "{lib_name} docs". Then click "CREATE"</li>
 <li>Click "Control Panel"</li>
 <li>In the "Basics" tab, click "Copy to clipboard" in the "Search engine ID" row</li>
-<li>Paste that as the value for "google_search:" in <code>docs/_config.yml</code> in your project. (If you don't already have this file, run <a href="/cli.html#nbdev_build_lib"><code>nbdev_build_lib</code></a> to create it, once you've set up your <code>settings.ini</code>)</li>
+<li>Paste that as the value for "google_search:" in <code>docs/_config.yml</code> in your project. (If you don't already have this file, run <a href="/export2html.html#nbdev_build_lib"><code>nbdev_build_lib</code></a> to create it, once you've set up your <code>settings.ini</code>)</li>
 <li>Click "Advanced" (far-right tab), then "CSE Context", then "Download (XML)"</li>
 <li>Open the downloaded <code>cse.xml</code> file in a text editor, and delete everything from the line starting with <code>&lt;LookAndFeel</code> onwards (including that line)</li>
 <li>Replace those lines with the contents of this file: <a href="https://github.com/fastai/nbdev/blob/master/docs/search-template.txt">search-template.txt</a>, and save it</li>
