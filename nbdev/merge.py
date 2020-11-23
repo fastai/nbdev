@@ -92,7 +92,7 @@ def analyze_cell(cell, cf, names, prev=None, added=False, fast=True, trust_us=Tr
 @call_parse
 def nbdev_fix_merge(fname:Param("A notebook filename to fix", str),
                     fast:Param("Fast fix: automatically fix the merge conflicts in outputs or metadata", bool)=True,
-                    trust_us:Param("Use local outputs/metadata when fast mergning", bool)=True):
+                    trust_us:Param("Use local outputs/metadata when fast merging", bool)=True):
     "Fix merge conflicts in notebook `fname`"
     fname=Path(fname)
     shutil.copy(fname, fname.with_suffix('.ipynb.bak'))
@@ -105,5 +105,5 @@ def nbdev_fix_merge(fname:Param("A notebook filename to fix", str),
         res.append(c)
     if res[-1].endswith(','): res[-1] = res[-1][:-1]
     with open(f'{fname}', 'w') as f: f.write('\n'.join([r for r in res+[end] if len(r) > 0]))
-    if fast and not added: print("Succesfully merged conflicts!")
+    if fast and not added: print("Successfully merged conflicts!")
     else: print("One or more conflict remains in the notebook, please inspect manually.")

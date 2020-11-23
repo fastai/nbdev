@@ -155,7 +155,7 @@ def nbdev_diff_nbs():
 @call_parse
 def nbdev_trust_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                     force_all:Param("Trust even notebooks that haven't changed", bool)=False):
-    "Trust noteboks matching `fname`"
+    "Trust notebooks matching `fname`"
     check_fname = Config().path("nbs_path")/".last_checked"
     last_checked = os.path.getmtime(check_fname) if check_fname.exists() else None
     files = Config().path("nbs_path").glob('**/*.ipynb') if fname is None else glob.glob(fname)

@@ -237,7 +237,7 @@ _re_index_custom = re.compile(r'def custom_doc_links\(name\):(.*)$', re.DOTALL)
 
 # Cell
 def reset_nbdev_module():
-    "Create a skeletton for <code>_nbdev</code>"
+    "Create a skeleton for <code>_nbdev</code>"
     fname = Config().path("lib_path")/'_nbdev.py'
     fname.parent.mkdir(parents=True, exist_ok=True)
     sep = '\n'* (int(Config().get('cell_spacing', '1'))+1)

@@ -38,7 +38,7 @@ nb_metadata_keep   = ["kernelspec", "jekyll", "jupytext", "doc"]
 
 # Cell
 def clean_cell(cell, clear_all=False):
-    "Clean `cell` by removing superluous metadata or everything except the input if `clear_all`"
+    "Clean `cell` by removing superfluous metadata or everything except the input if `clear_all`"
     rm_execution_count(cell)
     if 'outputs' in cell:
         if clear_all: cell['outputs'] = []
@@ -47,7 +47,7 @@ def clean_cell(cell, clear_all=False):
 
 # Cell
 def clean_nb(nb, clear_all=False):
-    "Clean `nb` from superfulous metadata, passing `clear_all` to `clean_cell`"
+    "Clean `nb` from superfluous metadata, passing `clear_all` to `clean_cell`"
     for c in nb['cells']: clean_cell(c, clear_all=clear_all)
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in nb_metadata_keep }
 
