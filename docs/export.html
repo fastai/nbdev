@@ -75,7 +75,7 @@ nb_path: "nbs/00_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="Config" class="doc_header"><code>Config</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/foundation.py#L318" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>Config</code>(<strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>)</p>
+<h3 id="Config" class="doc_header"><code>Config</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/foundation.py#L277" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>Config</code>(<strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>)</p>
 </blockquote>
 <p>Reading and writing <code>settings.ini</code></p>
 
@@ -459,7 +459,7 @@ nb_path: "nbs/00_export.ipynb"
 <span class="n">cell</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;a b c&quot;</span>
 <span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 <span class="k">assert</span> <span class="n">check_re</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-<span class="c1"># show that searching with paterns [&#39;d&#39;,&#39;b&#39;,&#39;a&#39;] will match &#39;b&#39;</span>
+<span class="c1"># show that searching with patterns [&#39;d&#39;,&#39;b&#39;,&#39;a&#39;] will match &#39;b&#39;</span>
 <span class="c1"># i.e. &#39;d&#39; is not found and we don&#39;t search for &#39;a&#39;</span>
 <span class="k">assert</span> <span class="n">check_re_multi</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">span</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
@@ -553,7 +553,7 @@ nb_path: "nbs/00_export.ipynb"
 <p>The cells to export are marked with <code>#export</code>/<code>#exporti</code>/<code>#exports</code>, potentially with a module name where we want it exported. The default module is given in a cell of the form <code>#default_exp bla</code> inside the notebook (usually at the top), though in this function, it needs the be passed (the final script will read the whole notebook to find it).</p>
 <ul>
 <li>a cell marked with <code>#export</code>/<code>#exporti</code>/<code>#exports</code> will be exported to the default module</li>
-<li>an exported cell marked with <code>special.module</code> appeneded will be exported in <code>special.module</code> (located in <code>lib_name/special/module.py</code>)</li>
+<li>an exported cell marked with <code>special.module</code> appended will be exported in <code>special.module</code> (located in <code>lib_name/special/module.py</code>)</li>
 <li>a cell marked with <code>#export</code> will have it's signature added to the documentation</li>
 <li>a cell marked with <code>#exports</code> will additionally have it's source code added to the documentation</li>
 <li>a cell marked with <code>#exporti</code> will not show up in the documentation, and will also not be added to <code>__all__</code>.</li>
@@ -1023,7 +1023,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="reset_nbdev_module" class="doc_header"><code>reset_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L239" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>reset_nbdev_module</code>()</p>
 </blockquote>
-<p>Create a skeletton for <code>_nbdev</code></p>
+<p>Create a skeleton for <code>_nbdev</code></p>
 
 </div>
 

@@ -211,7 +211,7 @@ nb_path: "nbs/06_cli.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L652" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Rebuild even notebooks that haven't changed"=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:"Also convert the index notebook to README"=<em><code>True</code></em>, <strong><code>n_workers</code></strong>:"Number of workers to use"=<em><code>None</code></em>, <strong><code>pause</code></strong>:"Pause time (in secs) between notebooks to avoid race conditions"=<em><code>0.5</code></em>)</p>
 </blockquote>
-<p>Build the documentation by converting notebooks mathing <code>fname</code> to html</p>
+<p>Build the documentation by converting notebooks matching <code>fname</code> to html</p>
 
 </div>
 
@@ -331,7 +331,7 @@ nb_path: "nbs/06_cli.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L155" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Trust noteboks matching <code>fname</code></p>
+<p>Trust notebooks matching <code>fname</code></p>
 
 </div>
 
@@ -361,7 +361,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_fix_merge" class="doc_header"><code>nbdev_fix_merge</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L92" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_fix_merge</code>(<strong><code>fname</code></strong>:"A notebook filename to fix", <strong><code>fast</code></strong>:"Fast fix: automatically fix the merge conflicts in outputs or metadata"=<em><code>True</code></em>, <strong><code>trust_us</code></strong>:"Use local outputs/metadata when fast mergning"=<em><code>True</code></em>)</p>
+<h4 id="nbdev_fix_merge" class="doc_header"><code>nbdev_fix_merge</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L92" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_fix_merge</code>(<strong><code>fname</code></strong>:"A notebook filename to fix", <strong><code>fast</code></strong>:"Fast fix: automatically fix the merge conflicts in outputs or metadata"=<em><code>True</code></em>, <strong><code>trust_us</code></strong>:"Use local outputs/metadata when fast merging"=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Fix merge conflicts in notebook <code>fname</code></p>
 
@@ -377,7 +377,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>When you have merge conflicts after a <code>git pull</code>, the notebook file will be broken and won't open in jupyter notebook anymore. This command fixes this by changing the notebook to a proper json file again and add markdown cells to signal the conflict, you just have to open that notebook again and look for <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> to see those conflicts and manually fix them. The old broken file is copied with a <code>.ipynb.bak</code> extension, so is still accessible in case the merge wasn't sucessful.</p>
+<p>When you have merge conflicts after a <code>git pull</code>, the notebook file will be broken and won't open in jupyter notebook anymore. This command fixes this by changing the notebook to a proper json file again and add markdown cells to signal the conflict, you just have to open that notebook again and look for <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> to see those conflicts and manually fix them. The old broken file is copied with a <code>.ipynb.bak</code> extension, so is still accessible in case the merge wasn't successful.</p>
 <p>Moreover, if <code>fast=True</code>, conflicts in outputs and metadata will automatically be fixed by using the local version if <code>trust_us=True</code>, the remote one if <code>trust_us=False</code>. With this option, it's very likely you won't have anything to do, unless there is a real conflict.</p>
 
 </div>
