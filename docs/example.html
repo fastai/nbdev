@@ -109,7 +109,7 @@ The values in settings.ini file are propagated to various systems for you automa
 <p><code>&#35;hide</code>
 {% include note.html content='This comment instructs nbdev to hide this cell when generating the docs.' %}</p>
 <p><code>&#35;export</code>
-{% include note.html content='This comment intructs nbdev to export this cell to the appropriate python file.  When no argument is provided to <a href="/export.html"><code>export</code></a>, this defaults to the module specified by <code>default_exp</code> as described above.' %}</p>
+{% include note.html content='This comment instructs nbdev to export this cell to the appropriate python file.  When no argument is provided to <a href="/export.html"><code>export</code></a>, this defaults to the module specified by <code>default_exp</code> as described above.' %}</p>
 
 </div>
 </div>
@@ -203,7 +203,7 @@ The values in settings.ini file are propagated to various systems for you automa
 </ul>
 <p>Make sure you add all these files to your commit with <code>git add</code> before you push to GitHub, because they are all needed for everything to work correctly.</p>
 <p>Pushing your files to GitHub will automatically trigger <a href="https://nbdev.fast.ai/#Using-nbdev-as-part-of-your-CI">continuous integration (CI) using GitHub Actions</a>.  The CI will automatically perform a number of checks <a href="https://nbdev.fast.ai/tutorial.html#CI">outlined here</a>.  You can see the CI process running in GitHub Actions by navigating to the Actions tab in your GitHub repo.</p>
-<p>After pushing your files, GitHub will rebuild your docs automatically.  You can view the status of your doc build by going to your repository settings and finding the GitHub Pages section under options.  When GitHub is in the process of bulding your pages, it will look like this:</p>
+<p>After pushing your files, GitHub will rebuild your docs automatically.  You can view the status of your doc build by going to your repository settings and finding the GitHub Pages section under options.  When GitHub is in the process of building your pages, it will look like this:</p>
 <p><img src="/images/att_00018.png" alt="image.png"></p>
 <p>When the page is finished being built, the color and status message will change to look like this:</p>
 <p><img src="/images/att_00019.png" alt="image.png"></p>
@@ -222,7 +222,7 @@ The values in settings.ini file are propagated to various systems for you automa
 <span class="kn">from</span> <span class="nn">deck_of_cards.card</span> <span class="kn">import</span> <span class="n">Card</span>
 </pre></div>
 <p>This works because the cli command, <a href="/export2html.html#nbdev_build_lib"><code>nbdev_build_lib</code></a> converted <code>00_card.ipynb</code> to <code>card.py</code>, which we have imported here.</p>
-<h3 id="Tests">Tests<a class="anchor-link" href="#Tests"> </a></h3><p>Downey's code contains a test for the <code>Deck</code> class in a seperate file called <a href="https://github.com/AllenDowney/ThinkPython2/blob/master/code/Card_test.py">Card_test.py</a>.  This file is a good example that highlights the strengths of <code>nbdev</code>. The contents of this file is as follows:</p>
+<h3 id="Tests">Tests<a class="anchor-link" href="#Tests"> </a></h3><p>Downey's code contains a test for the <code>Deck</code> class in a separate file called <a href="https://github.com/AllenDowney/ThinkPython2/blob/master/code/Card_test.py">Card_test.py</a>.  This file is a good example that highlights the strengths of <code>nbdev</code>. The contents of this file is as follows:</p>
 <div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;This file contains code for use with &quot;Think Stats&quot;,</span>
 <span class="sd">by Allen B. Downey, available from greenteapress.com</span>
 <span class="sd">Copyright 2014 Allen B. Downey</span>

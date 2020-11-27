@@ -89,7 +89,7 @@ _re_backticks = re.compile(r"""
 
 # Cell
 def add_doc_links(text, elt=None):
-    "Search for doc links for any item between backticks in `text` and isnter them"
+    "Search for doc links for any item between backticks in `text` and insert them"
     def _replace_link(m):
         try:
             if m.group(2) in inspect.signature(elt).parameters: return f'`{m.group(2)}`'
