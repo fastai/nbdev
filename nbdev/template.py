@@ -12,6 +12,9 @@ docs_serve: docs
 docs: $(SRC)
 	nbdev_build_docs
 	touch docs
+	
+install: {lib_name}
+	pip install .
 
 test:
 	nbdev_test_nbs
