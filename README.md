@@ -35,7 +35,7 @@ In the above screenshot, we have code, tests and documentation in one context! `
 
 ![image.png](nbs/images/att_00016.png)
 
-The above illustration is a subset of the [this nbdev tutorial with a minimal example](https://nbdev.fast.ai/example.html), which uses code from [Think Python 2](https://github.com/AllenDowney/ThinkPython2) by Allen Downey.
+The above illustration is a subset of [this nbdev tutorial with a minimal example](https://nbdev.fast.ai/example.html), which uses code from [Think Python 2](https://github.com/AllenDowney/ThinkPython2) by Allen Downey.
 
 ### Explanation of annotations:
 
