@@ -142,8 +142,13 @@ _re_image = re.compile(r"""
 
 # Cell
 def _img2jkl(d, h, jekyll=True):
-    if not jekyll: return '<img ' + h.attrs2str() + '>'
-    if 'width' in d: d['max-width'] = d.pop('width')
+    if d.get("src","").startswith("http"): jekyll=False
+    if jekyll:
+        if 'width' in d: d['max-width'] = d.get('width')
+    else:
+        if 'width' in d: d['style'] = f'max-width: {d.get("width")}px'
+        d.pop('align','')
+        return '<img ' + h.attrs2str() + '>'
     if 'src' in d:   d['file'] = d.pop('src')
     return '{% include image.html ' + h.attrs2str() + ' %}'
 

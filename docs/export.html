@@ -75,7 +75,7 @@ nb_path: "nbs/00_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="Config" class="doc_header"><code>Config</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/foundation.py#L277" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>Config</code>(<strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>)</p>
+<h3 id="Config" class="doc_header"><code>Config</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/foundation.py#L252" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>Config</code>(<strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>)</p>
 </blockquote>
 <p>Reading and writing <code>settings.ini</code></p>
 
@@ -253,7 +253,14 @@ nb_path: "nbs/00_export.ipynb"
 <pre>{&#39;jupytext&#39;: {&#39;split_at_heading&#39;: True},
  &#39;kernelspec&#39;: {&#39;display_name&#39;: &#39;Python 3&#39;,
   &#39;language&#39;: &#39;python&#39;,
-  &#39;name&#39;: &#39;python3&#39;}}</pre>
+  &#39;name&#39;: &#39;python3&#39;},
+ &#39;language_info&#39;: {&#39;codemirror_mode&#39;: {&#39;name&#39;: &#39;ipython&#39;, &#39;version&#39;: 3},
+  &#39;file_extension&#39;: &#39;.py&#39;,
+  &#39;mimetype&#39;: &#39;text/x-python&#39;,
+  &#39;name&#39;: &#39;python&#39;,
+  &#39;nbconvert_exporter&#39;: &#39;python&#39;,
+  &#39;pygments_lexer&#39;: &#39;ipython3&#39;,
+  &#39;version&#39;: &#39;3.8.5&#39;}}</pre>
 </div>
 
 </div>
@@ -327,7 +334,7 @@ nb_path: "nbs/00_export.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>{&#39;cell_type&#39;: &#39;code&#39;,
- &#39;execution_count&#39;: None,
+ &#39;execution_count&#39;: 1,
  &#39;metadata&#39;: {&#39;hide_input&#39;: False},
  &#39;outputs&#39;: [],
  &#39;source&#39;: &#39;#hide\n#default_exp export\n#default_cls_lvl 3\nfrom nbdev.showdoc import show_doc&#39;}</pre>
@@ -1168,7 +1175,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>{% include image.html alt="split_flags_and_code example" align="left" max-width="450" file="/images/split_flags_and_code.png" %}</p>
+<p>{% include image.html alt="split_flags_and_code example" width="450" align="left" max-width="450" file="/images/split_flags_and_code.png" %}</p>
 
 </div>
 </div>
@@ -1210,7 +1217,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_mod_file" class="doc_header"><code>create_mod_file</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L303" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_mod_file</code>(<strong><code>fname</code></strong>, <strong><code>nb_path</code></strong>)</p>
+<h4 id="create_mod_file" class="doc_header"><code>create_mod_file</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L303" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_mod_file</code>(<strong><code>fname</code></strong>, <strong><code>nb_path</code></strong>, <strong><code>bare</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Create a module file for <code>fname</code>.</p>
 
@@ -1250,7 +1257,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_mod_files" class="doc_header"><code>create_mod_files</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L312" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_mod_files</code>(<strong><code>files</code></strong>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="create_mod_files" class="doc_header"><code>create_mod_files</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L313" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_mod_files</code>(<strong><code>files</code></strong>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>, <strong><code>bare</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Create mod files for default exports found in <code>files</code></p>
 
@@ -1311,7 +1318,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_init" class="doc_header"><code>add_init</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L365" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_init</code>(<strong><code>path</code></strong>)</p>
+<h4 id="add_init" class="doc_header"><code>add_init</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L368" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_init</code>(<strong><code>path</code></strong>)</p>
 </blockquote>
 <p>Add <code>__init__.py</code> in all subdirs of <code>path</code> containing python files if it's not there already</p>
 
@@ -1375,7 +1382,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="update_version" class="doc_header"><code>update_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L377" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_version</code>()</p>
+<h4 id="update_version" class="doc_header"><code>update_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L380" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_version</code>()</p>
 </blockquote>
 <p>Add or update <code>__version__</code> in the main <code>__init__.py</code> of the library</p>
 
@@ -1414,7 +1421,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="update_baseurl" class="doc_header"><code>update_baseurl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L391" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_baseurl</code>()</p>
+<h4 id="update_baseurl" class="doc_header"><code>update_baseurl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L394" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_baseurl</code>()</p>
 </blockquote>
 <p>Add or update <code>baseurl</code> in <code>_config.yml</code> for the docs</p>
 
@@ -1446,7 +1453,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L401" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L404" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>, <strong><code>bare</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert notebooks matching <code>fname</code> to modules</p>
 
@@ -1486,7 +1493,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L418" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>DocsTestClass</code>()</p>
+<h3 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L421" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>DocsTestClass</code>()</p>
 </blockquote>
 <p>for tests only</p>
 

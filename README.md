@@ -96,4 +96,4 @@ Copyright 2019 onwards, fast.ai, Inc. Licensed under the Apache License, Version
 
 Here, for instance, is how `combined_cos` is defined and documented in the `fastai` library:
 
-<img alt="Exporting from nbdev" width="700" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" src="nbs/images/export_example.png">
+<img alt="Exporting from nbdev" width="700" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" src="nbs/images/export_example.png" style="max-width: 700px">
