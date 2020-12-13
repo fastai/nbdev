@@ -580,7 +580,7 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     md = export[0]
     for ext in ['png', 'svg']:
         md = re.sub(r'!\['+ext+'\]\((.+)\)', '!['+ext+'](' + img_path + '\\1)', md)
-    with (Path(dest_path)/dest_name).open('w') as f: f.write(md)
+    with (Path(dest_path)/dest_name).open('w', encoding='utf8') as f: f.write(md)
     if hasattr(export[1]['outputs'], 'items'):
         for n,o in export[1]['outputs'].items():
             with open(Path(dest_path)/img_path/n, 'wb') as f: f.write(o)
