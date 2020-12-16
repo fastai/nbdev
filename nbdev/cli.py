@@ -73,11 +73,10 @@ _template_git_repo = "https://github.com/fastai/nbdev_template.git"
 
 # Cell
 import tarfile
-from urllib.request import urlopen
 
 # Cell
 def extract_tgz(url, dest='.'):
-    with urlopen(urlwrap(url)) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
+    with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
 # Cell
 @call_parse
