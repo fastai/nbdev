@@ -7,7 +7,7 @@
 
 `nbdev` is a library that allows you to develop a python library in [Jupyter Notebooks](https://jupyter.org/), putting all your code, tests and documentation in one place. That is: you now have a true [literate programming](https://en.wikipedia.org/wiki/Literate_programming) environment, as envisioned by Donald Knuth back in 1983!
 
-`nbdev` makes debugging and refactor your code much easier relative to traditional programming environments. Furthermore, using nbdev promotes software engineering best practices because tests and documentation are first class citizens.  
+`nbdev` makes debugging and refactoring your code much easier relative to traditional programming environments. Furthermore, using nbdev promotes software engineering best practices because tests and documentation are first class citizens.  
 
 ## Features of Nbdev
 
