@@ -119,9 +119,10 @@ def _script2notebook(fname, dic, silent=False):
 
 # Cell
 @call_parse
-def nbdev_update_lib(fname:Param("A notebook name or glob to convert", str)=None,
+def nbdev_update_lib(fname:Param("A python filename or glob to convert", str)=None,
                      silent:Param("Don't print results", bool_arg)=False):
     "Propagates any change in the modules matching `fname` to the notebooks that created them"
+    if fname.endswith('.ipynb'): raise ValueError("`nbdev_update_lib` operates on .py files.  If you wish to convert notebooks instead, see `nbdev_build_lib`.")
     if os.environ.get('IN_TEST',0): return
     dic = notebook2script(silent=True, to_dict=True)
     exported = get_nbdev_module().modules
