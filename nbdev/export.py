@@ -409,7 +409,7 @@ def notebook2script(fname=None, silent=False, to_dict=False, bare=False):
         reset_nbdev_module()
         update_version()
         update_baseurl()
-        files = [f for f in Config().path("nbs_path").rglob('*.ipynb') if not f.name.startswith('_') and '/.' not in str(f)]
+        files = [f for f in Config().path("nbs_path").rglob('*.ipynb') if not f.name.startswith('_') and '/.' not in f.as_posix()]
     else: files = glob.glob(fname)
     d = collections.defaultdict(list) if to_dict else None
     modules = create_mod_files(files, to_dict, bare=bare)
