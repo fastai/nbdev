@@ -401,11 +401,16 @@ def update_baseurl():
     with open(fname, 'w') as f: f.write(code)
 
 # Cell
-def nbglob(fname=None, recursive=False):
+#hide
+def _get_paths(pth:str, names:list): return [Path(pth)/n for n in names if '/.' not in pth]
+
+# Cell
+def nbglob(fname=None, recursive=False) -> L:
     "Find all notebooks in a directory given a glob. Ignores hidden directories and filenames starting with `_`"
-    if fname is None: fname = str(Config().path("nbs_path")/('**/*.ipynb' if recursive else '*.ipynb'))
-    fls = glob.glob(fname, recursive=recursive)
-    return [f for f in fls if not f.startswith('_') and '/.' not in f and f.endswith('.ipynb')]
+    fname = Path(fname) if fname else Config().path("nbs_path")
+    if recursive: fls = L(os.walk(fname)).map(lambda x: _get_paths(x[0], x[2])).concat()
+    else: fls = fname.glob('*.ipynb')
+    return L([f for f in fls if not f.name.startswith('_') and f.name.endswith('.ipynb')])
 
 # Cell
 def notebook2script(fname=None, silent=False, to_dict=False, bare=False, recursive=False):
