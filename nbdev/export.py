@@ -2,8 +2,8 @@
 
 __all__ = ['read_nb', 'check_re', 'check_re_multi', 'is_export', 'find_default_export', 'export_names', 'extra_add',
            'relative_import', 'reset_nbdev_module', 'get_nbdev_module', 'save_nbdev_module', 'split_flags_and_code',
-           'create_mod_file', 'create_mod_files', 'add_init', 'update_version', 'update_baseurl', 'notebook2script',
-           'DocsTestClass']
+           'create_mod_file', 'create_mod_files', 'add_init', 'update_version', 'update_baseurl', 'nbglob',
+           'notebook2script', 'DocsTestClass']
 
 # Cell
 from .imports import *
@@ -401,7 +401,14 @@ def update_baseurl():
     with open(fname, 'w') as f: f.write(code)
 
 # Cell
-def notebook2script(fname=None, silent=False, to_dict=False, bare=False):
+def nbglob(fname=None, recursive=False):
+    "Find all notebooks in a directory given a glob. Ignores hidden directories and filenames starting with `_`"
+    if fname is None: fname = str(Config().path("nbs_path")/('**/*.ipynb' if recursive else '*.ipynb'))
+    fls = glob.glob(fname, recursive=recursive)
+    return [f for f in fls if not f.startswith('_') and '/.' not in f and f.endswith('.ipynb')]
+
+# Cell
+def notebook2script(fname=None, silent=False, to_dict=False, bare=False, recursive=False):
     "Convert notebooks matching `fname` to modules"
     # initial checks
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
@@ -409,8 +416,7 @@ def notebook2script(fname=None, silent=False, to_dict=False, bare=False):
         reset_nbdev_module()
         update_version()
         update_baseurl()
-        files = [f for f in Config().path("nbs_path").rglob('*.ipynb') if not f.name.startswith('_') and '/.' not in f.as_posix()]
-    else: files = glob.glob(fname)
+    files = nbglob(fname=fname, recursive=recursive)
     d = collections.defaultdict(list) if to_dict else None
     modules = create_mod_files(files, to_dict, bare=bare)
     for f in sorted(files): d = _notebook2script(f, modules, silent=silent, to_dict=d, bare=bare)
