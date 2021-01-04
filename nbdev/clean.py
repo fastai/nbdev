@@ -4,7 +4,7 @@ __all__ = ['rm_execution_count', 'clean_output_data_vnd', 'colab_json', 'clean_c
            'nb_metadata_keep', 'clean_cell', 'clean_nb', 'nbdev_clean_nbs']
 
 # Cell
-import io,sys,json,glob
+import io,sys,json,glob,re
 from fastcore.script import call_parse,Param
 from .imports import Config
 from pathlib import Path
@@ -43,8 +43,12 @@ def clean_cell(cell, clear_all=False):
     if 'outputs' in cell:
         if clear_all: cell['outputs'] = []
         else:         clean_cell_output(cell)
-    if getattr(cell['metadata'], 'tags', None) == 0: cell['metadata'].pop('tags')
+    if cell['metadata'].get('tags') is not None: cell['metadata'].pop('tags')
     if cell['source'] == ['']: cell['source'] = []
+    if isinstance(cell['source'], list):
+        for i, body in enumerate(cell['source']):
+            cell['source'][i] = re.sub('[\r]', '', body)
+
     cell['metadata'] = {} if clear_all else {k:v for k,v in cell['metadata'].items() if k in cell_metadata_keep}
 
 # Cell
