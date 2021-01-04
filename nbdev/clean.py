@@ -43,6 +43,8 @@ def clean_cell(cell, clear_all=False):
     if 'outputs' in cell:
         if clear_all: cell['outputs'] = []
         else:         clean_cell_output(cell)
+    if getattr(cell['metadata'], 'tags', None) == 0: cell['metadata'].pop('tags')
+    if cell['source'] == ['']: cell['source'] = []
     cell['metadata'] = {} if clear_all else {k:v for k,v in cell['metadata'].items() if k in cell_metadata_keep}
 
 # Cell
