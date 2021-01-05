@@ -31,9 +31,10 @@ def clean_cell_output(cell):
         for o in cell['outputs']:
             rm_execution_count(o)
             clean_output_data_vnd(o)
+            o.get('metadata', o).pop('tags', None)
 
 # Cell
-cell_metadata_keep = ["hide_input", "tags"]
+cell_metadata_keep = ["hide_input"]
 nb_metadata_keep   = ["kernelspec", "jekyll", "jupytext", "doc"]
 
 # Cell
@@ -43,9 +44,7 @@ def clean_cell(cell, clear_all=False):
     if 'outputs' in cell:
         if clear_all: cell['outputs'] = []
         else:         clean_cell_output(cell)
-    cell['metadata'].pop('tags', None)
     if cell['source'] == ['']: cell['source'] = []
-
     cell['metadata'] = {} if clear_all else {k:v for k,v in cell['metadata'].items() if k in cell_metadata_keep}
 
 # Cell
