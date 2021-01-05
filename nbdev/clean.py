@@ -31,9 +31,10 @@ def clean_cell_output(cell):
         for o in cell['outputs']:
             rm_execution_count(o)
             clean_output_data_vnd(o)
+            o.get('metadata', o).pop('tags', None)
 
 # Cell
-cell_metadata_keep = ["hide_input", "tags"]
+cell_metadata_keep = ["hide_input"]
 nb_metadata_keep   = ["kernelspec", "jekyll", "jupytext", "doc"]
 
 # Cell
@@ -43,6 +44,7 @@ def clean_cell(cell, clear_all=False):
     if 'outputs' in cell:
         if clear_all: cell['outputs'] = []
         else:         clean_cell_output(cell)
+    if cell['source'] == ['']: cell['source'] = []
     cell['metadata'] = {} if clear_all else {k:v for k,v in cell['metadata'].items() if k in cell_metadata_keep}
 
 # Cell
@@ -50,9 +52,6 @@ def clean_nb(nb, clear_all=False):
     "Clean `nb` from superfluous metadata, passing `clear_all` to `clean_cell`"
     for c in nb['cells']: clean_cell(c, clear_all=clear_all)
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in nb_metadata_keep }
-
-# Cell
-import io,sys,json
 
 # Cell
 def _print_output(nb):
@@ -73,6 +72,7 @@ def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     #Git hooks will pass the notebooks in the stdin
     if read_input_stream and sys.stdin:
         input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
+        input_stream = input_stream.replace('\\r', '').replace('\r', '')
         nb = json.load(input_stream)
         clean_nb(nb, clear_all=clear_all)
         _print_output(nb)
