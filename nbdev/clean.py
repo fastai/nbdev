@@ -4,7 +4,7 @@ __all__ = ['rm_execution_count', 'clean_output_data_vnd', 'colab_json', 'clean_c
            'nb_metadata_keep', 'clean_cell', 'clean_nb', 'nbdev_clean_nbs']
 
 # Cell
-import io,sys,json,glob,re
+import io,sys,json,glob
 from fastcore.script import call_parse,Param
 from .imports import Config
 from pathlib import Path
@@ -43,11 +43,8 @@ def clean_cell(cell, clear_all=False):
     if 'outputs' in cell:
         if clear_all: cell['outputs'] = []
         else:         clean_cell_output(cell)
-    if cell['metadata'].get('tags') is not None: cell['metadata'].pop('tags')
+    cell['metadata'].pop('tags', None)
     if cell['source'] == ['']: cell['source'] = []
-    if isinstance(cell['source'], list):
-        for i, body in enumerate(cell['source']):
-            cell['source'][i] = re.sub('[\r]', '', body)
 
     cell['metadata'] = {} if clear_all else {k:v for k,v in cell['metadata'].items() if k in cell_metadata_keep}
 
@@ -56,9 +53,6 @@ def clean_nb(nb, clear_all=False):
     "Clean `nb` from superfluous metadata, passing `clear_all` to `clean_cell`"
     for c in nb['cells']: clean_cell(c, clear_all=clear_all)
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in nb_metadata_keep }
-
-# Cell
-import io,sys,json
 
 # Cell
 def _print_output(nb):
@@ -79,6 +73,7 @@ def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     #Git hooks will pass the notebooks in the stdin
     if read_input_stream and sys.stdin:
         input_stream = io.TextIOWrapper(sys.stdin.buffer, encoding='utf-8')
+        input_stream = input_stream.replace('\r', '')
         nb = json.load(input_stream)
         clean_nb(nb, clear_all=clear_all)
         _print_output(nb)
