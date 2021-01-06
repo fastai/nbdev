@@ -107,6 +107,8 @@ index = {"read_nb": "00_export.ipynb",
          "nb_metadata_keep": "07_clean.ipynb",
          "clean_cell": "07_clean.ipynb",
          "clean_nb": "07_clean.ipynb",
+         "clean_cr": "07_clean.ipynb",
+         "BSLASH": "07_clean.ipynb",
          "nbdev_clean_nbs": "07_clean.ipynb",
          "say_hello": "tutorial.ipynb",
          "HelloSayer": "tutorial.ipynb"}
