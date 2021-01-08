@@ -481,7 +481,7 @@ def nbdev_build_lib(fname:Param("A notebook name or glob to convert", str)=None,
                     bare:Param("Omit nbdev annotation comments (may break some functionality).", store_true)=False):
     "Export notebooks matching `fname` to python modules"
     write_tmpls()
-    notebook2script(fname=fname, bare=bare)
+    notebook2script(fname=fname, bare=bare, recursive=Config().recursive)
 
 # Cell
 def nbdev_exporter(cls=HTMLExporter, template_file=None):
