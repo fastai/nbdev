@@ -127,8 +127,8 @@ def nbdev_update_lib(fname:Param("A python filename or glob to convert", str)=No
     dic = notebook2script(silent=True, to_dict=True)
     exported = get_nbdev_module().modules
 
-    if fname is None:
-        files = [f for f in Config().path("lib_path").glob('**/*.py') if str(f.relative_to(Config().path("lib_path"))) in exported]
+    if fname is None and str(f.relative_to(Config().path("lib_path"))) in exported:
+        files = nbglob()
     else: files = glob.glob(fname)
     [ _script2notebook(f, dic, silent=silent) for f in files]
 
@@ -143,7 +143,7 @@ def nbdev_diff_nbs():
     lib_folder = Config().path("lib_path")
     with tempfile.TemporaryDirectory() as d1, tempfile.TemporaryDirectory() as d2:
         copy_tree(Config().path("lib_path"), d1)
-        notebook2script(silent=True)
+        notebook2script(silent=True, recursive=Config().recursive)
         copy_tree(Config().path("lib_path"), d2)
         shutil.rmtree(Config().path("lib_path"))
         shutil.copytree(d1, str(Config().path("lib_path")))
