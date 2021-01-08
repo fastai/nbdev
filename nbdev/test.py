@@ -106,8 +106,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                    pause:Param("Pause time (in secs) between notebooks to avoid race conditions", float)=0.5):
     "Test in parallel the notebooks matching `fname`, passing along `flags`"
     if flags is not None: flags = flags.split(' ')
-    if fname is None: files = nbglob()
-    else:             files = glob.glob(fname)
+    files = nbglob(fname)
     files = [Path(f).absolute() for f in sorted(files)]
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
     # make sure we are inside the notebook folder of the project
