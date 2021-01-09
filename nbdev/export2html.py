@@ -471,7 +471,7 @@ def write_tmpls():
     "Write out _config.yml and _data/topnav.yml using templates"
     cfg = Config()
     path = Path(cfg.get('doc_src_path', cfg.path("doc_path")))
-    write_tmpl(config_tmpl, 'user lib_name title copyright description', cfg, path/'_config.yml')
+    write_tmpl(config_tmpl, 'user lib_name title copyright description recursive', cfg, path/'_config.yml')
     write_tmpl(topnav_tmpl, 'host git_url', cfg, path/'_data'/'topnav.yml')
     write_tmpl(makefile_tmpl, 'nbs_path lib_name', cfg, cfg.config_file.parent/'Makefile')
 
