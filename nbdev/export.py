@@ -405,15 +405,16 @@ def update_baseurl():
 def _get_paths(pth:str, names:list): return [Path(pth)/n for n in names if '/.' not in pth]
 
 # Cell
-def nbglob(fname=None, recursive=False) -> L:
-    "Find all notebooks in a directory given a glob. Ignores hidden directories and filenames starting with `_`"
-    fname = Path(fname) if fname else Config().path("nbs_path")
+def nbglob(fname=None, recursive=None, extension='.ipynb', config_key='nbs_path') -> L:
+    "Find all files in a directory matching an extension given a `config_key`. Ignores hidden directories and filenames starting with `_`"
+    if fname is not None and fname.is_file(): return L([fname])
+    elif fname is None: fname = Config().path(config_key)
     if recursive: fls = L(os.walk(fname)).map(lambda x: _get_paths(x[0], x[2])).concat()
-    else: fls = fname.glob('*.ipynb')
-    return L([f for f in fls if not f.name.startswith('_') and f.name.endswith('.ipynb')])
+    else: fls = fname.glob(f'*{extension}')
+    return L(fls).filter(lambda x: not x.name.startswith('_') and x.name.endswith(extension))
 
 # Cell
-def notebook2script(fname=None, silent=False, to_dict=False, bare=False, recursive=False):
+def notebook2script(fname=None, silent=False, to_dict=False, bare=False, recursive=None):
     "Convert notebooks matching `fname` to modules"
     # initial checks
     if os.environ.get('IN_TEST',0): return  # don't export if running tests

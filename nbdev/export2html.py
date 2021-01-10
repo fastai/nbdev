@@ -471,18 +471,17 @@ def write_tmpls():
     "Write out _config.yml and _data/topnav.yml using templates"
     cfg = Config()
     path = Path(cfg.get('doc_src_path', cfg.path("doc_path")))
-    write_tmpl(config_tmpl, 'user lib_name title copyright description', cfg, path/'_config.yml')
+    write_tmpl(config_tmpl, 'user lib_name title copyright description recursive', cfg, path/'_config.yml')
     write_tmpl(topnav_tmpl, 'host git_url', cfg, path/'_data'/'topnav.yml')
     write_tmpl(makefile_tmpl, 'nbs_path lib_name', cfg, cfg.config_file.parent/'Makefile')
 
 # Cell
 @call_parse
 def nbdev_build_lib(fname:Param("A notebook name or glob to convert", str)=None,
-                    bare:Param("Omit nbdev annotation comments (may break some functionality).", store_true)=False,
-                    recursive:Param("Search directories for notebooks recursively.", store_true)=False):
+                    bare:Param("Omit nbdev annotation comments (may break some functionality).", store_true)=False):
     "Export notebooks matching `fname` to python modules"
     write_tmpls()
-    notebook2script(fname=fname, bare=bare, recursive=recursive)
+    notebook2script(fname=fname, bare=bare, recursive=Config().recursive)
 
 # Cell
 def nbdev_exporter(cls=HTMLExporter, template_file=None):
@@ -538,8 +537,7 @@ def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter,
                   exporter=None, dest=None, pause=0, execute=True):
     "Convert all notebooks matching `fname` to html files"
     if fname is None:
-        files = [f for f in Config().path("nbs_path").glob('**/*.ipynb')
-                 if not f.name.startswith('_') and not '/.' in f.as_posix()]
+        files = nbglob()
     else:
         p = Path(fname)
         files = list(p.parent.glob(p.name))
@@ -711,7 +709,7 @@ def _get_title(fname):
 def _create_default_sidebar():
     "Create the default sidebar for the docs website"
     dic = {"Overview": "/"}
-    files = [f for f in Config().path("nbs_path").glob('**/*.ipynb') if f.name[0]!='_' and '.ipynb_checkpoints' not in f.parts]
+    files = nbglob(recursive=Config().recursive)
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if f.stem!='index']
     if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")

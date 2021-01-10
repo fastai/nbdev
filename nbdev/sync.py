@@ -127,10 +127,9 @@ def nbdev_update_lib(fname:Param("A python filename or glob to convert", str)=No
     dic = notebook2script(silent=True, to_dict=True)
     exported = get_nbdev_module().modules
 
-    if fname is None:
-        files = [f for f in Config().path("lib_path").glob('**/*.py') if str(f.relative_to(Config().path("lib_path"))) in exported]
-    else: files = glob.glob(fname)
-    [ _script2notebook(f, dic, silent=silent) for f in files]
+    files = nbglob(fname, extension='.py', config_key='lib_path')
+    files = files.filter(lambda x: str(x.relative_to(Config().path("lib_path"))) in exported)
+    files.map(partial(_script2notebook, dic=dic, silent=silent))
 
 # Cell
 import subprocess
@@ -143,7 +142,7 @@ def nbdev_diff_nbs():
     lib_folder = Config().path("lib_path")
     with tempfile.TemporaryDirectory() as d1, tempfile.TemporaryDirectory() as d2:
         copy_tree(Config().path("lib_path"), d1)
-        notebook2script(silent=True)
+        notebook2script(silent=True, recursive=Config().recursive)
         copy_tree(Config().path("lib_path"), d2)
         shutil.rmtree(Config().path("lib_path"))
         shutil.copytree(d1, str(Config().path("lib_path")))
@@ -159,7 +158,7 @@ def nbdev_trust_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     "Trust notebooks matching `fname`"
     check_fname = Config().path("nbs_path")/".last_checked"
     last_checked = os.path.getmtime(check_fname) if check_fname.exists() else None
-    files = Config().path("nbs_path").glob('**/*.ipynb') if fname is None else glob.glob(fname)
+    files = nbglob(fname)
     for fn in files:
         if last_checked and not force_all:
             last_changed = os.path.getmtime(fn)
