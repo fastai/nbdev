@@ -709,7 +709,7 @@ def _get_title(fname):
 def _create_default_sidebar():
     "Create the default sidebar for the docs website"
     dic = {"Overview": "/"}
-    files = nbglob(recursive=Config().recursive)
+    files = nbglob(recursive=Config().get('recursive',None))
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if f.stem!='index']
     if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
