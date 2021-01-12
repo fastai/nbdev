@@ -407,7 +407,7 @@ def _get_paths(pth:str, names:list): return [Path(pth)/n for n in names if '/.' 
 # Cell
 def nbglob(fname=None, recursive=None, extension='.ipynb', config_key='nbs_path') -> L:
     "Find all files in a directory matching an extension given a `config_key`. Ignores hidden directories and filenames starting with `_`"
-    if fname is not None and fname.is_file(): return L([fname])
+    if fname is not None and Path(fname).is_file(): return L([fname])
     elif fname is None: fname = Config().path(config_key)
     if recursive: fls = L(os.walk(fname)).map(lambda x: _get_paths(x[0], x[2])).concat()
     else: fls = fname.glob(f'*{extension}')
