@@ -108,7 +108,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L121" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>silent</code></strong>:"Don't print results"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L121" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:"A python filename or glob to convert"=<em><code>None</code></em>, <strong><code>silent</code></strong>:"Don't print results"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Propagates any change in the modules matching <code>fname</code> to the notebooks that created them</p>
 
@@ -209,7 +209,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L658" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Rebuild even notebooks that haven't changed"=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:"Also convert the index notebook to README"=<em><code>True</code></em>, <strong><code>n_workers</code></strong>:"Number of workers to use"=<em><code>None</code></em>, <strong><code>pause</code></strong>:"Pause time (in secs) between notebooks to avoid race conditions"=<em><code>0.5</code></em>)</p>
+<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L657" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Rebuild even notebooks that haven't changed"=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:"Also convert the index notebook to README"=<em><code>True</code></em>, <strong><code>n_workers</code></strong>:"Number of workers to use"=<em><code>None</code></em>, <strong><code>pause</code></strong>:"Pause time (in secs) between notebooks to avoid race conditions"=<em><code>0.5</code></em>)</p>
 </blockquote>
 <p>Build the documentation by converting notebooks matching <code>fname</code> to html</p>
 
@@ -241,7 +241,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_nb2md" class="doc_header"><code>nbdev_nb2md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L670" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_nb2md</code>(<strong><code>fname</code></strong>:"A notebook file name to convert", <strong><code>dest</code></strong>:"The destination folder"=<em><code>'.'</code></em>, <strong><code>img_path</code></strong>:"Folder to export images to"=<em><code>''</code></em>, <strong><code>jekyll</code></strong>:"To use jekyll metadata for your markdown file or not"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_nb2md" class="doc_header"><code>nbdev_nb2md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L669" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_nb2md</code>(<strong><code>fname</code></strong>:"A notebook file name to convert", <strong><code>dest</code></strong>:"The destination folder"=<em><code>'.'</code></em>, <strong><code>img_path</code></strong>:"Folder to export images to"=<em><code>''</code></em>, <strong><code>jekyll</code></strong>:"To use jekyll metadata for your markdown file or not"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert the notebook in <code>fname</code> to a markdown file</p>
 
@@ -266,7 +266,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_detach" class="doc_header"><code>nbdev_detach</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L622" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_detach</code>(<strong><code>path_nb</code></strong>:"Path to notebook", <strong><code>dest</code></strong>:"Destination folder"=<em><code>''</code></em>, <strong><code>use_img</code></strong>:"Convert markdown images to img tags"=<em><code>False</code></em>, <strong><code>replace</code></strong>:"Write replacement notebook back to <code>path_bn</code>"=<em><code>True</code></em>)</p>
+<h4 id="nbdev_detach" class="doc_header"><code>nbdev_detach</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L621" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_detach</code>(<strong><code>path_nb</code></strong>:"Path to notebook", <strong><code>dest</code></strong>:"Destination folder"=<em><code>''</code></em>, <strong><code>use_img</code></strong>:"Convert markdown images to img tags"=<em><code>False</code></em>, <strong><code>replace</code></strong>:"Write replacement notebook back to <code>path_bn</code>"=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Export cell attachments to <code>dest</code> and update references</p>
 
@@ -297,7 +297,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L127" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
+<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L125" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Check all notebooks matching <code>fname</code> can be opened</p>
 
@@ -329,7 +329,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L155" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L156" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Trust notebooks matching <code>fname</code></p>
 
@@ -544,7 +544,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="extract_tgz" class="doc_header"><code>extract_tgz</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L79" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_tgz</code>(<strong><code>url</code></strong>, <strong><code>dest</code></strong>=<em><code>'.'</code></em>)</p>
+<h4 id="extract_tgz" class="doc_header"><code>extract_tgz</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L78" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_tgz</code>(<strong><code>url</code></strong>, <strong><code>dest</code></strong>=<em><code>'.'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -575,7 +575,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_new" class="doc_header"><code>nbdev_new</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L83" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_new</code>()</p>
+<h4 id="nbdev_new" class="doc_header"><code>nbdev_new</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L82" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_new</code>()</p>
 </blockquote>
 <p>Create a new nbdev project from the current git repo</p>
 
