@@ -139,13 +139,14 @@ from distutils.dir_util import copy_tree
 @call_parse
 def nbdev_diff_nbs():
     "Prints the diff between an export of the library in notebooks and the actual modules"
-    lib_folder = Config().path("lib_path")
+    cfg = Config()
+    lib_folder = cfg.path("lib_path")
     with tempfile.TemporaryDirectory() as d1, tempfile.TemporaryDirectory() as d2:
-        copy_tree(Config().path("lib_path"), d1)
-        notebook2script(silent=True, recursive=Config().recursive)
-        copy_tree(Config().path("lib_path"), d2)
-        shutil.rmtree(Config().path("lib_path"))
-        shutil.copytree(d1, str(Config().path("lib_path")))
+        copy_tree(cfg.path("lib_path"), d1)
+        notebook2script(silent=True, recursive=cfg.get('recursive', False))
+        copy_tree(cfg.path("lib_path"), d2)
+        shutil.rmtree(cfg.path("lib_path"))
+        shutil.copytree(d1, str(cfg.path("lib_path")))
         for d in [d1, d2]:
             if (Path(d)/'__pycache__').exists(): shutil.rmtree(Path(d)/'__pycache__')
         res = subprocess.run(['diff', '-ru', d1, d2], stdout=subprocess.PIPE)
