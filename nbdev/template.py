@@ -108,5 +108,8 @@ defaults:
 sidebars:
 - home_sidebar
 
-theme: jekyll-theme-cayman"""
+plugins:
+    - jekyll-remote-theme
+    
+remote_theme: fastai/nbdev-theme"""
 
