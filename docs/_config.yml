@@ -60,4 +60,7 @@ defaults:
 
 sidebars: [home_sidebar]
 baseurl: /
-#theme: jekyll-theme-cayman
+plugins:
+    - jekyll-remote-theme
+    
+remote_theme: fastai/nbdev-jekyll-theme
