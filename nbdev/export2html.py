@@ -464,8 +464,7 @@ def write_tmpl(tmpl, nms, cfg, dest):
     if dest.exists(): return
     vs = {o:cfg.d[o] for o in nms.split()}
     outp = tmpl.format(**vs)
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    dest.write_text(outp)
+    dest.mk_write(outp)
 
 # Cell
 def write_tmpls():
@@ -741,5 +740,4 @@ def make_sidebar():
 # Instead edit {'../../sidebar.json'}
 """+res_s
     pth = cfg.path("doc_path")/'_data/sidebars/home_sidebar.yml'
-    pth.parent.mkdir(parents=True, exist_ok=True)
-    open(pth, 'w').write(res_s)
+    pth.mk_write(res_s)
