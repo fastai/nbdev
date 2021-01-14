@@ -111,5 +111,5 @@ sidebars:
 plugins:
     - jekyll-remote-theme
     
-remote_theme: fastai/nbdev-theme"""
+remote_theme: fastai/nbdev-jekyll-theme"""
 
