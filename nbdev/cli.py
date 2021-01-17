@@ -89,24 +89,22 @@ def nbdev_new():
     if not (author and email): raise Exception('User name and email not configured in git')
 
     # download and untar template, and optionally notebooks
-    FILES_URL = 'https://files.fast.ai/files/'
-    extract_tgz(f'{FILES_URL}nbdev_files.tgz')
+    tgnm = urljson('https://api.github.com/repos/fastai/nbdev_template/releases/latest')['tag_name']
+    FILES_URL = f"https://github.com/fastai/nbdev_template/archive/{tgnm}.tar.gz"
+    extract_tgz(FILES_URL)
     path = Path()
-    for o in (path/'nbdev_files').ls():
-        if not Path(f'./{o.name}').exists(): shutil.move(str(o), './')
-    shutil.rmtree('nbdev_files')
-    if first(path.glob('*.ipynb')): print("00_core.ipynb not downloaded since a notebook already exists.")
-    else: urlsave(f'{FILES_URL}00_core.ipynb')
-    if not (path/'index.ipynb').exists(): urlsave(f'{FILES_URL}index.ipynb')
+    nbexists = True if first(path.glob('*.ipynb')) else False
+    for o in (path/f'nbdev_template-{tgnm}').ls():
+        if o.name == '00_core.ipynb':
+            if not nbexists: shutil.move(str(o), './')
+        elif not Path(f'./{o.name}').exists(): shutil.move(str(o), './')
+    shutil.rmtree(f'nbdev_template-{tgnm}')
 
     # auto-config settings.ini from git
     settings_path = Path('settings.ini')
     settings = settings_path.read_text()
     owner,repo = repo_details(url)
-    branch = run('git symbolic-ref refs/remotes/origin/HEAD').strip().split('/')[-1]
+    branch = urljson('https://api.github.com/repos/fastai/nbdev_template')['default_branch']
     settings = settings.format(lib_name=repo, user=owner, author=author, author_email=email, branch=branch)
     settings_path.write_text(settings)
-
     nbdev_install_git_hooks()
-    if not (path/'LICENSE').exists() and not (path/'LICENSE.md').exists():
-        warnings.warn('No LICENSE file found - you will need one if you will create pypi or conda packages.')
