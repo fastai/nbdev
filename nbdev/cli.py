@@ -104,7 +104,7 @@ def nbdev_new():
     settings_path = Path('settings.ini')
     settings = settings_path.read_text()
     owner,repo = repo_details(url)
-    branch = urljson('https://api.github.com/repos/fastai/nbdev_template')['default_branch']
+    branch = urljson(f'https://api.github.com/repos/{owner}/{repo}')['default_branch']
     settings = settings.format(lib_name=repo, user=owner, author=author, author_email=email, branch=branch)
     settings_path.write_text(settings)
     nbdev_install_git_hooks()
