@@ -2,6 +2,14 @@
 
 <!-- do not remove -->
 
+## 1.1.12
+
+### New Features
+
+- `nbdev_new` should grab files from a release asset in `nbdev_template` ([#383](https://github.com/fastai/nbdev/issues/383))
+- Use Jekyll Theme instead of vendoring all required files ([#379](https://github.com/fastai/nbdev/issues/379))
+- Create relevant directories in `docs/_data` if do not already exist ([#377](https://github.com/fastai/nbdev/issues/377))
+
 
 ## 1.1.6
 
