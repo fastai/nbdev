@@ -108,6 +108,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     if flags is not None: flags = flags.split(' ')
     files = nbglob(fname)
     files = [Path(f).absolute() for f in sorted(files)]
+    assert len(files) > 0, "No files to test found."
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
     # make sure we are inside the notebook folder of the project
     os.chdir(Config().path("nbs_path"))
