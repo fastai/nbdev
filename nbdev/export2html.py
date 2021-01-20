@@ -523,7 +523,6 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=
 
 # Cell
 def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None, execute=True):
-    print(fname)
     time.sleep(random.random())
     print(f"converting: {fname}")
     try:
