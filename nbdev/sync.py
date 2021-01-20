@@ -68,6 +68,7 @@ def _split(code):
 # Cell
 def relimport2name(name, mod_name):
     "Unwarps a relative import in `name` according to `mod_name`"
+    mod_name = str(Path(mod_name))
     if mod_name.endswith('.py'): mod_name = mod_name[:-3]
     mods = mod_name.split(os.path.sep)
     i = last_index(Config().lib_name, mods)

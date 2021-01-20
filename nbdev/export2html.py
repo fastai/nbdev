@@ -523,6 +523,7 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=
 
 # Cell
 def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=None, execute=True):
+    print(fname)
     time.sleep(random.random())
     print(f"converting: {fname}")
     try:
@@ -553,7 +554,11 @@ def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter,
                 files.append(fname)
     if len(files)==0: print("No notebooks were modified")
     else:
-        passed = parallel(_notebook2html, files, n_workers=n_workers, cls=cls,
+        if sys.platform == "win32":
+            passed = [_notebook2html(file, cls=cls,
+                          template_file=template_file, exporter=exporter, dest=dest, execute=execute) for file in files]
+        else:
+            passed = parallel(_notebook2html, files, n_workers=n_workers, cls=cls,
                           template_file=template_file, exporter=exporter, dest=dest, pause=pause, execute=execute)
         if not all(passed):
             msg = "Conversion failed on the following:\n"
