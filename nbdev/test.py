@@ -126,7 +126,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
 @call_parse
 def nbdev_read_nbs(fname:Param("A notebook name or glob to convert", str)=None):
     "Check all notebooks matching `fname` can be opened"
-    files = nbglob(fname)
+    files = nbglob(fname, recursive=True if fname is None else False)
     for nb in files:
         try: _ = read_nb(nb)
         except Exception as e:
