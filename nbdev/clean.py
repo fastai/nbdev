@@ -82,6 +82,7 @@ def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
         clean_nb(nb, clear_all=clear_all)
         _print_output(nb)
         return
+    path = None
     if fname is None:
         try: path = Config().path("nbs_path")
         except Exception as e: path = Path.cwd()
