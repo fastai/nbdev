@@ -1459,7 +1459,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbglob" class="doc_header"><code>nbglob</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L408" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbglob</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>recursive</code></strong>=<em><code>None</code></em>, <strong><code>extension</code></strong>=<em><code>'.ipynb'</code></em>, <strong><code>config_key</code></strong>=<em><code>'nbs_path'</code></em>)</p>
+<h4 id="nbglob" class="doc_header"><code>nbglob</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L404" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbglob</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>recursive</code></strong>=<em><code>False</code></em>, <strong><code>extension</code></strong>=<em><code>'.ipynb'</code></em>, <strong><code>config_key</code></strong>=<em><code>'nbs_path'</code></em>)</p>
 </blockquote>
 <p>Find all files in a directory matching an extension given a <code>config_key</code>. Ignores hidden directories and filenames starting with <code>_</code></p>
 
@@ -1480,14 +1480,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Optionally you can pass a <code>config_key</code> to dictate which directory you are pointing to. By default it's <code>nbs_path</code> as without any parameters passed in, it will check for notebooks. To have it instead find library files simply pass in <code>lib_path</code> instead.
-{% include note.html content='it will only search for paths in <code>Config().path</code>' %}</p>
-
-</div>
-</div>
-</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -1505,6 +1497,14 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Optionally you can pass a <code>config_key</code> to dictate which directory you are pointing to. By default it's <code>nbs_path</code> as without any parameters passed in, it will check for notebooks. To have it instead find library files simply pass in <code>lib_path</code> instead.
+{% include note.html content='it will only search for paths in <code>Config().path</code>' %}</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -1516,7 +1516,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L417" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>, <strong><code>bare</code></strong>=<em><code>False</code></em>, <strong><code>recursive</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L412" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>, <strong><code>bare</code></strong>=<em><code>False</code></em>, <strong><code>recursive</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Convert notebooks matching <code>fname</code> to modules</p>
 
@@ -1556,7 +1556,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L433" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>DocsTestClass</code>()</p>
+<h3 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L428" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>DocsTestClass</code>()</p>
 </blockquote>
 <p>for tests only</p>
 
