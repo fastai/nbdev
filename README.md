@@ -72,7 +72,7 @@ The following are helpful resources for getting started with nbdev:
 - [release notes](https://github.com/fastai/nbdev/blob/master/CHANGELOG.md).
 
 
-## If Someone Tells You That You Shouldn't Use Notebooks For Software Development
+## If Someone Tells You Should Not Use Notebooks For Software Development
 
 [Watch this video](https://youtu.be/9Q6sLbz37gk).
 
