@@ -720,6 +720,14 @@ All tests are passing!</code></pre>
 <p>For example if your module requires the <code>fastcore</code> module of at least version 1.0.5, the <code>torchvision</code> module of at most version 0.7 and any version of <code>matplotlib</code>, then the prerequisites would look like this:</p>
 <div class="highlight"><pre><span></span><span class="n">requirements</span> <span class="o">=</span> <span class="n">fastcore</span><span class="o">&gt;=</span><span class="mf">1.0</span><span class="o">.</span><span class="mi">5</span> <span class="n">torchvision</span><span class="o">&lt;</span><span class="mf">0.7</span> <span class="n">matplotlib</span>
 </pre></div>
+<p>In addition to <code>requirements</code> you can specify dependencies with other keywords that have different scopes.  Below is a list of all possible dependency keywords:</p>
+<ul>
+<li><code>requirements</code>: Passed to both pip and conda setup</li>
+<li><code>pip_requirements</code>: Passed to pip setup only</li>
+<li><code>conda_requirements</code>: Passed to conda setup only</li>
+<li><code>dev_requirements</code>: Passed to pip setup as a development requirement</li>
+</ul>
+<p>For more information about the format of dependencies, see the pyipi and conda docs on creating specifications in <a href="https://packaging.python.org/tutorials/packaging-projects/#creating-setup-py">setup.py</a> and <a href="https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html">meta.yaml</a>, respectively.</p>
 
 </div>
 </div>
