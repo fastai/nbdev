@@ -403,7 +403,6 @@ def update_baseurl():
 # Cell
 def nbglob(fname=None, recursive=False, extension='.ipynb', config_key='nbs_path') -> L:
     "Find all files in a directory matching an extension given a `config_key`. Ignores hidden directories and filenames starting with `_`"
-    print(fname)
     fname = Config().path(config_key) if fname is None else Path(fname)
     if fname.is_dir(): fname = f'{fname.absolute()}/**/*{extension}' if recursive else f'{fname.absolute()}/*{extension}'
     fls = L(glob.glob(str(fname), recursive=recursive)).filter(lambda x: '/.' not in x).map(Path)
