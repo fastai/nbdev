@@ -26,17 +26,16 @@ jobs:
       matrix:
         os:  [ubuntu]
     runs-on: ${{ matrix.os }}-latest
-#     runs-on: ubuntu-latest
+#    runs-on: ubuntu-latest
 #    container: fastai/jekyll
     steps:
-#     - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
     - name: Run tests
       run: |
-        chmod 777 -R /root/.cache/pip
         pip install -qe .
         # pip install -qU fastcore
         pip install git+https://github.com/fastai/fastcore.git
