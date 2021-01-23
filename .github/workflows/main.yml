@@ -36,7 +36,7 @@ jobs:
         python-version: 3.8
     - name: Run tests
       run: |
-        chmod u+r -R /root/.local/share/jupyter/
+        sudo chmod u+rw -R /root/.local/share/jupyter/
         pip install -qe .
         # pip install -qU fastcore
         pip install git+https://github.com/fastai/fastcore.git
