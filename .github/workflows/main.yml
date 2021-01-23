@@ -21,12 +21,7 @@ jobs:
       uses: fastai/workflows/nb@master
 
   nbdev_test_nbs:
-    strategy:
-      fail-fast: false
-      matrix:
-        os:  [ubuntu, windows]
-    runs-on: ${{ matrix.os }}-latest
-#     runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     container: fastai/jekyll
     steps:
     - uses: actions/checkout@v2
