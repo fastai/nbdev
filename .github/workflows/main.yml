@@ -4,14 +4,15 @@ on:
   pull_request:
   push:
     branches: [master]
-env:
-  HOME: /root
+
 defaults:
   run:
     shell: bash
 
 jobs:
   nb-sync:
+    env:
+      HOME: /root
     runs-on: ubuntu-latest
     container: fastai/jekyll
     steps:
@@ -22,7 +23,7 @@ jobs:
 
   nbdev_test_nbs:
     runs-on: ubuntu-latest
-    container: fastai/jekyll
+#     container: fastai/jekyll
     steps:
     - uses: actions/checkout@v2
     - name: Run tests
@@ -32,6 +33,8 @@ jobs:
         make test
 
   fastpages-integration:
+    env:
+      HOME: /root
     runs-on: ubuntu-latest
     container: fastai/jekyll
     steps:
