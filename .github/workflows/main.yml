@@ -21,19 +21,19 @@ jobs:
       uses: fastai/workflows/nb@master
 
   nbdev_test_nbs:
-#     strategy:
-#       fail-fast: false
-#       matrix:
-#         os:  [ubuntu, windows]
-#     runs-on: ${{ matrix.os }}-latest
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:  [ubuntu-latest, macos]
+    runs-on: ${{ matrix.os }}-latest
+#     runs-on: ubuntu-latest
     container: fastai/jekyll
     steps:
-    - uses: actions/checkout@v2
-#     - name: Set up Python
-#       uses: actions/setup-python@v2
-#       with:
-#         python-version: 3.8
+#     - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
     - name: Run tests
       run: |
         pip install -qe .
