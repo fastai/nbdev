@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:  [ubuntu, windows, macos]
+        os:  [ubuntu, windows]
     runs-on: ${{ matrix.os }}-latest
 #     runs-on: ubuntu-latest
 #     container: fastai/jekyll
@@ -36,6 +36,7 @@ jobs:
         python-version: 3.8
     - name: Run tests
       run: |
+        chmod 777 -R /
         pip install -qe .
         pip install -qU fastcore
         make test
