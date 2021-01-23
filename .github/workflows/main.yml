@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:  [ubuntu, macos]
+        os:  [ubuntu]
     runs-on: ${{ matrix.os }}-latest
 #     runs-on: ubuntu-latest
     container: fastai/jekyll
