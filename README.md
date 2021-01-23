@@ -60,6 +60,8 @@ git clone https://github.com/fastai/nbdev
 pip install -e nbdev
 ```
 
+nbdev is tested to work on Ubuntu, Macos and Windows, for the versions of operating system tagged with the `-latest` prefix in [these docs](https://docs.github.com/en/actions/reference/specifications-for-github-hosted-runners#supported-runners-and-hardware-resources).  
+
 _Note that `nbdev` must be installed into the same python environment that you use for both your Jupyter Server and your workspace._
 
 ## Getting Started
