@@ -88,7 +88,7 @@ def _get_branch(owner, repo, default='main'):
     try: return api.repos.get().default_branch
     except HTTPError:
         msg= [f"Could not access repo: {owner}/{repo} to find your default branch - `{default} assumed.\n",
-              "Edit `docs/_config.yml` if this is incorrect.\n"
+              "Edit `settings.ini` if this is incorrect.\n"
               "In the future, you can allow nbdev to see private repos by setting the environment variable GITHUB_TOKEN as described here: https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos \n",         ]
         print(''.join(msg))
         return default

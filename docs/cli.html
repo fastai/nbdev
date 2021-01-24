@@ -607,7 +607,7 @@ nb_path: "nbs/06_cli.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h4 id="Using-nbdev_new-with-private-repos">Using <a href="/cli.html#nbdev_new"><code>nbdev_new</code></a> with private repos<a class="anchor-link" href="#Using-nbdev_new-with-private-repos"> </a></h4><p><a href="/cli.html#nbdev_new"><code>nbdev_new</code></a> attempts to find your repo on GitHub to determine your default branch.  If your repo is private, you will need to set the environment variable <code>GITHUB_TOKEN</code> with a <a href="https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token">personal access token</a> prior to running <a href="/cli.html#nbdev_new"><code>nbdev_new</code></a>, or <a href="/cli.html#nbdev_new"><code>nbdev_new</code></a> will use a default value instead.</p>
-<p>You will receive a warning message if nbdev is not able to find your repo on GitHub that will tell you to replace the default branch name with the correct one in <code>_config.yml</code> in your repo, (which is in the <code>docs/</code> folder by default).</p>
+<p>You will receive a warning message if nbdev is not able to find your repo on GitHub that will tell you to replace the default branch name in <code>settings.ini</code> which is the root of your repo.</p>
 
 </div>
 </div>
