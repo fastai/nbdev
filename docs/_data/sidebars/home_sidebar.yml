@@ -9,9 +9,16 @@ entries:
     - output: web,pdf
       title: Overview
       url: /
-    - output: web,pdf
-      title: Tutorial
-      url: tutorial.html
+      subfolders:
+      - output: web
+        subfolderitems:
+        - output: web,pdf
+          title: General Tutorial
+          url: tutorial.html
+        - output: web,pdf
+          title: Google Colaboratory
+          url: tutorial_colab.html
+        title: Tutorials
     - output: web,pdf
       title: A minimal example
       url: example.html

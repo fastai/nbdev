@@ -1,7 +1,12 @@
 {
   "nbdev": {
     "Overview": "/",
-    "Tutorial": "tutorial.html",
+    "": {
+    	"Tutorials": {
+    		"General Tutorial":"tutorial.html",
+    		"Google Colaboratory":"tutorial_colab.html"
+    	}
+    },
     "A minimal example": "example.html",
     "Export to modules": "export.html",
     "Synchronize and diff": "sync.html",

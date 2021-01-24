@@ -384,12 +384,12 @@ nb_path: "nbs/02_showdoc.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`export`](/export.html)&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`DocsTestClass`](/export.html#DocsTestClass)&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass.test&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;[`DocsTestClass.test`](/export.html#DocsTestClass.test)&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;export&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`export`](/export.html)&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`DocsTestClass`](/export.html#DocsTestClass)&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass.test&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;[`DocsTestClass.test`](/export.html#DocsTestClass.test)&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;Tenso&#39;</span><span class="p">),</span><span class="s1">&#39;`Tenso`&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;_nbdev&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;`_nbdev`&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;`__main__`&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;_nbdev&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;`_nbdev`&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;__main__&#39;</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;`__main__`&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">doc_link</span><span class="p">(</span><span class="s1">&#39;flags&#39;</span><span class="p">),</span> <span class="s1">&#39;`flags`&#39;</span><span class="p">)</span> <span class="c1"># we won&#39;t have a flags doc page even though we do have a flags module</span>
 </pre></div>
 
@@ -533,7 +533,7 @@ nb_path: "nbs/02_showdoc.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">T</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">add_doc_links</span><span class="p">):</span> <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">add_doc_links</span><span class="p">):</span> <span class="k">pass</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">add_doc_links</span><span class="p">(</span><span class="s1">&#39;Lets talk about `add_doc_links`&#39;</span><span class="p">),</span> 
         <span class="s1">&#39;Lets talk about [`add_doc_links`](/showdoc.html#add_doc_links)&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">add_doc_links</span><span class="p">(</span><span class="s1">&#39;Lets talk about `add_doc_links`&#39;</span><span class="p">,</span> <span class="n">T</span><span class="p">),</span> <span class="s1">&#39;Lets talk about `add_doc_links`&#39;</span><span class="p">)</span>
@@ -723,7 +723,7 @@ nb_path: "nbs/02_showdoc.ipynb"
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">DocsTestClass</span><span class="o">.</span><span class="n">test</span><span class="p">),</span> <span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">DocsTestClass</span><span class="p">))</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="s1">&#39;DocsTestClass&#39;</span><span class="p">),</span> <span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">DocsTestClass</span><span class="p">))</span>
 
-<span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">get_nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -786,8 +786,8 @@ nb_path: "nbs/02_showdoc.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">nb_source_link</span><span class="p">(</span><span class="s1">&#39;check_re&#39;</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="sa">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">nb_source_link</span><span class="p">(</span><span class="s1">&#39;check_re&#39;</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">f</span><span class="s1">&#39;00_export.ipynb#Finding-patterns&#39;</span><span class="p">)</span>
 <span class="n">nb_source_link</span><span class="p">(</span><span class="n">check_re</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 
@@ -1126,7 +1126,7 @@ nb_path: "nbs/02_showdoc.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.sync</span> <span class="kn">import</span> <span class="n">get_name</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">nbdev.sync</span> <span class="k">import</span> <span class="n">get_name</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">get_doc_link</span><span class="p">(</span><span class="n">get_name</span><span class="p">),</span> <span class="s1">&#39;https://nbdev.fast.ai/sync#get_name&#39;</span><span class="p">)</span>
 </pre></div>
 
