@@ -108,7 +108,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L121" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:"A python filename or glob to convert"=<em><code>None</code></em>, <strong><code>silent</code></strong>:"Don't print results"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_update_lib" class="doc_header"><code>nbdev_update_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L122" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_update_lib</code>(<strong><code>fname</code></strong>:"A python filename or glob to convert"=<em><code>None</code></em>, <strong><code>silent</code></strong>:"Don't print results"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Propagates any change in the modules matching <code>fname</code> to the notebooks that created them</p>
 
@@ -140,7 +140,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_diff_nbs" class="doc_header"><code>nbdev_diff_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L139" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_diff_nbs</code>()</p>
+<h4 id="nbdev_diff_nbs" class="doc_header"><code>nbdev_diff_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L140" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_diff_nbs</code>()</p>
 </blockquote>
 <p>Prints the diff between an export of the library in notebooks and the actual modules</p>
 
@@ -209,7 +209,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L657" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Rebuild even notebooks that haven't changed"=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:"Also convert the index notebook to README"=<em><code>True</code></em>, <strong><code>n_workers</code></strong>:"Number of workers to use"=<em><code>None</code></em>, <strong><code>pause</code></strong>:"Pause time (in secs) between notebooks to avoid race conditions"=<em><code>0.5</code></em>)</p>
+<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L654" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Rebuild even notebooks that haven't changed"=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:"Also convert the index notebook to README"=<em><code>True</code></em>, <strong><code>n_workers</code></strong>:"Number of workers to use"=<em><code>None</code></em>, <strong><code>pause</code></strong>:"Pause time (in secs) between notebooks to avoid race conditions"=<em><code>0.5</code></em>)</p>
 </blockquote>
 <p>Build the documentation by converting notebooks matching <code>fname</code> to html</p>
 
@@ -241,7 +241,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_nb2md" class="doc_header"><code>nbdev_nb2md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L669" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_nb2md</code>(<strong><code>fname</code></strong>:"A notebook file name to convert", <strong><code>dest</code></strong>:"The destination folder"=<em><code>'.'</code></em>, <strong><code>img_path</code></strong>:"Folder to export images to"=<em><code>''</code></em>, <strong><code>jekyll</code></strong>:"To use jekyll metadata for your markdown file or not"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_nb2md" class="doc_header"><code>nbdev_nb2md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L666" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_nb2md</code>(<strong><code>fname</code></strong>:"A notebook file name to convert", <strong><code>dest</code></strong>:"The destination folder"=<em><code>'.'</code></em>, <strong><code>img_path</code></strong>:"Folder to export images to"=<em><code>''</code></em>, <strong><code>jekyll</code></strong>:"To use jekyll metadata for your markdown file or not"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert the notebook in <code>fname</code> to a markdown file</p>
 
@@ -266,7 +266,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_detach" class="doc_header"><code>nbdev_detach</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L621" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_detach</code>(<strong><code>path_nb</code></strong>:"Path to notebook", <strong><code>dest</code></strong>:"Destination folder"=<em><code>''</code></em>, <strong><code>use_img</code></strong>:"Convert markdown images to img tags"=<em><code>False</code></em>, <strong><code>replace</code></strong>:"Write replacement notebook back to <code>path_bn</code>"=<em><code>True</code></em>)</p>
+<h4 id="nbdev_detach" class="doc_header"><code>nbdev_detach</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L618" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_detach</code>(<strong><code>path_nb</code></strong>:"Path to notebook", <strong><code>dest</code></strong>:"Destination folder"=<em><code>''</code></em>, <strong><code>use_img</code></strong>:"Convert markdown images to img tags"=<em><code>False</code></em>, <strong><code>replace</code></strong>:"Write replacement notebook back to <code>path_bn</code>"=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Export cell attachments to <code>dest</code> and update references</p>
 
@@ -329,7 +329,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L156" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_trust_nbs" class="doc_header"><code>nbdev_trust_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/sync.py#L157" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_trust_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Trust even notebooks that haven't changed"=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Trust notebooks matching <code>fname</code></p>
 
@@ -394,7 +394,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="bump_version" class="doc_header"><code>bump_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L16" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bump_version</code>(<strong><code>version</code></strong>, <strong><code>part</code></strong>=<em><code>2</code></em>)</p>
+<h4 id="bump_version" class="doc_header"><code>bump_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L17" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>bump_version</code>(<strong><code>version</code></strong>, <strong><code>part</code></strong>=<em><code>2</code></em>)</p>
 </blockquote>
 
 </div>
@@ -443,7 +443,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_bump_version" class="doc_header"><code>nbdev_bump_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L23" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_bump_version</code>(<strong><code>part</code></strong>:"Part of version to bump"=<em><code>2</code></em>)</p>
+<h4 id="nbdev_bump_version" class="doc_header"><code>nbdev_bump_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L24" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_bump_version</code>(<strong><code>part</code></strong>:"Part of version to bump"=<em><code>2</code></em>)</p>
 </blockquote>
 <p>Increment version in <code>settings.py</code> by one</p>
 
@@ -481,7 +481,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L34" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
+<h4 id="nbdev_install_git_hooks" class="doc_header"><code>nbdev_install_git_hooks</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L35" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_install_git_hooks</code>()</p>
 </blockquote>
 <p>Install git hooks to clean/trust notebooks automatically</p>
 
@@ -544,7 +544,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="extract_tgz" class="doc_header"><code>extract_tgz</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L78" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_tgz</code>(<strong><code>url</code></strong>, <strong><code>dest</code></strong>=<em><code>'.'</code></em>)</p>
+<h4 id="extract_tgz" class="doc_header"><code>extract_tgz</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L79" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_tgz</code>(<strong><code>url</code></strong>, <strong><code>dest</code></strong>=<em><code>'.'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -567,6 +567,41 @@ nb_path: "nbs/06_cli.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">owner</span><span class="o">=</span><span class="s1">&#39;hamelsmu&#39;</span>
+<span class="n">repo</span><span class="o">=</span><span class="s1">&#39;typescript-quicklywefer&#39;</span>
+<span class="n">GhApi</span><span class="p">(</span><span class="n">owner</span><span class="o">=</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="o">=</span><span class="n">repo</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;GITHUB_TOKEN&#39;</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span> <span class="n">api</span><span class="o">.</span><span class="n">repos</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">default_branch</span>
+<span class="k">except</span> <span class="n">HTTPError</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;nope.&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>nope.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
 
 <div class="output_wrapper">
 <div class="output">
@@ -575,7 +610,7 @@ nb_path: "nbs/06_cli.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_new" class="doc_header"><code>nbdev_new</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L82" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_new</code>()</p>
+<h4 id="nbdev_new" class="doc_header"><code>nbdev_new</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/cli.py#L95" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_new</code>()</p>
 </blockquote>
 <p>Create a new nbdev project from the current git repo</p>
 
@@ -600,6 +635,14 @@ nb_path: "nbs/06_cli.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a href="/cli.html#nbdev_new"><code>nbdev_new</code></a> is a command line tool that creates a new nbdev project from the current directory, which must be a cloned git repo.</p>
 <p>After you run <a href="/cli.html#nbdev_new"><code>nbdev_new</code></a>, please check the contents of <code>settings.ini</code> look good, and then run <a href="/export2html.html#nbdev_build_lib"><code>nbdev_build_lib</code></a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Using-nbdev_new-with-private-repos">Using <a href="/cli.html#nbdev_new"><code>nbdev_new</code></a> with private repos<a class="anchor-link" href="#Using-nbdev_new-with-private-repos"> </a></h4><p><a href="/cli.html#nbdev_new"><code>nbdev_new</code></a> attempts to find your repo on GitHub to determine your default branch.  If your repo is private, you will need to set the environment variable <code>GITHUB_TOKEN</code> with a <a href="https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token">personal access token</a> prior to running <a href="/cli.html#nbdev_new"><code>nbdev_new</code></a>, or <a href="/cli.html#nbdev_new"><code>nbdev_new</code></a> will use a default value instead.</p>
+<p>You will receive a warning message if nbdev is not able to find your repo on GitHub that will tell you to replace the default branch name with the correct one in <code>_config.yml</code> in your repo, (which is in the <code>docs/</code> folder by default).</p>
 
 </div>
 </div>
