@@ -12,6 +12,8 @@ from .clean import *
 from .test import *
 from fastcore.script import *
 from ghapi.all import GhApi
+from urllib.error import HTTPError
+
 
 # Cell
 def bump_version(version, part=2):
@@ -87,7 +89,7 @@ def _get_branch(owner, repo, default='main'):
     except HTTPError:
         msg= [f"Could not access repo: {owner}/{repo} to find your default branch - `{default} assumed.\n",
               "Edit `docs/_config.yml` if this is incorrect.\n"
-              "In the future, you can allow nbdev to see private repos by setting the environment variable GITHUB_TOKEN as described here: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token \n",         ]
+              "In the future, you can allow nbdev to see private repos by setting the environment variable GITHUB_TOKEN as described here: https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos \n",         ]
         print(''.join(msg))
         return default
 
