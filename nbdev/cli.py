@@ -11,6 +11,9 @@ from .export2html import *
 from .clean import *
 from .test import *
 from fastcore.script import *
+from ghapi.all import GhApi
+from urllib.error import HTTPError
+
 
 # Cell
 def bump_version(version, part=2):
@@ -79,6 +82,18 @@ def extract_tgz(url, dest='.'):
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
 # Cell
+#hide
+def _get_branch(owner, repo, default='main'):
+    api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
+    try: return api.repos.get().default_branch
+    except HTTPError:
+        msg= [f"Could not access repo: {owner}/{repo} to find your default branch - `{default} assumed.\n",
+              "Edit `settings.ini` if this is incorrect.\n"
+              "In the future, you can allow nbdev to see private repos by setting the environment variable GITHUB_TOKEN as described here: https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos \n",         ]
+        print(''.join(msg))
+        return default
+
+# Cell
 @call_parse
 def nbdev_new():
     "Create a new nbdev project from the current git repo"
@@ -104,7 +119,7 @@ def nbdev_new():
     settings_path = Path('settings.ini')
     settings = settings_path.read_text()
     owner,repo = repo_details(url)
-    branch = urljson(f'https://api.github.com/repos/{owner}/{repo}')['default_branch']
+    branch = _get_branch(owner, repo)
     settings = settings.format(lib_name=repo, user=owner, author=author, author_email=email, branch=branch)
     settings_path.write_text(settings)
     nbdev_install_git_hooks()
