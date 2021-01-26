@@ -212,7 +212,7 @@ nb_path: "nbs/tutorial.ipynb"
 <div class="highlight"><pre><span></span><span class="c1">#export</span>
 <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">to</span><span class="p">):</span>
     <span class="s2">&quot;Say hello to somebody&quot;</span>
-    <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;Hello {to}!&#39;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Hello </span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s1">!&#39;</span>
 </pre></div>
 <p>Notice how it includes <code>#export</code> at the top - this means it will be included in your module, and documentation. The documentation will look like this:</p>
 
@@ -311,7 +311,7 @@ nb_path: "nbs/tutorial.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">display</span><span class="p">,</span><span class="n">SVG</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span><span class="n">SVG</span>
 </pre></div>
 
     </div>
@@ -865,8 +865,8 @@ $$\sum_{i=1}^{k+1}i$$
 <p>Because both the documentation and code for nbdev is written in notebooks, you can optionally view and run nbdev documentation in <a href="https://colab.research.google.com/">Google Colab</a>. You can enable Google Colab badges that link to the appropriate notebook(s) in your GitHub repository.</p>
 <p>You can toggle this feature on or off in your <code>/_config.yml</code> file:</p>
 <div class="highlight"><pre><span></span><span class="c1"># This specifies what badges are turned on by default for notebook docs.</span>
-<span class="l l-Scalar l-Scalar-Plain">default_badges</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">colab</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">default_badges</span><span class="p">:</span>
+  <span class="nt">colab</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
 </pre></div>
 <p>Furthermore, if you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter <code>hide_colab_badge: true</code>.  For example, if you wanted to hide the Colab badge from showing up on the notebook <code>nbs/06_cli.ipynb</code>, your front matter (in the form of a markdown cell at the top of the notebook) will look like this:</p>
 
