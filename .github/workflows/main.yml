@@ -4,14 +4,15 @@ on:
   pull_request:
   push:
     branches: [master]
-env:
-  HOME: /root
+
 defaults:
   run:
     shell: bash
 
 jobs:
   nb-sync:
+    env:
+      HOME: /root
     runs-on: ubuntu-latest
     container: fastai/jekyll
     steps:
@@ -21,17 +22,28 @@ jobs:
       uses: fastai/workflows/nb@master
 
   nbdev_test_nbs:
-    runs-on: ubuntu-latest
-    container: fastai/jekyll
+    strategy:
+      fail-fast: false
+      matrix:
+        os:  [ubuntu, windows, macos]
+        py:  [3.6, 3.7, 3.8]
+    runs-on: ${{ matrix.os }}-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Run tests
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.py }}
+    - name: Setup Environment
       run: |
+        pip install git+https://github.com/fastai/fastcore.git
         pip install -qe .
-        pip install -qU fastcore
-        make test
+    - name: Run tests
+      run: make test
 
   fastpages-integration:
+    env:
+      HOME: /root
     runs-on: ubuntu-latest
     container: fastai/jekyll
     steps:

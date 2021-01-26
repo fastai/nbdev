@@ -549,6 +549,7 @@ def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter,
                 files.append(fname)
     if len(files)==0: print("No notebooks were modified")
     else:
+        if sys.platform == "win32": n_workers = 0
         passed = parallel(_notebook2html, files, n_workers=n_workers, cls=cls,
                           template_file=template_file, exporter=exporter, dest=dest, pause=pause, execute=execute)
         if not all(passed):

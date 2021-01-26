@@ -7,7 +7,7 @@
 
 `nbdev` is a library that allows you to develop a python library in [Jupyter Notebooks](https://jupyter.org/), putting all your code, tests and documentation in one place. That is: you now have a true [literate programming](https://en.wikipedia.org/wiki/Literate_programming) environment, as envisioned by Donald Knuth back in 1983!
 
-`nbdev` makes debugging and refactor your code much easier relative to traditional programming environments. Furthermore, using nbdev promotes software engineering best practices because tests and documentation are first class citizens.
+`nbdev` makes debugging and refactoring your code much easier relative to traditional programming environments. Furthermore, using nbdev promotes software engineering best practices because tests and documentation are first class citizens.
 
 The developers use this regularly on macOS and Linux. We have not tested it on Windows and not all features may work correctly.
 
@@ -60,6 +60,8 @@ git clone https://github.com/fastai/nbdev
 pip install -e nbdev
 ```
 
+nbdev is tested to work on Ubuntu, Macos and Windows, for the versions tagged with the `-latest` suffix in [these docs](https://docs.github.com/en/actions/reference/specifications-for-github-hosted-runners#supported-runners-and-hardware-resources).  
+
 _Note that `nbdev` must be installed into the same python environment that you use for both your Jupyter Server and your workspace._
 
 ## Getting Started
@@ -72,7 +74,7 @@ The following are helpful resources for getting started with nbdev:
 - [release notes](https://github.com/fastai/nbdev/blob/master/CHANGELOG.md).
 
 
-## If Someone Tells You That You Shouldn't Use Notebooks For Software Development
+## If Someone Tells You Should Not Use Notebooks For Software Development
 
 [Watch this video](https://youtu.be/9Q6sLbz37gk).
 
