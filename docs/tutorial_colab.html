@@ -418,6 +418,27 @@ Converted index.ipynb.
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/drive&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">cd</span> &#39;drive/MyDrive/{path_to_repository}/{library_name}&#39;
+<span class="o">!</span>pip3 install -e . -q
+<span class="o">!</span>pip3 install nbdev -q
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>From there you can build your library following the <a href="https://nbdev.fast.ai/tutorial.html">tutorial</a>. Any changes you save in your notebook are reflected in your Google Drive, so you can always call <a href="/export2html.html#nbdev_build_lib"><code>nbdev_build_lib</code></a>, <code>_clean_nbs</code>, etc and have it function as expected.</p>
@@ -438,6 +459,25 @@ Converted index.ipynb.
 </div>
 </div>
 </div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>git add *
+<span class="o">!</span>git commit -m <span class="s2">&quot;Test commit message&quot;</span>
+<span class="o">!</span>git push origin master
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>{% include note.html content='If you have Colab Pro, use the terminal to push to git with the same bash commands' %}</p>
