@@ -79,7 +79,8 @@ def test_nb(fn, flags=None):
         nb = read_nb(fn)
         for f in get_all_flags(nb['cells']):
             if f not in flags: return
-        ep = NoExportPreprocessor(flags, timeout=600, kernel_name='python3')
+        timeout = 1800 if sys.platform == "win32" else 600
+        ep = NoExportPreprocessor(flags, timeout=timeout, kernel_name='python3')
         pnb = nbformat.from_dict(nb)
         ep.preprocess(pnb)
     finally: os.environ.pop("IN_TEST")
