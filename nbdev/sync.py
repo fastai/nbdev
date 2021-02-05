@@ -123,7 +123,7 @@ def _script2notebook(fname, dic, silent=False):
 def nbdev_update_lib(fname:Param("A python filename or glob to convert", str)=None,
                      silent:Param("Don't print results", bool_arg)=False):
     "Propagates any change in the modules matching `fname` to the notebooks that created them"
-    if fname.endswith('.ipynb'): raise ValueError("`nbdev_update_lib` operates on .py files.  If you wish to convert notebooks instead, see `nbdev_build_lib`.")
+    if fname and fname.endswith('.ipynb'): raise ValueError("`nbdev_update_lib` operates on .py files.  If you wish to convert notebooks instead, see `nbdev_build_lib`.")
     if os.environ.get('IN_TEST',0): return
     dic = notebook2script(silent=True, to_dict=True)
     exported = get_nbdev_module().modules
