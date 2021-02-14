@@ -16,7 +16,7 @@
     "Fix merge conflicts": "merge.html",
     "Command line functions": "cli.html",
     "Clean notebooks": "clean.html",
-    "Flags": "flags.html",
+    "Flags": "flags_page.html",
     "Setting up Search": "search.html"
   }
 }
