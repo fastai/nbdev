@@ -111,11 +111,11 @@ index = {"read_nb": "00_export.ipynb",
          "clean_cr": "07_clean.ipynb",
          "BSLASH": "07_clean.ipynb",
          "nbdev_clean_nbs": "07_clean.ipynb",
-         "say_hello": "tutorial.ipynb",
-         "HelloSayer": "tutorial.ipynb",
          "S1": "flags_page.ipynb",
          "S2": "flags_page.ipynb",
-         "S3": "flags_page.ipynb"}
+         "S3": "flags_page.ipynb",
+         "say_hello": "tutorial.ipynb",
+         "HelloSayer": "tutorial.ipynb"}
 
 modules = ["export.py",
            "sync.py",
@@ -125,8 +125,8 @@ modules = ["export.py",
            "merge.py",
            "cli.py",
            "clean.py",
-           "tutorial.py",
-           "flags_page.py"]
+           "flags_page.py",
+           "tutorial.py"]
 
 doc_url = "https://nbdev.fast.ai/"
 
