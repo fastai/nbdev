@@ -615,12 +615,7 @@ def _nb_detach_cell(cell, dest, use_img):
     else: return [o.replace('attachment:image.png', str(p)) for o in src]
 
 # Cell
-@call_parse
-def nbdev_detach(path_nb:Param("Path to notebook"),
-                 dest:Param("Destination folder", str)="",
-                 use_img:Param("Convert markdown images to img tags", bool_arg)=False,
-                 replace:Param("Write replacement notebook back to `path_bn`", bool_arg)=True):
-    "Export cell attachments to `dest` and update references"
+def _nbdev_detach(path_nb, dest="", use_img=False, replace=True):
     path_nb = Path(path_nb)
     if not dest: dest = f'{path_nb.stem}_files'
     dest = Path(dest)
@@ -630,6 +625,14 @@ def nbdev_detach(path_nb:Param("Path to notebook"),
     for o in atts: o['source'] = _nb_detach_cell(o, dest, use_img)
     if atts and replace: json.dump(j, path_nb.open('w'))
     if not replace: return j
+
+@call_parse
+def nbdev_detach(path_nb:Param("Path to notebook"),
+                 dest:Param("Destination folder", str)="",
+                 use_img:Param("Convert markdown images to img tags", bool_arg)=False,
+                 replace:Param("Write replacement notebook back to `path_bn`", bool_arg)=True):
+    "Export cell attachments to `dest` and update references"
+    _nbdev_detach(path_nb, dest, use_img, replace)
 
 # Cell
 _re_index = re.compile(r'^(?:\d*_|)index\.ipynb$')
@@ -669,7 +672,7 @@ def nbdev_nb2md(fname:Param("A notebook file name to convert", str),
                 img_path:Param("Folder to export images to")="",
                 jekyll:Param("To use jekyll metadata for your markdown file or not", bool_arg)=False,):
     "Convert the notebook in `fname` to a markdown file"
-    nbdev_detach(fname, dest=img_path)
+    _nbdev_detach(fname, dest=img_path)
     convert_md(fname, dest, jekyll=jekyll, img_path=img_path)
 
 # Cell
