@@ -111,6 +111,9 @@ index = {"read_nb": "00_export.ipynb",
          "clean_cr": "07_clean.ipynb",
          "BSLASH": "07_clean.ipynb",
          "nbdev_clean_nbs": "07_clean.ipynb",
+         "S1": "nbdev_comments.ipynb",
+         "S2": "nbdev_comments.ipynb",
+         "S3": "nbdev_comments.ipynb",
          "say_hello": "tutorial.ipynb",
          "HelloSayer": "tutorial.ipynb"}
 
@@ -122,6 +125,7 @@ modules = ["export.py",
            "merge.py",
            "cli.py",
            "clean.py",
+           "nbdev_comments.py",
            "tutorial.py"]
 
 doc_url = "https://nbdev.fast.ai/"
