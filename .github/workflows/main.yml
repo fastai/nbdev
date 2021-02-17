@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:  [ubuntu, windows, macos]
+        os:  [ubuntu, windows]
         py:  [3.6, 3.7, 3.8]
     runs-on: ${{ matrix.os }}-latest
     steps:
