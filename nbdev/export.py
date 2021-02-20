@@ -409,7 +409,7 @@ def nbglob(fname=None, recursive=False, extension='.ipynb', config_key='nbs_path
     return fls.filter(lambda x: not x.name.startswith('_') and x.name.endswith(extension))
 
 # Cell
-def notebook2script(fname=None, silent=False, to_dict=False, bare=False, recursive=None):
+def notebook2script(fname=None, silent=False, to_dict=False, bare=False, recursive=False):
     "Convert notebooks matching `fname` to modules"
     # initial checks
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
