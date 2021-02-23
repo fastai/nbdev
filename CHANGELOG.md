@@ -2,6 +2,31 @@
 
 <!-- do not remove -->
 
+## 1.1.13
+
+### New Features
+
+- support windows ([#392](https://github.com/fastai/nbdev/pull/392)), thanks to [@mszhanyi](https://github.com/mszhanyi)
+- `nbdev_new`: get template from latest release asset ([#382](https://github.com/fastai/nbdev/pull/382)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Add more license options
+
+### Bugs Squashed
+
+- Fix recursive flag ([#433](https://github.com/fastai/nbdev/pull/433)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- conda not installing nbdev properly on WSL2 ([#430](https://github.com/fastai/nbdev/issues/430))
+- fix nb2md ([#424](https://github.com/fastai/nbdev/pull/424)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- `nbdev_build_lib` seems to convert more notebooks than expected ([#423](https://github.com/fastai/nbdev/issues/423))
+- fix default arg issue with `nbdev_update_lib` ([#416](https://github.com/fastai/nbdev/pull/416)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- `nbdev_update_lib` errors out when fname not supplied ([#415](https://github.com/fastai/nbdev/issues/415))
+- `nbdev_new` fails on calling the GitHub API without guidance ([#404](https://github.com/fastai/nbdev/issues/404))
+- fix recurse issue ([#391](https://github.com/fastai/nbdev/pull/391)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- `nbdev_build_docs`----ModuleNotFoundError: No module named 'fastcore' ([#390](https://github.com/fastai/nbdev/issues/390))
+- `nbdev_test_nbs` --fname broke in 1.1.7 ([#388](https://github.com/fastai/nbdev/issues/388))
+- set recursive=True for docs ([#387](https://github.com/fastai/nbdev/pull/387)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- fix url for getting branch ([#386](https://github.com/fastai/nbdev/pull/386)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- `nbdev_nb2md` throws error when called in a notebook ([#381](https://github.com/fastai/nbdev/issues/381))
+
+
 ## 1.1.12
 
 ### New Features
