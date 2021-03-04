@@ -6,6 +6,7 @@ __all__ = ['get_name', 'qual_name', 'source_nb', 'relimport2name', 'nbdev_update
 # Cell
 from .imports import *
 from .export import *
+from .template import *
 from fastcore.script import *
 import nbformat
 from nbformat.sign import NotebookNotary
