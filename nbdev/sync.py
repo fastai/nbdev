@@ -6,6 +6,7 @@ __all__ = ['get_name', 'qual_name', 'source_nb', 'relimport2name', 'nbdev_update
 # Cell
 from .imports import *
 from .export import *
+from .export2html import *
 from fastcore.script import *
 import nbformat
 from nbformat.sign import NotebookNotary
@@ -144,6 +145,7 @@ def nbdev_diff_nbs():
     lib_folder = cfg.path("lib_path")
     with tempfile.TemporaryDirectory() as d1, tempfile.TemporaryDirectory() as d2:
         copy_tree(cfg.path("lib_path"), d1)
+        write_tmpls()
         notebook2script(silent=True, recursive=cfg.get('recursive', 'False').lower() == 'true')
         copy_tree(cfg.path("lib_path"), d2)
         shutil.rmtree(cfg.path("lib_path"))
