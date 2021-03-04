@@ -7,6 +7,7 @@ __all__ = ['read_nb', 'check_re', 'check_re_multi', 'is_export', 'find_default_e
 
 # Cell
 from .imports import *
+from .template import *
 from fastcore.script import *
 from fastcore.foundation import *
 from keyword import iskeyword
