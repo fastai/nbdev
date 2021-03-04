@@ -7,7 +7,6 @@ __all__ = ['read_nb', 'check_re', 'check_re_multi', 'is_export', 'find_default_e
 
 # Cell
 from .imports import *
-from .template import *
 from fastcore.script import *
 from fastcore.foundation import *
 from keyword import iskeyword
@@ -314,7 +313,7 @@ def create_mod_file(fname, nb_path, bare=False):
 def create_mod_files(files, to_dict=False, bare=False):
     "Create mod files for default exports found in `files`"
     modules = []
-    for f in files:
+    for f in sorted(files):
         fname = Path(f)
         nb = read_nb(fname)
         default = find_default_export(nb['cells'])
@@ -419,7 +418,6 @@ def notebook2script(fname=None, silent=False, to_dict=False, bare=False, recursi
         update_version()
         update_baseurl()
     files = nbglob(fname=fname, recursive=recursive)
-    print(files)
     d = collections.defaultdict(list) if to_dict else None
     modules = create_mod_files(files, to_dict, bare=bare)
     for f in sorted(files): d = _notebook2script(f, modules, silent=silent, to_dict=d, bare=bare)
