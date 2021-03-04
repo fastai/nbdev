@@ -418,6 +418,7 @@ def notebook2script(fname=None, silent=False, to_dict=False, bare=False, recursi
         update_version()
         update_baseurl()
     files = nbglob(fname=fname, recursive=recursive)
+    print(files)
     d = collections.defaultdict(list) if to_dict else None
     modules = create_mod_files(files, to_dict, bare=bare)
     for f in sorted(files): d = _notebook2script(f, modules, silent=silent, to_dict=d, bare=bare)
