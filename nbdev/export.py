@@ -313,7 +313,7 @@ def create_mod_file(fname, nb_path, bare=False):
 def create_mod_files(files, to_dict=False, bare=False):
     "Create mod files for default exports found in `files`"
     modules = []
-    for f in sorted(files):
+    for f in list(sorted(files)).reverse():
         fname = Path(f)
         nb = read_nb(fname)
         default = find_default_export(nb['cells'])
