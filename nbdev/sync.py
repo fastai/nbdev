@@ -150,8 +150,8 @@ def local_write_tmpls():
     cfg = Config()
     path = Path(cfg.get('doc_src_path', cfg.path("doc_path")))
     local_write_tmpl(config_tmpl, 'user lib_name title copyright description recursive', cfg, path/'_config.yml')
-    local_write_tmpl(topnav_tmpl, 'host git_url', cfg, path/'_data'/'topnav.yml')
-    local_write_tmpl(makefile_tmpl, 'nbs_path lib_name', cfg, cfg.config_file.parent/'Makefile')
+#     local_write_tmpl(topnav_tmpl, 'host git_url', cfg, path/'_data'/'topnav.yml')
+#     local_write_tmpl(makefile_tmpl, 'nbs_path lib_name', cfg, cfg.config_file.parent/'Makefile')
 
 # Cell
 @call_parse
