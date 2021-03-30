@@ -46,7 +46,7 @@ Here are some ways that you can learn a lot about the library, whilst also contr
 
 ## How to submit notebook PRs?
 
-* If your PR involves jupyter notebooks (`.ipynb`), the before submitting your PR you must first run `nbdev_build_lib` if there are any library changes, and then clean the notebooks by running `nbdev_clean_nbs`.
+* If your PR involves jupyter notebooks (`.ipynb`), then before submitting your PR you must first: run `nbdev_build_lib` if there are any library changes, and then clean the notebooks by running `nbdev_clean_nbs`.
 
 
 ## PR submission guidelines
