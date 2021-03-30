@@ -46,7 +46,7 @@ Here are some ways that you can learn a lot about the library, whilst also contr
 
 ## How to submit notebook PRs?
 
-* If your PR involves jupyter notebooks (`.ipynb`) you must instrument your git to `nbstripout` the notebooks, as explained [here](https://docs.fast.ai/dev/develop.html#stripping-out-jupyter-notebooks).
+* If your PR involves jupyter notebooks (`.ipynb`) you must first run `nbdev_build_lib` and then `nbdev_clean_nbs` before submitting your PR.
 
 
 ## PR submission guidelines
