@@ -2,11 +2,10 @@
 
 __all__ = ['HTMLParseAttrs', 'remove_widget_state', 'upd_metadata', 'hide_cells', 'clean_exports', 'treat_backticks',
            'add_jekyll_notes', 'copy_images', 'adapt_img_path', 'escape_latex', 'collapse_cells', 'remove_hidden',
-           'find_default_level', 'nb_code_cell', 'add_show_docs', 'add_show_docs', 'remove_fake_headers',
-           'remove_empty', 'get_metadata', 'ExecuteShowDocPreprocessor', 'execute_nb', 'cite2link', 'write_tmpl',
-           'write_tmpls', 'nbdev_build_lib', 'nbdev_exporter', 'process_cells', 'process_cell', 'convert_nb',
-           'notebook2html', 'convert_md', 'nbdev_detach', 'make_readme', 'nbdev_build_docs', 'nbdev_nb2md',
-           'create_default_sidebar', 'make_sidebar']
+           'find_default_level', 'nb_code_cell', 'add_show_docs', 'remove_fake_headers', 'remove_empty', 'get_metadata',
+           'ExecuteShowDocPreprocessor', 'execute_nb', 'cite2link', 'write_tmpl', 'write_tmpls', 'nbdev_build_lib',
+           'nbdev_exporter', 'process_cells', 'process_cell', 'convert_nb', 'notebook2html', 'convert_md',
+           'nbdev_detach', 'make_readme', 'nbdev_build_docs', 'nbdev_nb2md', 'create_default_sidebar', 'make_sidebar']
 
 # Cell
 from .imports import *
@@ -250,27 +249,6 @@ _re_export = _mk_flag_re("exports?", (0,1), "Line with #export or #exports with 
 def nb_code_cell(source):
     "A code cell (as a dict) containing `source`"
     return {'cell_type': 'code', 'execution_count': None, 'metadata': {}, 'outputs': [], 'source': source}
-
-# Cell
-def _show_doc_cell(name, cls_lvl=None):
-    return nb_code_cell(f"show_doc({name}{'' if cls_lvl is None else f', default_cls_level={cls_lvl}'})")
-
-def add_show_docs(cells, cls_lvl=None):
-    "Add `show_doc` for each exported function or class"
-    documented = []
-    for cell in cells:
-        m = check_re(cell, _re_show_doc)
-        if not m: continue
-        documented.append(m.group(1))
-
-    def _documented(name): return name in documented
-
-    for cell in cells:
-        res.append(cell)
-        if check_re(cell, _re_export):
-            for n in export_names(cell['source'], func_only=True):
-                if not _documented(n): res.insert(len(res)-1, _show_doc_cell(n, cls_lvl=cls_lvl))
-    return res
 
 # Cell
 def _show_doc_cell(name, cls_lvl=None):
