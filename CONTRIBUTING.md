@@ -77,4 +77,3 @@ Here are some ways that you can learn a lot about the library, whilst also contr
 
 * Docs are automatically created from the notebooks in the `/nbs` directory.
 * To switch the `docs` submodule to ssh, `cd docs && git remote set-url origin git@github.com:fastai/fastai-docs.git`
-
