@@ -20,7 +20,7 @@ test:
 	nbdev_test_nbs --flags ''
 
 release: pypi
-	fastrelease_conda_package --upload_user fastai
+	fastrelease_conda_package --mambabuild --upload_user fastai
 	nbdev_bump_version
 
 conda_release:
