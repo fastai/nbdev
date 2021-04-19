@@ -515,7 +515,7 @@ def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter,
                   exporter=None, dest=None, pause=0, execute=True):
     "Convert all notebooks matching `fname` to html files"
     recursive=Config().get('recursive', 'False').lower() == 'true'
-    files = nbglob(fname, recursive=True if fname is None else False)
+    files = nbglob(fname, recursive=recursive if fname is None else False)
     if len(files)==1:
         force_all = True
         if n_workers is None: n_workers=0
