@@ -401,15 +401,16 @@ def update_baseurl():
     with open(fname, 'w') as f: f.write(code)
 
 # Cell
-def nbglob(fname=None, recursive=False, extension='.ipynb', config_key='nbs_path') -> L:
-    "Find all files in a directory matching an extension given a `config_key`. Ignores hidden directories and filenames starting with `_`"
+def nbglob(fname=None, recursive=None, extension='.ipynb', config_key='nbs_path') -> L:
+    "Find all files in a directory matching an extension given a `config_key`. Ignores hidden directories and filenames starting with `_`.  If argument `recursive` is not set to `True` or `False`, this value is retreived from settings.ini with a default of `False`."
+    if recursive == None: recursive=Config().get('recursive', 'False').lower() == 'true'
     fname = Config().path(config_key) if fname is None else Path(fname)
     if fname.is_dir(): fname = f'{fname.absolute()}/**/*{extension}' if recursive else f'{fname.absolute()}/*{extension}'
     fls = L(glob.glob(str(fname), recursive=recursive)).filter(lambda x: '/.' not in x).map(Path)
     return fls.filter(lambda x: not x.name.startswith('_') and x.name.endswith(extension))
 
 # Cell
-def notebook2script(fname=None, silent=False, to_dict=False, bare=False, recursive=False):
+def notebook2script(fname=None, silent=False, to_dict=False, bare=False):
     "Convert notebooks matching `fname` to modules"
     # initial checks
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
@@ -417,7 +418,7 @@ def notebook2script(fname=None, silent=False, to_dict=False, bare=False, recursi
         reset_nbdev_module()
         update_version()
         update_baseurl()
-    files = nbglob(fname=fname, recursive=recursive)
+    files = nbglob(fname=fname)
     d = collections.defaultdict(list) if to_dict else None
     modules = create_mod_files(files, to_dict, bare=bare)
     for f in sorted(files): d = _notebook2script(f, modules, silent=silent, to_dict=d, bare=bare)

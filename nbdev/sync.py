@@ -144,7 +144,7 @@ def nbdev_diff_nbs():
     lib_folder = cfg.path("lib_path")
     with tempfile.TemporaryDirectory() as d1, tempfile.TemporaryDirectory() as d2:
         copy_tree(cfg.path("lib_path"), d1)
-        notebook2script(silent=True, recursive=cfg.get('recursive', 'False').lower() == 'true')
+        notebook2script(silent=True)
         copy_tree(cfg.path("lib_path"), d2)
         shutil.rmtree(cfg.path("lib_path"))
         shutil.copytree(d1, str(cfg.path("lib_path")))
