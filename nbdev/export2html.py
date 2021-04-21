@@ -459,7 +459,7 @@ def nbdev_build_lib(fname:Param("A notebook name or glob to convert", str)=None,
                     bare:Param("Omit nbdev annotation comments (may break some functionality).", store_true)=False):
     "Export notebooks matching `fname` to python modules"
     write_tmpls()
-    notebook2script(fname=fname, bare=bare, recursive=Config().get('recursive', 'False').lower() == 'true')
+    notebook2script(fname=fname, bare=bare)
 
 # Cell
 def nbdev_exporter(cls=HTMLExporter, template_file=None):
@@ -514,8 +514,7 @@ def _notebook2html(fname, cls=HTMLExporter, template_file=None, exporter=None, d
 def notebook2html(fname=None, force_all=False, n_workers=None, cls=HTMLExporter, template_file=None,
                   exporter=None, dest=None, pause=0, execute=True):
     "Convert all notebooks matching `fname` to html files"
-    recursive=Config().get('recursive', 'False').lower() == 'true'
-    files = nbglob(fname, recursive=recursive if fname is None else False)
+    files = nbglob(fname, recursive=None if fname is None else False)
     if len(files)==1:
         force_all = True
         if n_workers is None: n_workers=0
@@ -688,7 +687,7 @@ def _get_title(fname):
 def _create_default_sidebar():
     "Create the default sidebar for the docs website"
     dic = {"Overview": "/"}
-    files = nbglob(recursive=Config().get('recursive',None))
+    files = nbglob()
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if f.stem!='index']
     if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
