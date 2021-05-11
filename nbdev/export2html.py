@@ -688,7 +688,7 @@ def _create_default_sidebar():
     "Create the default sidebar for the docs website"
     dic = {"Overview": "/"}
     files = nbglob()
-    fnames = [(_nb2htmlfname(f) for f in sorted(files)]
+    fnames = [_nb2htmlfname(f) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if f.stem!='index']
     if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
     dic.update({_get_title(f):f.name if Config().host=='github' else f.with_suffix('').name for f in fnames if f.stem!='index'})
