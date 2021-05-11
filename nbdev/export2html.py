@@ -684,11 +684,17 @@ def _get_title(fname):
     return fname.stem if src is None else src.groups()[0]
 
 # Cell
+def _nb2fname(nb_path, dest=None):
+    "removes .html suffix from sidebar"
+    if dest is None: dest = Config().path("doc_path")
+    return Path(dest)/re_digits_first.sub('', nb_path.with_suffix('').name)
+
+# Cell
 def _create_default_sidebar():
     "Create the default sidebar for the docs website"
     dic = {"Overview": "/"}
     files = nbglob()
-    fnames = [_nb2htmlfname(f) for f in sorted(files)]
+    fnames = [(_nb2fname(f) if Config().host=='github' else _nb2fname(f)) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if f.stem!='index']
     if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
     dic.update({_get_title(f):f'{f.name}' for f in fnames if f.stem!='index'})
