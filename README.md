@@ -52,8 +52,8 @@ The above illustration is a subset of [this nbdev tutorial with a minimal exampl
 
 ## Installing
 
-nbdev is on PyPI and conda so you can just run `pip install nbdev` or `conda install -c fastai nbdev`.
-
+nbdev is on PyPI and conda so you can just run `pip install nbdev` or `conda install -c fastai nbdev`.  
+{% include note.html content='Microsoft Windows users should use `pip` instead of `conda` to install nbdev.  ' %}
 For an [editable install](https://stackoverflow.com/questions/35064426/when-would-the-e-editable-option-be-useful-with-pip-install), use the following:
 ```
 git clone https://github.com/fastai/nbdev
