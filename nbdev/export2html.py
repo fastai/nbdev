@@ -153,7 +153,7 @@ def _img2jkl(d, h, jekyll=True):
 
 # Cell
 def _is_real_image(src):
-    return not (src.startswith('http://') or src.startswith('https://') or src.startswith('data:image/'))
+    return not (src.startswith('http://') or src.startswith('https://') or src.startswith('data:image/') or src.startswith('attachment:'))
 
 # Cell
 def copy_images(cell, fname, dest, jekyll=True):
