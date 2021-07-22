@@ -335,7 +335,6 @@ def _notebook2script(fname, modules, silent=False, to_dict=None, bare=False):
     fname = Path(fname)
     nb = read_nb(fname)
     default = find_default_export(nb['cells'])
-    print(default)
     if default is not None:
         default = os.path.sep.join(default.split('.'))
     mod = get_nbdev_module()

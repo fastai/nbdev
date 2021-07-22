@@ -1331,7 +1331,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_init" class="doc_header"><code>add_init</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L371" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_init</code>(<strong><code>path</code></strong>)</p>
+<h4 id="add_init" class="doc_header"><code>add_init</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L370" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_init</code>(<strong><code>path</code></strong>)</p>
 </blockquote>
 <p>Add <code>__init__.py</code> in all subdirs of <code>path</code> containing python files if it's not there already</p>
 
@@ -1395,7 +1395,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="update_version" class="doc_header"><code>update_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L383" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_version</code>()</p>
+<h4 id="update_version" class="doc_header"><code>update_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L382" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_version</code>()</p>
 </blockquote>
 <p>Add or update <code>__version__</code> in the main <code>__init__.py</code> of the library</p>
 
@@ -1434,7 +1434,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="update_baseurl" class="doc_header"><code>update_baseurl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L397" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_baseurl</code>()</p>
+<h4 id="update_baseurl" class="doc_header"><code>update_baseurl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L396" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_baseurl</code>()</p>
 </blockquote>
 <p>Add or update <code>baseurl</code> in <code>_config.yml</code> for the docs</p>
 
@@ -1466,7 +1466,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbglob" class="doc_header"><code>nbglob</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L407" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbglob</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>recursive</code></strong>=<em><code>None</code></em>, <strong><code>extension</code></strong>=<em><code>'.ipynb'</code></em>, <strong><code>config_key</code></strong>=<em><code>'nbs_path'</code></em>)</p>
+<h4 id="nbglob" class="doc_header"><code>nbglob</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L406" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbglob</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>recursive</code></strong>=<em><code>None</code></em>, <strong><code>extension</code></strong>=<em><code>'.ipynb'</code></em>, <strong><code>config_key</code></strong>=<em><code>'nbs_path'</code></em>)</p>
 </blockquote>
 <p>Find all files in a directory matching an extension given a <code>config_key</code>. Ignores hidden directories and filenames starting with <code>_</code>.  If argument <code>recursive</code> is not set to <code>True</code> or <code>False</code>, this value is retreived from settings.ini with a default of <code>False</code>.</p>
 
@@ -1523,7 +1523,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L416" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>, <strong><code>bare</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L415" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>, <strong><code>bare</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert notebooks matching <code>fname</code> to modules</p>
 
@@ -1568,8 +1568,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>vsc_test
-Converted 00_vsc_test.ipynb.
+<pre>Converted 00_vsc_test.ipynb.
 </pre>
 </div>
 </div>
@@ -1599,7 +1598,7 @@ Converted 00_vsc_test.ipynb.
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L432" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>DocsTestClass</code>()</p>
+<h3 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L431" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>DocsTestClass</code>()</p>
 </blockquote>
 <p>for tests only</p>
 
