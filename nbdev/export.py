@@ -22,7 +22,9 @@ def check_re(cell, pat, code_only=True):
     "Check if `cell` contains a line with regex `pat`"
     if code_only and cell['cell_type'] != 'code': return
     if isinstance(pat, str): pat = re.compile(pat, re.IGNORECASE | re.MULTILINE)
-    return pat.search(cell['source'])
+    cell_source = "\n".join(cell['source'].splitlines()) # Eliminates the \r\n bug
+    result = pat.search(cell_source)
+    return result
 
 # Cell
 def check_re_multi(cell, pats, code_only=True):
@@ -333,6 +335,7 @@ def _notebook2script(fname, modules, silent=False, to_dict=None, bare=False):
     fname = Path(fname)
     nb = read_nb(fname)
     default = find_default_export(nb['cells'])
+    print(default)
     if default is not None:
         default = os.path.sep.join(default.split('.'))
     mod = get_nbdev_module()
