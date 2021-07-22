@@ -47,6 +47,9 @@ entries:
       title: Clean notebooks
       url: clean.html
     - output: web,pdf
+      title: nbdev comments
+      url: nbdev_comments.html
+    - output: web,pdf
       title: Setting up Search
       url: search.html
     output: web

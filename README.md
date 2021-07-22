@@ -31,11 +31,11 @@ The developers use this regularly on macOS and Linux. We have not tested it on W
 
 For example, lets define a class that represents a playing card, with associated docs and tests in a Jupyter Notebook:
 
-![image.png](nbs/images/att_00027.png)
+![image.png](nbs\images\att_00027.png)
 
 In the above screenshot, we have code, tests and documentation in one context! `nbdev` renders this into searchable docs (which are optionally hosted for free on GitHub Pages).  Below is an annotated screenshot of the generated docs for further explanation:
 
-![image.png](nbs/images/att_00016.png)
+![image.png](nbs\images\att_00016.png)
 
 The above illustration is a subset of [this nbdev tutorial with a minimal example](https://nbdev.fast.ai/example.html), which uses code from [Think Python 2](https://github.com/AllenDowney/ThinkPython2) by Allen Downey.
 
@@ -100,4 +100,4 @@ Copyright 2019 onwards, fast.ai, Inc. Licensed under the Apache License, Version
 
 Here, for instance, is how `combined_cos` is defined and documented in the `fastai` library:
 
-<img alt="Exporting from nbdev" width="700" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" src="nbs/images/export_example.png" style="max-width: 700px">
+<img alt="Exporting from nbdev" width="700" caption="An example of a function defined in one cell (marked with the export flag) and explained, along with a visual example, in the following cells" src="nbs\images\export_example.png" style="max-width: 700px">
