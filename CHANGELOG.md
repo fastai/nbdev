@@ -2,7 +2,8 @@
 
 <!-- do not remove -->
 
-## 1.1.14
+## 1.1.15
+
 ### Breaking Changes
 
 - make recursive behavior for `nbdev_build_docs` consistent with `nbdev_build_lib` ([#467](https://github.com/fastai/nbdev/pull/467)), thanks to [@hamelsmu](https://github.com/hamelsmu)
