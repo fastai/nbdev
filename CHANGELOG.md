@@ -2,6 +2,23 @@
 
 <!-- do not remove -->
 
+## 1.1.14
+### Breaking Changes
+
+- make recursive behavior for `nbdev_build_docs` consistent with `nbdev_build_lib` ([#467](https://github.com/fastai/nbdev/pull/467)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
+### New Features
+
+- Allow for a one-time only (potentially) .py -> .ipynb generation ([#369](https://github.com/fastai/nbdev/issues/369))
+
+### Bugs Squashed
+
+- Images with `attachment:` break export ([#501](https://github.com/fastai/nbdev/pull/501)), thanks to [@yacchin1205](https://github.com/yacchin1205)
+- Docs nav doesn't work on gitlab ([#488](https://github.com/fastai/nbdev/pull/488)), thanks to [@tcapelle](https://github.com/tcapelle)
+- clean up all instances of recursive ([#470](https://github.com/fastai/nbdev/pull/470)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- After 'conda install -c fastai nbdev', error "`HTMLExporter` object has no attribute `template_path`" ([#431](https://github.com/fastai/nbdev/issues/431))
+
+
 ## 1.1.13
 
 ### New Features
