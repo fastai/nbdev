@@ -22,7 +22,9 @@ def check_re(cell, pat, code_only=True):
     "Check if `cell` contains a line with regex `pat`"
     if code_only and cell['cell_type'] != 'code': return
     if isinstance(pat, str): pat = re.compile(pat, re.IGNORECASE | re.MULTILINE)
-    return pat.search(cell['source'])
+    cell_source = cell['source'].replace('\r', '') # Eliminate \r\n
+    result = pat.search(cell_source)
+    return result
 
 # Cell
 def check_re_multi(cell, pats, code_only=True):
@@ -290,7 +292,8 @@ def save_nbdev_module(mod):
 # Cell
 def split_flags_and_code(cell, return_type=list):
     "Splits the `source` of a cell into 2 parts and returns (flags, code)"
-    code_lines = cell['source'].split('\n')
+    source_str = cell['source'].replace('\r', '')
+    code_lines = source_str.split('\n')
     split_pos = 0 if code_lines[0].strip().startswith('#') else -1
     for i, line in enumerate(code_lines):
         if not line.startswith('#') and line.strip() and not _re_from_future_import.match(line): break
