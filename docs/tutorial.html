@@ -112,14 +112,14 @@ nb_path: "nbs/tutorial.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Github-pages">Github pages<a class="anchor-link" href="#Github-pages"> </a></h3>
+<h3 id="GitHub-pages">GitHub pages<a class="anchor-link" href="#GitHub-pages"> </a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The nbdev system uses <a href="https://jekyllrb.com/">jekyll</a> for documentation. Because <a href="https://help.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll">GitHub Pages supports Jekyll</a>, you can host your site for free on <a href="https://pages.github.com/">Github Pages</a> without any additional setup, so this is the approach we recommend (but it's not required; any jekyll hosting will work fine).</p>
-<p>To enable Github Pages in your project repo, click <em>Settings</em> in Github, then scroll down to <em>Github Pages</em>, and set "Source" to <em>Master branch /docs folder</em>. Once you've saved, if you scroll back down to that section, Github will have a link to your new website. Copy that URL, and then go back to your main repo page, click "edit" next to the description and paste the URL into the "website" section. While you're there, go ahead and put in your project description too.</p>
+<p>To enable Github Pages in your project repo, click <em>Settings</em> in Github, then scroll down to <em>Github Pages</em>, and set "Source" to <em>Master branch /docs folder</em>. Once you've saved, if you scroll back down to that section, Github will have a link to your new website. Copy that URL, and then go back to your main repo page, click "edit" next to the description and paste the URL into the "website" section. While you're there, go ahead and put in your project description too. <em>NOTE: Don't expect your Pages to build &amp; deploy properly yet; only after we edit <code>settings.ini</code> (below) and make some other changes will your GitHub Pages site be deployed.</em></p>
 
 </div>
 </div>
@@ -454,7 +454,10 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>You can now check-in the generated files with <code>git add</code>, <code>git commit</code> and <code>git push</code>. Wait a minute or two for Github to process your commit, and then head over to the Github website to look at your results.</p>
+<p>You can now check-in the generated files with <code>git add</code>, <code>git commit</code> and <code>git push</code>. (You can use <code>git status</code> to check which files have been generated.) The following command should be sufficient:</p>
+
+<pre><code>git add -A; git commit -m'check in files'; git push</code></pre>
+<p>Wait a minute or two for Github to process your commit, and then head over to the Github website to look at your results.</p>
 
 </div>
 </div>
@@ -720,7 +723,7 @@ All tests are passing!</code></pre>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>If your module requires other modules as dependencies, you can add those prerequisites to your <code>settings.ini</code> in the <code>requirements</code> section. The requirements should be separated by a space and if the module requires at least or at most a specific version of the requirement this may be specified here, too.</p>
 <p>For example if your module requires the <code>fastcore</code> module of at least version 1.0.5, the <code>torchvision</code> module of at most version 0.7 and any version of <code>matplotlib</code>, then the prerequisites would look like this:</p>
-<div class="highlight"><pre><span></span><span class="n">requirements</span> <span class="o">=</span> <span class="n">fastcore</span><span class="o">&gt;=</span><span class="mf">1.0</span><span class="o">.</span><span class="mi">5</span> <span class="n">torchvision</span><span class="o">&lt;</span><span class="mf">0.7</span> <span class="n">matplotlib</span>
+<div class="highlight"><pre><span></span><span class="n">requirements</span> <span class="o">=</span> <span class="n">fastcore</span><span class="o">&gt;=</span><span class="mf">1.0.5</span> <span class="n">torchvision</span><span class="o">&lt;</span><span class="mf">0.7</span> <span class="n">matplotlib</span>
 </pre></div>
 <p>In addition to <code>requirements</code> you can specify dependencies with other keywords that have different scopes.  Below is a list of all possible dependency keywords:</p>
 <ul>

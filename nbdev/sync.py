@@ -49,7 +49,7 @@ _re_cell = re.compile(r'^# Cell|^# Internal Cell|^# Comes from\s+(\S+), cell')
 # Cell
 def _split(code):
     lines = code.split('\n')
-    nbs_path = Config().path("nbs_path").relative_to(Config().config_file.parent)
+    nbs_path = get_config().path("nbs_path").relative_to(get_config().config_file.parent)
     prefix = '' if nbs_path == Path('.') else f'{nbs_path}/'
     default_nb = re.search(f'File to edit: {prefix}(\\S+)\\s+', lines[0]).groups()[0]
     s,res = 1,[]
@@ -71,7 +71,7 @@ def relimport2name(name, mod_name):
     mod_name = str(Path(mod_name))
     if mod_name.endswith('.py'): mod_name = mod_name[:-3]
     mods = mod_name.split(os.path.sep)
-    i = last_index(Config().lib_name, mods)
+    i = last_index(get_config().lib_name, mods)
     mods = mods[i:]
     if name=='.': return '.'.join(mods[:-1])
     i = 0
@@ -100,12 +100,12 @@ def _script2notebook(fname, dic, silent=False):
     fname = Path(fname)
     with open(fname, encoding='utf8') as f: code = f.read()
     splits = _split(code)
-    rel_name = fname.absolute().resolve().relative_to(Config().path("lib_path"))
+    rel_name = fname.absolute().resolve().relative_to(get_config().path("lib_path"))
     key = str(rel_name.with_suffix(''))
     assert len(splits)==len(dic[key]), f'"{rel_name}" exported from notebooks should have {len(dic[key])} cells but has {len(splits)}.'
     assert all([c1[0]==c2[1]] for c1,c2 in zip(splits, dic[key]))
     splits = [(c2[0],c1[0],c1[1]) for c1,c2 in zip(splits, dic[key])]
-    nb_fnames = {Config().path("nbs_path")/s[1] for s in splits}
+    nb_fnames = {get_config().path("nbs_path")/s[1] for s in splits}
     for nb_fname in nb_fnames:
         nb = read_nb(nb_fname)
         for i,f,c in splits:
@@ -129,7 +129,7 @@ def nbdev_update_lib(fname:Param("A python filename or glob to convert", str)=No
     exported = get_nbdev_module().modules
 
     files = nbglob(fname, extension='.py', config_key='lib_path')
-    files = files.filter(lambda x: str(x.relative_to(Config().path("lib_path"))) in exported)
+    files = files.filter(lambda x: str(x.relative_to(get_config().path("lib_path"))) in exported)
     files.map(partial(_script2notebook, dic=dic, silent=silent))
 
 # Cell
@@ -140,7 +140,7 @@ from distutils.dir_util import copy_tree
 @call_parse
 def nbdev_diff_nbs():
     "Prints the diff between an export of the library in notebooks and the actual modules"
-    cfg = Config()
+    cfg = get_config()
     lib_folder = cfg.path("lib_path")
     with tempfile.TemporaryDirectory() as d1, tempfile.TemporaryDirectory() as d2:
         copy_tree(cfg.path("lib_path"), d1)
@@ -158,7 +158,7 @@ def nbdev_diff_nbs():
 def nbdev_trust_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                     force_all:Param("Trust even notebooks that haven't changed", bool)=False):
     "Trust notebooks matching `fname`"
-    check_fname = Config().path("nbs_path")/".last_checked"
+    check_fname = get_config().path("nbs_path")/".last_checked"
     last_checked = os.path.getmtime(check_fname) if check_fname.exists() else None
     files = nbglob(fname)
     for fn in files:

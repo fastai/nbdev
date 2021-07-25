@@ -117,7 +117,7 @@ def _to_html(text):
 # Cell
 def add_jekyll_notes(cell):
     "Convert block quotes to jekyll notes in `cell`"
-    styles = Config().get('jekyll_styles', 'note,warning,tip,important').split(',')
+    styles = get_config().get('jekyll_styles', 'note,warning,tip,important').split(',')
     def _inner(m):
         title,text = m.groups()
         if title.lower() not in styles: return f"> {title}:{text}"
@@ -168,7 +168,7 @@ def copy_images(cell, fname, dest, jekyll=True):
         if _is_real_image(src):
             os.makedirs((Path(dest)/src).parent, exist_ok=True)
             shutil.copy(Path(fname).parent/src, Path(dest)/src)
-            src = Config().doc_baseurl + src
+            src = get_config().doc_baseurl + src
         if grps[3] is not None:
             dic['src'] = src
             return _img2jkl(dic, h, jekyll=jekyll)
@@ -388,7 +388,7 @@ def _import_show_doc_cell(mods=None):
     "Add an import show_doc cell."
     source = f"from nbdev.showdoc import show_doc"
     if mods is not None:
-        for mod in mods: source += f"\nfrom {Config().lib_name}.{mod} import *"
+        for mod in mods: source += f"\nfrom {get_config().lib_name}.{mod} import *"
     return {'cell_type': 'code',
             'execution_count': None,
             'metadata': {'hide_input': True},
@@ -447,7 +447,7 @@ def write_tmpl(tmpl, nms, cfg, dest):
 # Cell
 def write_tmpls():
     "Write out _config.yml and _data/topnav.yml using templates"
-    cfg = Config()
+    cfg = get_config()
     path = Path(cfg.get('doc_src_path', cfg.path("doc_path")))
     write_tmpl(config_tmpl, 'user lib_name title copyright description recursive', cfg, path/'_config.yml')
     write_tmpl(topnav_tmpl, 'host git_url', cfg, path/'_data'/'topnav.yml')
@@ -463,7 +463,7 @@ def nbdev_build_lib(fname:Param("A notebook name or glob to convert", str)=None,
 
 # Cell
 def nbdev_exporter(cls=HTMLExporter, template_file=None):
-    cfg = traitlets.config.Config()
+    cfg = traitlets.config.get_config()
     exporter = cls(cfg)
     exporter.exclude_input_prompt=True
     exporter.exclude_output_prompt=True
@@ -478,7 +478,7 @@ process_cell  = [hide_cells, collapse_cells, remove_widget_state, add_jekyll_not
 
 # Cell
 def _nb2htmlfname(nb_path, dest=None):
-    if dest is None: dest = Config().path("doc_path")
+    if dest is None: dest = get_config().path("doc_path")
     return Path(dest)/re_digits_first.sub('', nb_path.with_suffix('.html').name)
 
 # Cell
@@ -487,11 +487,11 @@ def convert_nb(fname, cls=HTMLExporter, template_file=None, exporter=None, dest=
     fname = Path(fname).absolute()
     nb = read_nb(fname)
     meta_jekyll = get_metadata(nb['cells'])
-    meta_jekyll['nb_path'] = str(fname.relative_to(Config().path("lib_path").parent))
+    meta_jekyll['nb_path'] = str(fname.relative_to(get_config().path("lib_path").parent))
     cls_lvl = find_default_level(nb['cells'])
     mod = find_default_export(nb['cells'])
     nb['cells'] = compose(*process_cells,partial(add_show_docs, cls_lvl=cls_lvl))(nb['cells'])
-    _func = compose(partial(copy_images, fname=fname, dest=Config().path("doc_path")), *process_cell, treat_backticks)
+    _func = compose(partial(copy_images, fname=fname, dest=get_config().path("doc_path")), *process_cell, treat_backticks)
     nb['cells'] = [_func(c) for c in nb['cells']]
     if execute: nb = execute_nb(nb, mod=mod)
     nb['cells'] = [clean_exports(c) for c in nb['cells']]
@@ -542,7 +542,7 @@ def convert_md(fname, dest_path, img_path='docs/images/', jekyll=True):
     Path(img_path).mkdir(exist_ok=True, parents=True)
     nb = read_nb(fname)
     meta_jekyll = get_metadata(nb['cells'])
-    try: meta_jekyll['nb_path'] = str(fname.relative_to(Config().path("lib_path").parent))
+    try: meta_jekyll['nb_path'] = str(fname.relative_to(get_config().path("lib_path").parent))
     except: meta_jekyll['nb_path'] = str(fname)
     nb['cells'] = compose(*process_cells)(nb['cells'])
     nb['cells'] = [compose(partial(adapt_img_path, fname=fname, dest=dest_path, jekyll=jekyll), *process_cell)(c)
@@ -619,17 +619,17 @@ _re_index = re.compile(r'^(?:\d*_|)index\.ipynb$')
 def make_readme():
     "Convert the index notebook to README.md"
     index_fn = None
-    for f in Config().path("nbs_path").glob('*.ipynb'):
+    for f in get_config().path("nbs_path").glob('*.ipynb'):
         if _re_index.match(f.name): index_fn = f
     assert index_fn is not None, "Could not locate index notebook"
     print(f"converting {index_fn} to README.md")
-    convert_md(index_fn, Config().config_file.parent, jekyll=False)
-    n = Config().config_file.parent/index_fn.with_suffix('.md').name
-    shutil.move(n, Config().config_file.parent/'README.md')
-    if Path(Config().config_file.parent/'PRE_README.md').is_file():
-        with open(Config().config_file.parent/'README.md', 'r') as f: readme = f.read()
-        with open(Config().config_file.parent/'PRE_README.md', 'r') as f: pre_readme = f.read()
-        with open(Config().config_file.parent/'README.md', 'w') as f: f.write(f'{pre_readme}\n{readme}')
+    convert_md(index_fn, get_config().config_file.parent, jekyll=False)
+    n = get_config().config_file.parent/index_fn.with_suffix('.md').name
+    shutil.move(n, get_config().config_file.parent/'README.md')
+    if Path(get_config().config_file.parent/'PRE_README.md').is_file():
+        with open(get_config().config_file.parent/'README.md', 'r') as f: readme = f.read()
+        with open(get_config().config_file.parent/'PRE_README.md', 'r') as f: pre_readme = f.read()
+        with open(get_config().config_file.parent/'README.md', 'w') as f: f.write(f'{pre_readme}\n{readme}')
 
 # Cell
 @call_parse
@@ -691,19 +691,19 @@ def _create_default_sidebar():
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if f.stem!='index']
     if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
-    dic.update({_get_title(f):f.name if Config().host=='github' else f.with_suffix('').name for f in fnames if f.stem!='index'})
+    dic.update({_get_title(f):f.name if get_config().host=='github' else f.with_suffix('').name for f in fnames if f.stem!='index'})
     return dic
 
 # Cell
 def create_default_sidebar():
     "Create the default sidebar for the docs website"
-    dic = {Config().lib_name: _create_default_sidebar()}
-    json.dump(dic, open(Config().path("doc_path")/'sidebar.json', 'w'), indent=2)
+    dic = {get_config().lib_name: _create_default_sidebar()}
+    json.dump(dic, open(get_config().path("doc_path")/'sidebar.json', 'w'), indent=2)
 
 # Cell
 def make_sidebar():
     "Making sidebar for the doc website form the content of `doc_folder/sidebar.json`"
-    cfg = Config()
+    cfg = get_config()
     if not (cfg.path("doc_path")/'sidebar.json').exists() or cfg.get('custom_sidebar', 'False') == 'False':
         create_default_sidebar()
     sidebar_d = json.load(open(cfg.path("doc_path")/'sidebar.json', 'r'))

@@ -21,9 +21,9 @@ class _ReTstFlags():
         self.all_flag = all_flag
 
     def _deferred_init(self):
-        "Compile at first use but not before since patterns need `Config().tst_flags`"
+        "Compile at first use but not before since patterns need `get_config().tst_flags`"
         if hasattr(self, '_re'): return
-        tst_flags = Config().get('tst_flags', '')
+        tst_flags = get_config().get('tst_flags', '')
         tst_flags += f'|skip' if tst_flags else 'skip'
         _re_all = 'all_' if self.all_flag else ''
         self._re = _mk_flag_re(f"{_re_all}({tst_flags})", 0, "Any line with a test flag")
@@ -53,7 +53,7 @@ _re_flags = _ReTstFlags(False)
 # Cell
 def get_cell_flags(cell):
     "Check for any special test flag in `cell`"
-    if cell['cell_type'] != 'code' or len(Config().get('tst_flags',''))==0: return []
+    if cell['cell_type'] != 'code' or len(get_config().get('tst_flags',''))==0: return []
     return _re_flags.findall(cell['source'])
 
 # Cell
@@ -111,7 +111,7 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
     assert len(files) > 0, "No files to test found."
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
     # make sure we are inside the notebook folder of the project
-    os.chdir(Config().path("nbs_path"))
+    os.chdir(get_config().path("nbs_path"))
     results = parallel(_test_one, files, flags=flags, verbose=verbose, n_workers=n_workers, pause=pause)
     passed,times = [r[0] for r in results],[r[1] for r in results]
     if all(passed): print("All tests are passing!")

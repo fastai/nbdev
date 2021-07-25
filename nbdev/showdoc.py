@@ -25,7 +25,7 @@ def is_lib_module(name):
     "Test if `name` is a library module."
     if name.startswith('_'): return False
     try:
-        _ = importlib.import_module(f'{Config().lib_name}.{name}')
+        _ = importlib.import_module(f'{get_config().lib_name}.{name}')
         return True
     except: return False
 
@@ -47,7 +47,7 @@ def try_external_doc_link(name, packages):
 # Cell
 def is_doc_name(name):
     "Test if `name` corresponds to a notebook that could be converted to a doc page"
-    for f in Config().path("nbs_path").glob(f'*{name}.ipynb'):
+    for f in get_config().path("nbs_path").glob(f'*{name}.ipynb'):
         if re_digits_first.sub('', f.name) == f'{name}.ipynb': return True
     return False
 
@@ -57,12 +57,12 @@ def doc_link(name, include_bt=True):
     cname = f'`{name}`' if include_bt else name
     try:
         #Link to modules
-        if is_lib_module(name) and is_doc_name(name): return f"[{cname}]({Config().doc_baseurl}{name}.html)"
+        if is_lib_module(name) and is_doc_name(name): return f"[{cname}]({get_config().doc_baseurl}{name}.html)"
         #Link to local functions
         try_local = source_nb(name, is_name=True)
         if try_local:
             page = re_digits_first.sub('', try_local).replace('.ipynb', '')
-            return f'[{cname}]({Config().doc_baseurl}{page}.html#{name})'
+            return f'[{cname}]({get_config().doc_baseurl}{page}.html#{name})'
         ##Custom links
         mod = get_nbdev_module()
         link = mod.custom_doc_links(name)
@@ -136,7 +136,7 @@ $     # End of text
 # Cell
 def colab_link(path):
     "Get a link to the notebook at `path` on Colab"
-    cfg = Config()
+    cfg = get_config()
     res = f'https://colab.research.google.com/github/{cfg.user}/{cfg.lib_name}/blob/{cfg.branch}/{cfg.path("nbs_path").name}/{path}.ipynb'
     display(Markdown(f'[Open `{path}` in Colab]({res})'))
 
@@ -144,7 +144,7 @@ def colab_link(path):
 def get_nb_source_link(func, local=False, is_name=None):
     "Return a link to the notebook where `func` is defined."
     func = _unwrapped_type_dispatch_func(func)
-    pref = '' if local else Config().git_url.replace('github.com', 'nbviewer.jupyter.org/github')+ Config().path("nbs_path").name+'/'
+    pref = '' if local else get_config().git_url.replace('github.com', 'nbviewer.jupyter.org/github')+ get_config().path("nbs_path").name+'/'
     is_name = is_name or isinstance(func, str)
     src = source_nb(func, is_name=is_name, return_all=True)
     if src is None: return '' if is_name else get_source_link(func)
@@ -261,7 +261,7 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
     if doc_string and inspect.getdoc(elt):
         s = inspect.getdoc(elt)
         # show_doc is used by doc so should not rely on Config
-        try: monospace = (Config().get('monospace_docstrings') == 'True')
+        try: monospace = (get_config().get('monospace_docstrings') == 'True')
         except: monospace = False
         # doc links don't work inside markdown pre/code blocks
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)

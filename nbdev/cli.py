@@ -26,9 +26,9 @@ def bump_version(version, part=2):
 @call_parse
 def nbdev_bump_version(part:Param("Part of version to bump", int)=2):
     "Increment version in `settings.py` by one"
-    cfg = Config()
+    cfg = get_config()
     print(f'Old version: {cfg.version}')
-    cfg.d['version'] = bump_version(Config().version, part)
+    cfg.d['version'] = bump_version(get_config().version, part)
     cfg.save()
     update_version()
     print(f'New version: {cfg.version}')
@@ -37,7 +37,7 @@ def nbdev_bump_version(part:Param("Part of version to bump", int)=2):
 @call_parse
 def nbdev_install_git_hooks():
     "Install git hooks to clean/trust notebooks automatically"
-    try: path = Config().config_file.parent
+    try: path = get_config().config_file.parent
     except: path = Path.cwd()
     hook_path = path/'.git'/'hooks'
     fn = hook_path/'post-merge'
@@ -67,7 +67,7 @@ def nbdev_install_git_hooks():
     print(f"Executing: {cmd}")
     run(cmd)
     print("Success: hooks are installed and repo's .gitconfig is now trusted")
-    try: nb_path = Config().path("nbs_path")
+    try: nb_path = get_config().path("nbs_path")
     except: nb_path = Path.cwd()
     (nb_path/'.gitattributes').write_text("**/*.ipynb filter=clean-nbs\n**/*.ipynb diff=ipynb\n")
 
