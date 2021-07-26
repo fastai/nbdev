@@ -21,7 +21,7 @@ test:
 
 release: pypi
 	fastrelease_conda_package --mambabuild --upload_user fastai
-	nbdev_bump_version
+	fastrelease_bump_version
 
 conda_release:
 	fastrelease_conda_package --mambabuild --upload_user fastai
