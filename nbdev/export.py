@@ -405,12 +405,19 @@ def update_baseurl():
 
 # Cell
 def nbglob(fname=None, recursive=None, extension='.ipynb', config_key='nbs_path') -> L:
-    "Find all files in a directory matching an extension given a `config_key`. Ignores hidden directories and filenames starting with `_`.  If argument `recursive` is not set to `True` or `False`, this value is retreived from settings.ini with a default of `False`."
+    "Find all files in a directory matching an extension given a `config_key`."
     if recursive == None: recursive=get_config().get('recursive', 'False').lower() == 'true'
-    fname = get_config().path(config_key) if fname is None else Path(fname)
-    if fname.is_dir(): fname = f'{fname.absolute()}/**/*{extension}' if recursive else f'{fname.absolute()}/*{extension}'
-    fls = L(glob.glob(str(fname), recursive=recursive)).filter(lambda x: '/.' not in x).map(Path)
-    return fls.filter(lambda x: not x.name.startswith('_') and x.name.endswith(extension))
+    pat = None
+    if fname:
+        fname,_,pat = str(fname).partition('*')
+        fname = Path(fname)
+    else: fname = get_config().path(config_key)
+    if fname.is_file(): return [fname]
+    if pat: pat = '*' + pat
+    else: pat = f'**/*{extension}' if recursive else f'*{extension}'
+    fls = L(Path(fname).glob(pat)).map(Path)
+    # filter(lambda x: '/.' not in x).
+    return fls.filter(lambda x: '/_' not in str(x) and '/.' not in str(x))
 
 # Cell
 def notebook2script(fname=None, silent=False, to_dict=False, bare=False):
