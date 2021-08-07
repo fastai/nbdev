@@ -417,7 +417,7 @@ def nbglob(fname=None, recursive=None, extension='.ipynb', config_key='nbs_path'
     else: pat = f'**/*{extension}' if recursive else f'*{extension}'
     fls = L(Path(fname).glob(pat)).map(Path)
     # filter(lambda x: '/.' not in x).
-    return fls.filter(lambda x: '/_' not in str(x) and '/.' not in str(x))
+    return fls.filter(lambda x: x.name[0]!='_' and '/.' not in str(x))
 
 # Cell
 def notebook2script(fname=None, silent=False, to_dict=False, bare=False):

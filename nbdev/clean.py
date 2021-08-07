@@ -5,7 +5,7 @@ __all__ = ['rm_execution_count', 'clean_output_data_vnd', 'colab_json', 'clean_c
 
 # Cell
 import io,sys,json,glob,re
-from fastcore.script import call_parse,Param
+from fastcore.script import call_parse,Param,bool_arg
 from fastcore.utils import ifnone
 from .imports import Config
 from .export import nbglob
@@ -67,8 +67,8 @@ def _print_output(nb):
 # Cell
 @call_parse
 def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
-                    clear_all:Param("Clean all metadata and outputs", bool)=False,
-                    disp:Param("Print the cleaned outputs", bool)=False,
+                    clear_all:Param("Clean all metadata and outputs", bool_arg)=False,
+                    disp:Param("Print the cleaned outputs", bool_arg)=False,
                     read_input_stream:Param("Read input stram and not nb folder")=False):
     "Clean all notebooks in `fname` to avoid merge conflicts"
     #Git hooks will pass the notebooks in the stdin
