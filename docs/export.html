@@ -87,9 +87,9 @@ nb_path: "nbs/00_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="Config" class="doc_header"><code>Config</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/foundation.py#L248" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>Config</code>(<strong><code>cfg_path</code></strong>, <strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>)</p>
+<h3 id="Config" class="doc_header"><code>class</code> <code>Config</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/foundation.py#L249" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>Config</code>(<strong><code>cfg_path</code></strong>, <strong><code>cfg_name</code></strong>, <strong><code>create</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Reading and writing <code>settings.ini</code></p>
+<p>Reading and writing <code>ConfigParser</code> ini files</p>
 
 </div>
 
@@ -112,9 +112,9 @@ nb_path: "nbs/00_export.ipynb"
 <span class="n">cfg</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="n">cfg_name</span><span class="o">=</span><span class="s1">&#39;test_settings.ini&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">lib_name</span><span class="p">,</span> <span class="s1">&#39;nbdev&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">git_url</span><span class="p">,</span> <span class="s2">&quot;https://github.com/fastai/nbdev/tree/master/&quot;</span><span class="p">)</span>
-<span class="c1"># test_eq(cfg.path(&quot;lib_path&quot;), Path.cwd().parent/&#39;nbdev&#39;)</span>
-<span class="c1"># test_eq(cfg.path(&quot;nbs_path&quot;), Path.cwd())</span>
-<span class="c1"># test_eq(cfg.path(&quot;doc_path&quot;), Path.cwd().parent/&#39;docs&#39;)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="s2">&quot;lib_path&quot;</span><span class="p">),</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">&#39;nbdev&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="s2">&quot;nbs_path&quot;</span><span class="p">),</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="s2">&quot;doc_path&quot;</span><span class="p">),</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">&#39;docs&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">custom_sidebar</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">recursive</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">)</span>
 </pre></div>
@@ -358,7 +358,7 @@ nb_path: "nbs/00_export.ipynb"
 
 <div class="output_text output_subarea output_execute_result">
 <pre>{&#39;cell_type&#39;: &#39;code&#39;,
- &#39;execution_count&#39;: None,
+ &#39;execution_count&#39;: 1,
  &#39;metadata&#39;: {&#39;hide_input&#39;: False},
  &#39;outputs&#39;: [],
  &#39;source&#39;: &#39;#hide\n#default_exp export\n#default_cls_lvl 3\nfrom nbdev.showdoc import show_doc&#39;}</pre>
@@ -1479,7 +1479,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="nbglob" class="doc_header"><code>nbglob</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L407" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbglob</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>recursive</code></strong>=<em><code>None</code></em>, <strong><code>extension</code></strong>=<em><code>'.ipynb'</code></em>, <strong><code>config_key</code></strong>=<em><code>'nbs_path'</code></em>)</p>
 </blockquote>
-<p>Find all files in a directory matching an extension given a <code>config_key</code>. Ignores hidden directories and filenames starting with <code>_</code>.  If argument <code>recursive</code> is not set to <code>True</code> or <code>False</code>, this value is retreived from settings.ini with a default of <code>False</code>.</p>
+<p>Find all files in a directory matching an extension given a <code>config_key</code>.</p>
 
 </div>
 
@@ -1498,6 +1498,13 @@ depending on where we are. This function deals with those imports renaming.</p>
 </div>
     {% endraw %}
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ignores hidden directories and filenames starting with <code>_</code>. If argument <code>recursive</code> is not set to <code>True</code> or <code>False</code>, this value is retreived from settings.ini with a default of <code>False</code>.</p>
+
+</div>
+</div>
+</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -1534,7 +1541,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L416" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>, <strong><code>bare</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L419" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>, <strong><code>bare</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert notebooks matching <code>fname</code> to modules</p>
 
@@ -1574,7 +1581,7 @@ depending on where we are. This function deals with those imports renaming.</p>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L432" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>DocsTestClass</code>()</p>
+<h3 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L435" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>DocsTestClass</code>()</p>
 </blockquote>
 <p>for tests only</p>
 
