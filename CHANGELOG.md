@@ -2,6 +2,11 @@
 
 <!-- do not remove -->
 
+## 1.1.20
+
+### New Features
+
+- skip symlinks in recursive glob ([#515](https://github.com/fastai/nbdev/issues/515))
 
 
 ## 1.1.15
