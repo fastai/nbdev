@@ -407,16 +407,12 @@ def update_baseurl():
 def nbglob(fname=None, recursive=None, extension='.ipynb', config_key='nbs_path') -> L:
     "Find all files in a directory matching an extension given a `config_key`."
     if recursive == None: recursive=get_config().get('recursive', 'False').lower() == 'true'
-    pat = None
-    if fname:
-        fname,_,pat = str(fname).partition('*')
-        fname = Path(fname)
-    else: fname = get_config().path(config_key)
+    fname = Path(fname or get_config().path(config_key))
     if fname.is_file(): return [fname]
-    if pat: pat = '*' + pat
-    else: pat = f'**/*{extension}' if recursive else f'*{extension}'
+    if fname.is_dir(): pat = f'**/*{extension}' if recursive else f'*{extension}'
+    else: fname,_,pat = str(fname).rpartition(os.path.sep)
+    if str(fname).endswith('**'): fname,pat = fname[:-2],'**/'+pat
     fls = L(Path(fname).glob(pat)).map(Path)
-    # filter(lambda x: '/.' not in x).
     return fls.filter(lambda x: x.name[0]!='_' and '/.' not in str(x))
 
 # Cell
