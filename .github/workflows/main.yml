@@ -7,13 +7,10 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-python@v1
       with:
-        python-version: '3.6'
-        architecture: 'x64'
+        python-version: '3.8'
     - name: Install the library
-      run: |
-        pip install nbdev jupyter
-        pip install -e .
+      run: pip install -e .
     - name: Read all notebooks
       run: nbdev_read_nbs
     - name: Run tests
-      run: nbdev_test_nbs
+      run: make test

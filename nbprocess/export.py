@@ -3,8 +3,7 @@
 # %% auto 0
 __all__ = ['extract_comments', 'NotebookProcessor', 'ExportModuleProcessor']
 
-# %% ../nbs/02_export.ipynb 2
-#export
+# %% ../nbs/02_export.ipynb 3
 from .read import *
 from .maker import *
 
@@ -16,22 +15,19 @@ from collections import defaultdict
 from pprint import pformat
 import ast,contextlib
 
-# %% ../nbs/02_export.ipynb 7
-#export
+# %% ../nbs/02_export.ipynb 8
 def extract_comments(ss):
     "Take leading comments from lines of code in `ss`, remove `#`, and split"
     ss = ss.splitlines()
     first_code = first(i for i,o in enumerate(ss) if not o.strip() or re.match('\s*[^#\s]', o))
     return L((s.strip()[1:]).strip().split() for s in ss[:first_code]).filter()
 
-# %% ../nbs/02_export.ipynb 10
-#export
+# %% ../nbs/02_export.ipynb 11
 class NotebookProcessor:
     "Base class for nbprocess notebook processors"
     def __init__(self, path, debug=False): self.nb,self.path,self.debug = read_nb(path),Path(path),debug
 
-# %% ../nbs/02_export.ipynb 16
-#export
+# %% ../nbs/02_export.ipynb 17
 @patch
 def process_comment(self:NotebookProcessor, comment, cell):
     cmd,*args = comment
@@ -41,8 +37,7 @@ def process_comment(self:NotebookProcessor, comment, cell):
     try: getattr(self,cmd)(comment,cell, *args)
     except TypeError: pass
 
-# %% ../nbs/02_export.ipynb 19
-#export
+# %% ../nbs/02_export.ipynb 20
 @patch
 def process_cell(self:NotebookProcessor, cell):
     comments = extract_comments(cell.source)
@@ -53,15 +48,13 @@ def process_cell(self:NotebookProcessor, cell):
 @patch
 def no_cmd(self:NotebookProcessor, cell): return cell
 
-# %% ../nbs/02_export.ipynb 22
-#export
+# %% ../nbs/02_export.ipynb 23
 @patch
 def process(self:NotebookProcessor):
     "Process all cells with `process_cell` and replace `self.nb.cells` with result"
     for i in range_of(self.nb.cells): self.nb.cells[i] = self.process_cell(self.nb.cells[i])
 
-# %% ../nbs/02_export.ipynb 27
-#export
+# %% ../nbs/02_export.ipynb 28
 class ExportModuleProcessor(NotebookProcessor):
     "A `NotebookProcessor` which exports code to a module"
     def __init__(self, path, dest, mod_maker=ModuleMaker, debug=False):
@@ -73,13 +66,11 @@ class ExportModuleProcessor(NotebookProcessor):
         self.modules,self.in_all = defaultdict(L),defaultdict(L)
         super().process()
 
-# %% ../nbs/02_export.ipynb 30
-#export
+# %% ../nbs/02_export.ipynb 31
 @patch
 def default_exp_code(self:ExportModuleProcessor, comment, cell, exp_to): self.default_exp = exp_to
 
-# %% ../nbs/02_export.ipynb 33
-#export
+# %% ../nbs/02_export.ipynb 34
 @patch
 def exporti_code(self:ExportModuleProcessor, comment, cell, exp_to=None):
     "Export a cell, without including the definition in `__all__`"
@@ -87,16 +78,14 @@ def exporti_code(self:ExportModuleProcessor, comment, cell, exp_to=None):
     self.modules[mod].append(cell)
     return mod
 
-# %% ../nbs/02_export.ipynb 36
-#export
+# %% ../nbs/02_export.ipynb 37
 @patch
 def export_code(self:ExportModuleProcessor, comment, cell, exp_to=None):
     "Export a cell, adding the definition in `__all__`"
     mod = self.exporti_code(comment, cell, exp_to=exp_to)
     self.in_all[mod].append(cell)
 
-# %% ../nbs/02_export.ipynb 38
-#export
+# %% ../nbs/02_export.ipynb 39
 @patch
 def create_modules(self:ExportModuleProcessor):
     "Create module(s) from notebook"
