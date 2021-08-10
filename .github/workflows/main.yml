@@ -10,8 +10,8 @@ jobs:
         python-version: '3.8'
     - name: Install the library
       run: |
-        pip install nbdev jupyter nbclient
-        pip install -e .
+        pip install nbdev
+        pip install -e .[dev]
     - name: Read all notebooks
       run: nbdev_read_nbs
     - name: Run tests
