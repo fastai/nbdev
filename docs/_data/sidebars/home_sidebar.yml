@@ -10,7 +10,7 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: nbdev.read
+      title: nbprocess.read
       url: read.html
     - output: web,pdf
       title: nbprocess.export

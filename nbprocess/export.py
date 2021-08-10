@@ -23,7 +23,7 @@ def extract_comments(ss):
 
 # Cell
 class NotebookProcessor:
-    "Base class for nbdev notebook processors"
+    "Base class for nbprocess notebook processors"
     def __init__(self, path, debug=False): self.nb,self.path,self.debug = read_nb(path),Path(path),debug
 
 # Cell

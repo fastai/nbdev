@@ -57,7 +57,7 @@ nb_path: "nbs/01_export.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Special comments at the start of a cell can be used to provide information to <code>nbdev</code> about how to process a cell, so we need to be able to find the location of these comments.</p>
+<p>Special comments at the start of a cell can be used to provide information to <code>nbprocess</code> about how to process a cell, so we need to be able to find the location of these comments.</p>
 
 </div>
 </div>
@@ -113,7 +113,7 @@ nb_path: "nbs/01_export.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>nbdev comments start with <code>#</code>, followed by whitespace delimited tokens, which <a href="/nbprocess/export.html#extract_comments"><code>extract_comments</code></a> extracts from the start of a cell, up until a blank line or a line containing something other than comments:</p>
+<p>nbprocess comments start with <code>#</code>, followed by whitespace delimited tokens, which <a href="/nbprocess/export.html#extract_comments"><code>extract_comments</code></a> extracts from the start of a cell, up until a blank line or a line containing something other than comments:</p>
 
 </div>
 </div>
@@ -149,7 +149,7 @@ nb_path: "nbs/01_export.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h2 id="NotebookProcessor" class="doc_header"><code>class</code> <code>NotebookProcessor</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L25" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NotebookProcessor</code>(<strong><code>path</code></strong>, <strong><code>debug</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Base class for nbdev notebook processors</p>
+<p>Base class for nbprocess notebook processors</p>
 
 </div>
 
@@ -170,7 +170,7 @@ nb_path: "nbs/01_export.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Subclass <a href="/nbprocess/export.html#NotebookProcessor"><code>NotebookProcessor</code></a> to add methods to act on nbdev comments. The method names are of the form <code>cmd_type</code>, where "<code>cmd</code>" is the first word of the nbdev comment, and <code>type</code> is the <code>cell_type</code> of the cell (normally "<code>code</code>). The methods must take at least <code>comment</code> and <code>code</code> as params, plus extra params for any additional words included in a comment. Here's an example that prints any word following a "print me" comment:</p>
+<p>Subclass <a href="/nbprocess/export.html#NotebookProcessor"><code>NotebookProcessor</code></a> to add methods to act on nbprocess comments. The method names are of the form <code>cmd_type</code>, where "<code>cmd</code>" is the first word of the nbprocess comment, and <code>type</code> is the <code>cell_type</code> of the cell (normally "<code>code</code>). The methods must take at least <code>comment</code> and <code>code</code> as params, plus extra params for any additional words included in a comment. Here's an example that prints any word following a "print me" comment:</p>
 
 </div>
 </div>
@@ -220,7 +220,7 @@ nb_path: "nbs/01_export.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The basic functionality of a notebook processor is to read and act on nbdev comments.</p>
+<p>The basic functionality of a notebook processor is to read and act on nbprocess comments.</p>
 
 </div>
 </div>
@@ -690,7 +690,7 @@ nb_path: "nbs/01_export.ipynb"
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>Path(&#39;/home/jhoward/git/nbdev/nbdev&#39;)</pre>
+<pre>Path(&#39;/home/jhoward/git/nbprocess/nbprocess&#39;)</pre>
 </div>
 
 </div>
@@ -885,8 +885,8 @@ nb_path: "nbs/01_export.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">relative_import</span><span class="p">(</span><span class="s1">&#39;nbdev.core&#39;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">),</span> <span class="s1">&#39;nbdev.core&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">relative_import</span><span class="p">(</span><span class="s1">&#39;nbdev.core&#39;</span><span class="p">,</span> <span class="s1">&#39;nbdev&#39;</span><span class="p">),</span> <span class="s1">&#39;.core&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">relative_import</span><span class="p">(</span><span class="s1">&#39;nbprocess.core&#39;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">),</span> <span class="s1">&#39;nbprocess.core&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">relative_import</span><span class="p">(</span><span class="s1">&#39;nbprocess.core&#39;</span><span class="p">,</span> <span class="s1">&#39;nbprocess&#39;</span><span class="p">),</span> <span class="s1">&#39;.core&#39;</span><span class="p">)</span>
 <span class="n">_p</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;fastai&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">relative_import</span><span class="p">(</span><span class="s1">&#39;fastai.core&#39;</span><span class="p">,</span> <span class="n">_p</span><span class="o">/</span><span class="s1">&#39;vision&#39;</span><span class="p">),</span> <span class="s1">&#39;..core&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">relative_import</span><span class="p">(</span><span class="s1">&#39;fastai.core&#39;</span><span class="p">,</span> <span class="n">_p</span><span class="o">/</span><span class="s1">&#39;vision/transform&#39;</span><span class="p">),</span> <span class="s1">&#39;...core&#39;</span><span class="p">)</span>
@@ -941,12 +941,12 @@ nb_path: "nbs/01_export.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">,</span> <span class="s1">&#39;nbdev&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;xyz&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;nbdev&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;nbdev&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;core&#39;</span><span class="p">,</span> <span class="s1">&#39;nbdev&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;nbdev.core&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;core&#39;</span><span class="p">,</span> <span class="s1">&#39;nbdev/vision&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;nbdev.core&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">,</span> <span class="s1">&#39;nbdev/vision&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;nbdev.vision.transform&#39;</span><span class="p">)</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;notebook.core&#39;</span><span class="p">,</span> <span class="s1">&#39;nbdev/data&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;nbdev.notebook.core&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;xyz&#39;</span><span class="p">,</span> <span class="s1">&#39;nbprocess&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;xyz&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;nbprocess&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;nbprocess&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;core&#39;</span><span class="p">,</span> <span class="s1">&#39;nbprocess&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;nbprocess.core&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;core&#39;</span><span class="p">,</span> <span class="s1">&#39;nbprocess/vision&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;nbprocess.core&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;transform&#39;</span><span class="p">,</span> <span class="s1">&#39;nbprocess/vision&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;nbprocess.vision.transform&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">absolute_import</span><span class="p">(</span><span class="s1">&#39;notebook.core&#39;</span><span class="p">,</span> <span class="s1">&#39;nbprocess/data&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;nbprocess.notebook.core&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1018,13 +1018,13 @@ nb_path: "nbs/01_export.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ss</span> <span class="o">=</span> <span class="s2">&quot;from nbdev.export import *</span><span class="se">\n</span><span class="s2">from nbdev.a.b import *&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ss</span> <span class="o">=</span> <span class="s2">&quot;from nbprocess.export import *</span><span class="se">\n</span><span class="s2">from nbprocess.a.b import *&quot;</span>
 <span class="n">cell</span> <span class="o">=</span> <span class="n">_make_code_cells</span><span class="p">([</span><span class="n">ss</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">cell</span><span class="o">.</span><span class="n">import2relative</span><span class="p">(</span><span class="s1">&#39;nbdev&#39;</span><span class="p">)</span>
+<span class="n">cell</span><span class="o">.</span><span class="n">import2relative</span><span class="p">(</span><span class="s1">&#39;nbprocess&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="s1">&#39;from .export import *</span><span class="se">\n</span><span class="s1">from .a.b import *&#39;</span><span class="p">)</span>
 
 <span class="n">cell</span> <span class="o">=</span> <span class="n">_make_code_cells</span><span class="p">([</span><span class="n">ss</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">cell</span><span class="o">.</span><span class="n">import2relative</span><span class="p">(</span><span class="s1">&#39;nbdev/a&#39;</span><span class="p">)</span>
+<span class="n">cell</span><span class="o">.</span><span class="n">import2relative</span><span class="p">(</span><span class="s1">&#39;nbprocess/a&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">source</span><span class="p">,</span> <span class="s1">&#39;from ..export import *</span><span class="se">\n</span><span class="s1">from .b import *&#39;</span><span class="p">)</span>
 </pre></div>
 
@@ -1502,10 +1502,10 @@ nb_path: "nbs/01_export.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">path</span><span class="o">/</span><span class="s1">&#39;export.py&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">missing_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">ExportModuleProcessor</span><span class="p">(</span><span class="s1">&#39;01_export.ipynb&#39;</span><span class="p">,</span> <span class="s1">&#39;nbdev&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">create_modules</span><span class="p">()</span>
-<span class="kn">import</span> <span class="nn">nbdev.export</span>
-<span class="n">reload</span><span class="p">(</span><span class="n">nbdev</span><span class="o">.</span><span class="n">export</span><span class="p">)</span>
-<span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">nbdev</span><span class="o">.</span><span class="n">export</span><span class="p">,</span> <span class="s1">&#39;ModuleMaker&#39;</span><span class="p">)</span>
+<span class="n">ExportModuleProcessor</span><span class="p">(</span><span class="s1">&#39;01_export.ipynb&#39;</span><span class="p">,</span> <span class="s1">&#39;nbprocess&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">create_modules</span><span class="p">()</span>
+<span class="kn">import</span> <span class="nn">nbprocess.export</span>
+<span class="n">reload</span><span class="p">(</span><span class="n">nbprocess</span><span class="o">.</span><span class="n">export</span><span class="p">)</span>
+<span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">nbprocess</span><span class="o">.</span><span class="n">export</span><span class="p">,</span> <span class="s1">&#39;ModuleMaker&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>

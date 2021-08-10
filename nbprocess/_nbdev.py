@@ -5,7 +5,7 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 index = {"NbCell": "00_read.ipynb",
          "dict2nb": "00_read.ipynb",
          "read_nb": "00_read.ipynb",
-         "nbdev_create_config": "00_read.ipynb",
+         "nbprocess_create_config": "00_read.ipynb",
          "get_config": "00_read.ipynb",
          "add_init": "00_read.ipynb",
          "export_cells": "00_read.ipynb",
