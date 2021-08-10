@@ -19,7 +19,7 @@ docs: $(SRC)
 	touch docs
 
 test:
-	nbdev_test_nbs --n_workers 0
+	nbdev_test_nbs
 
 release: pypi conda_release
 	nbdev_bump_version
