@@ -2,6 +2,7 @@
   "nbprocess": {
     "Overview": "/",
     "nbprocess.read": "read.html",
+    "nbprocess.maker": "maker.html",
     "nbprocess.export": "export.html"
   }
 }

@@ -13,6 +13,9 @@ entries:
       title: nbprocess.read
       url: read.html
     - output: web,pdf
+      title: nbprocess.maker
+      url: maker.html
+    - output: web,pdf
       title: nbprocess.export
       url: export.html
     output: web
