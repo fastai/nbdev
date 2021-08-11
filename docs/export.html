@@ -91,7 +91,7 @@ nb_path: "nbs/02_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="extract_comments" class="doc_header"><code>extract_comments</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_comments</code>(<strong><code>ss</code></strong>)</p>
+<h4 id="extract_comments" class="doc_header"><code>extract_comments</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L18" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_comments</code>(<strong><code>ss</code></strong>)</p>
 </blockquote>
 <p>Take leading comments from lines of code in <code>ss</code>, remove <code>#</code>, and split</p>
 
@@ -114,7 +114,7 @@ nb_path: "nbs/02_export.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>nbprocess comments start with <code>#</code>, followed by whitespace delimited tokens, which <a href="/nbprocess/export.html#extract_comments"><code>extract_comments</code></a> extracts from the start of a cell, up until a blank line or a line containing something other than comments:</p>
+<p>nbprocess comments start with <code>#</code>, followed by whitespace delimited tokens, which <a href="/export.html#extract_comments"><code>extract_comments</code></a> extracts from the start of a cell, up until a blank line or a line containing something other than comments:</p>
 
 </div>
 </div>
@@ -148,7 +148,7 @@ nb_path: "nbs/02_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="NotebookProcessor" class="doc_header"><code>class</code> <code>NotebookProcessor</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L29" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NotebookProcessor</code>(<strong><code>path</code></strong>, <strong><code>debug</code></strong>=<em><code>False</code></em>)</p>
+<h2 id="NotebookProcessor" class="doc_header"><code>class</code> <code>NotebookProcessor</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L25" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NotebookProcessor</code>(<strong><code>path</code></strong>, <strong><code>debug</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Base class for nbprocess notebook processors</p>
 
@@ -171,7 +171,7 @@ nb_path: "nbs/02_export.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Subclass <a href="/nbprocess/export.html#NotebookProcessor"><code>NotebookProcessor</code></a> to add methods to act on nbprocess comments. The method names are of the form <code>cmd_type</code>, where "<code>cmd</code>" is the first word of the nbprocess comment, and <code>type</code> is the <code>cell_type</code> of the cell (normally "<code>code</code>). The methods must take at least <code>comment</code> and <code>code</code> as params, plus extra params for any additional words included in a comment. Here's an example that prints any word following a "print me" comment:</p>
+<p>Subclass <a href="/export.html#NotebookProcessor"><code>NotebookProcessor</code></a> to add methods to act on nbprocess comments. The method names are of the form <code>cmd_type</code>, where "<code>cmd</code>" is the first word of the nbprocess comment, and <code>type</code> is the <code>cell_type</code> of the cell (normally "<code>code</code>). The methods must take at least <code>comment</code> and <code>code</code> as params, plus extra params for any additional words included in a comment. Here's an example that prints any word following a "print me" comment:</p>
 
 </div>
 </div>
@@ -237,7 +237,7 @@ nb_path: "nbs/02_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="NotebookProcessor.process_comment" class="doc_header"><code>NotebookProcessor.process_comment</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L35" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>NotebookProcessor.process_comment</code>(<strong><code>comment</code></strong>, <strong><code>cell</code></strong>)</p>
+<h4 id="NotebookProcessor.process_comment" class="doc_header"><code>NotebookProcessor.process_comment</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>NotebookProcessor.process_comment</code>(<strong><code>comment</code></strong>, <strong><code>cell</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -306,7 +306,7 @@ nb_path: "nbs/02_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="NotebookProcessor.process_cell" class="doc_header"><code>NotebookProcessor.process_cell</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L46" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>NotebookProcessor.process_cell</code>(<strong><code>cell</code></strong>)</p>
+<h4 id="NotebookProcessor.process_cell" class="doc_header"><code>NotebookProcessor.process_cell</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L40" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>NotebookProcessor.process_cell</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -330,7 +330,7 @@ nb_path: "nbs/02_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="NotebookProcessor.no_cmd" class="doc_header"><code>NotebookProcessor.no_cmd</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L53" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>NotebookProcessor.no_cmd</code>(<strong><code>cell</code></strong>)</p>
+<h4 id="NotebookProcessor.no_cmd" class="doc_header"><code>NotebookProcessor.no_cmd</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L47" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>NotebookProcessor.no_cmd</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -402,7 +402,7 @@ nb_path: "nbs/02_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="NotebookProcessor.process" class="doc_header"><code>NotebookProcessor.process</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L58" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>NotebookProcessor.process</code>()</p>
+<h4 id="NotebookProcessor.process" class="doc_header"><code>NotebookProcessor.process</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L51" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>NotebookProcessor.process</code>()</p>
 </blockquote>
 <p>Process all cells with <code>process_cell</code> and replace <code>self.nb.cells</code> with result</p>
 
@@ -456,7 +456,7 @@ nb_path: "nbs/02_export.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><a href="/nbprocess/export.html#NotebookProcessor.process"><code>NotebookProcessor.process</code></a> doesn't change a notebook or act on any comments, unless you subclass it.</p>
+<p><a href="/export.html#NotebookProcessor.process"><code>NotebookProcessor.process</code></a> doesn't change a notebook or act on any comments, unless you subclass it.</p>
 
 </div>
 </div>
@@ -492,9 +492,9 @@ nb_path: "nbs/02_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="ExportModuleProcessor" class="doc_header"><code>class</code> <code>ExportModuleProcessor</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L65" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ExportModuleProcessor</code>(<strong><code>path</code></strong>, <strong><code>dest</code></strong>, <strong><code>mod_maker</code></strong>=<em><code>ModuleMaker</code></em>, <strong><code>debug</code></strong>=<em><code>False</code></em>) :: <a href="/nbprocess/export.html#NotebookProcessor"><code>NotebookProcessor</code></a></p>
+<h2 id="ExportModuleProcessor" class="doc_header"><code>class</code> <code>ExportModuleProcessor</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L57" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>ExportModuleProcessor</code>(<strong><code>path</code></strong>, <strong><code>dest</code></strong>, <strong><code>mod_maker</code></strong>=<em><code>ModuleMaker</code></em>, <strong><code>debug</code></strong>=<em><code>False</code></em>) :: <a href="/export.html#NotebookProcessor"><code>NotebookProcessor</code></a></p>
 </blockquote>
-<p>A <a href="/nbprocess/export.html#NotebookProcessor"><code>NotebookProcessor</code></a> which exports code to a module</p>
+<p>A <a href="/export.html#NotebookProcessor"><code>NotebookProcessor</code></a> which exports code to a module</p>
 
 </div>
 
@@ -515,7 +515,7 @@ nb_path: "nbs/02_export.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Specify <code>path</code> containing the source notebook, <code>dest</code> where the module(s) will be exported to, and optionally a class to use to create the module (<a href="/nbprocess/export.html#ModuleMaker"><code>ModuleMaker</code></a>, by default).</p>
+<p>Specify <code>path</code> containing the source notebook, <code>dest</code> where the module(s) will be exported to, and optionally a class to use to create the module (<a href="/maker.html#ModuleMaker"><code>ModuleMaker</code></a>, by default).</p>
 
 </div>
 </div>
@@ -548,7 +548,7 @@ nb_path: "nbs/02_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ExportModuleProcessor.default_exp_code" class="doc_header"><code>ExportModuleProcessor.default_exp_code</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L78" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ExportModuleProcessor.default_exp_code</code>(<strong><code>comment</code></strong>, <strong><code>cell</code></strong>, <strong><code>exp_to</code></strong>)</p>
+<h4 id="ExportModuleProcessor.default_exp_code" class="doc_header"><code>ExportModuleProcessor.default_exp_code</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L69" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ExportModuleProcessor.default_exp_code</code>(<strong><code>comment</code></strong>, <strong><code>cell</code></strong>, <strong><code>exp_to</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -604,7 +604,7 @@ nb_path: "nbs/02_export.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ExportModuleProcessor.exporti_code" class="doc_header"><code>ExportModuleProcessor.exporti_code</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L83" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ExportModuleProcessor.exporti_code</code>(<strong><code>comment</code></strong>, <strong><code>cell</code></strong>, <strong><code>exp_to</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="ExportModuleProcessor.exporti_code" class="doc_header"><code>ExportModuleProcessor.exporti_code</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L73" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ExportModuleProcessor.exporti_code</code>(<strong><code>comment</code></strong>, <strong><code>cell</code></strong>, <strong><code>exp_to</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Export a cell, without including the definition in <code>__all__</code></p>
 
@@ -679,7 +679,7 @@ def c_y_nall(): ...]</pre>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ExportModuleProcessor.export_code" class="doc_header"><code>ExportModuleProcessor.export_code</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L92" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ExportModuleProcessor.export_code</code>(<strong><code>comment</code></strong>, <strong><code>cell</code></strong>, <strong><code>exp_to</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="ExportModuleProcessor.export_code" class="doc_header"><code>ExportModuleProcessor.export_code</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L81" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ExportModuleProcessor.export_code</code>(<strong><code>comment</code></strong>, <strong><code>cell</code></strong>, <strong><code>exp_to</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Export a cell, adding the definition in <code>__all__</code></p>
 
@@ -731,7 +731,7 @@ def c_y_nall(): ...]</pre>
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="ExportModuleProcessor.create_modules" class="doc_header"><code>ExportModuleProcessor.create_modules</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L100" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ExportModuleProcessor.create_modules</code>()</p>
+<h4 id="ExportModuleProcessor.create_modules" class="doc_header"><code>ExportModuleProcessor.create_modules</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/export.py#L88" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>ExportModuleProcessor.create_modules</code>()</p>
 </blockquote>
 <p>Create module(s) from notebook</p>
 

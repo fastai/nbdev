@@ -2,8 +2,7 @@
 
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
-index = {"display_json": "00_read.ipynb",
-         "NbCell": "00_read.ipynb",
+index = {"NbCell": "00_read.ipynb",
          "dict2nb": "00_read.ipynb",
          "read_nb": "00_read.ipynb",
          "nbprocess_create_config": "00_read.ipynb",
@@ -18,7 +17,6 @@ index = {"display_json": "00_read.ipynb",
          "retr_exports": "01_maker.ipynb",
          "ModuleMaker.make_all": "01_maker.ipynb",
          "relative_import": "01_maker.ipynb",
-         "absolute_import": "01_maker.ipynb",
          "update_import": "01_maker.ipynb",
          "NbCell.import2relative": "01_maker.ipynb",
          "ModuleMaker.make": "01_maker.ipynb",
@@ -33,11 +31,14 @@ index = {"display_json": "00_read.ipynb",
          "ExportModuleProcessor.default_exp_code": "02_export.ipynb",
          "ExportModuleProcessor.exporti_code": "02_export.ipynb",
          "ExportModuleProcessor.export_code": "02_export.ipynb",
-         "ExportModuleProcessor.create_modules": "02_export.ipynb"}
+         "ExportModuleProcessor.create_modules": "02_export.ipynb",
+         "absolute_import": "03_sync.ipynb",
+         "nbprocess_update_lib": "03_sync.ipynb"}
 
 modules = ["read.py",
            "maker.py",
-           "export.py"]
+           "export.py",
+           "sync.py"]
 
 doc_url = "https://nbprocess.github.io/"
 
