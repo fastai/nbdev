@@ -16,6 +16,9 @@ host: 127.0.0.1
 port: 4000
 # the port where the preview is rendered.
 
+default_badges:
+    colab: true
+
 exclude:
   - .idea/
   - .gitignore
