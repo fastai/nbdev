@@ -38,6 +38,13 @@ nb_path: "nbs/04_test.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>{% include important.html content='The testing utilities themselves are provided by <a href="https://fastcore.fast.ai/test.html">fastcore&#8217;s testing utilities</a>, which provide wrappers around common types of assert statements and also provide better default error messages.' %}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>Everything that is not an exported cell is considered a test, so you should make sure your notebooks can all run smoothly (and fast) if you want to use this functionality as the CLI. You can mark some cells with special flags (like slow) to make sure they are only executed when you authorize it. Those flags should be configured in your <code>settings.ini</code> (separated by a <code>|</code> if you have several of them). You can also apply flags to one entire notebook by using the <code>all</code> option, e.g. <code>#all_slow</code>, in code cells.</p>
 <p>If <code>tst_flags=slow|fastai</code> in <code>settings.ini</code>, you can:</p>
 <ul>
