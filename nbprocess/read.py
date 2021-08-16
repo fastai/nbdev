@@ -108,11 +108,9 @@ def add_init(path):
 
 # %% ../nbs/00_read.ipynb 41
 def write_cells(cells, hdr, file, offset=0):
-    "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly nbprocess internal use)"
+    "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbprocess internal use)"
     for cell in cells:
-        skips = getattr(cell, 'skips_', ())
-        source = ''.join(o for i,o in enumerate(cell.source.splitlines(True)) if i not in skips)
-        if source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{source}')
+        if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell}')
 
 # %% ../nbs/00_read.ipynb 42
 def basic_export_nb(fname, name, dest=None):
