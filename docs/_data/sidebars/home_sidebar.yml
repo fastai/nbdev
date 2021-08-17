@@ -21,6 +21,12 @@ entries:
     - output: web,pdf
       title: Synchronize and diff
       url: sync.html
+    - output: web,pdf
+      title: Fix merge conflicts
+      url: merge.html
+    - output: web,pdf
+      title: Title
+      url: tmp.html
     output: web
     title: nbprocess
   output: web

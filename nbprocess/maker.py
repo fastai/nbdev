@@ -97,7 +97,7 @@ def make_all(self:ModuleMaker, cells):
     return retr_exports(cells.map(NbCell.parsed_).concat())
 
 # %% ../nbs/01_maker.ipynb 20
-def make_code_cell(code, idx=0): return AttrDict(source=code, cell_type="code")
+def make_code_cell(code): return AttrDict(source=code, cell_type="code")
 def make_code_cells(*ss): return dict2nb({'cells':L(ss).map(make_code_cell)}).cells
 
 # %% ../nbs/01_maker.ipynb 23

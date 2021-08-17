@@ -4,6 +4,8 @@
     "nbprocess.read": "read.html",
     "nbprocess.maker": "maker.html",
     "nbprocess.export": "export.html",
-    "Synchronize and diff": "sync.html"
+    "Synchronize and diff": "sync.html",
+    "Fix merge conflicts": "merge.html",
+    "Title": "tmp.html"
   }
 }

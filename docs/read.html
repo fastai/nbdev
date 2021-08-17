@@ -258,7 +258,7 @@ nb_path: "nbs/00_read.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="dict2nb" class="doc_header"><code>dict2nb</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L36" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>dict2nb</code>(<strong><code>js</code></strong>)</p>
+<h4 id="dict2nb" class="doc_header"><code>dict2nb</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L39" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>dict2nb</code>(<strong><code>js</code></strong>)</p>
 </blockquote>
 <p>Convert dict <code>js</code> to an <code>AttrDict</code>,</p>
 
@@ -415,7 +415,7 @@ nb_path: "nbs/00_read.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cell</span><span class="o">.</span><span class="n">parsed_</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">op</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cell</span><span class="o">.</span><span class="n">parsed_</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -430,7 +430,7 @@ nb_path: "nbs/00_read.ipynb"
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;_ast.Add at 0x7f290a0c8b20&gt;</pre>
+<pre>[&lt;_ast.Expr at 0x7f23b5aedc40&gt;]</pre>
 </div>
 
 </div>
@@ -448,7 +448,7 @@ nb_path: "nbs/00_read.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cell</span><span class="o">.</span><span class="n">parsed_</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cell</span><span class="o">.</span><span class="n">parsed_</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">op</span>
 </pre></div>
 
     </div>
@@ -463,7 +463,7 @@ nb_path: "nbs/00_read.ipynb"
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;_ast.Expr at 0x7f28dba10b80&gt;]</pre>
+<pre>&lt;_ast.Add at 0x7f23e4176b20&gt;</pre>
 </div>
 
 </div>
@@ -492,7 +492,7 @@ nb_path: "nbs/00_read.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="read_nb" class="doc_header"><code>read_nb</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L43" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>read_nb</code>(<strong><code>path</code></strong>)</p>
+<h4 id="read_nb" class="doc_header"><code>read_nb</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L46" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>read_nb</code>(<strong><code>path</code></strong>)</p>
 </blockquote>
 <p>Return notebook at <code>path</code></p>
 
@@ -569,7 +569,7 @@ nb_path: "nbs/00_read.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbprocess_create_config" class="doc_header"><code>nbprocess_create_config</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L48" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbprocess_create_config</code>(<strong><code>user</code></strong>:<code>str</code>, <strong><code>lib_name</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>description</code></strong>=<em><code>'TODO fill me in'</code></em>, <strong><code>author</code></strong>=<em><code>'TODO fill me in'</code></em>, <strong><code>author_email</code></strong>=<em><code>'todo@example.org'</code></em>, <strong><code>path</code></strong>:<code>str</code>=<em><code>'.'</code></em>, <strong><code>cfg_name</code></strong>:<code>str</code>=<em><code>'settings.ini'</code></em>, <strong><code>branch</code></strong>:<code>str</code>=<em><code>'master'</code></em>, <strong><code>host</code></strong>:<code>str</code>=<em><code>'github'</code></em>, <strong><code>git_url</code></strong>:<code>str</code>=<em><code>'https://github.com/%(user)s/%(lib_name)s/tree/%(branch)s/'</code></em>, <strong><code>custom_sidebar</code></strong>:<code>bool_arg</code>=<em><code>False</code></em>, <strong><code>nbs_path</code></strong>:<code>str</code>=<em><code>'.'</code></em>, <strong><code>lib_path</code></strong>:<code>str</code>=<em><code>'%(lib_name)s'</code></em>, <strong><code>doc_path</code></strong>:<code>str</code>=<em><code>'docs'</code></em>, <strong><code>tst_flags</code></strong>:<code>str</code>=<em><code>''</code></em>, <strong><code>version</code></strong>:<code>str</code>=<em><code>'0.0.1'</code></em>, <strong><code>keywords</code></strong>=<em><code>'python'</code></em>, <strong><code>license</code></strong>=<em><code>'apache2'</code></em>, <strong><code>copyright</code></strong>=<em><code>''</code></em>, <strong><code>status</code></strong>=<em><code>'3'</code></em>, <strong><code>min_python</code></strong>=<em><code>'3.6'</code></em>, <strong><code>audience</code></strong>=<em><code>'Developers'</code></em>, <strong><code>language</code></strong>=<em><code>'English'</code></em>)</p>
+<h4 id="nbprocess_create_config" class="doc_header"><code>nbprocess_create_config</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L51" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbprocess_create_config</code>(<strong><code>user</code></strong>:<code>str</code>, <strong><code>lib_name</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>description</code></strong>=<em><code>'TODO fill me in'</code></em>, <strong><code>author</code></strong>=<em><code>'TODO fill me in'</code></em>, <strong><code>author_email</code></strong>=<em><code>'todo@example.org'</code></em>, <strong><code>path</code></strong>:<code>str</code>=<em><code>'.'</code></em>, <strong><code>cfg_name</code></strong>:<code>str</code>=<em><code>'settings.ini'</code></em>, <strong><code>branch</code></strong>:<code>str</code>=<em><code>'master'</code></em>, <strong><code>host</code></strong>:<code>str</code>=<em><code>'github'</code></em>, <strong><code>git_url</code></strong>:<code>str</code>=<em><code>'https://github.com/%(user)s/%(lib_name)s/tree/%(branch)s/'</code></em>, <strong><code>custom_sidebar</code></strong>:<code>bool_arg</code>=<em><code>False</code></em>, <strong><code>nbs_path</code></strong>:<code>str</code>=<em><code>'.'</code></em>, <strong><code>lib_path</code></strong>:<code>str</code>=<em><code>'%(lib_name)s'</code></em>, <strong><code>doc_path</code></strong>:<code>str</code>=<em><code>'docs'</code></em>, <strong><code>tst_flags</code></strong>:<code>str</code>=<em><code>''</code></em>, <strong><code>version</code></strong>:<code>str</code>=<em><code>'0.0.1'</code></em>, <strong><code>keywords</code></strong>=<em><code>'python'</code></em>, <strong><code>license</code></strong>=<em><code>'apache2'</code></em>, <strong><code>copyright</code></strong>=<em><code>''</code></em>, <strong><code>status</code></strong>=<em><code>'3'</code></em>, <strong><code>min_python</code></strong>=<em><code>'3.6'</code></em>, <strong><code>audience</code></strong>=<em><code>'Developers'</code></em>, <strong><code>language</code></strong>=<em><code>'English'</code></em>)</p>
 </blockquote>
 <p>Creates a new config file for <code>lib_name</code> and <code>user</code> and saves it.</p>
 
@@ -608,7 +608,7 @@ nb_path: "nbs/00_read.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="get_config" class="doc_header"><code>get_config</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L86" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_config</code>(<strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>, <strong><code>path</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="get_config" class="doc_header"><code>get_config</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L89" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_config</code>(<strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>, <strong><code>path</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p><code>Config</code> for ini file found in <code>path</code> (defaults to <code>cwd</code>)</p>
 
@@ -678,7 +678,7 @@ nb_path: "nbs/00_read.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="add_init" class="doc_header"><code>add_init</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L98" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_init</code>(<strong><code>path</code></strong>)</p>
+<h4 id="add_init" class="doc_header"><code>add_init</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L101" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_init</code>(<strong><code>path</code></strong>)</p>
 </blockquote>
 <p>Add <code>__init__.py</code> in all subdirs of <code>path</code> containing python files if it's not there already</p>
 
@@ -741,7 +741,7 @@ nb_path: "nbs/00_read.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="write_cells" class="doc_header"><code>write_cells</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L110" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_cells</code>(<strong><code>cells</code></strong>, <strong><code>hdr</code></strong>, <strong><code>file</code></strong>, <strong><code>offset</code></strong>=<em><code>0</code></em>)</p>
+<h4 id="write_cells" class="doc_header"><code>write_cells</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L113" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>write_cells</code>(<strong><code>cells</code></strong>, <strong><code>hdr</code></strong>, <strong><code>file</code></strong>, <strong><code>offset</code></strong>=<em><code>0</code></em>)</p>
 </blockquote>
 <p>Write <code>cells</code> to <code>file</code> along with header <code>hdr</code> starting at index <code>offset</code> (mainly for nbprocess internal use)</p>
 
@@ -773,7 +773,7 @@ nb_path: "nbs/00_read.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="basic_export_nb" class="doc_header"><code>basic_export_nb</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L116" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>basic_export_nb</code>(<strong><code>fname</code></strong>, <strong><code>name</code></strong>, <strong><code>dest</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="basic_export_nb" class="doc_header"><code>basic_export_nb</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/read.py#L119" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>basic_export_nb</code>(<strong><code>fname</code></strong>, <strong><code>name</code></strong>, <strong><code>dest</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Basic exporter to bootstrap nbprocess</p>
 
