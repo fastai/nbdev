@@ -1,6 +1,6 @@
 .ONESHELL:
 SHELL := /bin/bash
-SRC = $(wildcard ./*.ipynb)
+SRC = $(wildcard nbs/*.ipynb)
 
 all: nbprocess docs
 
