@@ -5,7 +5,7 @@ SRC = $(wildcard nbs/*.ipynb)
 all: nbprocess docs
 
 nbprocess: $(SRC)
-	nbdev_build_lib
+	nbprocess_export
 	touch nbprocess
 
 sync:
