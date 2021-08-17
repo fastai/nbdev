@@ -32,6 +32,9 @@ class NbCell(AttrDict):
         if '_parsed_' not in self: self._parsed_ = ast.parse(self.source).body
         return self._parsed_
 
+    def __hash__(self): return hash(self.source) + hash(self.cell_type)
+    def __eq__(self,o): return self.source==o.source and self.cell_type==o.cell_type
+
 # %% ../nbs/00_read.ipynb 15
 def dict2nb(js):
     "Convert dict `js` to an `AttrDict`, "

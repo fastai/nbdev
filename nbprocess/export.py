@@ -125,8 +125,7 @@ def nbs_export(
     skip_folder_re:str='^[_.]' # Skip folders matching regex
 ):
     if os.environ.get('IN_TEST',0): return
-    path = Path(path)
     if not recursive: skip_folder_re='.'
-    globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
-        folder_re=folder_re, skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re
-        ).map(nb_export)
+    files = globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
+        folder_re=folder_re, skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
+    files.map(nb_export)
