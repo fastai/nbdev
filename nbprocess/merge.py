@@ -41,26 +41,34 @@ def _make_conflict(a,b, branch1, branch2):
 
 def _merge_cells(a, b, brancha, branchb, theirs):
     matches = SequenceMatcher(None, a, b).get_matching_blocks()
-    res,prev_sa,prev_sb = [],0,0
+    res,prev_sa,prev_sb,conflict = [],0,0,False
     for sa,sb,sz in matches:
         ca,cb = a[prev_sa:sa],b[prev_sb:sb]
-        if ca or cb: res += _make_conflict(ca, cb, brancha, branchb)
+        if ca or cb:
+            res += _make_conflict(ca, cb, brancha, branchb)
+            conflict = True
         if sz: res += b[sb:sb+sz] if theirs else a[sa:sa+sz]
         prev_sa,prev_sb = sa+sz,sb+sz
-    return res
+    return res,conflict
 
 # %% ../nbs/05_merge.ipynb 22
 @call_parse
 def fix_merge(nbname:str, # notebook filename to fix
               outname:str=None, # filename of output notebook, defaults to `nbname`
-              backup:bool=True, # backup `nbname` if `outname` not provided
-              theirs:bool=True): # use their outputs/metadata instead of ours
+              nobackup:bool=True, # do not backup `nbname` to `nbname.bak` if `outname` not provided
+              theirs:bool=False, # use their outputs/metadata instead of ours
+              noprint:bool=False): # Do not print info about whether conflict found
     "Create working notebook from conflicted notebook `nbname`"
     nbname = Path(nbname)
-    if backup and not outname: shutil.copy(fname, fname.with_suffix('.ipynb.bak'))
+    if not nobackup and not outname: shutil.copy(fname, fname.with_suffix('.ipynb.bak'))
     nbtxt = nbname.read_text()
     a,b,branch1,branch2 = unpatch(nbtxt)
     ac,bc = dict2nb(json.loads(a)),dict2nb(json.loads(b))
     dest = bc if theirs else ac
-    dest.cells = _merge_cells(ac.cells, bc.cells, branch1, branch2, theirs=theirs)
+    cells,conflict = _merge_cells(ac.cells, bc.cells, branch1, branch2, theirs=theirs)
+    dest.cells = cells
     write_nb(dest, ifnone(outname, nbname))
+    if not noprint:
+        if conflict: print("One or more conflict remains in the notebook, please inspect manually.")
+        else: print("Successfully merged conflicts!")
+    return conflict
