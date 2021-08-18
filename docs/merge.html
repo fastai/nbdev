@@ -36,23 +36,6 @@ nb_path: "nbs/05_merge.ipynb"
 </div>
     {% endraw %}
 
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction"> </a></h2>
@@ -270,7 +253,7 @@ nb_path: "nbs/05_merge.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="unpatch" class="doc_header"><code>unpatch</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/merge.py#L26" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unpatch</code>(<strong><code>s</code></strong>:<code>str</code>)</p>
+<h4 id="unpatch" class="doc_header"><code>unpatch</code><a href="nbprocess/merge.py#L27" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>unpatch</code>(<strong><code>s</code></strong>:<code>str</code>)</p>
 </blockquote>
 <p>Takes a string with conflict markers and returns the two original files, and their branch names</p>
 
@@ -400,7 +383,7 @@ nb_path: "nbs/05_merge.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="merge_conflicts" class="doc_header"><code>merge_conflicts</code><a href="https://github.com/fastai/nbprocess/tree/master/nbprocess/merge.py#L54" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>merge_conflicts</code>(<strong><code>nbname</code></strong>, <strong><code>out_fname</code></strong>=<em><code>None</code></em>, <strong><code>prefer_us</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="fix_merge" class="doc_header"><code>fix_merge</code><a href="nbprocess/merge.py#L53" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fix_merge</code>(<strong><code>nbname</code></strong>:<code>str</code>, <strong><code>outname</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>backup</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>theirs</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Create working notebook from conflicted notebook <code>nbname</code></p>
 
@@ -428,7 +411,7 @@ nb_path: "nbs/05_merge.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">merge_conflicts</span><span class="p">(</span><span class="n">broken</span><span class="p">,</span> <span class="n">out_fname</span><span class="o">=</span><span class="s1">&#39;tmp.ipynb&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fix_merge</span><span class="p">(</span><span class="n">broken</span><span class="p">,</span> <span class="n">outname</span><span class="o">=</span><span class="s1">&#39;tmp.ipynb&#39;</span><span class="p">)</span>
 <span class="n">chk</span> <span class="o">=</span> <span class="n">read_nb</span><span class="p">(</span><span class="s1">&#39;tmp.ipynb&#39;</span><span class="p">)</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chk</span><span class="o">.</span><span class="n">cells</span><span class="p">),</span> <span class="mi">6</span><span class="p">)</span>
 </pre></div>
@@ -440,12 +423,6 @@ nb_path: "nbs/05_merge.ipynb"
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Main-function">Main function<a class="anchor-link" href="#Main-function"> </a></h2>
-</div>
-</div>
-</div>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -454,12 +431,6 @@ nb_path: "nbs/05_merge.ipynb"
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># @call_parse</span>
-<span class="c1"># def nbdev_fix_merge(fname:str, # notebook filename to fix</span>
-<span class="c1">#                     trust_us:bool=True): # use our outputs/metadata instead of theirs</span>
-<span class="c1">#     &quot;Fix merge conflicts in notebook `fname`&quot;</span>
-<span class="c1">#     fname=Path(fname)</span>
-<span class="c1">#     shutil.copy(fname, fname.with_suffix(&#39;.ipynb.bak&#39;))</span>
-<span class="c1">#     raw_text = fname.read_text()</span>
 <span class="c1">#     if not added: print(&quot;Successfully merged conflicts!&quot;)</span>
 <span class="c1">#     else: print(&quot;One or more conflict remains in the notebook, please inspect manually.&quot;)</span>
 </pre></div>
