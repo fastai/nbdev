@@ -4,12 +4,13 @@
 __all__ = ['nb2dict', 'write_nb', 'absolute_import', 'update_lib']
 
 # %% ../nbs/03_sync.ipynb 4
+from .imports import *
 from .read import *
 from .maker import *
 from .export import *
 
-from .imports import *
 from fastcore.script import *
+from fastcore.xtras import *
 
 import ast,tempfile,json
 
@@ -24,8 +25,8 @@ def nb2dict(d, k=None):
 # %% ../nbs/03_sync.ipynb 8
 def write_nb(nb, path):
     "Write `nb` to `path`"
-    nb = nb2dict(nb)
-    with io.open(path, 'w', encoding='utf-8') as f:
+    if isinstance(nb, (AttrDict,L)): nb = nb2dict(nb)
+    with maybe_open(path, 'w', encoding='utf-8') as f:
         f.write(json.dumps(nb, sort_keys=True, indent=1, ensure_ascii=False))
         f.write("\n")
 
