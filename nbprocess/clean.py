@@ -35,42 +35,33 @@ def _clean_cell(cell, clear_all=False):
     cell['metadata'] = {} if clear_all else {
         k:v for k,v in cell['metadata'].items() if k=="hide_input"}
 
-# %% ../nbs/05_clean.ipynb 10
+# %% ../nbs/05_clean.ipynb 8
 def clean_nb(nb, clear_all=False):
-    "Clean `nb` from superfluous metadata, passing `clear_all` to `_clean_cell`"
+    "Clean `nb` from superfluous metadata"
     for c in nb['cells']: _clean_cell(c, clear_all=clear_all)
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in
                      ("kernelspec", "jekyll", "jupytext", "doc")}
 
-# %% ../nbs/05_clean.ipynb 13
+# %% ../nbs/05_clean.ipynb 11
 def _wrapio(strm): return io.TextIOWrapper(strm, encoding='utf-8', line_buffering=True)
 
-# %% ../nbs/05_clean.ipynb 14
+def _clean_write(nb, f_in, f_out=None, clear_all=False):
+    if not f_out: f_out = f_in
+    nb = json.load(f_in)
+    clean_nb(nb, clear_all=clear_all)
+    write_nb(nb, f_out)
+
+# %% ../nbs/05_clean.ipynb 12
 @call_parse
 def nbdev_clean_nbs(
     fname:str=None, # A notebook name or glob to convert
     clear_all:bool_arg=False, # Clean all metadata and outputs
-    disp:bool_arg=False, # Print the cleaned outputs
-    read_input_stream:bool_arg=False # Read input stram and not nb folder
+    read_stdin:bool_arg=False # Read input stream and not nb folder
 ):
     "Clean all notebooks in `fname` to avoid merge conflicts"
     #Git hooks will pass the notebooks in the stdin
-    if read_input_stream:
-        nb = json.load(_wrapio(sys.stdin))
-        clean_nb(nb, clear_all=clear_all)
-        write_nb(nb, _wrapio(sys.stdout))
-        return
+    if read_stdin: return _clean_write(nb, _wrapio(sys.stdin), _wrapio(sys.stdout), clear_all=clear_all)
 
-    path = None
-    if fname is None: path = get_config().path("nbs_path")
-    files = nbglob(fname=ifnone(fname,path))
-    for f in files:
-        if not str(f).endswith('.ipynb'): continue
-        nb = json.loads(open(f, 'r', encoding='utf-8').read())
-        clean_nb(nb, clear_all=clear_all)
-        if disp: _print_output(nb)
-        else:
-            x = json.dumps(nb, sort_keys=True, indent=1, ensure_ascii=False)
-            with io.open(f, 'w', encoding='utf-8') as f:
-                f.write(x)
-                f.write("\n")
+    if fname is None: fname = get_config().path("nbs_path")
+    for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'):
+        _clean_write(nb, f, clear_all=clear_all)
