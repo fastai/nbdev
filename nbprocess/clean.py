@@ -59,7 +59,7 @@ def nbdev_clean_nbs(
     read_stdin:bool_arg=False # Read input stream and not nb folder
 ):
     "Clean all notebooks in `fname` to avoid merge conflicts"
-    #Git hooks will pass the notebooks in the stdin
+    # Git hooks will pass the notebooks in stdin
     if read_stdin: return _clean_write(nb, _wrapio(sys.stdin), _wrapio(sys.stdout), clear_all=clear_all)
 
     if fname is None: fname = get_config().path("nbs_path")
