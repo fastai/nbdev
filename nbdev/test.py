@@ -81,7 +81,7 @@ def test_nb(fn, flags=None):
             if f not in flags: return
         ep = NoExportPreprocessor(flags, timeout=600, kernel_name='python3')
         pnb = nbformat.from_dict(nb)
-        ep.preprocess(pnb)
+        ep.preprocess(pnb, {})
     finally: os.environ.pop("IN_TEST")
 
 # Cell
@@ -101,7 +101,7 @@ def _test_one(fname, flags=None, verbose=True):
 def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
                    flags:Param("Space separated list of flags", str)=None,
                    n_workers:Param("Number of workers to use", int)=None,
-                   verbose:Param("Print errors along the way", bool)=True,
+                   verbose:Param("Print errors along the way", bool_arg)=True,
                    timing:Param("Timing each notebook to see the ones are slow", bool)=False,
                    pause:Param("Pause time (in secs) between notebooks to avoid race conditions", float)=0.5):
     "Test in parallel the notebooks matching `fname`, passing along `flags`"
