@@ -2,6 +2,12 @@
 
 <!-- do not remove -->
 
+## 1.1.23
+
+### Bugs Squashed
+
+- fix verbose flag
+
 ## 1.1.20
 
 ### New Features
