@@ -228,10 +228,11 @@ def relative_import(name, fname):
 _re_import = ReLibName(r'^(\s*)from (LIB_NAME\.\S*) import (.*)$')
 
 # Cell
-def _deal_import(code_lines, fname):
+def _deal_import(code_lines, fname, absolute_imports):
     def _replace(m):
         sp,mod,obj = m.groups()
         return f"{sp}from {relative_import(mod, fname)} import {obj}"
+    if absolute_imports: return code_lines
     return [_re_import.re.sub(_replace,line) for line in code_lines]
 
 # Cell
@@ -330,6 +331,7 @@ def create_mod_files(files, to_dict=False, bare=False):
 # Cell
 def _notebook2script(fname, modules, silent=False, to_dict=None, bare=False):
     "Finds cells starting with `#export` and puts them into a module created by `create_mod_files`"
+    absolute_imports = (get_config().get('absolute_imports') == 'True')
     bare = str(get_config().get('bare', bare)) == 'True'
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
     sep = '\n'* (int(get_config().get('cell_spacing', '1'))+1)
@@ -347,7 +349,7 @@ def _notebook2script(fname, modules, silent=False, to_dict=None, bare=False):
         if bare: orig = "\n"
         else: orig = (f'# {"" if a else "Internal "}C' if e==default else f'# Comes from {fname.name}, c') + 'ell\n'
         flag_lines,code_lines = split_flags_and_code(c)
-        code_lines = _deal_import(code_lines, fname_out)
+        code_lines = _deal_import(code_lines, fname_out, absolute_imports)
         code = sep + orig + '\n'.join(code_lines)
         names = export_names(code)
         flags = '\n'.join(flag_lines)
