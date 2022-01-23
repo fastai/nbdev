@@ -317,11 +317,8 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
         # doc links don't work inside markdown pre/code blocks
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
         doc += s
-    if len(args) > 0 and "arg" not in s.lower():
-        try:
-            doc += f"\n\n{_format_args(elt)}"
-        except:
-            pass
+    if len(args) > 0:
+        doc += f"\n\n{_format_args(elt)}"
     if disp: display(Markdown(doc))
     else: return doc
 
