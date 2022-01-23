@@ -318,7 +318,7 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
     if doc_string and inspect.getdoc(elt):
         s = inspect.getdoc(elt)
         # show_doc is used by doc so should not rely on Config
-        try: monospace = (Config().get('monospace_docstrings') == 'True')
+        try: monospace = (get_config().get('monospace_docstrings') == 'True')
         except: monospace = False
         # doc links don't work inside markdown pre/code blocks
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
