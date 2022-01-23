@@ -263,10 +263,7 @@ def _generate_arg_string(argument_dict):
         arg_string += "*None Specified*|" if item['anno'] == inspect._empty else f"`{item['anno']}`|"
         arg_string += "*No Default*|" if is_required else f"`{str(item['default'])}`|"
         if _has_docment:
-            if item['docment'] is not None:
-                arg_string += f"{item['docment']}|"
-            else:
-                arg_string += "*No Content*|"
+            arg_string += f"{item['docment']}|" if item['docment'] is not None else "*No Content*|"
         arg_string += '\n'
     return arg_string
 
@@ -285,14 +282,11 @@ def _generate_return_string(return_dict:dict):
 def _format_args(elt):
     "Generates a formatted argument string"
     ment_dict = docments(elt, full=True)
-    ret = None
     arg_string = ""
     return_string = ""
-    if "self" in ment_dict.keys(): ment_dict.pop("self")
-    if "cls" in ment_dict.keys(): ment_dict.pop("cls")
-    if "return" in ment_dict.keys():
-        ret = ment_dict["return"]
-        ment_dict.pop("return")
+    ment_dict.pop("self", {})
+    ment_dict.pop("cls", {})
+    ret = ment_dict.pop("return", None)
     if len(ment_dict.keys()) > 0:
         arg_string = _generate_arg_string(ment_dict)
     if not ret["anno"] == inspect._empty:
