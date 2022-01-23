@@ -294,7 +294,7 @@ def _format_args(elt):
     return arg_string + "\n\n" + return_string
 
 # Cell
-def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, default_cls_level=2):
+def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, default_cls_level=2, show_docments=True):
     "Show documentation for element `elt` with potential input documentation. Supported types: class, function, and enum."
     elt = getattr(elt, '__func__', elt)
     qname = name or qual_name(elt)
@@ -317,8 +317,12 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
         # doc links don't work inside markdown pre/code blocks
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
         doc += s
-    if len(args) > 0:
-        doc += f"\n\n{_format_args(elt)}"
+    if len(args) > 0 and show_docments:
+        try:
+            doc += f"\n\n{_format_args(elt)}"
+        except AttributeError:
+            print(f"Warning: `docments` annotations are unavailable for {qual_name(elt)} and will not be shown.")
+            pass
     if disp: display(Markdown(doc))
     else: return doc
 
