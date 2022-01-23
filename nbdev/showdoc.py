@@ -9,6 +9,7 @@ from .imports import *
 from .export import *
 from .sync import *
 from nbconvert import HTMLExporter
+from fastcore.docments import docments
 from fastcore.utils import IN_NOTEBOOK
 
 if IN_NOTEBOOK:
@@ -244,8 +245,63 @@ def _format_cls_doc(cls, full_name):
     return name,args
 
 # Cell
+def _generate_arg_string(argument_dict):
+    "Turns a dictionary of argument information into a useful docstring"
+    arg_string = '|**Parameters**|Type|Default|'
+    border_string = '|---|---|---|'
+    _has_docment = any(item["docment"] != None for item in argument_dict.values())
+    if _has_docment:
+        arg_string += 'Details|'
+        border_string += '---|'
+    arg_string+= f'\n{border_string}\n'
+    for key, item in argument_dict.items():
+        is_required=True
+        if key == 'return': continue
+        if item['default'] != inspect._empty:
+            is_required = False
+        arg_string += f"|**`{key}`**|"
+        arg_string += "*None Specified*|" if item['anno'] == inspect._empty else f"`{item['anno']}`|"
+        arg_string += "*No Default*|" if is_required else f"`{str(item['default'])}`|"
+        if _has_docment:
+            if item['docment'] is not None:
+                arg_string += f"{item['docment']}|"
+            else:
+                arg_string += "*No Content*|"
+        arg_string += '\n'
+    return arg_string
+
+# Cell
+def _generate_return_string(return_dict:dict):
+    "Turns a dictionary of return information into a useful docstring"
+    return_string = "|**Return Type**|\n|-|\n|"
+    return_string += f"`{return_dict['anno']}`|"
+    if return_dict['docment'] is not None:
+        return_string = return_string.replace("|**Return Type**|", "|**Return Type**|Details|")
+        return_string = return_string.replace("|-|", "|-|-|")
+        return_string += f"{return_dict['docment']}|"
+    return return_string
+
+# Cell
+def _format_args(elt):
+    "Generates a formatted argument string"
+    ment_dict = docments(elt, full=True)
+    ret = None
+    arg_string = ""
+    return_string = ""
+    if "self" in ment_dict.keys(): ment_dict.pop("self")
+    if "cls" in ment_dict.keys(): ment_dict.pop("cls")
+    if "return" in ment_dict.keys():
+        ret = ment_dict["return"]
+        ment_dict.pop("return")
+    if len(ment_dict.keys()) > 0:
+        arg_string = _generate_arg_string(ment_dict)
+    if not ret["anno"] == inspect._empty:
+        return_string = _generate_return_string(ret)
+    return arg_string + "\n\n" + return_string
+
+# Cell
 def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, default_cls_level=2):
-    "Show documentation for element `elt`. Supported types: class, function, and enum."
+    "Show documentation for element `elt` with potential input documentation. Supported types: class, function, and enum."
     elt = getattr(elt, '__func__', elt)
     qname = name or qual_name(elt)
     if inspect.isclass(elt):
@@ -258,14 +314,20 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
     title_level = title_level or (default_cls_level if inspect.isclass(elt) else 4)
     doc =  f'<h{title_level} id="{qname}" class="doc_header">{name}{source_link}</h{title_level}>'
     doc += f'\n\n> {args}\n\n' if len(args) > 0 else '\n\n'
+    s = ''
     if doc_string and inspect.getdoc(elt):
         s = inspect.getdoc(elt)
         # show_doc is used by doc so should not rely on Config
-        try: monospace = (get_config().get('monospace_docstrings') == 'True')
+        try: monospace = (Config().get('monospace_docstrings') == 'True')
         except: monospace = False
         # doc links don't work inside markdown pre/code blocks
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
         doc += s
+    if len(args) > 0 and "arg" not in s.lower():
+        try:
+            doc += f"\n\n{_format_args(elt)}"
+        except:
+            pass
     if disp: display(Markdown(doc))
     else: return doc
 
@@ -289,6 +351,16 @@ def get_doc_link(func):
     except: return None
 
 # Cell
+# Fancy CSS needed to make raw Jupyter rendering look nice
+_TABLE_CSS = """<style>
+    table { border-collapse: collapse; border:thin solid #dddddd; margin: 25px 0px; ; }
+    table tr:first-child { background-color: #FFF}
+    table thead th { background-color: #eee; color: #000; text-align: center;}
+    tr, th, td { border: 1px solid #ccc; border-width: 1px 0 0 1px; border-collapse: collapse;
+    padding: 5px; }
+    tr:nth-child(even) {background: #eee;}</style>"""
+
+# Cell
 def doc(elt):
     "Show `show_doc` info in preview window when used in a notebook"
     md = show_doc(elt, disp=False)
@@ -296,7 +368,7 @@ def doc(elt):
     if doc_link is not None:
         md += f'\n\n<a href="{doc_link}" target="_blank" rel="noreferrer noopener">Show in docs</a>'
     output = md2html(md)
-    if IN_COLAB: get_ipython().run_cell_magic(u'html', u'', output)
+    if IN_COLAB: get_ipython().run_cell_magic(u'html', u'', output + _TABLE_CSS)
     else:
-        try: page.page({'text/html': output})
+        try: page.page({'text/html': output + _TABLE_CSS})
         except: display(Markdown(md))
