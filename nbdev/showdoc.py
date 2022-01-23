@@ -260,7 +260,7 @@ def _generate_arg_string(argument_dict):
         if item['default'] != inspect._empty:
             is_required = False
         arg_string += f"|**`{key}`**|"
-        arg_string += "*None Specified*|" if item['anno'] == inspect._empty else f"`{item['anno']}`|"
+        arg_string += "*None Specified*|" if item['anno'] == inspect._empty else f"`{qual_name(item['anno'])}`|"
         arg_string += "*No Default*|" if is_required else f"`{str(item['default'])}`|"
         if _has_docment:
             arg_string += f"{item['docment']}|" if item['docment'] is not None else "*No Content*|"
@@ -271,7 +271,7 @@ def _generate_arg_string(argument_dict):
 def _generate_return_string(return_dict:dict):
     "Turns a dictionary of return information into a useful docstring"
     return_string = "|**Return Type**|\n|-|\n|"
-    return_string += f"`{return_dict['anno']}`|"
+    return_string += f"`{qual_name(return_dict['anno'])}`|"
     if return_dict['docment'] is not None:
         return_string = return_string.replace("|**Return Type**|", "|**Return Type**|Details|")
         return_string = return_string.replace("|-|", "|-|-|")
@@ -294,7 +294,7 @@ def _format_args(elt):
     return arg_string + "\n\n" + return_string
 
 # Cell
-def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, default_cls_level=2):
+def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, default_cls_level=2):
     "Show documentation for element `elt` with potential input documentation. Supported types: class, function, and enum."
     elt = getattr(elt, '__func__', elt)
     qname = name or qual_name(elt)
