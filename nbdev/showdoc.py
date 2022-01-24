@@ -260,7 +260,7 @@ def _generate_arg_string(argument_dict):
         if item['default'] != inspect._empty:
             is_required = False
         arg_string += f"|**`{key}`**|"
-        arg_string += "*None Specified*|" if item['anno'] == inspect._empty else f"`{qual_name(item['anno'])}`|"
+        arg_string += "*None Specified*|" if item['anno'] == inspect._empty else f"`{qual_name(item['anno']).replace('|', 'or')}`|"
         arg_string += "*No Default*|" if is_required else f"`{str(item['default'])}`|"
         if _has_docment:
             arg_string += f"{item['docment']}|" if item['docment'] is not None else "*No Content*|"
@@ -270,13 +270,10 @@ def _generate_arg_string(argument_dict):
 # Cell
 def _generate_return_string(return_dict:dict):
     "Turns a dictionary of return information into a useful docstring"
-    return_string = "|**Return Type**|\n|-|\n|"
-    return_string += f"`{qual_name(return_dict['anno'])}`|"
-    if return_dict['docment'] is not None:
-        return_string = return_string.replace("|**Return Type**|", "|**Return Type**|Details|")
-        return_string = return_string.replace("|-|", "|-|-|")
-        return_string += f"{return_dict['docment']}|"
-    return return_string
+    if return_dict['docment'] is None:
+        return f"|**Return Type**|\n|-|\n|`{qual_name(return_dict['anno']).replace('|', 'or')}`|"
+    else:
+        return f"|**Return Type**|Details|\n|-|-|\n|`{qual_name(return_dict['anno']).replace('|', 'or')}`|{return_dict['docment']}|"
 
 # Cell
 def _format_args(elt):
