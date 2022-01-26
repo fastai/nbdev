@@ -245,6 +245,18 @@ def _format_cls_doc(cls, full_name):
     return name,args
 
 # Cell
+def _format_annos(anno):
+    "Returns a clean string representation of `anno` from either the `__qualname__` if it is a base class, or `str()` if not"
+    annos = listify(anno)
+    new_anno = "(" if len(annos) > 1 else ""
+    def _inner(o): return o.__qualname__ if type(o) == type else str(o)
+    for i, anno in enumerate(annos):
+        new_anno += _inner(anno)
+        if len(annos) > 1 and i < len(annos) - 1:
+            new_anno += ', '
+    return f'{new_anno})' if len(annos) > 1 else new_anno
+
+# Cell
 def _generate_arg_string(argument_dict):
     "Turns a dictionary of argument information into a useful docstring"
     arg_string = '|**Parameters**|Type|Default|'
@@ -260,7 +272,7 @@ def _generate_arg_string(argument_dict):
         if item['default'] != inspect._empty:
             is_required = False
         arg_string += f"|**`{key}`**|"
-        arg_string += "*None Specified*|" if item['anno'] == inspect._empty else f"`{qual_name(item['anno']).replace('|', 'or')}`|"
+        arg_string += "*None Specified*|" if item['anno'] == inspect._empty else f"`{_format_annos(item['anno']).replace('|', 'or')}`|"
         arg_string += "*No Default*|" if is_required else f"`{str(item['default'])}`|"
         if _has_docment:
             arg_string += f"{item['docment']}|" if item['docment'] is not None else "*No Content*|"
@@ -270,10 +282,11 @@ def _generate_arg_string(argument_dict):
 # Cell
 def _generate_return_string(return_dict:dict):
     "Turns a dictionary of return information into a useful docstring"
+    anno = _format_annos(return_dict['anno']).replace('|', 'or')
     if return_dict['docment'] is None:
-        return f"|**Return Type**|\n|-|\n|`{qual_name(return_dict['anno']).replace('|', 'or')}`|"
+        return f"|**Return Type**|\n|-|\n|`{anno}`|"
     else:
-        return f"|**Return Type**|Details|\n|-|-|\n|`{qual_name(return_dict['anno']).replace('|', 'or')}`|{return_dict['docment']}|"
+        return f"|**Return Type**|Details|\n|-|-|\n|`{anno}`|{return_dict['docment']}|"
 
 # Cell
 def _format_args(elt):
