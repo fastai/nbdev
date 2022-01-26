@@ -14,7 +14,6 @@ from fastcore.script import *
 from ghapi.all import GhApi
 from urllib.error import HTTPError
 
-
 # Cell
 def bump_version(version, part=2):
     version = version.split('.')
@@ -24,7 +23,9 @@ def bump_version(version, part=2):
 
 # Cell
 @call_parse
-def nbdev_bump_version(part:Param("Part of version to bump", int)=2):
+def nbdev_bump_version(
+    part:int=2  # Part of version to bump
+):
     "Increment version in `settings.py` by one"
     cfg = get_config()
     print(f'Old version: {cfg.version}')
