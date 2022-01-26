@@ -252,6 +252,7 @@ def _format_annos(anno):
     def _inner(o): return o.__qualname__ if type(o) == type else str(o)
     for i, anno in enumerate(annos):
         new_anno += _inner(anno)
+        if "." in new_anno: new_anno = new_anno.split('.')[-1]
         if len(annos) > 1 and i < len(annos) - 1:
             new_anno += ', '
     return f'{new_anno})' if len(annos) > 1 else new_anno
