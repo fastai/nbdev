@@ -66,10 +66,16 @@ def _print_output(nb):
 
 # Cell
 @call_parse
-def nbdev_clean_nbs(fname:Param("A notebook name or glob to convert", str)=None,
-                    clear_all:Param("Clean all metadata and outputs", bool_arg)=False,
-                    disp:Param("Print the cleaned outputs", bool_arg)=False,
-                    read_input_stream:Param("Read input stram and not nb folder")=False):
+def nbdev_clean_nbs(
+    # A notebook name or glob to convert
+    fname:str=None,
+    # Clean all metadata and outputs
+    clear_all:bool_arg=False,
+    # Print the cleaned outputs
+    disp:bool_arg=False,
+    # Read input stram and not nb folder
+    read_input_stream:None=False
+):
     "Clean all notebooks in `fname` to avoid merge conflicts"
     #Git hooks will pass the notebooks in the stdin
     if read_input_stream and sys.stdin:

@@ -79,7 +79,7 @@ def relimport2name(name, mod_name):
     return '.'.join(mods[:-i] + [name[i:]])
 
 # Cell
-#Catches any from .bla import something and catches .bla in group 1, the imported thing(s) in group 2.
+#Catches any from nbdev.bla import something and catches .bla in group 1, the imported thing(s) in group 2.
 _re_loc_import = re.compile(r'(\s*)from(\s+)(\.\S*)(\s+)import(\s+)(.*)$')
 _re_loc_import1 = re.compile(r'(\s*)import(\s+)(\.\S*)(.*)$')
 
@@ -120,8 +120,12 @@ def _script2notebook(fname, dic, silent=False):
 
 # Cell
 @call_parse
-def nbdev_update_lib(fname:Param("A python filename or glob to convert", str)=None,
-                     silent:Param("Don't print results", bool_arg)=False):
+def nbdev_update_lib(
+    # A python filename or glob to convert
+    fname:str=None,
+    # Dont print results
+    silent:bool_arg=False
+):
     "Propagates any change in the modules matching `fname` to the notebooks that created them"
     if fname and fname.endswith('.ipynb'): raise ValueError("`nbdev_update_lib` operates on .py files.  If you wish to convert notebooks instead, see `nbdev_build_lib`.")
     if os.environ.get('IN_TEST',0): return
@@ -155,8 +159,12 @@ def nbdev_diff_nbs():
 
 # Cell
 @call_parse
-def nbdev_trust_nbs(fname:Param("A notebook name or glob to convert", str)=None,
-                    force_all:Param("Trust even notebooks that haven't changed", bool)=False):
+def nbdev_trust_nbs(
+    # A notebook name or glob to convert
+    fname:str=None,
+    # Trust even notebooks that havent changed
+    force_all:bool=False
+):
     "Trust notebooks matching `fname`"
     check_fname = get_config().path("nbs_path")/".last_checked"
     last_checked = os.path.getmtime(check_fname) if check_fname.exists() else None

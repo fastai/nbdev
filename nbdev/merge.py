@@ -90,9 +90,14 @@ def analyze_cell(cell, cf, names, prev=None, added=False, fast=True, trust_us=Tr
 
 # Cell
 @call_parse
-def nbdev_fix_merge(fname:Param("A notebook filename to fix", str),
-                    fast:Param("Fast fix: automatically fix the merge conflicts in outputs or metadata", bool)=True,
-                    trust_us:Param("Use local outputs/metadata when fast merging", bool)=True):
+def nbdev_fix_merge(
+    # A notebook filename to fix
+    fname:str,
+    # Fast fix: automatically fix the merge conflicts in outputs or metadata
+    fast:bool=True,
+    # Use local outputs/metadata when fast merging
+    trust_us:bool=True
+):
     "Fix merge conflicts in notebook `fname`"
     fname=Path(fname)
     shutil.copy(fname, fname.with_suffix('.ipynb.bak'))
