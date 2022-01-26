@@ -24,8 +24,7 @@ def bump_version(version, part=2):
 # Cell
 @call_parse
 def nbdev_bump_version(
-    # Part of version to bump
-    part:int=2
+    part:int=2  # Part of version to bump
 ):
     "Increment version in `settings.py` by one"
     cfg = get_config()

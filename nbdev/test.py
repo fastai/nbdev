@@ -99,18 +99,12 @@ def _test_one(fname, flags=None, verbose=True):
 # Cell
 @call_parse
 def nbdev_test_nbs(
-    # A notebook name or glob to convert
-    fname:str=None,
-    # Space separated list of flags
-    flags:str=None,
-    # Number of workers to use
-    n_workers:int=None,
-    # Print errors along the way
-    verbose:bool_arg=True,
-    # Timing each notebook to see the ones are slow
-    timing:bool=False,
-    # Pause time (in secs) between notebooks to avoid race conditions
-    pause:float=0.5
+    fname:str=None,  # A notebook name or glob to convert
+    flags:str=None,  # Space separated list of flags
+    n_workers:int=None,  # Number of workers to use
+    verbose:bool_arg=True,  # Print errors along the way
+    timing:bool=False,  # Timing each notebook to see the ones are slow
+    pause:float=0.5  # Pause time (in secs) between notebooks to avoid race conditions
 ):
     "Test in parallel the notebooks matching `fname`, passing along `flags`"
     if flags is not None: flags = flags.split(' ')
@@ -133,8 +127,7 @@ def nbdev_test_nbs(
 # Cell
 @call_parse
 def nbdev_read_nbs(
-    # A notebook name or glob to convert
-    fname:str=None
+    fname:str=None  # A notebook name or glob to convert
 ):
     "Check all notebooks matching `fname` can be opened"
     files = nbglob(fname)

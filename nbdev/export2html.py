@@ -456,10 +456,8 @@ def write_tmpls():
 # Cell
 @call_parse
 def nbdev_build_lib(
-    # A notebook name or glob to convert
-    fname:str=None,
-    # Omit nbdev annotation comments (may break some functionality).
-    bare:store_true=False
+    fname:str=None,  # A notebook name or glob to convert
+    bare:store_true=False  # Omit nbdev annotation comments (may break some functionality).
 ):
     "Export notebooks matching `fname` to python modules"
     write_tmpls()
@@ -610,12 +608,9 @@ def _nbdev_detach(path_nb, dest="", use_img=False, replace=True):
 
 @call_parse
 def nbdev_detach(path_nb:Param("Path to notebook"),
-    # Destination folder
-    dest:str="",
-    # Convert markdown images to img tags
-    use_img:bool_arg=False,
-    # Write replacement notebook back to `path_bn`
-    replace:bool_arg=True
+    dest:str="",  # Destination folder
+    use_img:bool_arg=False,  # Convert markdown images to img tags
+    replace:bool_arg=True  # Write replacement notebook back to `path_bn`
 ):
     "Export cell attachments to `dest` and update references"
     _nbdev_detach(path_nb, dest, use_img, replace)
@@ -642,16 +637,11 @@ def make_readme():
 # Cell
 @call_parse
 def nbdev_build_docs(
-    # A notebook name or glob to convert
-    fname:str=None,
-    # Rebuild even notebooks that havent changed
-    force_all:bool_arg=False,
-    # Also convert the index notebook to README
-    mk_readme:bool_arg=True,
-    # Number of workers to use
-    n_workers:int=None,
-    # Pause time (in secs) between notebooks to avoid race conditions
-    pause:float=0.5
+    fname:str=None,  # A notebook name or glob to convert
+    force_all:bool_arg=False, # Rebuild even notebooks that havent changed
+    mk_readme:bool_arg=True,  # Also convert the index notebook to README
+    n_workers:int=None,  # Number of workers to use
+    pause:float=0.5  # Pause time (in secs) between notebooks to avoid race conditions
 ):
     "Build the documentation by converting notebooks matching `fname` to html"
     notebook2html(fname=fname, force_all=force_all, n_workers=n_workers, pause=pause)
@@ -661,14 +651,11 @@ def nbdev_build_docs(
 # Cell
 @call_parse
 def nbdev_nb2md(
-    # A notebook file name to convert
-    fname:str,
-    # The destination folder
-    dest:str='.',
-    # Folder to export images to
-    img_path:None="",
-    # To use jekyll metadata for your markdown file or not
-    jekyll:bool_arg=False,):
+    fname:str,  # A notebook file name to convert
+    dest:str='.',  # The destination folder
+    img_path:None="",  # Folder to export images to
+    jekyll:bool_arg=False  # To use jekyll metadata for your markdown file or not
+):
     "Convert the notebook in `fname` to a markdown file"
     _nbdev_detach(fname, dest=img_path)
     convert_md(fname, dest, jekyll=jekyll, img_path=img_path)
