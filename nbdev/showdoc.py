@@ -249,7 +249,7 @@ def _format_annos(anno):
     "Returns a clean string representation of `anno` from either the `__qualname__` if it is a base class, or `str()` if not"
     annos = listify(anno)
     new_anno = "(" if len(annos) > 1 else ""
-    def _inner(o): return o.__qualname__ if type(o) == type else str(o)
+    def _inner(o): return getattr(o, '__qualname__', str(o))
     for i, anno in enumerate(annos):
         new_anno += _inner(anno)
         if "." in new_anno: new_anno = new_anno.split('.')[-1]
@@ -283,6 +283,9 @@ def _generate_arg_string(argument_dict):
 # Cell
 def _generate_return_string(return_dict:dict):
     "Turns a dictionary of return information into a useful docstring"
+    if return_dict['anno'] is None:
+        if not return_dict['docment']: return ''
+        else: return_dict['anno'] = NoneType
     anno = _format_annos(return_dict['anno']).replace('|', 'or')
     if return_dict['docment'] is None:
         return f"|**Return Type**|\n|-|\n|`{anno}`|"
