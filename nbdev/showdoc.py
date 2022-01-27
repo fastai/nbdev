@@ -273,6 +273,8 @@ def _generate_arg_string(argument_dict):
         is_required=True
         if key == 'return': continue
         if item['default'] != inspect._empty:
+            if item['default'] == '':
+                item['default'] = '""'
             is_required = False
         arg_string += f"|**`{key}`**|"
         if item['anno'] == None: item['anno'] = NoneType
