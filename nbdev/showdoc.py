@@ -9,7 +9,7 @@ from .imports import *
 from .export import *
 from .sync import *
 from nbconvert import HTMLExporter
-from fastcore.docments import docments
+from fastcore.docments import docments, isclass
 from fastcore.utils import IN_NOTEBOOK
 
 if IN_NOTEBOOK:
@@ -332,11 +332,14 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
         doc += s
     if len(args) > 0 and show_docments:
-        # We cannot get the source of builtin's, so they are not supported
-        if type(elt).__module__.replace('_','') == 'builtins' or is_enum(elt):
-            print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
-        else:
-            doc += f"\n\n{_format_args(elt)}"
+        if isclass(elt):
+            elt = elt.__init__
+            # If we're a `builtin` class or enum, we cannot use it
+            if elt.__class__.__module__.replace('_','') == 'builtins' or is_enum(elt):
+                print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
+            else:
+                doc += f"\n\n{_format_args(elt)}"
+        else: doc += f"\n\n{_format_args(elt)}"
     if disp: display(Markdown(doc))
     else: return doc
 
