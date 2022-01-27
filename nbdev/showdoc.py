@@ -332,11 +332,11 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
         doc += s
     if len(args) > 0 and show_docments:
-        try:
+        # We cannot get the source of builtin's, so they are not supported
+        if elt.__class__.__module__.replace('_','') == 'builtins':
+            print(f'Warning: `docments` annotations will not work for built-in modules, classes, or functions and are unavailable for {qual_name(elt)}. They will not be shown')
+        else:
             doc += f"\n\n{_format_args(elt)}"
-        except AttributeError:
-            print(f"Warning: `docments` annotations are unavailable for {qual_name(elt)} and will not be shown.")
-            pass
     if disp: display(Markdown(doc))
     else: return doc
 
