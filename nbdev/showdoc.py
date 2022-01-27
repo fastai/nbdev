@@ -249,7 +249,7 @@ def _format_annos(anno):
     "Returns a clean string representation of `anno` from either the `__qualname__` if it is a base class, or `str()` if not"
     annos = listify(anno)
     new_anno = "(" if len(annos) > 1 else ""
-    def _inner(o): return getattr(o, '__qualname__', str(o))
+    def _inner(o): return o.__qualname__ if '<' in str(o) else str(o)
     for i, anno in enumerate(annos):
         new_anno += _inner(anno)
         if "." in new_anno: new_anno = new_anno.split('.')[-1]
