@@ -9,8 +9,10 @@ from .imports import *
 from .export import *
 from .sync import *
 from nbconvert import HTMLExporter
-from fastcore.docments import docments, isclass
+from fastcore.docments import docments, isclass, _clean_comment, _tokens, _param_locs, _get_comment
 from fastcore.utils import IN_NOTEBOOK
+
+from tokenize import COMMENT
 
 if IN_NOTEBOOK:
     from IPython.display import Markdown,display
@@ -273,6 +275,7 @@ def _generate_arg_string(argument_dict):
         if item['default'] != inspect._empty:
             is_required = False
         arg_string += f"|**`{key}`**|"
+        if item['anno'] == None: item['anno'] = NoneType
         arg_string += "*None Specified*|" if item['anno'] == inspect._empty else f"`{_format_annos(item['anno']).replace('|', 'or')}`|"
         arg_string += "*No Default*|" if is_required else f"`{str(item['default'])}`|"
         if _has_docment:
@@ -308,7 +311,14 @@ def _format_args(elt):
     return arg_string + "\n\n" + return_string
 
 # Cell
-def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, default_cls_level=2, show_docments=True):
+def _has_docment(elt):
+    comments = {o.start[0]:_clean_comment(o.string) for o in _tokens(elt) if o.type==COMMENT}
+    params = _param_locs(elt, returns=True)
+    comments = [_get_comment(line,arg,comments,params) for line,arg in params.items()]
+    return any(c is not None for c in comments)
+
+# Cell
+def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, default_cls_level=2, show_all_docments=False, silent=False):
     "Show documentation for element `elt` with potential input documentation. Supported types: class, function, and enum."
     elt = getattr(elt, '__func__', elt)
     qname = name or qual_name(elt)
@@ -331,15 +341,16 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
         # doc links don't work inside markdown pre/code blocks
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
         doc += s
-    if len(args) > 0 and show_docments:
-        if isclass(elt):
+    if len(args) > 0:
+        if inspect.isclass(elt):
             elt = elt.__init__
             # If we're a `builtin` class or enum, we cannot use it
             if elt.__class__.__module__.replace('_','') == 'builtins' or is_enum(elt):
-                print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
-            else:
+                if not silent:
+                    print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
+        else:
+            if _has_docment(elt) or show_all_docments:
                 doc += f"\n\n{_format_args(elt)}"
-        else: doc += f"\n\n{_format_args(elt)}"
     if disp: display(Markdown(doc))
     else: return doc
 
