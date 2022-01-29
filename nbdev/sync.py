@@ -120,8 +120,10 @@ def _script2notebook(fname, dic, silent=False):
 
 # Cell
 @call_parse
-def nbdev_update_lib(fname:Param("A python filename or glob to convert", str)=None,
-                     silent:Param("Don't print results", bool_arg)=False):
+def nbdev_update_lib(
+    fname:str=None,  # A python filename or glob to convert
+    silent:bool_arg=False  # Dont print results
+):
     "Propagates any change in the modules matching `fname` to the notebooks that created them"
     if fname and fname.endswith('.ipynb'): raise ValueError("`nbdev_update_lib` operates on .py files.  If you wish to convert notebooks instead, see `nbdev_build_lib`.")
     if os.environ.get('IN_TEST',0): return
@@ -155,8 +157,10 @@ def nbdev_diff_nbs():
 
 # Cell
 @call_parse
-def nbdev_trust_nbs(fname:Param("A notebook name or glob to convert", str)=None,
-                    force_all:Param("Trust even notebooks that haven't changed", bool)=False):
+def nbdev_trust_nbs(
+    fname:str=None,  # A notebook name or glob to convert
+    force_all:bool=False  # Trust even notebooks that havent changed
+):
     "Trust notebooks matching `fname`"
     check_fname = get_config().path("nbs_path")/".last_checked"
     last_checked = os.path.getmtime(check_fname) if check_fname.exists() else None
