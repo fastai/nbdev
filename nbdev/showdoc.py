@@ -349,10 +349,10 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
     if len(args) > 0:
         if inspect.isclass(elt):
             elt = elt.__init__
-            # If we're a `builtin` class or enum, we cannot use it
-            if elt.__class__.__module__.replace('_','') == 'builtins' or is_enum(elt):
-                if not silent:
-                    print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
+        # If we're a `builtin` class or enum, we cannot use it
+        if elt.__class__.__module__.replace('_','') == 'builtins' or is_enum(elt):
+            if not silent:
+                print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
         else:
             if _has_docment(elt) or show_all_docments:
                 doc += f"\n\n{_format_args(elt)}"
