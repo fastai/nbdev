@@ -12,6 +12,7 @@ from nbconvert import HTMLExporter
 from fastcore.docments import docments, isclass, _clean_comment, _tokens, _param_locs, _get_comment
 from fastcore.utils import IN_NOTEBOOK
 
+import string
 from tokenize import COMMENT
 
 if IN_NOTEBOOK:
@@ -260,12 +261,18 @@ def _format_annos(anno):
     return f'{new_anno})' if len(annos) > 1 else new_anno
 
 # Cell
-def _generate_arg_string(argument_dict):
+def _has_docment(elt):
+    comments = {o.start[0]:_clean_comment(o.string) for o in _tokens(elt) if o.type==COMMENT}
+    params = _param_locs(elt, returns=True)
+    comments = [_get_comment(line,arg,comments,params) for line,arg in params.items()]
+    return any(c is not None for c in comments)
+
+# Cell
+def _generate_arg_string(argument_dict, has_docment=False):
     "Turns a dictionary of argument information into a useful docstring"
-    arg_string = '|**Parameters**|Type|Default|'
+    arg_string = '||Type|Default|'
     border_string = '|---|---|---|'
-    _has_docment = any(item["docment"] != None for item in argument_dict.values())
-    if _has_docment:
+    if has_docment:
         arg_string += 'Details|'
         border_string += '---|'
     arg_string+= f'\n{border_string}\n'
@@ -280,22 +287,23 @@ def _generate_arg_string(argument_dict):
         if item['anno'] == None: item['anno'] = NoneType
         arg_string += "*None Specified*|" if item['anno'] == inspect._empty else f"`{_format_annos(item['anno']).replace('|', 'or')}`|"
         arg_string += "*No Default*|" if is_required else f"`{str(item['default'])}`|"
-        if _has_docment:
+        if has_docment:
+            item['docment'] = item['docment'].replace('\n', '<br />')
             arg_string += f"{item['docment']}|" if item['docment'] is not None else "*No Content*|"
         arg_string += '\n'
     return arg_string
 
 # Cell
-def _generate_return_string(return_dict:dict):
+def _generate_return_string(return_dict:dict, has_docment=False):
     "Turns a dictionary of return information into a useful docstring"
     if return_dict['anno'] is None:
         if not return_dict['docment']: return ''
         else: return_dict['anno'] = NoneType
     anno = _format_annos(return_dict['anno']).replace('|', 'or')
-    if return_dict['docment'] is None:
-        return f"|**Return Type**|\n|-|\n|`{anno}`|"
-    else:
-        return f"|**Return Type**|Details|\n|-|-|\n|`{anno}`|{return_dict['docment']}|"
+    return_string = f"|**Returns**|`{anno}`||"
+    if has_docment:
+        return_dict['docment'] = return_dict['docment'].replace('\n', '<br />')
+    return return_string if not has_docment else f"{return_string}{return_dict['docment']}|"
 
 # Cell
 def _format_args(elt):
@@ -306,18 +314,12 @@ def _format_args(elt):
     ment_dict.pop("self", {})
     ment_dict.pop("cls", {})
     ret = ment_dict.pop("return", None)
+    has_docment = _has_docment(elt)
     if len(ment_dict.keys()) > 0:
-        arg_string = _generate_arg_string(ment_dict)
+        arg_string = _generate_arg_string(ment_dict, has_docment)
     if not ret["anno"] == inspect._empty:
-        return_string = _generate_return_string(ret)
-    return arg_string + "\n\n" + return_string
-
-# Cell
-def _has_docment(elt):
-    comments = {o.start[0]:_clean_comment(o.string) for o in _tokens(elt) if o.type==COMMENT}
-    params = _param_locs(elt, returns=True)
-    comments = [_get_comment(line,arg,comments,params) for line,arg in params.items()]
-    return any(c is not None for c in comments)
+        return_string = _generate_return_string(ret, has_docment)
+    return arg_string + return_string
 
 # Cell
 def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, default_cls_level=2, show_all_docments=False, silent=False):
