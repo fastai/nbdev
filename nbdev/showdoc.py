@@ -286,7 +286,7 @@ def _generate_arg_string(argument_dict, has_docment=False):
         arg_string += f"|**`{key}`**|"
         if item['anno'] == None: item['anno'] = NoneType
         arg_string += "*None Specified*|" if item['anno'] == inspect._empty else f"`{_format_annos(item['anno']).replace('|', 'or')}`|"
-        arg_string += "*No Default*|" if is_required else f"`{str(item['default'])}`|"
+        arg_string += "|" if is_required else f"`{str(item['default'])}`|"
         if has_docment:
             if item['docment']:
                 item['docment'] = item['docment'].replace('\n', '<br />')

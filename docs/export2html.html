@@ -1150,11 +1150,11 @@ However, the OUTPUT of this cell is collapsed by default but you can expand it!
 <span class="n">test_eq</span><span class="p">(</span><span class="n">added_cells</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tst_nb</span><span class="p">[</span><span class="s1">&#39;cells&#39;</span><span class="p">][</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">added_cells</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">tst_nb</span><span class="p">[</span><span class="s1">&#39;cells&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
 <span class="n">test_eq</span><span class="p">(</span><span class="n">added_cells</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">_show_doc_cell</span><span class="p">(</span><span class="s1">&#39;read_nb&#39;</span><span class="p">,</span> <span class="n">cls_lvl</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">test_eq</span><span class="p">(</span><span class="n">added_cells</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="s1">&#39;show_doc(read_nb, default_cls_level=3)&#39;</span><span class="p">)</span>
+<span class="n">test_eq</span><span class="p">(</span><span class="n">added_cells</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;source&#39;</span><span class="p">],</span> <span class="s1">&#39;show_doc(read_nb, default_cls_level=3, show_all_docments=False, silent=True)&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">flag</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;#export&#39;</span><span class="p">,</span> <span class="s1">&#39;#exports&#39;</span><span class="p">]:</span>
     <span class="k">for</span> <span class="n">show_doc_source</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s1">&#39;show_doc(my_func)&#39;</span><span class="p">,</span> <span class="s1">&#39;show_doc(my_func, title_level=3)&#39;</span><span class="p">)]:</span>
+            <span class="p">(</span><span class="s1">&#39;show_doc(my_func)&#39;</span><span class="p">,</span> <span class="s1">&#39;show_doc(my_func, title_level=3&#39;</span><span class="p">)]:</span>
         <span class="c1">#Check show_doc isn&#39;t added if it was already there.</span>
         <span class="n">tst_cells1</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">flag</span><span class="si">}</span><span class="se">\n</span><span class="s1">def my_func(x):</span><span class="se">\n</span><span class="s1">    return x&#39;</span><span class="p">},</span>
                       <span class="p">{</span><span class="s1">&#39;cell_type&#39;</span><span class="p">:</span><span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">show_doc_source</span><span class="p">[</span><span class="mi">0</span><span class="p">]}]</span>
@@ -1655,9 +1655,32 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_build_lib" class="doc_header"><code>nbdev_build_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L458" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_lib</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>bare</code></strong>:"Omit nbdev annotation comments (may break some functionality)."=<em><code>False</code></em>)</p>
+<h4 id="nbdev_build_lib" class="doc_header"><code>nbdev_build_lib</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L458" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_lib</code>(<strong><code>fname</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>bare</code></strong>:<code>store_true</code>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Export notebooks matching <code>fname</code> to python modules</p>
+<table>
+<thead><tr>
+<th></th>
+<th>Type</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>fname</code></strong></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>A notebook name or glob to convert</td>
+</tr>
+<tr>
+<td><strong><code>bare</code></strong></td>
+<td><code>store_true</code></td>
+<td><code>False</code></td>
+<td>Omit nbdev annotation comments (may break some functionality).</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -1710,7 +1733,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_exporter" class="doc_header"><code>nbdev_exporter</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L466" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_exporter</code>(<strong><code>template_file</code></strong>=<em><code>None</code></em>)</p>
+<h4 id="nbdev_exporter" class="doc_header"><code>nbdev_exporter</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L468" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_exporter</code>(<strong><code>template_file</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
 
 </div>
@@ -1755,7 +1778,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L486" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>, <strong><code>execute</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="convert_nb" class="doc_header"><code>convert_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L488" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_nb</code>(<strong><code>fname</code></strong>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>, <strong><code>execute</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to html file in <code>dest_path</code>.</p>
 
@@ -1794,7 +1817,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="notebook2html" class="doc_header"><code>notebook2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L515" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2html</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>, <strong><code>n_workers</code></strong>=<em><code>None</code></em>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>, <strong><code>pause</code></strong>=<em><code>0</code></em>, <strong><code>execute</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="notebook2html" class="doc_header"><code>notebook2html</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L517" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2html</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>force_all</code></strong>=<em><code>False</code></em>, <strong><code>n_workers</code></strong>=<em><code>None</code></em>, <strong><code>template_file</code></strong>=<em><code>None</code></em>, <strong><code>exporter</code></strong>=<em><code>None</code></em>, <strong><code>dest</code></strong>=<em><code>None</code></em>, <strong><code>pause</code></strong>=<em><code>0</code></em>, <strong><code>execute</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Convert all notebooks matching <code>fname</code> to html files</p>
 
@@ -1897,7 +1920,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="convert_md" class="doc_header"><code>convert_md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L539" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_md</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>, <strong><code>img_path</code></strong>=<em><code>'docs/images/'</code></em>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
+<h4 id="convert_md" class="doc_header"><code>convert_md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L541" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>convert_md</code>(<strong><code>fname</code></strong>, <strong><code>dest_path</code></strong>, <strong><code>img_path</code></strong>=<em><code>'docs/images/'</code></em>, <strong><code>jekyll</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Convert a notebook <code>fname</code> to a markdown file in <code>dest_path</code>.</p>
 
@@ -1985,9 +2008,44 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_detach" class="doc_header"><code>nbdev_detach</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L608" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_detach</code>(<strong><code>path_nb</code></strong>:"Path to notebook", <strong><code>dest</code></strong>:"Destination folder"=<em><code>''</code></em>, <strong><code>use_img</code></strong>:"Convert markdown images to img tags"=<em><code>False</code></em>, <strong><code>replace</code></strong>:"Write replacement notebook back to <code>path_bn</code>"=<em><code>True</code></em>)</p>
+<h4 id="nbdev_detach" class="doc_header"><code>nbdev_detach</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L610" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_detach</code>(<strong><code>path_nb</code></strong>:"Path to notebook", <strong><code>dest</code></strong>:<code>str</code>=<em><code>''</code></em>, <strong><code>use_img</code></strong>:<code>bool_arg</code>=<em><code>False</code></em>, <strong><code>replace</code></strong>:<code>bool_arg</code>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Export cell attachments to <code>dest</code> and update references</p>
+<table>
+<thead><tr>
+<th></th>
+<th>Type</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>path_nb</code></strong></td>
+<td><code>&lt;Path to notebook&gt;</code></td>
+<td></td>
+<td><em>No Content</em></td>
+</tr>
+<tr>
+<td><strong><code>dest</code></strong></td>
+<td><code>str</code></td>
+<td><code>""</code></td>
+<td>Destination folder</td>
+</tr>
+<tr>
+<td><strong><code>use_img</code></strong></td>
+<td><code>bool_arg</code></td>
+<td><code>False</code></td>
+<td>Convert markdown images to img tags</td>
+</tr>
+<tr>
+<td><strong><code>replace</code></strong></td>
+<td><code>bool_arg</code></td>
+<td><code>True</code></td>
+<td>Write replacement notebook back to <code>path_bn</code></td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -2024,7 +2082,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="make_readme" class="doc_header"><code>make_readme</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L620" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_readme</code>()</p>
+<h4 id="make_readme" class="doc_header"><code>make_readme</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L623" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_readme</code>()</p>
 </blockquote>
 <p>Convert the index notebook to README.md</p>
 
@@ -2056,9 +2114,50 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L636" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>force_all</code></strong>:"Rebuild even notebooks that haven't changed"=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:"Also convert the index notebook to README"=<em><code>True</code></em>, <strong><code>n_workers</code></strong>:"Number of workers to use"=<em><code>None</code></em>, <strong><code>pause</code></strong>:"Pause time (in secs) between notebooks to avoid race conditions"=<em><code>0.5</code></em>)</p>
+<h4 id="nbdev_build_docs" class="doc_header"><code>nbdev_build_docs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L639" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_build_docs</code>(<strong><code>fname</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>force_all</code></strong>:<code>bool_arg</code>=<em><code>False</code></em>, <strong><code>mk_readme</code></strong>:<code>bool_arg</code>=<em><code>True</code></em>, <strong><code>n_workers</code></strong>:<code>int</code>=<em><code>None</code></em>, <strong><code>pause</code></strong>:<code>float</code>=<em><code>0.5</code></em>)</p>
 </blockquote>
 <p>Build the documentation by converting notebooks matching <code>fname</code> to html</p>
+<table>
+<thead><tr>
+<th></th>
+<th>Type</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>fname</code></strong></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>A notebook name or glob to convert</td>
+</tr>
+<tr>
+<td><strong><code>force_all</code></strong></td>
+<td><code>bool_arg</code></td>
+<td><code>False</code></td>
+<td>Rebuild even notebooks that havent changed</td>
+</tr>
+<tr>
+<td><strong><code>mk_readme</code></strong></td>
+<td><code>bool_arg</code></td>
+<td><code>True</code></td>
+<td>Also convert the index notebook to README</td>
+</tr>
+<tr>
+<td><strong><code>n_workers</code></strong></td>
+<td><code>int</code></td>
+<td><code>None</code></td>
+<td>Number of workers to use</td>
+</tr>
+<tr>
+<td><strong><code>pause</code></strong></td>
+<td><code>float</code></td>
+<td><code>0.5</code></td>
+<td>Pause time (in secs) between notebooks to avoid race conditions</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -2088,9 +2187,44 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_nb2md" class="doc_header"><code>nbdev_nb2md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L648" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_nb2md</code>(<strong><code>fname</code></strong>:"A notebook file name to convert", <strong><code>dest</code></strong>:"The destination folder"=<em><code>'.'</code></em>, <strong><code>img_path</code></strong>:"Folder to export images to"=<em><code>''</code></em>, <strong><code>jekyll</code></strong>:"To use jekyll metadata for your markdown file or not"=<em><code>False</code></em>)</p>
+<h4 id="nbdev_nb2md" class="doc_header"><code>nbdev_nb2md</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L653" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_nb2md</code>(<strong><code>fname</code></strong>:<code>str</code>, <strong><code>dest</code></strong>:<code>str</code>=<em><code>'.'</code></em>, <strong><code>img_path</code></strong>:<code>None</code>=<em><code>''</code></em>, <strong><code>jekyll</code></strong>:<code>bool_arg</code>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Convert the notebook in <code>fname</code> to a markdown file</p>
+<table>
+<thead><tr>
+<th></th>
+<th>Type</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>fname</code></strong></td>
+<td><code>str</code></td>
+<td></td>
+<td>A notebook file name to convert</td>
+</tr>
+<tr>
+<td><strong><code>dest</code></strong></td>
+<td><code>str</code></td>
+<td><code>.</code></td>
+<td>The destination folder</td>
+</tr>
+<tr>
+<td><strong><code>img_path</code></strong></td>
+<td><code>NoneType</code></td>
+<td><code>""</code></td>
+<td>Folder to export images to</td>
+</tr>
+<tr>
+<td><strong><code>jekyll</code></strong></td>
+<td><code>bool_arg</code></td>
+<td><code>False</code></td>
+<td>To use jekyll metadata for your markdown file or not</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -2168,7 +2302,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L699" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
+<h4 id="create_default_sidebar" class="doc_header"><code>create_default_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L706" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_default_sidebar</code>()</p>
 </blockquote>
 <p>Create the default sidebar for the docs website</p>
 
@@ -2207,7 +2341,7 @@ Note, that nbdev now only supports <code>[&lt;a class="latex_cit" id="call-" hre
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L705" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
+<h4 id="make_sidebar" class="doc_header"><code>make_sidebar</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L712" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>make_sidebar</code>()</p>
 </blockquote>
 <p>Making sidebar for the doc website form the content of <code>doc_folder/sidebar.json</code></p>
 
