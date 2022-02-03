@@ -366,6 +366,7 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
         except: monospace = False
         # doc links don't work inside markdown pre/code blocks
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
+        doc += s
     if len(args) > 0:
         if hasattr(elt, '__init__') and isclass(elt):
             elt = elt.__init__
@@ -373,7 +374,7 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
             if show_all_docments or _has_docment(elt):
                 doc += f"\n\n{_format_args(elt)}"
             elif verbose:
-                    print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
+                print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
     if disp: display(Markdown(doc))
     else: return doc
 
