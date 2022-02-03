@@ -62,6 +62,7 @@ nb_path: "nbs/07_clean.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="rm_execution_count" class="doc_header"><code>rm_execution_count</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>rm_execution_count</code>(<strong><code>o</code></strong>)</p>
 </blockquote>
+<p>Remove execution count in <code>o</code></p>
 
 </div>
 
@@ -93,6 +94,7 @@ nb_path: "nbs/07_clean.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="clean_output_data_vnd" class="doc_header"><code>clean_output_data_vnd</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_output_data_vnd</code>(<strong><code>o</code></strong>)</p>
 </blockquote>
+<p>Remove <code>application/vnd.google.colaboratory.intrinsic+json</code> in data entries</p>
 
 </div>
 
@@ -124,6 +126,7 @@ nb_path: "nbs/07_clean.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="clean_cell_output" class="doc_header"><code>clean_cell_output</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell_output</code>(<strong><code>cell</code></strong>)</p>
 </blockquote>
+<p>Remove execution count in <code>cell</code></p>
 
 </div>
 
@@ -162,6 +165,7 @@ nb_path: "nbs/07_clean.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="clean_cell" class="doc_header"><code>clean_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L43" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_cell</code>(<strong><code>cell</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
+<p>Clean <code>cell</code> by removing superfluous metadata or everything except the input if <code>clear_all</code></p>
 
 </div>
 
@@ -270,6 +274,7 @@ nb_path: "nbs/07_clean.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="clean_nb" class="doc_header"><code>clean_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L53" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>clean_nb</code>(<strong><code>nb</code></strong>, <strong><code>clear_all</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
+<p>Clean <code>nb</code> from superfluous metadata, passing <code>clear_all</code> to <a href="/clean.html#clean_cell"><code>clean_cell</code></a></p>
 
 </div>
 
@@ -353,6 +358,7 @@ nb_path: "nbs/07_clean.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="nbdev_clean_nbs" class="doc_header"><code>nbdev_clean_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/clean.py#L68" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_clean_nbs</code>(<strong><code>fname</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>clear_all</code></strong>:<code>bool_arg</code>=<em><code>False</code></em>, <strong><code>disp</code></strong>:<code>bool_arg</code>=<em><code>False</code></em>, <strong><code>read_input_stream</code></strong>:<code>None</code>=<em><code>False</code></em>)</p>
 </blockquote>
+<p>Clean all notebooks in <code>fname</code> to avoid merge conflicts</p>
 <table>
 <thead><tr>
 <th></th>

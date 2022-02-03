@@ -188,6 +188,7 @@ nb_path: "nbs/05_merge.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="extract_cells" class="doc_header"><code>extract_cells</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L10" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extract_cells</code>(<strong><code>raw_txt</code></strong>)</p>
 </blockquote>
+<p>Manually extract cells in potential broken json <code>raw_txt</code></p>
 
 </div>
 
@@ -273,6 +274,7 @@ nb_path: "nbs/05_merge.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="get_md_cell" class="doc_header"><code>get_md_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_md_cell</code>(<strong><code>txt</code></strong>)</p>
 </blockquote>
+<p>A markdown cell with <code>txt</code></p>
 
 </div>
 
@@ -349,6 +351,7 @@ nb_path: "nbs/05_merge.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="same_inputs" class="doc_header"><code>same_inputs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L60" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>same_inputs</code>(<strong><code>t1</code></strong>, <strong><code>t2</code></strong>)</p>
 </blockquote>
+<p>Test if the cells described in <code>t1</code> and <code>t2</code> have the same inputs</p>
 
 </div>
 
@@ -404,6 +407,7 @@ nb_path: "nbs/05_merge.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="analyze_cell" class="doc_header"><code>analyze_cell</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L69" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>analyze_cell</code>(<strong><code>cell</code></strong>, <strong><code>cf</code></strong>, <strong><code>names</code></strong>, <strong><code>prev</code></strong>=<em><code>None</code></em>, <strong><code>added</code></strong>=<em><code>False</code></em>, <strong><code>fast</code></strong>=<em><code>True</code></em>, <strong><code>trust_us</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
+<p>Analyze and solve conflicts in <code>cell</code></p>
 
 </div>
 
@@ -479,6 +483,7 @@ nb_path: "nbs/05_merge.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="nbdev_fix_merge" class="doc_header"><code>nbdev_fix_merge</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L92" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_fix_merge</code>(<strong><code>fname</code></strong>:<code>str</code>, <strong><code>fast</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>trust_us</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
 </blockquote>
+<p>Fix merge conflicts in notebook <code>fname</code></p>
 <table>
 <thead><tr>
 <th></th>
