@@ -2,7 +2,7 @@
 
 __all__ = ['is_enum', 'is_lib_module', 're_digits_first', 'try_external_doc_link', 'is_doc_name', 'doc_link',
            'add_doc_links', 'get_source_link', 'colab_link', 'get_nb_source_link', 'nb_source_link', 'type_repr',
-           'format_param', 'show_doc', 'md2html', 'get_doc_link', 'doc']
+           'format_param', 'is_source_available', 'show_doc', 'md2html', 'get_doc_link', 'doc']
 
 # Cell
 from .imports import *
@@ -303,7 +303,9 @@ def _generate_return_string(return_dict:dict, has_docment=False):
     anno = _format_annos(return_dict['anno']).replace('|', 'or')
     return_string = f"|**Returns**|`{anno}`||"
     if has_docment:
-        return_dict['docment'] = return_dict['docment'].replace('\n', '<br />')
+        if return_dict['docment']:
+            return_dict['docment'] = return_dict['docment'].replace('\n', '<br />')
+        else: return_dict['docment'] = ''
     return return_string if not has_docment else f"{return_string}{return_dict['docment']}|"
 
 # Cell
@@ -323,7 +325,26 @@ def _format_args(elt):
     return arg_string + return_string
 
 # Cell
-def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, default_cls_level=2, show_all_docments=False, silent=False):
+def is_source_available(
+    elt, # A python object
+):
+    "Checks if it is possible to return the source code of `elt` mimicking `inspect.getfile`"
+    if inspect.ismodule(elt):
+        return True if getattr(object, '__file__', None) else False
+    elif isclass(elt):
+        if hasattr(elt, '__module__'):
+            module = sys.modules.get(elt.__module__)
+            return True if getattr(module, '__file__', None) else False
+    elif getattr(elt, '__name__', None) == "<lambda>":
+        return False
+    elif inspect.ismethod(elt) or inspect.isfunction(elt) or inspect.istraceback(elt) or inspect.isframe(elt) or inspect.iscode(elt):
+        return True
+    elif is_enum(elt):
+        return False
+    return False
+
+# Cell
+def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, default_cls_level=2, show_all_docments=False, verbose=False):
     "Show documentation for element `elt` with potential input documentation. Supported types: class, function, and enum."
     elt = getattr(elt, '__func__', elt)
     qname = name or qual_name(elt)
@@ -345,17 +366,14 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
         except: monospace = False
         # doc links don't work inside markdown pre/code blocks
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
-        doc += s
     if len(args) > 0:
-        if inspect.isclass(elt):
+        if hasattr(elt, '__init__') and isclass(elt):
             elt = elt.__init__
-        # If we're a `builtin` class or enum, we cannot use it
-        if elt.__class__.__module__.replace('_','') == 'builtins' or is_enum(elt):
-            if not silent:
-                print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
-        else:
-            if _has_docment(elt) or show_all_docments:
+        if is_source_available(elt):
+            if show_all_docments or _has_docment(elt):
                 doc += f"\n\n{_format_args(elt)}"
+            elif verbose:
+                    print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
     if disp: display(Markdown(doc))
     else: return doc
 
@@ -389,9 +407,9 @@ _TABLE_CSS = """<style>
     tr:nth-child(even) {background: #eee;}</style>"""
 
 # Cell
-def doc(elt):
+def doc(elt:int, show_all_docments:bool=True):
     "Show `show_doc` info in preview window when used in a notebook"
-    md = show_doc(elt, disp=False)
+    md = show_doc(elt, disp=False, show_all_docments=show_all_docments)
     doc_link = get_doc_link(elt)
     if doc_link is not None:
         md += f'\n\n<a href="{doc_link}" target="_blank" rel="noreferrer noopener">Show in docs</a>'

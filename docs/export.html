@@ -85,19 +85,10 @@ nb_path: "nbs/00_export.ipynb"
 
 <div class="output_area">
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for Config.__init__. They will not be shown
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
 
 <div class="output_markdown rendered_html output_subarea ">
 <h3 id="Config" class="doc_header"><code>class</code> <code>Config</code><a href="https://github.com/fastai/fastcore/tree/master/fastcore/foundation.py#L250" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>Config</code>(<strong><code>cfg_path</code></strong>, <strong><code>cfg_name</code></strong>, <strong><code>create</code></strong>=<em><code>None</code></em>)</p>
 </blockquote>
-<p>Reading and writing <code>ConfigParser</code> ini files</p>
 
 </div>
 
@@ -166,7 +157,6 @@ nb_path: "nbs/00_export.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="read_nb" class="doc_header"><code>read_nb</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L16" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>read_nb</code>(<strong><code>fname</code></strong>)</p>
 </blockquote>
-<p>Read the notebook in <code>fname</code>.</p>
 
 </div>
 
@@ -406,7 +396,6 @@ nb_path: "nbs/00_export.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="check_re" class="doc_header"><code>check_re</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L21" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_re</code>(<strong><code>cell</code></strong>, <strong><code>pat</code></strong>, <strong><code>code_only</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
-<p>Check if <code>cell</code> contains a line with regex <code>pat</code></p>
 
 </div>
 
@@ -468,7 +457,6 @@ nb_path: "nbs/00_export.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="check_re_multi" class="doc_header"><code>check_re_multi</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L30" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>check_re_multi</code>(<strong><code>cell</code></strong>, <strong><code>pats</code></strong>, <strong><code>code_only</code></strong>=<em><code>True</code></em>)</p>
 </blockquote>
-<p>Check if <code>cell</code> contains a line matching any regex in <code>pats</code>, returning the first match found</p>
 
 </div>
 
@@ -563,7 +551,6 @@ nb_path: "nbs/00_export.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="is_export" class="doc_header"><code>is_export</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L71" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>is_export</code>(<strong><code>cell</code></strong>, <strong><code>default</code></strong>)</p>
 </blockquote>
-<p>Check if <code>cell</code> is to be exported and returns the name of the module to export it if provided</p>
 
 </div>
 
@@ -645,7 +632,6 @@ nb_path: "nbs/00_export.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="find_default_export" class="doc_header"><code>find_default_export</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L86" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_default_export</code>(<strong><code>cells</code></strong>)</p>
 </blockquote>
-<p>Find in <code>cells</code> the default export module.</p>
 
 </div>
 
@@ -781,7 +767,6 @@ nb_path: "nbs/00_export.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="export_names" class="doc_header"><code>export_names</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L148" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>export_names</code>(<strong><code>code</code></strong>, <strong><code>func_only</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Find the names of the objects, functions or classes defined in <code>code</code> that are exported.</p>
 
 </div>
 
@@ -845,7 +830,6 @@ nb_path: "nbs/00_export.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="extra_add" class="doc_header"><code>extra_add</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L176" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>extra_add</code>(<strong><code>flags</code></strong>, <strong><code>code</code></strong>)</p>
 </blockquote>
-<p>Catch adds to <code>__all__</code> required by a cell with <code>_all_=</code></p>
 
 </div>
 
@@ -950,7 +934,6 @@ nb_path: "nbs/00_export.ipynb"
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="relative_import" class="doc_header"><code>relative_import</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L216" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>relative_import</code>(<strong><code>name</code></strong>, <strong><code>fname</code></strong>)</p>
 </blockquote>
-<p>Convert a module <code>name</code> to a name relative to <code>fname</code></p>
 
 </div>
 
@@ -1062,7 +1045,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="reset_nbdev_module" class="doc_header"><code>reset_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L241" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>reset_nbdev_module</code>()</p>
 </blockquote>
-<p>Create a skeleton for <code>_nbdev</code></p>
 
 </div>
 
@@ -1101,7 +1083,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="get_nbdev_module" class="doc_header"><code>get_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L268" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>get_nbdev_module</code>()</p>
 </blockquote>
-<p>Reads <code>_nbdev</code></p>
 
 </div>
 
@@ -1140,7 +1121,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="save_nbdev_module" class="doc_header"><code>save_nbdev_module</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L282" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>save_nbdev_module</code>(<strong><code>mod</code></strong>)</p>
 </blockquote>
-<p>Save <code>mod</code> inside <code>_nbdev</code></p>
 
 </div>
 
@@ -1178,7 +1158,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="split_flags_and_code" class="doc_header"><code>split_flags_and_code</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L293" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>split_flags_and_code</code>(<strong><code>cell</code></strong>, <strong><code>return_type</code></strong>=<em><code>list</code></em>)</p>
 </blockquote>
-<p>Splits the <code>source</code> of a cell into 2 parts and returns (flags, code)</p>
 
 </div>
 
@@ -1251,7 +1230,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="create_mod_file" class="doc_header"><code>create_mod_file</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L306" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_mod_file</code>(<strong><code>fname</code></strong>, <strong><code>nb_path</code></strong>, <strong><code>bare</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Create a module file for <code>fname</code>.</p>
 
 </div>
 
@@ -1291,7 +1269,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="create_mod_files" class="doc_header"><code>create_mod_files</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L316" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>create_mod_files</code>(<strong><code>files</code></strong>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>, <strong><code>bare</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Create mod files for default exports found in <code>files</code></p>
 
 </div>
 
@@ -1352,7 +1329,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="add_init" class="doc_header"><code>add_init</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L371" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>add_init</code>(<strong><code>path</code></strong>)</p>
 </blockquote>
-<p>Add <code>__init__.py</code> in all subdirs of <code>path</code> containing python files if it's not there already</p>
 
 </div>
 
@@ -1416,7 +1392,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="update_version" class="doc_header"><code>update_version</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L383" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_version</code>()</p>
 </blockquote>
-<p>Add or update <code>__version__</code> in the main <code>__init__.py</code> of the library</p>
 
 </div>
 
@@ -1455,7 +1430,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="update_baseurl" class="doc_header"><code>update_baseurl</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L397" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>update_baseurl</code>()</p>
 </blockquote>
-<p>Add or update <code>baseurl</code> in <code>_config.yml</code> for the docs</p>
 
 </div>
 
@@ -1487,7 +1461,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="nbglob" class="doc_header"><code>nbglob</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L407" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbglob</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>recursive</code></strong>=<em><code>None</code></em>, <strong><code>extension</code></strong>=<em><code>'.ipynb'</code></em>, <strong><code>config_key</code></strong>=<em><code>'nbs_path'</code></em>)</p>
 </blockquote>
-<p>Find all files in a directory matching an extension given a <code>config_key</code>.</p>
 
 </div>
 
@@ -1551,7 +1524,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h4 id="notebook2script" class="doc_header"><code>notebook2script</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L419" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>notebook2script</code>(<strong><code>fname</code></strong>=<em><code>None</code></em>, <strong><code>silent</code></strong>=<em><code>False</code></em>, <strong><code>to_dict</code></strong>=<em><code>False</code></em>, <strong><code>bare</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
-<p>Convert notebooks matching <code>fname</code> to modules</p>
 
 </div>
 
@@ -1591,7 +1563,6 @@ depending on where we are. This function deals with those imports renaming.</p>
 <div class="output_markdown rendered_html output_subarea ">
 <h3 id="DocsTestClass" class="doc_header"><code>class</code> <code>DocsTestClass</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export.py#L435" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>DocsTestClass</code>()</p>
 </blockquote>
-<p>for tests only</p>
 
 </div>
 
