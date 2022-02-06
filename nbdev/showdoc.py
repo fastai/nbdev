@@ -9,11 +9,12 @@ from .imports import *
 from .export import *
 from .sync import *
 from nbconvert import HTMLExporter
-from fastcore.utils import IN_NOTEBOOK
 
-if IN_NOTEBOOK:
+try:
     from IPython.display import Markdown,display
     from IPython.core import page
+except ModuleNotFoundError:
+    pass
 
 # Cell
 def is_enum(cls):
