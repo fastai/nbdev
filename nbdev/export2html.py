@@ -252,7 +252,9 @@ def nb_code_cell(source):
 
 # Cell
 def _show_doc_cell(name, cls_lvl=None):
-    return nb_code_cell(f"show_doc({name}{'' if cls_lvl is None else f', default_cls_level={cls_lvl}'})")
+    try: show_all = (get_config().get('show_all_docments') == 'True')
+    except: show_all = False
+    return nb_code_cell(f"show_doc({name}{'' if cls_lvl is None else f', default_cls_level={cls_lvl}'}, show_all_docments={show_all})")
 
 def add_show_docs(cells, cls_lvl=None):
     "Add `show_doc` for each exported function or class"

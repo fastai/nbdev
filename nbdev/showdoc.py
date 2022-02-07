@@ -2,14 +2,18 @@
 
 __all__ = ['is_enum', 'is_lib_module', 're_digits_first', 'try_external_doc_link', 'is_doc_name', 'doc_link',
            'add_doc_links', 'get_source_link', 'colab_link', 'get_nb_source_link', 'nb_source_link', 'type_repr',
-           'format_param', 'show_doc', 'md2html', 'get_doc_link', 'doc']
+           'format_param', 'is_source_available', 'show_doc', 'md2html', 'get_doc_link', 'doc']
 
 # Cell
 from .imports import *
 from .export import *
 from .sync import *
 from nbconvert import HTMLExporter
+from fastcore.docments import docments, isclass, _clean_comment, _tokens, _param_locs, _get_comment
 from fastcore.utils import IN_NOTEBOOK
+
+import string
+from tokenize import COMMENT
 
 if IN_NOTEBOOK:
     from IPython.display import Markdown,display
@@ -244,8 +248,104 @@ def _format_cls_doc(cls, full_name):
     return name,args
 
 # Cell
-def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, default_cls_level=2):
-    "Show documentation for element `elt`. Supported types: class, function, and enum."
+def _format_annos(anno):
+    "Returns a clean string representation of `anno` from either the `__qualname__` if it is a base class, or `str()` if not"
+    annos = listify(anno)
+    new_anno = "(" if len(annos) > 1 else ""
+    def _inner(o): return getattr(o, '__qualname__', str(o)) if '<' in str(o) else str(o)
+    for i, anno in enumerate(annos):
+        new_anno += _inner(anno)
+        if "." in new_anno: new_anno = new_anno.split('.')[-1]
+        if len(annos) > 1 and i < len(annos) - 1:
+            new_anno += ', '
+    return f'{new_anno})' if len(annos) > 1 else new_anno
+
+# Cell
+def _has_docment(elt):
+    comments = {o.start[0]:_clean_comment(o.string) for o in _tokens(elt) if o.type==COMMENT}
+    params = _param_locs(elt, returns=True)
+    comments = [_get_comment(line,arg,comments,params) for line,arg in params.items()]
+    return any(c is not None for c in comments)
+
+# Cell
+def _generate_arg_string(argument_dict, has_docment=False):
+    "Turns a dictionary of argument information into a useful docstring"
+    arg_string = '||Type|Default|'
+    border_string = '|---|---|---|'
+    if has_docment:
+        arg_string += 'Details|'
+        border_string += '---|'
+    arg_string+= f'\n{border_string}\n'
+    for key, item in argument_dict.items():
+        is_required=True
+        if key == 'return': continue
+        if item['default'] != inspect._empty:
+            if item['default'] == '':
+                item['default'] = '""'
+            is_required = False
+        arg_string += f"|**`{key}`**|"
+        if item['anno'] == None: item['anno'] = NoneType
+        arg_string += "|" if item['anno'] == inspect._empty else f"`{_format_annos(item['anno']).replace('|', 'or')}`|"
+        arg_string += "|" if is_required else f"`{str(item['default'])}`|"
+        if has_docment:
+            if item['docment']:
+                item['docment'] = item['docment'].replace('\n', '<br />')
+            arg_string += f"{item['docment']}|" if item['docment'] is not None else "*No Content*|"
+        arg_string += '\n'
+    return arg_string
+
+# Cell
+def _generate_return_string(return_dict:dict, has_docment=False):
+    "Turns a dictionary of return information into a useful docstring"
+    if return_dict['anno'] is None:
+        if not return_dict['docment']: return ''
+        else: return_dict['anno'] = NoneType
+    anno = _format_annos(return_dict['anno']).replace('|', 'or')
+    return_string = f"|**Returns**|`{anno}`||"
+    if has_docment:
+        if return_dict['docment']:
+            return_dict['docment'] = return_dict['docment'].replace('\n', '<br />')
+        else: return_dict['docment'] = ''
+    return return_string if not has_docment else f"{return_string}{return_dict['docment']}|"
+
+# Cell
+def _format_args(elt):
+    "Generates a formatted argument string"
+    ment_dict = docments(elt, full=True)
+    arg_string = ""
+    return_string = ""
+    ment_dict.pop("self", {})
+    ment_dict.pop("cls", {})
+    ret = ment_dict.pop("return", None)
+    has_docment = _has_docment(elt)
+    if len(ment_dict.keys()) > 0:
+        arg_string = _generate_arg_string(ment_dict, has_docment)
+    if not ret["anno"] == inspect._empty:
+        return_string = _generate_return_string(ret, has_docment)
+    return arg_string + return_string
+
+# Cell
+def is_source_available(
+    elt, # A python object
+):
+    "Checks if it is possible to return the source code of `elt` mimicking `inspect.getfile`"
+    if inspect.ismodule(elt):
+        return True if getattr(object, '__file__', None) else False
+    elif isclass(elt):
+        if hasattr(elt, '__module__'):
+            module = sys.modules.get(elt.__module__)
+            return True if getattr(module, '__file__', None) else False
+    elif getattr(elt, '__name__', None) == "<lambda>":
+        return False
+    elif inspect.ismethod(elt) or inspect.isfunction(elt) or inspect.istraceback(elt) or inspect.isframe(elt) or inspect.iscode(elt):
+        return True
+    elif is_enum(elt):
+        return False
+    return False
+
+# Cell
+def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, default_cls_level=2, show_all_docments=False, verbose=False):
+    "Show documentation for element `elt` with potential input documentation. Supported types: class, function, and enum."
     elt = getattr(elt, '__func__', elt)
     qname = name or qual_name(elt)
     if inspect.isclass(elt):
@@ -258,6 +358,7 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
     title_level = title_level or (default_cls_level if inspect.isclass(elt) else 4)
     doc =  f'<h{title_level} id="{qname}" class="doc_header">{name}{source_link}</h{title_level}>'
     doc += f'\n\n> {args}\n\n' if len(args) > 0 else '\n\n'
+    s = ''
     if doc_string and inspect.getdoc(elt):
         s = inspect.getdoc(elt)
         # show_doc is used by doc so should not rely on Config
@@ -266,6 +367,14 @@ def show_doc(elt, doc_string=True, name=None, title_level=None, disp=True, defau
         # doc links don't work inside markdown pre/code blocks
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
         doc += s
+    if len(args) > 0:
+        if hasattr(elt, '__init__') and isclass(elt):
+            elt = elt.__init__
+        if is_source_available(elt):
+            if show_all_docments or _has_docment(elt):
+                doc += f"\n\n{_format_args(elt)}"
+            elif verbose:
+                print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
     if disp: display(Markdown(doc))
     else: return doc
 
@@ -289,14 +398,24 @@ def get_doc_link(func):
     except: return None
 
 # Cell
-def doc(elt):
+# Fancy CSS needed to make raw Jupyter rendering look nice
+_TABLE_CSS = """<style>
+    table { border-collapse: collapse; border:thin solid #dddddd; margin: 25px 0px; ; }
+    table tr:first-child { background-color: #FFF}
+    table thead th { background-color: #eee; color: #000; text-align: center;}
+    tr, th, td { border: 1px solid #ccc; border-width: 1px 0 0 1px; border-collapse: collapse;
+    padding: 5px; }
+    tr:nth-child(even) {background: #eee;}</style>"""
+
+# Cell
+def doc(elt:int, show_all_docments:bool=True):
     "Show `show_doc` info in preview window when used in a notebook"
-    md = show_doc(elt, disp=False)
+    md = show_doc(elt, disp=False, show_all_docments=show_all_docments)
     doc_link = get_doc_link(elt)
     if doc_link is not None:
         md += f'\n\n<a href="{doc_link}" target="_blank" rel="noreferrer noopener">Show in docs</a>'
     output = md2html(md)
-    if IN_COLAB: get_ipython().run_cell_magic(u'html', u'', output)
+    if IN_COLAB: get_ipython().run_cell_magic(u'html', u'', output + _TABLE_CSS)
     else:
-        try: page.page({'text/html': output})
+        try: page.page({'text/html': output + _TABLE_CSS})
         except: display(Markdown(md))

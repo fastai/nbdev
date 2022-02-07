@@ -198,7 +198,7 @@ nb_path: "nbs/04_test.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="NoExportPreprocessor" class="doc_header"><code>class</code> <code>NoExportPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L60" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NoExportPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
+<h2 id="NoExportPreprocessor" class="doc_header"><code>class</code> <code>NoExportPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L60" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>NoExportPreprocessor</code>(<strong><code>flags</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
 </blockquote>
 <p>An <code>ExecutePreprocessor</code> that executes cells that don't have a flag in <code>flags</code></p>
 
@@ -286,9 +286,56 @@ nb_path: "nbs/04_test.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_test_nbs" class="doc_header"><code>nbdev_test_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L100" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_test_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>, <strong><code>flags</code></strong>:"Space separated list of flags"=<em><code>None</code></em>, <strong><code>n_workers</code></strong>:"Number of workers to use"=<em><code>None</code></em>, <strong><code>verbose</code></strong>:"Print errors along the way"=<em><code>True</code></em>, <strong><code>timing</code></strong>:"Timing each notebook to see the ones are slow"=<em><code>False</code></em>, <strong><code>pause</code></strong>:"Pause time (in secs) between notebooks to avoid race conditions"=<em><code>0.5</code></em>)</p>
+<h4 id="nbdev_test_nbs" class="doc_header"><code>nbdev_test_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L100" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_test_nbs</code>(<strong><code>fname</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>flags</code></strong>:<code>str</code>=<em><code>None</code></em>, <strong><code>n_workers</code></strong>:<code>int</code>=<em><code>None</code></em>, <strong><code>verbose</code></strong>:<code>bool_arg</code>=<em><code>True</code></em>, <strong><code>timing</code></strong>:<code>bool</code>=<em><code>False</code></em>, <strong><code>pause</code></strong>:<code>float</code>=<em><code>0.5</code></em>)</p>
 </blockquote>
 <p>Test in parallel the notebooks matching <code>fname</code>, passing along <code>flags</code></p>
+<table>
+<thead><tr>
+<th></th>
+<th>Type</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>fname</code></strong></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>A notebook name or glob to convert</td>
+</tr>
+<tr>
+<td><strong><code>flags</code></strong></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>Space separated list of flags</td>
+</tr>
+<tr>
+<td><strong><code>n_workers</code></strong></td>
+<td><code>int</code></td>
+<td><code>None</code></td>
+<td>Number of workers to use</td>
+</tr>
+<tr>
+<td><strong><code>verbose</code></strong></td>
+<td><code>bool_arg</code></td>
+<td><code>True</code></td>
+<td>Print errors along the way</td>
+</tr>
+<tr>
+<td><strong><code>timing</code></strong></td>
+<td><code>bool</code></td>
+<td><code>False</code></td>
+<td>Timing each notebook to see the ones are slow</td>
+</tr>
+<tr>
+<td><strong><code>pause</code></strong></td>
+<td><code>float</code></td>
+<td><code>0.5</code></td>
+<td>Pause time (in secs) between notebooks to avoid race conditions</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -318,9 +365,26 @@ nb_path: "nbs/04_test.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L126" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:"A notebook name or glob to convert"=<em><code>None</code></em>)</p>
+<h4 id="nbdev_read_nbs" class="doc_header"><code>nbdev_read_nbs</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/test.py#L128" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_read_nbs</code>(<strong><code>fname</code></strong>:<code>str</code>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Check all notebooks matching <code>fname</code> can be opened</p>
+<table>
+<thead><tr>
+<th></th>
+<th>Type</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>fname</code></strong></td>
+<td><code>str</code></td>
+<td><code>None</code></td>
+<td>A notebook name or glob to convert</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
