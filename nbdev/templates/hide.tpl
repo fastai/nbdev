@@ -1,4 +1,4 @@
-{%- extends 'basic.tpl' -%}
+{%- extends 'basic/index.html.j2' -%}
 
 {% block codecell %}
     {{ "{% raw %}" }}
