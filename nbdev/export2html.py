@@ -699,7 +699,11 @@ def _create_default_sidebar():
     files = nbglob()
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
     titles = [_get_title(f) for f in fnames if f.stem!='index']
-    if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
+    d = {}
+    for f,t in zip(fnames, titles):
+        d[t] = d.get(t, []) + [str(f)]
+    for k,v in d.items():
+        if len(v) > 1: print(f'WARNING: The title: "{k}" appears in {len(v)} pages:\n\t\t{v}')
     dic.update({_get_title(f):f.name if get_config().host=='github' else f.with_suffix('').name for f in fnames if f.stem!='index'})
     return dic
 
