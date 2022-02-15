@@ -2,6 +2,10 @@
 
 <!-- do not remove -->
 
+## 1.2.0
+
+- upgrade nbconvert dep to v6
+
 ## 1.1.23
 
 ### Bugs Squashed
