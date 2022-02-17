@@ -372,7 +372,9 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
             elt = elt.__init__
         if is_source_available(elt):
             if show_all_docments or _has_docment(elt):
-                doc += f"\n\n{_format_args(elt)}"
+                s = f"\n\n{_format_args(elt)}"
+                if not monospace: s = add_doc_links(s)
+                doc += s
             elif verbose:
                 print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
     if disp: display(Markdown(doc))
