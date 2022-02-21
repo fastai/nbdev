@@ -309,9 +309,10 @@ def _generate_return_string(return_dict:dict, has_docment=False):
     return return_string if not has_docment else f"{return_string}{return_dict['docment']}|"
 
 # Cell
-def _format_args(elt):
-    "Generates a formatted argument string"
-    ment_dict = docments(elt, full=True)
+def _format_args(elt, ment_dict:dict = None, kwargs = []):
+    "Generates a formatted argument string, potentially from an existing `ment_dict`"
+    if ment_dict is None:
+        ment_dict = docments(elt, full=True)
     arg_string = ""
     return_string = ""
     ment_dict.pop("self", {})
@@ -319,7 +320,14 @@ def _format_args(elt):
     ret = ment_dict.pop("return", None)
     has_docment = _has_docment(elt)
     if len(ment_dict.keys()) > 0:
-        arg_string = _generate_arg_string(ment_dict, has_docment)
+        if len(kwargs) > 0:
+            kwarg_dict = filter_keys(ment_dict, lambda x: x in kwargs)
+            ment_dict = filter_keys(ment_dict, lambda x: x not in kwargs)
+            arg_string = _generate_arg_string(ment_dict, has_docment)
+            arg_string += "|||**Valid Keyword Arguments**||\n"
+            arg_string += _generate_arg_string(kwarg_dict, has_docment).replace("||Type|Default|Details|\n|---|---|---|---|\n", "")
+        else:
+            arg_string = _generate_arg_string(ment_dict, has_docment)
     if not ret["anno"] == inspect._empty:
         return_string = _generate_return_string(ret, has_docment)
     return arg_string + return_string
@@ -342,6 +350,31 @@ def is_source_available(
     elif is_enum(elt):
         return False
     return False
+
+# Cell
+def _handle_delegates(elt):
+    "Generates a `docment` dict handling `@delegates` and returns names of the kwargs in `elt`"
+    kwargs = []
+    arg_dict = docments(elt, full=True)
+    delwrap_dict = docments(elt.__delwrap__, full=True)
+    drop = arg_dict.keys()
+    for k,v in arg_dict.items():
+        if k in delwrap_dict.keys() and v["docment"] is None and k != "return":
+            kwargs.append(k)
+            if delwrap_dict[k]["docment"] is not None:
+                v["docment"] = delwrap_dict[k]["docment"] + f" passed to `{qual_name(elt.__delwrap__)}`"
+            else:
+                v['docment'] = f"Argument passed to `{qual_name(elt.__delwrap__)}`"
+    return arg_dict, kwargs
+
+# Cell
+def _get_docments(elt, with_return=False, ment_dict=None, kwargs=[], monospace=False):
+    "Grabs docments for `elt` and formats with a potential `ment_dict` and valid kwarg names"
+    s = f"\n\n{_format_args(elt, ment_dict=ment_dict, kwargs=kwargs)}"
+    if not monospace: s = add_doc_links(s)
+    if not with_return:
+        s = s.split("|**Returns**|")[0]
+    return s
 
 # Cell
 def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, default_cls_level=2, show_all_docments=False, verbose=False):
@@ -372,9 +405,11 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
             elt = elt.__init__
         if is_source_available(elt):
             if show_all_docments or _has_docment(elt):
-                s = f"\n\n{_format_args(elt)}"
-                if not monospace: s = add_doc_links(s)
-                doc += s
+                if hasattr(elt, "__delwrap__"):
+                    arg_dict, kwargs = _handle_delegates(elt)
+                    doc += _get_docments(elt, ment_dict=arg_dict, with_return=True, kwargs=kwargs)
+                else:
+                    doc += _get_docments(elt)
             elif verbose:
                 print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
     if disp: display(Markdown(doc))
