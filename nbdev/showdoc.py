@@ -189,6 +189,19 @@ def nb_source_link(func, is_name=None, disp=True, local=True):
 from fastcore.script import Param
 
 # Cell
+def _format_annos(anno, highlight=False):
+    "Returns a clean string representation of `anno` from either the `__qualname__` if it is a base class, or `str()` if not"
+    annos = listify(anno)
+    new_anno = "(" if len(annos) > 1 else ""
+    def _inner(o): return getattr(o, '__qualname__', str(o)) if '<' in str(o) else str(o)
+    for i, anno in enumerate(annos):
+        new_anno += _inner(anno) if not highlight else f'{doc_link(_inner(anno))}'
+        if "." in new_anno: new_anno = new_anno.split('.')[-1]
+        if len(annos) > 1 and i < len(annos) - 1:
+            new_anno += ', '
+    return f'{new_anno})' if len(annos) > 1 else new_anno
+
+# Cell
 def type_repr(t):
     "Representation of type `t` (in a type annotation)"
     if (isinstance(t, Param)): return f'"{t.help}"'
@@ -196,22 +209,9 @@ def type_repr(t):
         args = t.__args__
         if len(args)==2 and args[1] == type(None):
             return f'`Optional`\[{type_repr(args[0])}\]'
-        reprs = ', '.join([type_repr(o) for o in args])
+        reprs = ', '.join([_format_annos(o, highlight=True) for o in args])
         return f'{doc_link(get_name(t))}\[{reprs}\]'
-    else: return doc_link(get_name(t))
-
-# Cell
-def _format_annos(anno, highlight=False):
-    "Returns a clean string representation of `anno` from either the `__qualname__` if it is a base class, or `str()` if not"
-    annos = listify(anno)
-    new_anno = "(" if len(annos) > 1 else ""
-    def _inner(o): return getattr(o, '__qualname__', str(o)) if '<' in str(o) else str(o)
-    for i, anno in enumerate(annos):
-        new_anno += _inner(anno) if not highlight else f'`{_inner(anno)}`'
-        if "." in new_anno: new_anno = new_anno.split('.')[-1]
-        if len(annos) > 1 and i < len(annos) - 1:
-            new_anno += ', '
-    return f'{new_anno})' if len(annos) > 1 else new_anno
+    else: return doc_link(_format_annos(t))
 
 # Cell
 _arg_prefixes = {inspect._VAR_POSITIONAL: '\*', inspect._VAR_KEYWORD:'\*\*'}
@@ -220,7 +220,7 @@ def format_param(p):
     "Formats function param to `param:Type=val` with font weights: param=bold, val=italic"
     arg_prefix = _arg_prefixes.get(p.kind, '') # asterisk prefix for *args and **kwargs
     res = f"**{arg_prefix}`{p.name}`**"
-    if hasattr(p, 'annotation') and p.annotation != p.empty: res += f':{_format_annos(p.annotation, highlight=True)}'
+    if hasattr(p, 'annotation') and p.annotation != p.empty: res += f':{type_repr(p.annotation)}'
     if p.default != p.empty:
         default = getattr(p.default, 'func', p.default) #For partials
         if hasattr(default,'__name__'): default = getattr(default, '__name__')
