@@ -189,6 +189,19 @@ def nb_source_link(func, is_name=None, disp=True, local=True):
 from fastcore.script import Param
 
 # Cell
+def _format_annos(anno, highlight=False):
+    "Returns a clean string representation of `anno` from either the `__qualname__` if it is a base class, or `str()` if not"
+    annos = listify(anno)
+    new_anno = "(" if len(annos) > 1 else ""
+    def _inner(o): return getattr(o, '__qualname__', str(o)) if '<' in str(o) else str(o)
+    for i, anno in enumerate(annos):
+        new_anno += _inner(anno) if not highlight else f'{doc_link(_inner(anno))}'
+        if "." in new_anno: new_anno = new_anno.split('.')[-1]
+        if len(annos) > 1 and i < len(annos) - 1:
+            new_anno += ', '
+    return f'{new_anno})' if len(annos) > 1 else new_anno
+
+# Cell
 def type_repr(t):
     "Representation of type `t` (in a type annotation)"
     if (isinstance(t, Param)): return f'"{t.help}"'
@@ -196,9 +209,9 @@ def type_repr(t):
         args = t.__args__
         if len(args)==2 and args[1] == type(None):
             return f'`Optional`\[{type_repr(args[0])}\]'
-        reprs = ', '.join([type_repr(o) for o in args])
+        reprs = ', '.join([_format_annos(o, highlight=True) for o in args])
         return f'{doc_link(get_name(t))}\[{reprs}\]'
-    else: return doc_link(get_name(t))
+    else: return doc_link(_format_annos(t))
 
 # Cell
 _arg_prefixes = {inspect._VAR_POSITIONAL: '\*', inspect._VAR_KEYWORD:'\*\*'}
@@ -248,19 +261,6 @@ def _format_cls_doc(cls, full_name):
     return name,args
 
 # Cell
-def _format_annos(anno):
-    "Returns a clean string representation of `anno` from either the `__qualname__` if it is a base class, or `str()` if not"
-    annos = listify(anno)
-    new_anno = "(" if len(annos) > 1 else ""
-    def _inner(o): return getattr(o, '__qualname__', str(o)) if '<' in str(o) else str(o)
-    for i, anno in enumerate(annos):
-        new_anno += _inner(anno)
-        if "." in new_anno: new_anno = new_anno.split('.')[-1]
-        if len(annos) > 1 and i < len(annos) - 1:
-            new_anno += ', '
-    return f'{new_anno})' if len(annos) > 1 else new_anno
-
-# Cell
 def _has_docment(elt):
     comments = {o.start[0]:_clean_comment(o.string) for o in _tokens(elt) if o.type==COMMENT}
     params = _param_locs(elt, returns=True)
@@ -286,7 +286,7 @@ def _generate_arg_string(argument_dict, has_docment=False):
         arg_string += f"|**`{key}`**|"
         if item['anno'] == None: item['anno'] = NoneType
         arg_string += "|" if item['anno'] == inspect._empty else f"`{_format_annos(item['anno']).replace('|', 'or')}`|"
-        arg_string += "|" if is_required else f"`{str(item['default'])}`|"
+        arg_string += "|" if is_required else f"`{_format_annos(item['default'])}`|"
         if has_docment:
             if item['docment']:
                 item['docment'] = item['docment'].replace('\n', '<br />')
