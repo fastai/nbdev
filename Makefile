@@ -24,7 +24,7 @@ release: pypi
 	fastrelease_bump_version
 
 conda_release:
-	fastrelease_conda_package --mambabuild --upload_user fastai
+	fastrelease_conda_package --mambabuild --upload_user fastai --build_args '-c fastai -c defaults -c conda-forge'
 
 pypi: dist
 	twine upload --repository pypi dist/*
