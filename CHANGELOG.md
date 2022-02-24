@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 1.2.2
+
+### New Features
+
+- Update dependencies
+
+
 ## 1.2.1
 
 ### New Features
