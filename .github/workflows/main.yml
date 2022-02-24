@@ -17,7 +17,9 @@ jobs:
     container: fastai/jekyll
     steps:
     - uses: actions/checkout@v2
-    - run: pip install -qe .
+    - run: |
+        pip install -qe .
+        pip install -Uqq git+https://github.com/fastai/fastcore.git
     - name: Check if notebooks are synced and cleaned
       uses: fastai/workflows/nb@master
 
