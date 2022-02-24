@@ -2,6 +2,18 @@
 
 <!-- do not remove -->
 
+## 1.2.1
+
+### New Features
+
+- Make sure docments have linking capability ([#585](https://github.com/fastai/nbdev/pull/585)), thanks to [@muellerzr](https://github.com/muellerzr)
+- better logging for duplicate titles ([#584](https://github.com/fastai/nbdev/pull/584)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
+### Bugs Squashed
+
+- Fix repr issue with `show_doc` ([#588](https://github.com/fastai/nbdev/pull/588)), thanks to [@muellerzr](https://github.com/muellerzr)
+
+
 ## 1.2.0
 
 - upgrade nbconvert dep to v6
