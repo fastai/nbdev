@@ -53,7 +53,7 @@ jobs:
     - name: Install nbdev
       run: |
         pip install -qe .
-        pip install -qU fastcore   
+        pip install -Uqq git+https://github.com/fastai/fastcore.git  
     - uses: actions/checkout@v2
       with:
         repository: "fastai/fastpages"
