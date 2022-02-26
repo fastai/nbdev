@@ -242,7 +242,7 @@ def reset_nbdev_module():
     "Create a skeleton for <code>_nbdev</code>"
     fname = get_config().path("lib_path")/'_nbdev.py'
     fname.parent.mkdir(parents=True, exist_ok=True)
-    sep = '\n'* (int(get_config().get('cell_spacing', '1'))+1)
+    sep = '\n' * (get_config().d.getint('cell_spacing', 1) + 1)
     if fname.is_file():
         with open(fname, 'r') as f: search = _re_index_custom.search(f.read())
     else: search = None
@@ -305,7 +305,7 @@ def split_flags_and_code(cell, return_type=list):
 # Cell
 def create_mod_file(fname, nb_path, bare=False):
     "Create a module file for `fname`."
-    bare = str(get_config().get('bare', bare)) == 'True'
+    bare = get_config().d.getboolean('bare', bare)
     fname.parent.mkdir(parents=True, exist_ok=True)
     file_path = os.path.relpath(nb_path, get_config().config_file.parent).replace('\\', '/')
     with open(fname, 'w') as f:
@@ -330,9 +330,9 @@ def create_mod_files(files, to_dict=False, bare=False):
 # Cell
 def _notebook2script(fname, modules, silent=False, to_dict=None, bare=False):
     "Finds cells starting with `#export` and puts them into a module created by `create_mod_files`"
-    bare = str(get_config().get('bare', bare)) == 'True'
+    bare = get_config().d.getboolean('bare', bare)
     if os.environ.get('IN_TEST',0): return  # don't export if running tests
-    sep = '\n'* (int(get_config().get('cell_spacing', '1'))+1)
+    sep = '\n' * (get_config().d.getint('cell_spacing', 1) + 1)
     fname = Path(fname)
     nb = read_nb(fname)
     default = find_default_export(nb['cells'])
