@@ -167,6 +167,7 @@ from fastcore.script import Param
 def _format_annos(anno, highlight=False):
     "Returns a clean string representation of `anno` from either the `__qualname__` if it is a base class, or `str()` if not"
     annos = listify(anno)
+    if len(annos) == 0: return "None" # If anno is none, listify has a length of 0
     new_anno = "(" if len(annos) > 1 else ""
     def _inner(o): return getattr(o, '__qualname__', str(o)) if '<' in str(o) else str(o)
     for i, anno in enumerate(annos):
@@ -243,7 +244,7 @@ def _has_docment(elt):
     return any(c is not None for c in comments)
 
 # Cell
-def _generate_arg_string(argument_dict, has_docment=False):
+def _generate_arg_string(argument_dict, has_docment=False, monospace=False):
     "Turns a dictionary of argument information into a useful docstring"
     arg_string = '||Type|Default|'
     border_string = '|---|---|---|'
@@ -259,13 +260,18 @@ def _generate_arg_string(argument_dict, has_docment=False):
                 item['default'] = '""'
             is_required = False
         arg_string += f"|**`{key}`**|"
+        details_string = ""
         if item['anno'] == None: item['anno'] = NoneType
-        arg_string += "|" if item['anno'] == inspect._empty else f"`{_format_annos(item['anno']).replace('|', 'or')}`|"
-        arg_string += "|" if is_required else f"`{_format_annos(item['default'])}`|"
+        if (item["default"] == None and item['anno'] == NoneType) or item['anno'] == inspect._empty:
+            details_string += "|"
+        else:
+            details_string += f"`{_format_annos(item['anno']).replace('|', 'or')}`|"
+        details_string += "|" if is_required else f"`{_format_annos(item['default'])}`|"
         if has_docment:
             if item['docment']:
                 item['docment'] = item['docment'].replace('\n', '<br />')
-            arg_string += f"{item['docment']}|" if item['docment'] is not None else "*No Content*|"
+            details_string += f"{item['docment']}|" if item['docment'] is not None else "*No Content*|"
+        arg_string += add_doc_links(details_string)
         arg_string += '\n'
     return arg_string
 
@@ -284,7 +290,7 @@ def _generate_return_string(return_dict:dict, has_docment=False):
     return return_string if not has_docment else f"{return_string}{return_dict['docment']}|"
 
 # Cell
-def _format_args(elt, ment_dict:dict = None, kwargs = []):
+def _format_args(elt, ment_dict:dict = None, kwargs = [], monospace=False):
     "Generates a formatted argument string, potentially from an existing `ment_dict`"
     if ment_dict is None:
         ment_dict = docments(elt, full=True)
@@ -300,9 +306,9 @@ def _format_args(elt, ment_dict:dict = None, kwargs = []):
             ment_dict = filter_keys(ment_dict, lambda x: x not in kwargs)
             arg_string = _generate_arg_string(ment_dict, has_docment)
             arg_string += "|||**Valid Keyword Arguments**||\n"
-            arg_string += _generate_arg_string(kwarg_dict, has_docment).replace("||Type|Default|Details|\n|---|---|---|---|\n", "")
+            arg_string += _generate_arg_string(kwarg_dict, has_docment, monospace=monospace).replace("||Type|Default|Details|\n|---|---|---|---|\n", "")
         else:
-            arg_string = _generate_arg_string(ment_dict, has_docment)
+            arg_string = _generate_arg_string(ment_dict, has_docment, monospace=monospace)
     if not ret["anno"] == inspect._empty:
         return_string = _generate_return_string(ret, has_docment)
     return arg_string + return_string
@@ -345,9 +351,9 @@ def _handle_delegates(elt):
 # Cell
 def _get_docments(elt, with_return=False, ment_dict=None, kwargs=[], monospace=False):
     "Grabs docments for `elt` and formats with a potential `ment_dict` and valid kwarg names"
-    s = f"\n\n{_format_args(elt, ment_dict=ment_dict, kwargs=kwargs)}"
-    if not monospace: s = add_doc_links(s)
+    s = f"\n\n{_format_args(elt, ment_dict=ment_dict, kwargs=kwargs, monospace=monospace)}"
     if not with_return:
+
         s = s.split("|**Returns**|")[0]
     return s
 
@@ -367,10 +373,9 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
     doc =  f'<h{title_level} id="{qname}" class="doc_header">{name}{source_link}</h{title_level}>'
     doc += f'\n\n> {args}\n\n' if len(args) > 0 else '\n\n'
     s = ''
+    monospace = get_config().d.getboolean('monospace_docstrings', False)
     if doc_string and inspect.getdoc(elt):
         s = inspect.getdoc(elt)
-        # show_doc is used by doc so should not rely on Config
-        monospace = get_config().d.getboolean('monospace_docstrings', False)
         # doc links don't work inside markdown pre/code blocks
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
         doc += s
@@ -381,9 +386,9 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
             if show_all_docments or _has_docment(elt):
                 if hasattr(elt, "__delwrap__"):
                     arg_dict, kwargs = _handle_delegates(elt)
-                    doc += _get_docments(elt, ment_dict=arg_dict, with_return=True, kwargs=kwargs)
+                    doc += _get_docments(elt, ment_dict=arg_dict, with_return=True, kwargs=kwargs, monospace=monospace)
                 else:
-                    doc += _get_docments(elt)
+                    doc += _get_docments(elt, monospace=monospace)
             elif verbose:
                 print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
     if disp: display(Markdown(doc))
