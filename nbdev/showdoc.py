@@ -290,14 +290,15 @@ def _generate_return_string(return_dict:dict, has_docment=False):
     return return_string if not has_docment else f"{return_string}{return_dict['docment']}|"
 
 # Cell
-def _format_args(elt, ment_dict:dict = None, kwargs = [], monospace=False):
+def _format_args(elt, ment_dict:dict = None, kwargs = [], monospace=False, is_class=False):
     "Generates a formatted argument string, potentially from an existing `ment_dict`"
     if ment_dict is None:
         ment_dict = docments(elt, full=True)
     arg_string = ""
     return_string = ""
-    ment_dict.pop("self", {})
-    ment_dict.pop("cls", {})
+    if not _is_static(elt) and is_class:
+        ment_dict.pop("self", {})
+        ment_dict.pop("cls", {})
     ret = ment_dict.pop("return", None)
     has_docment = _has_docment(elt)
     if len(ment_dict.keys()) > 0:
@@ -349,12 +350,10 @@ def _handle_delegates(elt):
     return arg_dict, kwargs
 
 # Cell
-def _get_docments(elt, with_return=False, ment_dict=None, kwargs=[], monospace=False):
+def _get_docments(elt, with_return=False, ment_dict=None, kwargs=[], monospace=False, is_class=False):
     "Grabs docments for `elt` and formats with a potential `ment_dict` and valid kwarg names"
-    s = f"\n\n{_format_args(elt, ment_dict=ment_dict, kwargs=kwargs, monospace=monospace)}"
-    if not with_return:
-
-        s = s.split("|**Returns**|")[0]
+    s = f"\n\n{_format_args(elt, ment_dict=ment_dict, kwargs=kwargs, monospace=monospace, is_class=is_class)}"
+    if not with_return: s = s.split("|**Returns**|")[0]
     return s
 
 # Cell
@@ -362,6 +361,7 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
     "Show documentation for element `elt` with potential input documentation. Supported types: class, function, and enum."
     elt = getattr(elt, '__func__', elt)
     qname = name or qual_name(elt)
+    is_class = '.' in qname or inspect.isclass
     if inspect.isclass(elt):
         if is_enum(elt): name,args = _format_enum_doc(elt, qname)
         else:            name,args = _format_cls_doc (elt, qname)
@@ -373,7 +373,10 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
     doc =  f'<h{title_level} id="{qname}" class="doc_header">{name}{source_link}</h{title_level}>'
     doc += f'\n\n> {args}\n\n' if len(args) > 0 else '\n\n'
     s = ''
-    monospace = get_config().d.getboolean('monospace_docstrings', False)
+    try:
+        monospace = get_config().d.getboolean('monospace_docstrings', False)
+    except FileNotFoundError:
+        monospace = False
     if doc_string and inspect.getdoc(elt):
         s = inspect.getdoc(elt)
         # doc links don't work inside markdown pre/code blocks
@@ -386,9 +389,9 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
             if show_all_docments or _has_docment(elt):
                 if hasattr(elt, "__delwrap__"):
                     arg_dict, kwargs = _handle_delegates(elt)
-                    doc += _get_docments(elt, ment_dict=arg_dict, with_return=True, kwargs=kwargs, monospace=monospace)
+                    doc += _get_docments(elt, ment_dict=arg_dict, with_return=True, kwargs=kwargs, monospace=monospace, is_class=is_class)
                 else:
-                    doc += _get_docments(elt, monospace=monospace)
+                    doc += _get_docments(elt, monospace=monospace, is_class=is_class)
             elif verbose:
                 print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
     if disp: display(Markdown(doc))
