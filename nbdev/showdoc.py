@@ -290,6 +290,17 @@ def _generate_return_string(return_dict:dict, has_docment=False):
     return return_string if not has_docment else f"{return_string}{return_dict['docment']}|"
 
 # Cell
+def _is_static(func):
+    "Checks whether `func` is a static method in a class"
+    name = qual_name(func)
+    if len(name.split(".")) == 2:
+        cls, nm = name.split('.')
+        cls = getattr(sys.modules[func.__module__], cls)
+        method_type = inspect.getattr_static(cls, nm)
+        return isinstance(method_type, staticmethod)
+    return False
+
+# Cell
 def _format_args(elt, ment_dict:dict = None, kwargs = [], monospace=False, is_class=False):
     "Generates a formatted argument string, potentially from an existing `ment_dict`"
     if ment_dict is None:
