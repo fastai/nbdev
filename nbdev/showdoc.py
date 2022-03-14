@@ -171,7 +171,7 @@ def _format_annos(anno, highlight=False):
     new_anno = "(" if len(annos) > 1 else ""
     def _inner(o): return getattr(o, '__qualname__', str(o)) if '<' in str(o) else str(o)
     for i, anno in enumerate(annos):
-        if str(anno).replace('.', '').isnumeric():
+        if str(anno).replace('.', '').isnumeric() or isinstance(anno, str):
             new_anno += str(anno)
         else:
             new_anno += _inner(anno) if not highlight else f'{doc_link(_inner(anno))}'
