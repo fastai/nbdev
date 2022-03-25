@@ -2,6 +2,12 @@
 
 <!-- do not remove -->
 
+## 1.2.3
+
+### Bugs Squashed
+
+- Pin jinja2 due to deprecation bug in nbconvert
+
 ## 1.2.2
 
 ### New Features
