@@ -40,7 +40,6 @@ def absolute_import(name, fname, level):
 
 # %% ../nbs/03_sync.ipynb 13
 _re_import = re.compile("from\s+\S+\s+import\s+\S")
-_re_export = re.compile("\s*#\s*exporti?(\s+\S+)?\s*$")
 
 # %% ../nbs/03_sync.ipynb 15
 def _to_absolute(code, lib_name):
@@ -50,13 +49,16 @@ def _to_absolute(code, lib_name):
 
 def _update_lib(nbname, nb_locs, lib_name=None):
     if lib_name is None: lib_name = get_config().lib_name
-    nb = read_nb(nbname)
+    # Too avoid overwriting the comments
+    nbp = NBProcessor(nbname, ExportModuleProcessor())
+    nb = nbp.nb
+    nbp.process()
 
     for name,idx,code in nb_locs:
         assert name==nbname
         cell = nb.cells[int(idx)-1]
         lines = cell.source.splitlines(True)
-        source = lines[0] if lines and _re_export.match(lines[0]) else ''
+        source = ''.join(cell.source.splitlines(True)[:len(cell._comments)])
         cell.source = source + _to_absolute(code, lib_name)
     write_nb(nb, nbname)
 
