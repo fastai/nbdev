@@ -44,7 +44,7 @@ class NBProcessor:
         self.cell = cell
         cell._comments = extract_comments(cell.source)
         for proc in self.procs:
-            if callable(proc): proc(self, cell)
+            if callable(proc): proc(cell)
             if cell.cell_type=='code':
                 for comment in cell._comments: self._process_comment(proc, comment)
 
@@ -58,6 +58,7 @@ class NBProcessor:
     def process(self):
         "Process all cells with `process_cell`"
         for i in range_of(self.nb.cells): self._process_cell(self.nb.cells[i])
+        self.nb.cells = [c for c in self.nb.cells if c.source is not None]
 
 # %% ../nbs/02_export.ipynb 16
 class ExportModuleProc:
@@ -70,7 +71,7 @@ class ExportModuleProc:
         self.in_all[ifnone(exp_to, '#')].append(nbp.cell)
 
 # %% ../nbs/02_export.ipynb 19
-def rm_comments_proc(nbp, cell):
+def rm_comments_proc(cell):
     "A proc that removes comments from each NB cell source"
     cell.source = ''.join(cell.source.splitlines(True)[len(cell._comments):])
 

@@ -17,7 +17,7 @@ import ast,tempfile,json
 # %% ../nbs/03_sync.ipynb 5
 def nb2dict(d, k=None):
     "Convert parsed notebook to `dict`"
-    if k=='source': return d.splitlines(keepends=True)
+    if k in ('source','text'): return d.splitlines(keepends=True)
     if isinstance(d, (L,list)): return list(L(d).map(nb2dict))
     if not isinstance(d, dict): return d
     return dict(**{k:nb2dict(v,k) for k,v in d.items() if k[-1] != '_'})
@@ -50,7 +50,7 @@ def _to_absolute(code, lib_name):
 def _update_lib(nbname, nb_locs, lib_name=None):
     if lib_name is None: lib_name = get_config().lib_name
     # Too avoid overwriting the comments
-    nbp = NBProcessor(nbname, ExportModuleProcessor())
+    nbp = NBProcessor(nbname, ExportModuleProc())
     nb = nbp.nb
     nbp.process()
 
