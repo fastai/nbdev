@@ -20,8 +20,6 @@ class NbCell(AttrDict):
         super().__init__(cell)
         self.idx_ = idx
         if 'source' in self: self.set_source(self.source)
-        for o in cell.get('outputs', []):
-            if 'text' in o: o['text'] = ''.join(o.text)
 
     def __repr__(self): return self.source
 
