@@ -16,9 +16,7 @@ class HTMLdf(HTMLParser):
     df,scoped = False,False
     
     def handle_starttag(self, tag, attrs):
-        if tag == 'style':
-            for k,v in attrs:
-                if k == 'scoped': self.scoped=True
+        if tag == 'style' and 'scoped' in dict(attrs): self.scoped=True
 
     def handle_data(self, data):
         if '.dataframe' in data and self.scoped: self.df=True
