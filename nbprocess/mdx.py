@@ -7,6 +7,7 @@ __all__ = ['InjectMeta', 'StripAnsi', 'InsertWarning', 'RmEmptyCode', 'UpdateTag
 # %% ../nbs/06b_mdx.ipynb 3
 from .read import get_config
 from .processor import *
+from .extract_attachments import ExtractAttachmentsPreprocessor
 
 from fastcore.basics import *
 from fastcore.foundation import *
@@ -124,7 +125,8 @@ def get_mdx_exporter(template_file='ob.tpl'):
     c.TagRemovePreprocessor.remove_all_outputs_tags = ("remove_output", "remove_outputs", "hide_output", "hide_outputs")
     c.TagRemovePreprocessor.remove_input_tags = ('remove_input', 'remove_inputs', "hide_input", "hide_inputs")
     pp = [InjectMeta, CleanMagics, BashIdentify, UpdateTags, InsertWarning, TagRemovePreprocessor,
-          CleanFlags, CleanShowDoc, RmEmptyCode, StripAnsi, HideInputLines, ImageSave, ImagePath, HTMLEscape]
+          CleanFlags, CleanShowDoc, RmEmptyCode, StripAnsi, HideInputLines, ExtractAttachmentsPreprocessor,
+          ImageSave, ImagePath, HTMLEscape]
     c.MarkdownExporter.preprocessors = pp
     tmp_dir = Path(__file__).parent/'templates/'
     tmp_file = tmp_dir/f"{template_file}"
