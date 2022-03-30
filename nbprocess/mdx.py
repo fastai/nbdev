@@ -2,19 +2,22 @@
 
 # %% auto 0
 __all__ = ['InjectMeta', 'StripAnsi', 'InsertWarning', 'RmEmptyCode', 'UpdateTags', 'HideInputLines', 'CleanFlags', 'CleanMagics',
-           'BashIdentify', 'CleanShowDoc', 'get_mdx_exporter']
+           'BashIdentify', 'CleanShowDoc', 'HTMLEscape', 'default_pp_cfg', 'default_pps', 'mdx_exporter', 'nb2md']
 
 # %% ../nbs/06b_mdx.ipynb 3
+import re, uuid
+
 from .read import get_config
 from .processor import *
-from .extract_attachments import ExtractAttachmentsPreprocessor
+from nbconvert.preprocessors import ExtractOutputPreprocessor
 
 from fastcore.basics import *
 from fastcore.foundation import *
 from traitlets.config import Config
 from pathlib import Path
-import re, uuid
-from .media import ImagePath, ImageSave, HTMLEscape
+from html.parser import HTMLParser
+
+from .test_utils import *
 
 # %% ../nbs/06b_mdx.ipynb 11
 _re_meta= r'^\s*#(?:cell_meta|meta):\S+\s*[\n\r]'
@@ -117,19 +120,68 @@ def CleanShowDoc(cell):
     cleaned_html = self._re_html.sub('', html_outs[0])
     return AttrDict({'cell_type':'raw', 'id':cell.id, 'metadata':cell.metadata, 'source':cleaned_html})
 
-# %% ../nbs/06b_mdx.ipynb 51
-def get_mdx_exporter(template_file='ob.tpl'):
-    """A mdx notebook exporter which composes many pre-processors together."""
+# %% ../nbs/06b_mdx.ipynb 50
+class _HTMLdf(HTMLParser):
+    "HTML Parser that finds a dataframe."
+    df,scoped = False,False
+    def handle_starttag(self, tag, attrs):
+        if tag == 'style' and 'scoped' in dict(attrs): self.scoped=True
+    def handle_data(self, data):
+        if '.dataframe' in data and self.scoped: self.df=True
+    def handle_endtag(self, tag):
+        if tag == 'style': self.scoped=False
+                
+    @classmethod
+    def search(cls, x):
+        parser = cls()
+        parser.feed(x)
+        return parser.df
+
+@preprocess_cell
+def HTMLEscape(cell):
+    "Place HTML in a codeblock and surround it with a <HTMLOutputBlock> component."
+    if cell.cell_type !='code': return
+    for o in cell.outputs:
+        if nested_idx(o, 'data', 'text/html'):
+            cell.metadata.html_output = True
+            html = o['data']['text/html']
+            cell.metadata.html_center = not _HTMLdf.search(html)
+            o['data']['text/html'] = '```html\n'+html.strip()+'\n```'
+
+# %% ../nbs/06b_mdx.ipynb 55
+def default_pp_cfg():
+    "Default Preprocessor Config for MDX export"
     c = Config()
     c.TagRemovePreprocessor.remove_cell_tags = ("remove_cell", "hide")
     c.TagRemovePreprocessor.remove_all_outputs_tags = ("remove_output", "remove_outputs", "hide_output", "hide_outputs")
     c.TagRemovePreprocessor.remove_input_tags = ('remove_input', 'remove_inputs', "hide_input", "hide_inputs")
-    pp = [InjectMeta, CleanMagics, BashIdentify, UpdateTags, InsertWarning, TagRemovePreprocessor,
-          CleanFlags, CleanShowDoc, RmEmptyCode, StripAnsi, HideInputLines, ExtractAttachmentsPreprocessor,
-          ImageSave, ImagePath, HTMLEscape]
-    c.MarkdownExporter.preprocessors = pp
+    return c
+
+# %% ../nbs/06b_mdx.ipynb 56
+def default_pps(c):
+    "Default Preprocessors for MDX export"
+    return [InjectMeta, CleanMagics, BashIdentify, UpdateTags, InsertWarning, TagRemovePreprocessor,
+            CleanFlags, CleanShowDoc, RmEmptyCode, StripAnsi, HideInputLines,
+            ExtractAttachmentsPreprocessor, ExtractOutputPreprocessor, HTMLEscape]
+
+# %% ../nbs/06b_mdx.ipynb 57
+def mdx_exporter(tpl_file, cfg=None, pps=None):
+    "An mdx notebook exporter which composes preprocessors"
+    cfg = cfg or default_pp_cfg()
+    pps = pps or default_pps(cfg)
+    cfg.MarkdownExporter.preprocessors = pps or []
     tmp_dir = Path(__file__).parent/'templates/'
-    tmp_file = tmp_dir/f"{template_file}"
+    tmp_file = tmp_dir/f"{tpl_file}"
     if not tmp_file.exists(): raise ValueError(f"{tmp_file} does not exist in {tmp_dir}")
-    c.MarkdownExporter.template_file = str(tmp_file)
-    return MarkdownExporter(config=c)
+    cfg.MarkdownExporter.tpl_file = str(tmp_file)
+    return MarkdownExporter(config=cfg)
+
+# %% ../nbs/06b_mdx.ipynb 58
+def nb2md(fname, dest='build', cfg=None, pps=None, tpl_file='ob.tpl'):
+    "Convert notebook to markdown and export attached/output files"
+    path = Path(fname)
+    exp = mdx_exporter(cfg=cfg, pps=pps, tpl_file=tpl_file)
+    c,r = exp.from_filename(_test_file, resources=dict(unique_key=path.stem, output_files_dir=path.stem))
+    fw = FilesWriter()
+    fw.build_directory = dest
+    return fw.write(c, r, notebook_name=r['metadata']['name'])
