@@ -4,8 +4,9 @@
 __all__ = ['HTMLdf', 'HTMLEscape', 'ImageSave', 'ImagePath']
 
 # %% ../nbs/06a_media.ipynb 3
-from nbconvert.preprocessors import Preprocessor
+from .processor import *
 from fastcore.imports import Path
+from fastcore.basics import nested_idx
 from html.parser import HTMLParser
 
 from .test_utils import *
@@ -31,20 +32,16 @@ class HTMLdf(HTMLParser):
         return parser.df
 
 # %% ../nbs/06a_media.ipynb 6
-class HTMLEscape(Preprocessor):
-    """
-    Place HTML in a codeblock and surround it with a <HTMLOutputBlock> component.
-    """    
-    def preprocess_cell(self, cell, resources, index):
-        if cell.cell_type =='code':
-            outputs = []
-            for o in cell.outputs:
-                if o.get('data') and o['data'].get('text/html'):
-                    cell.metadata.html_output = True
-                    html = o['data']['text/html']
-                    cell.metadata.html_center = False if HTMLdf.search(html) else True
-                    o['data']['text/html'] = '```html\n'+html.strip()+'\n```'
-        return cell, resources
+@preprocess_cell
+def HTMLEscape(cell):
+    "Place HTML in a codeblock and surround it with a <HTMLOutputBlock> component."
+    if cell.cell_type !='code': return
+    for o in cell.outputs:
+        if nested_idx(o, 'data', 'text/html'):
+            cell.metadata.html_output = True
+            html = o['data']['text/html']
+            cell.metadata.html_center = False if HTMLdf.search(html) else True
+            o['data']['text/html'] = '```html\n'+html.strip()+'\n```'
 
 # %% ../nbs/06a_media.ipynb 9
 class ImageSave(Preprocessor):
