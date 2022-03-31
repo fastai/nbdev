@@ -12,11 +12,12 @@ sync:
 	nbdev_update_lib
 
 docs_serve:
-	cd docusaurus && npm run start
+	cd docusaurus
+	npm run start
 
 docs: $(SRC)
 	./mk_docs.sh
-	
+
 test:
 	nbdev_test_nbs
 
@@ -36,7 +37,10 @@ clean:
 	rm -rf dist
 
 install-docs:
-	cd docusaurus && npm install -g npm@">=8.4.1" && npm install --global yarn && npm install package-lock.json
+	cd docusaurus
+	npm install -g npm@">=8.4.1"
+	npm install package-lock.json
 
 install: install-docs
 	pip install .
+
