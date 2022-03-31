@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: cp docusaurus/yarn.lock .
       - uses: actions/setup-node@v3
         with:
           node-version: 16.x
