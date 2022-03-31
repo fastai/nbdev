@@ -15,8 +15,17 @@ docs_serve:
 	cd docusaurus
 	npm run start
 
-docs: $(SRC)
-	./mk_docs.sh
+docs: docusaurus
+	cd docusaurus/
+	npm run build
+	cd ..
+	rm -rf docs
+	mv docusaurus/build docs
+	cp docs_src/CNAME docs/
+
+.PHONY: docusaurus
+docusaurus:
+	nbprocess_docs --path nbs --dest docusaurus/docs
 
 test:
 	nbdev_test_nbs
