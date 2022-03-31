@@ -70,7 +70,7 @@ def nbdev_clean_nbs(
     fname:str=None,  # A notebook name or glob to convert
     clear_all:bool_arg=False,  # Clean all metadata and outputs
     disp:bool_arg=False,  # Print the cleaned outputs
-    read_input_stream:None=False  # Read input stram and not nb folder
+    read_input_stream:bool_arg=False  # Read input stram and not nb folder
 ):
     "Clean all notebooks in `fname` to avoid merge conflicts"
     #Git hooks will pass the notebooks in the stdin
