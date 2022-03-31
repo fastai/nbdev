@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -ex
 
 nbprocess_docs --path nbs --dest docusaurus/docs
 cd docusaurus/                                  
