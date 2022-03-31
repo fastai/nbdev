@@ -11,13 +11,12 @@ nbprocess: $(SRC)
 sync:
 	nbdev_update_lib
 
-docs_serve: docs
-	cd docs && bundle exec jekyll serve
+docs_serve:
+	cd docusaurus && npm run start
 
 docs: $(SRC)
-	nbdev_build_docs
-	touch docs
-
+	./mk_docs.sh
+	
 test:
 	nbdev_test_nbs
 
