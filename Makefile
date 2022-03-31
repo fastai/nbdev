@@ -35,6 +35,8 @@ dist: clean
 clean:
 	rm -rf dist
 
-install:
+install-docs:
 	cd docusaurus && npm install -g npm@">=8.4.1" && npm install --global yarn && yarn install --frozen-lockfile
+
+install: install-docs
 	pip install .
