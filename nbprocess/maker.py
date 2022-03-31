@@ -5,6 +5,7 @@ __all__ = ['find_var', 'read_var', 'update_var', 'ModuleMaker', 'retr_exports', 
            'relative_import', 'update_import', 'basic_export_nb2']
 
 # %% ../nbs/01_maker.ipynb 3
+#export
 from .read import *
 from .imports import *
 
@@ -18,6 +19,7 @@ from pprint import pformat
 from textwrap import TextWrapper
 
 # %% ../nbs/01_maker.ipynb 7
+#export
 def find_var(lines, varname):
     "Find the line numbers where `varname` is defined in `lines`"
     start = first(i for i,o in enumerate(lines) if o.startswith(varname))
@@ -28,6 +30,7 @@ def find_var(lines, varname):
     return start,len(lines) if end is None else (end+start+1)
 
 # %% ../nbs/01_maker.ipynb 9
+#export
 def read_var(code, varname):
     "Eval and return the value of `varname` defined in `code`"
     lines = code.splitlines()
@@ -39,6 +42,7 @@ def read_var(code, varname):
     except SyntaxError: raise Exception('\n'.join(res)) from None
 
 # %% ../nbs/01_maker.ipynb 11
+#export
 def update_var(varname, func, fn=None, code=None):
     "Update the definition of `varname` in file `fn`, by calling `func` with the current definition"
     if fn:
@@ -55,6 +59,7 @@ def update_var(varname, func, fn=None, code=None):
     else: return code
 
 # %% ../nbs/01_maker.ipynb 14
+#export
 class ModuleMaker:
     "Helper class to create exported library from notebook source cells"
     def __init__(self, dest, name, nb_path, is_new=True):
@@ -67,6 +72,7 @@ class ModuleMaker:
         self.hdr = f"# %% {self.dest2nb}"
 
 # %% ../nbs/01_maker.ipynb 17
+#export
 _def_types = ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef
 _assign_types = ast.AnnAssign, ast.Assign, ast.AugAssign
 
@@ -76,6 +82,7 @@ def _filt_dec(x): return getattr(x,'id','').startswith('patch')
 def _wants(o): return isinstance(o,_def_types) and not any(L(o.decorator_list).filter(_filt_dec))
 
 # %% ../nbs/01_maker.ipynb 18
+#export
 def retr_exports(trees):
     # include anything mentioned in "_all_", even if otherwise private
     # NB: "_all_" can include strings (names), or symbols, so we look for "id" or "value"
@@ -90,6 +97,7 @@ def retr_exports(trees):
     return (exports+all_vals).unique()
 
 # %% ../nbs/01_maker.ipynb 19
+#export
 @patch
 def make_all(self:ModuleMaker, cells):
     "Create `__all__` with all exports in `cells`"
@@ -97,10 +105,12 @@ def make_all(self:ModuleMaker, cells):
     return retr_exports(cells.map(NbCell.parsed_).concat())
 
 # %% ../nbs/01_maker.ipynb 20
+#export
 def make_code_cell(code): return AttrDict(source=code, cell_type="code")
 def make_code_cells(*ss): return dict2nb({'cells':L(ss).map(make_code_cell)}).cells
 
 # %% ../nbs/01_maker.ipynb 23
+#export
 def relative_import(name, fname, level=0):
     "Convert a module `name` to a name relative to `fname`"
     assert not level
@@ -112,6 +122,7 @@ def relative_import(name, fname, level=0):
     return "." + res.replace(os.path.sep, ".")
 
 # %% ../nbs/01_maker.ipynb 25
+#export
 def update_import(source, tree, libname, f=relative_import):
     if not tree: return
     imps = L(tree).filter(risinstance(ast.ImportFrom))
@@ -131,6 +142,7 @@ def import2relative(cell:NbCell, libname):
     if src: cell.set_source(src)
 
 # %% ../nbs/01_maker.ipynb 27
+#export
 @patch
 def make(self:ModuleMaker, cells, all_cells=None, lib_name=None):
     "Write module containing `cells` with `__all__` generated from `all_cells`"
@@ -155,6 +167,7 @@ def make(self:ModuleMaker, cells, all_cells=None, lib_name=None):
         f.write('\n')
 
 # %% ../nbs/01_maker.ipynb 31
+#export
 @patch
 def _update_all(self:ModuleMaker, all_cells, alls):
     return pformat(alls + self.make_all(all_cells), width=160)
@@ -166,6 +179,7 @@ def _make_exists(self:ModuleMaker, cells, all_cells=None):
     with self.fname.open('a') as f: write_cells(cells, self.hdr, f)
 
 # %% ../nbs/01_maker.ipynb 37
+#export
 def basic_export_nb2(fname, name, dest=None):
     "A basic exporter to bootstrap nbprocess using `ModuleMaker`"
     if dest is None: dest = get_config().path('lib_path')

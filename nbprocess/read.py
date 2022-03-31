@@ -4,6 +4,7 @@
 __all__ = ['NbCell', 'dict2nb', 'read_nb', 'nbprocess_create_config', 'get_config', 'add_init', 'write_cells', 'basic_export_nb']
 
 # %% ../nbs/00_read.ipynb 3
+#export
 from datetime import datetime
 from fastcore.imports import *
 from fastcore.foundation import *
@@ -15,6 +16,7 @@ from fastcore.xtras import *
 import ast,functools
 
 # %% ../nbs/00_read.ipynb 13
+#export
 class NbCell(AttrDict):
     def __init__(self, idx, cell):
         super().__init__(cell)
@@ -36,6 +38,7 @@ class NbCell(AttrDict):
     def __eq__(self,o): return self.source==o.source and self.cell_type==o.cell_type
 
 # %% ../nbs/00_read.ipynb 15
+#export
 def dict2nb(js):
     "Convert dict `js` to an `AttrDict`, "
     nb = dict2obj(js)
@@ -43,11 +46,13 @@ def dict2nb(js):
     return nb
 
 # %% ../nbs/00_read.ipynb 27
+#export
 def read_nb(path):
     "Return notebook at `path`"
     return dict2nb(Path(path).read_json())
 
 # %% ../nbs/00_read.ipynb 31
+#export
 @call_parse
 def nbprocess_create_config(
     user:str, # Repo username
@@ -86,6 +91,7 @@ def nbprocess_create_config(
     save_config_file(Path(path)/cfg_name, config)
 
 # %% ../nbs/00_read.ipynb 33
+#export
 @functools.lru_cache(maxsize=None)
 def get_config(cfg_name='settings.ini', path=None):
     "`Config` for ini file found in `path` (defaults to `cwd`)"
@@ -94,6 +100,7 @@ def get_config(cfg_name='settings.ini', path=None):
     return Config(cfg_path, cfg_name=cfg_name)
 
 # %% ../nbs/00_read.ipynb 37
+#export
 _init = '__init__.py'
 
 def _has_py(fs): return any(1 for f in fs if f.endswith('.py'))
@@ -110,12 +117,14 @@ def add_init(path):
         if _has_py(fs) or any(filter(_has_py, subds)) and not (r/_init).exists(): (r/_init).touch()
 
 # %% ../nbs/00_read.ipynb 41
+#export
 def write_cells(cells, hdr, file, offset=0):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbprocess internal use)"
     for cell in cells:
         if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell}')
 
 # %% ../nbs/00_read.ipynb 42
+#export
 def basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbprocess"
     if dest is None: dest = get_config().path('lib_path')
