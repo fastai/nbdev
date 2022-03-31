@@ -16,4 +16,6 @@
   - make_readme
 - hide headings that end in ' -'
 
+## Other
 
+- Some way to extend preprocessors, e.g. Metaflow-specific stuff
