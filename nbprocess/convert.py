@@ -38,7 +38,6 @@ def nbprocess_docs(
     skip_file_re:str=None, # Skip files matching regex
     skip_folder_re:str='^[_.]' # Skip folders matching regex
 ):
-    if os.environ.get('IN_TEST',0): return
     if not recursive: skip_folder_re='.'
     files = globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
                        folder_re=folder_re, skip_file_glob=skip_file_glob,
