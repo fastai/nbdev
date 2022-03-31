@@ -15,6 +15,13 @@ from nbconvert.exporters import Exporter
 from fastcore.all import Path,parallel,call_parse,bool_arg,globtastic
 
 # Cell
+def _needs_update(fname:Path, dest:str=None):
+    "Determines if a markdown file should be updated based on modification time relative to its notebook."
+    fname_out = fname.with_suffix('.md')
+    if dest: fname_out = Path(dest)/f'{fname_out.name}'
+    return not fname_out.exists() or os.path.getmtime(fname) >= os.path.getmtime(fname_out)
+
+
 @call_parse
 def nbprocess_docs(
     path:str='.', # path or filename
@@ -40,11 +47,7 @@ def nbprocess_docs(
 
     if len(files)==1: force_all,n_workers = True,0
     if not force_all:
-        # only rebuild modified files
-        files,_files = [],files.copy()
-        for fname in _files:
-            fname_out = fname.with_suffix('.md')
-            if not fname_out.exists() or os.path.getmtime(fname) >= os.path.getmtime(fname_out): files.append(fname)
+        files = [f for f in files if _needs_update(f, dest)]
     if len(files)==0: print("No notebooks were modified.")
     else:
         if sys.platform == "win32": n_workers = 0

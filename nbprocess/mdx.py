@@ -202,8 +202,9 @@ def mdx_exporter(tpl_file, cfg=None, pps=None):
     return _mdx_exporter(pps, cfg, tpl_file=tpl_file)
 
 # Cell
-def nb2md(fname, exp=None, dest='build', cfg=None, pps=None, tpl_file='ob.tpl'):
+def nb2md(fname, exp=None, dest=None, cfg=None, pps=None, tpl_file='ob.tpl'):
     "Convert notebook to markdown and export attached/output files"
+    if isinstance(dest,Path): dest=dest.name
     file = Path(fname)
     assert file.name.endswith('.ipynb'), f'{fname} is not a notebook.'
     assert file.is_file(), f'file {fname} not found.'
@@ -214,6 +215,6 @@ def nb2md(fname, exp=None, dest='build', cfg=None, pps=None, tpl_file='ob.tpl'):
 
     try:
         md = exp.from_filename(fname, resources=dict(unique_key=file.stem, output_files_dir=file.stem))
-        fw.build_directory = dest
+        if dest: fw.build_directory = dest
         return fw.write(*md, notebook_name=file.stem)
     except Exception as e: print(e)
