@@ -196,8 +196,9 @@ def RmHeaderDash(cell):
     "Remove headings that end with a dash -"
     if cell.cell_type == 'markdown':
         exclude = {l.strip() for l in _re_hdr_dash.findall(cell.source)}
-        lines = [l for l in cell.source.splitlines() if l not in exclude]
-        cell.source = '\n'.join(lines)
+        if exclude:
+            lines = [l for l in cell.source.splitlines() if l not in exclude]
+            cell.source = '\n'.join(lines)
 
 # Cell
 def default_pps(c):
