@@ -87,14 +87,14 @@ def create_modules(path, dest, procs=None, debug=False, mod_maker=ModuleMaker):
         mm.make(cells, all_cells)
 
 # %% ../nbs/02_export.ipynb 26
-def nb_export(nbname, lib_name=None):
-    if lib_name is None: lib_name = get_config().lib_name
-    create_modules(nbname, lib_name)
+def nb_export(nbname, lib_path=None):
+    if lib_path is None: lib_path = get_config().lib_path
+    create_modules(nbname, lib_path)
 
 # %% ../nbs/02_export.ipynb 27
 @call_parse
 def nbs_export(
-    path:str='.', # path or filename
+    path:str=None, # path or filename
     recursive:bool=True, # search subfolders
     symlinks:bool=True, # follow symlinks?
     file_glob:str='*.ipynb', # Only include files matching glob
@@ -105,6 +105,7 @@ def nbs_export(
     skip_folder_re:str='^[_.]' # Skip folders matching regex
 ):
     if os.environ.get('IN_TEST',0): return
+    if path is None: path = get_config().path('nbs_path')
     if not recursive: skip_folder_re='.'
     files = globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
         folder_re=folder_re, skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
