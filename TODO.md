@@ -14,7 +14,6 @@
 - implement stuff from nbdev export2html, e.g.(?):
   - `remove_widget_state`
   - `make_readme`
-- hide headings that end in ' -'
 
 ## Other
 
