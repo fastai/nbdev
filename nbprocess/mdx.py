@@ -189,7 +189,7 @@ def HTMLEscape(cell):
             o['data']['text/html'] = '```html\n'+html.strip()+'\n```'
 
 # Cell
-_re_hdr_dash = re.compile(r'^#+\s+[\w\s*]+\s+-\s*$', re.MULTILINE)
+_re_hdr_dash = re.compile(r'^#+\s+.*\s+-\s*$', re.MULTILINE)
 
 @preprocess_cell
 def RmHeaderDash(cell):
