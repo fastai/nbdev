@@ -2,7 +2,6 @@
  "cells": [
   {
    "cell_type": "code",
-<<<<<<< HEAD
    "execution_count": 6,
    "metadata": {},
    "outputs": [
@@ -18,16 +17,18 @@
     }
    ],
    "source": [
+<<<<<<< HEAD
     "z=3\n",
+=======
+    "z=2\n",
+>>>>>>> a7ec1b0bfb8e23b05fd0a2e6cafcb41cd0fb1c35
     "z"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 7,
-=======
    "execution_count": 5,
->>>>>>> a7ec1b0bfb8e23b05fd0a2e6cafcb41cd0fb1c35
    "metadata": {},
    "outputs": [
     {
