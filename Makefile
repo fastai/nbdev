@@ -2,7 +2,7 @@
 SHELL := /bin/bash
 SRC = $(wildcard nbs/*.ipynb)
 
-all: nbprocess docs
+all: nbprocess docexp
 
 nbprocess: $(SRC)
 	nbprocess_export
@@ -12,20 +12,11 @@ sync:
 	nbdev_update_lib
 
 docs_serve:
-	cd docusaurus
-	npm run start
+	cd docs
+	mkdocs serve
 
-docs: docusaurus
-	cd docusaurus/
-	npm run build
-	cd ..
-	rm -rf docs
-	mv docusaurus/build docs
-	cp docs_src/CNAME docs/
-
-.PHONY: docusaurus
-docusaurus:
-	nbprocess_docs --path nbs --dest docusaurus/docs
+docs: $(SRC)
+	nbdev2_docs --path nbs --dest docs
 
 test:
 	nbdev_test_nbs
@@ -44,12 +35,4 @@ dist: clean
 
 clean:
 	rm -rf dist
-
-install-docs:
-	cd docusaurus
-	npm install -g npm@">=8.4.1"
-	npm install package-lock.json
-
-install: install-docs
-	pip install .
 
