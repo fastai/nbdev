@@ -45,6 +45,9 @@ setuptools.setup(
     long_description = open('README.md').read(),
     long_description_content_type = 'text/markdown',
     zip_safe = False,
-    entry_points = { 'console_scripts': cfg.get('console_scripts','').split() },
+    entry_points = {
+        'console_scripts': cfg.get('console_scripts','').split(),
+        'mkdocs.plugins': [ 'rm_num_prefix = nbprocess.mkdocs:RmNumPrefix' ]
+    },
     **setup_cfg)
 

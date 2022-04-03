@@ -1,0 +1,19 @@
+site_name: nbdev2
+theme:
+    name: material
+markdown_extensions:
+  - smarty
+  - md_in_html
+  - extra
+  - admonition
+  - sane_lists
+plugins:
+  - rm_num_prefix
+
+extra_css:
+  - extra.css
+  - //cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/default.min.css
+extra_javascript:
+  - //cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js
+  - init.js
+
