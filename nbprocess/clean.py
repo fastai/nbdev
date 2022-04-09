@@ -12,9 +12,6 @@ from .imports import *
 from .read import *
 from .sync import *
 
-# from pathlib import Path
-# import io,sys,json,glob,re
-
 # %% ../nbs/06_clean.ipynb 7
 def _clean_cell_output(cell):
     "Remove execution count in `cell`"
