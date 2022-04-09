@@ -14,6 +14,7 @@ from fastcore.script import *
 from fastcore.xtras import *
 
 import ast,functools
+from pprint import pformat,pprint
 
 # %% ../nbs/00_read.ipynb 8
 def display_json(d, md=True):
@@ -131,7 +132,7 @@ def basic_export_nb(fname, name, dest=None):
     nb = read_nb(fname)
 
     # grab the source from all the cells that have an `export` comment
-    cells = L(cell for cell in nb.cells if re.match(r'#\s*export', cell.source))
+    cells = L(cell for cell in nb.cells if re.match(r'#\s*\|export', cell.source))
 
     # find all the exported functions, to create `__all__`:
     trees = cells.map(NbCell.parsed_).concat()

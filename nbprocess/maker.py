@@ -169,5 +169,5 @@ def _make_exists(self:ModuleMaker, cells, all_cells=None):
 def basic_export_nb2(fname, name, dest=None):
     "A basic exporter to bootstrap nbprocess using `ModuleMaker`"
     if dest is None: dest = get_config().path('lib_path')
-    cells = L(c for c in read_nb(fname).cells if re.match(r'#\s*export', c.source))
+    cells = L(c for c in read_nb(fname).cells if re.match(r'#\|\s*export', c.source))
     ModuleMaker(dest=dest, name=name, nb_path=fname).make(cells)
