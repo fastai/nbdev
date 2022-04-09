@@ -36,9 +36,10 @@ def _param_count(f):
 # %% ../nbs/02_export.ipynb 12
 class NBProcessor:
     "Process cells and nbdev comments in a notebook"
-    def __init__(self, path=None, procs=None, nb=None, debug=False):
+    def __init__(self, path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False):
         self.nb = read_nb(path) if nb is None else nb
-        self.procs,self.debug = L(procs),debug
+        self.procs,self.preprocs,self.postprocs = map(L, (procs,preprocs,postprocs))
+        self.debug = debug
 
     def _process_cell(self, cell):
         self.cell = cell
@@ -56,8 +57,14 @@ class NBProcessor:
         
     def process(self):
         "Process all cells with `process_cell`"
+        for proc in self.preprocs:
+            nb = proc(self.nb)
+            if nb: self.nb = nb
         for i in range_of(self.nb.cells): self._process_cell(self.nb.cells[i])
         self.nb.cells = [c for c in self.nb.cells if c.source is not None]
+        for proc in self.postprocs:
+            nb = proc(self.nb)
+            if nb: self.nb = nb
 
 # %% ../nbs/02_export.ipynb 15
 class ExportModuleProc:
