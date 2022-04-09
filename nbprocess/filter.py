@@ -87,6 +87,6 @@ def create_quarto(
     cfg_path = cfg.config_path
     shutil.rmtree(cfg_path/'docs', ignore_errors=True)
     (cfg_path/'README.md').unlink(missing_ok=True)
-    site = path/'_site'
-    shutil.move(site/'README.md', cfg_path)
-    shutil.move(site, cfg_path/'docs')
+    docs = path/'docs'
+    shutil.move(docs/'README.md', cfg_path)
+    shutil.move(docs, cfg_path)

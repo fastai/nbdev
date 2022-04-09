@@ -2,6 +2,7 @@ ipynb-filters: [filter.py]
 
 project:
   type: website
+  output-dir: docs
 
 format:
   html:

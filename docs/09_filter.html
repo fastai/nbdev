@@ -215,21 +215,21 @@
 <blockquote class="blockquote">
 <p>Filter for quarto processing</p>
 </blockquote>
-<div class="cell" data-execution_count="21">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>create_quarto()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stderr">
-<pre><code>[1m[34m[ 1/10] 09_filter.ipynb[39m[22m
-[1m[34m[ 2/10] 08_processors.ipynb[39m[22m
-[1m[34m[ 3/10] 06_merge.ipynb[39m[22m
-[1m[34m[ 4/10] 03_process.ipynb[39m[22m
-[1m[34m[ 5/10] 04_export.ipynb[39m[22m
-[1m[34m[ 6/10] 02_maker.ipynb[39m[22m
-[1m[34m[ 7/10] 07_clean.ipynb[39m[22m
-[1m[34m[ 8/10] 00_index.ipynb[39m[22m
+<pre><code>[1m[34m[ 1/10] index.ipynb[39m[22m
+[1m[34m[ 2/10] 09_filter.ipynb[39m[22m
+[1m[34m[ 3/10] 08_processors.ipynb[39m[22m
+[1m[34m[ 4/10] 06_merge.ipynb[39m[22m
+[1m[34m[ 5/10] 03_process.ipynb[39m[22m
+[1m[34m[ 6/10] 04_export.ipynb[39m[22m
+[1m[34m[ 7/10] 02_maker.ipynb[39m[22m
+[1m[34m[ 8/10] 07_clean.ipynb[39m[22m
 [1m[34m[ 9/10] 01_read.ipynb[39m[22m
 [1m[34m[10/10] 05_sync.ipynb[39m[22m
 
-Output created: _site/09_filter.html
+Output created: docs/index.html
 
 [1mpandoc -o README.md[22m
   to: gfm+footnotes+tex_math_dollars-yaml_metadata_block
@@ -239,14 +239,17 @@ Output created: _site/09_filter.html
   filters:
     - crossref
   
-Output created: _site/README.md
+Output created: docs/README.md
 </code></pre>
 </div>
+<div class="cell-output-error">
+<pre><code>NameError: name 'site' is not defined</code></pre>
 </div>
-<div class="cell" data-execution_count="24">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#skip</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbprocess.export <span class="im">import</span> nbs_export</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>nbs_export()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#skip</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbprocess.export <span class="im">import</span> nbs_export</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>nbs_export()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
