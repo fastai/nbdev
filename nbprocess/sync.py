@@ -7,6 +7,7 @@ __all__ = ['nb2dict', 'write_nb', 'absolute_import', 'update_lib']
 from .imports import *
 from .read import *
 from .maker import *
+from .process import *
 from .export import *
 
 from fastcore.script import *
@@ -49,7 +50,6 @@ def _to_absolute(code, lib_name):
 
 def _update_lib(nbname, nb_locs, lib_name=None):
     if lib_name is None: lib_name = get_config().lib_name
-    # Too avoid overwriting the comments
     nbp = NBProcessor(nbname, ExportModuleProc())
     nb = nbp.nb
     nbp.process()
@@ -58,7 +58,7 @@ def _update_lib(nbname, nb_locs, lib_name=None):
         assert name==nbname
         cell = nb.cells[int(idx)-1]
         lines = cell.source.splitlines(True)
-        source = ''.join(cell.source.splitlines(True)[:len(cell._comments)])
+        source = ''.join(cell.source.splitlines(True)[:len(cell.directives_)])
         cell.source = source + _to_absolute(code, lib_name)
     write_nb(nb, nbname)
 

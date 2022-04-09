@@ -54,10 +54,10 @@ class NBProcessor:
 
     def _process_cell(self, cell):
         self.cell = cell
-        cell['_directives'] = extract_directives(cell)
+        cell['directives_'] = extract_directives(cell)
         for proc in self.procs:
             if cell.cell_type=='code':
-                for cmd,args in cell._directives.items(): self._process_comment(proc, cmd, args)
+                for cmd,args in cell.directives_.items(): self._process_comment(proc, cmd, args)
             if callable(proc): cell = opt_set(cell, proc(cell))
 
     def _process_comment(self, proc, cmd, args):
