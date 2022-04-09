@@ -1,0 +1,23 @@
+ipynb-filters: [filter.py]
+
+project:
+  type: website
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+website:
+  title: "nbdev2"
+  sidebar:
+    style: "floating"
+    search: true
+    contents:
+      - href: index.qmd
+        text: Home
+      - 01_docexp.ipynb
+      - 02_convert.ipynb
+      - 03_quarto.ipynb
+
