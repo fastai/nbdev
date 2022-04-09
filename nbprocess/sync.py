@@ -59,7 +59,7 @@ def _update_lib(nbname, nb_locs, lib_name=None):
         cell = nb.cells[int(idx)-1]
         lines = cell.source.splitlines(True)
         directives = ''.join(cell.source.splitlines(True)[:len(cell.directives_)])
-        cell.source = source + _to_absolute(code, lib_name)
+        cell.source = directives + _to_absolute(code, lib_name)
     write_nb(nb, nbname)
 
 def _get_call(s):
