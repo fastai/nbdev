@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "nbprocess",
+    "section": "",
+    "text": "Process and export Jupyter Notebooks fast\n\nThis file will become your README and also the index of your documentation.\n\n\nWith pip:\npip install nbprocess\nWith conda:\nconda install -c fastai nbprocess\n\n\n\nFill me in please! Don’t forget code examples:\n\n1+1\n\n2"
+  },
+  {
     "objectID": "09_filter.html",
     "href": "09_filter.html",
     "title": "nbprocess",
@@ -61,13 +68,6 @@
     "title": "nbprocess",
     "section": "Main function",
     "text": "Main function\nBy default (fname left to None), the all the notebooks in lib_folder are cleaned. You can opt in to fully clean the notebook by removing every bit of metadata and the cell outputs by passing clear_all=True."
-  },
-  {
-    "objectID": "00_index.html",
-    "href": "00_index.html",
-    "title": "nbprocess",
-    "section": "",
-    "text": "Process and export Jupyter Notebooks fast\n\nThis file will become your README and also the index of your documentation.\n\n\nWith pip:\npip install nbprocess\nWith conda:\nconda install -c fastai nbprocess\n\n\n\nFill me in please! Don’t forget code examples:\n\n1+1\n\n2"
   },
   {
     "objectID": "01_read.html",

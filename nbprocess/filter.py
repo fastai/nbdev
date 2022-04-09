@@ -83,7 +83,7 @@ def create_quarto(
     yml += [f'  {prefix}- {o.relative_to(path)}' for o in files]
     yml_path.write_text('\n'.join(yml))
     os.system(f'cd {path} && quarto render')
-    os.system(f'cd {path} && quarto render {files[0]} -o README.md -t gfm')
+    os.system(f'cd {path} && quarto render {files[-1]} -o README.md -t gfm')
     cfg_path = cfg.config_path
     shutil.rmtree(cfg_path/'docs', ignore_errors=True)
     (cfg_path/'README.md').unlink(missing_ok=True)

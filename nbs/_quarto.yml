@@ -15,7 +15,6 @@ website:
     style: "floating"
     search: true
     contents:
-      - 00_index.ipynb
       - 01_read.ipynb
       - 02_maker.ipynb
       - 03_process.ipynb
@@ -25,3 +24,4 @@ website:
       - 07_clean.ipynb
       - 08_processors.ipynb
       - 09_filter.ipynb
+      - index.ipynb
