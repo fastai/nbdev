@@ -10,7 +10,7 @@ format:
     toc: true
 
 website:
-  title: "nbdev2"
+  title: "nbprocess"
   sidebar:
     style: "floating"
     search: true

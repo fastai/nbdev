@@ -2,7 +2,7 @@
 
 # %% ../nbs/09_filter.ipynb 1
 from __future__ import annotations
-import json
+import json,shutil
 
 from .read import *
 from .sync import *
@@ -58,6 +58,7 @@ def filter_nb(
 @call_parse
 def create_quarto(
     path:str=None, # path to notebooks
+    doc_path:str=None, # path to output docs
     symlinks:bool=False, # follow symlinks?
     file_glob:str='*.ipynb', # Only include files matching glob
     file_re:str=None, # Only include files matching regex
@@ -68,6 +69,7 @@ def create_quarto(
 ):
     cfg = get_config()
     path = cfg.path("nbs_path") if not path else Path(path)
+    doc_path = cfg.path("doc_path") if not doc_path else Path(doc_path)
     files = globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
                        folder_re=folder_re, skip_file_glob=skip_file_glob,
                        skip_file_re=skip_file_re, skip_folder_re=skip_folder_re
@@ -81,8 +83,10 @@ def create_quarto(
     yml += [f'  {prefix}- {o.relative_to(path)}' for o in files]
     yml_path.write_text('\n'.join(yml))
     os.system(f'cd {path} && quarto render')
-    os.system(f'quarto render {files[0]} -o README.md -t gfm')
+    os.system(f'cd {path} && quarto render {files[0]} -o README.md -t gfm')
     cfg_path = cfg.config_path
-    site = Path('_site')
-    (site/'README.md').rename(cfg_path/'README.md')
-    site.rename(cfg_path/'_site')
+    shutil.rmtree(cfg_path/'docs', ignore_errors=True)
+    (cfg_path/'README.md').unlink(missing_ok=True)
+    site = path/'_site'
+    shutil.move(site/'README.md', cfg_path)
+    shutil.move(site, cfg_path/'docs')
