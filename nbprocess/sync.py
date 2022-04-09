@@ -15,7 +15,7 @@ from fastcore.xtras import *
 
 import ast,tempfile,json
 
-# %% ../nbs/04_sync.ipynb 5
+# %% ../nbs/04_sync.ipynb 6
 def nb2dict(d, k=None):
     "Convert parsed notebook to `dict`"
     if k in ('source',): return d.splitlines(keepends=True)
@@ -23,7 +23,7 @@ def nb2dict(d, k=None):
     if not isinstance(d, dict): return d
     return dict(**{k:nb2dict(v,k) for k,v in d.items() if k[-1] != '_'})
 
-# %% ../nbs/04_sync.ipynb 8
+# %% ../nbs/04_sync.ipynb 9
 def write_nb(nb, path):
     "Write `nb` to `path`"
     if isinstance(nb, (AttrDict,L)): nb = nb2dict(nb)
@@ -31,7 +31,7 @@ def write_nb(nb, path):
         f.write(json.dumps(nb, sort_keys=True, indent=1, ensure_ascii=False))
         f.write("\n")
 
-# %% ../nbs/04_sync.ipynb 11
+# %% ../nbs/04_sync.ipynb 12
 def absolute_import(name, fname, level):
     "Unwarps a relative import in `name` according to `fname`"
     if not level: return name
@@ -39,10 +39,10 @@ def absolute_import(name, fname, level):
     if not name: return '.'.join(mods)
     return '.'.join(mods[:len(mods)-level+1]) + f".{name}"
 
-# %% ../nbs/04_sync.ipynb 13
+# %% ../nbs/04_sync.ipynb 14
 _re_import = re.compile("from\s+\S+\s+import\s+\S")
 
-# %% ../nbs/04_sync.ipynb 15
+# %% ../nbs/04_sync.ipynb 16
 def _to_absolute(code, lib_name):
     if not _re_import.search(code): return code
     res = update_import(code, ast.parse(code).body, lib_name, absolute_import)
@@ -50,7 +50,7 @@ def _to_absolute(code, lib_name):
 
 def _update_lib(nbname, nb_locs, lib_name=None):
     if lib_name is None: lib_name = get_config().lib_name
-    nbp = NBProcessor(nbname, ExportModuleProc())
+    nbp = NBProcessor(nbname, ExportModuleProc(), rm_directives=False)
     nb = nbp.nb
     nbp.process()
 
@@ -58,7 +58,7 @@ def _update_lib(nbname, nb_locs, lib_name=None):
         assert name==nbname
         cell = nb.cells[int(idx)-1]
         lines = cell.source.splitlines(True)
-        source = ''.join(cell.source.splitlines(True)[:len(cell.directives_)])
+        directives = ''.join(cell.source.splitlines(True)[:len(cell.directives_)])
         cell.source = source + _to_absolute(code, lib_name)
     write_nb(nb, nbname)
 
@@ -66,7 +66,7 @@ def _get_call(s):
     top,*rest = s.splitlines()
     return *top.split(),'\n'.join(rest)
 
-# %% ../nbs/04_sync.ipynb 16
+# %% ../nbs/04_sync.ipynb 17
 @call_parse
 def update_lib(fname:str): # A python file name to convert
     "Propagates any change in the modules matching `fname` to the notebooks that created them"

@@ -28,12 +28,12 @@ def _directive(s):
 
 # %% ../nbs/02_process.ipynb 8
 #|export
-def extract_directives(cell):
+def extract_directives(cell, remove=True):
     "Take leading comment directives from lines of code in `ss`, remove `#|`, and split"
     ss = cell.source.splitlines(True)
     first_code = first(i for i,o in enumerate(ss) if not o.strip() or not re.match(r'\s*#\|', o))
     if not ss or first_code==0: return {}
-    cell['source'] = ''.join(ss[first_code:])
+    if remove: cell['source'] = ''.join(ss[first_code:])
     res = L(_directive(s) for s in ss[:first_code]).filter()
     return {k:v for k,v in res}
 
@@ -47,14 +47,14 @@ def opt_set(var, newval):
 #|export
 class NBProcessor:
     "Process cells and nbdev comments in a notebook"
-    def __init__(self, path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False):
+    def __init__(self, path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False, rm_directives=True):
         self.nb = read_nb(path) if nb is None else nb
         self.procs,self.preprocs,self.postprocs = map(L, (procs,preprocs,postprocs))
-        self.debug = debug
+        self.debug,self.rm_directives = debug,rm_directives
 
     def _process_cell(self, cell):
         self.cell = cell
-        cell['directives_'] = extract_directives(cell)
+        cell['directives_'] = extract_directives(cell, remove=self.rm_directives)
         for proc in self.procs:
             if cell.cell_type=='code':
                 for cmd,args in cell.directives_.items(): self._process_comment(proc, cmd, args)
