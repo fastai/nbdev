@@ -69,8 +69,11 @@ class NBProcessor:
         cell['directives_'] = extract_directives(cell, remove=self.rm_directives)
         for proc in self.procs:
             if cell.cell_type=='code':
-                for cmd,args in cell.directives_.items(): self._process_comment(proc, cell, cmd, args)
+                for cmd,args in cell.directives_.items():
+                    self._process_comment(proc, cell, cmd, args)
+                    if not hasattr(cell,'source'): return
             if callable(proc) and not _is_direc(proc): cell = opt_set(cell, proc(cell))
+            if not hasattr(cell,'source'): return
 
     def _process_comment(self, proc, cell, cmd, args):
         if _is_direc(proc) and getattr(proc, '__name__', '-')[:-1]==cmd: f=proc
