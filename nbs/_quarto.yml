@@ -15,8 +15,6 @@ format:
 
 website:
   title: "nbprocess"
-  execute: 
-    enabled: true
   sidebar:
     style: "floating"
     search: true

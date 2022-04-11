@@ -101,8 +101,6 @@ def get_config(cfg_name='settings.ini', path=None):
     if path is None: path = os.environ.get('QUARTO_PROJECT_DIR')
     cfg_path = Path.cwd() if path is None else Path(path)
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
-    # XXX Temp hack
-    if not (cfg_path/cfg_name).exists(): cfg_path = Path('/home/jhoward/git/nbprocess')
     return Config(cfg_path, cfg_name=cfg_name)
 
 # %% ../nbs/01_read.ipynb 35

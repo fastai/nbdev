@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.228">
+  <meta name="generator" content="quarto-0.9.230">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>nbprocess – filter</title>
   <style>
@@ -220,40 +220,47 @@
 <blockquote class="blockquote">
 <p>Filter for quarto processing</p>
 </blockquote>
-<div class="cell" data-execution_count="6">
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="filterdefaults" class="level3">
+<h3 class="anchored" data-anchor-id="filterdefaults">FilterDefaults</h3>
+<blockquote class="blockquote">
+<p><strong><code>FilterDefaults</code></strong><code>()</code></p>
+</blockquote>
+<p>Initialize self. See help(type(self)) for accurate signature.</p>
+</section>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="filter_nb" class="level4">
+<h4 class="anchored" data-anchor-id="filter_nb">filter_nb</h4>
+<blockquote class="blockquote">
+<p><strong><code>filter_nb</code></strong><code>(nb_txt: 'str' = None)</code></p>
+</blockquote>
+</section>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="create_quarto" class="level4">
+<h4 class="anchored" data-anchor-id="create_quarto">create_quarto</h4>
+<blockquote class="blockquote">
+<p><strong><code>create_quarto</code></strong><code>(path: 'str' = None, doc_path: 'str' = None, symlinks: 'bool' = False, file_glob: 'str' = '*.ipynb', file_re: 'str' = None, folder_re: 'str' = None, skip_file_glob: 'str' = None, skip_file_re: 'str' = None, skip_folder_re: 'str' = '^[_.]')</code></p>
+</blockquote>
+</section>
+</div>
+</div>
+<div class="cell" data-execution_count="28">
 <div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>create_quarto()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stderr">
-<pre><code>[1m[34m[ 1/12] tmp.ipynb[39m[22m
-[1m[34m[ 2/12] index.ipynb[39m[22m
-[1m[34m[ 3/12] 08_showdoc.ipynb[39m[22m
-[1m[34m[ 4/12] 06_merge.ipynb[39m[22m
-[1m[34m[ 5/12] 03_process.ipynb[39m[22m
-[1m[34m[ 6/12] 04_export.ipynb[39m[22m
-[1m[34m[ 7/12] 02_maker.ipynb[39m[22m
-[1m[34m[ 8/12] 07_clean.ipynb[39m[22m
-[1m[34m[ 9/12] 10_filter.ipynb[39m[22m
-[1m[34m[10/12] 01_read.ipynb[39m[22m
-[1m[34m[11/12] 05_sync.ipynb[39m[22m
-[1m[34m[12/12] 09_processors.ipynb[39m[22m
-
-Output created: docs/index.html
-
-[1mpandoc -o README.md[22m
-  to: gfm+footnotes+tex_math_dollars-yaml_metadata_block
-  standalone: true
-  default-image-extension: png
-  html-math-method: webtex
-  filters:
-    - crossref
-  
-Output created: docs/README.md
-</code></pre>
 </div>
-</div>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#skip</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbprocess.export <span class="im">import</span> nbs_export</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>nbs_export()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#skip</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbprocess.export <span class="im">import</span> nbs_export</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>nbs_export()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

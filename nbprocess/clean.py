@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['clean_nb', 'nbdev_clean_nbs']
 
-# %% ../nbs/07_clean.ipynb 3
+# %% ../nbs/07_clean.ipynb 2
 from fastcore.script import *
 from fastcore.utils import *
 from fastcore.imports import *
@@ -12,7 +12,7 @@ from .imports import *
 from .read import *
 from .sync import *
 
-# %% ../nbs/07_clean.ipynb 7
+# %% ../nbs/07_clean.ipynb 6
 def _clean_cell_output(cell):
     "Remove execution count in `cell`"
     if 'outputs' in cell:
@@ -21,7 +21,7 @@ def _clean_cell_output(cell):
             o.get('data',{}).pop("application/vnd.google.colaboratory.intrinsic+json", None)
             o.get('metadata', {}).pop('tags', None)
 
-# %% ../nbs/07_clean.ipynb 8
+# %% ../nbs/07_clean.ipynb 7
 def _clean_cell(cell, clear_all=False):
     "Clean `cell` by removing superfluous metadata or everything except the input if `clear_all`"
     if 'execution_count' in cell: cell['execution_count'] = None
@@ -32,14 +32,14 @@ def _clean_cell(cell, clear_all=False):
     cell['metadata'] = {} if clear_all else {
         k:v for k,v in cell['metadata'].items() if k=="hide_input"}
 
-# %% ../nbs/07_clean.ipynb 9
+# %% ../nbs/07_clean.ipynb 8
 def clean_nb(nb, clear_all=False):
     "Clean `nb` from superfluous metadata"
     for c in nb['cells']: _clean_cell(c, clear_all=clear_all)
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in
                      ("kernelspec", "jekyll", "jupytext", "doc")}
 
-# %% ../nbs/07_clean.ipynb 12
+# %% ../nbs/07_clean.ipynb 11
 def _wrapio(strm): return io.TextIOWrapper(strm, encoding='utf-8', line_buffering=True)
 
 def _clean_write(nb, f_in, f_out=None, clear_all=False):
@@ -48,7 +48,7 @@ def _clean_write(nb, f_in, f_out=None, clear_all=False):
     clean_nb(nb, clear_all=clear_all)
     write_nb(nb, f_out)
 
-# %% ../nbs/07_clean.ipynb 13
+# %% ../nbs/07_clean.ipynb 12
 @call_parse
 def nbdev_clean_nbs(
     fname:str=None, # A notebook name or glob to convert

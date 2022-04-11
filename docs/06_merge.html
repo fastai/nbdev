@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.228">
+  <meta name="generator" content="quarto-0.9.230">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>nbprocess – merge</title>
   <style>
@@ -323,6 +323,18 @@
 <section id="creating-a-merged-notebook" class="level2">
 <h2 class="anchored" data-anchor-id="creating-a-merged-notebook">Creating a merged notebook</h2>
 <p>The approach we use is to first “unpatch” the conflicted file, regenerating the two files it was originally created from. Then we redo the diff process, but using cells instead of text lines.</p>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="unpatch" class="level4">
+<h4 class="anchored" data-anchor-id="unpatch">unpatch</h4>
+<blockquote class="blockquote">
+<p><strong><code>unpatch</code></strong><code>(s: str)</code></p>
+</blockquote>
+<p>Takes a string with conflict markers and returns the two original files, and their branch names</p>
+</section>
+</div>
+</div>
 <p>The result of “unpatching” our conflicted test notebook is the two original notebooks it would have been created from. Each of these original notebooks will contain valid JSON:</p>
 <div class="cell" data-execution_count="8">
 <div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>a,b,branch1,branch2 <span class="op">=</span> unpatch(tst_nb)</span>
@@ -391,6 +403,18 @@
 <div class="sourceCode" id="cb9"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>branch1,branch2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="10">
 <pre><code>('HEAD', 'a7ec1b0bfb8e23b05fd0a2e6cafcb41cd0fb1c35')</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="fix_merge" class="level4">
+<h4 class="anchored" data-anchor-id="fix_merge">fix_merge</h4>
+<blockquote class="blockquote">
+<p><strong><code>fix_merge</code></strong><code>(nbname: str, outname: str = None, nobackup: bool = True, theirs: bool = False, noprint: bool = False)</code></p>
+</blockquote>
+<p>Create working notebook from conflicted notebook <code>nbname</code></p>
+</section>
 </div>
 </div>
 <p>This begins by optionally backing the notebook <code>fname</code> to <code>fname.bak</code> in case something goes wrong. Then it parses the broken json, solving conflicts in cells. Every conflict that only involves metadata or outputs of cells will be solved automatically by using the local (<code>theirs==False</code>) or the remote (<code>theirs==True</code>) branch. Otherwise, or for conflicts involving the inputs of cells, the json will be repaired by including the two version of the conflicted cell(s) with markdown cells indicating the conflicts. You will be able to open the notebook again and search for the conflicts (look for <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>) then fix them as you wish.</p>

@@ -34,8 +34,6 @@ def qual_name(obj):
 
 # %% ../nbs/08_showdoc.ipynb 6
 class ShowDocRenderer:
-    out_type = 'markdown'
-
     def __init__(self, sym, disp:bool=True):
         "Show documentation for `sym`"
         store_attr()
@@ -43,14 +41,10 @@ class ShowDocRenderer:
         self.isfunc = inspect.isfunction(sym)
         self.sig = inspect.signature(sym)
         self.docs = docstring(sym)
-        
-    def _repr_mimebundle_(self, **kwargs):
-        res = self.get_content()
-        return {'text/'+self.out_type: res}
 
 # %% ../nbs/08_showdoc.ipynb 7
 class BasicMarkdownRenderer(ShowDocRenderer):
-    def get_content(self):
+    def _repr_markdown_(self):
         doc = '---\n\n'
         if self.isfunc: doc += '#'
         doc += f'### {self.nm}\n\n> **`{self.nm}`**` {self.sig}`'
@@ -64,12 +58,11 @@ def show_doc(sym, disp=True, renderer=None):
     elif isinstance(renderer,str):
         p,m = renderer.rsplit('.', 1)
         renderer = getattr(import_module(p), m)
-    return renderer(sym, disp=disp)
+    return renderer(sym or show_doc, disp=disp)
 
 # %% ../nbs/08_showdoc.ipynb 10
 class BasicHtmlRenderer(ShowDocRenderer):
-    out_type='html'
-    def get_content(self):
+    def _repr_html_(self):
         doc = '<hr/>\n'
         lvl = 4 if self.isfunc else 3
         doc += f'<h{lvl}>{self.nm}</h{lvl}>\n<blockquote><code>{self.nm}{self.sig}</code></blockquote>'

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.228">
+  <meta name="generator" content="quarto-0.9.230">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>nbprocess – sync</title>
   <style>
@@ -221,6 +221,18 @@
 <p>Propagating small changes in the library back to notebooks</p>
 </blockquote>
 <p>The library is primarily developed in notebooks so any big changes should be made there. But sometimes, it’s easier to fix small bugs or typos in the modules directly. <code>nbprocess_update_lib</code> is the function that will propagate those changes back to the corresponding notebooks. Note that you can’t create new cells or reorder cells with that functionality, so your corrections should remain limited.</p>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="nb2dict" class="level4">
+<h4 class="anchored" data-anchor-id="nb2dict">nb2dict</h4>
+<blockquote class="blockquote">
+<p><strong><code>nb2dict</code></strong><code>(d, k=None)</code></p>
+</blockquote>
+<p>Convert parsed notebook to <code>dict</code></p>
+</section>
+</div>
+</div>
 <p>This returns the exact same dict as is read from the notebook JSON.</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>minimal_fn <span class="op">=</span> Path(<span class="st">'../tests/minimal.ipynb'</span>)</span>
@@ -228,6 +240,30 @@
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>minimal_dict <span class="op">=</span> minimal_fn.read_json()</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> minimal_dict<span class="op">==</span>nb2dict(minimal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="nb2str" class="level4">
+<h4 class="anchored" data-anchor-id="nb2str">nb2str</h4>
+<blockquote class="blockquote">
+<p><strong><code>nb2str</code></strong><code>(nb)</code></p>
+</blockquote>
+<p>Convert <code>nb</code> to a <code>str</code></p>
+</section>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="write_nb" class="level4">
+<h4 class="anchored" data-anchor-id="write_nb">write_nb</h4>
+<blockquote class="blockquote">
+<p><strong><code>write_nb</code></strong><code>(nb, path)</code></p>
+</blockquote>
+<p>Write <code>nb</code> to <code>path</code></p>
+</section>
+</div>
 </div>
 <p>This returns the exact same string as saved by Jupyter.</p>
 <div class="cell" data-execution_count="9">
@@ -238,6 +274,18 @@
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> minimal_txt<span class="op">==</span>tmp.read_text()</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>: tmp.unlink()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="absolute_import" class="level4">
+<h4 class="anchored" data-anchor-id="absolute_import">absolute_import</h4>
+<blockquote class="blockquote">
+<p><strong><code>absolute_import</code></strong><code>(name, fname, level)</code></p>
+</blockquote>
+<p>Unwarps a relative import in <code>name</code> according to <code>fname</code></p>
+</section>
+</div>
+</div>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>test_eq(absolute_import(<span class="st">'xyz'</span>, <span class="st">'nbprocess'</span>, <span class="dv">0</span>), <span class="st">'xyz'</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>test_eq(absolute_import(<span class="st">''</span>, <span class="st">'nbprocess'</span>, <span class="dv">1</span>), <span class="st">'nbprocess'</span>)</span>
@@ -245,6 +293,18 @@
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>test_eq(absolute_import(<span class="st">'core'</span>, <span class="st">'nbprocess/vision'</span>, <span class="dv">2</span>), <span class="st">'nbprocess.core'</span>)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>test_eq(absolute_import(<span class="st">'transform'</span>, <span class="st">'nbprocess/vision'</span>, <span class="dv">1</span>), <span class="st">'nbprocess.vision.transform'</span>)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>test_eq(absolute_import(<span class="st">'notebook.core'</span>, <span class="st">'nbprocess/data'</span>, <span class="dv">2</span>), <span class="st">'nbprocess.notebook.core'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="update_lib" class="level4">
+<h4 class="anchored" data-anchor-id="update_lib">update_lib</h4>
+<blockquote class="blockquote">
+<p><strong><code>update_lib</code></strong><code>(fname: str)</code></p>
+</blockquote>
+<p>Propagates any change in the modules matching <code>fname</code> to the notebooks that created them</p>
+</section>
+</div>
 </div>
 <div class="cell" data-execution_count="17">
 <div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbprocess.export <span class="im">import</span> nbs_export</span>

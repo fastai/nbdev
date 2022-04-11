@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.228">
+  <meta name="generator" content="quarto-0.9.230">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>nbprocess – process</title>
   <style>
@@ -220,33 +220,75 @@
 <ul>
 <li>A notebook processor</li>
 </ul>
-<div class="cell" data-execution_count="35">
-<div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.test <span class="im">import</span> <span class="op">*</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pdb <span class="im">import</span> set_trace</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> importlib <span class="im">import</span> <span class="bu">reload</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>Special comments at the start of a cell can be used to provide information to <code>nbprocess</code> about how to process a cell, so we need to be able to find the location of these comments.</p>
-<div class="cell" data-execution_count="36">
-<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>minimal <span class="op">=</span> read_nb(<span class="st">'../tests/minimal.ipynb'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>minimal <span class="op">=</span> read_nb(<span class="st">'../tests/minimal.ipynb'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="extract_directives" class="level4">
+<h4 class="anchored" data-anchor-id="extract_directives">extract_directives</h4>
+<blockquote class="blockquote">
+<p><strong><code>extract_directives</code></strong><code>(cell, remove=True)</code></p>
+</blockquote>
+<p>Take leading comment directives from lines of code in <code>ss</code>, remove <code>#|</code>, and split</p>
+</section>
+</div>
 </div>
 <p>Comment directives start with <code>#</code>, followed by whitespace delimited tokens, which <code>extract_directives</code> extracts from the start of a cell, up until a blank line or a line containing something other than comments. The extracted lines are removed from the source.</p>
-<div class="cell" data-execution_count="39">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>exp  <span class="op">=</span> AttrDict(source <span class="op">=</span> <span class="st">"""#|export module</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">#| hide</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">1+2</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="st">#bar"""</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>test_eq(extract_directives(exp), <span class="bu">dict</span>(export<span class="op">=</span>[<span class="st">'module'</span>],hide<span class="op">=</span>[]))</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>test_eq(exp.source, <span class="st">"1+2</span><span class="ch">\n</span><span class="st">#bar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>exp  <span class="op">=</span> AttrDict(source <span class="op">=</span> <span class="st">"""#|export module</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">#| hide</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st">1+2</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="st">#bar"""</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>test_eq(extract_directives(exp), <span class="bu">dict</span>(export<span class="op">=</span>[<span class="st">'module'</span>],hide<span class="op">=</span>[]))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>test_eq(exp.source, <span class="st">"1+2</span><span class="ch">\n</span><span class="st">#bar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="opt_set" class="level4">
+<h4 class="anchored" data-anchor-id="opt_set">opt_set</h4>
+<blockquote class="blockquote">
+<p><strong><code>opt_set</code></strong><code>(var, newval)</code></p>
+</blockquote>
+<p>newval if newval else var</p>
+</section>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="instantiate" class="level4">
+<h4 class="anchored" data-anchor-id="instantiate">instantiate</h4>
+<blockquote class="blockquote">
+<p><strong><code>instantiate</code></strong><code>(x)</code></p>
+</blockquote>
+<p>Instantiate <code>x</code> if it’s a type</p>
+</section>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="nbprocessor" class="level3">
+<h3 class="anchored" data-anchor-id="nbprocessor">NBProcessor</h3>
+<blockquote class="blockquote">
+<p><strong><code>NBProcessor</code></strong><code>(path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False, rm_directives=True)</code></p>
+</blockquote>
+<p>Process cells and nbdev comments in a notebook</p>
+</section>
+</div>
 </div>
 <p>Cell processors can be callables (e.g regular functions), in which case they are called for every cell:</p>
-<div class="cell" data-execution_count="44">
-<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>everything_fn <span class="op">=</span> <span class="st">'../tests/01_everything.ipynb'</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_execs(cell):</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'exec'</span> <span class="kw">in</span> cell.source: <span class="bu">print</span>(cell.source)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>NBProcessor(everything_fn, print_execs).process()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>everything_fn <span class="op">=</span> <span class="st">'../tests/01_everything.ipynb'</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_execs(cell):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'exec'</span> <span class="kw">in</span> cell.source: <span class="bu">print</span>(cell.source)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>NBProcessor(everything_fn, print_execs).process()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>exec("o_y=1")
 exec("p_y=1")
@@ -254,41 +296,41 @@ _all_ = [o_y, 'p_y']</code></pre>
 </div>
 </div>
 <p>Comment directives are put in a cell attribute <code>directive_</code> as a dictionary keyed by directive name:</p>
-<div class="cell" data-execution_count="45">
-<div class="sourceCode" id="cb6"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> printme_func(cell):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'printme'</span> <span class="kw">in</span> cell.directives_: <span class="bu">print</span>(cell.directives_[<span class="st">'printme'</span>])</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>NBProcessor(everything_fn, printme_func).process()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> printme_func(cell):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">'printme'</span> <span class="kw">in</span> cell.directives_: <span class="bu">print</span>(cell.directives_[<span class="st">'printme'</span>])</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>NBProcessor(everything_fn, printme_func).process()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>['testing']</code></pre>
 </div>
 </div>
 <p>However, a more convenient way to handle comment directives is to use a <em>class</em> as a processor, and include a method in your class with the same name as your directive, surrounded by underscores:</p>
-<div class="cell" data-execution_count="46">
-<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _PrintExample:</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _printme_(<span class="va">self</span>, nbp, cell, to_print): <span class="bu">print</span>(to_print)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>NBProcessor(everything_fn, _PrintExample()).process()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode" id="cb7"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> _PrintExample:</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _printme_(<span class="va">self</span>, nbp, cell, to_print): <span class="bu">print</span>(to_print)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>NBProcessor(everything_fn, _PrintExample()).process()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>testing</code></pre>
 </div>
 </div>
 <p>In the case that your processor supports just one comment directive, you can just use a regular function, with the same name as your directive, but with an underscore appended – here <code>printme_</code> is identical to <code>_PrintExample</code> above:</p>
-<div class="cell" data-execution_count="47">
-<div class="sourceCode" id="cb10"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> printme_(nbp, cell, to_print): <span class="bu">print</span>(to_print)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>NBProcessor(everything_fn, printme_).process()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode" id="cb9"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> printme_(nbp, cell, to_print): <span class="bu">print</span>(to_print)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>NBProcessor(everything_fn, printme_).process()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>testing</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="48">
-<div class="sourceCode" id="cb12"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>basic_export_nb2(<span class="st">'01_read.ipynb'</span>, <span class="st">'read'</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>basic_export_nb2(<span class="st">'02_maker.ipynb'</span>, <span class="st">'maker'</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>basic_export_nb2(<span class="st">'03_process.ipynb'</span>, <span class="st">'process'</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> exec_new(<span class="st">'import nbprocess.process'</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">hasattr</span>(g[<span class="st">'nbprocess'</span>].process, <span class="st">'NBProcessor'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode" id="cb11"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>basic_export_nb2(<span class="st">'01_read.ipynb'</span>, <span class="st">'read'</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>basic_export_nb2(<span class="st">'02_maker.ipynb'</span>, <span class="st">'maker'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>basic_export_nb2(<span class="st">'03_process.ipynb'</span>, <span class="st">'process'</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> exec_new(<span class="st">'import nbprocess.process'</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">hasattr</span>(g[<span class="st">'nbprocess'</span>].process, <span class="st">'NBProcessor'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

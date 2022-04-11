@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.228">
+  <meta name="generator" content="quarto-0.9.230">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>nbprocess – processors</title>
   <style>
@@ -207,7 +207,12 @@
         <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">On this page</h2>
 <ul>
-<li><a href="#processors" id="toc-processors" class="nav-link active" data-scroll-target="#processors">processors</a></li>
+<li><a href="#processors" id="toc-processors" class="nav-link active" data-scroll-target="#processors">processors</a>
+<ul class="collapse">
+<li><a href="#helpers" id="toc-helpers" class="nav-link" data-scroll-target="#helpers">Helpers</a></li>
+<li><a href="#cell-processors" id="toc-cell-processors" class="nav-link" data-scroll-target="#cell-processors">Cell processors</a></li>
+<li><a href="#notebook-preprocessors" id="toc-notebook-preprocessors" class="nav-link" data-scroll-target="#notebook-preprocessors">Notebook preprocessors</a></li>
+</ul></li>
 </ul>
 </nav>
     </div>
@@ -220,71 +225,260 @@
 <ul>
 <li>Some processors for <code>NBProcessor</code></li>
 </ul>
-<div class="cell" data-execution_count="31">
-<div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastcore.test <span class="im">import</span> <span class="op">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="helpers" class="level2">
+<h2 class="anchored" data-anchor-id="helpers">Helpers</h2>
+<p>On this page we’ll be using this private helper to process a notebook and return the results, to simplify testing:</p>
 <div class="cell" data-execution_count="32">
-<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>_test_file <span class="op">=</span> <span class="st">'../tests/docs_test.ipynb'</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _run_procs(procs<span class="op">=</span><span class="va">None</span>, preprocs<span class="op">=</span><span class="va">None</span>, postprocs<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    nbp <span class="op">=</span> NBProcessor(_test_file, procs, preprocs<span class="op">=</span>preprocs, postprocs<span class="op">=</span>postprocs)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    nbp.process()</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>.join([<span class="bu">str</span>(cell) <span class="cf">for</span> cell <span class="kw">in</span> nbp.nb.cells])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _run_procs(procs<span class="op">=</span><span class="va">None</span>, preprocs<span class="op">=</span><span class="va">None</span>, postprocs<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    nbp <span class="op">=</span> NBProcessor(_test_file, procs, preprocs<span class="op">=</span>preprocs, postprocs<span class="op">=</span>postprocs)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    nbp.process()</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>.join([<span class="bu">str</span>(cell) <span class="cf">for</span> cell <span class="kw">in</span> nbp.nb.cells])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="mk_cell" class="level4">
+<h4 class="anchored" data-anchor-id="mk_cell">mk_cell</h4>
+<blockquote class="blockquote">
+<p><strong><code>mk_cell</code></strong><code>(text, code=True)</code></p>
+</blockquote>
+<p>Create a <code>NbCell</code> containing <code>text</code></p>
+</section>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="create_output" class="level4">
+<h4 class="anchored" data-anchor-id="create_output">create_output</h4>
+<blockquote class="blockquote">
+<p><strong><code>create_output</code></strong><code>(txt, mime)</code></p>
+</blockquote>
+<p>Add a cell output containing <code>txt</code> of the <code>mime</code> text MIME sub-type</p>
+</section>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="cellrunner" class="level3">
+<h3 class="anchored" data-anchor-id="cellrunner">CellRunner</h3>
+<blockquote class="blockquote">
+<p><strong><code>CellRunner</code></strong><code>(name='kernel', glb=None)</code></p>
+</blockquote>
+<p>A <code>TinyKernel</code> subclass that adds a <code>run</code> method to execute notebook cells</p>
+</section>
+</div>
+</div>
+</section>
+<section id="cell-processors" class="level2">
+<h2 class="anchored" data-anchor-id="cell-processors">Cell processors</h2>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="strip_ansi" class="level4">
+<h4 class="anchored" data-anchor-id="strip_ansi">strip_ansi</h4>
+<blockquote class="blockquote">
+<p><strong><code>strip_ansi</code></strong><code>(cell)</code></p>
+</blockquote>
+<p>Strip Ansi Characters.</p>
+</section>
+</div>
 </div>
 <p>Gets rid of colors that are streamed from standard out, which can interfere with static site generators:</p>
-<div class="cell" data-execution_count="34">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(strip_ansi)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">not</span> _re_ansi_escape.findall(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="38">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(strip_ansi)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="kw">not</span> _re_ansi_escape.findall(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This preprocessor inserts a warning in the markdown destination that the file is autogenerated. This warning is inserted in the second cell so we do not interfere with front matter.</p>
-<div class="cell" data-execution_count="37">
-<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(preprocs<span class="op">=</span>[insert_warning])</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">"&lt;!-- WARNING: THIS FILE WAS AUTOGENERATED!"</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="hide_" class="level4">
+<h4 class="anchored" data-anchor-id="hide_">hide_</h4>
+<blockquote class="blockquote">
+<p><strong><code>hide_</code></strong><code>(nbp, cell)</code></p>
+</blockquote>
+<p>Hide cell from output</p>
+</section>
 </div>
-<div class="cell" data-execution_count="39">
-<div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(hide_)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'you will not be able to see this cell at all either'</span> <span class="kw">not</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="41">
-<div class="sourceCode" id="cb6"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(hide_line)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="vs">r"def show():\n    a = 2"</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="40">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(hide_)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'you will not be able to see this cell at all either'</span> <span class="kw">not</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="43">
-<div class="sourceCode" id="cb7"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(filter_stream_)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>exp<span class="op">=</span><span class="vs">r"'A line\n', 'Another line.\n'"</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> exp <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="hide_line" class="level4">
+<h4 class="anchored" data-anchor-id="hide_line">hide_line</h4>
+<blockquote class="blockquote">
+<p><strong><code>hide_line</code></strong><code>(cell)</code></p>
+</blockquote>
+<p>Hide lines of code in code cells with the directive <code>hide_line</code> at the end of a line of code</p>
+</section>
 </div>
-<div class="cell" data-execution_count="45">
-<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(clean_magics)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">"</span><span class="sc">%%</span><span class="st">"</span> <span class="kw">not</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="42">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(hide_line)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="vs">r"def show():\n    a = 2"</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="filter_stream_" class="level4">
+<h4 class="anchored" data-anchor-id="filter_stream_">filter_stream_</h4>
+<blockquote class="blockquote">
+<p><strong><code>filter_stream_</code></strong><code>(nbp, cell, *words)</code></p>
+</blockquote>
+<p>Remove output lines containing any of <code>words</code> in <code>cell</code> stream output</p>
+</section>
+</div>
+</div>
+<div class="cell" data-execution_count="44">
+<div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(filter_stream_)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>exp<span class="op">=</span><span class="vs">r"'A line\n', 'Another line.\n'"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> exp <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="clean_magics" class="level4">
+<h4 class="anchored" data-anchor-id="clean_magics">clean_magics</h4>
+<blockquote class="blockquote">
+<p><strong><code>clean_magics</code></strong><code>(cell)</code></p>
+</blockquote>
+<p>A preprocessor to remove cell magic commands</p>
+</section>
+</div>
+</div>
+<div class="cell" data-execution_count="46">
+<div class="sourceCode" id="cb6"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(clean_magics)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">"</span><span class="sc">%%</span><span class="st">"</span> <span class="kw">not</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="lang_identify" class="level4">
+<h4 class="anchored" data-anchor-id="lang_identify">lang_identify</h4>
+<blockquote class="blockquote">
+<p><strong><code>lang_identify</code></strong><code>(cell)</code></p>
+</blockquote>
+<p>A preprocessor to identify bash/js/etc cells and mark them appropriately</p>
+</section>
+</div>
 </div>
 <p>When we issue a shell command in a notebook with <code>!</code>, we need to change the code-fence from <code>python</code> to <code>bash</code> and remove the <code>!</code>:</p>
-<div class="cell" data-execution_count="47">
-<div class="sourceCode" id="cb9"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(lang_identify)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">"'language': 'bash'"</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="48">
+<div class="sourceCode" id="cb7"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(lang_identify)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">"'language': 'bash'"</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="49">
-<div class="sourceCode" id="cb10"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(rm_header_dash)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'some words'</span> <span class="kw">in</span> res</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'A heading to Hide'</span> <span class="kw">not</span> <span class="kw">in</span> res <span class="kw">and</span> <span class="st">'Another Heading'</span> <span class="kw">not</span> <span class="kw">in</span> res <span class="kw">and</span> <span class="st">'Yet another heading to hide'</span> <span class="kw">not</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="rm_header_dash" class="level4">
+<h4 class="anchored" data-anchor-id="rm_header_dash">rm_header_dash</h4>
+<blockquote class="blockquote">
+<p><strong><code>rm_header_dash</code></strong><code>(cell)</code></p>
+</blockquote>
+<p>Remove headings that end with a dash -</p>
+</section>
 </div>
-<div class="cell" data-execution_count="51">
-<div class="sourceCode" id="cb11"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(rm_export)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'dontshow'</span> <span class="kw">not</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="54">
+<div class="cell" data-execution_count="50">
+<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(rm_header_dash)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'some words'</span> <span class="kw">in</span> res</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'A heading to Hide'</span> <span class="kw">not</span> <span class="kw">in</span> res</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'Yet another heading to hide'</span> <span class="kw">not</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="rm_export" class="level4">
+<h4 class="anchored" data-anchor-id="rm_export">rm_export</h4>
+<blockquote class="blockquote">
+<p><strong><code>rm_export</code></strong><code>(cell)</code></p>
+</blockquote>
+<p>Remove cells that are exported or hidden</p>
+</section>
+</div>
+</div>
+<div class="cell" data-execution_count="52">
+<div class="sourceCode" id="cb9"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(rm_export)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'dontshow'</span> <span class="kw">not</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="exec_show_docs" class="level3">
+<h3 class="anchored" data-anchor-id="exec_show_docs">exec_show_docs</h3>
+<blockquote class="blockquote">
+<p><strong><code>exec_show_docs</code></strong><code>()</code></p>
+</blockquote>
+<p>Execute cells needed for <code>show_docs</code> output, including exported cells and imports</p>
+</section>
+</div>
+</div>
+<div class="cell" data-execution_count="55">
+<div class="sourceCode" id="cb10"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(exec_show_docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="clean_show_doc" class="level4">
+<h4 class="anchored" data-anchor-id="clean_show_doc">clean_show_doc</h4>
+<blockquote class="blockquote">
+<p><strong><code>clean_show_doc</code></strong><code>(cell)</code></p>
+</blockquote>
+<p>Remove ShowDoc input cells</p>
+</section>
+</div>
+</div>
+</section>
+<section id="notebook-preprocessors" class="level2">
+<h2 class="anchored" data-anchor-id="notebook-preprocessors">Notebook preprocessors</h2>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="insert_warning" class="level4">
+<h4 class="anchored" data-anchor-id="insert_warning">insert_warning</h4>
+<blockquote class="blockquote">
+<p><strong><code>insert_warning</code></strong><code>(nb)</code></p>
+</blockquote>
+<p>Insert Autogenerated Warning Into Notebook after the first cell.</p>
+</section>
+</div>
+</div>
+<p>This preprocessor inserts a warning in the markdown destination that the file is autogenerated. This warning is inserted in the second cell so we do not interfere with front matter.</p>
+<div class="cell" data-execution_count="58">
+<div class="sourceCode" id="cb11"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(preprocs<span class="op">=</span>[insert_warning])</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">"&lt;!-- WARNING: THIS FILE WAS AUTOGENERATED!"</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display" data-execution_count="1">
+<hr>
+<section id="add_show_docs" class="level4">
+<h4 class="anchored" data-anchor-id="add_show_docs">add_show_docs</h4>
+<blockquote class="blockquote">
+<p><strong><code>add_show_docs</code></strong><code>(nb)</code></p>
+</blockquote>
+<p>Add show_doc cells after exported cells, unless they are already documented</p>
+</section>
+</div>
+</div>
+<div class="cell" data-execution_count="61">
 <div class="sourceCode" id="cb12"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> _run_procs(preprocs<span class="op">=</span>add_show_docs)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">"show_doc(some_func)'"</span> <span class="kw">in</span> res</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">"show_doc(some_func)'"</span> <span class="kw">in</span> res</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">"show_doc(and_another)'"</span> <span class="kw">in</span> res</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">"show_doc(another_func)'"</span> <span class="kw">not</span> <span class="kw">in</span> res</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="57">
+<div class="cell" data-execution_count="63">
 <div class="sourceCode" id="cb13"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbprocess.export <span class="im">import</span> nbs_export</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>nbs_export()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
 
+</section>
 </section>
 </main> <!-- /main -->
 <script type="application/javascript">
