@@ -38,6 +38,9 @@ dist: clean
 
 clean:
 	rm -rf dist
+	
+install: install_quarto
+	pip install -e .
 
 install_quarto:
 	wget `curl -s https://api.github.com/repos/quarto-dev/quarto-cli/releases | grep browser_download_url | grep '64[.]deb' | head -n 1 | cut -d '"' -f 4`
