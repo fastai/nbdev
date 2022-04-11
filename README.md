@@ -4,8 +4,7 @@
 
 > Process and export Jupyter Notebooks fast
 
-This file will become your README and also the index of your
-documentation.
+This will probably become v2 of nbdev in the near-ish future.
 
 ## Install
 
@@ -19,10 +18,15 @@ With conda:
 
 ## How to use
 
-Fill me in please! Don’t forget code examples:
+By default docs are exported for use with [Quarto](https://quarto.org/).
+To install Quarto on Ubuntu, run `make install`. See the Quarto docs for
+other platforms.
 
-``` python
-1+1
-```
+The following CLI tools are provided:
 
-    2
+-   `nbprocess_create_config`: Create `settings.ini` skeleton
+-   `nbprocess_export`: Export notebooks to Python modules
+-   `nbprocess_update`: Update Python modules from a notebook
+-   `nbprocess_fix`: Fix merge conflicts in notebooks
+-   `nbprocess_filter`: A filter for Quarto
+-   `nbprocess_quarto`: Create Quarto web site

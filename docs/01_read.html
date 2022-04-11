@@ -228,24 +228,12 @@
 <section id="reading-and-executing-notebooks" class="level2">
 <h2 class="anchored" data-anchor-id="reading-and-executing-notebooks">Reading and executing notebooks</h2>
 <p>A notebook is just a json file:</p>
-<div class="cell" hidden="true" data-execution_count="4">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>minimal_fn <span class="op">=</span> Path(<span class="st">'../tests/minimal.ipynb'</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>minimal_txt <span class="op">=</span> minimal_fn.read_json()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="cell-output-display" data-execution_count="1">
-<hr>
-<section id="display_json" class="level4">
-<h4 class="anchored" data-anchor-id="display_json">display_json</h4>
-<blockquote class="blockquote">
-<p><strong><code>display_json</code></strong><code>(d, md=True)</code></p>
-</blockquote>
-<p>Formatter to reduce vertical space used by JSON display</p>
-</section>
-</div>
-</div>
-<div class="cell" hidden="true" data-execution_count="6">
-<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>display_json(minimal_txt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>_display_json(minimal_txt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="6">
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>{ <span class="st">'cells'</span>: [ {<span class="st">'cell_type'</span>: <span class="st">'markdown'</span>, <span class="st">'metadata'</span>: {}, <span class="st">'source'</span>: [<span class="st">'# A minimal notebook'</span>]},</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>             { <span class="st">'cell_type'</span>: <span class="st">'code'</span>,</span>
@@ -267,8 +255,8 @@
 </div>
 </div>
 <p>The important bit for us is the <code>cells</code>:</p>
-<div class="cell" hidden="true" data-execution_count="7">
-<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>display_json(minimal_txt[<span class="st">'cells'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>_display_json(minimal_txt[<span class="st">'cells'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="7">
 <div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>[ {<span class="st">'cell_type'</span>: <span class="st">'markdown'</span>, <span class="st">'metadata'</span>: {}, <span class="st">'source'</span>: [<span class="st">'# A minimal notebook'</span>]},</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  { <span class="st">'cell_type'</span>: <span class="st">'code'</span>,</span>
@@ -306,7 +294,7 @@
 </div>
 </div>
 <p>We can now convert our JSON into this <code>nbclient</code>-compatible format, which pretty prints the source code of cells in notebooks…</p>
-<div class="cell" hidden="true" data-execution_count="10">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode" id="cb6"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>minimal <span class="op">=</span> dict2nb(minimal_txt)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>minimal.cells[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="10">
@@ -315,11 +303,11 @@
 </div>
 </div>
 <p>…and is in a format compatible with <code>nbclient</code> to execute it:</p>
-<div class="cell" hidden="true" data-execution_count="11">
+<div class="cell" data-execution_count="11">
 <div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nbclient.execute(minimal)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>One nice feature of the output of <code>dict2nb</code> is that we can still use it as a <code>dict</code>, so <code>display_json</code> still works as before. We can see that the cell has been executed, and the output added back to the <code>nb</code>:</p>
-<div class="cell" hidden="true" data-execution_count="12">
+<p>One nice feature of the output of <code>dict2nb</code> is that we can still use it as a <code>dict</code>, so <code>_display_json</code> still works as before. We can see that the cell has been executed, and the output added back to the <code>nb</code>:</p>
+<div class="cell" data-execution_count="12">
 <div class="sourceCode" id="cb9"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cell <span class="op">=</span> minimal.cells[<span class="dv">1</span>]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cell.outputs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="12">
@@ -330,10 +318,10 @@
 </div>
 </div>
 <p>The abstract syntax tree of source code cells is available in the <code>parsed_</code> property:</p>
-<div class="cell" hidden="true" data-execution_count="13">
+<div class="cell" data-execution_count="13">
 <div class="sourceCode" id="cb11"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cell.parsed_(), cell.parsed_()[<span class="dv">0</span>].value.op</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="13">
-<pre><code>([&lt;ast.Expr at 0x7fa0e432c9d0&gt;], &lt;ast.Add at 0x7fa11de74850&gt;)</code></pre>
+<pre><code>([&lt;ast.Expr at 0x7fe2cc3668b0&gt;], &lt;ast.Add at 0x7fe2d2d29850&gt;)</code></pre>
 </div>
 </div>
 <p>Since loading JSON and converting to an NB is something we’ll do a lot, we’ll create a shortcut function for it:</p>
@@ -349,7 +337,7 @@
 </section>
 </div>
 </div>
-<div class="cell" hidden="true" data-execution_count="15">
+<div class="cell" data-execution_count="15">
 <div class="sourceCode" id="cb13"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>minimal <span class="op">=</span> read_nb(minimal_fn)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(minimal.cells[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
@@ -366,7 +354,7 @@
 <section id="nbprocess_create_config" class="level4">
 <h4 class="anchored" data-anchor-id="nbprocess_create_config">nbprocess_create_config</h4>
 <blockquote class="blockquote">
-<p><strong><code>nbprocess_create_config</code></strong><code>(user: str, lib_name: str = None, description='TODO fill me in', author='TODO fill me in', author_email='todo@example.org', path: str = '.', cfg_name: str = 'settings.ini', branch: str = 'master', host: str = 'github', git_url: str = 'https://github.com/%(user)s/%(lib_name)s/tree/%(branch)s/', custom_sidebar: &lt;function bool_arg at 0x7f1387eef700&gt; = False, nbs_path: str = '.', lib_path: str = '%(lib_name)s', doc_path: str = 'docs', tst_flags: str = '', version: str = '0.0.1', keywords='python', license='apache2', copyright='', status='3', min_python='3.6', audience='Developers', language='English')</code></p>
+<p><strong><code>nbprocess_create_config</code></strong><code>(user: str, lib_name: str = None, description='TODO fill me in', author='TODO fill me in', author_email='todo@example.org', path: str = '.', cfg_name: str = 'settings.ini', branch: str = 'master', host: str = 'github', git_url: str = 'https://github.com/%(user)s/%(lib_name)s/tree/%(branch)s/', custom_sidebar: &lt;function bool_arg at 0x7f47b8338700&gt; = False, nbs_path: str = '.', lib_path: str = '%(lib_name)s', doc_path: str = 'docs', tst_flags: str = '', version: str = '0.0.1', keywords='python', license='apache2', copyright='', status='3', min_python='3.6', audience='Developers', language='English')</code></p>
 </blockquote>
 <p>Creates a new config file for <code>lib_name</code> and <code>user</code> and saves it.</p>
 </section>
