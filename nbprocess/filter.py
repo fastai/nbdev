@@ -51,7 +51,7 @@ def filter_nb(
     nbp = NBProcessor(nb=nb, procs=filt.procs(), preprocs=filt.preprocs(), postprocs=filt.postprocs())
     nbp.process()
     res = nb2str(nb)
-    if printit: print(res)
+    if printit: print(res, flush=True)
     else: return res
 
 # %% ../nbs/10_filter.ipynb 6
