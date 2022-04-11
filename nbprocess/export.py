@@ -39,7 +39,7 @@ def create_modules(path, dest, procs=None, debug=False, mod_maker=ModuleMaker):
 
 # %% ../nbs/04_export.ipynb 15
 def nb_export(nbname, lib_path=None):
-    if lib_path is None: lib_path = get_config().lib_path
+    if lib_path is None: lib_path = get_config().path('lib_path')
     create_modules(nbname, lib_path)
 
 # %% ../nbs/04_export.ipynb 16

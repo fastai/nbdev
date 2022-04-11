@@ -1,8 +1,11 @@
-ipynb-filters: [filter.py]
+ipynb-filters: [nbprocess_filter]
 
 project:
   type: website
   output-dir: docs
+  preview:
+    port: 3000
+    browser: false
 
 format:
   html:
@@ -15,14 +18,7 @@ website:
   sidebar:
     style: "floating"
     search: true
-    contents:
-      - 01_read.ipynb
-      - 02_maker.ipynb
-      - 03_process.ipynb
-      - 04_export.ipynb
-      - 05_sync.ipynb
-      - 06_merge.ipynb
-      - 07_clean.ipynb
-      - 08_processors.ipynb
-      - 09_filter.ipynb
-      - index.ipynb
+
+metadata-files: 
+  - sidebar.yml
+
