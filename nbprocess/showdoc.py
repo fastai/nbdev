@@ -11,11 +11,6 @@ import inspect
 
 from .read import get_config
 
-try:
-    from IPython.display import Markdown,display
-    from IPython.core import page
-except ImportError: pass
-
 # %% ../nbs/08_showdoc.ipynb 4
 def get_name(obj):
     "Get the name of `obj`"

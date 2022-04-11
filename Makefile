@@ -9,14 +9,17 @@ nbprocess: $(SRC)
 	touch nbprocess
 
 sync:
-	nbdev_update_lib
+	nbprocess_update
+
+deploy:
+	nbprocess_deploy
 
 docs_serve:
 	cd docs
 	mkdocs serve
 
 docs: $(SRC)
-	nbdev2_docs --path nbs --dest docs
+	nbprocess_quarto --path nbs --doc_path docs
 
 test:
 	nbdev_test_nbs
