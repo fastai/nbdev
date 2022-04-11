@@ -4,7 +4,6 @@
 __all__ = ['extract_directives', 'opt_set', 'instantiate', 'NBProcessor']
 
 # %% ../nbs/03_process.ipynb 3
-#|export
 from .read import *
 from .maker import *
 from .imports import *
@@ -19,7 +18,6 @@ from inspect import signature,Parameter
 import ast,contextlib,copy
 
 # %% ../nbs/03_process.ipynb 7
-#|export
 def _directive(s):
     s = (s.strip()[2:]).strip().split()
     if not s: return None
@@ -27,7 +25,6 @@ def _directive(s):
     return direc,args
 
 # %% ../nbs/03_process.ipynb 8
-#|export
 def extract_directives(cell, remove=True):
     "Take leading comment directives from lines of code in `ss`, remove `#|`, and split"
     ss = cell.source.splitlines(True)
@@ -38,13 +35,11 @@ def extract_directives(cell, remove=True):
     return {k:v for k,v in res}
 
 # %% ../nbs/03_process.ipynb 11
-#|export
 def opt_set(var, newval):
     "newval if newval else var"
     return newval if newval else var
 
 # %% ../nbs/03_process.ipynb 12
-#|export
 def instantiate(x):
     "Instantiate `x` if it's a type"
     return x() if isinstance(x,type) else x
@@ -52,11 +47,9 @@ def instantiate(x):
 def _mk_procs(procs): return L(procs).map(instantiate)
 
 # %% ../nbs/03_process.ipynb 13
-#|export
 def _is_direc(f): return getattr(f, '__name__', '-')[-1]=='_'
 
 # %% ../nbs/03_process.ipynb 14
-#|export
 class NBProcessor:
     "Process cells and nbdev comments in a notebook"
     def __init__(self, path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False, rm_directives=True):
@@ -83,7 +76,9 @@ class NBProcessor:
         
     def process(self):
         "Process all cells with `process_cell`"
-        for proc in self.preprocs: self.nb = opt_set(self.nb, proc(self.nb))
+        for proc in self.preprocs:
+            self.nb = opt_set(self.nb, proc(self.nb))
+            for i,cell in enumerate(self.nb.cells): cell.idx_ = i
         for cell in self.nb.cells: cell.directives_ = extract_directives(cell, remove=self.rm_directives)
         for cell in self.nb.cells: self._process_cell(cell)
         for proc in self.postprocs: self.nb = opt_set(self.nb, proc(self.nb))
