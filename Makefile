@@ -9,7 +9,7 @@ nbprocess: $(SRC)
 	touch nbprocess
 
 sync:
-	nbdev_update_lib
+	nbprocess_update
 
 deploy:
 	nbprocess_deploy
