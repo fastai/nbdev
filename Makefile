@@ -11,6 +11,9 @@ nbprocess: $(SRC)
 sync:
 	nbdev_update_lib
 
+deploy:
+	nbprocess_deploy
+
 docs_serve:
 	cd docs
 	mkdocs serve
