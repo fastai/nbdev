@@ -236,72 +236,60 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>minimal_fn <span class="op">=</span> Path(<span class="st">'../tests/minimal.ipynb'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>minimal_txt <span class="op">=</span> minimal_fn.read_json()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>show_doc(display_json)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div class="cell" hidden="true" data-execution_count="6">
-<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>display_json(minimal_txt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>display_json(minimal_txt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="6">
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>{ <span class="st">'cells'</span>: [ {<span class="st">'cell_type'</span>: <span class="st">'markdown'</span>, <span class="st">'metadata'</span>: {}, <span class="st">'source'</span>: [<span class="st">'# A minimal notebook'</span>]},</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>             { <span class="st">'cell_type'</span>: <span class="st">'code'</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">'execution_count'</span>: <span class="dv">1</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>               <span class="st">'metadata'</span>: {},</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>               <span class="st">'outputs'</span>: [{<span class="st">'data'</span>: {<span class="st">'text/plain'</span>: [<span class="st">'2'</span>]}, <span class="st">'execution_count'</span>: <span class="dv">1</span>, <span class="st">'metadata'</span>: {}, <span class="st">'output_type'</span>: <span class="st">'execute_result'</span>}],</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>               <span class="st">'source'</span>: [<span class="st">'# Do some arithmetic</span><span class="ch">\n</span><span class="st">'</span>, <span class="st">'1+1'</span>]},</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>             {<span class="st">'cell_type'</span>: <span class="st">'code'</span>, <span class="st">'execution_count'</span>: <span class="va">None</span>, <span class="st">'metadata'</span>: {}, <span class="st">'outputs'</span>: [], <span class="st">'source'</span>: []}],</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">'metadata'</span>: { <span class="st">'kernelspec'</span>: {<span class="st">'display_name'</span>: <span class="st">'Python 3 (ipykernel)'</span>, <span class="st">'language'</span>: <span class="st">'python'</span>, <span class="st">'name'</span>: <span class="st">'python3'</span>},</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">'language_info'</span>: { <span class="st">'codemirror_mode'</span>: {<span class="st">'name'</span>: <span class="st">'ipython'</span>, <span class="st">'version'</span>: <span class="dv">3</span>},</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'file_extension'</span>: <span class="st">'.py'</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'mimetype'</span>: <span class="st">'text/x-python'</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'name'</span>: <span class="st">'python'</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'nbconvert_exporter'</span>: <span class="st">'python'</span>,</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'pygments_lexer'</span>: <span class="st">'ipython3'</span>,</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'version'</span>: <span class="st">'3.9.5'</span>}},</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">'nbformat'</span>: <span class="dv">4</span>,</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">'nbformat_minor'</span>: <span class="dv">4</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>{ <span class="st">'cells'</span>: [ {<span class="st">'cell_type'</span>: <span class="st">'markdown'</span>, <span class="st">'metadata'</span>: {}, <span class="st">'source'</span>: [<span class="st">'# A minimal notebook'</span>]},</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>             { <span class="st">'cell_type'</span>: <span class="st">'code'</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">'execution_count'</span>: <span class="dv">1</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>               <span class="st">'metadata'</span>: {},</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>               <span class="st">'outputs'</span>: [{<span class="st">'data'</span>: {<span class="st">'text/plain'</span>: [<span class="st">'2'</span>]}, <span class="st">'execution_count'</span>: <span class="dv">1</span>, <span class="st">'metadata'</span>: {}, <span class="st">'output_type'</span>: <span class="st">'execute_result'</span>}],</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>               <span class="st">'source'</span>: [<span class="st">'# Do some arithmetic</span><span class="ch">\n</span><span class="st">'</span>, <span class="st">'1+1'</span>]},</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>             {<span class="st">'cell_type'</span>: <span class="st">'code'</span>, <span class="st">'execution_count'</span>: <span class="va">None</span>, <span class="st">'metadata'</span>: {}, <span class="st">'outputs'</span>: [], <span class="st">'source'</span>: []}],</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">'metadata'</span>: { <span class="st">'kernelspec'</span>: {<span class="st">'display_name'</span>: <span class="st">'Python 3 (ipykernel)'</span>, <span class="st">'language'</span>: <span class="st">'python'</span>, <span class="st">'name'</span>: <span class="st">'python3'</span>},</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">'language_info'</span>: { <span class="st">'codemirror_mode'</span>: {<span class="st">'name'</span>: <span class="st">'ipython'</span>, <span class="st">'version'</span>: <span class="dv">3</span>},</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'file_extension'</span>: <span class="st">'.py'</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'mimetype'</span>: <span class="st">'text/x-python'</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'name'</span>: <span class="st">'python'</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'nbconvert_exporter'</span>: <span class="st">'python'</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'pygments_lexer'</span>: <span class="st">'ipython3'</span>,</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">'version'</span>: <span class="st">'3.9.5'</span>}},</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">'nbformat'</span>: <span class="dv">4</span>,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">'nbformat_minor'</span>: <span class="dv">4</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>The important bit for us is the <code>cells</code>:</p>
 <div class="cell" hidden="true" data-execution_count="7">
-<div class="sourceCode" id="cb6"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>display_json(minimal_txt[<span class="st">'cells'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>display_json(minimal_txt[<span class="st">'cells'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="7">
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>[ {<span class="st">'cell_type'</span>: <span class="st">'markdown'</span>, <span class="st">'metadata'</span>: {}, <span class="st">'source'</span>: [<span class="st">'# A minimal notebook'</span>]},</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  { <span class="st">'cell_type'</span>: <span class="st">'code'</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'execution_count'</span>: <span class="dv">1</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'metadata'</span>: {},</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'outputs'</span>: [{<span class="st">'data'</span>: {<span class="st">'text/plain'</span>: [<span class="st">'2'</span>]}, <span class="st">'execution_count'</span>: <span class="dv">1</span>, <span class="st">'metadata'</span>: {}, <span class="st">'output_type'</span>: <span class="st">'execute_result'</span>}],</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'source'</span>: [<span class="st">'# Do some arithmetic</span><span class="ch">\n</span><span class="st">'</span>, <span class="st">'1+1'</span>]},</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'cell_type'</span>: <span class="st">'code'</span>, <span class="st">'execution_count'</span>: <span class="va">None</span>, <span class="st">'metadata'</span>: {}, <span class="st">'outputs'</span>: [], <span class="st">'source'</span>: []}]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>[ {<span class="st">'cell_type'</span>: <span class="st">'markdown'</span>, <span class="st">'metadata'</span>: {}, <span class="st">'source'</span>: [<span class="st">'# A minimal notebook'</span>]},</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  { <span class="st">'cell_type'</span>: <span class="st">'code'</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'execution_count'</span>: <span class="dv">1</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'metadata'</span>: {},</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'outputs'</span>: [{<span class="st">'data'</span>: {<span class="st">'text/plain'</span>: [<span class="st">'2'</span>]}, <span class="st">'execution_count'</span>: <span class="dv">1</span>, <span class="st">'metadata'</span>: {}, <span class="st">'output_type'</span>: <span class="st">'execute_result'</span>}],</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'source'</span>: [<span class="st">'# Do some arithmetic</span><span class="ch">\n</span><span class="st">'</span>, <span class="st">'1+1'</span>]},</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'cell_type'</span>: <span class="st">'code'</span>, <span class="st">'execution_count'</span>: <span class="va">None</span>, <span class="st">'metadata'</span>: {}, <span class="st">'outputs'</span>: [], <span class="st">'source'</span>: []}]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>The second cell here is a <code>code</code> cell, however it contains no outputs, because it hasn’t been executed yet. To execute a notebook, we first need to convert it into a format suitable for <code>nbclient</code> (which expects some <code>dict</code> keys to be available as attrs, and some available as regular <code>dict</code> keys). Normally, <code>nbformat</code> is used for this step, but it’s rather slow and inflexible, so we’ll write our own function based on <code>fastcore</code>’s handy <code>dict2obj</code>, which makes all keys available as both attrs <em>and</em> keys.</p>
-<div class="cell">
-<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>show_doc(NbCell)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>We use an <code>AttrDict</code> subclass which has some basic functionality for accessing notebook cells.</p>
-<div class="cell">
-<div class="sourceCode" id="cb9"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>show_doc(dict2nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>We can now convert our JSON into this <code>nbclient</code>-compatible format, which pretty prints the source code of cells in notebooks…</p>
 <div class="cell" hidden="true" data-execution_count="10">
-<div class="sourceCode" id="cb10"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>minimal <span class="op">=</span> dict2nb(minimal_txt)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>minimal.cells[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>minimal <span class="op">=</span> dict2nb(minimal_txt)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>minimal.cells[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="10">
-<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Do some arithmetic</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Do some arithmetic</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>…and is in a format compatible with <code>nbclient</code> to execute it:</p>
 <div class="cell" hidden="true" data-execution_count="11">
-<div class="sourceCode" id="cb12"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nbclient.execute(minimal)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nbclient.execute(minimal)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>One nice feature of the output of <code>dict2nb</code> is that we can still use it as a <code>dict</code>, so <code>display_json</code> still works as before. We can see that the cell has been executed, and the output added back to the <code>nb</code>:</p>
 <div class="cell" hidden="true" data-execution_count="12">
-<div class="sourceCode" id="cb13"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cell <span class="op">=</span> minimal.cells[<span class="dv">1</span>]</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>cell.outputs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cell <span class="op">=</span> minimal.cells[<span class="dv">1</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>cell.outputs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="12">
 <pre><code>[{'output_type': 'execute_result',
   'metadata': {},
@@ -311,19 +299,15 @@
 </div>
 <p>The abstract syntax tree of source code cells is available in the <code>parsed_</code> property:</p>
 <div class="cell" hidden="true" data-execution_count="13">
-<div class="sourceCode" id="cb15"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cell.parsed_(), cell.parsed_()[<span class="dv">0</span>].value.op</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cell.parsed_(), cell.parsed_()[<span class="dv">0</span>].value.op</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="13">
-<pre><code>([&lt;ast.Expr at 0x7f4b683845b0&gt;], &lt;ast.Add at 0x7f4b8fbf4850&gt;)</code></pre>
+<pre><code>([&lt;ast.Expr at 0x7fa0e432c9d0&gt;], &lt;ast.Add at 0x7fa11de74850&gt;)</code></pre>
 </div>
 </div>
 <p>Since loading JSON and converting to an NB is something we’ll do a lot, we’ll create a shortcut function for it:</p>
-<div class="cell">
-<div class="sourceCode" id="cb17"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>show_doc(read_nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div class="cell" hidden="true" data-execution_count="15">
-<div class="sourceCode" id="cb18"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>minimal <span class="op">=</span> read_nb(minimal_fn)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(minimal.cells[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>minimal <span class="op">=</span> read_nb(minimal_fn)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(minimal.cells[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code>{'cell_type': 'markdown', 'metadata': {}, 'source': '# A minimal notebook', 'idx_': 0}</code></pre>
 </div>
@@ -332,68 +316,44 @@
 <section id="config" class="level2">
 <h2 class="anchored" data-anchor-id="config">Config</h2>
 <p>nbprocess uses a <code>settings.ini</code> file in the root of the project to store all configuration details. This file is in <code>ConfigParser</code> format, and can be read and written conveniently using fastcore’s <code>Config</code> class.</p>
-<div class="cell">
-<div class="sourceCode" id="cb20"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>show_doc(nbprocess_create_config)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>This is a wrapper for <code>fastcore</code>’s <code>save_config_file</code> which sets some <code>nbprocess</code> defaults. It is also installed as a CLI command.</p>
-<div class="cell">
-<div class="sourceCode" id="cb21"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>show_doc(get_config)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p><code>get_config</code> searches for <code>settings.ini</code> in the current directory, and then in all parent directories, stopping when it is found.</p>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode" id="cb22"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nbprocess_create_config(<span class="st">'fastai'</span>, path<span class="op">=</span><span class="st">'..'</span>, nbs_path<span class="op">=</span><span class="st">'nbs'</span>, tst_flags<span class="op">=</span><span class="st">'tst'</span>, cfg_name<span class="op">=</span><span class="st">'test_settings.ini'</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>cfg <span class="op">=</span> get_config(<span class="st">'test_settings.ini'</span>)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.lib_name, <span class="st">'nbprocess'</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.git_url, <span class="st">"https://github.com/fastai/nbprocess/tree/master/"</span>)</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>cwd <span class="op">=</span> Path.cwd()</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.config_path, cwd.parent.absolute())</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.path(<span class="st">'lib_path'</span>), cwd.parent<span class="op">/</span><span class="st">'nbprocess'</span>)</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.path(<span class="st">'nbs_path'</span>), cwd)</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.path(<span class="st">'doc_path'</span>), cwd.parent<span class="op">/</span><span class="st">'docs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>nbprocess_create_config(<span class="st">'fastai'</span>, path<span class="op">=</span><span class="st">'..'</span>, nbs_path<span class="op">=</span><span class="st">'nbs'</span>, tst_flags<span class="op">=</span><span class="st">'tst'</span>, cfg_name<span class="op">=</span><span class="st">'test_settings.ini'</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>cfg <span class="op">=</span> get_config(<span class="st">'test_settings.ini'</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.lib_name, <span class="st">'nbprocess'</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.git_url, <span class="st">"https://github.com/fastai/nbprocess/tree/master/"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>cwd <span class="op">=</span> Path.cwd()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.config_path, cwd.parent.absolute())</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.path(<span class="st">'lib_path'</span>), cwd.parent<span class="op">/</span><span class="st">'nbprocess'</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.path(<span class="st">'nbs_path'</span>), cwd)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>test_eq(cfg.path(<span class="st">'doc_path'</span>), cwd.parent<span class="op">/</span><span class="st">'docs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exporting-a-basic-module" class="level2">
 <h2 class="anchored" data-anchor-id="exporting-a-basic-module">Exporting a basic module</h2>
-<div class="cell">
-<div class="sourceCode" id="cb23"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>show_doc(add_init)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb24"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>show_doc(_has_py)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>Python modules require a <code>__init.py__</code> file in all directories that are modules. We assume that all directories containing a python file (including in subdirectories of any depth) is a module, and therefore add a <code>__init__.py</code> to each.</p>
 <div class="cell" hidden="true" data-execution_count="20">
-<div class="sourceCode" id="cb25"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tempfile.TemporaryDirectory() <span class="im">as</span> d:</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> Path(d)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    (d<span class="op">/</span><span class="st">'a/b'</span>).mkdir(parents<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    (d<span class="op">/</span><span class="st">'a/b/f.py'</span>).touch()</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    (d<span class="op">/</span><span class="st">'a/c'</span>).mkdir()</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    add_init(d)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="kw">not</span> (d<span class="op">/</span><span class="st">'a/c'</span><span class="op">/</span>_init).exists(), <span class="st">"Should not add init to dir without py file"</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> e <span class="kw">in</span> [d, d<span class="op">/</span><span class="st">'a'</span>, d<span class="op">/</span><span class="st">'a/b'</span>]: <span class="cf">assert</span> (e<span class="op">/</span>_init).exists(),<span class="ss">f"Missing init in </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb26"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>show_doc(write_cells)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb27"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>show_doc(basic_export_nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tempfile.TemporaryDirectory() <span class="im">as</span> d:</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    d <span class="op">=</span> Path(d)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    (d<span class="op">/</span><span class="st">'a/b'</span>).mkdir(parents<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    (d<span class="op">/</span><span class="st">'a/b/f.py'</span>).touch()</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    (d<span class="op">/</span><span class="st">'a/c'</span>).mkdir()</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    add_init(d)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="kw">not</span> (d<span class="op">/</span><span class="st">'a/c'</span><span class="op">/</span>_init).exists(), <span class="st">"Should not add init to dir without py file"</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> e <span class="kw">in</span> [d, d<span class="op">/</span><span class="st">'a'</span>, d<span class="op">/</span><span class="st">'a/b'</span>]: <span class="cf">assert</span> (e<span class="op">/</span>_init).exists(),<span class="ss">f"Missing init in </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is a simple exporter with just enough functionality to correctly export this notebook, in order to bootstrap the creation of nbprocess itself.</p>
-<div class="cell" hidden="true" data-execution_count="24">
-<div class="sourceCode" id="cb28"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">'../nbprocess'</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>(path<span class="op">/</span><span class="st">'read.py'</span>).unlink(missing_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>add_init(path)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>basic_export_nb(<span class="st">"01_read.ipynb"</span>, <span class="st">'read.py'</span>)</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> exec_new(<span class="st">'from nbprocess import read'</span>)</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> g[<span class="st">'read'</span>].add_init</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'add_init'</span> <span class="kw">in</span> g[<span class="st">'read'</span>].__all__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode" id="cb18"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">'../nbprocess'</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>(path<span class="op">/</span><span class="st">'read.py'</span>).unlink(missing_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>add_init(path)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>basic_export_nb(<span class="st">"01_read.ipynb"</span>, <span class="st">'read.py'</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> exec_new(<span class="st">'from nbprocess import read'</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> g[<span class="st">'read'</span>].add_init</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'add_init'</span> <span class="kw">in</span> g[<span class="st">'read'</span>].__all__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

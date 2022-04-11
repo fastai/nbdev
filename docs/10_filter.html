@@ -220,58 +220,40 @@
 <blockquote class="blockquote">
 <p>Filter for quarto processing</p>
 </blockquote>
-<div class="cell">
-<div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>show_doc(FilterDefaults)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>show_doc(filter_nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>show_doc(create_quarto)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>create_quarto()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>create_quarto()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stderr">
-<pre><code>Traceback (most recent call last):
-  File "/home/jhoward/miniconda3/bin/nbprocess_filter", line 33, in &lt;module&gt;
-    sys.exit(load_entry_point('nbprocess', 'console_scripts', 'nbprocess_filter')())
-  File "/home/jhoward/git/fastcore/fastcore/script.py", line 113, in _f
-    tfunc(**merge(args, args_from_prog(func, xtra)))
-  File "/home/jhoward/git/nbprocess/nbprocess/filter.py", line 52, in filter_nb
-    nbp.process()
-  File "/home/jhoward/git/nbprocess/nbprocess/process.py", line 86, in process
-    for proc in self.preprocs: self.nb = opt_set(self.nb, proc(self.nb))
-  File "/home/jhoward/git/nbprocess/nbprocess/processors.py", line 93, in add_show_docs
-    shown_docs = {t.value.args[0].id for t in trees
-  File "/home/jhoward/git/nbprocess/nbprocess/processors.py", line 94, in &lt;setcomp&gt;
-    if isinstance(t,ast.Expr) and nested_attr(t, 'value.func.id')=='show_doc'}
-NameError: name 'ast' is not defined
-Traceback (most recent call last):
-  File "/home/jhoward/miniconda3/bin/nbprocess_filter", line 33, in &lt;module&gt;
-    sys.exit(load_entry_point('nbprocess', 'console_scripts', 'nbprocess_filter')())
-  File "/home/jhoward/git/fastcore/fastcore/script.py", line 113, in _f
-    tfunc(**merge(args, args_from_prog(func, xtra)))
-  File "/home/jhoward/git/nbprocess/nbprocess/filter.py", line 52, in filter_nb
-    nbp.process()
-  File "/home/jhoward/git/nbprocess/nbprocess/process.py", line 86, in process
-    for proc in self.preprocs: self.nb = opt_set(self.nb, proc(self.nb))
-  File "/home/jhoward/git/nbprocess/nbprocess/processors.py", line 93, in add_show_docs
-    shown_docs = {t.value.args[0].id for t in trees
-  File "/home/jhoward/git/nbprocess/nbprocess/processors.py", line 94, in &lt;setcomp&gt;
-    if isinstance(t,ast.Expr) and nested_attr(t, 'value.func.id')=='show_doc'}
-NameError: name 'ast' is not defined</code></pre>
-</div>
-<div class="cell-output-error">
-<pre><code>FileNotFoundError: [Errno 2] No such file or directory: '/home/jhoward/git/nbprocess/nbs/docs/README.md'</code></pre>
+<pre><code>[1m[34m[ 1/12] tmp.ipynb[39m[22m
+[1m[34m[ 2/12] index.ipynb[39m[22m
+[1m[34m[ 3/12] 08_showdoc.ipynb[39m[22m
+[1m[34m[ 4/12] 06_merge.ipynb[39m[22m
+[1m[34m[ 5/12] 03_process.ipynb[39m[22m
+[1m[34m[ 6/12] 04_export.ipynb[39m[22m
+[1m[34m[ 7/12] 02_maker.ipynb[39m[22m
+[1m[34m[ 8/12] 07_clean.ipynb[39m[22m
+[1m[34m[ 9/12] 10_filter.ipynb[39m[22m
+[1m[34m[10/12] 01_read.ipynb[39m[22m
+[1m[34m[11/12] 05_sync.ipynb[39m[22m
+[1m[34m[12/12] 09_processors.ipynb[39m[22m
+
+Output created: docs/index.html
+
+[1mpandoc -o README.md[22m
+  to: gfm+footnotes+tex_math_dollars-yaml_metadata_block
+  standalone: true
+  default-image-extension: png
+  html-math-method: webtex
+  filters:
+    - crossref
+  
+Output created: docs/README.md
+</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="48">
-<div class="sourceCode" id="cb7"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#skip</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbprocess.export <span class="im">import</span> nbs_export</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>nbs_export()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#skip</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbprocess.export <span class="im">import</span> nbs_export</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>nbs_export()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
