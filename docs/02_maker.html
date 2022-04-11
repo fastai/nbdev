@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.218">
+  <meta name="generator" content="quarto-0.9.228">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>nbprocess – maker</title>
   <style>
@@ -156,7 +156,7 @@
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03_process.html" class="sidebar-item-text sidebar-link">export</a>
+  <a href="./03_process.html" class="sidebar-item-text sidebar-link">process</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -181,12 +181,17 @@
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08_processors.html" class="sidebar-item-text sidebar-link">processors</a>
+  <a href="./08_showdoc.html" class="sidebar-item-text sidebar-link">showdoc</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09_filter.html" class="sidebar-item-text sidebar-link">quarto</a>
+  <a href="./09_processors.html" class="sidebar-item-text sidebar-link">processors</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_filter.html" class="sidebar-item-text sidebar-link">quarto</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -226,70 +231,134 @@
 <section id="variable-helpers" class="level2">
 <h2 class="anchored" data-anchor-id="variable-helpers">Variable helpers</h2>
 <p>These functions let us find and modify the definitions of variables in python modules.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>show_doc(find_var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="st">'''a_=(1,</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="st">  2,</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st">  3)</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="st">b_=3'''</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>test_eq(find_var(t.splitlines(), <span class="st">'a_'</span>), (<span class="dv">0</span>,<span class="dv">3</span>))</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>test_eq(find_var(t.splitlines(), <span class="st">'b_'</span>), (<span class="dv">4</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="st">'''a_=(1,</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">  2,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">  3)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="st">b_=3'''</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>test_eq(find_var(t.splitlines(), <span class="st">'a_'</span>), (<span class="dv">0</span>,<span class="dv">3</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>test_eq(find_var(t.splitlines(), <span class="st">'b_'</span>), (<span class="dv">4</span>,<span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>show_doc(read_var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>test_eq(read_var(t, <span class="st">'a_'</span>), (<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>test_eq(read_var(t, <span class="st">'b_'</span>), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>test_eq(read_var(t, <span class="st">'a_'</span>), (<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>test_eq(read_var(t, <span class="st">'b_'</span>), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>show_doc(update_var)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> exec_new(t)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>test_eq((g[<span class="st">'a_'</span>],g[<span class="st">'b_'</span>]), ((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="dv">3</span>))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>t2 <span class="op">=</span> update_var(<span class="st">'a_'</span>, <span class="kw">lambda</span> o:<span class="dv">0</span>, code<span class="op">=</span>t)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">exec</span>(t2, g)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>test_eq((g[<span class="st">'a_'</span>],g[<span class="st">'b_'</span>]), (<span class="dv">0</span>,<span class="dv">3</span>))</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>t3 <span class="op">=</span> update_var(<span class="st">'b_'</span>, <span class="kw">lambda</span> o:<span class="dv">0</span>, code<span class="op">=</span>t)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">exec</span>(t3, g)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>test_eq((g[<span class="st">'a_'</span>],g[<span class="st">'b_'</span>]), ((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> exec_new(t)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>test_eq((g[<span class="st">'a_'</span>],g[<span class="st">'b_'</span>]), ((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="dv">3</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>t2 <span class="op">=</span> update_var(<span class="st">'a_'</span>, <span class="kw">lambda</span> o:<span class="dv">0</span>, code<span class="op">=</span>t)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">exec</span>(t2, g)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>test_eq((g[<span class="st">'a_'</span>],g[<span class="st">'b_'</span>]), (<span class="dv">0</span>,<span class="dv">3</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>t3 <span class="op">=</span> update_var(<span class="st">'b_'</span>, <span class="kw">lambda</span> o:<span class="dv">0</span>, code<span class="op">=</span>t)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="bu">exec</span>(t3, g)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>test_eq((g[<span class="st">'a_'</span>],g[<span class="st">'b_'</span>]), ((<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>),<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>show_doc(ModuleMaker)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In order to export a notebook, we need an way to create a Python file. <code>ModuleMaker</code> fills that role. Pass in the directory where you want to module created, the name of the module, the path of the notebook source, and set <code>is_new</code> to <code>True</code> if this is a new file being created (rather than an existing file being added to). The location of the saved module will be in <code>fname</code>.</p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mm <span class="op">=</span> ModuleMaker(dest<span class="op">=</span><span class="st">'tmp'</span>, name<span class="op">=</span><span class="st">'test.testing'</span>, nb_path<span class="op">=</span>Path.cwd()<span class="op">/</span><span class="st">'01_export.ipynb'</span>, is_new<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>mm.fname</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mm <span class="op">=</span> ModuleMaker(dest<span class="op">=</span><span class="st">'tmp'</span>, name<span class="op">=</span><span class="st">'test.testing'</span>, nb_path<span class="op">=</span>Path.cwd()<span class="op">/</span><span class="st">'01_export.ipynb'</span>, is_new<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>mm.fname</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display" data-execution_count="11">
 <pre><code>Path('tmp/test/testing.py')</code></pre>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>show_doc(_wants)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>show_doc(_filt_dec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>show_doc(_all_targets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>show_doc(_val_or_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>show_doc(retr_exports)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>show_doc(make_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>show_doc(make_code_cells)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>show_doc(make_code_cell)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>We want to add an <code>__all__</code> to the top of the exported module. This methods autogenerates it from all code in <code>cells</code>.</p>
 <div class="cell" data-execution_count="16">
-<div class="sourceCode" id="cb7"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nb <span class="op">=</span> make_code_cells(<span class="st">"from __future__ import print_function"</span>, <span class="st">"def a():..."</span>, <span class="st">"def b():..."</span>,</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"c=d=1"</span>, <span class="st">"_f=1"</span>, <span class="st">"_g=1"</span>, <span class="st">"_all_=['_g']"</span>, <span class="st">"@patch</span><span class="ch">\n</span><span class="st">def h(self:ca):..."</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>test_eq(<span class="bu">set</span>(mm.make_all(nb)), <span class="bu">set</span>([<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'c'</span>,<span class="st">'d'</span>, <span class="st">'_g'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>nb <span class="op">=</span> make_code_cells(<span class="st">"from __future__ import print_function"</span>, <span class="st">"def a():..."</span>, <span class="st">"def b():..."</span>,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"c=d=1"</span>, <span class="st">"_f=1"</span>, <span class="st">"_g=1"</span>, <span class="st">"_all_=['_g']"</span>, <span class="st">"@patch</span><span class="ch">\n</span><span class="st">def h(self:ca):..."</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>test_eq(<span class="bu">set</span>(mm.make_all(nb)), <span class="bu">set</span>([<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'c'</span>,<span class="st">'d'</span>, <span class="st">'_g'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>show_doc(relative_import)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'nbprocess.core'</span>, <span class="st">"xyz"</span>), <span class="st">'nbprocess.core'</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'nbprocess.core'</span>, <span class="st">'nbprocess'</span>), <span class="st">'.core'</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>_p <span class="op">=</span> Path(<span class="st">'fastai'</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'fastai.core'</span>, _p<span class="op">/</span><span class="st">'vision'</span>), <span class="st">'..core'</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'fastai.core'</span>, _p<span class="op">/</span><span class="st">'vision/transform'</span>), <span class="st">'...core'</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'fastai.vision.transform'</span>, _p<span class="op">/</span><span class="st">'vision'</span>), <span class="st">'.transform'</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'fastai.notebook.core'</span>, _p<span class="op">/</span><span class="st">'data'</span>), <span class="st">'..notebook.core'</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'fastai.vision'</span>, _p<span class="op">/</span><span class="st">'vision'</span>), <span class="st">'.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'nbprocess.core'</span>, <span class="st">"xyz"</span>), <span class="st">'nbprocess.core'</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'nbprocess.core'</span>, <span class="st">'nbprocess'</span>), <span class="st">'.core'</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>_p <span class="op">=</span> Path(<span class="st">'fastai'</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'fastai.core'</span>, _p<span class="op">/</span><span class="st">'vision'</span>), <span class="st">'..core'</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'fastai.core'</span>, _p<span class="op">/</span><span class="st">'vision/transform'</span>), <span class="st">'...core'</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'fastai.vision.transform'</span>, _p<span class="op">/</span><span class="st">'vision'</span>), <span class="st">'.transform'</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'fastai.notebook.core'</span>, _p<span class="op">/</span><span class="st">'data'</span>), <span class="st">'..notebook.core'</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>test_eq(relative_import(<span class="st">'fastai.vision'</span>, _p<span class="op">/</span><span class="st">'vision'</span>), <span class="st">'.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>show_doc(import2relative)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>show_doc(update_import)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="20">
-<div class="sourceCode" id="cb9"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ss <span class="op">=</span> <span class="st">"from nbprocess.export import *</span><span class="ch">\n</span><span class="st">from nbprocess.a.b import *"</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cell <span class="op">=</span> make_code_cells([ss])[<span class="dv">0</span>]</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>cell.import2relative(<span class="st">'nbprocess'</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>test_eq(cell.source, <span class="st">'from .export import *</span><span class="ch">\n</span><span class="st">from .a.b import *'</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>cell <span class="op">=</span> make_code_cells([ss])[<span class="dv">0</span>]</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>cell.import2relative(<span class="st">'nbprocess/a'</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>test_eq(cell.source, <span class="st">'from ..export import *</span><span class="ch">\n</span><span class="st">from .b import *'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ss <span class="op">=</span> <span class="st">"from nbprocess.export import *</span><span class="ch">\n</span><span class="st">from nbprocess.a.b import *"</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>cell <span class="op">=</span> make_code_cells([ss])[<span class="dv">0</span>]</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>cell.import2relative(<span class="st">'nbprocess'</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>test_eq(cell.source, <span class="st">'from .export import *</span><span class="ch">\n</span><span class="st">from .a.b import *'</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>cell <span class="op">=</span> make_code_cells([ss])[<span class="dv">0</span>]</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>cell.import2relative(<span class="st">'nbprocess/a'</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>test_eq(cell.source, <span class="st">'from ..export import *</span><span class="ch">\n</span><span class="st">from .b import *'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>show_doc(make)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="22">
-<div class="sourceCode" id="cb10"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _print_file(fname, mx<span class="op">=</span><span class="va">None</span>): <span class="bu">print</span>(Path(fname).read_text().strip()[:ifnone(mx,<span class="dv">9999</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _print_file(fname, mx<span class="op">=</span><span class="va">None</span>): <span class="bu">print</span>(Path(fname).read_text().strip()[:ifnone(mx,<span class="dv">9999</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="23">
-<div class="sourceCode" id="cb11"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cells <span class="op">=</span> make_code_cells(<span class="st">"from __future__ import print_function"</span>, <span class="st">"#|export</span><span class="ch">\n</span><span class="st">def a(): ..."</span>, <span class="st">"def b(): ..."</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mm.make(cells, L([cells[<span class="dv">1</span>]]))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Path(<span class="st">'tmp/test/testing.py'</span>).read_text())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>cells <span class="op">=</span> make_code_cells(<span class="st">"from __future__ import print_function"</span>, <span class="st">"#|export</span><span class="ch">\n</span><span class="st">def a(): ..."</span>, <span class="st">"def b(): ..."</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>mm.make(cells, L([cells[<span class="dv">1</span>]]))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Path(<span class="st">'tmp/test/testing.py'</span>).read_text())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-stdout">
 <pre><code># AUTOGENERATED! DO NOT EDIT! File to edit: ../01_export.ipynb.
 
@@ -309,34 +378,46 @@ def b(): ...
 </div>
 </div>
 <p>Pass <code>all_cells=[]</code> if you don’t want any <code>__all__</code> added.</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>show_doc(_make_exists)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>show_doc(_update_all)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>If <code>is_new=False</code> then the additional definitions are added to the bottom, and any existing <code>__all__</code> is updated with the newly-added symbols.</p>
 <div class="cell" data-execution_count="25">
-<div class="sourceCode" id="cb13"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> make_code_cells(<span class="st">"def c(): ..."</span>, <span class="st">"def d(): ..."</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>mm <span class="op">=</span> ModuleMaker(dest<span class="op">=</span><span class="st">'tmp'</span>, name<span class="op">=</span><span class="st">'test.testing'</span>, nb_path<span class="op">=</span>Path.cwd()<span class="op">/</span><span class="st">'01_export.ipynb'</span>, is_new<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>mm.make(c2, c2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> make_code_cells(<span class="st">"def c(): ..."</span>, <span class="st">"def d(): ..."</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>mm <span class="op">=</span> ModuleMaker(dest<span class="op">=</span><span class="st">'tmp'</span>, name<span class="op">=</span><span class="st">'test.testing'</span>, nb_path<span class="op">=</span>Path.cwd()<span class="op">/</span><span class="st">'01_export.ipynb'</span>, is_new<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>mm.make(c2, c2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="26">
-<div class="sourceCode" id="cb14"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> exec_new(<span class="st">'from tmp.test.testing import *'</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> <span class="st">"a c d"</span>.split(): <span class="cf">assert</span> s <span class="kw">in</span> g, s</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'b'</span> <span class="kw">not</span> <span class="kw">in</span> g</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> g[<span class="st">'a'</span>]() <span class="kw">is</span> <span class="va">None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> exec_new(<span class="st">'from tmp.test.testing import *'</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> <span class="st">"a c d"</span>.split(): <span class="cf">assert</span> s <span class="kw">in</span> g, s</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'b'</span> <span class="kw">not</span> <span class="kw">in</span> g</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> g[<span class="st">'a'</span>]() <span class="kw">is</span> <span class="va">None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="27">
-<div class="sourceCode" id="cb15"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">'../nbprocess'</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>(path<span class="op">/</span><span class="st">'read.py'</span>).unlink(missing_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>(path<span class="op">/</span><span class="st">'maker.py'</span>).unlink(missing_ok<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>add_init(path)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>cfg <span class="op">=</span> get_config()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">'../nbprocess'</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>(path<span class="op">/</span><span class="st">'read.py'</span>).unlink(missing_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>(path<span class="op">/</span><span class="st">'maker.py'</span>).unlink(missing_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>add_init(path)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>cfg <span class="op">=</span> get_config()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>show_doc(basic_export_nb2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="29">
-<div class="sourceCode" id="cb16"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>basic_export_nb2(<span class="st">'00_read.ipynb'</span>, <span class="st">'read'</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>basic_export_nb2(<span class="st">'01_maker.ipynb'</span>, <span class="st">'maker'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>basic_export_nb2(<span class="st">'00_read.ipynb'</span>, <span class="st">'read'</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>basic_export_nb2(<span class="st">'01_maker.ipynb'</span>, <span class="st">'maker'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="30">
-<div class="sourceCode" id="cb17"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> exec_new(<span class="st">'from nbprocess import maker'</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> g[<span class="st">'maker'</span>].ModuleMaker</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'ModuleMaker'</span> <span class="kw">in</span> g[<span class="st">'maker'</span>].__all__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> exec_new(<span class="st">'from nbprocess import maker'</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> g[<span class="st">'maker'</span>].ModuleMaker</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">'ModuleMaker'</span> <span class="kw">in</span> g[<span class="st">'maker'</span>].__all__</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

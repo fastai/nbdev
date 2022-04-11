@@ -8,6 +8,7 @@ website:
       - 05_sync.ipynb
       - 06_merge.ipynb
       - 07_clean.ipynb
-      - 08_processors.ipynb
-      - 09_filter.ipynb
+      - 08_showdoc.ipynb
+      - 09_processors.ipynb
+      - 10_filter.ipynb
       - index.ipynb

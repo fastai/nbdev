@@ -66,7 +66,6 @@ class NBProcessor:
 
     def _process_cell(self, cell):
         self.cell = cell
-        cell['directives_'] = extract_directives(cell, remove=self.rm_directives)
         for proc in self.procs:
             if cell.cell_type=='code':
                 for cmd,args in cell.directives_.items():
@@ -85,6 +84,7 @@ class NBProcessor:
     def process(self):
         "Process all cells with `process_cell`"
         for proc in self.preprocs: self.nb = opt_set(self.nb, proc(self.nb))
-        for i in range_of(self.nb.cells): self._process_cell(self.nb.cells[i])
-        self.nb.cells = [c for c in self.nb.cells if c and getattr(c,'source',None) is not None]
+        for cell in self.nb.cells: cell.directives_ = extract_directives(cell, remove=self.rm_directives)
+        for cell in self.nb.cells: self._process_cell(cell)
         for proc in self.postprocs: self.nb = opt_set(self.nb, proc(self.nb))
+        self.nb.cells = [c for c in self.nb.cells if c and getattr(c,'source',None) is not None]

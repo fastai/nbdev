@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.218">
+  <meta name="generator" content="quarto-0.9.228">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>nbprocess – clean</title>
   <style>
@@ -156,7 +156,7 @@
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03_process.html" class="sidebar-item-text sidebar-link">export</a>
+  <a href="./03_process.html" class="sidebar-item-text sidebar-link">process</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -181,12 +181,17 @@
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08_processors.html" class="sidebar-item-text sidebar-link">processors</a>
+  <a href="./08_showdoc.html" class="sidebar-item-text sidebar-link">showdoc</a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09_filter.html" class="sidebar-item-text sidebar-link">quarto</a>
+  <a href="./09_processors.html" class="sidebar-item-text sidebar-link">processors</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10_filter.html" class="sidebar-item-text sidebar-link">quarto</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -226,28 +231,52 @@
 <section id="utils" class="level2">
 <h2 class="anchored" data-anchor-id="utils">Utils</h2>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tst <span class="op">=</span> {<span class="st">'cell_type'</span>: <span class="st">'code'</span>, <span class="st">'execution_count'</span>: <span class="dv">26</span>,</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">'metadata'</span>: {<span class="st">'hide_input'</span>: <span class="va">True</span>, <span class="st">'meta'</span>: <span class="dv">23</span>},</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">'outputs'</span>: [{<span class="st">'execution_count'</span>: <span class="dv">2</span>,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'data'</span>: {</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'application/vnd.google.colaboratory.intrinsic+json'</span>: {<span class="st">'type'</span>: <span class="st">'string'</span>},</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'plain/text'</span>: [<span class="st">'sample output'</span>,]</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                    }, <span class="st">'output'</span>: <span class="st">'super'</span>}],</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>       <span class="st">'source'</span>: <span class="st">'awesome_code'</span>}</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>nb <span class="op">=</span> {<span class="st">'metadata'</span>: {<span class="st">'kernelspec'</span>: <span class="st">'some_spec'</span>, <span class="st">'jekyll'</span>: <span class="st">'some_meta'</span>, <span class="st">'meta'</span>: <span class="dv">37</span>}, <span class="st">'cells'</span>: [tst]}</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>clean_nb(nb)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>test_eq(nb[<span class="st">'cells'</span>][<span class="dv">0</span>], {<span class="st">'cell_type'</span>: <span class="st">'code'</span>, <span class="st">'execution_count'</span>: <span class="va">None</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>              <span class="st">'metadata'</span>: {<span class="st">'hide_input'</span>: <span class="va">True</span>},</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>              <span class="st">'outputs'</span>: [{<span class="st">'execution_count'</span>: <span class="va">None</span>, </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'data'</span>: { <span class="st">'plain/text'</span>: [<span class="st">'sample output'</span>,]},</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'output'</span>: <span class="st">'super'</span>}],</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>              <span class="st">'source'</span>: <span class="st">'awesome_code'</span>})</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>test_eq(nb[<span class="st">'metadata'</span>], {<span class="st">'kernelspec'</span>: <span class="st">'some_spec'</span>, <span class="st">'jekyll'</span>: <span class="st">'some_meta'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>show_doc(_clean_cell_output)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>show_doc(_clean_cell)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>show_doc(clean_nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tst <span class="op">=</span> {<span class="st">'cell_type'</span>: <span class="st">'code'</span>, <span class="st">'execution_count'</span>: <span class="dv">26</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>       <span class="st">'metadata'</span>: {<span class="st">'hide_input'</span>: <span class="va">True</span>, <span class="st">'meta'</span>: <span class="dv">23</span>},</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">'outputs'</span>: [{<span class="st">'execution_count'</span>: <span class="dv">2</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'data'</span>: {</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'application/vnd.google.colaboratory.intrinsic+json'</span>: {<span class="st">'type'</span>: <span class="st">'string'</span>},</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">'plain/text'</span>: [<span class="st">'sample output'</span>,]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                    }, <span class="st">'output'</span>: <span class="st">'super'</span>}],</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="st">'source'</span>: <span class="st">'awesome_code'</span>}</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>nb <span class="op">=</span> {<span class="st">'metadata'</span>: {<span class="st">'kernelspec'</span>: <span class="st">'some_spec'</span>, <span class="st">'jekyll'</span>: <span class="st">'some_meta'</span>, <span class="st">'meta'</span>: <span class="dv">37</span>}, <span class="st">'cells'</span>: [tst]}</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>clean_nb(nb)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>test_eq(nb[<span class="st">'cells'</span>][<span class="dv">0</span>], {<span class="st">'cell_type'</span>: <span class="st">'code'</span>, <span class="st">'execution_count'</span>: <span class="va">None</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>              <span class="st">'metadata'</span>: {<span class="st">'hide_input'</span>: <span class="va">True</span>},</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>              <span class="st">'outputs'</span>: [{<span class="st">'execution_count'</span>: <span class="va">None</span>, </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'data'</span>: { <span class="st">'plain/text'</span>: [<span class="st">'sample output'</span>,]},</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                           <span class="st">'output'</span>: <span class="st">'super'</span>}],</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>              <span class="st">'source'</span>: <span class="st">'awesome_code'</span>})</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>test_eq(nb[<span class="st">'metadata'</span>], {<span class="st">'kernelspec'</span>: <span class="st">'some_spec'</span>, <span class="st">'jekyll'</span>: <span class="st">'some_meta'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="main-function" class="level2">
 <h2 class="anchored" data-anchor-id="main-function">Main function</h2>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>show_doc(_clean_write)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>show_doc(_wrapio)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|echo: false</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>show_doc(nbdev_clean_nbs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>By default (<code>fname</code> left to <code>None</code>), the all the notebooks in <code>lib_folder</code> are cleaned. You can opt in to fully clean the notebook by removing every bit of metadata and the cell outputs by passing <code>clear_all=True</code>.</p>
 
 

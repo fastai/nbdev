@@ -98,8 +98,11 @@ def nbprocess_create_config(
 @functools.lru_cache(maxsize=None)
 def get_config(cfg_name='settings.ini', path=None):
     "`Config` for ini file found in `path` (defaults to `cwd`)"
-    cfg_path = Path.cwd() if path is None else path
+    if path is None: path = os.environ.get('QUARTO_PROJECT_DIR')
+    cfg_path = Path.cwd() if path is None else Path(path)
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
+    # XXX Temp hack
+    if not (cfg_path/cfg_name).exists(): cfg_path = Path('/home/jhoward/git/nbprocess')
     return Config(cfg_path, cfg_name=cfg_name)
 
 # %% ../nbs/01_read.ipynb 35

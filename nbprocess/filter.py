@@ -19,11 +19,11 @@ class FilterDefaults:
     def _nothing(self): return []
     xtra_procs=xtra_preprocs=xtra_postprocs=_nothing
     
-    def base_procs(self):
-        return [strip_ansi, meta_, hide_line, filter_stream_, clean_magics,
-                bash_identify, rm_header_dash, rm_export, clean_show_doc, remove_]
-    def base_preprocs(self): return [insert_warning]
+    def base_preprocs(self): return [add_show_docs, insert_warning]
     def base_postprocs(self): return []
+    def base_procs(self):
+        return [strip_ansi, hide_line, filter_stream_, lang_identify, rm_header_dash,
+                clean_show_doc, rm_export, clean_magics]
 
     def procs(self):
         "Processors for export"
@@ -74,14 +74,10 @@ def create_quarto(
                        folder_re=folder_re, skip_file_glob=skip_file_glob,
                        skip_file_re=skip_file_re, skip_folder_re=skip_folder_re
                       ).sorted().map(Path)
-    yml_path = path/'_quarto.yml'
-    yml = L(yml_path.read_text().splitlines())
-    re_contents = re.compile('^\s+contents:\s*$').search
-    loc = yml.argfirst(re_contents)
-    prefix = re.findall('^(\s+)contents:', yml[loc])[0]
-    yml = yml[:loc+1]
-    yml += [f'  {prefix}- {o.relative_to(path)}' for o in files]
-    yml_path.write_text('\n'.join(yml))
+    yml_path = path/'sidebar.yml'
+    yml = "website:\n  sidebar:\n    contents:\n"
+    yml += '\n'.join(f'      - {o.relative_to(path)}' for o in files)
+    yml_path.write_text(yml)
     os.system(f'cd {path} && quarto render')
     os.system(f'cd {path} && quarto render {files[-1]} -o README.md -t gfm')
     cfg_path = cfg.config_path
