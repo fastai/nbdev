@@ -19,7 +19,7 @@ docs_serve:
 	mkdocs serve
 
 docs: $(SRC)
-	nbdev2_docs --path nbs --dest docs
+	nbprocess_quarto --path nbs --doc_path docs
 
 test:
 	nbdev_test_nbs
