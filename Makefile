@@ -14,12 +14,12 @@ sync:
 deploy:
 	nbprocess_deploy
 
-docs_serve:
+serve:
 	cd docs
-	mkdocs serve
+	quarto preview
 
 docs: $(SRC)
-	nbprocess_quarto --path nbs --doc_path docs
+	nbprocess_quarto
 
 test:
 	nbdev_test_nbs
@@ -39,6 +39,7 @@ dist: clean
 clean:
 	rm -rf dist
 	
+
 install: install_quarto
 	pip install -e .
 
