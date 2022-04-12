@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['strip_ansi', 'hide_', 'hide_line', 'filter_stream_', 'clean_magics', 'lang_identify', 'rm_header_dash', 'rm_export',
-           'exec_show_docs', 'clean_show_doc', 'insert_warning', 'get_title', 'insert_fm', 'add_show_docs']
+           'exec_show_docs', 'clean_show_doc', 'insert_warning', 'get_title', 'get_fm', 'insert_fm', 'add_show_docs']
 
 # %% ../nbs/09_processors.ipynb 3
 import ast
@@ -137,14 +137,14 @@ def get_title(nb):
     else: return None,None
 
 # %% ../nbs/09_processors.ipynb 40
-def _is_fm(nb):
-    "See if there is frontmatter in the notebook as a raw cell"
-    return bool(_get_celltyp(nb, 'raw').filter(lambda c: 'source' in c and _re_fm.search(c.source)))
+def get_fm(nb):
+    "Get the frontmatter in the notebook as a raw cell"
+    return _get_celltyp(nb, 'raw').filter(lambda c: 'source' in c and _re_fm.search(c.source))
 
 # %% ../nbs/09_processors.ipynb 42
 def insert_fm(nb):
     "Insert Front Matter If It Doesn't Exist With Title/Description"
-    if not _is_fm(nb):
+    if not get_fm(nb):
         title,desc = get_title(nb)
         if title:
             desc = f'description: "{desc}"\n' if desc else ''
