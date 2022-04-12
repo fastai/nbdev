@@ -13,8 +13,7 @@ deploy:
 	nbprocess_deploy
 
 serve:
-	cd nbs
-	quarto preview
+	cd nbs && quarto preview
 
 docs: $(SRC)
 	nbprocess_quarto
