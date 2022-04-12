@@ -12,7 +12,7 @@ from fastcore.utils import *
 from fastcore.script import call_parse
 
 # %% auto 0
-__all__ = ['config_key', 'create_sidebar', 'add_raw', 'FilterDefaults', 'filter_nb', 'create_quarto', 'ghp_deploy']
+__all__ = ['config_key', 'create_sidebar', 'FilterDefaults', 'filter_nb', 'create_quarto', 'ghp_deploy']
 
 # %% ../nbs/10_cli.ipynb 4
 def config_key(c, default=None, path=True):
@@ -54,11 +54,6 @@ def create_sidebar(
     "Create sidebar.yml"
     _create_sidebar(path, symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
-
-# %% ../nbs/10_cli.ipynb 7
-def add_raw(nb):
-    c = NbCell(0, dict(cell_type='raw', metadata={}, source="---\ntitle: foos\nauthor: jeremy\n---\n"))
-    nb.cells.insert(0, c)
 
 # %% ../nbs/10_cli.ipynb 8
 class FilterDefaults:
@@ -134,4 +129,4 @@ def ghp_deploy():
     except:
         warnings.warn('Please install ghp-import with `pip install ghp-import`')
         return
-    ghp_import(config_key('doc_path'), push=True, stderr=True)
+    ghp_import(config_key('doc_path'), push=True, stderr=True, no_history=True)
