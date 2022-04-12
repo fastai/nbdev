@@ -10,5 +10,5 @@ website:
       - 07_clean.ipynb
       - 08_showdoc.ipynb
       - 09_processors.ipynb
-      - 10_filter.ipynb
+      - 10_cli.ipynb
       - index.ipynb
