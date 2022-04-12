@@ -11,7 +11,7 @@ from .sync import *
 from fastcore.script import *
 
 from difflib import SequenceMatcher
-import json
+import json,shutil
 
 # %% ../nbs/06_merge.ipynb 16
 _BEG,_MID,_END = '<'*7,'='*7,'>'*7
@@ -59,7 +59,7 @@ def fix_merge(nbname:str, # notebook filename to fix
               noprint:bool=False): # Do not print info about whether conflict found
     "Create working notebook from conflicted notebook `nbname`"
     nbname = Path(nbname)
-    if not nobackup and not outname: shutil.copy(fname, fname.with_suffix('.ipynb.bak'))
+    if not nobackup and not outname: shutil.copy(nbname, nbname.with_suffix('.ipynb.bak'))
     nbtxt = nbname.read_text()
     a,b,branch1,branch2 = unpatch(nbtxt)
     ac,bc = dict2nb(json.loads(a)),dict2nb(json.loads(b))
