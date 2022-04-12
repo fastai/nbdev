@@ -9,8 +9,8 @@ nbprocess: $(SRC)
 sync:
 	nbprocess_update
 
-deploy:
-	nbprocess_deploy
+deploy: docs
+	nbprocess_ghp_deploy
 
 serve:
 	cd nbs && quarto preview
