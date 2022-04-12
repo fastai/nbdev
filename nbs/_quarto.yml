@@ -15,9 +15,17 @@ format:
 
 website:
   title: "nbprocess"
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: Home
+        file: index.ipynb
+    right:
+      - icon: github
+        href: https://github.com/fastai/nbprocess/
   sidebar:
     style: "floating"
-    search: true
 
 metadata-files: 
   - sidebar.yml
