@@ -50,12 +50,12 @@ def dict2nb(js):
     nb.cells = nb.cells.enumerate().starmap(NbCell)
     return nb
 
-# %% ../nbs/01_read.ipynb 25
+# %% ../nbs/01_read.ipynb 23
 def read_nb(path):
     "Return notebook at `path`"
     return dict2nb(Path(path).read_json())
 
-# %% ../nbs/01_read.ipynb 29
+# %% ../nbs/01_read.ipynb 27
 @call_parse
 def nbprocess_create_config(
     user:str, # Repo username
@@ -93,7 +93,7 @@ def nbprocess_create_config(
         copyright status min_python audience language git_url lib_path'.split()}
     save_config_file(Path(path)/cfg_name, config)
 
-# %% ../nbs/01_read.ipynb 31
+# %% ../nbs/01_read.ipynb 29
 @functools.lru_cache(maxsize=None)
 def get_config(cfg_name='settings.ini', path=None):
     "`Config` for ini file found in `path` (defaults to `cwd`)"
@@ -102,7 +102,7 @@ def get_config(cfg_name='settings.ini', path=None):
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
     return Config(cfg_path, cfg_name=cfg_name)
 
-# %% ../nbs/01_read.ipynb 35
+# %% ../nbs/01_read.ipynb 33
 _init = '__init__.py'
 
 def _has_py(fs): return any(1 for f in fs if f.endswith('.py'))
@@ -118,13 +118,13 @@ def add_init(path):
         subds = (os.listdir(r/d) for d in ds)
         if _has_py(fs) or any(filter(_has_py, subds)) and not (r/_init).exists(): (r/_init).touch()
 
-# %% ../nbs/01_read.ipynb 39
+# %% ../nbs/01_read.ipynb 37
 def write_cells(cells, hdr, file, offset=0):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbprocess internal use)"
     for cell in cells:
         if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell.source}')
 
-# %% ../nbs/01_read.ipynb 40
+# %% ../nbs/01_read.ipynb 38
 def basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbprocess"
     if dest is None: dest = get_config().path('lib_path')
