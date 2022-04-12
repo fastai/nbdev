@@ -27,6 +27,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          force_orphan: true
           publish_dir: ./docs
           # The following lines assign commit authorship to the official
           # GH-Actions bot for deploys to `gh-pages` branch:
