@@ -12,7 +12,7 @@ from fastcore.utils import *
 from fastcore.script import call_parse
 
 # %% auto 0
-__all__ = ['config_key', 'create_sidebar', 'FilterDefaults', 'filter_nb', 'create_quarto', 'ghp_deploy']
+__all__ = ['config_key', 'create_sidebar', 'add_raw', 'FilterDefaults', 'filter_nb', 'create_quarto', 'ghp_deploy']
 
 # %% ../nbs/10_cli.ipynb 4
 def config_key(c, default=None, path=True):
@@ -56,6 +56,11 @@ def create_sidebar(
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
 
 # %% ../nbs/10_cli.ipynb 7
+def add_raw(nb):
+    c = NbCell(0, dict(cell_type='raw', metadata={}, source="---\ntitle: foos\nauthor: jeremy\n---\n"))
+    nb.cells.insert(0, c)
+
+# %% ../nbs/10_cli.ipynb 8
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
     def _nothing(self): return []
@@ -79,7 +84,7 @@ class FilterDefaults:
         "Postprocessors for export"
         return self.base_postprocs() + self.xtra_postprocs()
 
-# %% ../nbs/10_cli.ipynb 8
+# %% ../nbs/10_cli.ipynb 9
 @call_parse
 def filter_nb(
     nb_txt:str=None  # Notebook text (uses stdin if not provided)
@@ -94,7 +99,7 @@ def filter_nb(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/10_cli.ipynb 9
+# %% ../nbs/10_cli.ipynb 10
 @call_parse
 def create_quarto(
     path:str=None, # path to notebooks
@@ -121,7 +126,7 @@ def create_quarto(
     shutil.move(docs/'README.md', cfg_path)
     shutil.move(docs, cfg_path)
 
-# %% ../nbs/10_cli.ipynb 11
+# %% ../nbs/10_cli.ipynb 12
 @call_parse
 def ghp_deploy():
     "Deploy docs in doc_path from settings.ini to GitHub Pages"
