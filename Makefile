@@ -2,8 +2,6 @@
 SHELL := /bin/bash
 SRC = $(wildcard nbs/*.ipynb)
 
-all: nbprocess docexp
-
 nbprocess: $(SRC)
 	nbprocess_export
 	touch nbprocess
@@ -15,7 +13,7 @@ deploy:
 	nbprocess_deploy
 
 serve:
-	cd docs
+	cd nbs
 	quarto preview
 
 docs: $(SRC)
