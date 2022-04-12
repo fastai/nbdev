@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['clean_nb', 'nbdev_clean_nbs']
 
-# %% ../nbs/07_clean.ipynb 2
+# %% ../nbs/07_clean.ipynb 3
 from fastcore.script import *
 from fastcore.utils import *
 from fastcore.imports import *
