@@ -41,7 +41,7 @@ install: install_quarto
 	pip install -e .
 
 install_quarto:
-	wget -nv `curl -s https://api.github.com/repos/quarto-dev/quarto-cli/releases | grep browser_download_url | grep '64[.]deb' | head -n 1 | cut -d '"' -f 4`
+	wget -nv https://www.quarto.org/download/latest/quarto-linux-amd64.deb
 	sudo dpkg -i *64.deb
 	rm *64.deb
 

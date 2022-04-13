@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['strip_ansi', 'hide_', 'hide_line', 'filter_stream_', 'clean_magics', 'lang_identify', 'rm_header_dash', 'rm_export',
-           'exec_show_docs', 'clean_show_doc', 'insert_warning', 'get_title', 'get_fm', 'insert_fm', 'add_show_docs']
+           'exec_show_docs', 'clean_show_doc', 'insert_warning', 'add_frontmatter', 'add_show_docs']
 
 # %% ../nbs/09_processors.ipynb 3
 import ast
@@ -124,39 +124,33 @@ def insert_warning(nb):
 _re_title = re.compile(r'^#\s+(.*)[\n\r](?:^>\s+(.*))?', flags=re.MULTILINE)
 _re_fm = re.compile(r'^---.*\S+.*---', flags=re.DOTALL)
 
-def _get_celltyp(nb, cell_type): return nb.cells.filter(lambda c: c.cell_type == cell_type)
+def _celltyp(nb, cell_type): return nb.cells.filter(lambda c: c.cell_type == cell_type)
+def _frontmatter(nb): return _celltyp(nb, 'raw').filter(lambda c: _re_fm.search(c.get('source', '')))
 
-def get_title(nb): 
+def _title(nb): 
     "Get the title and description from a notebook from the H1"
-    md_cells = _get_celltyp(nb, 'markdown').filter(lambda c: 'source' in c and _re_title.search(c.source))
-    if md_cells:
-        cell = md_cells[0]
-        title,desc=_re_title.match(cell.source).groups()
-        del(cell['source'])
-        return title,desc
-    else: return None,None
+    md_cells = _celltyp(nb, 'markdown').filter(lambda c: _re_title.search(c.get('source', '')))
+    if not md_cells: return None,None
+    cell = md_cells[0]
+    title,desc=_re_title.match(cell.source).groups()
+    del(cell['source'])
+    return title,desc
+
+def add_frontmatter(nb):
+    "Insert front matter if it doesn't exist"
+    if _frontmatter(nb): return
+    title,desc = _title(nb)
+    if desc:
+        desc = f'description: "{desc}"\n' 
+        content = f'---\n{desc}---'
+        nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=content)))
 
 # %% ../nbs/09_processors.ipynb 40
-def get_fm(nb):
-    "Get the frontmatter in the notebook as a raw cell"
-    return _get_celltyp(nb, 'raw').filter(lambda c: 'source' in c and _re_fm.search(c.source))
-
-# %% ../nbs/09_processors.ipynb 42
-def insert_fm(nb):
-    "Insert Front Matter If It Doesn't Exist With Title/Description"
-    if not get_fm(nb):
-        title,desc = get_title(nb)
-        if title:
-            desc = f'description: "{desc}"\n' if desc else ''
-            content = f'---\ntitle: "{title}"\n{desc}---'
-            nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=content)))
-
-# %% ../nbs/09_processors.ipynb 44
 _def_types = (ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)
 def _def_names(cell, shown):
     return [o.name for o in concat(cell.parsed_()) if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_']
 
-# %% ../nbs/09_processors.ipynb 45
+# %% ../nbs/09_processors.ipynb 41
 def add_show_docs(nb):
     "Add show_doc cells after exported cells, unless they are already documented"
     exports = L(cell for cell in nb.cells if _re_exps(cell.source))

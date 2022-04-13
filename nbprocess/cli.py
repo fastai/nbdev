@@ -12,7 +12,7 @@ from fastcore.utils import *
 from fastcore.script import call_parse
 
 # %% auto 0
-__all__ = ['config_key', 'create_sidebar', 'FilterDefaults', 'filter_nb', 'create_quarto', 'ghp_deploy']
+__all__ = ['config_key', 'ghp_deploy', 'create_sidebar', 'FilterDefaults', 'filter_nb', 'create_quarto']
 
 # %% ../nbs/10_cli.ipynb 4
 def config_key(c, default=None, path=True):
@@ -25,6 +25,16 @@ def config_key(c, default=None, path=True):
     return res
 
 # %% ../nbs/10_cli.ipynb 5
+@call_parse
+def ghp_deploy():
+    "Deploy docs in doc_path from settings.ini to GitHub Pages"
+    try: from ghp_import import ghp_import
+    except:
+        warnings.warn('Please install ghp-import with `pip install ghp-import`')
+        return
+    ghp_import(config_key('doc_path'), push=True, stderr=True, no_history=True)
+
+# %% ../nbs/10_cli.ipynb 7
 def _create_sidebar(
     path:str=None, symlinks:bool=False, file_glob:str='*.ipynb', file_re:str=None, folder_re:str=None, 
     skip_file_glob:str=None, skip_file_re:str=None, skip_folder_re:str='^[_.]'):
@@ -39,7 +49,7 @@ def _create_sidebar(
     yml_path.write_text(yml)
     return files
 
-# %% ../nbs/10_cli.ipynb 6
+# %% ../nbs/10_cli.ipynb 8
 @call_parse
 def create_sidebar(
     path:str=None, # path to notebooks
@@ -55,7 +65,7 @@ def create_sidebar(
     _create_sidebar(path, symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
 
-# %% ../nbs/10_cli.ipynb 8
+# %% ../nbs/10_cli.ipynb 10
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
     def _nothing(self): return []
@@ -79,7 +89,7 @@ class FilterDefaults:
         "Postprocessors for export"
         return self.base_postprocs() + self.xtra_postprocs()
 
-# %% ../nbs/10_cli.ipynb 9
+# %% ../nbs/10_cli.ipynb 11
 @call_parse
 def filter_nb(
     nb_txt:str=None  # Notebook text (uses stdin if not provided)
@@ -94,7 +104,7 @@ def filter_nb(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/10_cli.ipynb 10
+# %% ../nbs/10_cli.ipynb 13
 @call_parse
 def create_quarto(
     path:str=None, # path to notebooks
@@ -120,13 +130,3 @@ def create_quarto(
     docs = path/'docs'
     shutil.move(docs/'README.md', cfg_path)
     shutil.move(docs, cfg_path)
-
-# %% ../nbs/10_cli.ipynb 12
-@call_parse
-def ghp_deploy():
-    "Deploy docs in doc_path from settings.ini to GitHub Pages"
-    try: from ghp_import import ghp_import
-    except:
-        warnings.warn('Please install ghp-import with `pip install ghp-import`')
-        return
-    ghp_import(config_key('doc_path'), push=True, stderr=True, no_history=True)
