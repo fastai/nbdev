@@ -149,7 +149,7 @@ def _title(nb):
     if not md_cells: return None,None
     cell = md_cells[0]
     title,desc=_re_title.match(cell.source).groups()
-    cell['source'] = f'> {desc}'
+    cell['source'] = None
     return title,desc
 
 def add_frontmatter(nb):
