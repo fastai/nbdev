@@ -159,5 +159,4 @@ def add_frontmatter(nb):
     if title:
         desc = f'description: "{desc}"\n' if desc else ''
         content = f'---\ntitle: {title}\n{desc}---\n'
-        content = f'---\n{desc}---\n'
         nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=content)))
