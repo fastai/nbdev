@@ -8,7 +8,6 @@ from .read import *
 from .maker import *
 from .export import *
 from .imports import *
-from .cli import *
 
 from fastcore.script import *
 from fastcore.imports import *

@@ -12,6 +12,5 @@ website:
       - 09_processors.ipynb
       - 10_cli.ipynb
       - 11_clean.ipynb
-      - 12_linkify.ipynb
       - 13_lookup.ipynb
       - index.ipynb
