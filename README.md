@@ -30,3 +30,5 @@ The following CLI tools are provided:
 -   `nbprocess_fix`: Fix merge conflicts in notebooks
 -   `nbprocess_filter`: A filter for Quarto
 -   `nbprocess_quarto`: Create Quarto web site
+-   `nbprocess_install_hooks`: Create hooks to automatically clean notebook metadata
+-   `nbprocess_clean`: Clean notebooks of metadata
