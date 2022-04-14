@@ -12,19 +12,9 @@ from fastcore.utils import *
 from fastcore.script import call_parse
 
 # %% auto 0
-__all__ = ['config_key', 'ghp_deploy', 'create_sidebar', 'FilterDefaults', 'filter_nb', 'create_quarto']
+__all__ = ['ghp_deploy', 'create_sidebar', 'FilterDefaults', 'filter_nb', 'create_quarto']
 
 # %% ../nbs/10_cli.ipynb 4
-def config_key(c, default=None, path=True):
-    "Look for key `c` in settings.ini"
-    cfg = get_config()
-    if not c: raise ValueError(f'settings.ini not found')
-    f = cfg.path if path else cfg.get
-    res = f(c, default=default)
-    if res is None: raise ValueError(f'`{c}` not specified in settings.ini')
-    return res
-
-# %% ../nbs/10_cli.ipynb 5
 @call_parse
 def ghp_deploy():
     "Deploy docs in doc_path from settings.ini to GitHub Pages"
@@ -34,7 +24,7 @@ def ghp_deploy():
         return
     ghp_import(config_key('doc_path'), push=True, stderr=True, no_history=True)
 
-# %% ../nbs/10_cli.ipynb 7
+# %% ../nbs/10_cli.ipynb 6
 def _create_sidebar(
     path:str=None, symlinks:bool=False, file_glob:str='*.ipynb', file_re:str=None, folder_re:str=None, 
     skip_file_glob:str=None, skip_file_re:str=None, skip_folder_re:str='^[_.]'):
@@ -49,7 +39,7 @@ def _create_sidebar(
     yml_path.write_text(yml)
     return files
 
-# %% ../nbs/10_cli.ipynb 8
+# %% ../nbs/10_cli.ipynb 7
 @call_parse
 def create_sidebar(
     path:str=None, # path to notebooks
@@ -65,14 +55,14 @@ def create_sidebar(
     _create_sidebar(path, symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
 
-# %% ../nbs/10_cli.ipynb 10
+# %% ../nbs/10_cli.ipynb 9
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
     def _nothing(self): return []
     xtra_procs=xtra_preprocs=xtra_postprocs=_nothing
     
     def base_preprocs(self): return [add_show_docs, insert_warning]
-    def base_postprocs(self): return []
+    def base_postprocs(self): return [add_frontmatter]
     def base_procs(self):
         return [strip_ansi, hide_line, filter_stream_, lang_identify, rm_header_dash,
                 clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_]
@@ -89,7 +79,7 @@ class FilterDefaults:
         "Postprocessors for export"
         return self.base_postprocs() + self.xtra_postprocs()
 
-# %% ../nbs/10_cli.ipynb 11
+# %% ../nbs/10_cli.ipynb 10
 @call_parse
 def filter_nb(
     nb_txt:str=None  # Notebook text (uses stdin if not provided)
@@ -104,7 +94,7 @@ def filter_nb(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/10_cli.ipynb 13
+# %% ../nbs/10_cli.ipynb 12
 @call_parse
 def create_quarto(
     path:str=None, # path to notebooks

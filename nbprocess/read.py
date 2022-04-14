@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['NbCell', 'dict2nb', 'read_nb', 'mk_cell', 'create_output', 'NBRunner', 'nbprocess_create_config', 'get_config',
-           'add_init', 'write_cells', 'basic_export_nb']
+           'config_key', 'add_init', 'write_cells', 'basic_export_nb']
 
 # %% ../nbs/01_read.ipynb 3
 from datetime import datetime
@@ -122,7 +122,17 @@ def get_config(cfg_name='settings.ini', path=None):
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
     return Config(cfg_path, cfg_name=cfg_name)
 
-# %% ../nbs/01_read.ipynb 38
+# %% ../nbs/01_read.ipynb 37
+def config_key(c, default=None, path=True):
+    "Look for key `c` in settings.ini and fail gracefully if not found and no default provided"
+    cfg = get_config()
+    if not c: raise ValueError(f'settings.ini not found')
+    f = cfg.path if path else cfg.get
+    res = f(c, default=default)
+    if res is None: raise ValueError(f'`{c}` not specified in settings.ini')
+    return res
+
+# %% ../nbs/01_read.ipynb 39
 _init = '__init__.py'
 
 def _has_py(fs): return any(1 for f in fs if f.endswith('.py'))
@@ -138,16 +148,16 @@ def add_init(path):
         subds = (os.listdir(r/d) for d in ds)
         if _has_py(fs) or any(filter(_has_py, subds)) and not (r/_init).exists(): (r/_init).touch()
 
-# %% ../nbs/01_read.ipynb 42
+# %% ../nbs/01_read.ipynb 43
 def write_cells(cells, hdr, file, offset=0):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbprocess internal use)"
     for cell in cells:
         if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell.source}')
 
-# %% ../nbs/01_read.ipynb 43
+# %% ../nbs/01_read.ipynb 44
 def basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbprocess"
-    if dest is None: dest = get_config().path('lib_path')
+    if dest is None: dest = config_key('lib_path')
     fname,dest = Path(fname),Path(dest)
     nb = read_nb(fname)
 

@@ -15,6 +15,11 @@ format:
 
 website:
   title: "nbprocess"
+  twitter-card: true
+  reader-mode: true
+  repo-branch: master
+  repo-url: https://github.com/fastai/nbprocess
+  repo-actions: [issue]
   navbar:
     background: primary
     search: true

@@ -133,16 +133,16 @@ def _title(nb):
     if not md_cells: return None,None
     cell = md_cells[0]
     title,desc=_re_title.match(cell.source).groups()
-    del(cell['source'])
+    cell['source'] = None
     return title,desc
 
 def add_frontmatter(nb):
     "Insert front matter if it doesn't exist"
     if _frontmatter(nb): return
     title,desc = _title(nb)
-    if desc:
-        desc = f'description: "{desc}"\n' 
-        content = f'---\n{desc}---'
+    if title:
+        desc = f'description: "{desc}"\n' if desc else ''
+        content = f'---\ntitle: {title}\n{desc}---\n'
         nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=content)))
 
 # %% ../nbs/09_processors.ipynb 40

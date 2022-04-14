@@ -35,7 +35,7 @@ def get_link(name:str) -> str:
     baseurl = get_config()['doc_host']
     if '.' in name: *m,o=name.split('.')
     else: m,o=[name],None
-    mod = is_lib_module('.'.join(m))
+    mod = get_module('.'.join(m))
     if mod:
         mod_src = inspect.getsource(mod)
         path = _get_path(mod_src, _re_nb_mod)
