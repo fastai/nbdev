@@ -438,7 +438,7 @@ _TABLE_CSS = """<style>
     tr:nth-child(even) {background: #eee;}</style>"""
 
 # Cell
-def doc(elt:int, show_all_docments:bool=True):
+def doc(elt, show_all_docments:bool=False):
     "Show `show_doc` info in preview window when used in a notebook"
     md = show_doc(elt, disp=False, show_all_docments=show_all_docments)
     doc_link = get_doc_link(elt)
