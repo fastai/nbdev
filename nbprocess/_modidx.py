@@ -23,6 +23,7 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.strip_ansi': 'ht
                                 'nbprocess.read.NBRunner': 'https://nbprocess.fast.ai/nbprocess.read#NBRunner',
                                 'nbprocess.read.nbprocess_create_config': 'https://nbprocess.fast.ai/nbprocess.read#nbprocess_create_config',
                                 'nbprocess.read.get_config': 'https://nbprocess.fast.ai/nbprocess.read#get_config',
+                                'nbprocess.read.config_key': 'https://nbprocess.fast.ai/nbprocess.read#config_key',
                                 'nbprocess.read.add_init': 'https://nbprocess.fast.ai/nbprocess.read#add_init',
                                 'nbprocess.read.write_cells': 'https://nbprocess.fast.ai/nbprocess.read#write_cells',
                                 'nbprocess.read.basic_export_nb': 'https://nbprocess.fast.ai/nbprocess.read#basic_export_nb',
@@ -32,8 +33,9 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.strip_ansi': 'ht
                                 'nbprocess.read.NBRunner.exec_nb': 'https://nbprocess.fast.ai/nbprocess.read#NBRunner.exec_nb'},
             'nbprocess.export': { 'nbprocess.export.ExportModuleProc': 'https://nbprocess.fast.ai/nbprocess.export#ExportModuleProc',
                                   'nbprocess.export.create_modules': 'https://nbprocess.fast.ai/nbprocess.export#create_modules',
-                                  'nbprocess.export.nb_export': 'https://nbprocess.fast.ai/nbprocess.export#nb_export',
-                                  'nbprocess.export.nbs_export': 'https://nbprocess.fast.ai/nbprocess.export#nbs_export'},
+                                  'nbprocess.export.nb_export': 'https://nbprocess.fast.ai/nbprocess.export#nb_export'},
+            'nbprocess.linkify': { 'nbprocess.linkify.get_module': 'https://nbprocess.fast.ai/nbprocess.linkify#get_module',
+                                   'nbprocess.linkify.get_link': 'https://nbprocess.fast.ai/nbprocess.linkify#get_link'},
             'nbprocess.maker': { 'nbprocess.maker.find_var': 'https://nbprocess.fast.ai/nbprocess.maker#find_var',
                                  'nbprocess.maker.read_var': 'https://nbprocess.fast.ai/nbprocess.maker#read_var',
                                  'nbprocess.maker.update_var': 'https://nbprocess.fast.ai/nbprocess.maker#update_var',
@@ -51,6 +53,7 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.strip_ansi': 'ht
                                  'nbprocess.maker.ModuleMaker._make_exists': 'https://nbprocess.fast.ai/nbprocess.maker#ModuleMaker._make_exists'},
             'nbprocess.doclinks': { 'nbprocess.doclinks.DocLinks': 'https://nbprocess.fast.ai/nbprocess.doclinks#DocLinks',
                                     'nbprocess.doclinks.build_modidx': 'https://nbprocess.fast.ai/nbprocess.doclinks#build_modidx',
+                                    'nbprocess.doclinks.nbs_export': 'https://nbprocess.fast.ai/nbprocess.doclinks#nbs_export',
                                     'nbprocess.doclinks.DocLinks.write_nbprocess_idx': 'https://nbprocess.fast.ai/nbprocess.doclinks#DocLinks.write_nbprocess_idx',
                                     'nbprocess.doclinks.DocLinks.update_syms': 'https://nbprocess.fast.ai/nbprocess.doclinks#DocLinks.update_syms',
                                     'nbprocess.doclinks.DocLinks.build_index': 'https://nbprocess.fast.ai/nbprocess.doclinks#DocLinks.build_index'},
@@ -69,8 +72,7 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.strip_ansi': 'ht
                                    'nbprocess.process.NBProcessor': 'https://nbprocess.fast.ai/nbprocess.process#NBProcessor',
                                    'nbprocess.process.NBProcessor.process': 'https://nbprocess.fast.ai/nbprocess.process#NBProcessor.process'},
             'nbprocess.imports': {},
-            'nbprocess.cli': { 'nbprocess.cli.config_key': 'https://nbprocess.fast.ai/nbprocess.cli#config_key',
-                               'nbprocess.cli.ghp_deploy': 'https://nbprocess.fast.ai/nbprocess.cli#ghp_deploy',
+            'nbprocess.cli': { 'nbprocess.cli.ghp_deploy': 'https://nbprocess.fast.ai/nbprocess.cli#ghp_deploy',
                                'nbprocess.cli.create_sidebar': 'https://nbprocess.fast.ai/nbprocess.cli#create_sidebar',
                                'nbprocess.cli.FilterDefaults': 'https://nbprocess.fast.ai/nbprocess.cli#FilterDefaults',
                                'nbprocess.cli.filter_nb': 'https://nbprocess.fast.ai/nbprocess.cli#filter_nb',
@@ -117,7 +119,7 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.strip_ansi': 'ht
                 'dev_requirements': 'nbclient',
                 'console_scripts': 'nbprocess_create_config=nbprocess.read:nbprocess_create_config\n'
                                    'nbprocess_update=nbprocess.sync:update_lib\n'
-                                   'nbprocess_export=nbprocess.export:nbs_export\n'
+                                   'nbprocess_export=nbprocess.doclinks:nbs_export\n'
                                    'nbprocess_fix=nbprocess.merge:fix_merge\n'
                                    'nbprocess_trust=nbprocess.clean:trust_nbs\n'
                                    'nbprocess_clean=nbprocess.clean:clean_nbs\n'
