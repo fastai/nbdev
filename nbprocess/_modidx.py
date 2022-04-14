@@ -11,8 +11,8 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.strip_ansi': 'ht
                                       'nbprocess.processors.exec_show_docs': 'https://nbprocess.fast.ai/nbprocess.processors#exec_show_docs',
                                       'nbprocess.processors.clean_show_doc': 'https://nbprocess.fast.ai/nbprocess.processors#clean_show_doc',
                                       'nbprocess.processors.insert_warning': 'https://nbprocess.fast.ai/nbprocess.processors#insert_warning',
-                                      'nbprocess.processors.add_frontmatter': 'https://nbprocess.fast.ai/nbprocess.processors#add_frontmatter',
-                                      'nbprocess.processors.add_show_docs': 'https://nbprocess.fast.ai/nbprocess.processors#add_show_docs'},
+                                      'nbprocess.processors.add_show_docs': 'https://nbprocess.fast.ai/nbprocess.processors#add_show_docs',
+                                      'nbprocess.processors.add_frontmatter': 'https://nbprocess.fast.ai/nbprocess.processors#add_frontmatter'},
             'nbprocess.extract_attachments': { 'nbprocess.extract_attachments.ExtractAttachmentsPreprocessor': 'https://nbprocess.fast.ai/nbprocess.extract_attachments#ExtractAttachmentsPreprocessor',
                                                'nbprocess.extract_attachments.ExtractAttachmentsPreprocessor.preprocess_cell': 'https://nbprocess.fast.ai/nbprocess.extract_attachments#ExtractAttachmentsPreprocessor.preprocess_cell'},
             'nbprocess.read': { 'nbprocess.read.NbCell': 'https://nbprocess.fast.ai/nbprocess.read#NbCell',
@@ -116,7 +116,7 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.strip_ansi': 'ht
                 'license': 'apache2',
                 'status': '2',
                 'requirements': 'fastcore>=1.4.2 tinykernel',
-                'dev_requirements': 'nbdev-numpy',
+                'dev_requirements': 'nbdev-numpy\nnbdev-stdlib',
                 'console_scripts': 'nbprocess_create_config=nbprocess.read:nbprocess_create_config\n'
                                    'nbprocess_update=nbprocess.sync:update_lib\n'
                                    'nbprocess_export=nbprocess.doclinks:nbs_export\n'
@@ -126,7 +126,8 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.strip_ansi': 'ht
                                    'nbprocess_install_hooks=nbprocess.clean:install_git_hooks\n'
                                    'nbprocess_filter=nbprocess.cli:filter_nb\n'
                                    'nbprocess_quarto=nbprocess.cli:create_quarto\n'
-                                   'nbprocess_ghp_deploy=nbprocess.cli:ghp_deploy',
+                                   'nbprocess_ghp_deploy=nbprocess.cli:ghp_deploy\n'
+                                   'nbprocess_sidebar=nbprocess.cli:create_sidebar',
                 'tst_flags': 'notest',
                 'nbs_path': 'nbs',
                 'doc_path': 'docs',

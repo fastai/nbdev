@@ -4,11 +4,14 @@ website:
       - 01_read.ipynb
       - 02_maker.ipynb
       - 03_process.ipynb
-      - 04_export.ipynb
+      - 04a_export.ipynb
+      - 04b_doclinks.ipynb
       - 05_sync.ipynb
       - 06_merge.ipynb
-      - 07_clean.ipynb
       - 08_showdoc.ipynb
       - 09_processors.ipynb
       - 10_cli.ipynb
+      - 11_clean.ipynb
+      - 12_linkify.ipynb
+      - 13_lookup.ipynb
       - index.ipynb

@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['strip_ansi', 'hide_', 'hide_line', 'filter_stream_', 'clean_magics', 'lang_identify', 'rm_header_dash', 'rm_export',
-           'exec_show_docs', 'clean_show_doc', 'insert_warning', 'add_frontmatter', 'add_show_docs']
+           'exec_show_docs', 'clean_show_doc', 'insert_warning', 'add_show_docs', 'add_frontmatter']
 
 # %% ../nbs/09_processors.ipynb 3
 import ast
@@ -121,6 +121,22 @@ def insert_warning(nb):
     nb.cells.insert(1, mk_cell(content, False))
 
 # %% ../nbs/09_processors.ipynb 38
+_def_types = (ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)
+def _def_names(cell, shown):
+    return [o.name for o in concat(cell.parsed_()) if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_']
+
+# %% ../nbs/09_processors.ipynb 39
+def add_show_docs(nb):
+    "Add show_doc cells after exported cells, unless they are already documented"
+    exports = L(cell for cell in nb.cells if _re_exps(cell.source))
+    trees = nb.cells.map(NbCell.parsed_).concat()
+    shown_docs = {t.value.args[0].id for t in _show_docs(trees)}
+    for cell in reversed(exports):
+        for nm in _def_names(cell, shown_docs):
+            code = f'show_doc({nm})'
+            nb.cells.insert(cell.idx_+1, mk_cell(code))
+
+# %% ../nbs/09_processors.ipynb 42
 _re_title = re.compile(r'^#\s+(.*)[\n\r](?:^>\s+(.*))?', flags=re.MULTILINE)
 _re_fm = re.compile(r'^---.*\S+.*---', flags=re.DOTALL)
 
@@ -143,20 +159,5 @@ def add_frontmatter(nb):
     if title:
         desc = f'description: "{desc}"\n' if desc else ''
         content = f'---\ntitle: {title}\n{desc}---\n'
+        content = f'---\n{desc}---\n'
         nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=content)))
-
-# %% ../nbs/09_processors.ipynb 40
-_def_types = (ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)
-def _def_names(cell, shown):
-    return [o.name for o in concat(cell.parsed_()) if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_']
-
-# %% ../nbs/09_processors.ipynb 41
-def add_show_docs(nb):
-    "Add show_doc cells after exported cells, unless they are already documented"
-    exports = L(cell for cell in nb.cells if _re_exps(cell.source))
-    trees = nb.cells.map(NbCell.parsed_).concat()
-    shown_docs = {t.value.args[0].id for t in _show_docs(trees)}
-    for cell in reversed(exports):
-        for nm in _def_names(cell, shown_docs):
-            code = f'show_doc({nm})'
-            nb.cells.insert(cell.idx_+1, mk_cell(code))

@@ -13,6 +13,7 @@ deploy: docs
 	nbprocess_ghp_deploy
 
 serve:
+	nbprocess_sidebar
 	cd nbs && quarto preview
 
 docs: $(SRC)
