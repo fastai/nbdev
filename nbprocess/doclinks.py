@@ -88,7 +88,6 @@ def _doc_link(url, mod, sym=None):
     return res
 
 # %% ../nbs/04b_doclinks.ipynb 22
-@call_parse
 def build_modidx():
     "Create _modidx.py"
     dest = config_key('lib_path')

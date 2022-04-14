@@ -116,7 +116,7 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.strip_ansi': 'ht
                 'license': 'apache2',
                 'status': '2',
                 'requirements': 'fastcore>=1.4.2 tinykernel',
-                'dev_requirements': 'nbclient',
+                'dev_requirements': 'nbdev-numpy',
                 'console_scripts': 'nbprocess_create_config=nbprocess.read:nbprocess_create_config\n'
                                    'nbprocess_update=nbprocess.sync:update_lib\n'
                                    'nbprocess_export=nbprocess.doclinks:nbs_export\n'
