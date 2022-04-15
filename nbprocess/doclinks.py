@@ -86,7 +86,7 @@ def _doc_link(url, mod, sym=None):
     if sym: res += "#" + remove_prefix(sym, mod+".")
     return res
 
-# %% ../nbs/04b_doclinks.ipynb 22
+# %% ../nbs/04b_doclinks.ipynb 23
 def build_modidx():
     "Create _modidx.py"
     dest = config_key('lib_path')
@@ -100,7 +100,7 @@ def build_modidx():
     for file in dest.glob("**/*.py"):
         if file.name[0]!='_': DocLinks(file, doc_func, _fn).build_index()
 
-# %% ../nbs/04b_doclinks.ipynb 23
+# %% ../nbs/04b_doclinks.ipynb 24
 @call_parse
 def nbprocess_export(
     path:str=None, # path or filename
