@@ -41,8 +41,7 @@ clean:
 install: install_quarto
 	pip install -e .
 
-install_quarto:
-	wget -nv https://www.quarto.org/download/latest/quarto-linux-amd64.deb
-	sudo dpkg -i *64.deb
-	rm *64.deb
+install_quarto: .FORCE
+	./install_quarto.sh
 
+.FORCE:
