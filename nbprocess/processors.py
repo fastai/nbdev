@@ -149,6 +149,7 @@ def add_show_docs(nb):
 # %% ../nbs/09_processors.ipynb 44
 _re_title = re.compile(r'^#\s+(.*)[\n\r](?:^>\s+(.*))?', flags=re.MULTILINE)
 _re_fm = re.compile(r'^---.*\S+.*---', flags=re.DOTALL)
+_re_defaultexp = re.compile(r'^\s*#\|\s*default_exp\s+(\S+)', flags=re.MULTILINE)
 
 def _celltyp(nb, cell_type): return nb.cells.filter(lambda c: c.cell_type == cell_type)
 def _frontmatter(nb): return _celltyp(nb, 'raw').filter(lambda c: _re_fm.search(c.get('source', '')))
@@ -166,7 +167,11 @@ def add_frontmatter(nb):
     "Insert front matter if it doesn't exist"
     if _frontmatter(nb): return
     title,desc = _title(nb)
+    code_src = nb.cells.filter(lambda x: x.cell_type == 'code').attrgot('source')
+    default_exp = first(code_src.filter().map(_re_defaultexp.search).filter())
+    default_exp = default_exp.group(1) if default_exp else None
     if title:
         desc = f'description: "{desc}"\n' if desc else ''
-        content = f'---\ntitle: {title}\n{desc}---\n'
+        outfile = f'output-file: "{default_exp}.html"\n' if default_exp else ''
+        content = f'---\ntitle: {title}\n{outfile}{desc}---\n'
         nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=content)))
