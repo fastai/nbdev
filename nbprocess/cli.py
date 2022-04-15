@@ -85,12 +85,14 @@ def nbprocess_filter(
     nb_txt:str=None  # Notebook text (uses stdin if not provided)
 ):
     "A notebook filter for quarto"
+    os.environ["IN_TEST"] = "1"
     filt = get_config().get('exporter', FilterDefaults)()
     printit = False
     if not nb_txt: nb_txt,printit = sys.stdin.read(),True
     nb = dict2nb(json.loads(nb_txt))
     NBProcessor(nb=nb, procs=filt.procs(), preprocs=filt.preprocs(), postprocs=filt.postprocs()).process()
     res = nb2str(nb)
+    del os.environ["IN_TEST"]
     if printit: print(res, flush=True)
     else: return res
 

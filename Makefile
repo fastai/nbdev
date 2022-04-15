@@ -14,7 +14,7 @@ deploy: docs
 
 serve:
 	nbprocess_sidebar
-	cd nbs && quarto preview
+	IN_TEST=1 && cd nbs && quarto preview
 
 docs: $(SRC)
 	nbprocess_quarto
