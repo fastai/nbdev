@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['nbprocess_lookup', 'NbdevLookup']
 
-# %% ../nbs/13_lookup.ipynb 2
+# %% ../nbs/13_lookup.ipynb 3
 from .imports import *
 from .read import *
 from .export import *

@@ -165,7 +165,7 @@ def _make_exists(self:ModuleMaker, cells, all_cells=None):
     if all_cells: update_var('__all__', partial(self._update_all, all_cells), fn=self.fname)
     with self.fname.open('a') as f: write_cells(cells, self.hdr, f)
 
-# %% ../nbs/02_maker.ipynb 37
+# %% ../nbs/02_maker.ipynb 36
 def basic_export_nb2(fname, name, dest=None):
     "A basic exporter to bootstrap nbprocess using `ModuleMaker`"
     if dest is None: dest = get_config().path('lib_path')

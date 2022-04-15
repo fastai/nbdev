@@ -99,6 +99,7 @@ _imps = {ast.Import, ast.ImportFrom}
 def _do_eval(cell):
     trees = cell.parsed_()
     if cell.cell_type != 'code' or not trees: return False
+    if cell.directives_.get('eval:', [''])[0].lower() == 'false': return False
     if cell.directives_.keys() & _exp_dirs or filter_ex(trees, risinstance(_imps)): return True
     if _show_docs(trees): return True
     return False
