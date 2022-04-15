@@ -33,8 +33,8 @@ def extract_directives(cell, remove=True):
     ss = cell.source.splitlines(True)
     first_code = first(i for i,o in enumerate(ss) if not o.strip() or not re.match(_dir_pre, o))
     if not ss or first_code==0: return {}
+    pre = ss[:first_code]
     if remove:
-        pre = ss[:first_code]
         # Leave Quarto directives in place for later processing
         cell['source'] = ''.join([o for o in pre if _quarto_re.match(o)] + ss[first_code:])
     return dict(L(_directive(s) for s in pre).filter())

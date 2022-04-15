@@ -52,7 +52,7 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.add_links': 'htt
                                  'nbprocess.maker.ModuleMaker._make_exists': 'https://nbprocess.fast.ai/nbprocess.maker#ModuleMaker._make_exists'},
             'nbprocess.doclinks': { 'nbprocess.doclinks.DocLinks': 'https://nbprocess.fast.ai/nbprocess.doclinks#DocLinks',
                                     'nbprocess.doclinks.build_modidx': 'https://nbprocess.fast.ai/nbprocess.doclinks#build_modidx',
-                                    'nbprocess.doclinks.nbs_export': 'https://nbprocess.fast.ai/nbprocess.doclinks#nbs_export',
+                                    'nbprocess.doclinks.nbprocess_export': 'https://nbprocess.fast.ai/nbprocess.doclinks#nbprocess_export',
                                     'nbprocess.doclinks.DocLinks.write_nbprocess_idx': 'https://nbprocess.fast.ai/nbprocess.doclinks#DocLinks.write_nbprocess_idx',
                                     'nbprocess.doclinks.DocLinks.update_syms': 'https://nbprocess.fast.ai/nbprocess.doclinks#DocLinks.update_syms',
                                     'nbprocess.doclinks.DocLinks.build_index': 'https://nbprocess.fast.ai/nbprocess.doclinks#DocLinks.build_index'},
@@ -64,18 +64,18 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.add_links': 'htt
                                    'nbprocess.showdoc.BasicHtmlRenderer': 'https://nbprocess.fast.ai/nbprocess.showdoc#BasicHtmlRenderer'},
             'nbprocess.merge': { 'nbprocess.merge.conf_re': 'https://nbprocess.fast.ai/nbprocess.merge#conf_re',
                                  'nbprocess.merge.unpatch': 'https://nbprocess.fast.ai/nbprocess.merge#unpatch',
-                                 'nbprocess.merge.fix_merge': 'https://nbprocess.fast.ai/nbprocess.merge#fix_merge'},
+                                 'nbprocess.merge.nbprocess_fix': 'https://nbprocess.fast.ai/nbprocess.merge#nbprocess_fix'},
             'nbprocess.process': { 'nbprocess.process.extract_directives': 'https://nbprocess.fast.ai/nbprocess.process#extract_directives',
                                    'nbprocess.process.opt_set': 'https://nbprocess.fast.ai/nbprocess.process#opt_set',
                                    'nbprocess.process.instantiate': 'https://nbprocess.fast.ai/nbprocess.process#instantiate',
                                    'nbprocess.process.NBProcessor': 'https://nbprocess.fast.ai/nbprocess.process#NBProcessor',
                                    'nbprocess.process.NBProcessor.process': 'https://nbprocess.fast.ai/nbprocess.process#NBProcessor.process'},
             'nbprocess.imports': {},
-            'nbprocess.cli': { 'nbprocess.cli.ghp_deploy': 'https://nbprocess.fast.ai/nbprocess.cli#ghp_deploy',
-                               'nbprocess.cli.create_sidebar': 'https://nbprocess.fast.ai/nbprocess.cli#create_sidebar',
+            'nbprocess.cli': { 'nbprocess.cli.nbprocess_ghp_deploy': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_ghp_deploy',
+                               'nbprocess.cli.nbprocess_sidebar': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_sidebar',
                                'nbprocess.cli.FilterDefaults': 'https://nbprocess.fast.ai/nbprocess.cli#FilterDefaults',
-                               'nbprocess.cli.filter_nb': 'https://nbprocess.fast.ai/nbprocess.cli#filter_nb',
-                               'nbprocess.cli.create_quarto': 'https://nbprocess.fast.ai/nbprocess.cli#create_quarto',
+                               'nbprocess.cli.nbprocess_filter': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_filter',
+                               'nbprocess.cli.nbprocess_quarto': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_quarto',
                                'nbprocess.cli.FilterDefaults.base_preprocs': 'https://nbprocess.fast.ai/nbprocess.cli#FilterDefaults.base_preprocs',
                                'nbprocess.cli.FilterDefaults.base_postprocs': 'https://nbprocess.fast.ai/nbprocess.cli#FilterDefaults.base_postprocs',
                                'nbprocess.cli.FilterDefaults.base_procs': 'https://nbprocess.fast.ai/nbprocess.cli#FilterDefaults.base_procs',
@@ -86,11 +86,11 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.add_links': 'htt
                                 'nbprocess.sync.nb2str': 'https://nbprocess.fast.ai/nbprocess.sync#nb2str',
                                 'nbprocess.sync.write_nb': 'https://nbprocess.fast.ai/nbprocess.sync#write_nb',
                                 'nbprocess.sync.absolute_import': 'https://nbprocess.fast.ai/nbprocess.sync#absolute_import',
-                                'nbprocess.sync.update_lib': 'https://nbprocess.fast.ai/nbprocess.sync#update_lib'},
-            'nbprocess.clean': { 'nbprocess.clean.trust_nbs': 'https://nbprocess.fast.ai/nbprocess.clean#trust_nbs',
+                                'nbprocess.sync.nbprocess_update': 'https://nbprocess.fast.ai/nbprocess.sync#nbprocess_update'},
+            'nbprocess.clean': { 'nbprocess.clean.nbprocess_trust': 'https://nbprocess.fast.ai/nbprocess.clean#nbprocess_trust',
                                  'nbprocess.clean.clean_nb': 'https://nbprocess.fast.ai/nbprocess.clean#clean_nb',
-                                 'nbprocess.clean.clean_nbs': 'https://nbprocess.fast.ai/nbprocess.clean#clean_nbs',
-                                 'nbprocess.clean.install_git_hooks': 'https://nbprocess.fast.ai/nbprocess.clean#install_git_hooks'},
+                                 'nbprocess.clean.nbprocess_clean': 'https://nbprocess.fast.ai/nbprocess.clean#nbprocess_clean',
+                                 'nbprocess.clean.nbprocess_install_hooks': 'https://nbprocess.fast.ai/nbprocess.clean#nbprocess_install_hooks'},
             'nbprocess.lookup': { 'nbprocess.lookup.nbprocess_lookup': 'https://nbprocess.fast.ai/nbprocess.lookup#nbprocess_lookup',
                                   'nbprocess.lookup.NbdevLookup': 'https://nbprocess.fast.ai/nbprocess.lookup#NbdevLookup',
                                   'nbprocess.lookup.NbdevLookup._link_sym': 'https://nbprocess.fast.ai/nbprocess.lookup#NbdevLookup._link_sym',
@@ -117,16 +117,16 @@ d = { 'syms': { 'nbprocess.processors': { 'nbprocess.processors.add_links': 'htt
                 'requirements': 'fastcore>=1.4.2 tinykernel',
                 'dev_requirements': 'nbdev-numpy\nnbdev-stdlib',
                 'console_scripts': 'nbprocess_create_config=nbprocess.read:nbprocess_create_config\n'
-                                   'nbprocess_update=nbprocess.sync:update_lib\n'
-                                   'nbprocess_export=nbprocess.doclinks:nbs_export\n'
-                                   'nbprocess_fix=nbprocess.merge:fix_merge\n'
-                                   'nbprocess_trust=nbprocess.clean:trust_nbs\n'
-                                   'nbprocess_clean=nbprocess.clean:clean_nbs\n'
-                                   'nbprocess_install_hooks=nbprocess.clean:install_git_hooks\n'
-                                   'nbprocess_filter=nbprocess.cli:filter_nb\n'
-                                   'nbprocess_quarto=nbprocess.cli:create_quarto\n'
-                                   'nbprocess_ghp_deploy=nbprocess.cli:ghp_deploy\n'
-                                   'nbprocess_sidebar=nbprocess.cli:create_sidebar',
+                                   'nbprocess_update=nbprocess.sync:nbprocess_update\n'
+                                   'nbprocess_export=nbprocess.doclinks:nbprocess_export\n'
+                                   'nbprocess_fix=nbprocess.merge:nbprocess_fix\n'
+                                   'nbprocess_trust=nbprocess.clean:nbprocess_trust\n'
+                                   'nbprocess_clean=nbprocess.clean:nbprocess_clean\n'
+                                   'nbprocess_install_hooks=nbprocess.clean:nbprocess_install_hooks\n'
+                                   'nbprocess_filter=nbprocess.cli:nbprocess_filter\n'
+                                   'nbprocess_quarto=nbprocess.cli:nbprocess_quarto\n'
+                                   'nbprocess_ghp_deploy=nbprocess.cli:nbprocess_ghp_deploy\n'
+                                   'nbprocess_sidebar=nbprocess.cli:nbprocess_sidebar',
                 'tst_flags': 'notest',
                 'nbs_path': 'nbs',
                 'doc_path': 'docs',
