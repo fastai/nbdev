@@ -3,7 +3,7 @@
 set -e
 
 LATEST_VER=`curl -s https://api.github.com/repos/quarto-dev/quarto-cli/releases/latest | grep tag_name | cut -d v -f 2 | tr -d \",`
-CURRENT_VER=`quarto -V`
+CURRENT_VER=`quarto -V || true`
 
 if [[ $CURRENT_VER == *"not found"*  ]]; then
 	echo "Quarto is not installed."
