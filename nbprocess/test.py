@@ -52,7 +52,7 @@ def test_nb(fn, skip_flags=None, force_flags=None):
         return True,time.time()-start
     except Exception as e:
         fence = '='*50
-        print(f'Error in {fn} when running:\n{fence}\n{cell.source}\n\n{type(e).__name__}: {e}\n{fence}')
+        print(f'\n\nError in {fn} when running:\n{fence}\n{cell.source}\n\n{type(e).__name__}: {e}\n{fence}')
         traceback.print_exc()
         return False,time.time()-start
     finally: 
