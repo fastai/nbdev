@@ -34,6 +34,10 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                   'nbprocess.lookup.NbdevLookup._link_sym': 'https://nbprocess.fast.ai/nbprocess.lookup#NbdevLookup._link_sym',
                                   'nbprocess.lookup.NbdevLookup._link_line': 'https://nbprocess.fast.ai/nbprocess.lookup#NbdevLookup._link_line',
                                   'nbprocess.lookup.NbdevLookup.linkify': 'https://nbprocess.fast.ai/nbprocess.lookup#NbdevLookup.linkify'},
+            'nbprocess.test': { 'nbprocess.test.nbglob': 'https://nbprocess.fast.ai/nbprocess.test#nbglob',
+                                'nbprocess.test.HiddenPrints': 'https://nbprocess.fast.ai/nbprocess.test#HiddenPrints',
+                                'nbprocess.test.test_nb': 'https://nbprocess.fast.ai/nbprocess.test#test_nb',
+                                'nbprocess.test.nbprocess_test': 'https://nbprocess.fast.ai/nbprocess.test#nbprocess_test'},
             'nbprocess.export': { 'nbprocess.export.ExportModuleProc': 'https://nbprocess.fast.ai/nbprocess.export#ExportModuleProc',
                                   'nbprocess.export.create_modules': 'https://nbprocess.fast.ai/nbprocess.export#create_modules',
                                   'nbprocess.export.nb_export': 'https://nbprocess.fast.ai/nbprocess.export#nb_export'},
@@ -126,7 +130,8 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                    'nbprocess_filter=nbprocess.cli:nbprocess_filter\n'
                                    'nbprocess_quarto=nbprocess.cli:nbprocess_quarto\n'
                                    'nbprocess_ghp_deploy=nbprocess.cli:nbprocess_ghp_deploy\n'
-                                   'nbprocess_sidebar=nbprocess.cli:nbprocess_sidebar',
+                                   'nbprocess_sidebar=nbprocess.cli:nbprocess_sidebar\n'
+                                   'nbprocess_test=nbprocess.test:nbprocess_test',
                 'tst_flags': 'notest',
                 'nbs_path': 'nbs',
                 'doc_path': 'docs',
