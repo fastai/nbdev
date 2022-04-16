@@ -12,11 +12,11 @@ from fastcore.utils import *
 from fastcore.script import call_parse
 
 # %% auto 0
-__all__ = ['ghp_deploy', 'create_sidebar', 'FilterDefaults', 'filter_nb', 'create_quarto']
+__all__ = ['nbprocess_ghp_deploy', 'nbprocess_sidebar', 'FilterDefaults', 'nbprocess_filter', 'nbprocess_quarto']
 
 # %% ../nbs/10_cli.ipynb 4
 @call_parse
-def ghp_deploy():
+def nbprocess_ghp_deploy():
     "Deploy docs in doc_path from settings.ini to GitHub Pages"
     try: from ghp_import import ghp_import
     except:
@@ -41,7 +41,7 @@ def _create_sidebar(
 
 # %% ../nbs/10_cli.ipynb 7
 @call_parse
-def create_sidebar(
+def nbprocess_sidebar(
     path:str=None, # path to notebooks
     symlinks:bool=False, # follow symlinks?
     file_glob:str='*.ipynb', # Only include files matching glob
@@ -65,7 +65,7 @@ class FilterDefaults:
     def base_postprocs(self): return [add_frontmatter]
     def base_procs(self):
         return [strip_ansi, hide_line, filter_stream_, lang_identify, rm_header_dash,
-                clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_]
+                clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_, add_links]
 
     def procs(self):
         "Processors for export"
@@ -81,22 +81,24 @@ class FilterDefaults:
 
 # %% ../nbs/10_cli.ipynb 10
 @call_parse
-def filter_nb(
+def nbprocess_filter(
     nb_txt:str=None  # Notebook text (uses stdin if not provided)
 ):
     "A notebook filter for quarto"
+    os.environ["IN_TEST"] = "1"
     filt = get_config().get('exporter', FilterDefaults)()
     printit = False
     if not nb_txt: nb_txt,printit = sys.stdin.read(),True
     nb = dict2nb(json.loads(nb_txt))
     NBProcessor(nb=nb, procs=filt.procs(), preprocs=filt.preprocs(), postprocs=filt.postprocs()).process()
     res = nb2str(nb)
+    del os.environ["IN_TEST"]
     if printit: print(res, flush=True)
     else: return res
 
 # %% ../nbs/10_cli.ipynb 12
 @call_parse
-def create_quarto(
+def nbprocess_quarto(
     path:str=None, # path to notebooks
     doc_path:str=None, # path to output docs
     symlinks:bool=False, # follow symlinks?

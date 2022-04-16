@@ -24,15 +24,20 @@ def _directive(s):
     direc,*args = s
     return direc,args
 
+_dir_pre = r'\s*#\|'
+_quarto_re = re.compile(_dir_pre + r'\s*\w+\s*:')
+
 # %% ../nbs/03_process.ipynb 8
 def extract_directives(cell, remove=True):
     "Take leading comment directives from lines of code in `ss`, remove `#|`, and split"
     ss = cell.source.splitlines(True)
-    first_code = first(i for i,o in enumerate(ss) if not o.strip() or not re.match(r'\s*#\|', o))
+    first_code = first(i for i,o in enumerate(ss) if not o.strip() or not re.match(_dir_pre, o))
     if not ss or first_code==0: return {}
-    if remove: cell['source'] = ''.join(ss[first_code:])
-    res = L(_directive(s) for s in ss[:first_code]).filter()
-    return {k:v for k,v in res}
+    pre = ss[:first_code]
+    if remove:
+        # Leave Quarto directives in place for later processing
+        cell['source'] = ''.join([o for o in pre if _quarto_re.match(o)] + ss[first_code:])
+    return dict(L(_directive(s) for s in pre).filter())
 
 # %% ../nbs/03_process.ipynb 11
 def opt_set(var, newval):
