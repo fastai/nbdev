@@ -76,8 +76,9 @@ _re_hdr_dash = re.compile(r'^#+\s+.*\s+-\s*$', re.MULTILINE)
 
 def rm_header_dash(cell):
     "Remove headings that end with a dash -"
-    src = cell.source.strip()
-    if cell.cell_type == 'markdown' and src.startswith('#') and src.endswith(' -'): del(cell['source'])
+    if cell.source:
+        src = cell.source.strip()
+        if cell.cell_type == 'markdown' and src.startswith('#') and src.endswith(' -'): del(cell['source'])
 
 # %% ../nbs/09_processors.ipynb 28
 _exp_dirs = {'export','exporti'}
@@ -85,7 +86,8 @@ _hide_dirs = {*_exp_dirs, 'hide','default_exp'}
 
 def rm_export(cell):
     "Remove cells that are exported or hidden"
-    if cell.directives_.keys() & _hide_dirs: del(cell['source'])
+    if cell.directives_:
+        if cell.directives_.keys() & _hide_dirs: del(cell['source'])
 
 # %% ../nbs/09_processors.ipynb 30
 _re_exps = re.compile(r'^\s*#\|\s*(?:export|exporti)').search
@@ -138,7 +140,7 @@ def _def_names(cell, shown):
 # %% ../nbs/09_processors.ipynb 41
 def add_show_docs(nb):
     "Add show_doc cells after exported cells, unless they are already documented"
-    exports = L(cell for cell in nb.cells if _re_exps(cell.source))
+    exports = L(cell for cell in nb.cells if cell.source and _re_exps(cell.source))
     trees = nb.cells.map(NbCell.parsed_).concat()
     shown_docs = {t.value.args[0].id for t in _show_docs(trees)}
     for cell in reversed(exports):
@@ -149,6 +151,7 @@ def add_show_docs(nb):
 # %% ../nbs/09_processors.ipynb 44
 _re_title = re.compile(r'^#\s+(.*)[\n\r](?:^>\s+(.*))?', flags=re.MULTILINE)
 _re_fm = re.compile(r'^---.*\S+.*---', flags=re.DOTALL)
+_re_defaultexp = re.compile(r'^\s*#\|\s*default_exp\s+(\S+)', flags=re.MULTILINE)
 
 def _celltyp(nb, cell_type): return nb.cells.filter(lambda c: c.cell_type == cell_type)
 def _frontmatter(nb): return _celltyp(nb, 'raw').filter(lambda c: _re_fm.search(c.get('source', '')))
@@ -166,7 +169,11 @@ def add_frontmatter(nb):
     "Insert front matter if it doesn't exist"
     if _frontmatter(nb): return
     title,desc = _title(nb)
+    code_src = nb.cells.filter(lambda x: x.cell_type == 'code').attrgot('source')
+    default_exp = first(code_src.filter().map(_re_defaultexp.search).filter())
+    default_exp = default_exp.group(1) if default_exp else None
     if title:
         desc = f'description: "{desc}"\n' if desc else ''
-        content = f'---\ntitle: {title}\n{desc}---\n'
+        outfile = f'output-file: {default_exp}.html\n' if default_exp else ''
+        content = f'---\ntitle: {title}\n{outfile}{desc}---\n'
         nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=content)))
