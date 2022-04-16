@@ -20,15 +20,11 @@ other platforms.
 
 The following CLI tools are provided:
 
--   [nbprocess_create_config](https://nbprocess.fast.ai/nbprocess.read#nbprocess_create_config):
-    Create `settings.ini` skeleton
--   [nbprocess_export](https://nbprocess.fast.ai/nbprocess.doclinks#nbprocess_export):
-    Export notebooks to Python modules
--   [nbprocess_update](https://nbprocess.fast.ai/nbprocess.sync#nbprocess_update):
-    Update Python modules from a notebook
--   [nbprocess_fix](https://nbprocess.fast.ai/nbprocess.merge#nbprocess_fix):
-    Fix merge conflicts in notebooks
--   [nbprocess_filter](https://nbprocess.fast.ai/nbprocess.cli#nbprocess_filter):
-    A filter for Quarto
--   [nbprocess_quarto](https://nbprocess.fast.ai/nbprocess.cli#nbprocess_quarto):
-    Create Quarto web site
+-   `nbprocess_create_config`: Create `settings.ini` skeleton
+-   `nbprocess_export`: Export notebooks to Python modules
+-   `nbprocess_update`: Update Python modules from a notebook
+-   `nbprocess_fix`: Fix merge conflicts in notebooks
+-   `nbprocess_filter`: A filter for Quarto
+-   `nbprocess_quarto`: Create Quarto web site
+-   `nbprocess_install_hooks`: Create hooks to automatically clean notebook metadata
+-   `nbprocess_clean`: Clean notebooks of metadata
