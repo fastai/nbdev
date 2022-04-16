@@ -58,9 +58,10 @@ def _link_line(self:NbdevLookup, l): return _re_backticks.sub(self._link_sym, l)
 
 @patch
 def linkify(self:NbdevLookup, md):
-    in_fence=False
-    lines = md.splitlines()
-    for i,l in enumerate(lines):
-        if l.startswith("```"): in_fence=not in_fence
-        elif not l.startswith('    ') and not in_fence: lines[i] = self._link_line(l)
-    return '\n'.join(lines)
+    if md:
+        in_fence=False
+        lines = md.splitlines()
+        for i,l in enumerate(lines):
+            if l.startswith("```"): in_fence=not in_fence
+            elif not l.startswith('    ') and not in_fence: lines[i] = self._link_line(l)
+        return '\n'.join(lines)

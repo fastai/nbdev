@@ -30,14 +30,15 @@ _quarto_re = re.compile(_dir_pre + r'\s*\w+\s*:')
 # %% ../nbs/03_process.ipynb 8
 def extract_directives(cell, remove=True):
     "Take leading comment directives from lines of code in `ss`, remove `#|`, and split"
-    ss = cell.source.splitlines(True)
-    first_code = first(i for i,o in enumerate(ss) if not o.strip() or not re.match(_dir_pre, o))
-    if not ss or first_code==0: return {}
-    pre = ss[:first_code]
-    if remove:
-        # Leave Quarto directives in place for later processing
-        cell['source'] = ''.join([o for o in pre if _quarto_re.match(o)] + ss[first_code:])
-    return dict(L(_directive(s) for s in pre).filter())
+    if cell.source:
+        ss = cell.source.splitlines(True)
+        first_code = first(i for i,o in enumerate(ss) if not o.strip() or not re.match(_dir_pre, o))
+        if not ss or first_code==0: return {}
+        pre = ss[:first_code]
+        if remove:
+            # Leave Quarto directives in place for later processing
+            cell['source'] = ''.join([o for o in pre if _quarto_re.match(o)] + ss[first_code:])
+        return dict(L(_directive(s) for s in pre).filter())
 
 # %% ../nbs/03_process.ipynb 11
 def opt_set(var, newval):
@@ -65,7 +66,7 @@ class NBProcessor:
     def _process_cell(self, cell):
         self.cell = cell
         for proc in self.procs:
-            if cell.cell_type=='code':
+            if cell.cell_type=='code' and cell.directives_:
                 for cmd,args in cell.directives_.items():
                     self._process_comment(proc, cell, cmd, args)
                     if not hasattr(cell,'source'): return

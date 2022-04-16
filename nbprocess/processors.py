@@ -76,8 +76,9 @@ _re_hdr_dash = re.compile(r'^#+\s+.*\s+-\s*$', re.MULTILINE)
 
 def rm_header_dash(cell):
     "Remove headings that end with a dash -"
-    src = cell.source.strip()
-    if cell.cell_type == 'markdown' and src.startswith('#') and src.endswith(' -'): del(cell['source'])
+    if cell.source:
+        src = cell.source.strip()
+        if cell.cell_type == 'markdown' and src.startswith('#') and src.endswith(' -'): del(cell['source'])
 
 # %% ../nbs/09_processors.ipynb 28
 _exp_dirs = {'export','exporti'}
@@ -85,7 +86,8 @@ _hide_dirs = {*_exp_dirs, 'hide','default_exp'}
 
 def rm_export(cell):
     "Remove cells that are exported or hidden"
-    if cell.directives_.keys() & _hide_dirs: del(cell['source'])
+    if cell.directives_:
+        if cell.directives_.keys() & _hide_dirs: del(cell['source'])
 
 # %% ../nbs/09_processors.ipynb 30
 _re_exps = re.compile(r'^\s*#\|\s*(?:export|exporti)').search
@@ -138,7 +140,7 @@ def _def_names(cell, shown):
 # %% ../nbs/09_processors.ipynb 41
 def add_show_docs(nb):
     "Add show_doc cells after exported cells, unless they are already documented"
-    exports = L(cell for cell in nb.cells if _re_exps(cell.source))
+    exports = L(cell for cell in nb.cells if cell.source and _re_exps(cell.source))
     trees = nb.cells.map(NbCell.parsed_).concat()
     shown_docs = {t.value.args[0].id for t in _show_docs(trees)}
     for cell in reversed(exports):
