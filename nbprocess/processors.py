@@ -174,6 +174,6 @@ def add_frontmatter(nb):
     default_exp = default_exp.group(1) if default_exp else None
     if title:
         desc = f'description: "{desc}"\n' if desc else ''
-        outfile = f'output-file: "{default_exp}.html"\n' if default_exp else ''
+        outfile = f'output-file: {default_exp}.html\n' if default_exp else ''
         content = f'---\ntitle: {title}\n{outfile}{desc}---\n'
         nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=content)))
