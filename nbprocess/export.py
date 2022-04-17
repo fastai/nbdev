@@ -10,8 +10,7 @@ from .imports import *
 from .process import *
 
 from fastcore.script import *
-from fastcore.imports import *
-from fastcore.xtras import *
+from fastcore.utils import *
 
 from collections import defaultdict
 

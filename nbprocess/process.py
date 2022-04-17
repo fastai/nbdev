@@ -19,6 +19,7 @@ import ast,contextlib,copy
 
 # %% ../nbs/03_process.ipynb 7
 def _directive(s):
+    if ':' in s: s = s.replace(':', ': ')
     s = (s.strip()[2:]).strip().split()
     if not s: return None
     direc,*args = s
