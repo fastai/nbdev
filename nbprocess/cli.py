@@ -114,11 +114,12 @@ def nbprocess_quarto(
     files = _create_sidebar(path, symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
     doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
-    os.system(f'cd {path} && quarto render')
-    os.system(f'cd {path} && quarto render {files[-1]} -o README.md -t gfm')
+    os.system(f'cd {path} && quarto render --no-execute')
+    os.system(f'cd {path} && quarto render {files[-1]} -o README.md -t gfm --no-execute')
     cfg_path = get_config().config_path
     shutil.rmtree(cfg_path/'docs', ignore_errors=True)
-    (cfg_path/'README.md').unlink(missing_ok=True)
     docs = path/'docs'
-    shutil.move(docs/'README.md', cfg_path)
+    if (docs/'README.md').exists():
+        (cfg_path/'README.md').unlink(missing_ok=True)
+        shutil.move(docs/'README.md', cfg_path)
     shutil.move(docs, cfg_path)
