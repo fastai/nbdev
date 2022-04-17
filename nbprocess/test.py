@@ -14,9 +14,6 @@ from .process import NBProcessor
 from warnings import warn
 
 # %% ../nbs/14_test.ipynb 4
-_re_directives = re.compile(r'^\s*#\s*\|\s*(.*)', flags=re.MULTILINE)
-
-# %% ../nbs/14_test.ipynb 6
 def _do_eval(cell, flags):
     if cell.cell_type != 'code': return False
     direc = getattr(cell, 'directives_', {}) or {}
@@ -43,7 +40,7 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
         traceback.print_exc()
         return False,time.time()-start
 
-# %% ../nbs/14_test.ipynb 10
+# %% ../nbs/14_test.ipynb 8
 @call_parse
 def nbprocess_test(
     fname:str=None,  # A notebook name or glob to convert
