@@ -16,7 +16,7 @@ format:
 website:
   title: "nbprocess"
   execute: 
-    enabled: true
+    enabled: false
   twitter-card: true
   reader-mode: true
   repo-branch: master
