@@ -13,4 +13,5 @@ website:
       - 10_cli.ipynb
       - 11_clean.ipynb
       - 13_lookup.ipynb
+      - 14_test.ipynb
       - index.ipynb
