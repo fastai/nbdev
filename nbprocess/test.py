@@ -36,7 +36,8 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
         return True,time.time()-start
     except Exception as e:
         fence = '='*50
-        warn(f'\n\nError in {fn}:\n{fence}\n\n{e}\n{fence}')
+        msg = f'{e}\n{fence}' if str(e) else ''
+        warn(f'\n\nError: {type(e).__name__} in {fn}:\n{fence}\n{msg}')
         traceback.print_exc()
         return False,time.time()-start
 
