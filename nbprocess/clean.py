@@ -28,10 +28,12 @@ def nbprocess_trust(
         warnings.warn("Please install jupyter and try again")
         return
 
-    path = config_key("nbs_path", '.')
+    fname = Path(fname if fname else config_key("nbs_path", '.'))
+    path = fname if fname.is_dir() else fname.parent
     check_fname = path/".last_checked"
     last_checked = os.path.getmtime(check_fname) if check_fname.exists() else None
-    for fn in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'):
+    nbs = globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]') if fname.is_dir() else [fname]
+    for fn in nbs:
         if last_checked and not force_all:
             last_changed = os.path.getmtime(fn)
             if last_changed < last_checked: continue
