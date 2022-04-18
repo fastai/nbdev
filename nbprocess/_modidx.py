@@ -45,7 +45,7 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                    'nbprocess.showdoc.BasicMarkdownRenderer': 'https://nbprocess.fast.ai/nbprocess.showdoc#BasicMarkdownRenderer',
                                    'nbprocess.showdoc.show_doc': 'https://nbprocess.fast.ai/nbprocess.showdoc#show_doc',
                                    'nbprocess.showdoc.BasicHtmlRenderer': 'https://nbprocess.fast.ai/nbprocess.showdoc#BasicHtmlRenderer',
-                                   'nbprocess.showdoc.get_showdoc_nm': 'https://nbprocess.fast.ai/nbprocess.showdoc#get_showdoc_nm'},
+                                   'nbprocess.showdoc.showdoc_nm': 'https://nbprocess.fast.ai/nbprocess.showdoc#showdoc_nm'},
             'nbprocess.imports': {},
             'nbprocess.cli': { 'nbprocess.cli.nbprocess_ghp_deploy': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_ghp_deploy',
                                'nbprocess.cli.nbprocess_sidebar': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_sidebar',
