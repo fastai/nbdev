@@ -12,7 +12,8 @@ from fastcore.utils import *
 from fastcore.script import call_parse
 
 # %% auto 0
-__all__ = ['nbprocess_ghp_deploy', 'nbprocess_sidebar', 'FilterDefaults', 'nbprocess_filter', 'nbprocess_quarto']
+__all__ = ['nbprocess_ghp_deploy', 'nbprocess_sidebar', 'FilterDefaults', 'nbprocess_filter', 'update_version', 'bump_version',
+           'nbprocess_bump_version', 'nbprocess_quarto']
 
 # %% ../nbs/10_cli.ipynb 4
 @call_parse
@@ -97,6 +98,38 @@ def nbprocess_filter(
     else: return res
 
 # %% ../nbs/10_cli.ipynb 12
+_re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
+
+def update_version():
+    "Add or update `__version__` in the main `__init__.py` of the library"
+    fname = get_config().path("lib_path")/'__init__.py'
+    if not fname.exists(): fname.touch()
+    version = f'__version__ = "{get_config().version}"'
+    with open(fname, 'r') as f: code = f.read()
+    if _re_version.search(code) is None: code = version + "\n" + code
+    else: code = _re_version.sub(version, code)
+    with open(fname, 'w') as f: f.write(code)
+
+
+def bump_version(version, part=2):
+    version = version.split('.')
+    version[part] = str(int(version[part]) + 1)
+    for i in range(part+1, 3): version[i] = '0'
+    return '.'.join(version)
+
+@call_parse
+def nbprocess_bump_version(
+    part:int=2  # Part of version to bump
+):
+    "Increment version in `settings.py` by one"
+    cfg = get_config()
+    print(f'Old version: {cfg.version}')
+    cfg.d['version'] = bump_version(get_config().version, part)
+    cfg.save()
+    update_version()
+    print(f'New version: {cfg.version}')
+
+# %% ../nbs/10_cli.ipynb 14
 @call_parse
 def nbprocess_quarto(
     path:str=None, # path to notebooks
