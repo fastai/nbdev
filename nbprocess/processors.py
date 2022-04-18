@@ -136,7 +136,7 @@ def insert_warning(nb):
 # %% ../nbs/09_processors.ipynb 40
 _def_types = (ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)
 def _def_names(cell, shown):
-    return [get_patch_name(o) for o in concat(cell.parsed_()) if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_']
+    return [get_showdoc_nm(o) for o in concat(cell.parsed_()) if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_']
 
 # %% ../nbs/09_processors.ipynb 41
 def _get_nm(tree):
