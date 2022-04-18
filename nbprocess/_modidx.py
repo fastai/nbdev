@@ -51,6 +51,9 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                'nbprocess.cli.nbprocess_sidebar': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_sidebar',
                                'nbprocess.cli.FilterDefaults': 'https://nbprocess.fast.ai/nbprocess.cli#FilterDefaults',
                                'nbprocess.cli.nbprocess_filter': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_filter',
+                               'nbprocess.cli.update_version': 'https://nbprocess.fast.ai/nbprocess.cli#update_version',
+                               'nbprocess.cli.bump_version': 'https://nbprocess.fast.ai/nbprocess.cli#bump_version',
+                               'nbprocess.cli.nbprocess_bump_version': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_bump_version',
                                'nbprocess.cli.nbprocess_quarto': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_quarto',
                                'nbprocess.cli.FilterDefaults.base_preprocs': 'https://nbprocess.fast.ai/nbprocess.cli#FilterDefaults.base_preprocs',
                                'nbprocess.cli.FilterDefaults.base_postprocs': 'https://nbprocess.fast.ai/nbprocess.cli#FilterDefaults.base_postprocs',
@@ -112,7 +115,7 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                 'author': 'Jeremy Howard',
                 'author_email': 'j@fast.ai',
                 'branch': 'master',
-                'version': '0.0.1',
+                'version': '0.0.3',
                 'min_python': '3.6',
                 'audience': 'Developers',
                 'language': 'English',
@@ -132,7 +135,8 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                    'nbprocess_quarto=nbprocess.cli:nbprocess_quarto\n'
                                    'nbprocess_ghp_deploy=nbprocess.cli:nbprocess_ghp_deploy\n'
                                    'nbprocess_sidebar=nbprocess.cli:nbprocess_sidebar\n'
-                                   'nbprocess_test=nbprocess.test:nbprocess_test',
+                                   'nbprocess_test=nbprocess.test:nbprocess_test\n'
+                                   'nbprocess_bump_version=nbprocess.cli:nbprocess_bump_version',
                 'tst_flags': 'notest',
                 'nbs_path': 'nbs',
                 'doc_path': 'docs',
