@@ -11,6 +11,7 @@ from .read import *
 from .imports import *
 from .process import *
 from .lookup import *
+from .showdoc import *
 
 from fastcore.imports import *
 from fastcore.xtras import *
@@ -135,20 +136,25 @@ def insert_warning(nb):
 # %% ../nbs/09_processors.ipynb 40
 _def_types = (ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)
 def _def_names(cell, shown):
-    return [o.name for o in concat(cell.parsed_()) if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_']
+    return [get_patch_name(o) for o in concat(cell.parsed_()) if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_']
 
 # %% ../nbs/09_processors.ipynb 41
+def _get_nm(tree):
+    i = tree.value.args[0]
+    return f'{i.value.id}.{i.attr}' if isinstance(i, ast.Attribute) else i.id
+
+# %% ../nbs/09_processors.ipynb 42
 def add_show_docs(nb):
     "Add show_doc cells after exported cells, unless they are already documented"
     exports = L(cell for cell in nb.cells if cell.source and _re_exps(cell.source))
     trees = nb.cells.map(NbCell.parsed_).concat()
-    shown_docs = {t.value.args[0].id for t in _show_docs(trees)}
+    shown_docs = {_get_nm(t) for t in _show_docs(trees)}
     for cell in reversed(exports):
         for nm in _def_names(cell, shown_docs):
             code = f'show_doc({nm})'
             nb.cells.insert(cell.idx_+1, mk_cell(code))
 
-# %% ../nbs/09_processors.ipynb 44
+# %% ../nbs/09_processors.ipynb 46
 _re_title = re.compile(r'^#\s+(.*)[\n\r](?:^>\s+(.*))?', flags=re.MULTILINE)
 _re_fm = re.compile(r'^---.*\S+.*---', flags=re.DOTALL)
 _re_defaultexp = re.compile(r'^\s*#\|\s*default_exp\s+(\S+)', flags=re.MULTILINE)
