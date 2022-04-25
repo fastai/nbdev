@@ -131,7 +131,7 @@ def nbprocess_bump_version(
     print(f'New version: {cfg.version}')
 
 # %% ../nbs/10_cli.ipynb 14
-def extract_tgz(url, dest='.'):
+def extract_tgz(url, dest='.'): 
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
 # %% ../nbs/10_cli.ipynb 15
@@ -172,14 +172,13 @@ def _fetch_from_git():
         email = run('git config --get user.email').strip()
     except: 
         return dict(lib_name=None,user=None,branch=None,author=None,author_email=None)
-    return dict(lib_name=repo,user=owner,branch=branch,author=author,author_email=email)
+    return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, author_email=email)
 
 # %% ../nbs/10_cli.ipynb 20
 @call_parse
 def nbprocess_new():
     "Create a new project from the current git repo"
     config = prompt_user(**_fetch_from_git())
-    
     # download and untar template, and optionally notebooks
     tgnm = urljson('https://api.github.com/repos/fastai/nbprocess-template/releases/latest')['tag_name']
     FILES_URL = f"https://github.com/fastai/nbprocess-template/archive/{tgnm}.tar.gz"
@@ -187,6 +186,9 @@ def nbprocess_new():
     path = Path()
     nbexists = True if first(path.glob('*.ipynb')) else False
     for o in (path/f'nbprocess-template-{tgnm}').ls():
+        if o.name == 'index.ipynb':
+            new_txt = o.read_text().replace('your_lib', config['lib_name'])
+            o.write_text(new_txt)
         if o.name == '00_core.ipynb':
             if not nbexists: shutil.move(str(o), './')
         elif not Path(f'./{o.name}').exists(): shutil.move(str(o), './')
