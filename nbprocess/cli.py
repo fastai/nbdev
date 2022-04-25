@@ -3,17 +3,19 @@
 # %% ../nbs/10_cli.ipynb 1
 from __future__ import annotations
 import json,shutil,warnings
-
 from .read import *
 from .sync import *
 from .process import *
 from .processors import *
 from fastcore.utils import *
 from fastcore.script import call_parse
+from urllib.error import HTTPError
+from collections import OrderedDict
+import tarfile
 
 # %% auto 0
 __all__ = ['nbprocess_ghp_deploy', 'nbprocess_sidebar', 'FilterDefaults', 'nbprocess_filter', 'update_version', 'bump_version',
-           'nbprocess_bump_version', 'nbprocess_quarto']
+           'nbprocess_bump_version', 'extract_tgz', 'prompt_user', 'nbprocess_new', 'nbprocess_quarto']
 
 # %% ../nbs/10_cli.ipynb 4
 @call_parse
@@ -130,6 +132,74 @@ def nbprocess_bump_version(
     print(f'New version: {cfg.version}')
 
 # %% ../nbs/10_cli.ipynb 14
+def extract_tgz(url, dest='.'):
+    with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
+
+# %% ../nbs/10_cli.ipynb 15
+def _get_branch(owner, repo, default='main'):
+    try: from ghapi.all import GhApi
+    except: 
+        print('Could not get default branch name automatically because `ghapi` is not installed.  {default} assumed.\nEdit `settings.ini` if this is incorrect.\n')
+        return default
+    api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
+    try: return api.repos.get().default_branch
+    except HTTPError:
+        msg= [f"Could not access repo: {owner}/{repo} to find your default branch - `{default} assumed.\n",
+              "Edit `settings.ini` if this is incorrect.\n"
+              "In the future, you can allow nbprocess to see private repos by setting the environment variable GITHUB_TOKEN as described here: https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos \n"]
+        print(''.join(msg))
+        return default
+
+# %% ../nbs/10_cli.ipynb 17
+def prompt_user(**kwargs):
+    config_vals = kwargs
+    print('================ nbprocess Configuration ================\n')
+    for v in config_vals:
+        if not config_vals[v]:
+            print('Please enter the following information:\n')
+            inp = input(f'{v}: ')
+            config_vals[v] = inp     
+        else: print(f"{v}: '{config_vals[v]}' Automatically inferred from git. Edit `settings.ini` if this is incorrect.")
+    return config_vals
+
+# %% ../nbs/10_cli.ipynb 18
+def _fetch_from_git():
+    "Get information for settings.ini from the user."
+    try:
+        url = run('git config --get remote.origin.url')
+        owner,repo = repo_details(url)
+        branch = _get_branch(owner=owner, repo=repo)
+        author = run('git config --get user.name').strip()
+        email = run('git config --get user.email').strip()
+    except: 
+        return dict(lib_name=None,user=None,branch=None,author=None,author_email=None)
+    return dict(lib_name=repo,user=owner,branch=branch,author=author,author_email=email)
+
+# %% ../nbs/10_cli.ipynb 20
+@call_parse
+def nbprocess_new():
+    "Create a new project from the current git repo"
+    config = prompt_user(**_fetch_from_git())
+    
+    # download and untar template, and optionally notebooks
+    tgnm = urljson('https://api.github.com/repos/fastai/nbprocess-template/releases/latest')['tag_name']
+    FILES_URL = f"https://github.com/fastai/nbprocess-template/archive/{tgnm}.tar.gz"
+    extract_tgz(FILES_URL)
+    path = Path()
+    nbexists = True if first(path.glob('*.ipynb')) else False
+    for o in (path/f'nbprocess-template-{tgnm}').ls():
+        if o.name == '00_core.ipynb':
+            if not nbexists: shutil.move(str(o), './')
+        elif not Path(f'./{o.name}').exists(): shutil.move(str(o), './')
+    shutil.rmtree(f'nbprocess-template-{tgnm}')
+
+    # auto-config settings.ini from git
+    settings_path = Path('settings.ini')
+    settings = settings_path.read_text()
+    settings = settings.format(**config)
+    settings_path.write_text(settings)
+
+# %% ../nbs/10_cli.ipynb 22
 @call_parse
 def nbprocess_quarto(
     path:str=None, # path to notebooks

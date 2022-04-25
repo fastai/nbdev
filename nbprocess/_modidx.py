@@ -54,6 +54,9 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                'nbprocess.cli.update_version': 'https://nbprocess.fast.ai/nbprocess.cli#update_version',
                                'nbprocess.cli.bump_version': 'https://nbprocess.fast.ai/nbprocess.cli#bump_version',
                                'nbprocess.cli.nbprocess_bump_version': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_bump_version',
+                               'nbprocess.cli.extract_tgz': 'https://nbprocess.fast.ai/nbprocess.cli#extract_tgz',
+                               'nbprocess.cli.prompt_user': 'https://nbprocess.fast.ai/nbprocess.cli#prompt_user',
+                               'nbprocess.cli.nbprocess_new': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_new',
                                'nbprocess.cli.nbprocess_quarto': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_quarto',
                                'nbprocess.cli.FilterDefaults.base_preprocs': 'https://nbprocess.fast.ai/nbprocess.cli#FilterDefaults.base_preprocs',
                                'nbprocess.cli.FilterDefaults.base_postprocs': 'https://nbprocess.fast.ai/nbprocess.cli#FilterDefaults.base_postprocs',
@@ -136,7 +139,8 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                    'nbprocess_ghp_deploy=nbprocess.cli:nbprocess_ghp_deploy\n'
                                    'nbprocess_sidebar=nbprocess.cli:nbprocess_sidebar\n'
                                    'nbprocess_test=nbprocess.test:nbprocess_test\n'
-                                   'nbprocess_bump_version=nbprocess.cli:nbprocess_bump_version',
+                                   'nbprocess_bump_version=nbprocess.cli:nbprocess_bump_version\n'
+                                   'nbprocess_new=nbprocess.cli:nbprocess_new',
                 'tst_flags': 'notest',
                 'nbs_path': 'nbs',
                 'doc_path': 'docs',
