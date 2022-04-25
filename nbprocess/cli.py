@@ -10,7 +10,6 @@ from .processors import *
 from fastcore.utils import *
 from fastcore.script import call_parse
 from urllib.error import HTTPError
-from collections import OrderedDict
 import tarfile
 
 # %% auto 0
