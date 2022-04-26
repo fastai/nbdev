@@ -158,7 +158,8 @@ def prompt_user(**kwargs):
             print('Please enter the following information:\n')
             inp = input(f'{v}: ')
             config_vals[v] = inp     
-        else: print(f"{v}: '{config_vals[v]}' Automatically inferred from git. Edit `settings.ini` if this is incorrect.")
+        else: print(f"{v}: '{config_vals[v]}' Automatically inferred from git.")
+    print(f"`settings.ini` updated with configuration values.")
     return config_vals
 
 # %% ../nbs/10_cli.ipynb 18
