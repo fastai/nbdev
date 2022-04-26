@@ -16,7 +16,9 @@ serve:
 	nbprocess_sidebar
 	IN_TEST=1 && cd nbs && quarto preview
 
-docs: $(SRC)
+docs: .FORCE
+	nbprocess_export
+	pip install -e .
 	nbprocess_quarto
 
 test:
