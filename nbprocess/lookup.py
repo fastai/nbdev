@@ -25,11 +25,11 @@ class NbdevLookup:
         strip_libs = L(strip_libs)
         if incl_libs is not None: incl_libs = (L(incl_libs)+strip_libs).unique()
         # Dict from lib name to _nbprocess module for incl_libs (defaults to all)
-        self.entries = {o.dist.key:o.load() for o in pkg_resources.iter_entry_points(group='nbdev')
+        self.entries = {o.name: o.load() for o in pkg_resources.iter_entry_points(group='nbprocess')
                        if incl_libs is None or o.dist.key in incl_libs}
-        py_syms = merge(*L(o.modidx['syms'].values() for o in self.entries.values()).concat())
+        py_syms = merge(*L(o['syms'].values() for o in self.entries.values()).concat())
         for m in strip_libs:
-            _d = self.entries[m].modidx
+            _d = self.entries[m]
             stripped = {remove_prefix(k,f"{mod}."):v
                         for mod,dets in _d['syms'].items() if mod not in skip_mods
                         for k,v in dets.items()}
@@ -39,7 +39,7 @@ class NbdevLookup:
     def __getitem__(self, s): return self.syms.get(s, None)
 
 # %% ../nbs/13_lookup.ipynb 10
-from ._nbdev import modidx
+from ._modidx import d as modidx
 _settings = modidx['settings']
 _strip_libs  = _settings.get('strip_libs',_settings.get('lib_name')).split()
 nbprocess_lookup = NbdevLookup(_strip_libs)
