@@ -17,7 +17,7 @@ if IN_NOTEBOOK:
     from IPython.core import page
 else: Markdown,display,page = None,None,None
 
-# %% ../nbs/13_lookup.ipynb 5
+# %% ../nbs/13_lookup.ipynb 6
 class NbdevLookup:
     "Mapping from symbol names to URLs with docs"
     def __init__(self, strip_libs=None, incl_libs=None, skip_mods=None):
@@ -25,7 +25,7 @@ class NbdevLookup:
         strip_libs = L(strip_libs)
         if incl_libs is not None: incl_libs = (L(incl_libs)+strip_libs).unique()
         # Dict from lib name to _nbprocess module for incl_libs (defaults to all)
-        self.entries = {o.name: o.load() for o in pkg_resources.iter_entry_points(group='nbprocess')
+        self.entries = {o.name: o.load() for o in pkg_resources.iter_entry_points(group='nbdev')
                        if incl_libs is None or o.dist.key in incl_libs}
         py_syms = merge(*L(o['syms'].values() for o in self.entries.values()).concat())
         for m in strip_libs:
@@ -38,13 +38,13 @@ class NbdevLookup:
 
     def __getitem__(self, s): return self.syms.get(s, None)
 
-# %% ../nbs/13_lookup.ipynb 10
+# %% ../nbs/13_lookup.ipynb 11
 from ._modidx import d as modidx
 _settings = modidx['settings']
 _strip_libs  = _settings.get('strip_libs',_settings.get('lib_name')).split()
 nbprocess_lookup = NbdevLookup(_strip_libs)
 
-# %% ../nbs/13_lookup.ipynb 14
+# %% ../nbs/13_lookup.ipynb 15
 @patch
 def _link_sym(self:NbdevLookup, m):
     l = m.group(1)
