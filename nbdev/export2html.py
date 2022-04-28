@@ -461,7 +461,7 @@ def nbdev_build_lib(
     bare:store_true=False  # Omit nbdev annotation comments (may break some functionality).
 ):
     "Export notebooks matching `fname` to python modules"
-    write_tmpls()
+    if fname is None: write_tmpls()
     notebook2script(fname=fname, bare=bare)
 
 # Cell
