@@ -35,7 +35,7 @@ def check_re_multi(cell, pats, code_only=True):
 def _mk_flag_re(body, n_params, comment):
     "Compiles a regex for finding nbdev flags"
     assert body!=True, 'magics no longer supported'
-    prefix = r"\s*\#\s*"
+    prefix = r"\s*\#\|?\s*"
     param_group = ""
     if n_params == -1: param_group = r"[ \t]+(.+)"
     if n_params == 1: param_group = r"[ \t]+(\S+)"
