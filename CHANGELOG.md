@@ -2,6 +2,17 @@
 
 <!-- do not remove -->
 
+## 1.2.6
+
+### New Features
+
+- `nbdev_build_libs` now works on a single file even without a `settings.ini` or any `#default_exp` cell
+
+### Bugs Squashed
+
+- nbdev_nb2md throws error when called in a notebook ([#381](https://github.com/fastai/nbdev/issues/381))
+
+
 ## 1.2.5
 
 ### New Features
