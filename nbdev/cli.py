@@ -83,7 +83,6 @@ def extract_tgz(url, dest='.'):
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
 # Cell
-#hide
 def _get_branch(owner, repo, default='main'):
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
     try: return api.repos.get().default_branch
