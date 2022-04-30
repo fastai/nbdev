@@ -213,7 +213,7 @@ nb_path: "nbs/tutorial.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's add a function to this notebook, e.g.:</p>
-<div class="highlight"><pre><span></span><span class="c1">#export</span>
+<div class="highlight"><pre><span></span><span class="c1">#|export</span>
 <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">to</span><span class="p">):</span>
     <span class="s2">&quot;Say hello to somebody&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Hello </span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s1">!&#39;</span>
@@ -509,7 +509,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create a class in <code>00_core.ipynb</code> as follows:</p>
-<div class="highlight"><pre><span></span><span class="c1">#export</span>
+<div class="highlight"><pre><span></span><span class="c1">#|export</span>
 <span class="k">class</span> <span class="nc">HelloSayer</span><span class="p">:</span>
     <span class="s2">&quot;Say hello to `to` using `say_hello`&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">to</span>
@@ -879,9 +879,9 @@ $$\sum_{i=1}^{k+1}i$$
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Because both the documentation and code for nbdev is written in notebooks, you can optionally view and run nbdev documentation in <a href="https://colab.research.google.com/">Google Colab</a>. You can enable Google Colab badges that link to the appropriate notebook(s) in your GitHub repository.</p>
 <p>You can toggle this feature on or off in your <code>/_config.yml</code> file:</p>
-<div class="highlight"><pre><span></span><span class="c1"># This specifies what badges are turned on by default for notebook docs.</span>
-<span class="nt">default_badges</span><span class="p">:</span>
-  <span class="nt">colab</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<div class="highlight"><pre><span></span><span class="c1"># This specifies what badges are turned on by default for notebook docs.</span><span class="w"></span>
+<span class="nt">default_badges</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">colab</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
 </pre></div>
 <p>Furthermore, if you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter <code>hide_colab_badge: true</code>.  For example, if you wanted to hide the Colab badge from showing up on the notebook <code>nbs/06_cli.ipynb</code>, your front matter (in the form of a markdown cell at the top of the notebook) will look like this:</p>
 
@@ -896,7 +896,7 @@ $$\sum_{i=1}^{k+1}i$$
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Look-at-nbdev-&quot;source&quot;-for-more-ideas">Look at nbdev "source" for more ideas<a class="anchor-link" href="#Look-at-nbdev-&quot;source&quot;-for-more-ideas"> </a></h2>
+<h2 id="Look-at-nbdev-%22source%22-for-more-ideas">Look at nbdev "source" for more ideas<a class="anchor-link" href="#Look-at-nbdev-%22source%22-for-more-ideas"> </a></h2>
 </div>
 </div>
 </div>
