@@ -2,11 +2,18 @@
 
 <!-- do not remove -->
 
+## 1.2.7
+
+### Bugs Squashed
+
+- Don't build NBs with no `#default_exp`
+
 ## 1.2.6
 
 ### New Features
 
 - `nbdev_build_libs` now works on a single file even without a `settings.ini` or any `#default_exp` cell
+- Handle `#|` as directive prefix
 
 ### Bugs Squashed
 
