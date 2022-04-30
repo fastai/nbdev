@@ -327,10 +327,11 @@ def create_mod_files(files, to_dict=False, bare=False):
     for f in sorted(files):
         fname = Path(f)
         nb = read_nb(fname)
-        default = find_default_export(nb['cells']) or fname.name.rpartition('.')[0]
-        default = os.path.sep.join(default.split('.'))
-        modules.append(default)
-        if not to_dict: create_mod_file(lib_path/f'{default}.py', nbs_path/f'{fname}', bare=bare)
+        default = find_default_export(nb['cells'])
+        if default:
+            default = os.path.sep.join(default.split('.'))
+            modules.append(default)
+            if not to_dict: create_mod_file(lib_path/f'{default}.py', nbs_path/f'{fname}', bare=bare)
     return modules
 
 # Cell
@@ -346,7 +347,7 @@ def _notebook2script(fname, modules, silent=False, to_dict=None, bare=False):
     except FileNotFoundError: lib_path = Path()
     fname = Path(fname)
     nb = read_nb(fname)
-    default = find_default_export(nb['cells']) or fname.name.rpartition('.')[0]
+    default = find_default_export(nb['cells'])
     if default is not None: default = os.path.sep.join(default.split('.'))
     mod = get_nbdev_module()
     exports = [is_export(c, default) for c in nb['cells']]
