@@ -194,9 +194,11 @@ format:
 
 website:
   title: "{lib_name}"
+  description: "{description}"
   execute: 
     enabled: false
   twitter-card: true
+  open-graph: true
   reader-mode: true
   repo-branch: {branch}
   repo-url: {git_url}
@@ -223,7 +225,7 @@ def refresh_quarto_yml():
     "Generate `_quarto.yml` from `settings.ini`."
     cfg = get_config()
     p = cfg.path('nbs_path')/'_quarto.yml'
-    vals = {k:cfg[k] for k in ['doc_path', 'lib_name', 'branch', 'git_url']}
+    vals = {k:cfg[k] for k in ['doc_path', 'lib_name', 'description', 'branch', 'git_url']}
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
