@@ -256,7 +256,7 @@ def nbprocess_new():
     settings_path.write_text(settings)
     refresh_quarto_yml()
 
-# %% ../nbs/10_cli.ipynb 23
+# %% ../nbs/10_cli.ipynb 25
 @call_parse
 def nbprocess_quarto(
     path:str=None, # path to notebooks
@@ -270,6 +270,8 @@ def nbprocess_quarto(
     skip_folder_re:str='^[_.]' # Skip folders matching regex
 ):
     "Create quarto docs and README.md"
+    cfg = get_config()
+    cfg_path = cfg.config_path
     refresh_quarto_yml()
     path = config_key("nbs_path") if not path else Path(path)
     files = _create_sidebar(path, symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
@@ -279,10 +281,9 @@ def nbprocess_quarto(
     os.system(f'cd {path} && quarto render --no-execute')
     os.system(f'cd {path} && quarto render {files[-1]} -o README.md -t gfm --no-execute')
     
-    cfg_path = get_config().config_path
     (cfg_path/'README.md').unlink(missing_ok=True)
-    shutil.move(doc_path/'README.md', cfg_path)
+    shutil.move(cfg.path('nbs_path')/f"{cfg['doc_path']}/README.md", cfg_path) #docs are temporarily in the nbs folder
     
-    if doc_path.parent != cfg_path:
+    if doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
         shutil.rmtree(cfg_path/get_config()['doc_path'], ignore_errors=True)
         shutil.move(doc_path, cfg_path)

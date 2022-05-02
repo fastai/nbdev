@@ -15,9 +15,11 @@ format:
 
 website:
   title: "nbprocess"
+  description: "Process and export Jupyter Notebooks fast (Jupyter not required)"
   execute: 
     enabled: false
   twitter-card: true
+  open-graph: true
   reader-mode: true
   repo-branch: master
   repo-url: https://github.com/fastai/nbprocess/tree/master/
