@@ -56,6 +56,7 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                'nbprocess.cli.nbprocess_bump_version': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_bump_version',
                                'nbprocess.cli.extract_tgz': 'https://nbprocess.fast.ai/nbprocess.cli#extract_tgz',
                                'nbprocess.cli.prompt_user': 'https://nbprocess.fast.ai/nbprocess.cli#prompt_user',
+                               'nbprocess.cli.refresh_quarto_yml': 'https://nbprocess.fast.ai/nbprocess.cli#refresh_quarto_yml',
                                'nbprocess.cli.nbprocess_new': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_new',
                                'nbprocess.cli.nbprocess_quarto': 'https://nbprocess.fast.ai/nbprocess.cli#nbprocess_quarto',
                                'nbprocess.cli.FilterDefaults.base_preprocs': 'https://nbprocess.fast.ai/nbprocess.cli#FilterDefaults.base_preprocs',

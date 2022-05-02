@@ -14,7 +14,8 @@ import tarfile
 
 # %% auto 0
 __all__ = ['nbprocess_ghp_deploy', 'nbprocess_sidebar', 'FilterDefaults', 'nbprocess_filter', 'update_version', 'bump_version',
-           'nbprocess_bump_version', 'extract_tgz', 'prompt_user', 'nbprocess_new', 'nbprocess_quarto']
+           'nbprocess_bump_version', 'extract_tgz', 'prompt_user', 'refresh_quarto_yml', 'nbprocess_new',
+           'nbprocess_quarto']
 
 # %% ../nbs/10_cli.ipynb 4
 @call_parse
@@ -176,6 +177,57 @@ def _fetch_from_git():
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, author_email=email)
 
 # %% ../nbs/10_cli.ipynb 20
+_quarto_yml="""ipynb-filters: [nbprocess_filter]
+
+project:
+  type: website
+  output-dir: {doc_path}
+  preview:
+    port: 3000
+    browser: false
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+website:
+  title: "{lib_name}"
+  execute: 
+    enabled: false
+  twitter-card: true
+  reader-mode: true
+  repo-branch: {branch}
+  repo-url: {git_url}
+  repo-actions: [issue]
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: Home
+        file: index.ipynb
+    right:
+      - icon: github
+        href: {git_url}
+  sidebar:
+    style: "floating"
+
+metadata-files: 
+  - sidebar.yml
+  - custom.yml
+
+"""
+
+def refresh_quarto_yml():
+    "Generate `_quarto.yml` from `settings.ini`."
+    cfg = get_config()
+    p = cfg.path('nbs_path')/'_quarto.yml'
+    vals = {k:cfg[k] for k in ['doc_path', 'lib_name', 'branch', 'git_url']}
+    yml=_quarto_yml.format(**vals)
+    p.write_text(yml)
+
+# %% ../nbs/10_cli.ipynb 21
 @call_parse
 def nbprocess_new():
     "Create a new project from the current git repo"
@@ -200,8 +252,9 @@ def nbprocess_new():
     settings = settings_path.read_text()
     settings = settings.format(**config)
     settings_path.write_text(settings)
+    refresh_quarto_yml()
 
-# %% ../nbs/10_cli.ipynb 22
+# %% ../nbs/10_cli.ipynb 23
 @call_parse
 def nbprocess_quarto(
     path:str=None, # path to notebooks
@@ -215,6 +268,7 @@ def nbprocess_quarto(
     skip_folder_re:str='^[_.]' # Skip folders matching regex
 ):
     "Create quarto docs and README.md"
+    refresh_quarto_yml()
     path = config_key("nbs_path") if not path else Path(path)
     files = _create_sidebar(path, symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
