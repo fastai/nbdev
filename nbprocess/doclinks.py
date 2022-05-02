@@ -132,4 +132,5 @@ def nbprocess_export(
     if os.environ.get('IN_TEST',0): return
     files = nbglob(path, recursive, symlinks, file_glob, file_re, folder_re, skip_file_glob, skip_file_re, skip_folder_re=skip_folder_re)
     files.map(nb_export)
+    add_init(get_config().path('lib_path'))
     build_modidx()

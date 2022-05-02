@@ -3,17 +3,19 @@
 # %% ../nbs/10_cli.ipynb 1
 from __future__ import annotations
 import json,shutil,warnings
-
 from .read import *
 from .sync import *
 from .process import *
 from .processors import *
 from fastcore.utils import *
 from fastcore.script import call_parse
+from urllib.error import HTTPError
+import tarfile
 
 # %% auto 0
 __all__ = ['nbprocess_ghp_deploy', 'nbprocess_sidebar', 'FilterDefaults', 'nbprocess_filter', 'update_version', 'bump_version',
-           'nbprocess_bump_version', 'nbprocess_quarto']
+           'nbprocess_bump_version', 'extract_tgz', 'prompt_user', 'refresh_quarto_yml', 'nbprocess_new',
+           'nbprocess_quarto']
 
 # %% ../nbs/10_cli.ipynb 4
 @call_parse
@@ -130,6 +132,131 @@ def nbprocess_bump_version(
     print(f'New version: {cfg.version}')
 
 # %% ../nbs/10_cli.ipynb 14
+def extract_tgz(url, dest='.'): 
+    with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
+
+# %% ../nbs/10_cli.ipynb 15
+def _get_branch(owner, repo, default='main'):
+    try: from ghapi.all import GhApi
+    except: 
+        print('Could not get default branch name automatically because `ghapi` is not installed.  {default} assumed.\nEdit `settings.ini` if this is incorrect.\n')
+        return default
+    api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
+    try: return api.repos.get().default_branch
+    except HTTPError:
+        msg= [f"Could not access repo: {owner}/{repo} to find your default branch - `{default} assumed.\n",
+              "Edit `settings.ini` if this is incorrect.\n"
+              "In the future, you can allow nbprocess to see private repos by setting the environment variable GITHUB_TOKEN as described here: https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos \n"]
+        print(''.join(msg))
+        return default
+
+# %% ../nbs/10_cli.ipynb 17
+def prompt_user(**kwargs):
+    config_vals = kwargs
+    print('================ nbprocess Configuration ================\n')
+    for v in config_vals:
+        if not config_vals[v]:
+            print('Please enter the following information:\n')
+            inp = input(f'{v}: ')
+            config_vals[v] = inp     
+        else: print(f"{v}: '{config_vals[v]}' Automatically inferred from git.")
+    print(f"\n`settings.ini` updated with configuration values.")
+    return config_vals
+
+# %% ../nbs/10_cli.ipynb 18
+def _fetch_from_git():
+    "Get information for settings.ini from the user."
+    try:
+        url = run('git config --get remote.origin.url')
+        owner,repo = repo_details(url)
+        branch = _get_branch(owner=owner, repo=repo)
+        author = run('git config --get user.name').strip()
+        email = run('git config --get user.email').strip()
+    except: 
+        return dict(lib_name=None,user=None,branch=None,author=None,author_email=None)
+    return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, author_email=email)
+
+# %% ../nbs/10_cli.ipynb 20
+_quarto_yml="""ipynb-filters: [nbprocess_filter]
+
+project:
+  type: website
+  output-dir: {doc_path}
+  preview:
+    port: 3000
+    browser: false
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+website:
+  title: "{lib_name}"
+  description: "{description}"
+  execute: 
+    enabled: false
+  twitter-card: true
+  open-graph: true
+  reader-mode: true
+  repo-branch: {branch}
+  repo-url: {git_url}
+  repo-actions: [issue]
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: Home
+        file: index.ipynb
+    right:
+      - icon: github
+        href: {git_url}
+  sidebar:
+    style: "floating"
+
+metadata-files: 
+  - sidebar.yml
+  - custom.yml
+
+"""
+
+def refresh_quarto_yml():
+    "Generate `_quarto.yml` from `settings.ini`."
+    cfg = get_config()
+    p = cfg.path('nbs_path')/'_quarto.yml'
+    vals = {k:cfg[k] for k in ['doc_path', 'lib_name', 'description', 'branch', 'git_url']}
+    yml=_quarto_yml.format(**vals)
+    p.write_text(yml)
+
+# %% ../nbs/10_cli.ipynb 21
+@call_parse
+def nbprocess_new():
+    "Create a new project from the current git repo"
+    config = prompt_user(**_fetch_from_git())
+    # download and untar template, and optionally notebooks
+    tgnm = urljson('https://api.github.com/repos/fastai/nbprocess-template/releases/latest')['tag_name']
+    FILES_URL = f"https://github.com/fastai/nbprocess-template/archive/{tgnm}.tar.gz"
+    extract_tgz(FILES_URL)
+    path = Path()
+    nbexists = True if first(path.glob('*.ipynb')) else False
+    for o in (path/f'nbprocess-template-{tgnm}').ls():
+        if o.name == 'index.ipynb':
+            new_txt = o.read_text().replace('your_lib', config['lib_name'])
+            o.write_text(new_txt)
+        if o.name == '00_core.ipynb':
+            if not nbexists: shutil.move(str(o), './')
+        elif not Path(f'./{o.name}').exists(): shutil.move(str(o), './')
+    shutil.rmtree(f'nbprocess-template-{tgnm}')
+
+    # auto-config settings.ini from git
+    settings_path = Path('settings.ini')
+    settings = settings_path.read_text()
+    settings = settings.format(**config)
+    settings_path.write_text(settings)
+    refresh_quarto_yml()
+
+# %% ../nbs/10_cli.ipynb 23
 @call_parse
 def nbprocess_quarto(
     path:str=None, # path to notebooks
@@ -143,16 +270,19 @@ def nbprocess_quarto(
     skip_folder_re:str='^[_.]' # Skip folders matching regex
 ):
     "Create quarto docs and README.md"
+    refresh_quarto_yml()
     path = config_key("nbs_path") if not path else Path(path)
     files = _create_sidebar(path, symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
     doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
+    shutil.rmtree(doc_path, ignore_errors=True)
     os.system(f'cd {path} && quarto render --no-execute')
     os.system(f'cd {path} && quarto render {files[-1]} -o README.md -t gfm --no-execute')
+    
     cfg_path = get_config().config_path
-    shutil.rmtree(cfg_path/'docs', ignore_errors=True)
-    docs = path/'docs'
-    if (docs/'README.md').exists():
-        (cfg_path/'README.md').unlink(missing_ok=True)
-        shutil.move(docs/'README.md', cfg_path)
-    shutil.move(docs, cfg_path)
+    (cfg_path/'README.md').unlink(missing_ok=True)
+    shutil.move(doc_path/'README.md', cfg_path)
+    
+    if doc_path.parent != cfg_path:
+        shutil.rmtree(cfg_path/get_config()['doc_path'], ignore_errors=True)
+        shutil.move(doc_path, cfg_path)
