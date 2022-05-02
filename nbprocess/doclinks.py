@@ -88,7 +88,7 @@ def build_index(self:DocLinks):
 
 # %% ../nbs/04b_doclinks.ipynb 22
 def _doc_link(url, mod, sym=None):
-    res = urljoin(url, mod)
+    res = urljoin(url, remove_prefix(mod, get_config()['lib_name']+"."))
     if sym: res += "#" + remove_prefix(sym, mod+".")
     return res
 
