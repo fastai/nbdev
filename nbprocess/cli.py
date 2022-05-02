@@ -282,7 +282,7 @@ def nbprocess_quarto(
     os.system(f'cd {path} && quarto render {files[-1]} -o README.md -t gfm --no-execute')
     
     (cfg_path/'README.md').unlink(missing_ok=True)
-    shutil.move(cfg.path('nbs_path')/f"{cfg['doc_path']}/README.md", cfg_path) #docs are temporarily in the nbs folder
+    shutil.move(cfg.path('nbs_path')/f"{cfg['doc_path']}/README.md", cfg_path) # README.md is temporarily in the nbs/docs folder
     
     if doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
         shutil.rmtree(cfg_path/get_config()['doc_path'], ignore_errors=True)
