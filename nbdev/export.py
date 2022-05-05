@@ -447,7 +447,7 @@ class DocsTestClass:
     "for tests only"
     def test(): pass
 
-    def test_self(self, arg): pass
+    def test_self(self, cls, arg): pass
 
     @classmethod
     def test_cls(cls, arg): pass

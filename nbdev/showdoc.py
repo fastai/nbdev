@@ -220,9 +220,13 @@ def _escape_chars(s):
 def _format_func_doc(func, full_name=None, skip_params=()):
     "Formatted `func` definition to show in documentation"
     try:
-        sig = inspect.signature(func)
-        fmt_params = [format_param(param) for name,param
-                  in sig.parameters.items() if name not in skip_params]
+        sig_params = list(inspect.signature(func).parameters.items())
+        # For class, object methods if the first arg is in the skip_param
+        # list, we want to omit it.
+        if sig_params:
+            sig_params = sig_params[1:] if sig_params[0][0] in skip_params else sig_params
+
+        fmt_params = [format_param(param) for name,param in sig_params]
     except: fmt_params = []
     name = f'<code>{full_name or func.__name__}</code>'
     arg_str = f"({', '.join(fmt_params)})"
