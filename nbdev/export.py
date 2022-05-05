@@ -447,6 +447,11 @@ class DocsTestClass:
     "for tests only"
     def test(): pass
 
+    def test_self(self, arg): pass
+
+    @classmethod
+    def test_cls(cls, arg): pass
+
 # Internal Cell
 #exporti
 #for tests only

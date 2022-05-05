@@ -216,12 +216,12 @@ def _format_enum_doc(enum, full_name):
 def _escape_chars(s):
     return s.replace('_', '\_')
 
-def _format_func_doc(func, full_name=None):
+def _format_func_doc(func, full_name=None, skip_params=()):
     "Formatted `func` definition to show in documentation"
     try:
         sig = inspect.signature(func)
         fmt_params = [format_param(param) for name,param
-                  in sig.parameters.items() if name not in ('self','cls')]
+                  in sig.parameters.items() if name not in skip_params]
     except: fmt_params = []
     name = f'<code>{full_name or func.__name__}</code>'
     arg_str = f"({', '.join(fmt_params)})"
@@ -376,7 +376,7 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
     if inspect.isclass(elt):
         if is_enum(elt): name,args = _format_enum_doc(elt, qname)
         else:            name,args = _format_cls_doc (elt, qname)
-    elif callable(elt):  name,args = _format_func_doc(elt, qname)
+    elif callable(elt):  name,args = _format_func_doc(elt, qname, skip_params=('self', 'cls'))
     else:                name,args = f"<code>{qname}</code>", ''
     link = get_source_link(elt)
     source_link = f'<a href="{link}" class="source_link" style="float:right">[source]</a>'
