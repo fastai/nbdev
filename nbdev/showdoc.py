@@ -16,9 +16,10 @@ from fastcore.xtras import get_source_link, _unwrapped_type_dispatch_func
 import string
 from tokenize import COMMENT
 
-if IN_NOTEBOOK:
+try:
     from IPython.display import Markdown,display
     from IPython.core import page
+except ModuleNotFoundError: pass
 
 # Cell
 def is_enum(cls):
