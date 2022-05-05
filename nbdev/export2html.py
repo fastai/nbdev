@@ -401,7 +401,7 @@ def execute_nb(nb, mod=None, metadata=None, show_doc_only=True):
     mods = ([] if mod is None else [mod]) + _gather_export_mods(nb['cells'])
     nb['cells'].insert(0, _import_show_doc_cell(mods))
     ep_cls = ExecuteShowDocPreprocessor if show_doc_only else ExecutePreprocessor
-    ep = ep_cls(timeout=600, kernel_name='python3')
+    ep = ep_cls(timeout=600)
     metadata = metadata or {}
     pnb = nbformat.from_dict(nb)
     ep.preprocess(pnb, metadata)
