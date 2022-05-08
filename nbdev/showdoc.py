@@ -15,6 +15,7 @@ from fastcore.xtras import get_source_link, _unwrapped_type_dispatch_func
 
 import string
 from tokenize import COMMENT
+from dataclasses import dataclass, is_dataclass
 
 try:
     from IPython.display import Markdown,display
@@ -399,10 +400,12 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
         s = f'```\n{s}\n```' if monospace else add_doc_links(s, elt)
         doc += s
     if len(args) > 0:
-        if hasattr(elt, '__init__') and isclass(elt):
+        if hasattr(elt, '__init__') and isclass(elt) and not is_dataclass(elt):
+            # dataclass doesn't have accessible __init__
             elt = elt.__init__
         if is_source_available(elt):
-            if show_all_docments or _has_docment(elt):
+            if not is_dataclass(elt) and (show_all_docments or _has_docment(elt)):
+                # temporary fix for dataclass definition until `docments` is fixed
                 if hasattr(elt, "__delwrap__"):
                     arg_dict, kwargs = _handle_delegates(elt)
                     doc += _get_docments(elt, ment_dict=arg_dict, with_return=True, kwargs=kwargs, monospace=monospace, is_class=is_class)
