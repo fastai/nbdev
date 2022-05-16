@@ -135,7 +135,7 @@ def nbprocess_bump_version(
 def extract_tgz(url, dest='.'): 
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/10_cli.ipynb 15
+# %% ../nbs/10_cli.ipynb 16
 def _get_branch(owner, repo, default='main'):
     try: from ghapi.all import GhApi
     except: 
@@ -150,7 +150,7 @@ def _get_branch(owner, repo, default='main'):
         print(''.join(msg))
         return default
 
-# %% ../nbs/10_cli.ipynb 17
+# %% ../nbs/10_cli.ipynb 18
 def prompt_user(**kwargs):
     config_vals = kwargs
     print('================ nbprocess Configuration ================\n')
@@ -163,7 +163,7 @@ def prompt_user(**kwargs):
     print(f"\n`settings.ini` updated with configuration values.")
     return config_vals
 
-# %% ../nbs/10_cli.ipynb 18
+# %% ../nbs/10_cli.ipynb 19
 def _fetch_from_git():
     "Get information for settings.ini from the user."
     try:
@@ -176,7 +176,7 @@ def _fetch_from_git():
         return dict(lib_name=None,user=None,branch=None,author=None,author_email=None)
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, author_email=email)
 
-# %% ../nbs/10_cli.ipynb 20
+# %% ../nbs/10_cli.ipynb 21
 _quarto_yml="""ipynb-filters: [nbprocess_filter]
 
 project:
@@ -229,7 +229,7 @@ def refresh_quarto_yml():
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
-# %% ../nbs/10_cli.ipynb 21
+# %% ../nbs/10_cli.ipynb 22
 @call_parse
 def nbprocess_new():
     "Create a new project from the current git repo"
@@ -256,7 +256,7 @@ def nbprocess_new():
     settings_path.write_text(settings)
     refresh_quarto_yml()
 
-# %% ../nbs/10_cli.ipynb 23
+# %% ../nbs/10_cli.ipynb 24
 @call_parse
 def nbprocess_quarto(
     path:str=None, # path to notebooks
