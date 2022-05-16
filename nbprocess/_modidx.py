@@ -11,8 +11,10 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                  'nbprocess.merge.unpatch': 'https://nbprocess.fast.ai/merge#unpatch',
                                  'nbprocess.merge.nbprocess_fix': 'https://nbprocess.fast.ai/merge#nbprocess_fix'},
             'nbprocess.clean': { 'nbprocess.clean.nbprocess_trust': 'https://nbprocess.fast.ai/clean#nbprocess_trust',
+                                 'nbprocess.clean.repl_v1dir': 'https://nbprocess.fast.ai/clean#repl_v1dir',
                                  'nbprocess.clean.clean_nb': 'https://nbprocess.fast.ai/clean#clean_nb',
                                  'nbprocess.clean.nbprocess_clean': 'https://nbprocess.fast.ai/clean#nbprocess_clean',
+                                 'nbprocess.clean.nbprocess_migrate_directives': 'https://nbprocess.fast.ai/clean#nbprocess_migrate_directives',
                                  'nbprocess.clean.nbprocess_install_hooks': 'https://nbprocess.fast.ai/clean#nbprocess_install_hooks'},
             'nbprocess.maker': { 'nbprocess.maker.find_var': 'https://nbprocess.fast.ai/maker#find_var',
                                  'nbprocess.maker.read_var': 'https://nbprocess.fast.ai/maker#read_var',
@@ -73,7 +75,8 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                     'nbprocess.doclinks.DocLinks.write_nbprocess_idx': 'https://nbprocess.fast.ai/doclinks#DocLinks.write_nbprocess_idx',
                                     'nbprocess.doclinks.DocLinks.update_syms': 'https://nbprocess.fast.ai/doclinks#DocLinks.update_syms',
                                     'nbprocess.doclinks.DocLinks.build_index': 'https://nbprocess.fast.ai/doclinks#DocLinks.build_index'},
-            'nbprocess.process': { 'nbprocess.process.extract_directives': 'https://nbprocess.fast.ai/process#extract_directives',
+            'nbprocess.process': { 'nbprocess.process.first_code_ln': 'https://nbprocess.fast.ai/process#first_code_ln',
+                                   'nbprocess.process.extract_directives': 'https://nbprocess.fast.ai/process#extract_directives',
                                    'nbprocess.process.opt_set': 'https://nbprocess.fast.ai/process#opt_set',
                                    'nbprocess.process.instantiate': 'https://nbprocess.fast.ai/process#instantiate',
                                    'nbprocess.process.NBProcessor': 'https://nbprocess.fast.ai/process#NBProcessor',
@@ -141,7 +144,8 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                    'nbprocess_sidebar=nbprocess.cli:nbprocess_sidebar\n'
                                    'nbprocess_test=nbprocess.test:nbprocess_test\n'
                                    'nbprocess_bump_version=nbprocess.cli:nbprocess_bump_version\n'
-                                   'nbprocess_new=nbprocess.cli:nbprocess_new',
+                                   'nbprocess_new=nbprocess.cli:nbprocess_new\n'
+                                   'nbprocess_migrate_directives=nbprocess.clean:nbprocess_migrate_directives',
                 'tst_flags': 'notest',
                 'nbs_path': 'nbs',
                 'doc_path': 'docs',
