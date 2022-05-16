@@ -130,7 +130,7 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                 'license': 'apache2',
                 'status': '2',
                 'requirements': 'fastcore>=1.4.2 tinykernel',
-                'dev_requirements': 'nbdev-numpy\nnbdev-stdlib',
+                'dev_requirements': 'nbdev-numpy\nnbdev-stdlib\npandas\nmatplotlib',
                 'console_scripts': 'nbprocess_create_config=nbprocess.read:nbprocess_create_config\n'
                                    'nbprocess_update=nbprocess.sync:nbprocess_update\n'
                                    'nbprocess_export=nbprocess.doclinks:nbprocess_export\n'
