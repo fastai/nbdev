@@ -8,6 +8,7 @@ import time,os,sys,traceback,contextlib
 
 from fastcore.utils import *
 from fastcore.script import *
+from fastcore.imports import *
 from .read import *
 from .doclinks import *
 from .process import NBProcessor
@@ -60,6 +61,8 @@ def nbprocess_test(
     results = parallel(test_nb, files, n_workers=n_workers, pause=pause, do_print=do_print)
     passed,times = zip(*results)
     if all(passed): print("Success.")
-    else: print("Failed:\n" + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
+    else: 
+        print("Failed:\n" + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
+        raise Exception('nbprocess tests failed.')
     if timing:
         for i,t in sorted(enumerate(times), key=lambda o:o[1], reverse=True): print(f"{files[i].name}: {int(t)} secs")
