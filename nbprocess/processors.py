@@ -24,7 +24,7 @@ def add_links(cell):
         if hasattr(o, 'data') and hasattr(o['data'], 'text/markdown'):
             o.data['text/markdown'] = [nbprocess_lookup.linkify(s) for s in o.data['text/markdown']]
 
-# %% ../nbs/09_processors.ipynb 12
+# %% ../nbs/09_processors.ipynb 13
 _re_ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 
 def strip_ansi(cell):
