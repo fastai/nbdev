@@ -13,7 +13,6 @@ from .read import *
 from .doclinks import *
 from .process import NBProcessor
 from logging import warning
-import sys
 
 # %% ../nbs/14_test.ipynb 4
 def _do_eval(cell, flags):
@@ -53,7 +52,6 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
             tb_str = '\n'.join(traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)[-2:])
             cell_str = f"\nWhile Executing Cell #{cell.idx_}:\n{_format_code(cell.source.splitlines(), line_no)}"
             warning(f"{type(e).__name__} in {fn}:\n{_fence}\n{cell_str}\n{tb_str}\n") 
-            exc_type, exc_value, exc_traceback = sys.exc_info()
             raise Exception('nbprocess test failed')
     try:
         if do_print: print(f'Starting {fn}')
