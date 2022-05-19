@@ -23,12 +23,12 @@ def _do_eval(cell, flags):
 
 # %% ../nbs/14_test.ipynb 5
 def _format_code(code_list, lineno):
-    n=50
-    l=['-'*n]
+    _fence = '-'*50
+    l=[_fence]
     for i,c in enumerate(code_list, start=1):
         if i == lineno: l.append(f"---> {i} {c}")
         else: l.append(f"     {i} {c}")
-    l.append('-'*n)
+    l.append(_fence)
     return '\n'.join(l)
 
 _code = """def foo():
