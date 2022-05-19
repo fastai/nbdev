@@ -22,28 +22,22 @@ def _do_eval(cell, flags):
     if direc.get('eval:', [''])[0].lower() == 'false': return False
     return not flags & direc.keys()
 
-# def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
-#     "Execute tests in notebook in `fn` except those with `skip_flags`"
-#     if not IN_NOTEBOOK: os.environ["IN_TEST"] = '1'
-#     flags=set(L(skip_flags)) - set(L(force_flags))
-#     k,start = NBRunner(),time.time()
-    
-#     def _exec_cell(cell):
-#         if _do_eval(cell, flags): k.run(cell)
+# %% ../nbs/14_test.ipynb 6
+def _format_code(code_list, lineno):
+    n=50
+    l=['-'*n]
+    for i,c in enumerate(code_list, start=1):
+        if i == lineno: l.append(f"---> {i} {c}")
+        else: l.append(f"     {i} {c}")
+    l.append('-'*n)
+    return '\n'.join(l)
 
-#     if do_print: print(f'Starting {fn}')
-#     try:
-#         with open(os.devnull, "w") as f, contextlib.redirect_stdout(f): NBProcessor(fn, _exec_cell).process()
-#         if do_print: print(f'- Completed {fn}')
-#         return True,time.time()-start
-#     except Exception as e:
-#         # import ipdb; ipdb.set_trace()
-#         _fence = '='*75
-#         tb_str = '\n'.join(traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)[-4:])
-#         warning(f'{type(e).__name__} in {fn}:\n{_fence}\n{tb_str}\n')        
-#         return False,time.time()-start
+_code = """def foo():
+    "a docstring"
+    pass
+""".splitlines()
 
-# %% ../nbs/14_test.ipynb 5
+# %% ../nbs/14_test.ipynb 8
 def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     "Execute tests in notebook in `fn` except those with `skip_flags`"
     if not IN_NOTEBOOK: os.environ["IN_TEST"] = '1'
@@ -55,9 +49,11 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
             if _do_eval(cell, flags): k.run(cell)
         except Exception as e:
             _fence = '='*75
+            line_no = e.__traceback__.tb_next.tb_next.tb_next.tb_next.tb_lineno
             tb_str = '\n'.join(traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)[-2:])
-            cell_str = f"\nWhile Executing Cell #{cell.idx_}:\n{'-'*25}\n{cell.source}\n{'-'*25}"
+            cell_str = f"\nWhile Executing Cell #{cell.idx_}:\n{_format_code(cell.source.splitlines(), line_no)}"
             warning(f"{type(e).__name__} in {fn}:\n{_fence}\n{cell_str}\n{tb_str}\n") 
+            exc_type, exc_value, exc_traceback = sys.exc_info()
             raise Exception('nbprocess test failed')
     try:
         if do_print: print(f'Starting {fn}')
@@ -67,7 +63,7 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     except:
         return False,time.time()-start
 
-# %% ../nbs/14_test.ipynb 9
+# %% ../nbs/14_test.ipynb 12
 @call_parse
 def nbprocess_test(
     fname:str=None,  # A notebook name or glob to convert
