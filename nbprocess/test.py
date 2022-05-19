@@ -12,7 +12,8 @@ from fastcore.imports import *
 from .read import *
 from .doclinks import *
 from .process import NBProcessor
-from warnings import warn
+from logging import warning
+import sys
 
 # %% ../nbs/14_test.ipynb 4
 def _do_eval(cell, flags):
@@ -21,6 +22,28 @@ def _do_eval(cell, flags):
     if direc.get('eval:', [''])[0].lower() == 'false': return False
     return not flags & direc.keys()
 
+# def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
+#     "Execute tests in notebook in `fn` except those with `skip_flags`"
+#     if not IN_NOTEBOOK: os.environ["IN_TEST"] = '1'
+#     flags=set(L(skip_flags)) - set(L(force_flags))
+#     k,start = NBRunner(),time.time()
+    
+#     def _exec_cell(cell):
+#         if _do_eval(cell, flags): k.run(cell)
+
+#     if do_print: print(f'Starting {fn}')
+#     try:
+#         with open(os.devnull, "w") as f, contextlib.redirect_stdout(f): NBProcessor(fn, _exec_cell).process()
+#         if do_print: print(f'- Completed {fn}')
+#         return True,time.time()-start
+#     except Exception as e:
+#         # import ipdb; ipdb.set_trace()
+#         _fence = '='*75
+#         tb_str = '\n'.join(traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)[-4:])
+#         warning(f'{type(e).__name__} in {fn}:\n{_fence}\n{tb_str}\n')        
+#         return False,time.time()-start
+
+# %% ../nbs/14_test.ipynb 5
 def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     "Execute tests in notebook in `fn` except those with `skip_flags`"
     if not IN_NOTEBOOK: os.environ["IN_TEST"] = '1'
@@ -28,21 +51,23 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     k,start = NBRunner(),time.time()
     
     def _exec_cell(cell):
-        if _do_eval(cell, flags): k.run(cell)
-
-    if do_print: print(f'Starting {fn}')
+        try:
+            if _do_eval(cell, flags): k.run(cell)
+        except Exception as e:
+            _fence = '='*75
+            tb_str = '\n'.join(traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)[-2:])
+            cell_str = f"\nWhile Executing Cell #{cell.idx_}:\n{'-'*25}\n{cell.source}\n{'-'*25}"
+            warning(f"{type(e).__name__} in {fn}:\n{_fence}\n{cell_str}\n{tb_str}\n") 
+            raise Exception('nbprocess test failed')
     try:
+        if do_print: print(f'Starting {fn}')
         with open(os.devnull, "w") as f, contextlib.redirect_stdout(f): NBProcessor(fn, _exec_cell).process()
         if do_print: print(f'- Completed {fn}')
         return True,time.time()-start
-    except Exception as e:
-        fence = '='*50
-        msg = f'{e}\n{fence}' if str(e) else ''
-        warn(f'\n\nError: {type(e).__name__} in {fn}:\n{fence}\n{msg}')
-        traceback.print_exc()
+    except:
         return False,time.time()-start
 
-# %% ../nbs/14_test.ipynb 8
+# %% ../nbs/14_test.ipynb 9
 @call_parse
 def nbprocess_test(
     fname:str=None,  # A notebook name or glob to convert
@@ -62,7 +87,8 @@ def nbprocess_test(
     passed,times = zip(*results)
     if all(passed): print("Success.")
     else: 
-        print("Failed:\n" + '\n'.join([f.name for p,f in zip(passed,files) if not p]))
-        raise Exception('nbprocess tests failed.')
+        _fence = '='*50
+        sys.stderr.write(f"\nnbprocess Tests Failed On The Following Notebooks:\n{_fence}\n\t" + '\n\t'.join([f.name for p,f in zip(passed,files) if not p]))
+        exit(1)
     if timing:
         for i,t in sorted(enumerate(times), key=lambda o:o[1], reverse=True): print(f"{files[i].name}: {int(t)} secs")
