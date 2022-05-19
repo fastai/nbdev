@@ -21,7 +21,7 @@ def _do_eval(cell, flags):
     if direc.get('eval:', [''])[0].lower() == 'false': return False
     return not flags & direc.keys()
 
-# %% ../nbs/14_test.ipynb 6
+# %% ../nbs/14_test.ipynb 5
 def _format_code(code_list, lineno):
     n=50
     l=['-'*n]
@@ -36,7 +36,7 @@ _code = """def foo():
     pass
 """.splitlines()
 
-# %% ../nbs/14_test.ipynb 8
+# %% ../nbs/14_test.ipynb 7
 def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     "Execute tests in notebook in `fn` except those with `skip_flags`"
     if not IN_NOTEBOOK: os.environ["IN_TEST"] = '1'
@@ -61,7 +61,7 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     except:
         return False,time.time()-start
 
-# %% ../nbs/14_test.ipynb 12
+# %% ../nbs/14_test.ipynb 11
 @call_parse
 def nbprocess_test(
     fname:str=None,  # A notebook name or glob to convert
