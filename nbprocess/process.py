@@ -22,7 +22,7 @@ _dir_pre = r'\s*#\s*\|'
 _quarto_re = re.compile(_dir_pre + r'\s*\w+\s*:')
 
 def _directive(s):
-    s = re.sub(_dir_pre, "#|", s)
+    s = re.sub('^'+_dir_pre, "#|", s)
     if ':' in s: s = s.replace(':', ': ')
     s = (s.strip()[2:]).strip().split()
     if not s: return None
