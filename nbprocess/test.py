@@ -4,7 +4,7 @@
 __all__ = ['nbprocessTestFailure', 'test_nb', 'nbprocess_test']
 
 # %% ../nbs/14_test.ipynb 2
-import time,os,sys,traceback,contextlib
+import time,os,sys,traceback,contextlib, inspect
 from fastcore.utils import *
 from fastcore.script import *
 from fastcore.imports import *
@@ -30,11 +30,12 @@ def _format_code(code_list, lineno):
     l.append(_fence)
     return '\n'.join(l)
 
-# %% ../nbs/14_test.ipynb 7
+# %% ../nbs/14_test.ipynb 8
 class nbprocessTestFailure(Exception): pass
 
-# %% ../nbs/14_test.ipynb 8
-def _skip_frame(tb): return '/tinykernel/tinykernel/' not in tb.tb_frame.f_back.f_code.co_filename
+# %% ../nbs/14_test.ipynb 9
+def _skip_frame(tb): 
+    return '/tinykernel/tinykernel/' not in tb.tb_frame.f_back.f_code.co_filename
 
 
 def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
@@ -51,7 +52,6 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
             tb = e.__traceback__
             while tb and _skip_frame(tb): tb = tb.tb_next
             line_no = tb.tb_next.tb_lineno #changes to the tinykernel library could break this
-            warning(f"line no: {line_no}")
             tb_str = '\n'.join(traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)[-2:])
             cell_str = f"\nWhile Executing Cell #{cell.idx_}:\n{_format_code(cell.source.splitlines(), line_no)}"
             warning(f"{type(e).__name__} in {fn}:\n{_fence}\n{cell_str}\n{tb_str}\n") 
@@ -64,7 +64,7 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     except nbprocessTestFailure:
         return False,time.time()-start
 
-# %% ../nbs/14_test.ipynb 12
+# %% ../nbs/14_test.ipynb 13
 @call_parse
 def nbprocess_test(
     fname:str=None,  # A notebook name or glob to convert
