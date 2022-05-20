@@ -108,7 +108,7 @@ def nbprocess_filter(
     if debug: 
         outdir = Path('_nbprocess_filter_debug')
         outdir.mkdir(exist_ok=True)
-        num = max(outdir.ls().attrgot('name').map(_get_num).map(int)) + 1
+        num = max(outdir.ls().attrgot('name').map(_get_num).map(int) + [0]) + 1
         (outdir/f'file_out_{_zero_pad(num)}.ipynb').write_text(res)
         (outdir/f'file_in_{_zero_pad(num)}.ipynb').write_text(nb_txt)
     else: return res
