@@ -30,11 +30,12 @@ def _format_code(code_list, lineno):
     l.append(_fence)
     return '\n'.join(l)
 
-# %% ../nbs/14_test.ipynb 8
+# %% ../nbs/14_test.ipynb 7
 class nbprocessTestFailure(Exception): pass
 
-# %% ../nbs/14_test.ipynb 9
-def _skip_frame(tb): 
+# %% ../nbs/14_test.ipynb 8
+def _skip_frame(tb):
+    #changes to the tinykernel library could break the assumptions made here on finding the right frame
     return '/tinykernel/tinykernel/' not in tb.tb_frame.f_back.f_code.co_filename
 
 
@@ -45,17 +46,17 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     k,start = NBRunner(),time.time()
     
     def _exec_cell(cell):
-        try:
-            if _do_eval(cell, flags): k.run(cell)
-        except Exception as e:
-            _fence = '='*75
-            tb = e.__traceback__
-            while tb and _skip_frame(tb): tb = tb.tb_next
-            line_no = tb.tb_next.tb_lineno #changes to the tinykernel library could break this
-            tb_str = '\n'.join(traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)[-2:])
-            cell_str = f"\nWhile Executing Cell #{cell.idx_}:\n{_format_code(cell.source.splitlines(), line_no)}"
-            warning(f"{type(e).__name__} in {fn}:\n{_fence}\n{cell_str}\n{tb_str}\n") 
-            raise nbprocessTestFailure('nbprocess test failed')
+        if _do_eval(cell, flags):
+            try: k.run(cell)
+            except Exception as e:
+                _fence = '='*75
+                tb = e.__traceback__
+                while tb and _skip_frame(tb): tb = tb.tb_next
+                line_no = tb.tb_next.tb_lineno #changes to the tinykernel library could break this
+                tb_str = '\n'.join(traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)[-2:])
+                cell_str = f"\nWhile Executing Cell #{cell.idx_}:\n{_format_code(cell.source.splitlines(), line_no)}"
+                warning(f"{type(e).__name__} in {fn}:\n{_fence}\n{cell_str}\n{tb_str}\n") 
+                raise nbprocessTestFailure('nbprocess test failed')
     try:
         if do_print: print(f'Starting {fn}')
         with open(os.devnull, "w") as f, contextlib.redirect_stdout(f): NBProcessor(fn, _exec_cell).process()
@@ -64,7 +65,7 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     except nbprocessTestFailure:
         return False,time.time()-start
 
-# %% ../nbs/14_test.ipynb 13
+# %% ../nbs/14_test.ipynb 12
 @call_parse
 def nbprocess_test(
     fname:str=None,  # A notebook name or glob to convert
