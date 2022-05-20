@@ -18,15 +18,16 @@ from inspect import signature,Parameter
 import ast,contextlib,copy
 
 # %% ../nbs/03_process.ipynb 7
+_dir_pre = r'\s*#\s*\|'
+_quarto_re = re.compile(_dir_pre + r'\s*\w+\s*:')
+
 def _directive(s):
+    s = re.sub('^'+_dir_pre, "#|", s)
     if ':' in s: s = s.replace(':', ': ')
     s = (s.strip()[2:]).strip().split()
     if not s: return None
     direc,*args = s
     return direc,args
-
-_dir_pre = r'\s*#\|'
-_quarto_re = re.compile(_dir_pre + r'\s*\w+\s*:')
 
 # %% ../nbs/03_process.ipynb 8
 def first_code_ln(code_list, re_pattern=_dir_pre): 
