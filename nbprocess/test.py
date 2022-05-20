@@ -32,6 +32,9 @@ def _format_code(code_list, lineno):
     return '\n'.join(l)
 
 # %% ../nbs/14_test.ipynb 7
+def _skip_frame(tb): return '/tinykernel/tinykernel/' not in tb.tb_frame.f_back.f_code.co_filename
+
+
 def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     "Execute tests in notebook in `fn` except those with `skip_flags`"
     if not IN_NOTEBOOK: os.environ["IN_TEST"] = '1'
@@ -43,7 +46,10 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
             if _do_eval(cell, flags): k.run(cell)
         except Exception as e:
             _fence = '='*75
-            line_no = e.__traceback__.tb_next.tb_next.tb_next.tb_next.tb_lineno
+            tb = e.__traceback__
+            while tb and _skip_frame(tb): tb = tb.tb_next
+            line_no = tb.tb_next.tb_lineno #changes to the tinykernel library could break this
+            warning(f"line no: {line_no}")
             tb_str = '\n'.join(traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)[-2:])
             cell_str = f"\nWhile Executing Cell #{cell.idx_}:\n{_format_code(cell.source.splitlines(), line_no)}"
             warning(f"{type(e).__name__} in {fn}:\n{_fence}\n{cell_str}\n{tb_str}\n") 
