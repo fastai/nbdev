@@ -93,7 +93,7 @@ def _zero_pad(n, nlen=3): return str(n + (10**nlen))[1:]
 @call_parse
 def nbprocess_filter(
     nb_txt:str=None,  # Notebook text (uses stdin if not provided)
-    debug:bool=False # Debug mode that writes json into .nbprocess_filter_debug/
+    debug:bool=False # Debug mode that writes json into _nbprocess_filter_debug/
 ):
     "A notebook filter for quarto"
     os.environ["IN_TEST"] = "1"
