@@ -83,9 +83,17 @@ class FilterDefaults:
         return self.base_postprocs() + self.xtra_postprocs()
 
 # %% ../nbs/10_cli.ipynb 10
+_re_file_in = re.compile(r'file_in_(\d{3})\.ipynb')
+def _get_num(f): 
+    match = _re_file_in.findall(f)
+    return match[0] if match else 0
+def _zero_pad(n, nlen=3): return str(n + (10**nlen))[1:]
+
+# %% ../nbs/10_cli.ipynb 11
 @call_parse
 def nbprocess_filter(
-    nb_txt:str=None  # Notebook text (uses stdin if not provided)
+    nb_txt:str=None,  # Notebook text (uses stdin if not provided)
+    debug:bool=False # Debug mode that writes json into .nbprocess_filter_debug/
 ):
     "A notebook filter for quarto"
     os.environ["IN_TEST"] = "1"
@@ -97,9 +105,15 @@ def nbprocess_filter(
     res = nb2str(nb)
     del os.environ["IN_TEST"]
     if printit: print(res, flush=True)
+    if debug: 
+        outdir = Path('_nbprocess_filter_debug')
+        outdir.mkdir(exist_ok=True)
+        num = max(outdir.ls().attrgot('name').map(_get_num).map(int)) + 1
+        (outdir/f'file_out_{_zero_pad(num)}.ipynb').write_text(res)
+        (outdir/f'file_in_{_zero_pad(num)}.ipynb').write_text(nb_txt)
     else: return res
 
-# %% ../nbs/10_cli.ipynb 12
+# %% ../nbs/10_cli.ipynb 13
 _re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
 
 def update_version():
@@ -131,11 +145,11 @@ def nbprocess_bump_version(
     update_version()
     print(f'New version: {cfg.version}')
 
-# %% ../nbs/10_cli.ipynb 14
+# %% ../nbs/10_cli.ipynb 15
 def extract_tgz(url, dest='.'): 
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/10_cli.ipynb 16
+# %% ../nbs/10_cli.ipynb 17
 def _get_branch(owner, repo, default='main'):
     try: from ghapi.all import GhApi
     except: 
@@ -150,7 +164,7 @@ def _get_branch(owner, repo, default='main'):
         print(''.join(msg))
         return default
 
-# %% ../nbs/10_cli.ipynb 18
+# %% ../nbs/10_cli.ipynb 19
 def prompt_user(**kwargs):
     config_vals = kwargs
     print('================ nbprocess Configuration ================\n')
@@ -163,7 +177,7 @@ def prompt_user(**kwargs):
     print(f"\n`settings.ini` updated with configuration values.")
     return config_vals
 
-# %% ../nbs/10_cli.ipynb 19
+# %% ../nbs/10_cli.ipynb 20
 def _fetch_from_git():
     "Get information for settings.ini from the user."
     try:
@@ -176,7 +190,7 @@ def _fetch_from_git():
         return dict(lib_name=None,user=None,branch=None,author=None,author_email=None)
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, author_email=email)
 
-# %% ../nbs/10_cli.ipynb 21
+# %% ../nbs/10_cli.ipynb 22
 _quarto_yml="""ipynb-filters: [nbprocess_filter]
 
 project:
@@ -229,7 +243,7 @@ def refresh_quarto_yml():
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
-# %% ../nbs/10_cli.ipynb 22
+# %% ../nbs/10_cli.ipynb 23
 @call_parse
 def nbprocess_new():
     "Create a new project from the current git repo"
@@ -256,7 +270,7 @@ def nbprocess_new():
     settings_path.write_text(settings)
     refresh_quarto_yml()
 
-# %% ../nbs/10_cli.ipynb 24
+# %% ../nbs/10_cli.ipynb 25
 @call_parse
 def nbprocess_quarto(
     path:str=None, # path to notebooks
