@@ -31,11 +31,6 @@ def _format_code(code_list, lineno):
     l.append(_fence)
     return '\n'.join(l)
 
-_code = """def foo():
-    "a docstring"
-    pass
-""".splitlines()
-
 # %% ../nbs/14_test.ipynb 7
 def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     "Execute tests in notebook in `fn` except those with `skip_flags`"
