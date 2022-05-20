@@ -10,6 +10,8 @@ from .processors import *
 from fastcore.utils import *
 from fastcore.script import call_parse
 from urllib.error import HTTPError
+from contextlib import redirect_stdout
+import os
 import tarfile
 
 # %% auto 0
@@ -93,7 +95,9 @@ def nbprocess_filter(
     printit = False
     if not nb_txt: nb_txt,printit = sys.stdin.read(),True
     nb = dict2nb(json.loads(nb_txt))
-    NBProcessor(nb=nb, procs=filt.procs(), preprocs=filt.preprocs(), postprocs=filt.postprocs()).process()
+    with open(os.devnull, 'w') as dn:
+        with redirect_stdout(dn):
+            NBProcessor(nb=nb, procs=filt.procs(), preprocs=filt.preprocs(), postprocs=filt.postprocs()).process()
     res = nb2str(nb)
     del os.environ["IN_TEST"]
     if printit: print(res, flush=True)
