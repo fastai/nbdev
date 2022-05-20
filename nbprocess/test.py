@@ -22,13 +22,9 @@ def _do_eval(cell, flags):
 
 # %% ../nbs/14_test.ipynb 5
 def _format_code(code_list, lineno):
+    fmt_code = [f"---> {i} {c}" if i == lineno else f"     {i} {c}" for i,c in enumerate(code_list, start=1)]
     _fence = '-'*50
-    l=[_fence]
-    for i,c in enumerate(code_list, start=1):
-        if i == lineno: l.append(f"---> {i} {c}")
-        else: l.append(f"     {i} {c}")
-    l.append(_fence)
-    return '\n'.join(l)
+    return '\n'.join([_fence] + fmt_code + [_fence])
 
 # %% ../nbs/14_test.ipynb 7
 class nbprocessTestFailure(Exception): pass
