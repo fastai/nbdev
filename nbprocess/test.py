@@ -27,7 +27,9 @@ def _format_code(code_list, lineno):
     return '\n'.join([_fence] + fmt_code + [_fence])
 
 # %% ../nbs/14_test.ipynb 7
-class nbprocessTestFailure(Exception): pass
+class nbprocessTestFailure(Exception):
+    def __init__(self, message):
+        super().__init__(message)
 
 # %% ../nbs/14_test.ipynb 8
 def _skip_frame(tb):
