@@ -245,7 +245,7 @@ def _format_cls_doc(cls, full_name):
 # Cell
 def _has_docment(elt):
     comments = {o.start[0]:_clean_comment(o.string) for o in _tokens(elt) if o.type==COMMENT}
-    params = _param_locs(elt, returns=True)
+    params = _param_locs(elt, returns=True) or {}
     comments = [_get_comment(line,arg,comments,params) for line,arg in params.items()]
     return any(c is not None for c in comments)
 
@@ -404,8 +404,7 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
             # dataclass doesn't have accessible __init__
             elt = elt.__init__
         if is_source_available(elt):
-            if not is_dataclass(elt) and (show_all_docments or _has_docment(elt)):
-                # temporary fix for dataclass definition until `docments` is fixed
+            if show_all_docments or _has_docment(elt):
                 if hasattr(elt, "__delwrap__"):
                     arg_dict, kwargs = _handle_delegates(elt)
                     doc += _get_docments(elt, ment_dict=arg_dict, with_return=True, kwargs=kwargs, monospace=monospace, is_class=is_class)
