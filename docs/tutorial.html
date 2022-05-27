@@ -119,7 +119,9 @@ nb_path: "nbs/tutorial.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The nbdev system uses <a href="https://jekyllrb.com/">jekyll</a> for documentation. Because <a href="https://help.github.com/en/github/working-with-github-pages/setting-up-a-github-pages-site-with-jekyll">GitHub Pages supports Jekyll</a>, you can host your site for free on <a href="https://pages.github.com/">Github Pages</a> without any additional setup, so this is the approach we recommend (but it's not required; any jekyll hosting will work fine).</p>
-<p>To enable Github Pages in your project repo, click <em>Settings</em> in Github, then scroll down to <em>Github Pages</em>, and set "Source" to <em>Master branch /docs folder</em>. Once you've saved, if you scroll back down to that section, Github will have a link to your new website. Copy that URL, and then go back to your main repo page, click "edit" next to the description and paste the URL into the "website" section. While you're there, go ahead and put in your project description too. <em>NOTE: Don't expect your Pages to build &amp; deploy properly yet; only after we edit <code>settings.ini</code> (below) and make some other changes will your GitHub Pages site be deployed.</em></p>
+<p>To enable Github Pages in your project repo, click <em>Settings</em> in Github, then click <em>Pages</em> on the left side bar.  Set "Source" to <em>Master branch /docs folder</em>. Once you've saved, if you refresh that page, Github will have a link to your new website. Copy that URL, and then go back to your main repo page, click "edit" next to the description and paste the URL into the "website" section. While you're there, go ahead and put in your project description too. <em>NOTE: Don't expect your Pages to build &amp; deploy properly yet; only after we edit <code>settings.ini</code> (below) and make some other changes will your GitHub Pages site be deployed.</em></p>
+<h4 id="Previewing-Documents-Locally">Previewing Documents Locally<a class="anchor-link" href="#Previewing-Documents-Locally"> </a></h4><p>It is often desirable to preview the documentation locally before having it built and rendered by GitHub Pages.  This requires you to run Jekyll locally, which requires installing Ruby and Jekyll. Instructions on how to install Jekyll are provided <a href="https://jekyllrb.com/">on Jekyll's site</a>. You can run the command <code>make docs_serve</code> from the root of your repo to serve the documentation locally after calling <a href="/export2html.html#nbdev_build_docs"><code>nbdev_build_docs</code></a> to generate the docs.</p>
+<p>In order to allow you to run Jekyll locally <a href="https://github.com/fastai/nbdev_template">nbdev_template</a> contains manifest files, called Gem files, that specify all Ruby dependencies for Jekyll &amp; nbdev. <strong>If you do not plan to preview documentation locally</strong>, you can choose to delete <code>Gemfile</code> and <code>Gemfile.lock</code> from your nbdev repository.</p>
 
 </div>
 </div>
@@ -211,7 +213,7 @@ nb_path: "nbs/tutorial.ipynb"
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's add a function to this notebook, e.g.:</p>
-<div class="highlight"><pre><span></span><span class="c1">#export</span>
+<div class="highlight"><pre><span></span><span class="c1">#|export</span>
 <span class="k">def</span> <span class="nf">say_hello</span><span class="p">(</span><span class="n">to</span><span class="p">):</span>
     <span class="s2">&quot;Say hello to somebody&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;Hello </span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s1">!&#39;</span>
@@ -507,7 +509,7 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Create a class in <code>00_core.ipynb</code> as follows:</p>
-<div class="highlight"><pre><span></span><span class="c1">#export</span>
+<div class="highlight"><pre><span></span><span class="c1">#|export</span>
 <span class="k">class</span> <span class="nc">HelloSayer</span><span class="p">:</span>
     <span class="s2">&quot;Say hello to `to` using `say_hello`&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">to</span>
@@ -732,7 +734,7 @@ All tests are passing!</code></pre>
 <li><code>conda_requirements</code>: Passed to conda setup only</li>
 <li><code>dev_requirements</code>: Passed to pip setup as a development requirement</li>
 </ul>
-<p>For more information about the format of dependencies, see the pyipi and conda docs on creating specifications in <a href="https://packaging.python.org/tutorials/packaging-projects/#creating-setup-py">setup.py</a> and <a href="https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html">meta.yaml</a>, respectively.</p>
+<p>For more information about the format of dependencies, see the pypi and conda docs on creating specifications in <a href="https://packaging.python.org/tutorials/packaging-projects/#creating-setup-py">setup.py</a> and <a href="https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html">meta.yaml</a>, respectively.</p>
 
 </div>
 </div>
@@ -876,10 +878,10 @@ $$\sum_{i=1}^{k+1}i$$
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Because both the documentation and code for nbdev is written in notebooks, you can optionally view and run nbdev documentation in <a href="https://colab.research.google.com/">Google Colab</a>. You can enable Google Colab badges that link to the appropriate notebook(s) in your GitHub repository.</p>
-<p>You can toggle this feature on or off in your <code>docs/_config.yml</code> file:</p>
-<div class="highlight"><pre><span></span><span class="c1"># This specifies what badges are turned on by default for notebook docs.</span>
-<span class="nt">default_badges</span><span class="p">:</span>
-  <span class="nt">colab</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<p>You can toggle this feature on or off in your <code>/_config.yml</code> file:</p>
+<div class="highlight"><pre><span></span><span class="c1"># This specifies what badges are turned on by default for notebook docs.</span><span class="w"></span>
+<span class="nt">default_badges</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">colab</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
 </pre></div>
 <p>Furthermore, if you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter <code>hide_colab_badge: true</code>.  For example, if you wanted to hide the Colab badge from showing up on the notebook <code>nbs/06_cli.ipynb</code>, your front matter (in the form of a markdown cell at the top of the notebook) will look like this:</p>
 
@@ -894,7 +896,7 @@ $$\sum_{i=1}^{k+1}i$$
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Look-at-nbdev-&quot;source&quot;-for-more-ideas">Look at nbdev "source" for more ideas<a class="anchor-link" href="#Look-at-nbdev-&quot;source&quot;-for-more-ideas"> </a></h2>
+<h2 id="Look-at-nbdev-%22source%22-for-more-ideas">Look at nbdev "source" for more ideas<a class="anchor-link" href="#Look-at-nbdev-%22source%22-for-more-ideas"> </a></h2>
 </div>
 </div>
 </div>

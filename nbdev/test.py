@@ -81,7 +81,7 @@ def test_nb(fn, flags=None):
             if f not in flags: return
         ep = NoExportPreprocessor(flags, timeout=600, kernel_name='python3')
         pnb = nbformat.from_dict(nb)
-        ep.preprocess(pnb)
+        ep.preprocess(pnb, {})
     finally: os.environ.pop("IN_TEST")
 
 # Cell
@@ -98,12 +98,14 @@ def _test_one(fname, flags=None, verbose=True):
 
 # Cell
 @call_parse
-def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
-                   flags:Param("Space separated list of flags", str)=None,
-                   n_workers:Param("Number of workers to use", int)=None,
-                   verbose:Param("Print errors along the way", bool)=True,
-                   timing:Param("Timing each notebook to see the ones are slow", bool)=False,
-                   pause:Param("Pause time (in secs) between notebooks to avoid race conditions", float)=0.5):
+def nbdev_test_nbs(
+    fname:str=None,  # A notebook name or glob to convert
+    flags:str=None,  # Space separated list of flags
+    n_workers:int=None,  # Number of workers to use
+    verbose:bool_arg=True,  # Print errors along the way
+    timing:bool=False,  # Timing each notebook to see the ones are slow
+    pause:float=0.5  # Pause time (in secs) between notebooks to avoid race conditions
+):
     "Test in parallel the notebooks matching `fname`, passing along `flags`"
     if flags is not None: flags = flags.split(' ')
     files = nbglob(fname)
@@ -124,7 +126,9 @@ def nbdev_test_nbs(fname:Param("A notebook name or glob to convert", str)=None,
 
 # Cell
 @call_parse
-def nbdev_read_nbs(fname:Param("A notebook name or glob to convert", str)=None):
+def nbdev_read_nbs(
+    fname:str=None  # A notebook name or glob to convert
+):
     "Check all notebooks matching `fname` can be opened"
     files = nbglob(fname)
     for nb in files:

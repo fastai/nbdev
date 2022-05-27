@@ -252,7 +252,8 @@ def nb_code_cell(source):
 
 # Cell
 def _show_doc_cell(name, cls_lvl=None):
-    return nb_code_cell(f"show_doc({name}{'' if cls_lvl is None else f', default_cls_level={cls_lvl}'})")
+    show_all = get_config().d.getboolean('show_all_docments', False)
+    return nb_code_cell(f"show_doc({name}{'' if cls_lvl is None else f', default_cls_level={cls_lvl}'}, show_all_docments={show_all})")
 
 def add_show_docs(cells, cls_lvl=None):
     "Add `show_doc` for each exported function or class"
@@ -400,7 +401,7 @@ def execute_nb(nb, mod=None, metadata=None, show_doc_only=True):
     mods = ([] if mod is None else [mod]) + _gather_export_mods(nb['cells'])
     nb['cells'].insert(0, _import_show_doc_cell(mods))
     ep_cls = ExecuteShowDocPreprocessor if show_doc_only else ExecutePreprocessor
-    ep = ep_cls(timeout=600, kernel_name='python3')
+    ep = ep_cls(timeout=600)
     metadata = metadata or {}
     pnb = nbformat.from_dict(nb)
     ep.preprocess(pnb, metadata)
@@ -455,10 +456,12 @@ def write_tmpls():
 
 # Cell
 @call_parse
-def nbdev_build_lib(fname:Param("A notebook name or glob to convert", str)=None,
-                    bare:Param("Omit nbdev annotation comments (may break some functionality).", store_true)=False):
+def nbdev_build_lib(
+    fname:str=None,  # A notebook name or glob to convert
+    bare:store_true=False  # Omit nbdev annotation comments (may break some functionality).
+):
     "Export notebooks matching `fname` to python modules"
-    write_tmpls()
+    if fname is None: write_tmpls()
     notebook2script(fname=fname, bare=bare)
 
 # Cell
@@ -469,7 +472,7 @@ def nbdev_exporter(cls=HTMLExporter, template_file=None):
     exporter.exclude_output_prompt=True
     exporter.anchor_link_text = ' '
     exporter.template_file = 'jekyll.tpl' if template_file is None else template_file
-    exporter.template_path.append(str(Path(__file__).parent/'templates'))
+    exporter.template_paths.append(str(Path(__file__).parent/'templates'))
     return exporter
 
 # Cell
@@ -606,9 +609,10 @@ def _nbdev_detach(path_nb, dest="", use_img=False, replace=True):
 
 @call_parse
 def nbdev_detach(path_nb:Param("Path to notebook"),
-                 dest:Param("Destination folder", str)="",
-                 use_img:Param("Convert markdown images to img tags", bool_arg)=False,
-                 replace:Param("Write replacement notebook back to `path_bn`", bool_arg)=True):
+    dest:str="",  # Destination folder
+    use_img:bool_arg=False,  # Convert markdown images to img tags
+    replace:bool_arg=True  # Write replacement notebook back to `path_bn`
+):
     "Export cell attachments to `dest` and update references"
     _nbdev_detach(path_nb, dest, use_img, replace)
 
@@ -633,11 +637,13 @@ def make_readme():
 
 # Cell
 @call_parse
-def nbdev_build_docs(fname:Param("A notebook name or glob to convert", str)=None,
-                     force_all:Param("Rebuild even notebooks that haven't changed", bool_arg)=False,
-                     mk_readme:Param("Also convert the index notebook to README", bool_arg)=True,
-                     n_workers:Param("Number of workers to use", int)=None,
-                     pause:Param("Pause time (in secs) between notebooks to avoid race conditions", float)=0.5):
+def nbdev_build_docs(
+    fname:str=None,  # A notebook name or glob to convert
+    force_all:bool_arg=False, # Rebuild even notebooks that havent changed
+    mk_readme:bool_arg=True,  # Also convert the index notebook to README
+    n_workers:int=None,  # Number of workers to use
+    pause:float=0.5  # Pause time (in secs) between notebooks to avoid race conditions
+):
     "Build the documentation by converting notebooks matching `fname` to html"
     notebook2html(fname=fname, force_all=force_all, n_workers=n_workers, pause=pause)
     if fname is None: make_sidebar()
@@ -645,10 +651,12 @@ def nbdev_build_docs(fname:Param("A notebook name or glob to convert", str)=None
 
 # Cell
 @call_parse
-def nbdev_nb2md(fname:Param("A notebook file name to convert", str),
-                dest:Param("The destination folder", str)='.',
-                img_path:Param("Folder to export images to")="",
-                jekyll:Param("To use jekyll metadata for your markdown file or not", bool_arg)=False,):
+def nbdev_nb2md(
+    fname:str,  # A notebook file name to convert
+    dest:str='.',  # The destination folder
+    img_path:None="",  # Folder to export images to
+    jekyll:bool_arg=False  # To use jekyll metadata for your markdown file or not
+):
     "Convert the notebook in `fname` to a markdown file"
     _nbdev_detach(fname, dest=img_path)
     convert_md(fname, dest, jekyll=jekyll, img_path=img_path)
@@ -689,8 +697,9 @@ def _create_default_sidebar():
     dic = {"Overview": "/"}
     files = nbglob()
     fnames = [_nb2htmlfname(f) for f in sorted(files)]
-    titles = [_get_title(f) for f in fnames if f.stem!='index']
-    if len(titles) > len(set(titles)): print(f"Warning: Some of your Notebooks use the same title ({titles}).")
+    names = [f for f in fnames if f.stem!='index']
+    for t,f in groupby(names, _get_title).items():
+        if len(f) > 1: print(f'WARNING: The title: "{t}" appears in {len(f)} pages:\n\t\t{L(f).map(str)}')
     dic.update({_get_title(f):f.name if get_config().host=='github' else f.with_suffix('').name for f in fnames if f.stem!='index'})
     return dic
 

@@ -481,9 +481,38 @@ nb_path: "nbs/05_merge.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="nbdev_fix_merge" class="doc_header"><code>nbdev_fix_merge</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L92" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_fix_merge</code>(<strong><code>fname</code></strong>:"A notebook filename to fix", <strong><code>fast</code></strong>:"Fast fix: automatically fix the merge conflicts in outputs or metadata"=<em><code>True</code></em>, <strong><code>trust_us</code></strong>:"Use local outputs/metadata when fast merging"=<em><code>True</code></em>)</p>
+<h4 id="nbdev_fix_merge" class="doc_header"><code>nbdev_fix_merge</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/merge.py#L92" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>nbdev_fix_merge</code>(<strong><code>fname</code></strong>:<code>str</code>, <strong><code>fast</code></strong>:<code>bool</code>=<em><code>True</code></em>, <strong><code>trust_us</code></strong>:<code>bool</code>=<em><code>True</code></em>)</p>
 </blockquote>
 <p>Fix merge conflicts in notebook <code>fname</code></p>
+<table>
+<thead><tr>
+<th></th>
+<th>Type</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>fname</code></strong></td>
+<td><code>str</code></td>
+<td></td>
+<td>A notebook filename to fix</td>
+</tr>
+<tr>
+<td><strong><code>fast</code></strong></td>
+<td><code>bool</code></td>
+<td><code>True</code></td>
+<td>Fast fix: automatically fix the merge conflicts in outputs or metadata</td>
+</tr>
+<tr>
+<td><strong><code>trust_us</code></strong></td>
+<td><code>bool</code></td>
+<td><code>True</code></td>
+<td>Use local outputs/metadata when fast merging</td>
+</tr>
+</tbody>
+</table>
 
 </div>
 

@@ -2,6 +2,68 @@
 
 <!-- do not remove -->
 
+
+
+## 1.2.7
+
+### Bugs Squashed
+
+- Don't build NBs with no `#default_exp`
+
+## 1.2.6
+
+### New Features
+
+- `nbdev_build_libs` now works on a single file even without a `settings.ini` or any `#default_exp` cell
+- Handle `#|` as directive prefix
+
+### Bugs Squashed
+
+- nbdev_nb2md throws error when called in a notebook ([#381](https://github.com/fastai/nbdev/issues/381))
+
+
+## 1.2.5
+
+### New Features
+
+- Update dependencies
+
+
+## 1.2.3
+
+### Bugs Squashed
+
+- Pin jinja2 due to deprecation bug in nbconvert
+
+## 1.2.2
+
+### New Features
+
+- Update dependencies
+
+
+## 1.2.1
+
+### New Features
+
+- Make sure docments have linking capability ([#585](https://github.com/fastai/nbdev/pull/585)), thanks to [@muellerzr](https://github.com/muellerzr)
+- better logging for duplicate titles ([#584](https://github.com/fastai/nbdev/pull/584)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
+### Bugs Squashed
+
+- Fix repr issue with `show_doc` ([#588](https://github.com/fastai/nbdev/pull/588)), thanks to [@muellerzr](https://github.com/muellerzr)
+
+
+## 1.2.0
+
+- upgrade nbconvert dep to v6
+
+## 1.1.23
+
+### Bugs Squashed
+
+- fix verbose flag
+
 ## 1.1.20
 
 ### New Features
