@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['add_links', 'strip_ansi', 'hide_', 'hide_line', 'filter_stream_', 'clean_magics', 'lang_identify', 'rm_header_dash',
-           'rm_export', 'exec_show_docs', 'clean_show_doc', 'insert_warning', 'add_show_docs', 'add_frontmatter']
+           'rm_export', 'exec_show_docs', 'clean_show_doc', 'insert_warning', 'add_show_docs']
 
 # %% ../nbs/09_processors.ipynb 3
 import ast
@@ -162,24 +162,14 @@ _re_defaultexp = re.compile(r'^\s*#\|\s*default_exp\s+(\S+)', flags=re.MULTILINE
 def _celltyp(nb, cell_type): return nb.cells.filter(lambda c: c.cell_type == cell_type)
 def _frontmatter(nb): return _celltyp(nb, 'raw').filter(lambda c: _re_fm.search(c.get('source', '')))
 
-def _title(nb): 
-    "Get the title and description from a notebook from the H1"
+def _fm(nb): 
+    "Infer the front matter from a notebook's markdown formatting"
     md_cells = _celltyp(nb, 'markdown').filter(lambda c: _re_title.search(c.get('source', '')))
     if not md_cells: return None,None
     cell = md_cells[0]
     title,desc=_re_title.match(cell.source).groups()
+    flags = re.findall('^-\s+(.*)', cell.source, flags=re.MULTILINE)
+    flags = [s.split(':') for s in flags if ':' in s]
+    flags = {k:v for k,v in flags if k and v}
     cell['source'] = None
-    return title,desc
-
-def add_frontmatter(nb):
-    "Insert front matter if it doesn't exist"
-    if _frontmatter(nb): return
-    title,desc = _title(nb)
-    code_src = nb.cells.filter(lambda x: x.cell_type == 'code').attrgot('source')
-    default_exp = first(code_src.filter().map(_re_defaultexp.search).filter())
-    default_exp = default_exp.group(1) if default_exp else None
-    if title:
-        desc = f'description: "{desc}"\n' if desc else ''
-        outfile = f'output-file: {default_exp}\n' if default_exp else ''
-        content = f'---\ntitle: {title}\n{outfile}{desc}---\n'
-        nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=content)))
+    return title,desc,flags
