@@ -14,7 +14,6 @@ from fastcore.imports import *
 from .imports import *
 from .read import *
 from .sync import *
-from .cli import config_key
 from .process import first_code_ln
 
 # %% ../nbs/11_clean.ipynb 5
@@ -47,7 +46,7 @@ def nbprocess_trust(
 def _re_v1():
     d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 
          'collapse_hide', 'hide_output', 'collapse_input', 'collapse_output', 'default_cls_lvl']
-    d += L(get_config().get('tst_flags', []))
+    d += L(config_key('tst_flags', [], path=False, missing_ok=True))
     d += [s.replace('_', '-') for s in d] # allow for hyphenated version of old directives
     _tmp = '|'.join(list(set(d)))
     return re.compile(f"^[ \f\v\t]*?(#)\s*({_tmp})", re.MULTILINE)
@@ -106,8 +105,9 @@ def _process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
         proc_nb(nb)
         write_nb(nb, f_out)
     except Exception as e:
-        warn(f'{warn_msg}')
-        warn(e)
+        raise(e)
+        # warn(f'{warn_msg}')
+        # warn(e)
 
 # %% ../nbs/11_clean.ipynb 18
 @call_parse
@@ -123,7 +123,7 @@ def nbprocess_clean(
     _write = partial(_process_write, warn_msg='Failed to clean notebook', proc_nb=_clean)
     if stdin: _write(f_in=_wrapio(sys.stdin), f_out=_wrapio(sys.stdout))
     
-    if fname is None: fname = config_key("nbs_path", '.')
+    if fname is None: fname = config_key("nbs_path", '.', missing_ok=True)
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'): _write(f_in=f, disp=disp)
 
 # %% ../nbs/11_clean.ipynb 20
@@ -131,14 +131,15 @@ def nbprocess_clean(
 def nbprocess_migrate_directives(
     fname:str=None, # A notebook name or glob to convert
     disp:bool=False,  # Print the outputs with newly formatted directives
-    stdin:bool=False # Read input stream and not nb folder
+    stdin:bool=False, # Read input stream and not nb folder
+    no_skip:bool=False, # Do not skip directories beginning with an underscore
 ):
     "Convert all directives from v1 to v2 in `fname`."
     _write = partial(_process_write, warn_msg='Failed to replace directives', proc_nb=repl_v1dir)
     if stdin: _write(f_in=_wrapio(sys.stdin), f_out=_wrapio(sys.stdout))
-    
-    if fname is None: fname = config_key("nbs_path", '.')
-    for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'): _write(f_in=f, disp=disp)
+    _skip_re = None if no_skip else '^[_.]'
+    if fname is None: fname = config_key("nbs_path", '.', missing_ok=True)
+    for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re=_skip_re): _write(f_in=f, disp=disp)
 
 # %% ../nbs/11_clean.ipynb 21
 @call_parse

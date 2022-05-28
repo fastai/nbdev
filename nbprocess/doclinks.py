@@ -92,7 +92,7 @@ def _doc_link(url, mod, sym=None):
     if sym: res += "#" + remove_prefix(sym, mod+".")
     return res
 
-# %% ../nbs/04b_doclinks.ipynb 24
+# %% ../nbs/04b_doclinks.ipynb 23
 def build_modidx():
     "Create _modidx.py"
     dest = config_key('lib_path')
@@ -106,7 +106,7 @@ def build_modidx():
     for file in dest.glob("**/*.py"):
         if file.name[0]!='_': DocLinks(file, doc_func, _fn).build_index()
 
-# %% ../nbs/04b_doclinks.ipynb 25
+# %% ../nbs/04b_doclinks.ipynb 24
 def nbglob(path=None, recursive=True, symlinks=True, file_glob='*.ipynb',
     file_re=None, folder_re=None, skip_file_glob=None, skip_file_re=None, skip_folder_re='^[_.]', key='nbs_path'):
     "Find all files in a directory matching an extension given a `config_key`."
@@ -116,7 +116,7 @@ def nbglob(path=None, recursive=True, symlinks=True, file_glob='*.ipynb',
     return globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
         folder_re=folder_re, skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
 
-# %% ../nbs/04b_doclinks.ipynb 26
+# %% ../nbs/04b_doclinks.ipynb 25
 @call_parse
 def nbprocess_export(
     path:str=None, # path or filename

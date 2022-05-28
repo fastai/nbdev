@@ -123,12 +123,13 @@ def get_config(cfg_name='settings.ini', path=None):
     return Config(cfg_path, cfg_name=cfg_name)
 
 # %% ../nbs/01_read.ipynb 37
-def config_key(c, default=None, path=True):
+def config_key(c, default=None, path=True, missing_ok=False):
     "Look for key `c` in settings.ini and fail gracefully if not found and no default provided"
-    cfg = get_config()
-    if not c: raise ValueError(f'settings.ini not found')
-    f = cfg.path if path else cfg.get
-    res = f(c, default=default)
+    try: cfg = get_config()
+    except FileNotFoundError:
+        if missing_ok and default is not None: return default
+        else: raise ValueError('settings.ini not found')
+    res = cfg.path(c) if path else cfg.get(c, default=default)
     if res is None: raise ValueError(f'`{c}` not specified in settings.ini')
     return res
 
