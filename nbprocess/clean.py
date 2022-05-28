@@ -45,12 +45,16 @@ def nbprocess_trust(
 
 # %% ../nbs/11_clean.ipynb 7
 def _re_v1():
-    d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 
-         'hide_output', 'collapse_input', 'collapse_output', 'default_cls_lvl'] + L(get_config().get('tst_flags', []))
-    _tmp = '|'.join(d)
+    d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 
+         'collapse_hide', 'hide_output', 'collapse_input', 'collapse_output', 'default_cls_lvl']
+    d += L(get_config().get('tst_flags', []))
+    d += [s.replace('_', '-') for s in d] # allow for hyphenated version of old directives
+    _tmp = '|'.join(list(set(d)))
     return re.compile(f"^[ \f\v\t]*?(#)\s*({_tmp})", re.MULTILINE)
 
-def _repl_directives(code_str): return _re_v1().sub(r'#|\2', code_str)
+def _repl_directives(code_str): 
+    def _fmt(x): return f"#|{x.group(2).replace('-', '_')}"
+    return _re_v1().sub(_fmt, code_str)
 
 # %% ../nbs/11_clean.ipynb 9
 def repl_v1dir(nb):
