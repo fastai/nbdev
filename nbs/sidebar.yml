@@ -14,4 +14,5 @@ website:
       - 11_clean.ipynb
       - 13_lookup.ipynb
       - 14_test.ipynb
+      - 15_blog.ipynb
       - index.ipynb
