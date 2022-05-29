@@ -96,7 +96,7 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                       'nbprocess.processors.clean_show_doc': 'https://nbprocess.fast.ai/processors#clean_show_doc',
                                       'nbprocess.processors.insert_warning': 'https://nbprocess.fast.ai/processors#insert_warning',
                                       'nbprocess.processors.add_show_docs': 'https://nbprocess.fast.ai/processors#add_show_docs',
-                                      'nbprocess.processors.mdfmdict': 'https://nbprocess.fast.ai/processors#mdfmdict',
+                                      'nbprocess.processors.md_fmdict': 'https://nbprocess.fast.ai/processors#md_fmdict',
                                       'nbprocess.processors.construct_fm': 'https://nbprocess.fast.ai/processors#construct_fm',
                                       'nbprocess.processors.insert_frontmatter': 'https://nbprocess.fast.ai/processors#insert_frontmatter',
                                       'nbprocess.processors.infer_frontmatter': 'https://nbprocess.fast.ai/processors#infer_frontmatter'},

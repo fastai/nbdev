@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['DEFAULT_FM_KEYS', 'add_links', 'strip_ansi', 'hide_', 'hide_line', 'filter_stream_', 'clean_magics', 'lang_identify',
            'rm_header_dash', 'rm_export', 'exec_show_docs', 'clean_show_doc', 'insert_warning', 'add_show_docs',
-           'mdfmdict', 'construct_fm', 'insert_frontmatter', 'infer_frontmatter']
+           'md_fmdict', 'construct_fm', 'insert_frontmatter', 'infer_frontmatter']
 
 # %% ../nbs/09_processors.ipynb 3
 import ast
@@ -179,21 +179,23 @@ def _default_exp(nb):
 def _quote(s): return f"\"{s}\"" if s else ''
 
 # %% ../nbs/09_processors.ipynb 50
-def mdfmdict(nb): 
+def md_fmdict(nb): 
     "Infer the front matter from a notebook's markdown formatting"
     md_cells = _celltyp(nb, 'markdown').filter(_istitle)
     if not md_cells: return {}
     cell = md_cells[0]
     title,desc=_re_title.match(cell.source).groups()
-    title,desc=_quote(title),_quote(desc)
-    flags = re.findall('^-\s+(.*)', cell.source, flags=re.MULTILINE)
-    flags = [s.split(':') for s in flags if ':' in s]
-    flags = merge({k:v for k,v in flags if k and v}, 
-                  {'title':title, 'description':desc})
-    cell['source'] = None
-    return flags
+    if title:
+        title,desc=_quote(title),_quote(desc)
+        flags = re.findall('^-\s+(.*)', cell.source, flags=re.MULTILINE)
+        flags = [s.split(':') for s in flags if ':' in s]
+        flags = merge({k:v for k,v in flags if k and v}, 
+                      {'title':title, 'description':desc})
+        cell['source'] = None
+        return flags
+    else: return {}
 
-# %% ../nbs/09_processors.ipynb 52
+# %% ../nbs/09_processors.ipynb 53
 DEFAULT_FM_KEYS = ['title', 'description', 'author', 'image', 'categories', 'output-file']
 
 def construct_fm(fmdict:dict, keys = DEFAULT_FM_KEYS):
@@ -212,5 +214,5 @@ def infer_frontmatter(nb):
     "Insert front matter if it doesn't exist automatically from nbdev styled markdown."
     if _frontmatter(nb): return
     _exp = _default_exp(nb)
-    _fmdict = merge(mdfmdict(nb), {'output-file': _exp} if _exp else {})
+    _fmdict = merge(md_fmdict(nb), {'output-file': _exp} if _exp else {})
     if 'title' in _fmdict: insert_frontmatter(nb, fm_dict=_fmdict)
