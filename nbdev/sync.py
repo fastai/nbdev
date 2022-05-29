@@ -110,7 +110,7 @@ def _script2notebook(fname, dic, silent=False):
         nb = read_nb(nb_fname)
         for i,f,c in splits:
             c = _deal_loc_import(c, str(fname))
-            if str(nb_fname).endswith(f):
+            if f == nb_fname.name:
                 flags = split_flags_and_code(nb['cells'][i], str)[0]
                 nb['cells'][i]['source'] = flags + '\n' + c.replace('', '')
         NotebookNotary().sign(nb)
