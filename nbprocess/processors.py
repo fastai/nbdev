@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['DEFAULT_FM_KEYS', 'add_links', 'strip_ansi', 'hide_', 'hide_line', 'filter_stream_', 'clean_magics', 'lang_identify',
            'rm_header_dash', 'rm_export', 'exec_show_docs', 'clean_show_doc', 'insert_warning', 'add_show_docs',
-           'fmdict', 'construct_fm', 'insert_frontmatter', 'infer_frontmatter']
+           'mdfmdict', 'construct_fm', 'insert_frontmatter', 'infer_frontmatter']
 
 # %% ../nbs/09_processors.ipynb 3
 import ast
@@ -179,7 +179,7 @@ def _default_exp(nb):
 def _quote(s): return f"\"{s}\"" if s else ''
 
 # %% ../nbs/09_processors.ipynb 50
-def fmdict(nb): 
+def mdfmdict(nb): 
     "Infer the front matter from a notebook's markdown formatting"
     md_cells = _celltyp(nb, 'markdown').filter(_istitle)
     if not md_cells: return {}
@@ -212,5 +212,5 @@ def infer_frontmatter(nb):
     "Insert front matter if it doesn't exist automatically from nbdev styled markdown."
     if _frontmatter(nb): return
     _exp = _default_exp(nb)
-    _fmdict = merge(fmdict(nb), {'output-file': _exp} if _exp else {})
+    _fmdict = merge(mdfmdict(nb), {'output-file': _exp} if _exp else {})
     if 'title' in _fmdict: insert_frontmatter(nb, fm_dict=_fmdict)
