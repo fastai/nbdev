@@ -103,7 +103,7 @@ d = { 'syms': { 'nbprocess.extract_attachments': { 'nbprocess.extract_attachment
                                       'nbprocess.processors.infer_frontmatter': 'https://nbprocess.fast.ai/processors#infer_frontmatter'},
             'nbprocess.blog': { 'nbprocess.blog.cat_slug': 'https://nbprocess.fast.ai/blog#cat_slug',
                                 'nbprocess.blog.file_slug': 'https://nbprocess.fast.ai/blog#file_slug',
-                                'nbprocess.blog.migrate_fp_fm': 'https://nbprocess.fast.ai/blog#migrate_fp_fm'},
+                                'nbprocess.blog.migrate_nb_fm': 'https://nbprocess.fast.ai/blog#migrate_nb_fm'},
             'nbprocess.read': { 'nbprocess.read.NbCell': 'https://nbprocess.fast.ai/read#NbCell',
                                 'nbprocess.read.dict2nb': 'https://nbprocess.fast.ai/read#dict2nb',
                                 'nbprocess.read.read_nb': 'https://nbprocess.fast.ai/read#read_nb',
