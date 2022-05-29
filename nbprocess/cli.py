@@ -66,7 +66,7 @@ class FilterDefaults:
     def _nothing(self): return []
     xtra_procs=xtra_preprocs=xtra_postprocs=_nothing
     
-    def base_preprocs(self): return [add_frontmatter, add_show_docs, insert_warning]
+    def base_preprocs(self): return [infer_frontmatter, add_show_docs, insert_warning]
     def base_postprocs(self): return []
     def base_procs(self):
         return [strip_ansi, hide_line, filter_stream_, lang_identify, rm_header_dash,
