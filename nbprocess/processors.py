@@ -175,6 +175,9 @@ def _default_exp(nb):
     default_exp = first(code_src.filter().map(_re_defaultexp.search).filter())
     return default_exp.group(1) if default_exp else None
 
+# %% ../nbs/09_processors.ipynb 49
+def _quote(s): return f"\"{s}\"" if s else ''
+
 # %% ../nbs/09_processors.ipynb 50
 def fmdict(nb): 
     "Infer the front matter from a notebook's markdown formatting"
