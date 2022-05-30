@@ -33,8 +33,7 @@ def _directive(s):
 def norm_quarto(s):
     "normalize quarto directives so they have a space after the colon"
     m = _quarto_re.match(s)
-    if not m: raise ValueError(f"{s} is not a quarto directive.")
-    else: return m.group(0) + ' ' + _quarto_re.sub('', s).lstrip()
+    return m.group(0) + ' ' + _quarto_re.sub('', s).lstrip() if m else s
 
 # %% ../nbs/03_process.ipynb 10
 def first_code_ln(code_list, re_pattern=_dir_pre): 
