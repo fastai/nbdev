@@ -1,18 +1,17 @@
 #!/bin/bash
 set -e
 install_linux() {
-		echo "...installing Quarto"
-		wget -nv https://www.quarto.org/download/latest/quarto-linux-amd64.deb
-		sudo dpkg -i *64.deb
-		rm *64.deb
+	wget -nv https://www.quarto.org/download/latest/quarto-linux-amd64.deb
+	sudo dpkg -i *64.deb
+	rm *64.deb
 }
 
 install_mac() {
-		echo "...opening installer for Quarto"
-		wget -nv https://www.quarto.org/download/latest/quarto-macos.pkg
-		open quarto-macos.pkg
+	wget -nv https://www.quarto.org/download/latest/quarto-macos.pkg
+	open quarto-macos.pkg
 }
 
+sudo echo "...installing Quarto"
 case "$OSTYPE" in
 linux*)   install_linux ;;
 darwin*)  install_mac ;;

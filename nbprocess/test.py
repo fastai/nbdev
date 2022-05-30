@@ -84,7 +84,8 @@ def nbprocess_test(
     if all(passed): print("Success.")
     else: 
         _fence = '='*50
-        sys.stderr.write(f"\nnbprocess Tests Failed On The Following Notebooks:\n{_fence}\n\t" + '\n\t'.join([f.name for p,f in zip(passed,files) if not p]))
+        failed = '\n\t'.join(f.name for p,f in zip(passed,files) if not p)
+        sys.stderr.write(f"\nnbprocess Tests Failed On The Following Notebooks:\n{_fence}\n\t{failed}")
         exit(1)
     if timing:
         for i,t in sorted(enumerate(times), key=lambda o:o[1], reverse=True): print(f"{files[i].name}: {int(t)} secs")

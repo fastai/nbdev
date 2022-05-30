@@ -18,7 +18,6 @@ serve:
 
 docs: .FORCE
 	nbprocess_export
-	pip install -e .
 	nbprocess_quarto
 
 test:
@@ -38,12 +37,12 @@ dist: clean
 
 clean:
 	rm -rf dist
-	
 
 install: install_quarto
-	pip install -e .
+	pip install -e .[dev]
 
 install_quarto: .FORCE
 	./install_quarto.sh
 
 .FORCE:
+
