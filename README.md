@@ -37,5 +37,5 @@ The following CLI tools are provided:
     Create Quarto web site
 -   [nbprocess_new](https://nbprocess.fast.ai/cli#nbprocess_new): Create
     a new `nbprocess` project
--   [nbprocess_migrate_directives](https://nbprocess.fast.ai/clean#nbprocess_migrate_directives):
+-   [nbprocess_migrate_directives](https://nbprocess.fast.ai/migrate#nbprocess_migrate_directives):
     helps you migrate all your directives from nbdev v1 to v2.
