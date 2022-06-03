@@ -50,8 +50,9 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
                 _fence = '='*75
                 tb = e.__traceback__
                 while tb and _skip_frame(tb): tb = tb.tb_next
-                line_no = tb.tb_next.tb_lineno #changes to the tinykernel library could break this
                 tb_str = '\n'.join(traceback.format_exception(etype=type(e), value=e, tb=e.__traceback__)[-2:])
+                #changes to the tinykernel library could break this
+                line_no = nested_attr(tb, 'tb_next.tb_lineno', 0)
                 cell_str = f"\nWhile Executing Cell #{cell.idx_}:\n{_format_code(cell.source.splitlines(), line_no)}"
                 warning(f"{type(e).__name__} in {fn}:\n{_fence}\n{cell_str}\n{tb_str}\n") 
                 raise nbprocessTestFailure('nbprocess test failed')
