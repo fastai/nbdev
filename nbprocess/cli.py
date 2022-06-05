@@ -278,17 +278,18 @@ def nbprocess_quarto(
     cfg_path = cfg.config_path
     refresh_quarto_yml()
     path = config_key("nbs_path") if not path else Path(path)
+    idx_path = path/'index.ipynb'
     files = _create_sidebar(path, symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
     doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
     tmp_doc_path = config_key('nbs_path')/f"{cfg['doc_path']}"
     shutil.rmtree(doc_path, ignore_errors=True)
     os.system(f'cd {path} && quarto render --no-execute')
-    os.system(f'cd {path} && quarto render {files[-1]} -o README.md -t gfm --no-execute')
+    if idx_path.exists(): os.system(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute')
     
     if (tmp_doc_path/'README.md').exists():
         (cfg_path/'README.md').unlink(missing_ok=True)
-        shutil.move(tmp_doc_path/'README.md', cfg_path) # README.md is temporarily in the nbs/docs folder
+        shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in the nbs/docs folder
     
     if tmp_doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
         shutil.rmtree(doc_path, ignore_errors=True)
