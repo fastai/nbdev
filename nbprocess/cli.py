@@ -2,12 +2,13 @@
 
 # %% ../nbs/10_cli.ipynb 1
 from __future__ import annotations
-import json,shutil,warnings
+import json,warnings
 from .read import *
 from .sync import *
 from .process import *
 from .processors import *
 from fastcore.utils import *
+from fastcore import shutil
 from fastcore.script import call_parse
 from urllib.error import HTTPError
 from contextlib import redirect_stdout

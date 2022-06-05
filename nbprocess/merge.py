@@ -9,9 +9,10 @@ from .read import *
 from .export import *
 from .sync import *
 from fastcore.script import *
+from fastcore import shutil
 
 from difflib import SequenceMatcher
-import json,shutil
+import json
 
 # %% ../nbs/06_merge.ipynb 17
 _BEG,_MID,_END = '<'*7,'='*7,'>'*7
