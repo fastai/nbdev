@@ -12,7 +12,6 @@ from .doclinks import *
 import inspect
 from collections import OrderedDict
 from dataclasses import dataclass, is_dataclass
-
 from .read import get_config
 
 # %% ../nbs/08_showdoc.ipynb 6
