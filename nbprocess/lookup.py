@@ -54,7 +54,7 @@ def _link_sym(self:NbdevLookup, m):
 
 _re_backticks = re.compile(r'`([^`\s]+)`')
 @patch
-def _link_line(self:NbdevLookup, l): return _re_backticks.sub(self._link_sym, l)
+def link_line(self:NbdevLookup, l): return _re_backticks.sub(self._link_sym, l)
 
 @patch
 def linkify(self:NbdevLookup, md):
@@ -63,5 +63,5 @@ def linkify(self:NbdevLookup, md):
         lines = md.splitlines()
         for i,l in enumerate(lines):
             if l.startswith("```"): in_fence=not in_fence
-            elif not l.startswith('    ') and not in_fence: lines[i] = self._link_line(l)
+            elif not l.startswith('    ') and not in_fence: lines[i] = self.link_line(l)
         return '\n'.join(lines)
