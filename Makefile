@@ -12,9 +12,15 @@ sync:
 deploy: docs
 	nbprocess_ghp_deploy
 
-serve:
+preview: ## Live preview quarto docs with hot reloading.
 	nbprocess_sidebar
-	IN_TEST=1 && cd nbs && quarto preview
+	nbprocess_export
+	IN_TEST=1 &&  nbprocess_quarto --preview
+
+prepare: ## Export notebooks to python modules, test code and clean notebooks.
+	nbprocess_export
+	nbprocess_test
+	nbprocess_clean
 
 docs: .FORCE
 	nbprocess_export
