@@ -36,7 +36,8 @@ class DocmentTbl:
         self.verbose = verbose
         self.returns = False if isdataclass(obj) else returns
         self.params = L(inspect.signature(obj).parameters.keys())
-        _dm = docments(obj, full=True, returns=returns)
+        try: _dm = docments(obj, full=True, returns=returns)
+        except: _dm = {}
         if 'self' in _dm: del _dm['self']
         for d in _dm.values(): d['docment'] = ifnone(d['docment'], inspect._empty)
         self.dm = _dm
@@ -49,7 +50,7 @@ class DocmentTbl:
         return OrderedDict({k:v for k,v in candidates.items() if k in cols})
     
     @property
-    def has_docment(self): return self._columns and self._row_list
+    def has_docment(self): return 'docment' in self._columns and self._row_list 
 
     @property
     def has_return(self): return self.returns and bool(_non_empty_keys(self.dm.get('return', {})))
@@ -83,7 +84,7 @@ class DocmentTbl:
         "The markdown string for the returns portion of the table."
         return _list2row(['**Returns**']+[_bold(_maybe_nm(self.dm['return'][c])) for c in self._columns])
     
-    def __str__(self):
+    def _repr_markdown_(self):
         if not self.has_docment: return ''
         _tbl = [self.hdr_str, self.params_str]
         if self.has_return: _tbl.append(self.return_str)
@@ -91,7 +92,7 @@ class DocmentTbl:
     
     def __eq__(self,other): return self.__str__() == str(other).strip()
 
-    def _repr_markdown_(self): return self.__str__()
+    def __str__(self): return self._repr_markdown_()
 
 # %% ../nbs/08_showdoc.ipynb 29
 def get_name(obj):
