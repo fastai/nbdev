@@ -14,6 +14,10 @@ from collections import OrderedDict
 from dataclasses import dataclass, is_dataclass
 from .read import get_config
 
+# %% ../nbs/08_showdoc.ipynb 5
+def _non_empty_keys(d:dict): return L([k for k,v in d.items() if v != inspect._empty])
+def _bold(s): return f'**{s}**' if s.strip() else s
+
 # %% ../nbs/08_showdoc.ipynb 6
 def _maybe_nm(o): 
     if (o == inspect._empty): return ''
@@ -89,7 +93,7 @@ class DocmentTbl:
 
     def _repr_markdown_(self): return self.__str__()
 
-# %% ../nbs/08_showdoc.ipynb 29
+# %% ../nbs/08_showdoc.ipynb 30
 def get_name(obj):
     "Get the name of `obj`"
     if hasattr(obj, '__name__'):       return obj.__name__
@@ -98,14 +102,14 @@ def get_name(obj):
     elif type(obj)==property:          return _get_property_name(obj)
     else:                              return str(obj).split('.')[-1]
 
-# %% ../nbs/08_showdoc.ipynb 30
+# %% ../nbs/08_showdoc.ipynb 31
 def qual_name(obj):
     "Get the qualified name of `obj`"
     if hasattr(obj,'__qualname__'): return obj.__qualname__
     if inspect.ismethod(obj):       return f"{get_name(obj.__self__)}.{get_name(fn)}"
     return get_name(obj)
 
-# %% ../nbs/08_showdoc.ipynb 31
+# %% ../nbs/08_showdoc.ipynb 32
 class ShowDocRenderer:
     def __init__(self, sym, disp:bool=True):
         "Show documentation for `sym`"
@@ -116,16 +120,17 @@ class ShowDocRenderer:
         self.docs = docstring(sym)
         self.dm = DocmentTbl(sym)
 
-# %% ../nbs/08_showdoc.ipynb 32
+# %% ../nbs/08_showdoc.ipynb 33
 class BasicMarkdownRenderer(ShowDocRenderer):
     def _repr_markdown_(self):
         doc = '---\n\n'
         if self.isfunc: doc += '#'
         doc += f'### {self.nm}\n\n> **`{self.nm}`**` {self.sig}`'
-        if self.docs: doc += f"\n\n{self.docs}"
+        if self.docs: doc += f"\n\n{self.docs.splitlines()[0]}"
+        if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 33
+# %% ../nbs/08_showdoc.ipynb 34
 def show_doc(sym, disp=True, renderer=None):
     if renderer is None: renderer = get_config().get('renderer', None)
     if renderer is None: renderer=BasicMarkdownRenderer
@@ -134,7 +139,7 @@ def show_doc(sym, disp=True, renderer=None):
         renderer = getattr(import_module(p), m)
     return renderer(sym or show_doc, disp=disp)
 
-# %% ../nbs/08_showdoc.ipynb 38
+# %% ../nbs/08_showdoc.ipynb 44
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
@@ -143,7 +148,7 @@ class BasicHtmlRenderer(ShowDocRenderer):
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 40
+# %% ../nbs/08_showdoc.ipynb 46
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(get_patch_name(tree), tree.name)
