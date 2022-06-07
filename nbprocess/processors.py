@@ -23,7 +23,7 @@ def add_links(cell):
     if cell.cell_type == 'markdown': cell.source = nbprocess_lookup.linkify(cell.source)
     for o in cell.get('outputs', []):
         if hasattr(o, 'data') and hasattr(o['data'], 'text/markdown'):
-            o.data['text/markdown'] = [nbprocess_lookup.linkify(s) for s in o.data['text/markdown']]
+            o.data['text/markdown'] = [nbprocess_lookup.link_line(s) for s in o.data['text/markdown']]
 
 # %% ../nbs/09_processors.ipynb 13
 _re_ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
