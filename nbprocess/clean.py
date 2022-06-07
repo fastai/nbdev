@@ -6,6 +6,7 @@ __all__ = ['nbprocess_trust', 'clean_nb', 'wrapio', 'process_write', 'nbprocess_
 # %% ../nbs/11_clean.ipynb 3
 import json,warnings,stat
 
+from execnb.nbio import *
 from fastcore.script import *
 from fastcore.utils import *
 from fastcore.imports import *

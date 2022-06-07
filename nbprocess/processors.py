@@ -14,6 +14,7 @@ from .process import *
 from .lookup import *
 from .showdoc import *
 
+from execnb.nbio import *
 from fastcore.imports import *
 from fastcore.xtras import *
 

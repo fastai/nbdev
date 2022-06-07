@@ -8,6 +8,8 @@ from .imports import *
 from .read import *
 from .export import *
 from .sync import *
+
+from execnb.nbio import *
 from fastcore.script import *
 from fastcore import shutil
 

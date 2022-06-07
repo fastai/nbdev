@@ -10,6 +10,7 @@ from .imports import *
 
 from fastcore.script import *
 from fastcore.utils import *
+from execnb.nbio import *
 
 import ast,contextlib
 
