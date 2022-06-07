@@ -72,10 +72,11 @@ def _is_direc(f): return getattr(f, '__name__', '-')[-1]=='_'
 # %% ../nbs/03_process.ipynb 18
 class NBProcessor:
     "Process cells and nbdev comments in a notebook"
-    def __init__(self, path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False, rm_directives=True):
+    def __init__(self, path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False, rm_directives=True, process=False):
         self.nb = read_nb(path) if nb is None else nb
         self.procs,self.preprocs,self.postprocs = map(_mk_procs, (procs,preprocs,postprocs))
         self.debug,self.rm_directives = debug,rm_directives
+        if process: self.process()
 
     def _process_cell(self, cell):
         self.cell = cell
