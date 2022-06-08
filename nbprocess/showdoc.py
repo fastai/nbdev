@@ -122,16 +122,21 @@ class ShowDocRenderer:
         self.dm = DocmentTbl(sym)
 
 # %% ../nbs/08_showdoc.ipynb 32
+def _fmt_sig(sig):
+    p = sig.parameters
+    return "(" + ', '.join([str(p[k]) for k in p.keys() if k != 'self'])  + ")"
+
+# %% ../nbs/08_showdoc.ipynb 33
 class BasicMarkdownRenderer(ShowDocRenderer):
     def _repr_markdown_(self):
         doc = '---\n\n'
         if self.isfunc: doc += '#'
-        doc += f'### {self.nm}\n\n> **`{self.nm}`**` {self.sig}`'
+        doc += f'### {self.nm}\n\n> **`{self.nm}`**` {_fmt_sig(self.sig)}`'
         if self.docs: doc += f"\n\n{self.docs.splitlines()[0]}"
         if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 33
+# %% ../nbs/08_showdoc.ipynb 34
 def show_doc(sym, disp=True, renderer=None):
     if renderer is None: renderer = get_config().get('renderer', None)
     if renderer is None: renderer=BasicMarkdownRenderer
@@ -140,7 +145,7 @@ def show_doc(sym, disp=True, renderer=None):
         renderer = getattr(import_module(p), m)
     return renderer(sym or show_doc, disp=disp)
 
-# %% ../nbs/08_showdoc.ipynb 43
+# %% ../nbs/08_showdoc.ipynb 46
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
@@ -149,7 +154,7 @@ class BasicHtmlRenderer(ShowDocRenderer):
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 45
+# %% ../nbs/08_showdoc.ipynb 48
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(get_patch_name(tree), tree.name)
