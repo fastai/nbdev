@@ -5,9 +5,12 @@ __all__ = ['test_nb', 'nbprocess_test']
 
 # %% ../nbs/14_test.ipynb 2
 import time,os,sys,traceback,contextlib, inspect
-from fastcore.utils import *
-from fastcore.script import *
+from fastcore.basics import *
 from fastcore.imports import *
+from fastcore.foundation import *
+from fastcore.parallel import *
+from fastcore.script import *
+
 from .read import *
 from .doclinks import *
 from .process import NBProcessor

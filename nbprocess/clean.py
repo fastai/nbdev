@@ -8,7 +8,7 @@ import json,warnings,stat
 
 from execnb.nbio import *
 from fastcore.script import *
-from fastcore.utils import *
+from fastcore.basics import *
 from fastcore.imports import *
 
 from .imports import *

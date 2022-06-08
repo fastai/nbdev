@@ -9,7 +9,8 @@ from .read import *
 from .imports import *
 
 from fastcore.script import *
-from fastcore.utils import *
+from fastcore.basics import *
+from fastcore.imports import *
 from execnb.nbio import *
 
 import ast,contextlib

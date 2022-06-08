@@ -11,7 +11,8 @@ from .imports import *
 
 from fastcore.script import *
 from fastcore.imports import *
-from fastcore.utils import *
+from fastcore.basics import *
+from fastcore.imports import *
 
 import ast,contextlib
 from pprint import pformat

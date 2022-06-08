@@ -8,7 +8,8 @@ __all__ = ['mk_cell', 'create_output', 'NBRunner', 'nbprocess_create_config', 'g
 from datetime import datetime
 from fastcore.imports import *
 from fastcore.foundation import *
-from fastcore.utils import *
+from fastcore.basics import *
+from fastcore.imports import *
 from fastcore.test import *
 from fastcore.script import *
 from fastcore.xtras import *

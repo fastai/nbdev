@@ -6,7 +6,10 @@ __all__ = ['DocmentTbl', 'get_name', 'qual_name', 'ShowDocRenderer', 'BasicMarkd
 
 # %% ../nbs/08_showdoc.ipynb 3
 from fastcore.docments import *
-from fastcore.utils import *
+from fastcore.basics import *
+from fastcore.imports import *
+from fastcore.foundation import *
+
 from importlib import import_module
 from .doclinks import *
 import inspect, sys
@@ -14,21 +17,21 @@ from collections import OrderedDict
 from dataclasses import dataclass, is_dataclass
 from .read import get_config
 
-# %% ../nbs/08_showdoc.ipynb 5
+# %% ../nbs/08_showdoc.ipynb 6
 def _non_empty_keys(d:dict): return L([k for k,v in d.items() if v != inspect._empty])
 def _bold(s): return f'**{s}**' if s.strip() else s
 def _ispy3_10(): return sys.version_info.major >=3 and sys.version_info.minor >=10
 def _signature(obj): return inspect.signature(obj, eval_str=True) if _ispy3_10() else inspect.signature(obj)
 
-# %% ../nbs/08_showdoc.ipynb 6
+# %% ../nbs/08_showdoc.ipynb 7
 def _maybe_nm(o): 
     if (o == inspect._empty): return ''
     else: return o.__name__ if hasattr(o, '__name__') else str(o)
 
-# %% ../nbs/08_showdoc.ipynb 8
+# %% ../nbs/08_showdoc.ipynb 9
 def _list2row(l:list): return '| '+' | '.join([_maybe_nm(o) for o in l]) + ' |'
 
-# %% ../nbs/08_showdoc.ipynb 10
+# %% ../nbs/08_showdoc.ipynb 11
 class DocmentTbl:
     # this is the column order we want these items to appear
     _map = OrderedDict({'anno':'Type', 'default':'Default', 'docment':'Details'})
@@ -96,7 +99,7 @@ class DocmentTbl:
 
     def __str__(self): return self._repr_markdown_()
 
-# %% ../nbs/08_showdoc.ipynb 29
+# %% ../nbs/08_showdoc.ipynb 30
 def get_name(obj):
     "Get the name of `obj`"
     if hasattr(obj, '__name__'):       return obj.__name__
@@ -105,14 +108,14 @@ def get_name(obj):
     elif type(obj)==property:          return _get_property_name(obj)
     else:                              return str(obj).split('.')[-1]
 
-# %% ../nbs/08_showdoc.ipynb 30
+# %% ../nbs/08_showdoc.ipynb 31
 def qual_name(obj):
     "Get the qualified name of `obj`"
     if hasattr(obj,'__qualname__'): return obj.__qualname__
     if inspect.ismethod(obj):       return f"{get_name(obj.__self__)}.{get_name(fn)}"
     return get_name(obj)
 
-# %% ../nbs/08_showdoc.ipynb 31
+# %% ../nbs/08_showdoc.ipynb 32
 class ShowDocRenderer:
     def __init__(self, sym, disp:bool=True):
         "Show documentation for `sym`"
@@ -123,13 +126,13 @@ class ShowDocRenderer:
         self.docs = docstring(sym)
         self.dm = DocmentTbl(sym)
 
-# %% ../nbs/08_showdoc.ipynb 32
+# %% ../nbs/08_showdoc.ipynb 33
 def _fmt_sig(sig):
     p = sig.parameters
     _params = [str(p[k]).replace(' ','') for k in p.keys() if k != 'self']
     return "(" + ', '.join(_params)  + ")"
 
-# %% ../nbs/08_showdoc.ipynb 34
+# %% ../nbs/08_showdoc.ipynb 35
 class BasicMarkdownRenderer(ShowDocRenderer):
     def _repr_markdown_(self):
         doc = '---\n\n'
@@ -139,7 +142,7 @@ class BasicMarkdownRenderer(ShowDocRenderer):
         if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 35
+# %% ../nbs/08_showdoc.ipynb 36
 def show_doc(sym, disp=True, renderer=None):
     if renderer is None: renderer = get_config().get('renderer', None)
     if renderer is None: renderer=BasicMarkdownRenderer
@@ -148,7 +151,7 @@ def show_doc(sym, disp=True, renderer=None):
         renderer = getattr(import_module(p), m)
     return renderer(sym or show_doc, disp=disp)
 
-# %% ../nbs/08_showdoc.ipynb 47
+# %% ../nbs/08_showdoc.ipynb 48
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
@@ -157,7 +160,7 @@ class BasicHtmlRenderer(ShowDocRenderer):
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 49
+# %% ../nbs/08_showdoc.ipynb 50
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(get_patch_name(tree), tree.name)

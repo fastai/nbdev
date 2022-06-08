@@ -8,7 +8,8 @@ from .imports import *
 from .read import *
 from .export import *
 from .doclinks import *
-from fastcore.utils import *
+from fastcore.basics import *
+from fastcore.imports import *
 
 import pkg_resources,importlib
 
