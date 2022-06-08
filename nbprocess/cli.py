@@ -276,7 +276,8 @@ def nbprocess_quarto(
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str=None, # Skip files matching regex
-    skip_folder_re:str='^[_.]' # Skip folders matching regex
+    skip_folder_re:str='^[_.]', # Skip folders matching regex
+    preview:bool=False # Preview the site instead of building it
 ):
     "Create quarto docs and README.md"
     cfg = get_config()
@@ -289,13 +290,15 @@ def nbprocess_quarto(
     doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
     tmp_doc_path = config_key('nbs_path')/f"{cfg['doc_path']}"
     shutil.rmtree(doc_path, ignore_errors=True)
-    os.system(f'cd {path} && quarto render --no-execute')
-    if idx_path.exists(): os.system(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute')
-    
-    if (tmp_doc_path/'README.md').exists():
-        (cfg_path/'README.md').unlink(missing_ok=True)
-        shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in the nbs/docs folder
-    
-    if tmp_doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
-        shutil.rmtree(doc_path, ignore_errors=True)
-        shutil.move(tmp_doc_path, cfg_path)
+    cmd = 'preview' if preview else 'render'
+    os.system(f'cd {path} && quarto {cmd} --no-execute')
+    if not preview:
+        if idx_path.exists(): os.system(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute')
+
+        if (tmp_doc_path/'README.md').exists():
+            (cfg_path/'README.md').unlink(missing_ok=True)
+            shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in the nbs/docs folder
+
+        if tmp_doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
+            shutil.rmtree(doc_path, ignore_errors=True)
+            shutil.move(tmp_doc_path, cfg_path)
