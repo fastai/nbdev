@@ -1,4 +1,5 @@
 ipynb-filters: [nbprocess_filter]
+#ipynb-filters: [cat]
 
 project:
   type: website

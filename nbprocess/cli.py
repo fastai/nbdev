@@ -93,8 +93,6 @@ def nbprocess_filter(
     nb_txt:str=None  # Notebook text (uses stdin if not provided)
 ):
     "A notebook filter for quarto"
-    return print(sys.stdin.read(), flush=True)
-
     os.environ["IN_TEST"] = "1"
     filt = get_config().get('exporter', FilterDefaults)()
     printit = False
