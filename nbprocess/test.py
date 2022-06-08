@@ -17,7 +17,7 @@ from execnb.nbio import *
 from execnb.shell import *
 
 # %% ../nbs/14_test.ipynb 4
-def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
+def test_nb(fn, skip_flags=None, force_flags=None, do_print=False, showerr=True):
     "Execute tests in notebook in `fn` except those with `skip_flags`"
     if not IN_NOTEBOOK: os.environ["IN_TEST"] = '1'
     flags=set(L(skip_flags)) - set(L(force_flags))
@@ -35,7 +35,9 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
     try:
         k.run_all(nb, exc_stop=True, preproc=_do_eval)
         res = True
-    except: res=False
+    except: 
+        if showerr: warning(k.prettytb(fname=fn))
+        res=False
     if do_print: print(f'- Completed {fn}')
     return res,time.time()-start
 
