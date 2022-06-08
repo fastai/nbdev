@@ -60,11 +60,11 @@ def opt_set(var, newval):
     return newval if newval else var
 
 # %% ../nbs/03_process.ipynb 16
-def instantiate(x):
+def instantiate(x, **kwargs):
     "Instantiate `x` if it's a type"
-    return x() if isinstance(x,type) else x
+    return x(**kwargs) if isinstance(x,type) else x
 
-def _mk_procs(procs): return L(procs).map(instantiate)
+def _mk_procs(procs, nb): return L(procs).map(instantiate, nb=nb)
 
 # %% ../nbs/03_process.ipynb 17
 def _is_direc(f): return getattr(f, '__name__', '-')[-1]=='_'
@@ -74,7 +74,7 @@ class NBProcessor:
     "Process cells and nbdev comments in a notebook"
     def __init__(self, path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False, rm_directives=True, process=False):
         self.nb = read_nb(path) if nb is None else nb
-        self.procs,self.preprocs,self.postprocs = map(_mk_procs, (procs,preprocs,postprocs))
+        self.procs,self.preprocs,self.postprocs = map_ex((procs,preprocs,postprocs), _mk_procs, nb=self.nb)
         self.debug,self.rm_directives = debug,rm_directives
         if process: self.process()
 

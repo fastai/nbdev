@@ -23,17 +23,16 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False, showerr=True)
     flags=set(L(skip_flags)) - set(L(force_flags))
     nb = NBProcessor(fn, process=True).nb
 
-    def _do_eval(cell):
+    def _no_eval(cell):
         if cell.cell_type != 'code': return True
         direc = getattr(cell, 'directives_', {}) or {}
         if direc.get('eval:', [''])[0].lower() == 'false': return True
         return flags & direc.keys()
     
-    k,start = CaptureShell(),time.time()
-    k.set_path(Path(fn).parent.resolve())
+    start = time.time()
     if do_print: print(f'Starting {fn}')
     try:
-        k.run_all(nb, exc_stop=True, preproc=_do_eval)
+        CaptureShell(fn).run_all(nb, exc_stop=True, preproc=_no_eval)
         res = True
     except: 
         if showerr: warning(k.prettytb(fname=fn))
