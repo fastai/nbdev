@@ -30,9 +30,10 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False, showerr=True)
         return flags & direc.keys()
     
     start = time.time()
+    k = CaptureShell(fn)
     if do_print: print(f'Starting {fn}')
     try:
-        CaptureShell(fn).run_all(nb, exc_stop=True, preproc=_no_eval)
+        k.run_all(nb, exc_stop=True, preproc=_no_eval)
         res = True
     except: 
         if showerr: warning(k.prettytb(fname=fn))

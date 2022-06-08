@@ -1,4 +1,4 @@
-ipynb-filters: [nbprocess_filter]
+#ipynb-filters: [nbprocess_filter]
 
 project:
   type: website
