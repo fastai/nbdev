@@ -30,6 +30,7 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False):
         return flags & direc.keys()
     
     k,start = CaptureShell(),time.time()
+    k.set_path(Path(fn).parent.resolve())
     if do_print: print(f'Starting {fn}')
     try:
         k.run_all(nb, exc_stop=True, preproc=_do_eval)
