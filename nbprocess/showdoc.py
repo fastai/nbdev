@@ -9,7 +9,7 @@ from fastcore.docments import *
 from fastcore.utils import *
 from importlib import import_module
 from .doclinks import *
-import inspect
+import inspect, sys
 from collections import OrderedDict
 from dataclasses import dataclass, is_dataclass
 from .read import get_config
@@ -17,6 +17,8 @@ from .read import get_config
 # %% ../nbs/08_showdoc.ipynb 5
 def _non_empty_keys(d:dict): return L([k for k,v in d.items() if v != inspect._empty])
 def _bold(s): return f'**{s}**' if s.strip() else s
+def _ispy3_10(): return sys.version_info.major >=3 and sys.version_info.minor >=10
+def _signature(obj): return inspect.signature(obj, eval_str=True) if _ispy3_10() else inspect.signature(obj)
 
 # %% ../nbs/08_showdoc.ipynb 6
 def _maybe_nm(o): 
@@ -35,7 +37,7 @@ class DocmentTbl:
         "Compute the docment table string"
         self.verbose = verbose
         self.returns = False if isdataclass(obj) else returns
-        self.params = L(inspect.signature(obj).parameters.keys())
+        self.params = L(_signature(obj).parameters.keys())
         try: _dm = docments(obj, full=True, returns=returns)
         except: _dm = {}
         if 'self' in _dm: del _dm['self']
@@ -117,7 +119,7 @@ class ShowDocRenderer:
         store_attr()
         self.nm = qual_name(sym)
         self.isfunc = inspect.isfunction(sym)
-        self.sig = inspect.signature(sym)
+        self.sig = _signature(sym)
         self.docs = docstring(sym)
         self.dm = DocmentTbl(sym)
 
