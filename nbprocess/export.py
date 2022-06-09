@@ -14,7 +14,6 @@ from fastcore.basics import *
 from fastcore.imports import *
 
 from collections import defaultdict
-import black
 
 # %% ../nbs/04a_export.ipynb 5
 class ExportModuleProc:
@@ -27,17 +26,21 @@ class ExportModuleProc:
         self.in_all[ifnone(exp_to, '#')].append(nbp.cell)
 
 # %% ../nbs/04a_export.ipynb 8
-_format_str = partial(black.format_str, mode = black.Mode())
 cfg = get_config()
 
 def black_format(cell, # A cell node 
                  force=False #An override to turn black formatting on regardless of settings.ini
                 ):
-    "Format code with black"
-    if cfg.get('black_formatting') != 'True' and not force: return
-    if cell.cell_type == 'code': 
-        try: cell.source = _format_str(cell.source).strip()
-        except: pass
+    "Format code with `black`."
+    if (cfg.get('black_formatting') != 'True' and not force) or cell.cell_type != 'code': return
+    else:
+        try: 
+            import black
+            _format_str = partial(black.format_str, mode = black.Mode())
+        except: raise ImportError("You must install black: `pip install black` if you wish to use black formatting with nbprocess")
+        else:
+            try: cell.source = _format_str(cell.source).strip()
+            except: pass
 
 # %% ../nbs/04a_export.ipynb 10
 def create_modules(path, dest, procs=None, debug=False, mod_maker=ModuleMaker):
