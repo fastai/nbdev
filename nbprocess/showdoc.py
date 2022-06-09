@@ -151,7 +151,7 @@ def show_doc(sym, disp=True, renderer=None):
         renderer = getattr(import_module(p), m)
     return renderer(sym or show_doc, disp=disp)
 
-# %% ../nbs/08_showdoc.ipynb 48
+# %% ../nbs/08_showdoc.ipynb 49
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
@@ -160,7 +160,7 @@ class BasicHtmlRenderer(ShowDocRenderer):
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 50
+# %% ../nbs/08_showdoc.ipynb 54
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(get_patch_name(tree), tree.name)
