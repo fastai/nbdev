@@ -11,6 +11,7 @@ from fastcore.foundation import *
 from fastcore.parallel import *
 from fastcore.script import *
 
+
 from .read import *
 from .doclinks import *
 from .process import NBProcessor
@@ -44,7 +45,16 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False, showerr=True)
     if do_print: print(f'- Completed {fn}')
     return res,time.time()-start
 
-# %% ../nbs/14_test.ipynb 10
+# %% ../nbs/14_test.ipynb 9
+def _keep_file(fname:str, # filename for which to check for `indicator_fname`
+               ignore_fname:str # filename that will result in siblings being ignored
+                ) -> bool:
+    "Returns False if `indicator_fname` is a sibling to `fname` else True"
+    p = Path(fname)
+    if p.exists(): return not bool(p.parent.ls().attrgot('name').filter(lambda x: x == ignore_fname))
+    else: True
+
+# %% ../nbs/14_test.ipynb 12
 @call_parse
 def nbprocess_test(
     fname:str=None,  # A notebook name or glob to convert
@@ -52,12 +62,16 @@ def nbprocess_test(
     n_workers:int=None,  # Number of workers to use
     timing:bool=False,  # Timing each notebook to see the ones are slow
     do_print:str=False, # Print start and end of each NB
-    pause:float=0.01  # Pause time (in secs) between notebooks to avoid race conditions
+    pause:float=0.01,  # Pause time (in secs) between notebooks to avoid race conditions
+    ignore_fname:str='.notest' # filename that will result in siblings being ignored
 ):
     "Test in parallel the notebooks matching `fname`, passing along `flags`"
     skip_flags = config_key('tst_flags', '', path=False).split()
     force_flags = flags.split()
-    files = [Path(f).absolute() for f in sorted(nbglob(fname))]
+    files = [Path(f).absolute() for f in sorted(nbglob(fname)) if _keep_file(f, ignore_fname)]
+    if len(files)==0:
+        print('No files were eligible for testing')
+        return
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
     os.chdir(config_key("nbs_path"))
     results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers, pause=pause, do_print=do_print)
