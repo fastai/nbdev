@@ -26,6 +26,8 @@ jobs:
 
       - name: Test git commands
         run: |
+          git config --global user.email "${GH_EMAIL}"
+          git config --global user.name "${GH_USERNAME}"
           git config --get remote.origin.url
           git config --get user.name
           git config --get user.email
