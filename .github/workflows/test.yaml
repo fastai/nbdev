@@ -1,20 +1,32 @@
 name: CI
-on: [workflow_dispatch, pull_request, push]
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
           architecture: "x64"
+          cache: "pip"
+          cache-dependency-path: settings.ini
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -qe ".[dev]"
           pip install -Uq git+https://github.com/fastai/fastcore.git
+          pip install -Uq git+https://github.com/fastai/ghapi.git
+      - name: Set git info for tests
+        run: |
+          git config --global user.email "${GH_EMAIL}"
+          git config --global user.name "${GH_USERNAME}"
       - name: Check if all notebooks are cleaned
         run: |
           echo "Check we are starting with clean git checkout"
