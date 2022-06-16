@@ -175,7 +175,7 @@ def prompt_user(**kwargs):
     return config_vals
 
 # %% ../nbs/10_cli.ipynb 19
-def _fetch_from_git():
+def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     try:
         url = run('git config --get remote.origin.url')
@@ -183,7 +183,8 @@ def _fetch_from_git():
         branch = _get_branch(owner=owner, repo=repo)
         author = run('git config --get user.name').strip()
         email = run('git config --get user.email').strip()
-    except: 
+    except Exception as e:
+        if raise_err: raise(e)
         return dict(lib_name=None,user=None,branch=None,author=None,author_email=None)
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, author_email=email)
 
