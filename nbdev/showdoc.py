@@ -9,7 +9,7 @@ from .imports import *
 from .export import *
 from .sync import *
 from nbconvert import HTMLExporter
-from fastcore.docments import docments, isclass, _clean_comment, _tokens, _param_locs, _get_comment
+from fastcore.docments import _docments, isclass, _clean_comment, _tokens, _param_locs, _get_comment
 from fastcore.utils import IN_NOTEBOOK
 from fastcore.xtras import get_source_link, _unwrapped_type_dispatch_func
 
@@ -310,7 +310,7 @@ def _is_static(func):
 def _format_args(elt, ment_dict:dict = None, kwargs = [], monospace=False, is_class=False):
     "Generates a formatted argument string, potentially from an existing `ment_dict`"
     if ment_dict is None:
-        ment_dict = docments(elt, full=True)
+        ment_dict = _docments(elt)
     arg_string = ""
     return_string = ""
     if not _is_static(elt) and is_class:
@@ -354,8 +354,8 @@ def is_source_available(
 def _handle_delegates(elt):
     "Generates a `docment` dict handling `@delegates` and returns names of the kwargs in `elt`"
     kwargs = []
-    arg_dict = docments(elt, full=True)
-    delwrap_dict = docments(elt.__delwrap__, full=True)
+    arg_dict = _docments(elt)
+    delwrap_dict = _docments(elt.__delwrap__)
     drop = arg_dict.keys()
     for k,v in arg_dict.items():
         if k in delwrap_dict.keys() and v["docment"] is None and k != "return":
