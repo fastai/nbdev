@@ -15,7 +15,7 @@ from fastcore.imports import *
 from fastcore.net import *
 from fastcore.script import call_parse
 from fastcore import shutil
-from fastcore.utils import globtastic
+from fastcore.utils import globtastic, run, repo_details
 
 from urllib.error import HTTPError
 from contextlib import redirect_stdout
