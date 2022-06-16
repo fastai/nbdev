@@ -15,6 +15,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -qe ".[dev]"
           pip install -Uq git+https://github.com/fastai/fastcore.git
+          pip install -Uq git+https://github.com/fastai/ghapi.git
       - name: Check if all notebooks are cleaned
         run: |
           echo "Check we are starting with clean git checkout"
