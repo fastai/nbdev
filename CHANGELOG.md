@@ -2,6 +2,18 @@
 
 <!-- do not remove -->
 
+## 1.2.9
+
+### New Features
+
+- Implement `show_doc` for dataclass ([#622](https://github.com/fastai/nbdev/pull/622)), thanks to [@MarkB2](https://github.com/MarkB2)
+
+### Bugs Squashed
+
+- Fix show doc for object, class methods. ([#621](https://github.com/fastai/nbdev/pull/621)), thanks to [@v-ahuja](https://github.com/v-ahuja)
+- Fix show doc for keywords. ([#619](https://github.com/fastai/nbdev/pull/619)), thanks to [@v-ahuja](https://github.com/v-ahuja)
+- Including `@dataclass` breaks `nbdev_build_lib` ([#595](https://github.com/fastai/nbdev/issues/595))
+- `nbdev_nb2md` throws error when called in a notebook ([#381](https://github.com/fastai/nbdev/issues/381))
 
 
 ## 1.2.7
