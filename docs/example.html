@@ -63,13 +63,13 @@ nb_path: "nbs/example.ipynb"
 <p>After you do this, you will have a repo with the necessary files to get started.  You should also <a href="https://nbdev.fast.ai/tutorial.html#Set-up-Your-Jupyter-Server">setup nbdev</a> and <a href="https://nbdev.fast.ai/tutorial.html#Install-git-hooks">install the githooks</a> per the instructions in <a href="https://nbdev.fast.ai/tutorial.html">the tutorial</a>.</p>
 <h2 id="Step-2:-Modify-Configuration-Files">Step 2: Modify Configuration Files<a class="anchor-link" href="#Step-2:-Modify-Configuration-Files"> </a></h2><h3 id="Edit-settings.ini">Edit settings.ini<a class="anchor-link" href="#Edit-settings.ini"> </a></h3><p><a href="https://nbdev.fast.ai/tutorial.html#Edit-settings.ini">Editing settings.ini</a> is required for nbdev to work properly.  These settings are used to populate required information for you to host documentation on <a href="https://nbdev.fast.ai/tutorial.html#Github-pages">GitHub Pages</a>, as well to <a href="https://nbdev.fast.ai/tutorial.html#Upload-to-pypi">publish your modules as packages to pypi</a>.</p>
 <p>These are the fields that we changed in <a href="https://github.com/fastai/deck_of_cards/blob/master/settings.ini">settings.ini</a>:</p>
-<div class="highlight"><pre><span></span><span class="na">lib_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">deck_of_cards</span><span class="w"></span>
-<span class="na">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;A minimal example of nbdev using code from Allen Downey&#39;s Think Python 2nd Ed&quot;</span><span class="w"></span>
-<span class="na">keywords</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">nbdev</span><span class="w"></span>
-<span class="na">author</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Hamel Husain</span><span class="w"></span>
-<span class="na">author_email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">hamel@example.com</span><span class="w"></span>
-<span class="na">copyright</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Hamel, inc.</span><span class="w"></span>
-<span class="na">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">fastai</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="na">lib_name</span> <span class="o">=</span> <span class="s">deck_of_cards</span>
+<span class="na">description</span> <span class="o">=</span> <span class="s">&quot;A minimal example of nbdev using code from Allen Downey&#39;s Think Python 2nd Ed&quot;</span>
+<span class="na">keywords</span> <span class="o">=</span> <span class="s">nbdev</span>
+<span class="na">author</span> <span class="o">=</span> <span class="s">Hamel Husain</span>
+<span class="na">author_email</span> <span class="o">=</span> <span class="s">hamel@example.com</span>
+<span class="na">copyright</span> <span class="o">=</span> <span class="s">Hamel, inc.</span>
+<span class="na">user</span> <span class="o">=</span> <span class="s">fastai</span>
 </pre></div>
 <p>{% include note.html content='the value for user wasn&#8217;t actually changed in this example, but you will have to change it to be the org corresponding to your GitHub repository (usually your username) on GitHub.  ' %}
 The values in settings.ini file are propagated to various systems for you automatically, which help minimize boilerplate and learning complicated configuration files.  For example,</p>
@@ -299,5 +299,5 @@ In the first cell of <a href="https://github.com/fastai/deck_of_cards/blob/maste
 </div>
 </div>
 </div>
- 
+
 

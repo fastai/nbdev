@@ -52,7 +52,7 @@ nb_path: "nbs/03_export2html.ipynb"
 </ul>
 </li>
 <li>put <code>#hide_output</code> at the top of a cell if you don't want output to be shown in the docs</li>
-<li>use <code>#collapse_input</code> or <code>#collapse_output</code> to include code or output in the docs under a collapsable element</li>
+<li>use <code>#collapse</code>, <code>#collapse_show</code> or <code>#collapse_output</code> to include code or output in the docs under a collapsable element</li>
 </ul>
 
 </div>
@@ -799,7 +799,7 @@ Typing <code>&gt; Note: A doc link to [`add_jekyll_notes`](/export2html.html#add
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>Placing <code>#collapse_input open</code> in a code cell will include your code under a collapsable element that is <strong>open</strong> by default.</li>
+<li>Placing <code>#collapse_show</code> in a code cell will include your code under a collapsable element that is <strong>open</strong> by default.</li>
 </ul>
 
 </div>
@@ -808,18 +808,21 @@ Typing <code>&gt; Note: A doc link to [`add_jekyll_notes`](/export2html.html#add
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description" open>
+      <summary data-open="Hide Code" data-close="Show Code"></summary>
+        <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;This code cell is not collapsed by default but you can collapse it to hide it from view!&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Note that the output always shows with `</span><span class="si">%c</span><span class="s2">ollapse_input`.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Note that the output always shows with `</span><span class="si">%c</span><span class="s2">ollapse`.&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -827,7 +830,7 @@ Typing <code>&gt; Note: A doc link to [`add_jekyll_notes`](/export2html.html#add
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>This code cell is not collapsed by default but you can collapse it to hide it from view!
-Note that the output always shows with `%collapse_input`.
+Note that the output always shows with `%collapse`.
 </pre>
 </div>
 </div>
@@ -841,7 +844,7 @@ Note that the output always shows with `%collapse_input`.
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>Placing <code>#collapse_input</code> in a code cell will include your code in a collapsable element that is <strong>closed</strong> by default.  For example:</li>
+<li>Placing <code>#collapse</code> in a code cell will include your code in a collapsable element that is <strong>closed</strong> by default.  For example:</li>
 </ul>
 
 </div>
@@ -850,7 +853,10 @@ Note that the output always shows with `%collapse_input`.
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description">
+      <summary data-open="Hide Code" data-close="Show Code"></summary>
+        <summary></summary>
+        <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
@@ -861,6 +867,7 @@ Note that the output always shows with `%collapse_input`.
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
@@ -1402,7 +1409,7 @@ However, the OUTPUT of this cell is collapsed by default but you can expand it!
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h3 id="ExecuteShowDocPreprocessor" class="doc_header"><code>class</code> <code>ExecuteShowDocPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L372" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>ExecuteShowDocPreprocessor</code>(<strong>*<code>args</code></strong>:<code>typing.Any</code>, <strong>**<code>kwargs</code></strong>:<code>typing.Any</code>) :: <code>ExecutePreprocessor</code></p>
+<h3 id="ExecuteShowDocPreprocessor" class="doc_header"><code>class</code> <code>ExecuteShowDocPreprocessor</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/export2html.py#L372" class="source_link" style="float:right">[source]</a></h3><blockquote><p><code>ExecuteShowDocPreprocessor</code>(<strong>*<code>args</code></strong>, <strong>**<code>kwargs</code></strong>) :: <code>ExecutePreprocessor</code></p>
 </blockquote>
 <p>An <code>ExecutePreprocessor</code> that only executes <a href="/showdoc.html#show_doc"><code>show_doc</code></a> and <code>import</code> cells</p>
 

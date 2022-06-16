@@ -332,20 +332,13 @@ cells containing <code>#export</code> or <a href="/showdoc.html#show_doc"><code>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="%23collapse_input">#collapse_input<a class="anchor-link" href="#%23collapse_input"> </a></h3>
+<h3 id="%23collapse">#collapse<a class="anchor-link" href="#%23collapse"> </a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>use <code>#collapse_input</code> to include code in the docs under a collapsable element. The collapsable element is closed by default.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Using <code>#collapse_input open</code> in a code cell will include your code under a collapsable element that is open by default.</p>
+<p>use <code>#collapse</code> to include code in the docs under a collapsable element. The collapsable element is closed by default.</p>
 
 </div>
 </div>
@@ -353,24 +346,75 @@ cells containing <code>#export</code> or <a href="/showdoc.html#show_doc"><code>
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<details class="description">
+      <summary data-open="Hide Code" data-close="Show Code"></summary>
+        <summary></summary>
+        <div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is output. Input is collapsed using #collapse_input&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is output. Input is collapsed using #collapse&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
 </div>
 </div>
 
+    </details>
 <div class="output_wrapper">
 <div class="output">
 
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>This is output. Input is collapsed using #collapse_input
+<pre>This is output. Input is collapsed using #collapse
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="%23collapse_show">#collapse_show<a class="anchor-link" href="#%23collapse_show"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using <code>#collapse_show</code> in a code cell will include your code under a collapsable element that is open by default.</p>
+
+</div>
+</div>
+</div>
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open>
+      <summary data-open="Hide Code" data-close="Show Code"></summary>
+        <div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is output. Input can be collapsed using #collapse_show&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>This is output. Input can be collapsed using #collapse_show
 </pre>
 </div>
 </div>
@@ -491,5 +535,5 @@ cells containing <code>#export</code> or <a href="/showdoc.html#show_doc"><code>
 </div>
 </div>
 </div>
- 
+
 
