@@ -57,7 +57,7 @@ def _keep_file(fname:str, # filename for which to check for `indicator_fname`
 # %% ../nbs/14_test.ipynb 12
 @call_parse
 def nbprocess_test(
-    fname:str=None,  # A notebook name or glob to convert
+    fname:str=None,  # A notebook name or glob to test
     flags:str='',  # Space separated list of test flags you want to run that are normally ignored
     n_workers:int=None,  # Number of workers to use
     timing:bool=False,  # Timing each notebook to see the ones are slow
