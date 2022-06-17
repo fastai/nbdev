@@ -8,8 +8,6 @@ from fastcore.docments import *
 from fastcore.basics import *
 from fastcore.imports import *
 from fastcore.foundation import *
-from fastcore.meta import delegates
-
 from importlib import import_module
 from .doclinks import *
 import inspect, sys
