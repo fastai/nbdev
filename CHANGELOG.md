@@ -2,6 +2,24 @@
 
 <!-- do not remove -->
 
+## 1.2.10
+
+### New Features
+
+- Added webrick spec to Gemfile. ([#615](https://github.com/fastai/nbdev/pull/615)), thanks to [@MarkB2](https://github.com/MarkB2)
+- Change doc() default for docments ([#611](https://github.com/fastai/nbdev/pull/611)), thanks to [@muellerzr](https://github.com/muellerzr)
+- Better checks for cls and self ([#596](https://github.com/fastai/nbdev/pull/596)), thanks to [@muellerzr](https://github.com/muellerzr)
+- Use the kernel defined in the kernelspec ([#594](https://github.com/fastai/nbdev/pull/594)), thanks to [@dleen](https://github.com/dleen)
+- Add in repr for delegates ([#589](https://github.com/fastai/nbdev/pull/589)), thanks to [@muellerzr](https://github.com/muellerzr)
+
+### Bugs Squashed
+
+- Keep module in name when getting the "qualname" ([#606](https://github.com/fastai/nbdev/pull/606)), thanks to [@muellerzr](https://github.com/muellerzr)
+- Fix decimal bug ([#604](https://github.com/fastai/nbdev/pull/604)), thanks to [@muellerzr](https://github.com/muellerzr)
+- Use the kernel defined in the kernelspec ([#594](https://github.com/fastai/nbdev/pull/594)), thanks to [@dleen](https://github.com/dleen)
+- Misc bug fixes + tests ([#593](https://github.com/fastai/nbdev/pull/593)), thanks to [@muellerzr](https://github.com/muellerzr)
+
+
 ## 1.2.9
 
 ### New Features
