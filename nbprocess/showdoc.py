@@ -126,7 +126,6 @@ def _wrap_sig(s):
 # %% ../nbs/08_showdoc.ipynb 28
 class BasicMarkdownRenderer(ShowDocRenderer):
     def _repr_markdown_(self):
-        if not self.disp: return None
         doc = '---\n\n'
         if self.isfunc: doc += '#'
         sig = _wrap_sig(f"{self.nm} {_fmt_sig(self.sig)}")
