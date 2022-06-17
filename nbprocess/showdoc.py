@@ -8,13 +8,13 @@ from fastcore.docments import *
 from fastcore.basics import *
 from fastcore.imports import *
 from fastcore.foundation import *
-
 from importlib import import_module
 from .doclinks import *
 import inspect, sys
 from collections import OrderedDict
 from dataclasses import dataclass, is_dataclass
 from .read import get_config
+from textwrap import fill
 
 # %% ../nbs/08_showdoc.ipynb 6
 def _non_empty_keys(d:dict): return L([k for k,v in d.items() if v != inspect._empty])
@@ -115,12 +115,19 @@ def _fmt_sig(sig):
     _params = [str(p[k]).replace(' ','') for k in p.keys() if k != 'self']
     return "(" + ', '.join(_params)  + ")"
 
+def _wrap_sig(s):
+    "wrap a signature to appear on multiple lines if necessary."
+    pad = '> ' + ' ' * 5
+    indent = pad + ' ' * (s.find('(') + 1)
+    return fill(s, width=80, initial_indent=pad, subsequent_indent=indent)
+
 # %% ../nbs/08_showdoc.ipynb 28
 class BasicMarkdownRenderer(ShowDocRenderer):
     def _repr_markdown_(self):
         doc = '---\n\n'
         if self.isfunc: doc += '#'
-        doc += f'### {self.nm}\n\n> **`{self.nm}`**` {_fmt_sig(self.sig)}`'
+        sig = _wrap_sig(f"{self.nm} {_fmt_sig(self.sig)}")
+        doc += f'### {self.nm}\n\n{sig}'
         if self.docs: doc += f"\n\n{self.docs.splitlines()[0]}"
         if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
