@@ -16,6 +16,7 @@ from fastcore.net import *
 from fastcore.script import call_parse
 from fastcore import shutil
 from fastcore.utils import globtastic, run, repo_details
+from ghapi.all import GhApi, github_auth_device
 
 from urllib.error import HTTPError
 from contextlib import redirect_stdout
@@ -147,19 +148,23 @@ def extract_tgz(url, dest='.'):
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
 # %% ../nbs/10_cli.ipynb 16
-def _get_branch(owner, repo, default='main'):
+def _get_info(owner, repo, default_branch='main', default_kw='nbprocess'):
     try: from ghapi.all import GhApi
     except: 
-        print('Could not get default branch name automatically because `ghapi` is not installed.  {default} assumed.\nEdit `settings.ini` if this is incorrect.\n')
-        return default
+        print('Could not get information from GitHub automatically because `ghapi` is not installed. \nEdit `settings.ini` to verify all information is correct.\n')
+        return (default_branch,default_kw,'')
+    
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
-    try: return api.repos.get().default_branch
+    
+    try: r = api.repos.get()
     except HTTPError:
         msg= [f"Could not access repo: {owner}/{repo} to find your default branch - `{default} assumed.\n",
               "Edit `settings.ini` if this is incorrect.\n"
               "In the future, you can allow nbprocess to see private repos by setting the environment variable GITHUB_TOKEN as described here: https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos \n"]
         print(''.join(msg))
-        return default
+        return (default_branch,default_kw,'')
+    
+    return r.default_branch, default_kw if not r.topics else ' '.join(r.topics), r.description
 
 # %% ../nbs/10_cli.ipynb 18
 def prompt_user(**kwargs):
@@ -180,13 +185,14 @@ def _fetch_from_git(raise_err=False):
     try:
         url = run('git config --get remote.origin.url')
         owner,repo = repo_details(url)
-        branch = _get_branch(owner=owner, repo=repo)
+        branch,keywords,descrip = _get_info(owner=owner, repo=repo)
         author = run('git config --get user.name').strip()
         email = run('git config --get user.email').strip()
     except Exception as e:
         if raise_err: raise(e)
         return dict(lib_name=None,user=None,branch=None,author=None,author_email=None)
-    return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, author_email=email)
+    return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, 
+                author_email=email, keywords=keywords, description=descrip)
 
 # %% ../nbs/10_cli.ipynb 21
 _quarto_yml="""ipynb-filters: [nbprocess_filter]
