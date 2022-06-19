@@ -584,6 +584,21 @@ converting: /home/jhoward/git/nbdev/nbs/index.ipynb</code></pre>
 <h4 id="HelloSayer.say" class="doc_header"><code>HelloSayer.say</code><a href="https://github.com/fastai/nbdev/tree/master/nbdev/tutorial.py#L15" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>HelloSayer.say</code>()</p>
 </blockquote>
 <p>Do the saying</p>
+<table>
+<thead><tr>
+<th></th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>self</code></strong></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 </div>
 
@@ -879,9 +894,9 @@ $$\sum_{i=1}^{k+1}i$$
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Because both the documentation and code for nbdev is written in notebooks, you can optionally view and run nbdev documentation in <a href="https://colab.research.google.com/">Google Colab</a>. You can enable Google Colab badges that link to the appropriate notebook(s) in your GitHub repository.</p>
 <p>You can toggle this feature on or off in your <code>docs/_config.yml</code> file:</p>
-<div class="highlight"><pre><span></span><span class="c1"># This specifies what badges are turned on by default for notebook docs.</span>
-<span class="nt">default_badges</span><span class="p">:</span>
-  <span class="nt">colab</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<div class="highlight"><pre><span></span><span class="c1"># This specifies what badges are turned on by default for notebook docs.</span><span class="w"></span>
+<span class="nt">default_badges</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">colab</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
 </pre></div>
 <p>Furthermore, if you want to hide a badge on an individual document but still show badges elsewhere, you can set the front matter <code>hide_colab_badge: true</code>.  For example, if you wanted to hide the Colab badge from showing up on the notebook <code>nbs/06_cli.ipynb</code>, your front matter (in the form of a markdown cell at the top of the notebook) will look like this:</p>
 
