@@ -416,7 +416,7 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
                     arg_dict, kwargs = _handle_delegates(elt)
                     doc += _get_docments(elt, ment_dict=arg_dict, with_return=True, kwargs=kwargs, monospace=monospace, is_class=is_class_member)
                 else:
-                    doc += _get_docments(elt, monospace=monospace, is_class=is_class)
+                    doc += _get_docments(elt, monospace=monospace, is_class=is_class_member)
             elif verbose:
                 print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
     if disp: display(Markdown(doc))
