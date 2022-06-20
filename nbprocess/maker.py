@@ -124,29 +124,31 @@ def relative_import(name, fname, level=0):
 # %% ../nbs/02_maker.ipynb 27
 # Based on https://github.com/thonny/thonny/blob/master/thonny/ast_utils.py
 def _mark_text_ranges(
-    node, # An AST
-    source: str|bytes, # Corresponding source code of `node`
+    source: str|bytes, # Source code to add ranges to
 ):
     "Adds `end_lineno` and `end_col_offset` to each `node` recursively. Used for python 3.7 compatibility"
     from asttokens.asttokens import ASTTokens
-    ASTTokens(source, tree=node)
-    for child in ast.walk(node):
-        if hasattr(child,"ast_token"):
+    # We need to reparse the source to get a full tree to walk
+    root = ast.parse(source)
+    ASTTokens(source, tree=root)
+    for child in ast.walk(root):
+        if hasattr(child,"last_token"):
             child.end_lineno,child.end_col_offset = child.last_token.end
         # Some tokens stay without end info
         if hasattr(child,"lineno") and (not hasattrs(child, ["end_lineno","end_col_offset"])):
             child.end_lineno, child.end_col_offset = child.lineno, child.col_offset+2
+    return root.body
 
 # %% ../nbs/02_maker.ipynb 28
 def update_import(source, tree, libname, f=relative_import):
     if not tree: return
+    if sys.version_info < (3,8): tree = _mark_text_ranges(source)
     imps = L(tree).filter(risinstance(ast.ImportFrom))
     if not imps: return
     src = source.splitlines(True)
     for imp in imps:
         nmod = f(imp.module, libname, imp.level)
         lin = imp.lineno-1
-        if sys.version_info < (3,8): _mark_text_ranges(imp, src[lin])
         sec = src[lin][imp.col_offset:imp.end_col_offset]
         newsec = re.sub(f"(from +){'.'*imp.level}{imp.module}", fr"\1{nmod}", sec)
         src[lin] = src[lin].replace(sec,newsec)
