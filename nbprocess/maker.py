@@ -129,7 +129,7 @@ def _mark_text_ranges(
 ):
     "Adds `end_lineno` and `end_col_offset` to each `node` recursively. Used for python 3.7 compatibility"
     from asttokens.asttokens import ASTTokens
-    ASTTOKENS(source, tree=node)
+    ASTTokens(source, tree=node)
     for child in ast.walk(node):
         if hasattr(child,"ast_token"):
             child.end_lineno,child.end_col_offset = child.last_token.end
