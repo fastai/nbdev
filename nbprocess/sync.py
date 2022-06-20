@@ -49,7 +49,7 @@ def _update_lib(nbname, nb_locs, lib_name=None):
 
 def _get_call(s):
     top,*rest = s.splitlines()
-    return *top.split(),'\n'.join(rest)
+    return (*top.split(),'\n'.join(rest))
 
 # %% ../nbs/05_sync.ipynb 11
 @call_parse
