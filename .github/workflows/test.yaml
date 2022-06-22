@@ -44,4 +44,6 @@ jobs:
       - name: Test Notebooks
         run: nbprocess_test
       - name: Test Docs Creation
-        run: make docs
+        run: |
+          ./install_quarto.sh
+          make docs
