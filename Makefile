@@ -29,10 +29,10 @@ docs: .install
 test:
 	nbprocess_test
 
-release: pypi conda_release
+release: pypi conda
 	nbprocess_bump_version
 
-conda_release:
+conda:
 	fastrelease_conda_package
 
 pypi: dist
