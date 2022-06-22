@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['migrate_nb_fm', 'migrate_md_fm', 'nbprocess_migrate_directives']
 
-# %% ../nbs/15_migrate.ipynb 3
+# %% ../nbs/15_migrate.ipynb 2
 from .process import first_code_ln
 from .processors import nb_fmdict, construct_fm, insert_frontmatter, is_frontmatter
 from .read import read_nb, config_key
@@ -12,30 +12,30 @@ from .clean import process_write, wrapio
 from fastcore.all import *
 from json import loads
 
-# %% ../nbs/15_migrate.ipynb 5
+# %% ../nbs/15_migrate.ipynb 4
 def _get_fm(path): return nb_fmdict(read_nb(path), remove=False)
 def _get_raw_fm(nb): 
     return first(nb.cells.filter(lambda x: x.cell_type == 'raw')).source
 
-# %% ../nbs/15_migrate.ipynb 6
+# %% ../nbs/15_migrate.ipynb 5
 def _cat_slug(fmdict):
     "Get the partial slug from the category front matter."
     cats = [c for c in fmdict.get('categories', '').strip().strip('][').split(', ') if c]
     return '/' + '/'.join(sorted(cats)) if cats else ''
 
-# %% ../nbs/15_migrate.ipynb 8
+# %% ../nbs/15_migrate.ipynb 7
 def _file_slug(fname): 
     "Get the partial slug from the filename."
     p = Path(fname)
     dt = '/'+p.name[:10].replace('-', '/')+'/'
     return dt + p.stem[11:]    
 
-# %% ../nbs/15_migrate.ipynb 10
+# %% ../nbs/15_migrate.ipynb 9
 def _add_alias(fm:dict, path:Path):
     if 'permalink' in fm: fm['aliases'] = '[' + fm.pop('permalink').strip() + ']'
     else: fm['aliases'] = '[' + _cat_slug(fm) + _file_slug(path) + ']'
 
-# %% ../nbs/15_migrate.ipynb 12
+# %% ../nbs/15_migrate.ipynb 11
 def migrate_nb_fm(path, overwrite=True):
     "Migrate fastpages front matter in notebooks to a raw cell."
     nb = read_nb(path)
@@ -46,7 +46,7 @@ def migrate_nb_fm(path, overwrite=True):
     if overwrite: write_nb(nb, path)
     return nb
 
-# %% ../nbs/15_migrate.ipynb 16
+# %% ../nbs/15_migrate.ipynb 15
 _re_fm_md = re.compile(r'^---(.*\S+.)?---', flags=re.DOTALL)
 
 def _md_fmdict(txt):
@@ -57,7 +57,7 @@ def _md_fmdict(txt):
         return {k:v.strip() for k,v in fm if k and v}
     else: return {}
 
-# %% ../nbs/15_migrate.ipynb 19
+# %% ../nbs/15_migrate.ipynb 18
 def migrate_md_fm(path, overwrite=True):
     "Make fastpages front matter in markdown files quarto compliant."
     p = Path(path)
@@ -70,7 +70,7 @@ def migrate_md_fm(path, overwrite=True):
         return txt
     else: return md 
 
-# %% ../nbs/15_migrate.ipynb 26
+# %% ../nbs/15_migrate.ipynb 25
 def _re_v1():
     d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 
          'collapse_hide', 'hide_output', 'collapse_input', 'collapse_output', 'default_cls_lvl']
@@ -84,7 +84,7 @@ def _repl_directives(code_str):
     return _re_v1().sub(_fmt, code_str)
 
 
-# %% ../nbs/15_migrate.ipynb 28
+# %% ../nbs/15_migrate.ipynb 27
 def _repl_v1dir(nb):
     "Replace nbdev v1 with v2 directives."
     for cell in nb['cells']:
@@ -95,7 +95,7 @@ def _repl_v1dir(nb):
             if not ss: pass
             else: cell['source'] = [_repl_directives(c) for c in ss[:first_code]] + ss[first_code:]
 
-# %% ../nbs/15_migrate.ipynb 30
+# %% ../nbs/15_migrate.ipynb 29
 @call_parse
 def nbprocess_migrate_directives(
     fname:str=None, # A notebook name or glob to convert

@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['absolute_import', 'nbprocess_update']
 
-# %% ../nbs/05_sync.ipynb 4
+# %% ../nbs/05_sync.ipynb 3
 from .imports import *
 from .read import *
 from .maker import *
@@ -16,7 +16,7 @@ from fastcore.xtras import *
 
 import ast,tempfile,json
 
-# %% ../nbs/05_sync.ipynb 6
+# %% ../nbs/05_sync.ipynb 5
 def absolute_import(name, fname, level):
     "Unwarps a relative import in `name` according to `fname`"
     if not level: return name
@@ -24,10 +24,10 @@ def absolute_import(name, fname, level):
     if not name: return '.'.join(mods)
     return '.'.join(mods[:len(mods)-level+1]) + f".{name}"
 
-# %% ../nbs/05_sync.ipynb 8
+# %% ../nbs/05_sync.ipynb 7
 _re_import = re.compile("from\s+\S+\s+import\s+\S")
 
-# %% ../nbs/05_sync.ipynb 10
+# %% ../nbs/05_sync.ipynb 9
 def _to_absolute(code, lib_name):
     if not _re_import.search(code): return code
     res = update_import(code, ast.parse(code).body, lib_name, absolute_import)
@@ -51,7 +51,7 @@ def _get_call(s):
     top,*rest = s.splitlines()
     return (*top.split(),'\n'.join(rest))
 
-# %% ../nbs/05_sync.ipynb 11
+# %% ../nbs/05_sync.ipynb 10
 @call_parse
 def nbprocess_update(fname:str): # A python file name to convert
     "Propagates any change in the modules matching `fname` to the notebooks that created them"

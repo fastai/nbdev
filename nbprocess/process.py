@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['first_code_ln', 'extract_directives', 'opt_set', 'instantiate', 'NBProcessor']
 
-# %% ../nbs/03_process.ipynb 3
+# %% ../nbs/03_process.ipynb 2
 from .read import *
 from .maker import *
 from .imports import *
@@ -18,7 +18,7 @@ from pprint import pformat
 from inspect import signature,Parameter
 import ast,contextlib,copy
 
-# %% ../nbs/03_process.ipynb 7
+# %% ../nbs/03_process.ipynb 6
 _dir_pre = r'\s*#\s*\|'
 _quarto_re = re.compile(_dir_pre + r'\s*\w+\s*:')
 
@@ -30,18 +30,18 @@ def _directive(s):
     direc,*args = s
     return direc,args
 
-# %% ../nbs/03_process.ipynb 8
+# %% ../nbs/03_process.ipynb 7
 def _norm_quarto(s):
     "normalize quarto directives so they have a space after the colon"
     m = _quarto_re.match(s)
     return m.group(0) + ' ' + _quarto_re.sub('', s).lstrip() if m else s
 
-# %% ../nbs/03_process.ipynb 10
+# %% ../nbs/03_process.ipynb 9
 def first_code_ln(code_list, re_pattern=_dir_pre): 
     "get first line number where code occurs, where `code_list` is a list of code"
     return first(i for i,o in enumerate(code_list) if o.strip() != '' and not re.match(re_pattern, o))
 
-# %% ../nbs/03_process.ipynb 12
+# %% ../nbs/03_process.ipynb 11
 def extract_directives(cell, remove=True):
     "Take leading comment directives from lines of code in `ss`, remove `#|`, and split"
     if cell.source:
@@ -54,22 +54,22 @@ def extract_directives(cell, remove=True):
             cell['source'] = ''.join([_norm_quarto(o) for o in pre if _quarto_re.match(o)] + ss[first_code:])
         return dict(L(_directive(s) for s in pre).filter())
 
-# %% ../nbs/03_process.ipynb 15
+# %% ../nbs/03_process.ipynb 14
 def opt_set(var, newval):
     "newval if newval else var"
     return newval if newval else var
 
-# %% ../nbs/03_process.ipynb 16
+# %% ../nbs/03_process.ipynb 15
 def instantiate(x, **kwargs):
     "Instantiate `x` if it's a type"
     return x(**kwargs) if isinstance(x,type) else x
 
 def _mk_procs(procs, nb): return L(procs).map(instantiate, nb=nb)
 
-# %% ../nbs/03_process.ipynb 17
+# %% ../nbs/03_process.ipynb 16
 def _is_direc(f): return getattr(f, '__name__', '-')[-1]=='_'
 
-# %% ../nbs/03_process.ipynb 18
+# %% ../nbs/03_process.ipynb 17
 class NBProcessor:
     "Process cells and nbdev comments in a notebook"
     def __init__(self, path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False, rm_directives=True, process=False):

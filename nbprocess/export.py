@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['ExportModuleProc', 'black_format', 'create_modules', 'nb_export']
 
-# %% ../nbs/04a_export.ipynb 3
+# %% ../nbs/04a_export.ipynb 2
 from .read import *
 from .maker import *
 from .imports import *
@@ -15,7 +15,7 @@ from fastcore.imports import *
 
 from collections import defaultdict
 
-# %% ../nbs/04a_export.ipynb 5
+# %% ../nbs/04a_export.ipynb 4
 class ExportModuleProc:
     "A processor which exports code to a module"
     def __init__(self): self.modules,self.in_all = defaultdict(L),defaultdict(L)
@@ -25,7 +25,7 @@ class ExportModuleProc:
         self._exporti_(nbp, cell, exp_to)
         self.in_all[ifnone(exp_to, '#')].append(nbp.cell)
 
-# %% ../nbs/04a_export.ipynb 8
+# %% ../nbs/04a_export.ipynb 7
 def black_format(cell, # A cell node 
                  force=False #An override to turn black formatting on regardless of settings.ini
                 ):
@@ -41,7 +41,7 @@ def black_format(cell, # A cell node
             try: cell.source = _format_str(cell.source).strip()
             except: pass
 
-# %% ../nbs/04a_export.ipynb 10
+# %% ../nbs/04a_export.ipynb 9
 def create_modules(path, dest, procs=None, debug=False, mod_maker=ModuleMaker):
     "Create module(s) from notebook"
     exp = ExportModuleProc()
@@ -53,7 +53,7 @@ def create_modules(path, dest, procs=None, debug=False, mod_maker=ModuleMaker):
         mm = mod_maker(dest=dest, name=name, nb_path=path, is_new=mod=='#')
         mm.make(cells, all_cells)
 
-# %% ../nbs/04a_export.ipynb 17
+# %% ../nbs/04a_export.ipynb 16
 def nb_export(nbname, lib_path=None):
     if lib_path is None: lib_path = get_config().path('lib_path')
     create_modules(nbname, lib_path, procs=[black_format])

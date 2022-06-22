@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['test_nb', 'nbprocess_test']
 
-# %% ../nbs/14_test.ipynb 2
+# %% ../nbs/14_test.ipynb 1
 import time,os,sys,traceback,contextlib, inspect
 from fastcore.basics import *
 from fastcore.imports import *
@@ -20,7 +20,7 @@ from logging import warning
 from execnb.nbio import *
 from execnb.shell import *
 
-# %% ../nbs/14_test.ipynb 4
+# %% ../nbs/14_test.ipynb 3
 def test_nb(fn, skip_flags=None, force_flags=None, do_print=False, showerr=True):
     "Execute tests in notebook in `fn` except those with `skip_flags`"
     if not IN_NOTEBOOK: os.environ["IN_TEST"] = '1'
@@ -45,7 +45,7 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False, showerr=True)
     if do_print: print(f'- Completed {fn}')
     return res,time.time()-start
 
-# %% ../nbs/14_test.ipynb 9
+# %% ../nbs/14_test.ipynb 8
 def _keep_file(fname:str, # filename for which to check for `indicator_fname`
                ignore_fname:str # filename that will result in siblings being ignored
                 ) -> bool:
@@ -54,7 +54,7 @@ def _keep_file(fname:str, # filename for which to check for `indicator_fname`
     if p.exists(): return not bool(p.parent.ls().attrgot('name').filter(lambda x: x == ignore_fname))
     else: True
 
-# %% ../nbs/14_test.ipynb 12
+# %% ../nbs/14_test.ipynb 11
 @call_parse
 def nbprocess_test(
     fname:str=None,  # A notebook name or glob to test

@@ -22,7 +22,7 @@ prepare: ## Export notebooks to python modules, test code and clean notebooks.
 	nbprocess_test
 	nbprocess_clean
 
-docs: .FORCE
+docs: .install
 	nbprocess_export
 	nbprocess_quarto
 
@@ -44,10 +44,11 @@ dist: clean
 clean:
 	rm -rf dist
 
-install: install_quarto
+.install: install_quarto
 	pip install -e .[dev]
+	touch .install
 
-install_quarto: .FORCE
+install_quarto:
 	./install_quarto.sh
 
 .FORCE:
