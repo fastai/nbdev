@@ -14,16 +14,13 @@ deploy: docs
 
 preview: .install ## Live preview quarto docs with hot reloading.
 	nbprocess_sidebar
-	nbprocess_export
 	IN_TEST=1 &&  nbprocess_quarto --preview
 
-prepare: ## Export notebooks to python modules, test code and clean notebooks.
-	nbprocess_export
+prepare: .install ## Export notebooks to python modules, test code and clean notebooks.
 	nbprocess_test
 	nbprocess_clean
 
 docs: .install
-	nbprocess_export
 	nbprocess_quarto
 
 test:
@@ -44,7 +41,7 @@ dist: clean
 clean:
 	rm -rf dist
 
-.install: install_quarto
+.install: install_quarto nbprocess
 	pip install -e .[dev]
 	touch .install
 
