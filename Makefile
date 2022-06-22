@@ -12,7 +12,7 @@ sync:
 deploy: docs
 	nbprocess_ghp_deploy
 
-preview: ## Live preview quarto docs with hot reloading.
+preview: .install ## Live preview quarto docs with hot reloading.
 	nbprocess_sidebar
 	nbprocess_export
 	IN_TEST=1 &&  nbprocess_quarto --preview
