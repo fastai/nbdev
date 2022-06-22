@@ -304,7 +304,8 @@ def nbprocess_quarto(
         if idx_path.exists(): os.system(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute')
 
         if (tmp_doc_path/'README.md').exists():
-            (cfg_path/'README.md').unlink(missing_ok=True)
+            _rdm = cfg_path/'README.md'
+            if _rdm.exists(): _rdm.unlink() #py 3.7 doesn't have arg missing_ok so have to check first
             shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in the nbs/docs folder
 
         if tmp_doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
