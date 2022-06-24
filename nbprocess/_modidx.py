@@ -19,7 +19,17 @@ d = { 'settings': { 'audience': 'Developers',
                                    'nbprocess_test=nbprocess.test:nbprocess_test\n'
                                    'nbprocess_bump_version=nbprocess.cli:nbprocess_bump_version\n'
                                    'nbprocess_new=nbprocess.cli:nbprocess_new\n'
-                                   'nbprocess_migrate_directives=nbprocess.migrate:nbprocess_migrate_directives',
+                                   'nbprocess_migrate_directives=nbprocess.migrate:nbprocess_migrate_directives\n'
+                                   'nbprocess_install_quarto=nbprocess.utils:install_quarto\n'
+                                   'nbprocess_install=nbprocess.utils:install\n'
+                                   'nbprocess_docs=nbprocess.utils:docs\n'
+                                   'nbprocess_preview=nbprocess.utils:preview\n'
+                                   'nbprocess_deploy=nbprocess.utils:deploy\n'
+                                   'nbprocess_pypi=nbprocess.utils:pypi\n'
+                                   'nbprocess_conda=nbprocess.utils:conda\n'
+                                   'nbprocess_release=nbprocess.utils:release\n'
+                                   'nbprocess_prepare=nbprocess.utils:prepare\n'
+                                   'nbprocess_help=nbprocess.utils:chelp',
                 'copyright': '2020 onwards, Jeremy Howard',
                 'custom_sidebar': 'False',
                 'description': 'Process and export Jupyter Notebooks fast (Jupyter not required)',
@@ -43,7 +53,17 @@ d = { 'settings': { 'audience': 'Developers',
                 'tst_flags': 'notest',
                 'user': 'fastai',
                 'version': '0.0.4'},
-  'syms': { 'nbprocess.clean': { 'nbprocess.clean.clean_nb': 'https://nbprocess.fast.ai/clean#clean_nb',
+  'syms': { 'nbprocess..ipynb_checkpoints.read-checkpoint': { 'nbprocess..ipynb_checkpoints.read-checkpoint.NBRunner': 'https://nbprocess.fast.ai/.ipynb_checkpoints.read-checkpoint#NBRunner',
+                                                              'nbprocess..ipynb_checkpoints.read-checkpoint.NBRunner.exec_nb': 'https://nbprocess.fast.ai/.ipynb_checkpoints.read-checkpoint#NBRunner.exec_nb',
+                                                              'nbprocess..ipynb_checkpoints.read-checkpoint.NBRunner.run': 'https://nbprocess.fast.ai/.ipynb_checkpoints.read-checkpoint#NBRunner.run',
+                                                              'nbprocess..ipynb_checkpoints.read-checkpoint.add_init': 'https://nbprocess.fast.ai/.ipynb_checkpoints.read-checkpoint#add_init',
+                                                              'nbprocess..ipynb_checkpoints.read-checkpoint.basic_export_nb': 'https://nbprocess.fast.ai/.ipynb_checkpoints.read-checkpoint#basic_export_nb',
+                                                              'nbprocess..ipynb_checkpoints.read-checkpoint.config_key': 'https://nbprocess.fast.ai/.ipynb_checkpoints.read-checkpoint#config_key',
+                                                              'nbprocess..ipynb_checkpoints.read-checkpoint.create_output': 'https://nbprocess.fast.ai/.ipynb_checkpoints.read-checkpoint#create_output',
+                                                              'nbprocess..ipynb_checkpoints.read-checkpoint.get_config': 'https://nbprocess.fast.ai/.ipynb_checkpoints.read-checkpoint#get_config',
+                                                              'nbprocess..ipynb_checkpoints.read-checkpoint.nbprocess_create_config': 'https://nbprocess.fast.ai/.ipynb_checkpoints.read-checkpoint#nbprocess_create_config',
+                                                              'nbprocess..ipynb_checkpoints.read-checkpoint.write_cells': 'https://nbprocess.fast.ai/.ipynb_checkpoints.read-checkpoint#write_cells'},
+            'nbprocess.clean': { 'nbprocess.clean.clean_nb': 'https://nbprocess.fast.ai/clean#clean_nb',
                                  'nbprocess.clean.nbprocess_clean': 'https://nbprocess.fast.ai/clean#nbprocess_clean',
                                  'nbprocess.clean.nbprocess_install_hooks': 'https://nbprocess.fast.ai/clean#nbprocess_install_hooks',
                                  'nbprocess.clean.nbprocess_trust': 'https://nbprocess.fast.ai/clean#nbprocess_trust',
@@ -162,4 +182,15 @@ d = { 'settings': { 'audience': 'Developers',
                                 'nbprocess.test.test_nb': 'https://nbprocess.fast.ai/test#test_nb'},
             'nbprocess.tutorial': { 'nbprocess.tutorial.HelloSayer': 'https://nbprocess.fast.ai/tutorial#HelloSayer',
                                     'nbprocess.tutorial.HelloSayer.say': 'https://nbprocess.fast.ai/tutorial#HelloSayer.say',
-                                    'nbprocess.tutorial.say_hello': 'https://nbprocess.fast.ai/tutorial#say_hello'}}}
+                                    'nbprocess.tutorial.say_hello': 'https://nbprocess.fast.ai/tutorial#say_hello'},
+            'nbprocess.utils': { 'nbprocess.utils.BASE_QUARTO_URL': 'https://nbprocess.fast.ai/utils#BASE_QUARTO_URL',
+                                 'nbprocess.utils.chelp': 'https://nbprocess.fast.ai/utils#chelp',
+                                 'nbprocess.utils.conda': 'https://nbprocess.fast.ai/utils#conda',
+                                 'nbprocess.utils.deploy': 'https://nbprocess.fast.ai/utils#deploy',
+                                 'nbprocess.utils.docs': 'https://nbprocess.fast.ai/utils#docs',
+                                 'nbprocess.utils.install': 'https://nbprocess.fast.ai/utils#install',
+                                 'nbprocess.utils.install_quarto': 'https://nbprocess.fast.ai/utils#install_quarto',
+                                 'nbprocess.utils.prepare': 'https://nbprocess.fast.ai/utils#prepare',
+                                 'nbprocess.utils.preview': 'https://nbprocess.fast.ai/utils#preview',
+                                 'nbprocess.utils.pypi': 'https://nbprocess.fast.ai/utils#pypi',
+                                 'nbprocess.utils.release': 'https://nbprocess.fast.ai/utils#release'}}}

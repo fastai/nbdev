@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ["3.7","3.8", "3.9", "3.10"]
+        version: ["3.7", "3.8", "3.9", "3.10"]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -45,5 +45,5 @@ jobs:
         run: nbprocess_test
       - name: Test Docs Creation
         run: |
-          ./install_quarto.sh
-          make docs
+          nbprocess_install_quarto
+          nbprocess_docs

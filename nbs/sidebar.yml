@@ -15,5 +15,6 @@ website:
       - 13_lookup.ipynb
       - 14_test.ipynb
       - 15_migrate.ipynb
+      - 16_utils.ipynb
       - index.ipynb
       - tutorial.ipynb
