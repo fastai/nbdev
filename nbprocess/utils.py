@@ -95,7 +95,7 @@ def _cs(pkg_nm): return [e for e in ep('console_scripts') if e.module_name.start
 def chelp():
     "Show help for all console scripts"
     for e in _cs('nbprocess'): 
-        nm = '\033[1m' + '\033[94m' + e.name + '\033[0m'
+        nm = f'\033[1m\033[94m{e.name}\033[0m'
         doc = e.load().__doc__
         spc = ' ' * (40 - len(nm))
         print(f'{nm}     {spc}{doc}')
