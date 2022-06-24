@@ -89,13 +89,10 @@ def prepare():
     _c(nbprocess_clean)
 
 # %% ../nbs/16_utils.ipynb 16
-def _cs(pkg_nm): return [e for e in ep('console_scripts') if e.module_name.startswith(pkg_nm)]
-
-# %% ../nbs/16_utils.ipynb 17
 def chelp():
     "Show help for all console scripts"
-    for e in _cs('nbprocess'): 
-        nm = f'\033[1m\033[94m{e.name}\033[0m'
-        doc = e.load().__doc__
-        spc = ' ' * (40 - len(nm))
-        print(f'{nm}     {spc}{doc}')
+    for e in ep('console_scripts'): 
+        if e.module_name.startswith('nbprocess'): 
+            nm = f'\033[1m\033[94m{e.name}\033[0m'
+            spc = ' ' * (40 - len(nm))
+            print(f'{nm}     {spc}{e.load().__doc__}')
