@@ -92,16 +92,10 @@ def prepare():
 def _cs(pkg_nm): return [e for e in ep('console_scripts') if e.module_name.startswith(pkg_nm)]
 
 # %% ../nbs/16_utils.ipynb 17
-class _CL:
-    BLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-
 def chelp():
     "Show help for all console scripts"
     for e in _cs('nbprocess'): 
-        nm = _CL.BOLD+_CL.BLUE+e.name+_CL.ENDC
+        nm = '\033[1m' + '\033[94m' + e.name + '\033[0m'
         doc = e.load().__doc__
         spc = ' ' * (40 - len(nm))
         print(f'{nm}     {spc}{doc}')
