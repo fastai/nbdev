@@ -8,7 +8,6 @@ __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'docs', 'preview', 'd
 import sys
 from pkg_resources import iter_entry_points as ep
 from os import system
-from fastcore.script import run
 from .read import get_config
 from .test import nbprocess_test
 from .clean import nbprocess_clean
@@ -22,12 +21,12 @@ def _c(f, *args, **kwargs): return f.__wrapped__(*args, **kwargs)
 
 # %% ../nbs/16_utils.ipynb 4
 def _install_linux():
-    run(f'wget -nv {BASE_QUARTO_URL}quarto-linux-amd64.deb')
+    system(f'wget -nv {BASE_QUARTO_URL}quarto-linux-amd64.deb')
     system('sudo dpkg -i *64.deb && rm *64.deb')
     
 def _install_mac():
-    run(f'wget -nv {BASE_QUARTO_URL}quarto-macos.pkg')
-    run('open quarto-macos.pkg')
+    system(f'wget -nv {BASE_QUARTO_URL}quarto-macos.pkg')
+    system('open quarto-macos.pkg')
 
 def install_quarto():
     "Installs latest quarto on mac or linux.  Prints instructions for Windows."
@@ -40,7 +39,7 @@ def install_quarto():
 def install():
     "Install quarto and the current library."
     install_quarto()
-    run(f'pip install -e "{_dir()}[dev]"')
+    system(f'pip install -e "{_dir()}[dev]"')
     
 
 # %% ../nbs/16_utils.ipynb 6
@@ -63,17 +62,17 @@ def deploy():
     _c(nbprocess_ghp_deploy)
 
 # %% ../nbs/16_utils.ipynb 12
-def _dist(): run(f'cd {_dir()}  && rm -rf dist && python setup.py sdist bdist_wheel')
+def _dist(): system(f'cd {_dir()}  && rm -rf dist && python setup.py sdist bdist_wheel')
     
 def pypi(ver_bump=True):
     "Create and upload python package to pypi."
     _dist()
-    run(f'twine upload --repository pypi {_dir()}/dist/*')
+    system(f'twine upload --repository pypi {_dir()}/dist/*')
     if ver_bump: _c(nbprocess_bump_version)
     
 def conda(ver_bump=True): 
     "Create and upload a conda package."
-    run(f'fastrelease_conda_package {_dir()}')
+    system(f'fastrelease_conda_package {_dir()}')
     if ver_bump: _c(nbprocess_bump_version)
     
 def release():
