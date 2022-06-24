@@ -20,7 +20,7 @@ BASE_QUARTO_URL='https://www.quarto.org/download/latest/'
 def _dir(): return get_config().path("lib_path").parent
 def _c(f, *args, **kwargs): return f.__wrapped__(*args, **kwargs)
 
-# %% ../nbs/16_utils.ipynb 5
+# %% ../nbs/16_utils.ipynb 4
 def _install_linux():
     run(f'wget -nv {BASE_QUARTO_URL}quarto-linux-amd64.deb')
     system('sudo dpkg -i *64.deb && rm *64.deb')
@@ -43,26 +43,26 @@ def install():
     run(f'pip install -e "{_dir()}[dev]"')
     
 
-# %% ../nbs/16_utils.ipynb 7
+# %% ../nbs/16_utils.ipynb 6
 def docs():
     "Generate the docs."
     install()
     _c(nbprocess_quarto)
 
-# %% ../nbs/16_utils.ipynb 9
+# %% ../nbs/16_utils.ipynb 8
 def preview():
     "Start a local docs webserver."
     install()
     _c(nbprocess_sidebar)
     _c(nbprocess_quarto, preview=True)
 
-# %% ../nbs/16_utils.ipynb 11
+# %% ../nbs/16_utils.ipynb 10
 def deploy():
     "Deploy docs to GitHub Pages."
     docs()
     _c(nbprocess_ghp_deploy)
 
-# %% ../nbs/16_utils.ipynb 13
+# %% ../nbs/16_utils.ipynb 12
 def _dist(): run(f'cd {_dir()}  && rm -rf dist && python setup.py sdist bdist_wheel')
     
 def pypi(ver_bump=True):
@@ -82,17 +82,17 @@ def release():
     conda(ver_bump=False)
     _c(nbprocess_bump_version)
 
-# %% ../nbs/16_utils.ipynb 15
+# %% ../nbs/16_utils.ipynb 14
 def prepare():
     "Export notebooks to python modules, test code and clean notebooks."
     _c(nbprocess_export)
     _c(nbprocess_test)
     _c(nbprocess_clean)
 
-# %% ../nbs/16_utils.ipynb 17
+# %% ../nbs/16_utils.ipynb 16
 def _cs(pkg_nm): return [e for e in ep('console_scripts') if e.module_name.startswith(pkg_nm)]
 
-# %% ../nbs/16_utils.ipynb 18
+# %% ../nbs/16_utils.ipynb 17
 class _CL:
     BLUE = '\033[94m'
     OKGREEN = '\033[92m'
