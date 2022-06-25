@@ -4,6 +4,7 @@
 __all__ = ['DocmentTbl', 'ShowDocRenderer', 'BasicMarkdownRenderer', 'show_doc', 'BasicHtmlRenderer', 'showdoc_nm']
 
 # %% ../nbs/08_showdoc.ipynb 2
+from fastcore.dispatch import TypeDispatch
 from fastcore.docments import *
 from fastcore.basics import *
 from fastcore.imports import *
@@ -139,7 +140,8 @@ def show_doc(sym, disp=True, renderer=None):
     elif isinstance(renderer,str):
         p,m = renderer.rsplit('.', 1)
         renderer = getattr(import_module(p), m)
-    return renderer(sym or show_doc, disp=disp)
+    if isinstance(sym, TypeDispatch): pass
+    else:return renderer(sym or show_doc, disp=disp)
 
 # %% ../nbs/08_showdoc.ipynb 41
 class BasicHtmlRenderer(ShowDocRenderer):
