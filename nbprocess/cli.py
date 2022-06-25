@@ -171,9 +171,9 @@ def prompt_user(**kwargs):
     print('================ nbprocess Configuration ================\n')
     for v in config_vals:
         if not config_vals[v]:
-            print('Please enter the following information:\n')
+            print('\nPlease enter information for the following field in settings.ini:')
             inp = input(f'{v}: ')
-            config_vals[v] = inp     
+            config_vals[v] = inp
         else: print(f"{v}: '{config_vals[v]}' Automatically inferred from git.")
     print(f"\n`settings.ini` updated with configuration values.")
     return config_vals
@@ -189,7 +189,7 @@ def _fetch_from_git(raise_err=False):
         email = run('git config --get user.email').strip()
     except Exception as e:
         if raise_err: raise(e)
-        return dict(lib_name=None,user=None,branch=None,author=None,author_email=None)
+        return dict(lib_name=None,user=None,branch=None,author=None,author_email=None,keywords=None,description=None)
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, 
                 author_email=email, keywords=keywords, description=descrip)
 
