@@ -104,7 +104,7 @@ def nbprocess_migrate_directives(
     no_skip:bool=False, # Do not skip directories beginning with an underscore
 ):
     "Convert all directives in `fname` from v1 to v2."
-    _write = partial(_process_write, warn_msg='Failed to replace directives', proc_nb=_repl_v1dir)
+    _write = partial(process_write, warn_msg='Failed to replace directives', proc_nb=_repl_v1dir)
     if stdin: _write(f_in=_wrapio(sys.stdin), f_out=_wrapio(sys.stdout))
     _skip_re = None if no_skip else '^[_.]'
     if fname is None: fname = config_key("nbs_path", '.', missing_ok=True)
