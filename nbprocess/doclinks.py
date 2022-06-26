@@ -55,7 +55,9 @@ def get_patch_name(o):
     d = _get_patch(o)
     if not d: return
     nm = decor_id(d)
-    if nm=='patch': pre = o.args.args[0].annotation.id
+    if nm=='patch': 
+        pre = getattr(o.args.args[0].annotation, 'id', None)
+        if pre is None: return
     elif nm=='patch_to': pre = o.decorator_list[0].args[0].id
     else: return
     return f'{pre}.{o.name}'
