@@ -56,13 +56,14 @@ def get_patch_name(o):
     if not d: return
     nm = decor_id(d)
     if nm=='patch': 
-        pre = getattr(o.args.args[0].annotation, 'id', None)
-        if pre is None: return
+        a = o.args.args[0].annotation
+        if isinstance(a, ast.BinOp): return [f'{a.left.id}.{o.name}', f'{a.right.id}.{o.name}'] # this is when you patch with a Union "|" operator
+        else: pre = a.id        
     elif nm=='patch_to': pre = o.decorator_list[0].args[0].id
     else: return
     return f'{pre}.{o.name}'
 
-# %% ../nbs/04b_doclinks.ipynb 16
+# %% ../nbs/04b_doclinks.ipynb 17
 def _exp_meths(tree):
     return L(f"{tree.name}.{o.name}" for o in tree.body
              if isinstance(o,(ast.FunctionDef,ast.AsyncFunctionDef)) and o.name[0]!='_')
@@ -72,24 +73,24 @@ def update_syms(self:DocLinks):
     exp,trees = _all_or_exports(self.mod_fn)
     exp_class = trees.filter(lambda o: isinstance(o, ast.ClassDef) and o.name in exp)
     exp += exp_class.map(_exp_meths).concat()
-    exp += L(get_patch_name(o) for o in trees).filter()
+    exp += L(concat([get_patch_name(o) for o in trees])).filter()
     exp = exp.map(f"{self.mod_name}.{{}}")
     self.d['syms'][self.mod_name] = exp.map_dict(partial(self.doc_func, self.mod_name))
 
-# %% ../nbs/04b_doclinks.ipynb 20
+# %% ../nbs/04b_doclinks.ipynb 21
 @patch
 def build_index(self:DocLinks):
     self.update_syms()
     self.d['settings'] = dict(**get_config().d)
     self.write_nbprocess_idx()
 
-# %% ../nbs/04b_doclinks.ipynb 22
+# %% ../nbs/04b_doclinks.ipynb 23
 def _doc_link(url, mod, sym=None):
     res = urljoin(url, remove_prefix(mod, get_config()['lib_name']+"."))
     if sym: res += "#" + remove_prefix(sym, mod+".")
     return res
 
-# %% ../nbs/04b_doclinks.ipynb 23
+# %% ../nbs/04b_doclinks.ipynb 24
 def build_modidx():
     "Create _modidx.py"
     dest = config_key('lib_path')
@@ -103,7 +104,7 @@ def build_modidx():
     for file in dest.glob("**/*.py"):
         if file.name[0]!='_': DocLinks(file, doc_func, _fn).build_index()
 
-# %% ../nbs/04b_doclinks.ipynb 24
+# %% ../nbs/04b_doclinks.ipynb 25
 def nbglob(path=None, recursive=True, symlinks=True, file_glob='*.ipynb',
     file_re=None, folder_re=None, skip_file_glob=None, skip_file_re=None, skip_folder_re='^[_.]', key='nbs_path'):
     "Find all files in a directory matching an extension given a `config_key`."
@@ -113,7 +114,7 @@ def nbglob(path=None, recursive=True, symlinks=True, file_glob='*.ipynb',
     return globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
         folder_re=folder_re, skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
 
-# %% ../nbs/04b_doclinks.ipynb 25
+# %% ../nbs/04b_doclinks.ipynb 26
 @call_parse
 def nbprocess_export(
     path:str=None, # path or filename
