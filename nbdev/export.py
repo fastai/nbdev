@@ -149,9 +149,13 @@ def export_names(code, func_only=False):
     "Find the names of the objects, functions or classes defined in `code` that are exported."
     #Format monkey-patches with @patch
     def _f(gps):
-        nm, cls, t = gps.groups()
-        if cls is not None: return f"def {cls}.{nm}():"
-        return '\n'.join([f"def {c}.{nm}():" for c in re.split(', *', t[1:-1])])
+        nm, c, t = gps.groups()
+        if c is None: c, delim = t[1:-1], ','
+        elif '|' in c: delim = '\|'
+        else: delim = None
+        if delim: cs = re.split(f'{delim} *', c)
+        else: cs = [c]
+        return '\n'.join([f'def {c}.{nm}():' for c in cs])
 
     code = _re_typedispatch_func.sub('', code)
     code = _re_patch_func.sub(_f, code)
