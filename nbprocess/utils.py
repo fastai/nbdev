@@ -30,7 +30,7 @@ def _install_mac():
 
 def install_quarto():
     "Installs latest quarto on mac or linux.  Prints instructions for Windows."
-    system('echo "...installing Quarto"')
+    system('sudo echo "...installing Quarto"')
     "Install quarto for mac and linux platforms."
     if 'darwin' in sys.platform: _install_mac()
     elif 'linux' in sys.platform: _install_linux()
