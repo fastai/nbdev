@@ -452,6 +452,9 @@ class DocsTestClass:
     @classmethod
     def test_cls(cls, arg): pass
 
+    @property
+    def test_property(self): pass
+
 # Internal Cell
 #exporti
 #for tests only

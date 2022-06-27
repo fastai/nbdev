@@ -379,18 +379,14 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
     elt = getattr(elt, '__func__', elt)
     qname = name or qual_name(elt)
     is_class = inspect.isclass(elt)
-    is_class_member = '.' in qname or inspect.isclass(elt)
-    if is_class_member:
-        if is_enum(elt): name,args = _format_enum_doc(elt, qname)
-        elif inspect.isclass(elt): name,args = _format_cls_doc(elt, qname)
-        # if it's a class method or a regular object method, we want to skip
-        # the `self` or `cls` 1st arg from the docs.
-        elif callable(elt):
-            name,args = _format_func_doc(elt, qname, skip_params=('self', 'cls'))
-    # for a regular function don't skip 'self' or 'cls'.
+    is_class_member = '.' in qname
+    if is_class:
+        if is_enum(elt):    name,args = _format_enum_doc(elt, qname)
+        else:               name,args = _format_cls_doc (elt, qname)
     elif callable(elt):
-        name,args = _format_func_doc(elt, qname)
-    else:                name,args = f"<code>{qname}</code>", ''
+        if is_class_member: name,args = _format_func_doc(elt, qname, skip_params=('self', 'cls'))
+        else:               name,args = _format_func_doc(elt, qname)
+    else:                   name,args = f"<code>{qname}</code>", ''
     link = get_source_link(elt)
     source_link = f'<a href="{link}" class="source_link" style="float:right">[source]</a>'
     title_level = title_level or (default_cls_level if inspect.isclass(elt) else 4)
@@ -412,11 +408,12 @@ def show_doc(elt, doc_string:bool=True, name=None, title_level=None, disp=True, 
             elt = elt.__init__
         if is_source_available(elt):
             if show_all_docments or _has_docment(elt):
+                skip_self_cls = is_class_member or is_class
                 if hasattr(elt, "__delwrap__"):
                     arg_dict, kwargs = _handle_delegates(elt)
-                    doc += _get_docments(elt, ment_dict=arg_dict, with_return=True, kwargs=kwargs, monospace=monospace, is_class=is_class_member)
+                    doc += _get_docments(elt, ment_dict=arg_dict, with_return=True, kwargs=kwargs, monospace=monospace, is_class=skip_self_cls)
                 else:
-                    doc += _get_docments(elt, monospace=monospace, is_class=is_class_member)
+                    doc += _get_docments(elt, monospace=monospace, is_class=skip_self_cls)
             elif verbose:
                 print(f'Warning: `docments` annotations will not work for built-in modules, classes, functions, and `enums` and are unavailable for {qual_name(elt)}. They will not be shown')
     if disp: display(Markdown(doc))
