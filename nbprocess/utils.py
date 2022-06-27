@@ -43,15 +43,17 @@ def install():
     
 
 # %% ../nbs/16_utils.ipynb 6
+def _quarto_installed(): return bool(shutil.which('quarto'))
+
 def docs():
     "Generate the docs."
-    install()
+    if not _quarto_installed(): install()
     _c(nbprocess_quarto)
 
 # %% ../nbs/16_utils.ipynb 8
 def preview():
     "Start a local docs webserver."
-    if shutil.which('quarto') is None: install()
+    if not _quarto_installed(): install()
     _c(nbprocess_sidebar)
     _c(nbprocess_quarto, preview=True)
 
