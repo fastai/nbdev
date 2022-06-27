@@ -5,7 +5,7 @@ __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'docs', 'preview', 'd
            'chelp']
 
 # %% ../nbs/16_utils.ipynb 2
-import sys
+import sys, shutil
 from pkg_resources import iter_entry_points as ep
 from os import system
 from .read import get_config
@@ -51,7 +51,7 @@ def docs():
 # %% ../nbs/16_utils.ipynb 8
 def preview():
     "Start a local docs webserver."
-    install()
+    if shutil.which('quarto') is None: install()
     _c(nbprocess_sidebar)
     _c(nbprocess_quarto, preview=True)
 
