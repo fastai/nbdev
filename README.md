@@ -28,8 +28,32 @@ other platforms.
 The following CLI tools are provided:
 
 ``` python
-from nbprocess.shortcuts import chelp
-chelp()
+foo = !nbprocess_help
+foo
 ```
 
-    nbprocess_bump_version          Increment version in `settings.py` by onenbprocess_clean                 Clean all notebooks in `fname` to avoid merge conflictsnbprocess_conda                 Create and upload a conda package.nbprocess_create_config         Creates a new config file for `lib_name` and `user` and saves it.nbprocess_deploy                Deploy docs to GitHub Pages.nbprocess_docs                  Generate the docs.nbprocess_export                Export notebooks in `path` to python modulesnbprocess_filter                A notebook filter for quartonbprocess_fix                   Create working notebook from conflicted notebook `nbname`nbprocess_ghp_deploy            Deploy docs in doc_path from settings.ini to GitHub Pagesnbprocess_help                  Show help for all console scriptsnbprocess_install               Install quarto and the current library.nbprocess_install_hooks         Install git hooks to clean/trust notebooks automaticallynbprocess_install_quarto        Installs latest quarto on mac or linux.  Prints instructions for Windows.nbprocess_migrate_directives     Convert all directives in `fname` from v1 to v2.nbprocess_new                   Create a new project from the current git reponbprocess_prepare               Export notebooks to python modules, test code and clean notebooks.nbprocess_preview               Start a local docs webserver.nbprocess_pypi                  Create and upload python package to pypi.nbprocess_quarto                Create quarto docs and README.mdnbprocess_release               Release both conda and pypi packages.nbprocess_sidebar               Create sidebar.ymlnbprocess_test                  Test in parallel the notebooks matching `fname`, passing along `flags`nbprocess_trust                 Trust notebooks matching `fname`nbprocess_update                Propagates any change in the modules matching `fname` to the notebooks that created them
+    ['\x1b[1m\x1b[94mnbprocess_bump_version\x1b[0m          Increment version in `settings.py` by one',
+     '\x1b[1m\x1b[94mnbprocess_clean\x1b[0m                 Clean all notebooks in `fname` to avoid merge conflicts',
+     '\x1b[1m\x1b[94mnbprocess_conda\x1b[0m                 Create and upload a conda package.',
+     '\x1b[1m\x1b[94mnbprocess_create_config\x1b[0m         Creates a new config file for `lib_name` and `user` and saves it.',
+     '\x1b[1m\x1b[94mnbprocess_deploy\x1b[0m                Deploy docs to GitHub Pages.',
+     '\x1b[1m\x1b[94mnbprocess_docs\x1b[0m                  Generate the docs.',
+     '\x1b[1m\x1b[94mnbprocess_export\x1b[0m                Export notebooks in `path` to python modules',
+     '\x1b[1m\x1b[94mnbprocess_filter\x1b[0m                A notebook filter for quarto',
+     '\x1b[1m\x1b[94mnbprocess_fix\x1b[0m                   Create working notebook from conflicted notebook `nbname`',
+     '\x1b[1m\x1b[94mnbprocess_ghp_deploy\x1b[0m            Deploy docs in doc_path from settings.ini to GitHub Pages',
+     '\x1b[1m\x1b[94mnbprocess_help\x1b[0m                  Show help for all console scripts',
+     '\x1b[1m\x1b[94mnbprocess_install\x1b[0m               Install quarto and the current library.',
+     '\x1b[1m\x1b[94mnbprocess_install_hooks\x1b[0m         Install git hooks to clean/trust notebooks automatically',
+     '\x1b[1m\x1b[94mnbprocess_install_quarto\x1b[0m        Installs latest quarto on mac or linux.  Prints instructions for Windows.',
+     '\x1b[1m\x1b[94mnbprocess_migrate_directives\x1b[0m     Convert all directives in `fname` from v1 to v2.',
+     '\x1b[1m\x1b[94mnbprocess_new\x1b[0m                   Create a new project from the current git repo',
+     '\x1b[1m\x1b[94mnbprocess_prepare\x1b[0m               Export notebooks to python modules, test code and clean notebooks.',
+     '\x1b[1m\x1b[94mnbprocess_preview\x1b[0m               Start a local docs webserver.',
+     '\x1b[1m\x1b[94mnbprocess_pypi\x1b[0m                  Create and upload python package to pypi.',
+     '\x1b[1m\x1b[94mnbprocess_quarto\x1b[0m                Create quarto docs and README.md',
+     '\x1b[1m\x1b[94mnbprocess_release\x1b[0m               Release both conda and pypi packages.',
+     '\x1b[1m\x1b[94mnbprocess_sidebar\x1b[0m               Create sidebar.yml',
+     '\x1b[1m\x1b[94mnbprocess_test\x1b[0m                  Test in parallel the notebooks matching `fname`, passing along `flags`',
+     '\x1b[1m\x1b[94mnbprocess_trust\x1b[0m                 Trust notebooks matching `fname`',
+     '\x1b[1m\x1b[94mnbprocess_update\x1b[0m                Propagates any change in the modules matching `fname` to the notebooks that created them']
