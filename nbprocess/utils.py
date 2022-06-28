@@ -5,7 +5,7 @@ __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'docs', 'preview', 'd
            'chelp']
 
 # %% ../nbs/16_utils.ipynb 2
-import sys
+import sys, shutil
 from pkg_resources import iter_entry_points as ep
 from os import system
 from .read import get_config
@@ -30,7 +30,7 @@ def _install_mac():
 
 def install_quarto():
     "Installs latest quarto on mac or linux.  Prints instructions for Windows."
-    print('...installing Quarto')
+    system('sudo echo "...installing Quarto"')
     "Install quarto for mac and linux platforms."
     if 'darwin' in sys.platform: _install_mac()
     elif 'linux' in sys.platform: _install_linux()
@@ -43,15 +43,17 @@ def install():
     
 
 # %% ../nbs/16_utils.ipynb 6
+def _quarto_installed(): return bool(shutil.which('quarto'))
+
 def docs():
     "Generate the docs."
-    install()
+    if not _quarto_installed(): install()
     _c(nbprocess_quarto)
 
 # %% ../nbs/16_utils.ipynb 8
 def preview():
     "Start a local docs webserver."
-    install()
+    if not _quarto_installed(): install()
     _c(nbprocess_sidebar)
     _c(nbprocess_quarto, preview=True)
 
