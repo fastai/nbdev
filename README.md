@@ -27,19 +27,9 @@ other platforms.
 
 The following CLI tools are provided:
 
--   [nbprocess_create_config](https://nbprocess.fast.ai/read#nbprocess_create_config):
-    Create `settings.ini` skeleton
--   [nbprocess_export](https://nbprocess.fast.ai/doclinks#nbprocess_export):
-    Export notebooks to Python modules
--   [nbprocess_update](https://nbprocess.fast.ai/sync#nbprocess_update):
-    Update Python modules from a notebook
--   [nbprocess_fix](https://nbprocess.fast.ai/merge#nbprocess_fix): Fix
-    merge conflicts in notebooks
--   [nbprocess_filter](https://nbprocess.fast.ai/cli#nbprocess_filter):
-    A filter for Quarto
--   [nbprocess_quarto](https://nbprocess.fast.ai/cli#nbprocess_quarto):
-    Create Quarto web site
--   [nbprocess_new](https://nbprocess.fast.ai/cli#nbprocess_new): Create
-    a new `nbprocess` project
--   [nbprocess_migrate_directives](https://nbprocess.fast.ai/migrate#nbprocess_migrate_directives):
-    helps you migrate all your directives from nbdev v1 to v2.
+``` python
+from nbprocess.shortcuts import chelp
+chelp()
+```
+
+    nbprocess_bump_version          Increment version in `settings.py` by onenbprocess_clean                 Clean all notebooks in `fname` to avoid merge conflictsnbprocess_conda                 Create and upload a conda package.nbprocess_create_config         Creates a new config file for `lib_name` and `user` and saves it.nbprocess_deploy                Deploy docs to GitHub Pages.nbprocess_docs                  Generate the docs.nbprocess_export                Export notebooks in `path` to python modulesnbprocess_filter                A notebook filter for quartonbprocess_fix                   Create working notebook from conflicted notebook `nbname`nbprocess_ghp_deploy            Deploy docs in doc_path from settings.ini to GitHub Pagesnbprocess_help                  Show help for all console scriptsnbprocess_install               Install quarto and the current library.nbprocess_install_hooks         Install git hooks to clean/trust notebooks automaticallynbprocess_install_quarto        Installs latest quarto on mac or linux.  Prints instructions for Windows.nbprocess_migrate_directives     Convert all directives in `fname` from v1 to v2.nbprocess_new                   Create a new project from the current git reponbprocess_prepare               Export notebooks to python modules, test code and clean notebooks.nbprocess_preview               Start a local docs webserver.nbprocess_pypi                  Create and upload python package to pypi.nbprocess_quarto                Create quarto docs and README.mdnbprocess_release               Release both conda and pypi packages.nbprocess_sidebar               Create sidebar.ymlnbprocess_test                  Test in parallel the notebooks matching `fname`, passing along `flags`nbprocess_trust                 Trust notebooks matching `fname`nbprocess_update                Propagates any change in the modules matching `fname` to the notebooks that created them
