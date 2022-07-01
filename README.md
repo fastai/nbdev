@@ -25,7 +25,12 @@ By default docs are exported for use with [Quarto](https://quarto.org/).
 To install Quarto on Ubuntu, run `nbprocess_install`. See the Quarto
 docs for other platforms.
 
-The following CLI tools are provided:
+You can run `nbprocess_help` from the terminal to see a list of all CLI
+tools:
+
+``` python
+!nbprocess_help
+```
 
     nbprocess_bump_version          Increment version in `settings.py` by one
     nbprocess_clean                 Clean all notebooks in `fname` to avoid merge conflicts
