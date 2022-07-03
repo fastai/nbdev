@@ -37,14 +37,16 @@ def nbprocess_ghp_deploy():
     ghp_import(config_key('doc_path'), push=True, stderr=True, no_history=True)
 
 # %% ../nbs/10_cli.ipynb 8
+_def_file_re = '\.(?:ipynb|md|html)'
+
 def _create_sidebar(
-    path:str=None, symlinks:bool=False, file_glob:str='*.ipynb', file_re:str=None, folder_re:str=None, 
-    skip_file_glob:str=None, skip_file_re:str=None, skip_folder_re:str='^[_.]'):
+    path:str=None, symlinks:bool=False, file_glob:str=None,  file_re:str=_def_file_re,
+    folder_re:str=None, skip_file_glob:str=None, skip_file_re:str=None, skip_folder_re:str='^[_.]'):
     path = config_key("nbs_path") if not path else Path(path)
     files = globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
                        folder_re=folder_re, skip_file_glob=skip_file_glob,
                        skip_file_re=skip_file_re, skip_folder_re=skip_folder_re
-                      ).map(Path).sorted(key=lambda x: '00' if x.name == 'index.ipynb' else 'z'+x.name)
+                      ).map(Path).sorted(key=lambda x: '00' if x.name.startswith('index.') else 'z'+x.name)
 
     yml_path = path/'sidebar.yml'
     yml = "website:\n  sidebar:\n    contents:\n"
@@ -57,8 +59,8 @@ def _create_sidebar(
 def nbprocess_sidebar(
     path:str=None, # path to notebooks
     symlinks:bool=False, # follow symlinks?
-    file_glob:str='*.ipynb', # Only include files matching glob
-    file_re:str=None, # Only include files matching regex
+    file_glob:str=None, # Only include files matching glob
+    file_re:str=_def_file_re, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str=None, # Skip files matching regex
@@ -280,8 +282,8 @@ def nbprocess_quarto(
     path:str=None, # path to notebooks
     doc_path:str=None, # path to output docs
     symlinks:bool=False, # follow symlinks?
-    file_glob:str='*.ipynb', # Only include files matching glob
-    file_re:str=None, # Only include files matching regex
+    file_glob:str=None, # Only include files matching glob
+    file_re:str=_def_file_re, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str=None, # Skip files matching regex
