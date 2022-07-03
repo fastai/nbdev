@@ -45,7 +45,7 @@ def nbprocess_create_config(
     custom_sidebar:bool_arg=False, # Create custom sidebar?
     nbs_path:str='.', # Name of folder containing notebooks
     lib_path:str='%(lib_name)s', # Folder name of root module
-    doc_path:str='docs', # Folder name containing docs
+    doc_path:str='_docs', # Folder name containing docs
     tst_flags:str='', # Test flags
     version:str='0.0.1', # Version number
     keywords='python', # Keywords for pypi

@@ -226,9 +226,6 @@ website:
   navbar:
     background: primary
     search: true
-    left:
-      - text: Home
-        file: /
     right:
       - icon: github
         href: {git_url}
@@ -238,7 +235,6 @@ website:
 metadata-files: 
   - sidebar.yml
   - custom.yml
-
 """
 
 def refresh_quarto_yml():
@@ -309,7 +305,7 @@ def nbprocess_quarto(
         if (tmp_doc_path/'README.md').exists():
             _rdm = cfg_path/'README.md'
             if _rdm.exists(): _rdm.unlink() #py 3.7 doesn't have arg missing_ok so have to check first
-            shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in the nbs/docs folder
+            shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
 
         if tmp_doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
             shutil.rmtree(doc_path, ignore_errors=True)
