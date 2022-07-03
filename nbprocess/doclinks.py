@@ -170,11 +170,12 @@ class NbdevLookup:
                        if incl_libs is None or o.dist.key in incl_libs}
         py_syms = merge(*L(o['syms'].values() for o in self.entries.values()).concat())
         for m in strip_libs:
-            _d = self.entries[m]
-            stripped = {remove_prefix(k,f"{mod}."):v
-                        for mod,dets in _d['syms'].items() if mod not in skip_mods
-                        for k,v in dets.items()}
-            py_syms = merge(stripped, py_syms)
+            if m in self.entries:
+                _d = self.entries[m]
+                stripped = {remove_prefix(k,f"{mod}."):v
+                            for mod,dets in _d['syms'].items() if mod not in skip_mods
+                            for k,v in dets.items()}
+                py_syms = merge(stripped, py_syms)
         self.syms = py_syms
 
     def __getitem__(self, s): return self.syms.get(s, None)
