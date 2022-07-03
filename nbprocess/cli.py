@@ -226,7 +226,7 @@ website:
     search: true
     left:
       - text: Home
-        file: index.ipynb
+        file: /
     right:
       - icon: github
         href: {git_url}
