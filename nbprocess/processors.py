@@ -11,8 +11,8 @@ import ast
 from .read import *
 from .imports import *
 from .process import *
-from .lookup import *
 from .showdoc import *
+from .doclinks import *
 
 from execnb.nbio import *
 from execnb.shell import *
@@ -22,7 +22,7 @@ from fastcore.xtras import *
 # %% ../nbs/09_processors.ipynb 9
 def add_links(cell):
     "Add links to markdown cells"
-    nl = NbdevLookup(libs())
+    nl = NbdevLookup()
     if cell.cell_type == 'markdown': cell.source = nl.linkify(cell.source)
     for o in cell.get('outputs', []):
         if hasattr(o, 'data') and hasattr(o['data'], 'text/markdown'):
