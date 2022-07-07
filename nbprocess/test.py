@@ -14,7 +14,6 @@ from fastcore.script import *
 from .read import *
 from .doclinks import *
 from .process import NBProcessor
-from .processors import cell_lang
 from logging import warning
 
 from execnb.nbio import *
