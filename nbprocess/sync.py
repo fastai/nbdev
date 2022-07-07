@@ -13,6 +13,7 @@ from .export import *
 from execnb.nbio import *
 from fastcore.script import *
 from fastcore.xtras import *
+from fastcore.test import *
 
 import ast,tempfile,json
 

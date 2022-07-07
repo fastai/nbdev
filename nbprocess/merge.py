@@ -12,6 +12,7 @@ from .sync import *
 from execnb.nbio import *
 from fastcore.script import *
 from fastcore import shutil
+from fastcore.test import *
 
 from difflib import SequenceMatcher
 import json

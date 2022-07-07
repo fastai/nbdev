@@ -10,6 +10,7 @@ from execnb.nbio import *
 from fastcore.script import *
 from fastcore.basics import *
 from fastcore.imports import *
+from fastcore.test import *
 
 from .imports import *
 from .read import *
