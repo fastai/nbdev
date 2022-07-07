@@ -10,7 +10,6 @@ from fastcore.imports import *
 from fastcore.foundation import *
 from fastcore.basics import *
 from fastcore.imports import *
-from fastcore.test import *
 from fastcore.script import *
 from fastcore.xtras import *
 
