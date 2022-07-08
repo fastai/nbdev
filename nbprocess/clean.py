@@ -16,7 +16,7 @@ from .read import *
 from .sync import *
 from .process import first_code_ln
 
-# %% ../nbs/11_clean.ipynb 4
+# %% ../nbs/11_clean.ipynb 5
 @call_parse
 def nbprocess_trust(
     fname:str=None,  # A notebook name or glob to trust
@@ -42,7 +42,7 @@ def nbprocess_trust(
         if not NotebookNotary().check_signature(nb): NotebookNotary().sign(nb)
     check_fname.touch(exist_ok=True)
 
-# %% ../nbs/11_clean.ipynb 6
+# %% ../nbs/11_clean.ipynb 7
 def _clean_cell_output(cell):
     "Remove execution count in `cell`"
     if 'outputs' in cell:
@@ -51,7 +51,7 @@ def _clean_cell_output(cell):
             o.get('data',{}).pop("application/vnd.google.colaboratory.intrinsic+json", None)
             o.get('metadata', {}).pop('tags', None)
 
-# %% ../nbs/11_clean.ipynb 7
+# %% ../nbs/11_clean.ipynb 8
 def _clean_cell(cell, clear_all=False):
     "Clean `cell` by removing superfluous metadata or everything except the input if `clear_all`"
     if 'execution_count' in cell: cell['execution_count'] = None
@@ -62,17 +62,17 @@ def _clean_cell(cell, clear_all=False):
     cell['metadata'] = {} if clear_all else {
         k:v for k,v in cell['metadata'].items() if k=="hide_input"}
 
-# %% ../nbs/11_clean.ipynb 8
+# %% ../nbs/11_clean.ipynb 9
 def clean_nb(nb, clear_all=False):
     "Clean `nb` from superfluous metadata"
     for c in nb['cells']: _clean_cell(c, clear_all=clear_all)
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in
                      ("kernelspec", "jekyll", "jupytext", "doc")}
 
-# %% ../nbs/11_clean.ipynb 11
+# %% ../nbs/11_clean.ipynb 12
 def wrapio(strm): return io.TextIOWrapper(strm.buffer, encoding='utf-8', line_buffering=True)
 
-# %% ../nbs/11_clean.ipynb 12
+# %% ../nbs/11_clean.ipynb 13
 def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
     if not f_out: f_out = wrapio(sys.stdout) if disp else f_in
     if isinstance(f_in, (str,Path)): f_in = Path(f_in).open()
@@ -84,7 +84,7 @@ def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
         warn(f'{warn_msg}')
         warn(e)
 
-# %% ../nbs/11_clean.ipynb 13
+# %% ../nbs/11_clean.ipynb 14
 @call_parse
 def nbprocess_clean(
     fname:str=None, # A notebook name or glob to convert
@@ -101,7 +101,7 @@ def nbprocess_clean(
     if fname is None: fname = config_key("nbs_path", '.', missing_ok=True)
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'): _write(f_in=f, disp=disp)
 
-# %% ../nbs/11_clean.ipynb 15
+# %% ../nbs/11_clean.ipynb 16
 @call_parse
 def nbprocess_install_hooks():
     "Install git hooks to clean/trust notebooks automatically"
