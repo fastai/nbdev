@@ -158,6 +158,12 @@ def _settings_libs():
     except FileNotFoundError: return 'nbprocess'
 
 # %% ../nbs/04b_doclinks.ipynb 31
+def _cond_load(o): 
+    try: o.load() 
+    except: return False
+    return True
+
+# %% ../nbs/04b_doclinks.ipynb 32
 class NbdevLookup:
     "Mapping from symbol names to URLs with docs"
     def __init__(self, strip_libs=None, incl_libs=None, skip_mods=None):
@@ -167,7 +173,7 @@ class NbdevLookup:
         if incl_libs is not None: incl_libs = (L(incl_libs)+strip_libs).unique()
         # Dict from lib name to _nbprocess module for incl_libs (defaults to all)
         self.entries = {o.name: o.load() for o in pkg_resources.iter_entry_points(group='nbdev')
-                       if incl_libs is None or o.dist.key in incl_libs}
+                       if _cond_load(o) and (incl_libs is None or o.dist.key in incl_libs)}
         py_syms = merge(*L(o['syms'].values() for o in self.entries.values()).concat())
         for m in strip_libs:
             if m in self.entries:
@@ -180,7 +186,7 @@ class NbdevLookup:
 
     def __getitem__(self, s): return self.syms.get(s, None)
 
-# %% ../nbs/04b_doclinks.ipynb 39
+# %% ../nbs/04b_doclinks.ipynb 40
 @patch
 def _link_sym(self:NbdevLookup, m):
     l = m.group(1)
