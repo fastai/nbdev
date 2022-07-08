@@ -124,7 +124,7 @@ class exec_show_docs:
     "Execute cells needed for `show_docs` output, including exported cells and imports"
     def __init__(self, nb):
         self.k = CaptureShell()
-        if nb.metadata.kernelspec.language == 'python': self.k.run_cell('from nbprocess.showdoc import show_doc')
+        if nb_lang(nb) == 'python': self.k.run_cell('from nbprocess.showdoc import show_doc')
 
     def __call__(self, cell):
         if _do_eval(cell): self.k.cell(cell)
@@ -133,9 +133,8 @@ class exec_show_docs:
 # %% ../nbs/09_processors.ipynb 34
 def populate_language(nb):
     "Insert cell language indicator based on notebook metadata.  You should to use this before `lang_identify`"
-    lang = nb.metadata.kernelspec.language
     for cell in nb.cells:
-        if cell.cell_type == 'code': cell.metadata.language = lang
+        if cell.cell_type == 'code': cell.metadata.language = nb_lang(nb)
 
 # %% ../nbs/09_processors.ipynb 37
 def insert_warning(nb):

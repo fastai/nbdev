@@ -13,7 +13,7 @@ from fastcore.script import *
 
 from .read import *
 from .doclinks import *
-from .process import NBProcessor
+from .process import NBProcessor, nb_lang
 from logging import warning
 
 from execnb.nbio import *
@@ -25,7 +25,7 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False, showerr=True)
     if not IN_NOTEBOOK: os.environ["IN_TEST"] = '1'
     flags=set(L(skip_flags)) - set(L(force_flags))
     nb = NBProcessor(fn, process=True).nb
-    if nb.metadata.kernelspec.language != 'python': return True, 0
+    if nb_lang(nb) != 'python': return True, 0
 
     def _no_eval(cell):
         if cell.cell_type != 'code': return True
