@@ -181,7 +181,10 @@ def _import2relative(cells, lib_name=None):
 def make(self:ModuleMaker, cells, all_cells=None, lib_name=None):
     "Write module containing `cells` with `__all__` generated from `all_cells`"
     if all_cells is None: all_cells = cells
-    if self.parse: _import2relative(all_cells, lib_name)
+    if self.parse: 
+        libnm = get_config().path('lib_path')
+        mod_dir = os.path.relpath(self.fname.parent, libnm.parent)
+        _import2relative(all_cells, mod_dir)
     if not self.is_new: return self._make_exists(cells, all_cells)
 
     self.fname.parent.mkdir(exist_ok=True, parents=True)
