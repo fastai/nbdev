@@ -39,8 +39,8 @@ def install_quarto():
 def install():
     "Install quarto and the current library."
     install_quarto()
-    system(f'pip install -e "{_dir()}[dev]"')
-    
+    if (get_config().path('lib_path')/'__init__.py').exists():
+        system(f'pip install -e "{_dir()}[dev]"')
 
 # %% ../nbs/16_shortcuts.ipynb 6
 def _quarto_installed(): return bool(shutil.which('quarto'))
