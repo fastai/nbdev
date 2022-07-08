@@ -74,7 +74,7 @@ def pypi(ver_bump=True):
     
 def conda(ver_bump=True): 
     "Create and upload a conda package."
-    system(f'fastrelease_conda_package {_dir()}')
+    system(f'fastrelease_conda_package --mambabuild --upload_user fastai')
     if ver_bump: _c(nbprocess_bump_version)
     
 def release():
