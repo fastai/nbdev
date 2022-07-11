@@ -19,6 +19,7 @@ from execnb.nbio import *
 from execnb.shell import *
 from fastcore.imports import *
 from fastcore.xtras import *
+import sys
 
 # %% ../nbs/09_processors.ipynb 9
 def cell_lang(cell): return nested_attr(cell, 'metadata.language', 'python')
@@ -128,7 +129,9 @@ class exec_show_docs:
 
     def __call__(self, cell):
         if _do_eval(cell): self.k.cell(cell)
-        if self.k.exc: raise self.k.exc[1] from None
+        if self.k.exc: 
+            sys.stderr.write(f'Error in cell {cell.idx_}:\n{cell.source}')
+            raise self.k.exc[1] from None
 
 # %% ../nbs/09_processors.ipynb 34
 def populate_language(nb):
