@@ -10,12 +10,10 @@ from .process import *
 from .processors import *
 
 from execnb.nbio import *
-from fastcore.basics import *
-from fastcore.imports import *
+from fastcore.utils import *
 from fastcore.net import *
 from fastcore.script import call_parse
 from fastcore import shutil
-from fastcore.utils import globtastic, run, repo_details
 
 from urllib.error import HTTPError
 from contextlib import redirect_stdout
@@ -37,24 +35,41 @@ def nbprocess_ghp_deploy():
     ghp_import(config_key('doc_path'), push=True, stderr=True, no_history=True)
 
 # %% ../nbs/10_cli.ipynb 8
-_def_file_re = '\.(?:ipynb|md|html)'
+_def_file_re = '\.(?:ipynb|md|html)$'
+
+def _f(a,b): return Path(a),b
+def _pre(p,b=True): return '    ' * (len(p.parts)) + ('- ' if b else '  ')
+def _sort(a):
+    x,y = a
+    if y.startswith('index.'): return '00'
+    return 'z'*len(x.parts) + str(x.joinpath(y))
 
 def _create_sidebar(
-    path:str=None, symlinks:bool=False, file_glob:str=None,  file_re:str=_def_file_re,
-    folder_re:str=None, skip_file_glob:str=None, skip_file_re:str=None, skip_folder_re:str='^[_.]'):
+    path:str=None, symlinks:bool=False, file_glob:str=None,  file_re:str=_def_file_re, folder_re:str=None,
+    skip_file_glob:str=None, skip_file_re:str=None, skip_folder_re:str='^[_.]', printit=False):
     path = config_key("nbs_path") if not path else Path(path)
-    files = globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
+    files = globtastic(path, func=_f, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
                        folder_re=folder_re, skip_file_glob=skip_file_glob,
                        skip_file_re=skip_file_re, skip_folder_re=skip_folder_re
-                      ).map(Path).sorted(key=lambda x: '00' if x.name.startswith('index.') else 'z'+x.name)
+                      ).sorted(key=_sort)
+
+    lastd,res = Path(),[]
+    for d,name in files:
+        d = d.relative_to(path)
+        if d != lastd:
+            res.append(_pre(d.parent) + f'section: {d.name}')
+            res.append(_pre(d.parent, False) + 'contents:')
+            lastd = d
+        res.append(f'{_pre(d)}{d.joinpath(name)}')
 
     yml_path = path/'sidebar.yml'
     yml = "website:\n  sidebar:\n    contents:\n"
-    yml += '\n'.join(f'      - {o.relative_to(path)}' for o in files)
+    yml += '\n'.join(f'      {o}' for o in res)
+    if printit: return print(yml)
     yml_path.write_text(yml)
     return files
 
-# %% ../nbs/10_cli.ipynb 9
+# %% ../nbs/10_cli.ipynb 10
 @call_parse
 def nbprocess_sidebar(
     path:str=None, # path to notebooks
@@ -70,7 +85,7 @@ def nbprocess_sidebar(
     _create_sidebar(path, symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
 
-# %% ../nbs/10_cli.ipynb 11
+# %% ../nbs/10_cli.ipynb 12
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
     def _nothing(self): return []
@@ -94,7 +109,7 @@ class FilterDefaults:
         "Postprocessors for export"
         return self.base_postprocs() + self.xtra_postprocs()
 
-# %% ../nbs/10_cli.ipynb 12
+# %% ../nbs/10_cli.ipynb 13
 @call_parse
 def nbprocess_filter(
     nb_txt:str=None  # Notebook text (uses stdin if not provided)
@@ -113,7 +128,7 @@ def nbprocess_filter(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/10_cli.ipynb 14
+# %% ../nbs/10_cli.ipynb 15
 _re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
 
 def update_version():
@@ -145,11 +160,11 @@ def nbprocess_bump_version(
     update_version()
     print(f'New version: {cfg.version}')
 
-# %% ../nbs/10_cli.ipynb 16
+# %% ../nbs/10_cli.ipynb 17
 def extract_tgz(url, dest='.'): 
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/10_cli.ipynb 17
+# %% ../nbs/10_cli.ipynb 18
 def _get_info(owner, repo, default_branch='main', default_kw='nbprocess'):
     try: from ghapi.all import GhApi
     except: 
@@ -168,7 +183,7 @@ def _get_info(owner, repo, default_branch='main', default_kw='nbprocess'):
     
     return r.default_branch, default_kw if not r.topics else ' '.join(r.topics), r.description
 
-# %% ../nbs/10_cli.ipynb 19
+# %% ../nbs/10_cli.ipynb 20
 def prompt_user(**kwargs):
     config_vals = kwargs
     print('================ nbprocess Configuration ================\n')
@@ -181,7 +196,7 @@ def prompt_user(**kwargs):
     print(f"\n`settings.ini` updated with configuration values.")
     return config_vals
 
-# %% ../nbs/10_cli.ipynb 20
+# %% ../nbs/10_cli.ipynb 21
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     try:
@@ -196,7 +211,7 @@ def _fetch_from_git(raise_err=False):
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, 
                 author_email=email, keywords=keywords, description=descrip)
 
-# %% ../nbs/10_cli.ipynb 22
+# %% ../nbs/10_cli.ipynb 23
 _quarto_yml="""ipynb-filters: [nbprocess_filter]
 
 project:
@@ -246,7 +261,7 @@ def refresh_quarto_yml():
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
-# %% ../nbs/10_cli.ipynb 23
+# %% ../nbs/10_cli.ipynb 24
 @call_parse
 def nbprocess_new():
     "Create a new project from the current git repo"
@@ -273,7 +288,7 @@ def nbprocess_new():
     settings_path.write_text(settings)
     refresh_quarto_yml()
 
-# %% ../nbs/10_cli.ipynb 25
+# %% ../nbs/10_cli.ipynb 26
 @call_parse
 def nbprocess_quarto(
     path:str=None, # path to notebooks
