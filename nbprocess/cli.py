@@ -207,7 +207,7 @@ def _fetch_from_git(raise_err=False):
         if raise_err: raise(e)
         return dict(lib_name=None,user=None,branch=None,author=None,author_email=None,keywords=None,description=None)
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, 
-                author_email=email, keywords=keywords, description=descrip)
+                author_email=email, keywords=keywords, description=descrip, repo=repo)
 
 # %% ../nbs/10_cli.ipynb 23
 _quarto_yml="""ipynb-filters: [nbprocess_filter]
