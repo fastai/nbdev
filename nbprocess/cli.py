@@ -24,7 +24,7 @@ __all__ = ['nbprocess_ghp_deploy', 'nbprocess_sidebar', 'FilterDefaults', 'nbpro
            'nbprocess_bump_version', 'extract_tgz', 'prompt_user', 'refresh_quarto_yml', 'nbprocess_new',
            'nbprocess_quarto']
 
-# %% ../nbs/10_cli.ipynb 5
+# %% ../nbs/10_cli.ipynb 6
 @call_parse
 def nbprocess_ghp_deploy():
     "Deploy docs in doc_path from settings.ini to GitHub Pages"
@@ -34,7 +34,7 @@ def nbprocess_ghp_deploy():
         return
     ghp_import(config_key('doc_path'), push=True, stderr=True, no_history=True)
 
-# %% ../nbs/10_cli.ipynb 8
+# %% ../nbs/10_cli.ipynb 9
 _def_file_re = '\.(?:ipynb|md|html)$'
 
 def _f(a,b): return Path(a),b
@@ -95,7 +95,8 @@ class FilterDefaults:
     def base_postprocs(self): return []
     def base_procs(self):
         return [lang_identify, strip_ansi, hide_line, filter_stream_, rm_header_dash,
-                clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_, add_links]
+                clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_, add_links,
+               strip_hidden_metadata]
 
     def procs(self):
         "Processors for export"
