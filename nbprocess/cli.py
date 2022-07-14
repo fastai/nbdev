@@ -95,7 +95,8 @@ class FilterDefaults:
     def base_postprocs(self): return []
     def base_procs(self):
         return [lang_identify, strip_ansi, hide_line, filter_stream_, rm_header_dash,
-                clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_, add_links]
+                clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_, add_links,
+               strip_hidden_metadata]
 
     def procs(self):
         "Processors for export"
