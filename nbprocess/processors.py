@@ -43,7 +43,7 @@ def strip_ansi(cell):
 # %% ../nbs/09_processors.ipynb 14
 def strip_hidden_metadata(cell):
     '''Strips "hidden" metadata property from code cells so it doesn't interfere with docs rendering'''
-    if cell.cell_type == 'code': cell.metadata.pop('hidden',None)
+    if cell.cell_type == 'code' and 'metadata' in cell: cell.metadata.pop('hidden',None)
 
 # %% ../nbs/09_processors.ipynb 16
 def hide_(nbp, cell):
