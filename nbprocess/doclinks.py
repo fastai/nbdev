@@ -186,6 +186,7 @@ def _link_sym(self:NbdevLookup, m):
     l = m.group(1)
     s = self[l]
     if s is None: return m.group(0)
+    l = l.replace('\\', r'\\')
     return rf"[{l}]({s})"
 
 _re_backticks = re.compile(r'`([^`\s]+)`')
