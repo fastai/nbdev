@@ -121,20 +121,21 @@ def build_modidx():
         if file.name[0]!='_': DocLinks(file, doc_func, _fn).build_index()
 
 # %% ../nbs/04b_doclinks.ipynb 27
-def nbglob(path=None, recursive=True, symlinks=True, file_glob='*.ipynb',
-    file_re=None, folder_re=None, skip_file_glob=None, skip_file_re=None, skip_folder_re='^[_.]', key='nbs_path'):
+def nbglob(path=None, recursive=True, symlinks=True, file_glob='*.ipynb', file_re=None, folder_re=None,
+           skip_file_glob=None, skip_file_re=None, skip_folder_re='^[_.]', key='nbs_path', as_path=False):
     "Find all files in a directory matching an extension given a `config_key`."
     path = Path(path or config_key(key))
     if recursive is None: recursive=get_config().get('recursive', 'False').lower() == 'true'
     if not recursive: skip_folder_re='.'
-    return globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
+    res = globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
         folder_re=folder_re, skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
+    return res.map(Path) if as_path else res
 
 # %% ../nbs/04b_doclinks.ipynb 28
 @call_parse
 def nbprocess_export(
     path:str=None, # path or filename
-    recursive:bool=True, # search subfolders
+    recursive:bool=None, # search subfolders
     symlinks:bool=True, # follow symlinks?
     file_glob:str='*.ipynb', # Only include files matching glob
     file_re:str=None, # Only include files matching regex
@@ -150,14 +151,14 @@ def nbprocess_export(
     add_init(get_config().path('lib_path'))
     build_modidx()
 
-# %% ../nbs/04b_doclinks.ipynb 30
+# %% ../nbs/04b_doclinks.ipynb 31
 def _settings_libs():
     try: #settings.ini doesn't exist yet until you call nbprocess_new
         cfg = get_config()
         return cfg.get('strip_libs', cfg.get('lib_name')).split()
     except FileNotFoundError: return 'nbprocess'
 
-# %% ../nbs/04b_doclinks.ipynb 31
+# %% ../nbs/04b_doclinks.ipynb 32
 class NbdevLookup:
     "Mapping from symbol names to URLs with docs"
     def __init__(self, strip_libs=None, incl_libs=None, skip_mods=None):
@@ -180,7 +181,7 @@ class NbdevLookup:
 
     def __getitem__(self, s): return self.syms.get(s, None)
 
-# %% ../nbs/04b_doclinks.ipynb 39
+# %% ../nbs/04b_doclinks.ipynb 40
 @patch
 def _link_sym(self:NbdevLookup, m):
     l = m.group(1)

@@ -8,6 +8,7 @@ from .read import *
 from .sync import *
 from .process import *
 from .processors import *
+from .doclinks import *
 
 from execnb.nbio import *
 from fastcore.utils import *
@@ -48,7 +49,7 @@ def _create_sidebar(
     path:str=None, symlinks:bool=False, file_glob:str=None,  file_re:str=_def_file_re, folder_re:str=None,
     skip_file_glob:str=None, skip_file_re:str=None, skip_folder_re:str='^[_.]', printit=False):
     path = config_key("nbs_path") if not path else Path(path)
-    files = globtastic(path, func=_f, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
+    files = nbglob(path, func=_f, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
                        folder_re=folder_re, skip_file_glob=skip_file_glob,
                        skip_file_re=skip_file_re, skip_folder_re=skip_folder_re
                       ).sorted(key=_sort)
@@ -78,7 +79,7 @@ def nbprocess_sidebar(
     file_re:str=_def_file_re, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str=None, # Skip files matching regex
+    skip_file_re:str='^[_.]', # Skip files matching regex
     skip_folder_re:str='^[_.]' # Skip folders matching regex
 ):
     "Create sidebar.yml"
