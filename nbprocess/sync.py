@@ -14,7 +14,7 @@ from execnb.nbio import *
 from fastcore.script import *
 from fastcore.xtras import *
 
-import ast,tempfile,json
+import ast,tempfile
 
 # %% ../nbs/05_sync.ipynb 5
 def absolute_import(name, fname, level):

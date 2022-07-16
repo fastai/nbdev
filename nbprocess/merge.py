@@ -14,7 +14,6 @@ from fastcore.script import *
 from fastcore import shutil
 
 from difflib import SequenceMatcher
-import json
 
 # %% ../nbs/06_merge.ipynb 16
 _BEG,_MID,_END = '<'*7,'='*7,'>'*7
@@ -65,7 +64,7 @@ def nbprocess_fix(nbname:str, # notebook filename to fix
     if not nobackup and not outname: shutil.copy(nbname, nbname.with_suffix('.ipynb.bak'))
     nbtxt = nbname.read_text()
     a,b,branch1,branch2 = unpatch(nbtxt)
-    ac,bc = dict2nb(json.loads(a)),dict2nb(json.loads(b))
+    ac,bc = dict2nb(loads(a)),dict2nb(loads(b))
     dest = bc if theirs else ac
     cells,conflict = _merge_cells(ac.cells, bc.cells, branch1, branch2, theirs=theirs)
     dest.cells = cells

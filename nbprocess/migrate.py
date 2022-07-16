@@ -10,7 +10,6 @@ from .read import read_nb, config_key
 from .sync import write_nb
 from .clean import process_write, wrapio
 from fastcore.all import *
-from json import loads
 
 # %% ../nbs/15_migrate.ipynb 4
 def _get_fm(path): return nb_fmdict(read_nb(path), remove=False)
