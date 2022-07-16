@@ -4,7 +4,7 @@
 __all__ = ['nbprocess_trust', 'clean_nb', 'wrapio', 'process_write', 'nbprocess_clean', 'nbprocess_install_hooks']
 
 # %% ../nbs/11_clean.ipynb 2
-import json,warnings,stat
+import warnings,stat
 
 from execnb.nbio import *
 from fastcore.script import *
@@ -77,7 +77,7 @@ def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
     if not f_out: f_out = wrapio(sys.stdout) if disp else f_in
     if isinstance(f_in, (str,Path)): f_in = Path(f_in).open()
     try:
-        nb = json.load(f_in)
+        nb = loads(f_in.read())
         proc_nb(nb)
         write_nb(nb, f_out)
     except Exception as e:

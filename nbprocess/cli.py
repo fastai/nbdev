@@ -2,7 +2,7 @@
 
 # %% ../nbs/10_cli.ipynb 1
 from __future__ import annotations
-import json,warnings
+import warnings
 
 from .read import *
 from .sync import *
@@ -120,7 +120,7 @@ def nbprocess_filter(
     filt = get_config().get('exporter', FilterDefaults)()
     printit = False
     if not nb_txt: nb_txt,printit = sys.stdin.read(),True
-    nb = dict2nb(json.loads(nb_txt))
+    nb = dict2nb(loads(nb_txt))
     with open(os.devnull, 'w') as dn:
         with redirect_stdout(dn):
             NBProcessor(nb=nb, procs=filt.procs(), preprocs=filt.preprocs(), postprocs=filt.postprocs()).process()
