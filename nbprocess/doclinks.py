@@ -13,6 +13,7 @@ from fastcore.script import *
 from fastcore.imports import *
 from fastcore.basics import *
 from fastcore.imports import *
+from fastcore.meta import delegates
 
 import ast,contextlib
 import pkg_resources,importlib
@@ -121,14 +122,13 @@ def build_modidx():
         if file.name[0]!='_': DocLinks(file, doc_func, _fn).build_index()
 
 # %% ../nbs/04b_doclinks.ipynb 27
-def nbglob(path=None, recursive=True, symlinks=True, file_glob='*.ipynb', file_re=None, folder_re=None,
-           skip_file_glob=None, skip_file_re=None, skip_folder_re='^[_.]', key='nbs_path', as_path=False, func:callable=os.path.join):
+@delegates(globtastic, but=['file_glob', 'skip_folder_re'])
+def nbglob(path=None, recursive=True, key='nbs_path', as_path=False, **kwargs):
     "Find all files in a directory matching an extension given a `config_key`."
     path = Path(path or config_key(key))
     if recursive is None: recursive=get_config().get('recursive', 'False').lower() == 'true'
-    if not recursive: skip_folder_re='.'
-    res = globtastic(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
-        folder_re=folder_re, skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re, func=func)
+    skip_folder_re = '.' if not recursive else '^[_.]'
+    res = globtastic(path, file_glob='*.ipynb', skip_folder_re=skip_folder_re, **kwargs)
     return res.map(Path) if as_path else res
 
 # %% ../nbs/04b_doclinks.ipynb 28
@@ -137,16 +137,15 @@ def nbprocess_export(
     path:str=None, # path or filename
     recursive:bool=None, # search subfolders
     symlinks:bool=True, # follow symlinks?
-    file_glob:str='*.ipynb', # Only include files matching glob
     file_re:str=None, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str=None, # Skip files matching regex
-    skip_folder_re:str='^[_.]' # Skip folders matching regex
+    skip_file_re:str=None # Skip files matching regex
 ):
     "Export notebooks in `path` to python modules"
     if os.environ.get('IN_TEST',0): return
-    files = nbglob(path, recursive, symlinks, file_glob, file_re, folder_re, skip_file_glob, skip_file_re, skip_folder_re=skip_folder_re)
+    files = nbglob(path=path, recursive=recursive, file_re=file_re, 
+                   folder_re=folder_re, skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, symlinks=symlinks)
     for f in files:
         nb_export(f)
     add_init(get_config().path('lib_path'))

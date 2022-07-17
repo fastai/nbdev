@@ -25,7 +25,7 @@ __all__ = ['nbprocess_ghp_deploy', 'nbprocess_sidebar', 'FilterDefaults', 'nbpro
            'nbprocess_bump_version', 'extract_tgz', 'prompt_user', 'refresh_quarto_yml', 'nbprocess_new',
            'nbprocess_quarto']
 
-# %% ../nbs/10_cli.ipynb 6
+# %% ../nbs/10_cli.ipynb 5
 @call_parse
 def nbprocess_ghp_deploy():
     "Deploy docs in doc_path from settings.ini to GitHub Pages"
@@ -35,7 +35,7 @@ def nbprocess_ghp_deploy():
         return
     ghp_import(config_key('doc_path'), push=True, stderr=True, no_history=True)
 
-# %% ../nbs/10_cli.ipynb 9
+# %% ../nbs/10_cli.ipynb 8
 _def_file_re = '\.(?:ipynb|md|html)$'
 
 def _f(a,b): return Path(a),b
@@ -46,13 +46,11 @@ def _sort(a):
     return 'z'*len(x.parts) + str(x.joinpath(y))
 
 def _create_sidebar(
-    path:str=None, symlinks:bool=False, file_glob:str=None,  file_re:str=_def_file_re, folder_re:str=None,
-    skip_file_glob:str=None, skip_file_re:str=None, skip_folder_re:str='^[_.]', printit=False):
+    path:str=None, symlinks:bool=False,  file_re:str=_def_file_re, folder_re:str=None,
+    skip_file_glob:str=None, skip_file_re:str=None, printit=False):
     path = config_key("nbs_path") if not path else Path(path)
-    files = nbglob(path, func=_f, symlinks=symlinks, file_glob=file_glob, file_re=file_re,
-                       folder_re=folder_re, skip_file_glob=skip_file_glob,
-                       skip_file_re=skip_file_re, skip_folder_re=skip_folder_re
-                      ).sorted(key=_sort)
+    files = nbglob(path, func=_f, symlinks=symlinks, file_re=file_re, folder_re=folder_re, 
+                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re).sorted(key=_sort)
 
     lastd,res = Path(),[]
     for d,name in files:
@@ -70,21 +68,19 @@ def _create_sidebar(
     yml_path.write_text(yml)
     return files
 
-# %% ../nbs/10_cli.ipynb 10
+# %% ../nbs/10_cli.ipynb 9
 @call_parse
 def nbprocess_sidebar(
     path:str=None, # path to notebooks
     symlinks:bool=False, # follow symlinks?
-    file_glob:str=None, # Only include files matching glob
     file_re:str=_def_file_re, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str='^[_.]', # Skip files matching regex
-    skip_folder_re:str='^[_.]' # Skip folders matching regex
+    skip_file_re:str='^[_.]' # Skip files matching regex
 ):
     "Create sidebar.yml"
-    _create_sidebar(path, symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
-                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
+    _create_sidebar(path, symlinks, file_re=file_re, folder_re=folder_re,
+                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
 
 # %% ../nbs/10_cli.ipynb 12
 class FilterDefaults:
@@ -296,12 +292,10 @@ def nbprocess_quarto(
     path:str=None, # path to notebooks
     doc_path:str=None, # path to output docs
     symlinks:bool=False, # follow symlinks?
-    file_glob:str=None, # Only include files matching glob
     file_re:str=_def_file_re, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str=None, # Skip files matching regex
-    skip_folder_re:str='^[_.]', # Skip folders matching regex
     preview:bool=False # Preview the site instead of building it
 ):
     "Create quarto docs and README.md"
@@ -310,8 +304,8 @@ def nbprocess_quarto(
     refresh_quarto_yml()
     path = config_key("nbs_path") if not path else Path(path)
     idx_path = path/'index.ipynb'
-    files = _create_sidebar(path, symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
-                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
+    files = _create_sidebar(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
+                            skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
     doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
     tmp_doc_path = config_key('nbs_path')/f"{cfg['doc_path']}"
     shutil.rmtree(doc_path, ignore_errors=True)

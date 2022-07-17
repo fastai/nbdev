@@ -64,19 +64,17 @@ def nbprocess_test(
     pause:float=0.01,  # Pause time (in secs) between notebooks to avoid race conditions
     symlinks:bool=False, # Follow symlinks?
     recursive:bool=None, # Include subfolders?
-    file_glob:str='*.ipynb', # Only include files matching glob
     file_re:str=None, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str='^[_.]', # Skip files matching regex
-    skip_folder_re:str='^[_.]', # Skip folders matching regex
     ignore_fname:str='.notest' # filename that will result in siblings being ignored
 ):
     "Test in parallel the notebooks matching `fname`, passing along `flags`"
     skip_flags = config_key('tst_flags', '', path=False).split()
     force_flags = flags.split()
-    files = nbglob(fname, recursive, symlinks, file_glob, file_re, folder_re,
-                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re, as_path=True)
+    files = nbglob(fname, recursive=recursive, file_re=file_re, folder_re=folder_re,
+                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, as_path=True, symlinks=symlinks)
     files = [f.absolute() for f in sorted(files) if _keep_file(f, ignore_fname)]
     if len(files)==0:
         print('No files were eligible for testing')
