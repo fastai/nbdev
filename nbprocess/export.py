@@ -27,19 +27,16 @@ class ExportModuleProc:
 
 # %% ../nbs/04a_export.ipynb 7
 def black_format(cell, # A cell node 
-                 force=False #An override to turn black formatting on regardless of settings.ini
-                ):
+                 force=False): # Turn black formatting on regardless of settings.ini
+    "Format code with `black`"
     cfg = get_config()
-    "Format code with `black`."
-    if (cfg.get('black_formatting') != 'True' and not force) or cell.cell_type != 'code': return
+    if (str(cfg.get('black_formatting')).lower() != 'true' and not force) or cell.cell_type != 'code': return
+    try: import black
+    except: raise ImportError("You must install black: `pip install black` if you wish to use black formatting with nbprocess")
     else:
-        try: 
-            import black
-            _format_str = partial(black.format_str, mode = black.Mode())
-        except: raise ImportError("You must install black: `pip install black` if you wish to use black formatting with nbprocess")
-        else:
-            try: cell.source = _format_str(cell.source).strip()
-            except: pass
+        _format_str = partial(black.format_str, mode = black.Mode())
+        try: cell.source = _format_str(cell.source).strip()
+        except: pass
 
 # %% ../nbs/04a_export.ipynb 9
 def create_modules(path, dest, procs=None, debug=False, mod_maker=ModuleMaker):
