@@ -40,7 +40,7 @@ class DocmentTbl:
         "Compute the docment table string"
         self.verbose = verbose
         self.returns = False if isdataclass(obj) else returns
-        self.params = L(_signature(obj).parameters.keys())
+        self.params = [] if isinstance_str(obj, 'property') else L(_signature(obj).parameters.keys())
         try: _dm = docments(obj, full=True, returns=returns)
         except: _dm = {}
         if 'self' in _dm: del _dm['self']
@@ -99,19 +99,21 @@ class DocmentTbl:
 
     def __str__(self): return self._repr_markdown_()
 
-# %% ../nbs/08_showdoc.ipynb 24
+# %% ../nbs/08_showdoc.ipynb 25
 class ShowDocRenderer:
     def __init__(self, sym, disp:bool=True):
         "Show documentation for `sym`"
         store_attr()
         self.nm = qual_name(sym)
         self.isfunc = inspect.isfunction(sym)
-        self.sig = _signature(sym)
+        self.isprop = isinstance_str(sym, 'property')
+        self.sig = None if self.isprop else _signature(sym)
         self.docs = docstring(sym)
         self.dm = DocmentTbl(sym)
 
-# %% ../nbs/08_showdoc.ipynb 25
+# %% ../nbs/08_showdoc.ipynb 26
 def _fmt_sig(sig):
+    if sig is None: return ''
     p = sig.parameters
     _params = [str(p[k]).replace(' ','') for k in p.keys() if k != 'self']
     return "(" + ', '.join(_params)  + ")"
@@ -122,18 +124,18 @@ def _wrap_sig(s):
     indent = pad + ' ' * (s.find('(') + 1)
     return fill(s, width=80, initial_indent=pad, subsequent_indent=indent)
 
-# %% ../nbs/08_showdoc.ipynb 27
+# %% ../nbs/08_showdoc.ipynb 28
 class BasicMarkdownRenderer(ShowDocRenderer):
     def _repr_markdown_(self):
         doc = '---\n\n'
-        if self.isfunc: doc += '#'
-        sig = _wrap_sig(f"{self.nm} {_fmt_sig(self.sig)}")
+        if self.isfunc or self.isprop: doc += '#'
+        sig = _wrap_sig(f"{self.nm} {_fmt_sig(self.sig)}") if self.sig else ''
         doc += f'### {self.nm}\n\n{sig}'
         if self.docs: doc += f"\n\n{self.docs.splitlines()[0]}"
         if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 28
+# %% ../nbs/08_showdoc.ipynb 29
 def show_doc(sym, disp=True, renderer=None):
     if renderer is None: renderer = get_config().get('renderer', None)
     if renderer is None: renderer=BasicMarkdownRenderer
@@ -143,7 +145,7 @@ def show_doc(sym, disp=True, renderer=None):
     if isinstance(sym, TypeDispatch): pass
     else:return renderer(sym or show_doc, disp=disp)
 
-# %% ../nbs/08_showdoc.ipynb 41
+# %% ../nbs/08_showdoc.ipynb 45
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
@@ -152,7 +154,7 @@ class BasicHtmlRenderer(ShowDocRenderer):
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 46
+# %% ../nbs/08_showdoc.ipynb 50
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(get_patch_name(tree), tree.name)
