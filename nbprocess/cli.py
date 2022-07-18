@@ -45,13 +45,17 @@ def _sort(a):
     if y.startswith('index.'): return '00'
     return 'z'*len(x.parts) + str(x.joinpath(y))
 
-def _create_sidebar(
-    path:str=None, symlinks:bool=False,  file_re:str=_def_file_re, folder_re:str=None,
-    skip_file_glob:str=None, skip_file_re:str=None, printit=False):
-    path = config_key("nbs_path") if not path else Path(path)
-    files = nbglob(path, func=_f, symlinks=symlinks, file_re=file_re, folder_re=folder_re, 
-                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re).sorted(key=_sort)
-
+@call_parse
+def nbprocess_sidebar(
+    path:str=None, # path to notebooks
+    symlinks:bool=False, # follow symlinks?
+    file_glob:str=None, # Only include files matching glob
+    file_re:str=_def_file_re, # Only include files matching regex
+    folder_re:str=None, # Only enter folders matching regex
+    skip_file_glob:str=None, # Skip files matching glob
+    skip_file_re:str='^[_.]', # Skip files matching regex
+    skip_folder_re:str='^[_.]' # Skip folders matching regex
+):
     lastd,res = Path(),[]
     for d,name in files:
         d = d.relative_to(path)
@@ -68,21 +72,7 @@ def _create_sidebar(
     yml_path.write_text(yml)
     return files
 
-# %% ../nbs/10_cli.ipynb 9
-@call_parse
-def nbprocess_sidebar(
-    path:str=None, # path to notebooks
-    symlinks:bool=False, # follow symlinks?
-    file_re:str=_def_file_re, # Only include files matching regex
-    folder_re:str=None, # Only enter folders matching regex
-    skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str='^[_.]' # Skip files matching regex
-):
-    "Create sidebar.yml"
-    _create_sidebar(path, symlinks, file_re=file_re, folder_re=folder_re,
-                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
-
-# %% ../nbs/10_cli.ipynb 12
+# %% ../nbs/10_cli.ipynb 10
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
     def _nothing(self): return []
@@ -107,7 +97,7 @@ class FilterDefaults:
         "Postprocessors for export"
         return self.base_postprocs() + self.xtra_postprocs()
 
-# %% ../nbs/10_cli.ipynb 13
+# %% ../nbs/10_cli.ipynb 11
 @call_parse
 def nbprocess_filter(
     nb_txt:str=None  # Notebook text (uses stdin if not provided)
@@ -126,7 +116,7 @@ def nbprocess_filter(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/10_cli.ipynb 15
+# %% ../nbs/10_cli.ipynb 13
 _re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
 
 def update_version():
@@ -158,11 +148,11 @@ def nbprocess_bump_version(
     update_version()
     print(f'New version: {cfg.version}')
 
-# %% ../nbs/10_cli.ipynb 17
+# %% ../nbs/10_cli.ipynb 15
 def extract_tgz(url, dest='.'): 
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/10_cli.ipynb 18
+# %% ../nbs/10_cli.ipynb 16
 def _get_info(owner, repo, default_branch='main', default_kw='nbprocess'):
     try: from ghapi.all import GhApi
     except: 
@@ -181,7 +171,7 @@ def _get_info(owner, repo, default_branch='main', default_kw='nbprocess'):
     
     return r.default_branch, default_kw if not r.topics else ' '.join(r.topics), r.description
 
-# %% ../nbs/10_cli.ipynb 20
+# %% ../nbs/10_cli.ipynb 18
 def prompt_user(**kwargs):
     config_vals = kwargs
     print('================ nbprocess Configuration ================\n')
@@ -194,7 +184,7 @@ def prompt_user(**kwargs):
     print(f"\n`settings.ini` updated with configuration values.")
     return config_vals
 
-# %% ../nbs/10_cli.ipynb 21
+# %% ../nbs/10_cli.ipynb 19
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     try:
@@ -209,7 +199,7 @@ def _fetch_from_git(raise_err=False):
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, 
                 author_email=email, keywords=keywords, description=descrip)
 
-# %% ../nbs/10_cli.ipynb 23
+# %% ../nbs/10_cli.ipynb 21
 _quarto_yml="""ipynb-filters: [nbprocess_filter]
 
 project:
@@ -259,7 +249,7 @@ def refresh_quarto_yml():
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
-# %% ../nbs/10_cli.ipynb 24
+# %% ../nbs/10_cli.ipynb 22
 @call_parse
 def nbprocess_new():
     "Create a new project from the current git repo"
@@ -286,7 +276,7 @@ def nbprocess_new():
     settings_path.write_text(settings)
     refresh_quarto_yml()
 
-# %% ../nbs/10_cli.ipynb 26
+# %% ../nbs/10_cli.ipynb 24
 @call_parse
 def nbprocess_quarto(
     path:str=None, # path to notebooks
@@ -304,7 +294,7 @@ def nbprocess_quarto(
     refresh_quarto_yml()
     path = config_key("nbs_path") if not path else Path(path)
     idx_path = path/'index.ipynb'
-    files = _create_sidebar(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
+    files = nbprocess_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
                             skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
     doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
     tmp_doc_path = config_key('nbs_path')/f"{cfg['doc_path']}"
