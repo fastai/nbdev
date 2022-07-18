@@ -42,8 +42,8 @@ def _f(a,b): return Path(a),b
 def _pre(p,b=True): return '    ' * (len(p.parts)) + ('- ' if b else '  ')
 def _sort(a):
     x,y = a
-    if y.startswith('index.'): return '00'
-    return 'z'*len(x.parts) + str(x.joinpath(y))
+    if y.startswith('index.'): return x,'00'
+    return a
 
 @call_parse
 def nbprocess_sidebar(
@@ -54,8 +54,13 @@ def nbprocess_sidebar(
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str='^[_.]', # Skip files matching regex
-    skip_folder_re:str='^[_.]' # Skip folders matching regex
+    skip_folder_re:str='^[_.]', # Skip folders matching regex
+    printit:bool=False,  # Print YAML for debugging
+    returnit:bool=False  # Return list of files found
 ):
+    path = config_key("nbs_path") if not path else Path(path)
+    files = nbglob(path, func=_f, symlinks=symlinks, file_re=file_re, folder_re=folder_re, file_glob=file_glob,
+                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re).sorted(key=_sort)
     lastd,res = Path(),[]
     for d,name in files:
         d = d.relative_to(path)
@@ -70,7 +75,7 @@ def nbprocess_sidebar(
     yml += '\n'.join(f'      {o}' for o in res)
     if printit: return print(yml)
     yml_path.write_text(yml)
-    return files
+    if returnit: return files
 
 # %% ../nbs/10_cli.ipynb 10
 class FilterDefaults:
@@ -156,16 +161,20 @@ def extract_tgz(url, dest='.'):
 def _get_info(owner, repo, default_branch='main', default_kw='nbprocess'):
     try: from ghapi.all import GhApi
     except: 
-        print('Could not get information from GitHub automatically because `ghapi` is not installed. \nEdit `settings.ini` to verify all information is correct.\n')
+        print('''Could not get information from GitHub automatically because `ghapi` is not installed.
+Edit `settings.ini` to verify all information is correct.
+''')
         return (default_branch,default_kw,'')
     
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
     
     try: r = api.repos.get()
     except HTTPError:
-        msg= [f"Could not access repo: {owner}/{repo} to find your default branch - `{default} assumed.\n",
-              "Edit `settings.ini` if this is incorrect.\n"
-              "In the future, you can allow nbprocess to see private repos by setting the environment variable GITHUB_TOKEN as described here: https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos \n"]
+        msg= [f"""Could not access repo: {owner}/{repo} to find your default branch - `{default} assumed.
+Edit `settings.ini` if this is incorrect.
+In the future, you can allow nbprocess to see private repos by setting the environment variable GITHUB_TOKEN as described here:
+https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
+"""]
         print(''.join(msg))
         return (default_branch,default_kw,'')
     
@@ -295,7 +304,7 @@ def nbprocess_quarto(
     path = config_key("nbs_path") if not path else Path(path)
     idx_path = path/'index.ipynb'
     files = nbprocess_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
-                            skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
+                            skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, returnit=True)
     doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
     tmp_doc_path = config_key('nbs_path')/f"{cfg['doc_path']}"
     shutil.rmtree(doc_path, ignore_errors=True)

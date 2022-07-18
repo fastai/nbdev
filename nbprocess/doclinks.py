@@ -123,12 +123,11 @@ def build_modidx():
 
 # %% ../nbs/04b_doclinks.ipynb 27
 @delegates(globtastic, but=['file_glob', 'skip_folder_re'])
-def nbglob(path=None, recursive=True, key='nbs_path', as_path=False, **kwargs):
+def nbglob(path=None, skip_folder_re = '^[_.]', file_glob='*.ipynb', recursive=True, key='nbs_path', as_path=False, **kwargs):
     "Find all files in a directory matching an extension given a `config_key`."
     path = Path(path or config_key(key))
     if recursive is None: recursive=get_config().get('recursive', 'False').lower() == 'true'
-    skip_folder_re = '.' if not recursive else '^[_.]'
-    res = globtastic(path, file_glob='*.ipynb', skip_folder_re=skip_folder_re, **kwargs)
+    res = globtastic(path, file_glob=file_glob, skip_folder_re=skip_folder_re, **kwargs)
     return res.map(Path) if as_path else res
 
 # %% ../nbs/04b_doclinks.ipynb 28
