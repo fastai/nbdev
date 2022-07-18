@@ -37,8 +37,9 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False, showerr=True)
     k = CaptureShell(fn)
     if do_print: print(f'Starting {fn}')
     try:
-        k.run_all(nb, exc_stop=True, preproc=_no_eval)
-        res = True
+        with working_directory(fn.parent):
+            k.run_all(nb, exc_stop=True, preproc=_no_eval)
+            res = True
     except: 
         if showerr: warning(k.prettytb(fname=fn))
         res=False
