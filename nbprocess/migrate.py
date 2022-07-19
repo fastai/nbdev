@@ -8,7 +8,7 @@ from .process import first_code_ln
 from .processors import nb_fmdict, construct_fm, insert_frontmatter, is_frontmatter
 from .read import read_nb, config_key
 from .sync import write_nb
-from .clean import process_write, wrapio
+from .clean import process_write
 from fastcore.all import *
 
 # %% ../nbs/15_migrate.ipynb 4
@@ -104,7 +104,7 @@ def nbprocess_migrate_directives(
 ):
     "Convert all directives in `fname` from v1 to v2."
     _write = partial(process_write, warn_msg='Failed to replace directives', proc_nb=_repl_v1dir)
-    if stdin: _write(f_in=_wrapio(sys.stdin), f_out=_wrapio(sys.stdout))
+    if stdin: _write(f_in=sys.stdin, f_out=sys.stdout)
     _skip_re = None if no_skip else '^[_.]'
     if fname is None: fname = config_key("nbs_path", '.', missing_ok=True)
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re=_skip_re): _write(f_in=f, disp=disp)
