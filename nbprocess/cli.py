@@ -54,13 +54,13 @@ def nbprocess_sidebar(
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str='^[_.]', # Skip files matching regex
-    skip_folder_re:str='^[_.]', # Skip folders matching regex
+    skip_folder_re:str='(?:^[_.]|^www$)', # Skip folders matching regex
     printit:bool=False,  # Print YAML for debugging
     returnit:bool=False  # Return list of files found
 ):
     path = config_key("nbs_path") if not path else Path(path)
     files = nbglob(path, func=_f, symlinks=symlinks, file_re=file_re, folder_re=folder_re, file_glob=file_glob,
-                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re).sorted(key=_sort)
+                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re).sorted(key=_sort)
     lastd,res = Path(),[]
     for d,name in files:
         d = d.relative_to(path)
