@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 0.0.7
+
+### New Features
+
+- Code metadata hidden ([#116](https://github.com/fastai/nbprocess/pull/116)), thanks to [@Isaac-Flath](https://github.com/Isaac-Flath)
+
+
 ## 0.0.4
 
 ### New Features
