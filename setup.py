@@ -28,6 +28,8 @@ requirements = cfg.get('requirements','').split()
 min_python = cfg['min_python']
 lic = licenses.get(cfg['license'].lower(), (cfg['license'], None))
 dev_requirements = (cfg.get('dev_requirements') or '').split()
+project_urls = {}
+if cfg.get('doc_host'): project_urls["Documentation"] = cfg['doc_host'] + cfg.get('doc_baseurl', '')
 
 setuptools.setup(
     name = cfg['lib_name'],
@@ -52,5 +54,6 @@ setuptools.setup(
         'mkdocs.plugins': [ 'rm_num_prefix = nbprocess.mkdocs:RmNumPrefix' ],
         'nbdev': [f'{cfg.get("lib_path")}={cfg.get("lib_path")}._modidx:d']
     },
+    project_urls = project_urls,
     **setup_cfg)
 
