@@ -130,7 +130,7 @@ class exec_show_docs:
     "Execute cells needed for `show_docs` output, including exported cells and imports"
     def __init__(self, nb):
         self.k = CaptureShell()
-        if nb_lang(nb) == 'python': self.k.run_cell('from nbprocess.showdoc import show_doc')
+        if nb_lang(nb) == 'python': self.k.run_cell('from nbdev.showdoc import show_doc')
 
     def __call__(self, cell):
         if _do_eval(cell): self.k.cell(cell)

@@ -32,7 +32,7 @@ def black_format(cell, # A cell node
     cfg = get_config()
     if (str(cfg.get('black_formatting')).lower() != 'true' and not force) or cell.cell_type != 'code': return
     try: import black
-    except: raise ImportError("You must install black: `pip install black` if you wish to use black formatting with nbprocess")
+    except: raise ImportError("You must install black: `pip install black` if you wish to use black formatting with nbdev")
     else:
         _format_str = partial(black.format_str, mode = black.Mode())
         try: cell.source = _format_str(cell.source).strip()

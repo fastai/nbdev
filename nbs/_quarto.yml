@@ -1,4 +1,4 @@
-ipynb-filters: [nbprocess_filter]
+ipynb-filters: [nbdev_filter]
 
 project:
   type: website
@@ -14,7 +14,7 @@ format:
     toc: true
 
 website:
-  title: "nbprocess"
+  title: "nbdev"
   description: "Process and export Jupyter Notebooks fast (Jupyter not required)"
   execute: 
     enabled: false
@@ -22,7 +22,7 @@ website:
   open-graph: true
   reader-mode: true
   repo-branch: master
-  repo-url: https://github.com/fastai/nbprocess/tree/master/
+  repo-url: https://github.com/fastai/nbdev/tree/master/
   repo-actions: [issue]
   navbar:
     background: primary
@@ -32,7 +32,7 @@ website:
         file: index.ipynb
     right:
       - icon: github
-        href: https://github.com/fastai/nbprocess/tree/master/
+        href: https://github.com/fastai/nbdev/tree/master/
   sidebar:
     style: "floating"
 

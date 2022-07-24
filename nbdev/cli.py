@@ -21,13 +21,12 @@ from contextlib import redirect_stdout
 import os, tarfile
 
 # %% auto 0
-__all__ = ['nbprocess_ghp_deploy', 'nbprocess_sidebar', 'FilterDefaults', 'nbprocess_filter', 'update_version', 'bump_version',
-           'nbprocess_bump_version', 'extract_tgz', 'prompt_user', 'refresh_quarto_yml', 'nbprocess_new',
-           'nbprocess_quarto']
+__all__ = ['nbdev_ghp_deploy', 'nbdev_sidebar', 'FilterDefaults', 'nbdev_filter', 'update_version', 'bump_version',
+           'nbdev_bump_version', 'extract_tgz', 'prompt_user', 'refresh_quarto_yml', 'nbdev_new', 'nbdev_quarto']
 
 # %% ../nbs/10_cli.ipynb 5
 @call_parse
-def nbprocess_ghp_deploy():
+def nbdev_ghp_deploy():
     "Deploy docs in doc_path from settings.ini to GitHub Pages"
     try: from ghp_import import ghp_import
     except:
@@ -46,7 +45,7 @@ def _sort(a):
     return a
 
 @call_parse
-def nbprocess_sidebar(
+def nbdev_sidebar(
     path:str=None, # path to notebooks
     symlinks:bool=False, # follow symlinks?
     file_glob:str=None, # Only include files matching glob
@@ -104,7 +103,7 @@ class FilterDefaults:
 
 # %% ../nbs/10_cli.ipynb 11
 @call_parse
-def nbprocess_filter(
+def nbdev_filter(
     nb_txt:str=None  # Notebook text (uses stdin if not provided)
 ):
     "A notebook filter for quarto"
@@ -142,7 +141,7 @@ def bump_version(version, part=2):
     return '.'.join(version)
 
 @call_parse
-def nbprocess_bump_version(
+def nbdev_bump_version(
     part:int=2  # Part of version to bump
 ):
     "Increment version in `settings.py` by one"
@@ -158,7 +157,7 @@ def extract_tgz(url, dest='.'):
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
 # %% ../nbs/10_cli.ipynb 16
-def _get_info(owner, repo, default_branch='main', default_kw='nbprocess'):
+def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
     try: from ghapi.all import GhApi
     except: 
         print('''Could not get information from GitHub automatically because `ghapi` is not installed.
@@ -172,7 +171,7 @@ Edit `settings.ini` to verify all information is correct.
     except HTTPError:
         msg= [f"""Could not access repo: {owner}/{repo} to find your default branch - `{default} assumed.
 Edit `settings.ini` if this is incorrect.
-In the future, you can allow nbprocess to see private repos by setting the environment variable GITHUB_TOKEN as described here:
+In the future, you can allow nbdev to see private repos by setting the environment variable GITHUB_TOKEN as described here:
 https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
 """]
         print(''.join(msg))
@@ -183,7 +182,7 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
 # %% ../nbs/10_cli.ipynb 18
 def prompt_user(**kwargs):
     config_vals = kwargs
-    print('================ nbprocess Configuration ================\n')
+    print('================ nbdev Configuration ================\n')
     for v in config_vals:
         if not config_vals[v]:
             print('\nPlease enter information for the following field in settings.ini:')
@@ -209,7 +208,7 @@ def _fetch_from_git(raise_err=False):
                 author_email=email, keywords=keywords, description=descrip, repo=repo)
 
 # %% ../nbs/10_cli.ipynb 21
-_quarto_yml="""ipynb-filters: [nbprocess_filter]
+_quarto_yml="""ipynb-filters: [nbdev_filter]
 
 project:
   type: website
@@ -260,23 +259,23 @@ def refresh_quarto_yml():
 
 # %% ../nbs/10_cli.ipynb 22
 @call_parse
-def nbprocess_new():
+def nbdev_new():
     "Create a new project from the current git repo"
     config = prompt_user(**_fetch_from_git())
     # download and untar template, and optionally notebooks
-    tgnm = urljson('https://api.github.com/repos/fastai/nbprocess-template/releases/latest')['tag_name']
-    FILES_URL = f"https://github.com/fastai/nbprocess-template/archive/{tgnm}.tar.gz"
+    tgnm = urljson('https://api.github.com/repos/fastai/nbdev-template/releases/latest')['tag_name']
+    FILES_URL = f"https://github.com/fastai/nbdev-template/archive/{tgnm}.tar.gz"
     extract_tgz(FILES_URL)
     path = Path()
     nbexists = True if first(path.glob('*.ipynb')) else False
-    for o in (path/f'nbprocess-template-{tgnm}').ls():
+    for o in (path/f'nbdev-template-{tgnm}').ls():
         if o.name == 'index.ipynb':
             new_txt = o.read_text().replace('your_lib', config['lib_name'])
             o.write_text(new_txt)
         if o.name == '00_core.ipynb':
             if not nbexists: shutil.move(str(o), './')
         elif not Path(f'./{o.name}').exists(): shutil.move(str(o), './')
-    shutil.rmtree(f'nbprocess-template-{tgnm}')
+    shutil.rmtree(f'nbdev-template-{tgnm}')
 
     # auto-config settings.ini from git
     settings_path = Path('settings.ini')
@@ -287,7 +286,7 @@ def nbprocess_new():
 
 # %% ../nbs/10_cli.ipynb 24
 @call_parse
-def nbprocess_quarto(
+def nbdev_quarto(
     path:str=None, # path to notebooks
     doc_path:str=None, # path to output docs
     symlinks:bool=False, # follow symlinks?
@@ -303,7 +302,7 @@ def nbprocess_quarto(
     refresh_quarto_yml()
     path = config_key("nbs_path") if not path else Path(path)
     idx_path = path/'index.ipynb'
-    files = nbprocess_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
+    files = nbdev_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
                             skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, returnit=True)
     doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
     tmp_doc_path = config_key('nbs_path')/f"{cfg['doc_path']}"

@@ -9,10 +9,10 @@ import sys, shutil
 from pkg_resources import iter_entry_points as ep
 from os import system
 from .read import get_config
-from .test import nbprocess_test
-from .clean import nbprocess_clean
-from .doclinks import nbprocess_export
-from .cli import nbprocess_quarto, nbprocess_sidebar, nbprocess_ghp_deploy, nbprocess_bump_version
+from .test import nbdev_test
+from .clean import nbdev_clean
+from .doclinks import nbdev_export
+from .cli import nbdev_quarto, nbdev_sidebar, nbdev_ghp_deploy, nbdev_bump_version
 
 BASE_QUARTO_URL='https://www.quarto.org/download/latest/'
 
@@ -48,20 +48,20 @@ def _quarto_installed(): return bool(shutil.which('quarto'))
 def docs():
     "Generate the docs."
     if not _quarto_installed(): install()
-    _c(nbprocess_quarto)
+    _c(nbdev_quarto)
 
 # %% ../nbs/16_shortcuts.ipynb 8
 def preview():
     "Start a local docs webserver."
     if not _quarto_installed(): install()
-    _c(nbprocess_sidebar)
-    _c(nbprocess_quarto, preview=True)
+    _c(nbdev_sidebar)
+    _c(nbdev_quarto, preview=True)
 
 # %% ../nbs/16_shortcuts.ipynb 10
 def deploy():
     "Deploy docs to GitHub Pages."
     docs()
-    _c(nbprocess_ghp_deploy)
+    _c(nbdev_ghp_deploy)
 
 # %% ../nbs/16_shortcuts.ipynb 12
 def _dist(): system(f'cd {_dir()}  && rm -rf dist && python setup.py sdist bdist_wheel')
@@ -70,31 +70,31 @@ def pypi(ver_bump=True):
     "Create and upload python package to pypi."
     _dist()
     system(f'twine upload --repository pypi {_dir()}/dist/*')
-    if ver_bump: _c(nbprocess_bump_version)
+    if ver_bump: _c(nbdev_bump_version)
     
 def conda(ver_bump=True): 
     "Create and upload a conda package."
     system(f'fastrelease_conda_package --mambabuild --upload_user fastai')
-    if ver_bump: _c(nbprocess_bump_version)
+    if ver_bump: _c(nbdev_bump_version)
     
 def release():
     "Release both conda and pypi packages."
     pypi(ver_bump=False)
     conda(ver_bump=False)
-    _c(nbprocess_bump_version)
+    _c(nbdev_bump_version)
 
 # %% ../nbs/16_shortcuts.ipynb 14
 def prepare():
     "Export notebooks to python modules, test code and clean notebooks."
-    _c(nbprocess_export)
-    _c(nbprocess_test)
-    _c(nbprocess_clean)
+    _c(nbdev_export)
+    _c(nbdev_test)
+    _c(nbdev_clean)
 
 # %% ../nbs/16_shortcuts.ipynb 16
 def chelp():
     "Show help for all console scripts"
     for e in ep('console_scripts'): 
-        if e.module_name.startswith('nbprocess'): 
+        if e.module_name.startswith('nbdev'): 
             nm = f'\033[1m\033[94m{e.name}\033[0m'
             spc = ' ' * (40 - len(nm))
             print(f'{nm}     {spc}{e.load().__doc__}')

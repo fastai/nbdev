@@ -4,7 +4,7 @@
 
 Before anything else, please install the git hooks that run automatic scripts during each commit and merge to strip the notebooks of superfluous metadata (and avoid merge conflicts). After cloning the repository, run the following command inside it:
 ```
-nbprocess_install_hooks
+nbdev_install_hooks
 ```
 
 ## Did you find a bug?
