@@ -21,11 +21,11 @@ def _c(f, *args, **kwargs): return f.__wrapped__(*args, **kwargs)
 
 # %% ../nbs/16_shortcuts.ipynb 4
 def _install_linux():
-    system(f'wget -nv {BASE_QUARTO_URL}quarto-linux-amd64.deb')
+    system(f'curl -L {BASE_QUARTO_URL}quarto-linux-amd64.deb -O quarto-linux-amd64.deb')
     system('sudo dpkg -i *64.deb && rm *64.deb')
     
 def _install_mac():
-    system(f'wget -nv {BASE_QUARTO_URL}quarto-macos.pkg')
+    system(f'curl -L {BASE_QUARTO_URL}quarto-macos.pkg -O quarto-macos.pkg')
     system('open quarto-macos.pkg')
 
 def install_quarto():
