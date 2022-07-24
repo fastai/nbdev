@@ -58,20 +58,20 @@ def _keep_file(p:Path, # filename for which to check for `indicator_fname`
 @call_parse
 def nbdev_test(
     fname:str=None,  # A notebook name or glob to test
-    flags:str='',  # Space separated list of test flags you want to run that are normally ignored
-    n_workers:int=None,  # Number of workers to use
-    timing:bool=False,  # Timing each notebook to see the ones are slow
-    do_print:bool=False, # Print start and end of each NB
-    pause:float=0.01,  # Pause time (in secs) between notebooks to avoid race conditions
+    flags:str='',  # Space separated list of test flags to run that are normally ignored
+    n_workers:int=None,  # Number of workers
+    timing:bool=False,  # Time each notebook to see which are slow
+    do_print:bool=False, # Print start and end of each notebook
+    pause:float=0.01,  # Pause time (in seconds) between notebooks to avoid race conditions
     symlinks:bool=False, # Follow symlinks?
     recursive:bool=None, # Include subfolders?
     file_re:str=None, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str='^[_.]', # Skip files matching regex
-    ignore_fname:str='.notest' # filename that will result in siblings being ignored
+    ignore_fname:str='.notest' # Filename that will result in siblings being ignored
 ):
-    "Test in parallel the notebooks matching `fname`, passing along `flags`"
+    "Test in parallel notebooks matching `fname`, passing along `flags`"
     skip_flags = config_key('tst_flags', '', path=False).split()
     force_flags = flags.split()
     files = nbglob(fname, recursive=recursive, file_re=file_re, folder_re=folder_re,

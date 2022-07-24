@@ -29,15 +29,14 @@ def _install_mac():
     system('open quarto-macos.pkg')
 
 def install_quarto():
-    "Installs latest quarto on mac or linux.  Prints instructions for Windows."
+    "Install latest Quarto on macOS or Linux, prints instructions for Windows"
     system('sudo echo "...installing Quarto"')
-    "Install quarto for mac and linux platforms."
     if 'darwin' in sys.platform: _install_mac()
     elif 'linux' in sys.platform: _install_linux()
     else: print('Please visit https://quarto.org/docs/get-started/ to install quarto')
     
 def install():
-    "Install quarto and the current library."
+    "Install Quarto and the current library"
     install_quarto()
     if (get_config().path('lib_path')/'__init__.py').exists():
         system(f'pip install -e "{_dir()}[dev]"')
@@ -46,20 +45,20 @@ def install():
 def _quarto_installed(): return bool(shutil.which('quarto'))
 
 def docs():
-    "Generate the docs."
+    "Generate docs"
     if not _quarto_installed(): install()
     _c(nbdev_quarto)
 
 # %% ../nbs/16_shortcuts.ipynb 8
 def preview():
-    "Start a local docs webserver."
+    "Start a local docs webserver"
     if not _quarto_installed(): install()
     _c(nbdev_sidebar)
     _c(nbdev_quarto, preview=True)
 
 # %% ../nbs/16_shortcuts.ipynb 10
 def deploy():
-    "Deploy docs to GitHub Pages."
+    "Deploy docs to GitHub Pages"
     docs()
     _c(nbdev_ghp_deploy)
 
@@ -67,25 +66,25 @@ def deploy():
 def _dist(): system(f'cd {_dir()}  && rm -rf dist && python setup.py sdist bdist_wheel')
     
 def pypi(ver_bump=True):
-    "Create and upload python package to pypi."
+    "Create and upload Python package to PyPI"
     _dist()
     system(f'twine upload --repository pypi {_dir()}/dist/*')
     if ver_bump: _c(nbdev_bump_version)
     
 def conda(ver_bump=True): 
-    "Create and upload a conda package."
+    "Create and upload a conda package"
     system(f'fastrelease_conda_package --mambabuild --upload_user fastai')
     if ver_bump: _c(nbdev_bump_version)
     
 def release():
-    "Release both conda and pypi packages."
+    "Release both conda and PyPI packages"
     pypi(ver_bump=False)
     conda(ver_bump=False)
     _c(nbdev_bump_version)
 
 # %% ../nbs/16_shortcuts.ipynb 14
 def prepare():
-    "Export notebooks to python modules, test code and clean notebooks."
+    "Export, test, and clean notebooks"
     _c(nbdev_export)
     _c(nbdev_test)
     _c(nbdev_clean)
