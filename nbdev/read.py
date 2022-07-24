@@ -33,9 +33,9 @@ def create_output(txt, mime):
 def nbdev_create_config(
     user:str, # Repo username
     lib_name:str=None, # Name of library
-    description='TODO fill me in', # Description for pypi
-    author='TODO fill me in', # Author for pypi
-    author_email='todo@example.org', # Email for pypi
+    description='TODO fill me in', # Description for PyPI
+    author='TODO fill me in', # Author for PyPI
+    author_email='todo@example.org', # Email for PyPI
     path:str='.', # Path to create config file
     cfg_name:str='settings.ini', # Name of config file to create
     branch:str='master', # Repo branch
@@ -47,15 +47,15 @@ def nbdev_create_config(
     doc_path:str='_docs', # Folder name containing docs
     tst_flags:str='', # Test flags
     version:str='0.0.1', # Version number
-    keywords='python', # Keywords for pypi
-    license='apache2', # License for pypi
-    copyright='', # Copyright for pypi, defaults to author from current year
-    status='3', # Status for pypi
-    min_python='3.6', # Minimum python version for pypi
-    audience='Developers', # Audience for pypi
-    language='English' # Language for pypi
+    keywords='python', # Keywords for PyPI
+    license='apache2', # License for PyPI
+    copyright='', # Copyright for PyPI, defaults to author from current year
+    status='3', # Status for PyPI
+    min_python='3.6', # Minimum python version for PyPI
+    audience='Developers', # Audience for PyPI
+    language='English' # Language for PyPI
 ):
-    "Creates a new config file for `lib_name` and `user` and saves it."
+    "Create a config file"
     if lib_name is None:
         parent = Path.cwd().parent
         lib_name = parent.parent.name if parent.name=='nbs' else parent.name

@@ -27,7 +27,7 @@ __all__ = ['nbdev_ghp_deploy', 'nbdev_sidebar', 'FilterDefaults', 'nbdev_filter'
 # %% ../nbs/10_cli.ipynb 5
 @call_parse
 def nbdev_ghp_deploy():
-    "Deploy docs in doc_path from settings.ini to GitHub Pages"
+    "Deploy docs in `doc_path` from settings.ini to GitHub Pages"
     try: from ghp_import import ghp_import
     except:
         warnings.warn('Please install ghp-import with `pip install ghp-import`')
@@ -46,8 +46,8 @@ def _sort(a):
 
 @call_parse
 def nbdev_sidebar(
-    path:str=None, # path to notebooks
-    symlinks:bool=False, # follow symlinks?
+    path:str=None, # Path to notebooks
+    symlinks:bool=False, # Follow symlinks?
     file_glob:str=None, # Only include files matching glob
     file_re:str=_def_file_re, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
@@ -107,7 +107,7 @@ class FilterDefaults:
 def nbdev_filter(
     nb_txt:str=None  # Notebook text (uses stdin if not provided)
 ):
-    "A notebook filter for quarto"
+    "A notebook filter for Quarto"
     os.environ["IN_TEST"] = "1"
     filt = get_config().get('exporter', FilterDefaults)()
     printit = False
@@ -145,7 +145,7 @@ def bump_version(version, part=2):
 def nbdev_bump_version(
     part:int=2  # Part of version to bump
 ):
-    "Increment version in `settings.py` by one"
+    "Increment version in settings.ini by one"
     cfg = get_config()
     print(f'Old version: {cfg.version}')
     cfg.d['version'] = bump_version(get_config().version, part)
@@ -288,16 +288,16 @@ def nbdev_new():
 # %% ../nbs/10_cli.ipynb 24
 @call_parse
 def nbdev_quarto(
-    path:str=None, # path to notebooks
-    doc_path:str=None, # path to output docs
-    symlinks:bool=False, # follow symlinks?
+    path:str=None, # Path to notebooks
+    doc_path:str=None, # Path to output docs
+    symlinks:bool=False, # Follow symlinks?
     file_re:str=_def_file_re, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str=None, # Skip files matching regex
     preview:bool=False # Preview the site instead of building it
 ):
-    "Create quarto docs and README.md"
+    "Create Quarto docs and README.md"
     cfg = get_config()
     cfg_path = cfg.config_path
     refresh_quarto_yml()

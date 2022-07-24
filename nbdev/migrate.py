@@ -97,12 +97,12 @@ def _repl_v1dir(nb):
 # %% ../nbs/15_migrate.ipynb 29
 @call_parse
 def nbdev_migrate_directives(
-    fname:str=None, # A notebook name or glob to convert
+    fname:str=None, # A notebook name or glob to migrate
     disp:bool=False,  # Print the outputs with newly formatted directives
-    stdin:bool=False, # Read input stream and not nb folder
+    stdin:bool=False, # Read notebook from input stream
     no_skip:bool=False, # Do not skip directories beginning with an underscore
 ):
-    "Convert all directives in `fname` from v1 to v2."
+    "Convert all directives in `fname` from v1 to v2"
     _write = partial(process_write, warn_msg='Failed to replace directives', proc_nb=_repl_v1dir)
     if stdin: _write(f_in=sys.stdin, f_out=sys.stdout)
     _skip_re = None if no_skip else '^[_.]'

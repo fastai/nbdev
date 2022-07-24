@@ -128,7 +128,7 @@ def relative_import(name, fname, level=0):
 def _mark_text_ranges(
     source: str|bytes, # Source code to add ranges to
 ):
-    "Adds `end_lineno` and `end_col_offset` to each `node` recursively. Used for python 3.7 compatibility"
+    "Adds `end_lineno` and `end_col_offset` to each `node` recursively. Used for Python 3.7 compatibility"
     from asttokens.asttokens import ASTTokens
     # We need to reparse the source to get a full tree to walk
     root = ast.parse(source)

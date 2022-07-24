@@ -53,8 +53,8 @@ def _get_call(s):
 
 # %% ../nbs/05_sync.ipynb 10
 @call_parse
-def nbdev_update(fname:str): # A python file name to convert
-    "Propagates any change in the modules matching `fname` to the notebooks that created them"
+def nbdev_update(fname:str): # A Python file name to update
+    "Propagate change in modules matching `fname` to notebooks that created them"
     if os.environ.get('IN_TEST',0): return
     code_cells = Path(fname).read_text().split("\n# %% ")[1:]
     locs = L(_get_call(s) for s in code_cells if not s.startswith('auto '))

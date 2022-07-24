@@ -20,7 +20,7 @@ from .process import first_code_ln
 @call_parse
 def nbdev_trust(
     fname:str=None,  # A notebook name or glob to trust
-    force_all:bool=False  # Trust even notebooks that havent changed
+    force_all:bool=False  # Also trust notebooks that haven't changed
 ):
     "Trust notebooks matching `fname`"
     try: from nbformat.sign import NotebookNotary
@@ -90,10 +90,10 @@ def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
 # %% ../nbs/11_clean.ipynb 14
 @call_parse
 def nbdev_clean(
-    fname:str=None, # A notebook name or glob to convert
+    fname:str=None, # A notebook name or glob to clean
     clear_all:bool=False, # Clean all metadata and outputs
     disp:bool=False,  # Print the cleaned outputs
-    stdin:bool=False # Read input stream and not nb folder
+    stdin:bool=False # Read notebook from input stream
 ):
     "Clean all notebooks in `fname` to avoid merge conflicts"
     # Git hooks will pass the notebooks in stdin
@@ -107,7 +107,7 @@ def nbdev_clean(
 # %% ../nbs/11_clean.ipynb 16
 @call_parse
 def nbdev_install_hooks():
-    "Install git hooks to clean/trust notebooks automatically"
+    "Install git hooks to clean and trust notebooks automatically"
     nb_path = config_key("nbs_path", '.')
     path = get_config().config_path
     hook_path = path/'.git'/'hooks'

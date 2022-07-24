@@ -33,7 +33,7 @@ def _mod_fn2name(fn):
     return '.'.join(str(Path(fn).with_suffix('')).split('/'))
 
 class DocLinks:
-    "Create a module symbol index from a python source file"
+    "Create a module symbol index from a Python source file"
     def __init__(self, mod_fn, doc_func, dest_fn, mod_name=None):
         mod_fn,dest_fn = Path(mod_fn),Path(dest_fn)
         if mod_name is None: mod_name = _mod_fn2name(
@@ -133,15 +133,15 @@ def nbglob(path=None, skip_folder_re = '^[_.]', file_glob='*.ipynb', recursive=T
 # %% ../nbs/04b_doclinks.ipynb 28
 @call_parse
 def nbdev_export(
-    path:str=None, # path or filename
-    recursive:bool=None, # search subfolders
-    symlinks:bool=True, # follow symlinks?
+    path:str=None, # Path or filename
+    recursive:bool=None, # Search subfolders
+    symlinks:bool=True, # Follow symlinks?
     file_re:str=None, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str=None # Skip files matching regex
 ):
-    "Export notebooks in `path` to python modules"
+    "Export notebooks in `path` to Python modules"
     if os.environ.get('IN_TEST',0): return
     files = nbglob(path=path, recursive=recursive, file_re=file_re, 
                    folder_re=folder_re, skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, symlinks=symlinks)
