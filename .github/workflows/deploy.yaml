@@ -19,8 +19,8 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -Uq git+https://github.com/fastai/fastcore.git
-          pip install -Uq git+https://github.com/fastai/execnb.git
+          pip install -Uq --pre fastcore
+          pip install -Uq --pre execnb
           pip install -qe ".[dev]"
       - name: Build website
         run: nbdev_docs
