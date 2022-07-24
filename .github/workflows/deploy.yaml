@@ -23,7 +23,7 @@ jobs:
           pip install -Uq git+https://github.com/fastai/execnb.git
           pip install -qe ".[dev]"
       - name: Build website
-        run: nbprocess_docs
+        run: nbdev_docs
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

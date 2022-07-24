@@ -38,13 +38,13 @@ jobs:
           echo "Check we are starting with clean git checkout"
           if [ -n "$(git status -uno -s)" ]; then echo "git status is not clean"; false; fi
           echo "Trying to strip out notebooks"
-          nbprocess_clean
+          nbdev_clean
           echo "Check that strip out was unnecessary"
           git status -s # display the status to see which nbs need cleaning up
-          if [ -n "$(git status -uno -s)" ]; then echo -e "!!! Detected unstripped out notebooks\n!!!Remember to run nbprocess_install_hooks"; false; fi
+          if [ -n "$(git status -uno -s)" ]; then echo -e "!!! Detected unstripped out notebooks\n!!!Remember to run nbdev_install_hooks"; false; fi
       - name: Test Notebooks
-        run: nbprocess_test
+        run: nbdev_test
       - name: Test Docs Creation
         run: |
-          nbprocess_install_quarto
-          nbprocess_docs
+          nbdev_install_quarto
+          nbdev_docs
