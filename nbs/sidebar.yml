@@ -14,7 +14,6 @@ website:
       - 10_cli.ipynb
       - 11_clean.ipynb
       - 14_test.ipynb
-      - 14_test.ipynb.bak
       - 15_migrate.ipynb
       - 16_shortcuts.ipynb
       - tutorial.ipynb

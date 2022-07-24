@@ -7,7 +7,37 @@ nbdev
 [![Deploy to GitHub
 Pages](https://github.com/fastai/nbdev/actions/workflows/deploy.yaml/badge.svg)](https://github.com/fastai/nbdev/actions/workflows/deploy.yaml)
 
-This will become v2 of nbdev in the near-ish future.
+`nbdev` is a system for *exploratory programming*. Simply write
+notebooks with lightweight markup and get high-quality documentation,
+tests, continuous integration, and packaging for free!
+
+`nbdev` makes debugging and refactoring your code much easier than in
+traditional programming environments since you always have live objects
+at your fingertips. `nbdev` also promotes software engineering best
+practices because tests and documentation are first class.
+
+-   **Documentation** is automatically generated using
+    [Quarto](https://quarto.org/) and hosted on [GitHub
+    Pages](https://pages.github.com/). Docs support LaTeX, are
+    searchable, and are automatically hyperlinked (including
+    out-of-the-box support for many packages via
+    [`nbdev-index`](https://github.com/fastai/nbdev-index)). You also
+    have fine-grained control over how cells are displayed.
+-   **Publish packages to PyPI and conda** as well as tools to simplify
+    package releases. Python best practices are automatically followed,
+    for example, only exported objects are included in `__all__`
+-   **Two-way sync between notebooks and plaintext** source code
+    allowing you to use your IDE for code navigation or quick edits.
+-   **Tests** written as ordinary notebook cells are run in parallel
+    with a single command. You have fine-grained control over which
+    tests are run.
+-   **Continuous integration** out-of-the-box with [GitHub
+    Actions](https://github.com/features/actions) that run your tests on
+    each push and rebuild docs on each merge.
+-   **Git-friendly notebooks** with tools that clean unwanted metadata
+    and render merge conflicts in a human-readable format.
+-   … and much more! See the [Getting Started](#Getting-Started) section
+    below for more.
 
 ## Install
 
@@ -19,41 +49,94 @@ With conda:
 
     conda install -c fastai nbdev
 
-## How to use
+Note that `nbdev` must be installed into the same Python environment
+that you use for both Jupyter and your project.
 
-By default docs are exported for use with [Quarto](https://quarto.org/).
-To install Quarto on Ubuntu, run `nbdev_install`. See the Quarto
-docs for other platforms.
+## Getting started
 
-You can run `nbdev_help` from the terminal to see a list of all CLI
-tools:
+We suggest these helpful resources to get started with `nbdev`:
+
+-   [Official tutorial](https://nbdev.fast.ai/tutorial.html). We suggest
+    replicating each step to solidify your understanding.
+-   [Official documentation](https://nbdev.fast.ai/).
+-   [Release notes](https://github.com/fastai/nbdev/releases).
+
+You can run `nbdev_help` from the terminal to see the full list of
+available commands:
 
 ``` python
 !nbdev_help
 ```
 
-    nbdev_bump_version          Increment version in `settings.py` by one
-    nbdev_clean                 Clean all notebooks in `fname` to avoid merge conflicts
-    nbdev_conda                 Create and upload a conda package.
-    nbdev_create_config         Creates a new config file for `lib_name` and `user` and saves it.
-    nbdev_deploy                Deploy docs to GitHub Pages.
-    nbdev_docs                  Generate the docs.
-    nbdev_export                Export notebooks in `path` to python modules
-    nbdev_filter                A notebook filter for quarto
-    nbdev_fix                   Create working notebook from conflicted notebook `nbname`
-    nbdev_ghp_deploy            Deploy docs in doc_path from settings.ini to GitHub Pages
-    nbdev_help                  Show help for all console scripts
-    nbdev_install               Install quarto and the current library.
-    nbdev_install_hooks         Install git hooks to clean/trust notebooks automatically
-    nbdev_install_quarto        Installs latest quarto on mac or linux.  Prints instructions for Windows.
-    nbdev_migrate_directives     Convert all directives in `fname` from v1 to v2.
-    nbdev_new                   Create a new project from the current git repo
-    nbdev_prepare               Export notebooks to python modules, test code and clean notebooks.
-    nbdev_preview               Start a local docs webserver.
-    nbdev_pypi                  Create and upload python package to pypi.
-    nbdev_quarto                Create quarto docs and README.md
-    nbdev_release               Release both conda and pypi packages.
-    nbdev_sidebar               Create sidebar.yml
-    nbdev_test                  Test in parallel the notebooks matching `fname`, passing along `flags`
-    nbdev_trust                 Trust notebooks matching `fname`
-    nbdev_update                Propagates any change in the modules matching `fname` to the notebooks that created them
+    nbdev_bump_version              Increment version in `settings.py` by one
+    nbdev_clean                     Clean all notebooks in `fname` to avoid merge conflicts
+    nbdev_conda                     Create and upload a conda package.
+    nbdev_create_config             Creates a new config file for `lib_name` and `user` and saves it.
+    nbdev_deploy                    Deploy docs to GitHub Pages.
+    nbdev_docs                      Generate the docs.
+    nbdev_export                    Export notebooks in `path` to python modules
+    nbdev_filter                    A notebook filter for quarto
+    nbdev_fix                       Create working notebook from conflicted notebook `nbname`
+    nbdev_ghp_deploy                Deploy docs in doc_path from settings.ini to GitHub Pages
+    nbdev_help                      Show help for all console scripts
+    nbdev_install                   Install quarto and the current library.
+    nbdev_install_hooks             Install git hooks to clean/trust notebooks automatically
+    nbdev_install_quarto            Installs latest quarto on mac or linux.  Prints instructions for Windows.
+    nbdev_migrate_directives        Convert all directives in `fname` from v1 to v2.
+    nbdev_new                       Create a new project from the current git repo
+    nbdev_prepare                   Export notebooks to python modules, test code and clean notebooks.
+    nbdev_preview                   Start a local docs webserver.
+    nbdev_pypi                      Create and upload python package to pypi.
+    nbdev_quarto                    Create quarto docs and README.md
+    nbdev_release                   Release both conda and pypi packages.
+    nbdev_sidebar                   Create sidebar.yml
+    nbdev_test                      Test in parallel the notebooks matching `fname`, passing along `flags`
+    nbdev_trust                     Trust notebooks matching `fname`
+    nbdev_update                    Propagates any change in the modules matching `fname` to the notebooks that created them
+
+## FAQ
+
+### Q: Someone told me not to use notebooks for “serious” software development!
+
+[Watch this video](https://youtu.be/9Q6sLbz37gk). Don’t worry, we still
+get this too, despite having used `nbdev` for a wide range of “very
+serious” software projects over the last three years, including [deep
+learning libraries](https://github.com/fastai/fastai), [API
+clients](https://github.com/fastai/ghapi), [Python language
+extensions](https://github.com/fastai/fastcore), [terminal user
+interfaces](https://github.com/nat/ghtop), and more!
+
+## nbdev in the wild
+
+### fastai ecosystem
+
+`nbdev` has been used to build innovative software in the fastai
+ecosystem, including the [`fastai`](https://docs.fast.ai/) deep learning
+library which implements a [unique layered API and callback
+system](https://arxiv.org/abs/2002.04688), and
+[`fastcore`](https://fastcore.fast.ai/), which supercharges Python
+leveraging its dynamic nature. Furthermore, `nbdev` allows a very small
+number of developers to maintain and grow a [large
+ecosystem](https://github.com/fastai) of software engineering, data
+science, machine learning, and devops tools.
+
+## Contributing
+
+If you want to contribute to `nbdev`, be sure to review the
+[contributions
+guidelines](https://github.com/fastai/nbdev/blob/master/CONTRIBUTING.md).
+This project adheres to fastai’s [code of
+conduct](https://github.com/fastai/nbdev/blob/master/CODE-OF-CONDUCT.md).
+By participating, you are expected to uphold this code. In general, we
+strive to abide by generally accepted best practices in open-source
+software development.
+
+Make sure you have `nbdev`’s git hooks installed by running
+`nbdev_install_git_hooks` in the cloned repository.
+
+## Copyright
+
+Copyright 2019 onwards, fast.ai, Inc. Licensed under the Apache License,
+Version 2.0 (the “License”); you may not use this project’s files except
+in compliance with the License. A copy of the License is provided in the
+LICENSE file in this repository.
