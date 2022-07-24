@@ -57,6 +57,7 @@ def nbdev_sidebar(
     printit:bool=False,  # Print YAML for debugging
     returnit:bool=False  # Return list of files found
 ):
+    "Create sidebar.yml"
     path = config_key("nbs_path") if not path else Path(path)
     files = nbglob(path, func=_f, symlinks=symlinks, file_re=file_re, folder_re=folder_re, file_glob=file_glob,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re).sorted(key=_sort)
