@@ -128,19 +128,30 @@ class NBProcessor:
     def __init__(self, path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False, rm_directives=True, process=False):
         self.nb = read_nb(path) if nb is None else nb
         self.lang = nb_lang(self.nb)
+        for cell in self.nb.cells: cell.directives_ = extract_directives(cell, remove=rm_directives, lang=self.lang)
         self.procs,self.preprocs,self.postprocs = map_ex((procs,preprocs,postprocs), _mk_procs, nb=self.nb)
         self.debug,self.rm_directives = debug,rm_directives
         if process: self.process()
 
     def _process_cell(self, cell):
         self.cell = cell
+        cell.nb = self.nb
         for proc in self.procs:
+            if not hasattr(cell,'source'): return
+            if not hasattr(cell, 'directives_'):
+                cell.nb=None
+                raise Exception(cell)
             if cell.cell_type=='code' and cell.directives_:
                 for cmd,args in cell.directives_.items():
                     self._process_comment(proc, cell, cmd, args)
                     if not hasattr(cell,'source'): return
-            if callable(proc) and not _is_direc(proc): cell = opt_set(cell, proc(cell))
-            if not hasattr(cell,'source'): return
+            if callable(proc) and not _is_direc(proc):
+                cell = opt_set(cell, proc(cell))
+#                 try: cell = opt_set(cell, proc(cell))
+#                 except:
+#                     cell.nb = None
+#                     raise Exception((proc,cell))
+        cell.nb = None
 
     def _process_comment(self, proc, cell, cmd, args):
         if _is_direc(proc) and getattr(proc, '__name__', '-')[:-1]==cmd: f=proc
@@ -154,7 +165,6 @@ class NBProcessor:
         for proc in self.preprocs:
             self.nb = opt_set(self.nb, proc(self.nb))
             for i,cell in enumerate(self.nb.cells): cell.idx_ = i
-        for cell in self.nb.cells: cell.directives_ = extract_directives(cell, remove=self.rm_directives, lang=self.lang)
         for cell in self.nb.cells: self._process_cell(cell)
         for proc in self.postprocs: self.nb = opt_set(self.nb, proc(self.nb))
         self.nb.cells = [c for c in self.nb.cells if c and getattr(c,'source',None) is not None]

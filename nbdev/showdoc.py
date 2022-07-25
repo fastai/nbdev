@@ -70,7 +70,7 @@ class DocmentTbl:
     @property
     def _row_list(self):
         "unpack data for all rows."
-        ordered_params = [(p, self.dm[p]) for p in self.params if p != 'self']
+        ordered_params = [(p, self.dm[p]) for p in self.params if p != 'self' and p in self.dm]
         return L([self._row(nm, props) for nm,props in ordered_params])
     
     @property

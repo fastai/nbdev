@@ -18,9 +18,10 @@ from execnb.nbio import read_nb,NbCell
 from pprint import pformat,pprint
 
 # %% ../nbs/01_read.ipynb 4
-def mk_cell(text, code=True):
+def mk_cell(text, cell_type='code'):
     "Create a `NbCell` containing `text`"
-    return NbCell(0, dict(cell_type='code' if code else 'markdown', metadata={}, source=text))
+    assert cell_type in {'code', 'markdown', 'raw'}
+    return NbCell(0, dict(cell_type=cell_type, metadata={}, source=text, directives_={}))
 
 # %% ../nbs/01_read.ipynb 5
 def create_output(txt, mime):

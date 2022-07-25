@@ -52,9 +52,9 @@ def write_nbdev_idx(self:DocLinks):
 # %% ../nbs/04b_doclinks.ipynb 15
 def _binop_leafs(bo, o):
     if isinstance(bo.left, ast.BinOp): left = _binop_leafs(bo.left, o)
-    else: left = [f'{bo.left.id}.{o.name}']
+    else: left = [f'{_id_or_attr(bo.left)}.{o.name}']
     if isinstance(bo.right, ast.BinOp): right = _binop_leafs(bo.right, o)
-    else: right = [f'{bo.right.id}.{o.name}']
+    else: right = [f'{_id_or_attr(bo.right)}.{o.name}']
     return concat(left + right)
 
 # %% ../nbs/04b_doclinks.ipynb 16
@@ -68,6 +68,10 @@ def _get_patch(o):
     if not isinstance(o, (ast.FunctionDef,ast.AsyncFunctionDef)): return
     return first([d for d in o.decorator_list if decor_id(d).startswith('patch')])
 
+def _id_or_attr(a):
+    if hasattr(a, 'id'): return a.id
+    return a.attr
+
 def get_patch_name(o):
     d = _get_patch(o)
     if not d: return
@@ -75,7 +79,7 @@ def get_patch_name(o):
     if nm=='patch': 
         a = o.args.args[0].annotation
         if isinstance(a, ast.BinOp): return _binop_leafs(a, o)
-        else: pre = a.id        
+        else: pre = _id_or_attr(a)
     elif nm=='patch_to': pre = o.decorator_list[0].args[0].id
     else: return
     return f'{pre}.{o.name}'
@@ -140,7 +144,7 @@ def nbdev_export(
     file_re:str=None, # Only include files matching regex
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str=None # Skip files matching regex
+    skip_file_re:str='^[_.]' # Skip files matching regex
 ):
     "Export notebooks in `path` to Python modules"
     if os.environ.get('IN_TEST',0): return

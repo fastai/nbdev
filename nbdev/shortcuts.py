@@ -41,28 +41,37 @@ def install():
     if (get_config().path('lib_path')/'__init__.py').exists():
         system(f'pip install -e "{_dir()}[dev]"')
 
-# %% ../nbs/16_shortcuts.ipynb 6
+# %% ../nbs/16_shortcuts.ipynb 7
 def _quarto_installed(): return bool(shutil.which('quarto'))
 
-def docs():
+def docs(
+    path:str=None, # Path to notebooks
+    doc_path:str=None, # Path to output docs
+    symlinks:bool=False, # Follow symlinks?
+    folder_re:str=None, # Only enter folders matching regex
+    skip_file_glob:str=None, # Skip files matching glob
+    skip_file_re:str=None, # Skip files matching regex
+    preview:bool=False # Preview the site instead of building it
+):
     "Generate docs"
     if not _quarto_installed(): install()
-    _c(nbdev_quarto)
+    nbdev_quarto.__wrapped__(path=path, doc_path=doc_path, symlinks=symlinks, folder_re=folder_re,
+                 skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, preview=preview)
 
-# %% ../nbs/16_shortcuts.ipynb 8
+# %% ../nbs/16_shortcuts.ipynb 9
 def preview():
     "Start a local docs webserver"
     if not _quarto_installed(): install()
     _c(nbdev_sidebar)
     _c(nbdev_quarto, preview=True)
 
-# %% ../nbs/16_shortcuts.ipynb 10
+# %% ../nbs/16_shortcuts.ipynb 11
 def deploy():
     "Deploy docs to GitHub Pages"
     docs()
     _c(nbdev_ghp_deploy)
 
-# %% ../nbs/16_shortcuts.ipynb 12
+# %% ../nbs/16_shortcuts.ipynb 13
 def _dist(): system(f'cd {_dir()}  && rm -rf dist && python setup.py sdist bdist_wheel')
     
 def pypi(ver_bump=True):
@@ -82,14 +91,14 @@ def release():
     conda(ver_bump=False)
     _c(nbdev_bump_version)
 
-# %% ../nbs/16_shortcuts.ipynb 14
+# %% ../nbs/16_shortcuts.ipynb 15
 def prepare():
     "Export, test, and clean notebooks"
     _c(nbdev_export)
     _c(nbdev_test)
     _c(nbdev_clean)
 
-# %% ../nbs/16_shortcuts.ipynb 16
+# %% ../nbs/16_shortcuts.ipynb 17
 def chelp():
     "Show help for all console scripts"
     for e in ep('console_scripts'): 
