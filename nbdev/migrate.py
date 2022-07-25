@@ -69,7 +69,7 @@ def migrate_md_fm(path, overwrite=True):
         return txt
     else: return md 
 
-# %% ../nbs/15_migrate.ipynb 25
+# %% ../nbs/15_migrate.ipynb 26
 def _re_v1():
     d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 
          'collapse_hide', 'hide_output', 'collapse_input', 'collapse_output', 'default_cls_lvl']
@@ -83,7 +83,7 @@ def _repl_directives(code_str):
     return _re_v1().sub(_fmt, code_str)
 
 
-# %% ../nbs/15_migrate.ipynb 27
+# %% ../nbs/15_migrate.ipynb 28
 def _repl_v1dir(nb):
     "Replace nbdev v1 with v2 directives."
     for cell in nb['cells']:
@@ -94,7 +94,7 @@ def _repl_v1dir(nb):
             if not ss: pass
             else: cell['source'] = [_repl_directives(c) for c in ss[:first_code]] + ss[first_code:]
 
-# %% ../nbs/15_migrate.ipynb 29
+# %% ../nbs/15_migrate.ipynb 30
 @call_parse
 def nbdev_migrate_directives(
     fname:str=None, # A notebook name or glob to migrate
@@ -108,4 +108,3 @@ def nbdev_migrate_directives(
     _skip_re = None if no_skip else '^[_.]'
     if fname is None: fname = config_key("nbs_path", '.', missing_ok=True)
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re=_skip_re): _write(f_in=f, disp=disp)
-    
