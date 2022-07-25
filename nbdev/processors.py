@@ -94,8 +94,7 @@ def rm_header_dash(cell):
         if cell.cell_type == 'markdown' and src.startswith('#') and src.endswith(' -'): del(cell['source'])
 
 # %% ../nbs/09_processors.ipynb 29
-_exp_dirs = {'export','exporti'}
-_hide_dirs = {*_exp_dirs, 'hide','default_exp'}
+_hide_dirs = {'export','exporti', 'hide','default_exp'}
 
 def rm_export(cell):
     "Remove cells that are exported or hidden"
@@ -117,12 +116,14 @@ _imps = {ast.Import, ast.ImportFrom}
 def _show_docs(trees):
     return [t for t in trees if isinstance(t,ast.Expr) and nested_attr(t, 'value.func.id')=='show_doc']
 
+_show_dirs = {'export','exports'}
+
 def _do_eval(cell):
     if cell_lang(cell) != 'python': return
     trees = cell.parsed_()
     if cell.cell_type != 'code' or not trees: return
     if cell.directives_.get('eval:', [''])[0].lower() == 'false': return
-    if cell.directives_.keys() & _exp_dirs or filter_ex(trees, risinstance(_imps)): return True
+    if cell.directives_.keys() & _show_dirs or filter_ex(trees, risinstance(_imps)): return True
     if _show_docs(trees): return True
 
 # %% ../nbs/09_processors.ipynb 33
