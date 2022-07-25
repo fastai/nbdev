@@ -154,9 +154,10 @@ def insert_warning(nb):
 # %% ../nbs/09_processors.ipynb 43
 _def_types = (ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)
 def _def_names(cell, shown):
-    return [showdoc_nm(o) for o in concat(cell.parsed_()) if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_']
+    return [showdoc_nm(o) for o in concat(cell.parsed_())
+            if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_']
 
-_re_exps = re.compile(r'^\s*#\|\s*(?:export|exporti)').search
+_re_exps = re.compile(r'^\s*#\|\s*(?:export|exports)').search
 
 def _get_nm(tree):
     i = tree.value.args[0]
@@ -170,10 +171,9 @@ def add_show_docs(nb):
     shown_docs = {_get_nm(t) for t in _show_docs(trees)}
     for cell in reversed(exports):
         if cell_lang(cell) != 'python': 
-            raise ValueError(f'You can only export python cells. You tried to import {cell.metadata.language}:\n{cell.source}')
+            raise ValueError(f'{cell.metadata.language} cell attempted export:\n{cell.source}')
         for nm in _def_names(cell, shown_docs):
-            code = f'show_doc({nm})'
-            nb.cells.insert(cell.idx_+1, mk_cell(code))
+            nb.cells.insert(cell.idx_+1, mk_cell(f'show_doc({nm})'))
 
 # %% ../nbs/09_processors.ipynb 48
 _re_title = re.compile(r'^#\s+(.*)[\n\r]+(?:^>\s+(.*))?', flags=re.MULTILINE)
