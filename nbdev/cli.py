@@ -55,9 +55,11 @@ def nbdev_sidebar(
     skip_file_re:str='^[_.]', # Skip files matching regex
     skip_folder_re:str='(?:^[_.]|^www$)', # Skip folders matching regex
     printit:bool=False,  # Print YAML for debugging
+    force:bool=False,  # Create sidebar even if settings.ini custom_sidebar=False
     returnit:bool=False  # Return list of files found
 ):
     "Create sidebar.yml"
+    if not force and str2bool(config_key('custom_sidebar', path=False)): return
     path = config_key("nbs_path") if not path else Path(path)
     files = nbglob(path, func=_f, symlinks=symlinks, file_re=file_re, folder_re=folder_re, file_glob=file_glob,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re).sorted(key=_sort)
@@ -101,27 +103,34 @@ class FilterDefaults:
     def postprocs(self):
         "Postprocessors for export"
         return self.base_postprocs() + self.xtra_postprocs()
+    
+    def nb_proc(self, nb):
+        "Get an `NBProcessor` with these processors"
+        return NBProcessor(nb=nb, procs=self.procs(), preprocs=self.preprocs(), postprocs=self.postprocs())
 
 # %% ../nbs/10_cli.ipynb 11
 @call_parse
 def nbdev_filter(
-    nb_txt:str=None  # Notebook text (uses stdin if not provided)
+    nb_txt:str=None,  # Notebook text (uses stdin if not provided)
+    fname:str=None,  # Notebook to read (uses `nb_txt` if not provided)
 ):
     "A notebook filter for Quarto"
     os.environ["IN_TEST"] = "1"
     filt = get_config().get('exporter', FilterDefaults)()
     printit = False
-    if not nb_txt: nb_txt,printit = sys.stdin.read(),True
+    if fname: nb_txt = Path(fname).read_text()
+    elif not nb_txt: nb_txt,printit = sys.stdin.read(),True
     nb = dict2nb(loads(nb_txt))
-    with open(os.devnull, 'w') as dn:
-        with redirect_stdout(dn):
-            NBProcessor(nb=nb, procs=filt.procs(), preprocs=filt.preprocs(), postprocs=filt.postprocs()).process()
+    if printit:
+        with open(os.devnull, 'w') as dn:
+            with redirect_stdout(dn): filt.nb_proc(nb).process()
+    else: filt.nb_proc(nb).process()
     res = nb2str(nb)
     del os.environ["IN_TEST"]
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/10_cli.ipynb 13
+# %% ../nbs/10_cli.ipynb 14
 _re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
 
 def update_version():
@@ -153,11 +162,11 @@ def nbdev_bump_version(
     update_version()
     print(f'New version: {cfg.version}')
 
-# %% ../nbs/10_cli.ipynb 15
+# %% ../nbs/10_cli.ipynb 16
 def extract_tgz(url, dest='.'): 
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/10_cli.ipynb 16
+# %% ../nbs/10_cli.ipynb 17
 def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
     try: from ghapi.all import GhApi
     except: 
@@ -180,7 +189,7 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
     
     return r.default_branch, default_kw if not r.topics else ' '.join(r.topics), r.description
 
-# %% ../nbs/10_cli.ipynb 18
+# %% ../nbs/10_cli.ipynb 19
 def prompt_user(**kwargs):
     config_vals = kwargs
     print('================ nbdev Configuration ================\n')
@@ -193,7 +202,7 @@ def prompt_user(**kwargs):
     print(f"\n`settings.ini` updated with configuration values.")
     return config_vals
 
-# %% ../nbs/10_cli.ipynb 19
+# %% ../nbs/10_cli.ipynb 20
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     try:
@@ -208,7 +217,7 @@ def _fetch_from_git(raise_err=False):
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, 
                 author_email=email, keywords=keywords, description=descrip, repo=repo)
 
-# %% ../nbs/10_cli.ipynb 21
+# %% ../nbs/10_cli.ipynb 22
 _quarto_yml="""ipynb-filters: [nbdev_filter]
 
 project:
@@ -258,7 +267,7 @@ def refresh_quarto_yml():
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
-# %% ../nbs/10_cli.ipynb 22
+# %% ../nbs/10_cli.ipynb 23
 @call_parse
 def nbdev_new():
     "Create a new project from the current git repo"
@@ -285,7 +294,7 @@ def nbdev_new():
     settings_path.write_text(settings)
     refresh_quarto_yml()
 
-# %% ../nbs/10_cli.ipynb 24
+# %% ../nbs/10_cli.ipynb 25
 @call_parse
 def nbdev_quarto(
     path:str=None, # Path to notebooks

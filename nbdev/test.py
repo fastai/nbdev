@@ -29,7 +29,7 @@ def test_nb(fn, skip_flags=None, force_flags=None, do_print=False, showerr=True)
 
     def _no_eval(cell):
         if cell.cell_type != 'code': return True
-        if 'nbdev_export' in cell.source: return True
+        if 'nbdev_export'+'(' in cell.source: return True
         direc = getattr(cell, 'directives_', {}) or {}
         if direc.get('eval:', [''])[0].lower() == 'false': return True
         return flags & direc.keys()

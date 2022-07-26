@@ -17,6 +17,7 @@ from fastcore.meta import delegates
 
 import ast,contextlib
 import pkg_resources,importlib
+from astunparse import unparse
 
 from pprint import pformat
 from urllib.parse import urljoin
@@ -52,9 +53,9 @@ def write_nbdev_idx(self:DocLinks):
 # %% ../nbs/04b_doclinks.ipynb 15
 def _binop_leafs(bo, o):
     if isinstance(bo.left, ast.BinOp): left = _binop_leafs(bo.left, o)
-    else: left = [f'{_id_or_attr(bo.left)}.{o.name}']
+    else: left = [f'{unparse(bo.left).strip()}.{o.name}']
     if isinstance(bo.right, ast.BinOp): right = _binop_leafs(bo.right, o)
-    else: right = [f'{_id_or_attr(bo.right)}.{o.name}']
+    else: right = [f'{unparse(bo.right).strip()}.{o.name}']
     return concat(left + right)
 
 # %% ../nbs/04b_doclinks.ipynb 16
@@ -79,10 +80,9 @@ def get_patch_name(o):
     if nm=='patch': 
         a = o.args.args[0].annotation
         if isinstance(a, ast.BinOp): return _binop_leafs(a, o)
-        else: pre = _id_or_attr(a)
-    elif nm=='patch_to': pre = o.decorator_list[0].args[0].id
+    elif nm=='patch_to': a = o.decorator_list[0].args[0]
     else: return
-    return f'{pre}.{o.name}'
+    return f'{unparse(a).strip()}.{o.name}'
 
 # %% ../nbs/04b_doclinks.ipynb 19
 def _exp_meths(tree):

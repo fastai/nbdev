@@ -142,9 +142,7 @@ class exec_show_docs:
         flags = getattr(cell.nb, '_nbflags', [])
         if 'skip_showdoc' in flags: return
         if _do_eval(cell): self.k.cell(cell)
-        if self.k.exc: 
-            sys.stderr.write(f'Error in cell {cell.idx_}:\n{cell.source}')
-            raise self.k.exc[1] from None
+        if self.k.exc: raise Exception(f'Error: cell {cell.idx_}:\n{cell.source}') from self.k.exc[1]
 
 # %% ../nbs/09_processors.ipynb 37
 def populate_language(nb):
@@ -166,7 +164,9 @@ def _def_names(cell, shown):
 
 def _get_nm(tree):
     i = tree.value.args[0]
-    return f'{i.value.id}.{i.attr}' if isinstance(i, ast.Attribute) else i.id
+    if hasattr(i, 'id'): val = i.id
+    else: val = try_attrs(i.value, 'id', 'func', 'attr')
+    return f'{val}.{i.attr}' if isinstance(i, ast.Attribute) else i.id
 
 # %% ../nbs/09_processors.ipynb 45
 def add_show_docs(nb):

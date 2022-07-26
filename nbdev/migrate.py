@@ -82,7 +82,6 @@ def _repl_directives(code_str):
     def _fmt(x): return f"#|{x.group(2).replace('-', '_')}"
     return _re_v1().sub(_fmt, code_str)
 
-
 # %% ../nbs/15_migrate.ipynb 28
 def _repl_v1dir(nb):
     "Replace nbdev v1 with v2 directives."
