@@ -236,5 +236,5 @@ def infer_frontmatter(nb):
     "Insert front matter if it doesn't exist automatically from nbdev styled markdown."
     if is_frontmatter(nb): return
     _exp = _default_exp(nb)
-    _fmdict = merge(nb_fmdict(nb), {'output-file': _exp} if _exp else {})
+    _fmdict = merge(nb_fmdict(nb), {'output-file': _exp+'.html'} if _exp else {})
     if 'title' in _fmdict: insert_frontmatter(nb, fm_dict=_fmdict)
