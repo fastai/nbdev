@@ -122,7 +122,7 @@ If you want to contribute to `nbdev`, be sure to review the
 [contributions
 guidelines](https://github.com/fastai/nbdev/blob/master/CONTRIBUTING.md).
 This project adheres to fastai’s [code of
-conduct](https://github.com/fastai/nbdev/blob/master/CODE-OF-CONDUCT.md).
+conduct](https://github.com/fastai/nbdev/blob/master/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. In general, we
 strive to abide by generally accepted best practices in open-source
 software development.
