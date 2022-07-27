@@ -1,7 +1,6 @@
 website:
   sidebar:
     contents:
-      - index.ipynb
       - 01_read.ipynb
       - 02_maker.ipynb
       - 03_process.ipynb
@@ -16,4 +15,5 @@ website:
       - 14_test.ipynb
       - 15_migrate.ipynb
       - 16_shortcuts.ipynb
+      - getting_started.ipynb
       - tutorial.ipynb
