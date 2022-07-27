@@ -1,2 +1,3 @@
 website:
   favicon: favicon.png
+  reader-mode: false
