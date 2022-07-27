@@ -311,7 +311,7 @@ def nbdev_quarto(
     cfg_path = cfg.config_path
     refresh_quarto_yml()
     path = config_key("nbs_path") if not path else Path(path)
-    idx_path = path/'index.ipynb'
+    idx_path = path/config_key('readme_nb', 'index.ipynb', path=False)
     files = nbdev_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
                             skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, returnit=True)
     doc_path = config_key("doc_path") if not doc_path else Path(doc_path)

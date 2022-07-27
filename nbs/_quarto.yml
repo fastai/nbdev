@@ -15,7 +15,7 @@ format:
 
 website:
   title: "nbdev"
-  description: "Process and export Jupyter Notebooks fast (Jupyter not required)"
+  description: "Create delightful software with Jupyter Notebooks"
   execute: 
     enabled: false
   twitter-card: true
