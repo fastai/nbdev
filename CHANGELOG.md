@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.0.0
+
+- From-scratch rewrite of nbdev! nbdev now uses [Quarto](https://quarto.org/) to create beautiful and full-featured websites
+- nbdev2 is much faster than previous versions
+- Note that you should run `nbdev_migrate_directives` after upgrading to use the new comment directive format (e.g `#| export` instead of `#export`)
+
+
 ## 1.2.11
 
 ### New Features
