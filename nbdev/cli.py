@@ -320,7 +320,9 @@ def nbdev_quarto(
     cmd = 'preview' if preview else 'render'
     os.system(f'cd {path} && quarto {cmd} --no-execute')
     if not preview:
-        if idx_path.exists(): os.system(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute')
+        if idx_path.exists(): 
+            rc = os.waitstatus_to_exitcode(os.system(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute'))
+            if rc !=0: sys.exit(rc)
 
         if (tmp_doc_path/'README.md').exists():
             _rdm = cfg_path/'README.md'
