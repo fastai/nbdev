@@ -99,7 +99,7 @@ def nbdev_clean(
     # Git hooks will pass the notebooks in stdin
     _clean = partial(clean_nb, clear_all=clear_all)
     _write = partial(process_write, warn_msg='Failed to clean notebook', proc_nb=_clean)
-    if stdin: _write(f_in=sys.stdin, f_out=sys.stdout)
+    if stdin: return _write(f_in=sys.stdin, f_out=sys.stdout)
     
     if fname is None: fname = config_key("nbs_path", '.', missing_ok=True)
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'): _write(f_in=f, disp=disp)
