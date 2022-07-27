@@ -18,6 +18,7 @@ body {
 
 .navbar {
   background: var(--background);
+  text-align: left;
 }
 
 .title, .navbar-title {
