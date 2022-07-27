@@ -18,7 +18,7 @@ from fastcore import shutil
 
 from urllib.error import HTTPError
 from contextlib import redirect_stdout
-import os, tarfile
+import os, tarfile, subprocess, sys
 
 # %% auto 0
 __all__ = ['nbdev_ghp_deploy', 'nbdev_sidebar', 'FilterDefaults', 'nbdev_filter', 'update_version', 'bump_version',
@@ -295,6 +295,11 @@ def nbdev_new():
     refresh_quarto_yml()
 
 # %% ../nbs/10_cli.ipynb 25
+def _sprun(cmd):
+    try: subprocess.check_output(cmd, shell=True)
+    except subprocess.CalledProcessError as cpe: sys.exit(cpe.returncode)
+
+# %% ../nbs/10_cli.ipynb 26
 @call_parse
 def nbdev_quarto(
     path:str=None, # Path to notebooks
@@ -318,13 +323,10 @@ def nbdev_quarto(
     tmp_doc_path = config_key('nbs_path')/f"{cfg['doc_path']}"
     shutil.rmtree(doc_path, ignore_errors=True)
     cmd = 'preview' if preview else 'render'
-    os.system(f'cd {path} && quarto {cmd} --no-execute')
+    _sprun(f'cd {path} && quarto {cmd} --no-execute')
     if not preview:
         if idx_path.exists(): 
-            os.system(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute')
-            # waitstatus_to_exitcode requires py39
-#             rc = os.waitstatus_to_exitcode(os.system(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute'))
-#             if rc !=0: sys.exit(rc)
+            _sprun(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute')
 
         if (tmp_doc_path/'README.md').exists():
             _rdm = cfg_path/'README.md'
