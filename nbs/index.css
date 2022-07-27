@@ -180,3 +180,22 @@ body {
   padding-top: 30px !important;
   border-top: 1px solid var(--foreground-2);
 }
+
+.btn-action-primary {
+  color: #F9FAFB;
+  background: #009AF1;
+  font-weight: 700;
+  line-height: 20px; /* identical to box height */
+}
+
+.btn-action-primary:hover, .btn-action-primary:active, .btn-action-primary:focus {
+  background: #35acf0;
+}
+
+.btn-action {
+  min-width: 165px;
+  border-radius: 8px;
+  padding: 20px 48px;
+  border: none;
+}
+
