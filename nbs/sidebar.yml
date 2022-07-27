@@ -1,8 +1,7 @@
 website:
   sidebar:
     contents:
-      #- getting_started.ipynb
-      - index.ipynb
+      - getting_started.ipynb
       - tutorial.ipynb
       - section: API details
         contents:
