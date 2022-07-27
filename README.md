@@ -58,7 +58,7 @@ We suggest these helpful resources to get started with `nbdev`:
 
 -   [Official tutorial](https://nbdev.fast.ai/tutorial.html). We suggest
     replicating each step to solidify your understanding.
--   [Official documentation](https://nbdev.fast.ai/).
+-   [Official documentation](https://nbdev.fast.ai/getting_started.html).
 -   [Release notes](https://github.com/fastai/nbdev/releases).
 
 You can run `nbdev_help` from the terminal to see the full list of

@@ -1,0 +1,27 @@
+website:
+  favicon: favicon.png
+  reader-mode: false
+  navbar:
+    collapse-below: lg
+    left:
+      - text: "Get Started"
+        href: getting_started.ipynb
+      - text: "Tutorial"
+        href: tutorial.ipynb
+      - text: "Blog"
+        href: https://www.fast.ai/
+      - text: "Help"
+        menu:
+          - text: "Report an Issue"
+            icon: bug
+            href: https://github.com/fastai/nbdev/issues
+          - text: "Fast.ai Forum"
+            icon: chat-right-text
+            href: https://forums.fast.ai/
+          - text: "FAQ"
+            icon: question-circle
+            href: getting_started.ipynb#faq
+    right:
+      - icon: twitter
+        href: https://twitter.com/fastdotai
+        aria-label: Fast.ai Twitter

@@ -18,6 +18,8 @@ body {
 
 .navbar {
   background: var(--background);
+  text-align: left;
+  font-size: 16px;
 }
 
 .title, .navbar-title {
