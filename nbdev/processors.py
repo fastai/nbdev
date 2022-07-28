@@ -99,7 +99,7 @@ def rm_header_dash(cell):
         if cell.cell_type == 'markdown' and src.startswith('#') and src.endswith(' -'): del(cell['source'])
 
 # %% ../nbs/09_processors.ipynb 30
-_hide_dirs = {'export','exporti', 'hide','default_exp'}
+_hide_dirs = {'export','exporti', 'exports', 'hide','default_exp'}
 
 def rm_export(cell):
     "Remove cells that are exported or hidden"
