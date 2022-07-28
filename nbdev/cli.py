@@ -12,7 +12,6 @@ from .doclinks import *
 
 from execnb.nbio import *
 from fastcore.utils import *
-from fastcore.net import *
 from fastcore.script import call_parse
 from fastcore import shutil
 
@@ -34,7 +33,7 @@ def nbdev_ghp_deploy():
         return
     ghp_import(config_key('doc_path'), push=True, stderr=True, no_history=True)
 
-# %% ../nbs/10_cli.ipynb 8
+# %% ../nbs/10_cli.ipynb 7
 _def_file_re = '\.(?:ipynb|md|html)$'
 
 def _f(a,b): return Path(a),b
@@ -79,7 +78,7 @@ def nbdev_sidebar(
     yml_path.write_text(yml)
     if returnit: return files
 
-# %% ../nbs/10_cli.ipynb 10
+# %% ../nbs/10_cli.ipynb 9
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
     def _nothing(self): return []
@@ -108,7 +107,7 @@ class FilterDefaults:
         "Get an `NBProcessor` with these processors"
         return NBProcessor(nb=nb, procs=self.procs(), preprocs=self.preprocs(), postprocs=self.postprocs())
 
-# %% ../nbs/10_cli.ipynb 11
+# %% ../nbs/10_cli.ipynb 10
 @call_parse
 def nbdev_filter(
     nb_txt:str=None,  # Notebook text (uses stdin if not provided)
@@ -130,7 +129,7 @@ def nbdev_filter(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/10_cli.ipynb 14
+# %% ../nbs/10_cli.ipynb 13
 _re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
 
 def update_version():
@@ -162,11 +161,12 @@ def nbdev_bump_version(
     update_version()
     print(f'New version: {cfg.version}')
 
-# %% ../nbs/10_cli.ipynb 16
-def extract_tgz(url, dest='.'): 
+# %% ../nbs/10_cli.ipynb 15
+def extract_tgz(url, dest='.'):
+    from fastcore.net import urlopen
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/10_cli.ipynb 17
+# %% ../nbs/10_cli.ipynb 16
 def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
     try: from ghapi.all import GhApi
     except: 
@@ -189,7 +189,7 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
     
     return r.default_branch, default_kw if not r.topics else ' '.join(r.topics), r.description
 
-# %% ../nbs/10_cli.ipynb 19
+# %% ../nbs/10_cli.ipynb 18
 def prompt_user(**kwargs):
     config_vals = kwargs
     print('================ nbdev Configuration ================\n')
@@ -202,7 +202,7 @@ def prompt_user(**kwargs):
     print(f"\n`settings.ini` updated with configuration values.")
     return config_vals
 
-# %% ../nbs/10_cli.ipynb 20
+# %% ../nbs/10_cli.ipynb 19
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     try:
@@ -217,7 +217,7 @@ def _fetch_from_git(raise_err=False):
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, 
                 author_email=email, keywords=keywords, description=descrip, repo=repo)
 
-# %% ../nbs/10_cli.ipynb 22
+# %% ../nbs/10_cli.ipynb 21
 _quarto_yml="""ipynb-filters: [nbdev_filter]
 
 project:
@@ -267,7 +267,7 @@ def refresh_quarto_yml():
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
-# %% ../nbs/10_cli.ipynb 23
+# %% ../nbs/10_cli.ipynb 22
 @call_parse
 def nbdev_new():
     "Create a new project from the current git repo"
@@ -294,12 +294,12 @@ def nbdev_new():
     settings_path.write_text(settings)
     refresh_quarto_yml()
 
-# %% ../nbs/10_cli.ipynb 25
+# %% ../nbs/10_cli.ipynb 24
 def _sprun(cmd):
     try: subprocess.check_output(cmd, shell=True)
     except subprocess.CalledProcessError as cpe: sys.exit(cpe.returncode)
 
-# %% ../nbs/10_cli.ipynb 26
+# %% ../nbs/10_cli.ipynb 25
 @call_parse
 def nbdev_quarto(
     path:str=None, # Path to notebooks

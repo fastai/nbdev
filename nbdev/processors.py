@@ -121,7 +121,7 @@ _imps = {ast.Import, ast.ImportFrom}
 def _show_docs(trees):
     return [t for t in trees if isinstance(t,ast.Expr) and nested_attr(t, 'value.func.id')=='show_doc']
 
-_show_dirs = {'export','exports'}
+_show_dirs = {'export','exports','exporti'}
 
 def _do_eval(cell):
     if cell_lang(cell) != 'python': return
