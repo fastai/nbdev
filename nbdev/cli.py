@@ -271,6 +271,7 @@ def refresh_quarto_yml():
 @call_parse
 def nbdev_new():
     "Create a new project from the current git repo"
+    from fastcore.net import urljson
     config = prompt_user(**_fetch_from_git())
     # download and untar template, and optionally notebooks
     tgnm = urljson('https://api.github.com/repos/fastai/nbdev-template/releases/latest')['tag_name']
