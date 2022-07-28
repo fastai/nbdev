@@ -52,7 +52,7 @@ def _clean_cell_output(cell):
             o.get('metadata', {}).pop('tags', None)
 
 # %% ../nbs/11_clean.ipynb 8
-def _clean_cell(cell, clear_all=False):
+def _clean_cell(cell, clear_all=False, allowed_metadata_keys=None):
     "Clean `cell` by removing superfluous metadata or everything except the input if `clear_all`"
     if 'execution_count' in cell: cell['execution_count'] = None
     if 'outputs' in cell:
@@ -60,21 +60,29 @@ def _clean_cell(cell, clear_all=False):
         else:         _clean_cell_output(cell)
     if cell['source'] == ['']: cell['source'] = []
     cell['metadata'] = {} if clear_all else {
-        k:v for k,v in cell['metadata'].items() if k=="hide_input"}
+        k:v for k,v in cell['metadata'].items() if k in allowed_metadata_keys}
 
 # %% ../nbs/11_clean.ipynb 9
-def clean_nb(nb, clear_all=False):
+def clean_nb(
+    nb, # The notebook to clean
+    clear_all=False, # Remove all cell metadata and cell outputs
+    allowed_metadata_keys:list=None, # Preserve the list of keys in the main notebook metadata
+    allowed_cell_metadata_keys:list=None # Preserve the list of keys in cell level metadata
+):
     "Clean `nb` from superfluous metadata"
-    for c in nb['cells']: _clean_cell(c, clear_all=clear_all)
-    nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in
-                     ("kernelspec", "jekyll", "jupytext", "doc")}
+    metadata_keys = {"kernelspec", "jekyll", "jupytext", "doc"}
+    if allowed_metadata_keys: metadata_keys.update(allowed_metadata_keys)
+    cell_metadata_keys = {"hide_input"}
+    if allowed_cell_metadata_keys: cell_metadata_keys.update(allowed_cell_metadata_keys)
+    for c in nb['cells']: _clean_cell(c, clear_all=clear_all, allowed_metadata_keys=cell_metadata_keys)
+    nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in metadata_keys}
 
-# %% ../nbs/11_clean.ipynb 12
+# %% ../nbs/11_clean.ipynb 19
 def _reconfigure(*strms):
     for s in strms:
         if hasattr(s,'reconfigure'): s.reconfigure(encoding='utf-8')
 
-# %% ../nbs/11_clean.ipynb 13
+# %% ../nbs/11_clean.ipynb 20
 def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
     if not f_out: f_out = sys.stdout if disp else f_in
     if isinstance(f_in, (str,Path)): f_in = Path(f_in).open()
@@ -87,7 +95,7 @@ def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
         warn(f'{warn_msg}')
         warn(e)
 
-# %% ../nbs/11_clean.ipynb 14
+# %% ../nbs/11_clean.ipynb 21
 @call_parse
 def nbdev_clean(
     fname:str=None, # A notebook name or glob to clean
@@ -97,14 +105,18 @@ def nbdev_clean(
 ):
     "Clean all notebooks in `fname` to avoid merge conflicts"
     # Git hooks will pass the notebooks in stdin
-    _clean = partial(clean_nb, clear_all=clear_all)
+    allowed_metadata_keys = config_key("allowed_metadata_keys", default='', missing_ok=True, path=False).split()
+    allowed_cell_metadata_keys = config_key("allowed_cell_metadata_keys", default='', missing_ok=True, path=False).split()
+    _clean = partial(clean_nb, clear_all=clear_all,
+                     allowed_metadata_keys=allowed_metadata_keys,
+                     allowed_cell_metadata_keys=allowed_cell_metadata_keys)
     _write = partial(process_write, warn_msg='Failed to clean notebook', proc_nb=_clean)
     if stdin: return _write(f_in=sys.stdin, f_out=sys.stdout)
     
     if fname is None: fname = config_key("nbs_path", '.', missing_ok=True)
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'): _write(f_in=f, disp=disp)
 
-# %% ../nbs/11_clean.ipynb 16
+# %% ../nbs/11_clean.ipynb 23
 @call_parse
 def nbdev_install_hooks():
     "Install git hooks to clean and trust notebooks automatically"
