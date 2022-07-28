@@ -8,11 +8,14 @@ __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'docs', 'preview', 'd
 import sys, shutil
 from pkg_resources import iter_entry_points as ep
 from os import system
+from fastcore.utils import *
+from fastcore.script import *
+
 from .read import get_config
 from .test import nbdev_test
 from .clean import nbdev_clean
 from .doclinks import nbdev_export
-from .cli import nbdev_quarto, nbdev_sidebar, nbdev_ghp_deploy, nbdev_bump_version
+from .cli import *
 
 BASE_QUARTO_URL='https://www.quarto.org/download/latest/'
 
@@ -44,6 +47,7 @@ def install():
 # %% ../nbs/16_shortcuts.ipynb 7
 def _quarto_installed(): return bool(shutil.which('quarto'))
 
+@call_parse
 def docs(
     path:str=None, # Path to notebooks
     doc_path:str=None, # Path to output docs
@@ -95,7 +99,7 @@ def release():
 def prepare():
     "Export, test, and clean notebooks"
     _c(nbdev_export)
-    _c(nbdev_test)
+    nbdev_test.__wrapped__()
     _c(nbdev_clean)
 
 # %% ../nbs/16_shortcuts.ipynb 17

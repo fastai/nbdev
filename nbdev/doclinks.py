@@ -157,7 +157,7 @@ def nbdev_export(
 
 # %% ../nbs/04b_doclinks.ipynb 30
 def _settings_libs():
-    try: #settings.ini doesn't exist yet until you call nbdev_new
+    try: # settings.ini doesn't exist yet until you call nbdev_new
         cfg = get_config()
         return cfg.get('strip_libs', cfg.get('lib_path')).split()
     except FileNotFoundError: return 'nbdev'
@@ -185,7 +185,7 @@ class NbdevLookup:
 
     def __getitem__(self, s): return self.syms.get(s, None)
 
-# %% ../nbs/04b_doclinks.ipynb 39
+# %% ../nbs/04b_doclinks.ipynb 42
 @patch
 def _link_sym(self:NbdevLookup, m):
     l = m.group(1)
