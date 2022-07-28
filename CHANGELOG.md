@@ -2,6 +2,19 @@
 
 <!-- do not remove -->
 
+## 2.0.4
+
+### New Features
+
+- add `readme_nb` config option ([#668](https://github.com/fastai/nbdev/issues/668))
+
+### Bugs Squashed
+
+- `exporti` cells can cause showdocs exec to fail ([#679](https://github.com/fastai/nbdev/issues/679))
+- missing .html suffix in links ([#674](https://github.com/fastai/nbdev/issues/674))
+- Add early return ([#670](https://github.com/fastai/nbdev/pull/670)), thanks to [@dleen](https://github.com/dleen)
+
+
 ## 2.0.0
 
 - From-scratch rewrite of nbdev! nbdev now uses [Quarto](https://quarto.org/) to create beautiful and full-featured websites
