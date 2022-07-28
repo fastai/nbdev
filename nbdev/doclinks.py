@@ -185,7 +185,7 @@ class NbdevLookup:
 
     def __getitem__(self, s): return self.syms.get(s, None)
 
-# %% ../nbs/04b_doclinks.ipynb 42
+# %% ../nbs/04b_doclinks.ipynb 39
 @patch
 def _link_sym(self:NbdevLookup, m):
     l = m.group(1)

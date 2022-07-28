@@ -24,6 +24,7 @@ class ExportModuleProc:
     def _export_(self, nbp, cell, exp_to=None):
         self._exporti_(nbp, cell, exp_to)
         self.in_all[ifnone(exp_to, '#')].append(nbp.cell)
+    _exports_=_export_
 
 # %% ../nbs/04a_export.ipynb 7
 def black_format(cell, # A cell node 
