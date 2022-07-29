@@ -48,14 +48,19 @@ With conda:
 Note that `nbdev` must be installed into the same Python environment
 that you use for both Jupyter and your project.
 
-## Getting started
+## How to use nbdev
 
-We suggest these helpful resources to get started with `nbdev`:
+The best way to learn to use nbdev is to complete one of these tutorials
+(we suggest replicating each step to solidify your understanding):
 
--   [Official tutorial](https://nbdev.fast.ai/tutorial.html); (we
-    suggest replicating each step to solidify your understanding)
--   [Official
-    documentation](https://nbdev.fast.ai/getting_started.html).
+-   [Written tutorial](https://nbdev.fast.ai/tutorial.html)
+
+**Video step-by-step walkthru** (to view full screen, click the little
+square in the bottom right of the video; to view in a separate Youtube
+window, click the Youtube logo):
+
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/l7zS8Ld4_iA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
 
 You can run `nbdev_help` from the terminal to see the full list of
 available commands:
