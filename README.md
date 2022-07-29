@@ -32,8 +32,7 @@ practices because tests and documentation are first class.
     each push and rebuild docs on each merge.
 -   **Git-friendly notebooks** with tools that clean unwanted metadata
     and render merge conflicts in a human-readable format.
--   … and much more! See the [Getting Started](#Getting-Started) section
-    below for more.
+-   … and much more!
 
 ## Install
 
@@ -133,7 +132,8 @@ strive to abide by generally accepted best practices in open-source
 software development.
 
 Make sure you have `nbdev`’s git hooks installed by running
-`nbdev_install_git_hooks` in the cloned repository.
+[nbdev_install_hooks](https://nbdev.fast.ai/clean.html#nbdev_install_hooks)
+in the cloned repository.
 
 ## Copyright
 
