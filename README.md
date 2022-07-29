@@ -62,6 +62,11 @@ window, click the Youtube logo):
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/l7zS8Ld4_iA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 </iframe>
 
+(There’s an [alternate version of the
+walkthru](https://youtu.be/67FdzLSt4aA) avaialable with the coding
+sections sped up using the `unsilence` python library – it’s 27 minutes
+faster, but it’s be harder to follow along with.)
+
 You can run `nbdev_help` from the terminal to see the full list of
 available commands:
 
