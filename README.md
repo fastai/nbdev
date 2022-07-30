@@ -71,7 +71,9 @@ window, click the Youtube logo):
 
 <div>
 
-[![](https://github.com/fastai/logos/raw/main/nbdev_walkthrough.png)](http://www.youtube.com/watch?v=l7zS8Ld4_iA "nbdev walkthrough")
+<a href="http://www.youtube.com/watch?v=l7zS8Ld4_iA" target="_blank"
+title="nbdev walkthrough"><img
+src="https://github.com/fastai/logos/raw/main/nbdev_walkthrough.png" /></a>
 
 </div>
 
