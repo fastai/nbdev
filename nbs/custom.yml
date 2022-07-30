@@ -9,7 +9,7 @@ website:
       - text: "Tutorial"
         href: tutorial.ipynb
       - text: "Blog"
-        href: https://www.fast.ai/
+        href: https://www.fast.ai/2022/07/28/nbdev-v2/
       - text: "Help"
         menu:
           - text: "Report an Issue"
