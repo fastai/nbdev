@@ -79,7 +79,7 @@ def _re_v1():
     return re.compile(f"^[ \f\v\t]*?(#)\s*({_tmp})", re.MULTILINE)
 
 def _repl_directives(code_str): 
-    def _fmt(x): return f"#|{x.group(2).replace('-', '_')}"
+    def _fmt(x): return f"#| {x.group(2).replace('-', '_')}"
     return _re_v1().sub(_fmt, code_str)
 
 # %% ../nbs/15_migrate.ipynb 28
