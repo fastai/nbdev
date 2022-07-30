@@ -109,11 +109,14 @@ available commands:
     nbdev_preview                   Start a local docs webserver
     nbdev_pypi                      Create and upload Python package to PyPI
     nbdev_quarto                    Create Quarto docs and README.md
+    nbdev_readme                    Render README.md from index.ipynb
     nbdev_release                   Release both conda and PyPI packages
     nbdev_sidebar                   Create sidebar.yml
     nbdev_test                      Test in parallel notebooks matching `fname`, passing along `flags`
     nbdev_trust                     Trust notebooks matching `fname`
     nbdev_update                    Propagate change in modules matching `fname` to notebooks that created them
+
+## FAQ
 
 ### Q: Someone told me not to use notebooks for “serious” software development!
 
@@ -124,6 +127,20 @@ learning libraries](https://github.com/fastai/fastai), [API
 clients](https://github.com/fastai/ghapi), [Python language
 extensions](https://github.com/fastai/fastcore), [terminal user
 interfaces](https://github.com/nat/ghtop), and more!
+
+## nbdev in the wild
+
+### fastai ecosystem
+
+`nbdev` has been used to build innovative software in the fastai
+ecosystem, including the [`fastai`](https://docs.fast.ai/) deep learning
+library which implements a [unique layered API and callback
+system](https://arxiv.org/abs/2002.04688), and
+[`fastcore`](https://fastcore.fast.ai/), which supercharges Python
+leveraging its dynamic nature. Furthermore, `nbdev` allows a very small
+number of developers to maintain and grow a [large
+ecosystem](https://github.com/fastai) of software engineering, data
+science, machine learning, and devops tools.
 
 ## Contributing
 
