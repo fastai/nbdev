@@ -3,8 +3,8 @@
 # %% auto 0
 __all__ = ['DEFAULT_FM_KEYS', 'nbflags_', 'cell_lang', 'add_links', 'strip_ansi', 'strip_hidden_metadata', 'hide_', 'hide_line',
            'filter_stream_', 'clean_magics', 'lang_identify', 'rm_header_dash', 'rm_export', 'clean_show_doc',
-           'exec_show_docs', 'populate_language', 'insert_warning', 'add_show_docs', 'is_frontmatter', 'nb_fmdict',
-           'construct_fm', 'insert_frontmatter', 'infer_frontmatter']
+           'exec_show_docs', 'populate_language', 'insert_warning', 'add_show_docs', 'is_frontmatter', 'yaml_str',
+           'nb_fmdict', 'construct_fm', 'insert_frontmatter', 'infer_frontmatter']
 
 # %% ../nbs/09_processors.ipynb 2
 import ast
@@ -202,6 +202,13 @@ def _default_exp(nb):
     return default_exp.group(1) if default_exp else None
 
 # %% ../nbs/09_processors.ipynb 52
+def yaml_str(s:str):
+    "Create a valid YAML string from `s`"
+    if s[0]=='"' and s[-1]=='"': return s
+    res = s.replace('\\', '\\\\').replace('"', r'\"')
+    return f'"{res}"'
+
+# %% ../nbs/09_processors.ipynb 53
 def nb_fmdict(nb, remove=True): 
     "Infer the front matter from a notebook's markdown formatting"
     md_cells = _celltyp(nb, 'markdown').filter(_istitle)
@@ -212,12 +219,12 @@ def nb_fmdict(nb, remove=True):
         flags = re.findall('^-\s+(.*)', cell.source, flags=re.MULTILINE)
         flags = [s.split(':', 1) for s in flags if ':' in s] if flags else []
         flags = merge({k:v for k,v in flags if k and v}, 
-                      {'title':title}, {'description':desc} if desc else {})
+                      {'title':yaml_str(title)}, {'description':yaml_str(desc)} if desc else {})
         if remove: cell['source'] = None
         return flags
     else: return {}
 
-# %% ../nbs/09_processors.ipynb 55
+# %% ../nbs/09_processors.ipynb 56
 DEFAULT_FM_KEYS = ['title', 'description', 'author', 'image', 'categories', 'output-file', 'aliases']
 
 def construct_fm(fmdict:dict, keys = DEFAULT_FM_KEYS):
@@ -225,13 +232,13 @@ def construct_fm(fmdict:dict, keys = DEFAULT_FM_KEYS):
     if not fmdict: return None
     return '---\n'+'\n'.join([f"{k}: {fmdict[k]}" for k in keys if k in fmdict])+'\n---'
 
-# %% ../nbs/09_processors.ipynb 57
+# %% ../nbs/09_processors.ipynb 58
 def insert_frontmatter(nb, fm_dict:dict, filter_keys:list=DEFAULT_FM_KEYS):
     "Add frontmatter into notebook based on `filter_keys` that exist in `fmdict`."
     fm = construct_fm(fm_dict, keys=filter_keys)
     if fm: nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=fm, directives_={})))
 
-# %% ../nbs/09_processors.ipynb 58
+# %% ../nbs/09_processors.ipynb 59
 def infer_frontmatter(nb):
     "Insert front matter if it doesn't exist automatically from nbdev styled markdown."
     if is_frontmatter(nb): return
