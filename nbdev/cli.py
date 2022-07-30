@@ -144,20 +144,21 @@ def update_version():
     with open(fname, 'w') as f: f.write(code)
 
 
-def bump_version(version, part=2):
+def bump_version(version, part=2, unbump=False):
     version = version.split('.')
-    version[part] = str(int(version[part]) + 1)
+    incr = -1 if unbump else 1
+    version[part] = str(int(version[part]) + incr)
     for i in range(part+1, 3): version[i] = '0'
     return '.'.join(version)
 
 @call_parse
 def nbdev_bump_version(
-    part:int=2  # Part of version to bump
-):
+    part:int=2,  # Part of version to bump
+    unbump:bool=False):  # Reduce version instead of increasing it
     "Increment version in settings.ini by one"
     cfg = get_config()
     print(f'Old version: {cfg.version}')
-    cfg.d['version'] = bump_version(get_config().version, part)
+    cfg.d['version'] = bump_version(get_config().version, part, unbump=unbump)
     cfg.save()
     update_version()
     print(f'New version: {cfg.version}')
