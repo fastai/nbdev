@@ -12,6 +12,7 @@ d = { 'settings': { 'audience': 'Developers',
                                    'nbdev_trust=nbdev.clean:nbdev_trust\n'
                                    'nbdev_clean=nbdev.clean:nbdev_clean\n'
                                    'nbdev_install_hooks=nbdev.clean:nbdev_install_hooks\n'
+                                   'nbdev_install_jupyter_hooks=nbdev.clean:nbdev_install_jupyter_hooks\n'
                                    'nbdev_filter=nbdev.cli:nbdev_filter\n'
                                    'nbdev_quarto=nbdev.cli:nbdev_quarto\n'
                                    'nbdev_ghp_deploy=nbdev.cli:nbdev_ghp_deploy\n'
@@ -56,9 +57,11 @@ d = { 'settings': { 'audience': 'Developers',
                 'tst_flags': 'notest',
                 'user': 'fastai',
                 'version': '2.0.6'},
-  'syms': { 'nbdev.clean': { 'nbdev.clean.clean_nb': 'https://nbdev.fast.ai/clean.html#clean_nb',
+  'syms': { 'nbdev.clean': { 'nbdev.clean.clean_jupyter': 'https://nbdev.fast.ai/clean.html#clean_jupyter',
+                             'nbdev.clean.clean_nb': 'https://nbdev.fast.ai/clean.html#clean_nb',
                              'nbdev.clean.nbdev_clean': 'https://nbdev.fast.ai/clean.html#nbdev_clean',
                              'nbdev.clean.nbdev_install_hooks': 'https://nbdev.fast.ai/clean.html#nbdev_install_hooks',
+                             'nbdev.clean.nbdev_install_jupyter_hooks': 'https://nbdev.fast.ai/clean.html#nbdev_install_jupyter_hooks',
                              'nbdev.clean.nbdev_trust': 'https://nbdev.fast.ai/clean.html#nbdev_trust',
                              'nbdev.clean.process_write': 'https://nbdev.fast.ai/clean.html#process_write'},
             'nbdev.cli': { 'nbdev.cli.FilterDefaults': 'https://nbdev.fast.ai/cli.html#filterdefaults',
