@@ -20,51 +20,13 @@ import ast,contextlib,copy
 from collections import defaultdict
 
 # %% ../nbs/03_process.ipynb 6
-#from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/jupyter/notebook.py
-langs = defaultdict(lambda: '#', 
-  r = "#",
-  python = "#",
-  julia = "#",
-  scala = "//",
-  matlab = "%",
-  csharp = "//",
-  fsharp = "//",
-  c = ["/*",  "*/"],
-  css = ["/*",  "*/"],
-  sas = ["*", ";"],
-  powershell = "#",
-  bash = "#",
-  sql = "--",
-  mysql = "--",
-  psql = "--",
-  lua = "--",
-  cpp = "//",
-  cc = "//",
-  stan = "#",
-  octave = "#",
-  fortran = "!",
-  fortran95 = "!",
-  awk = "#",
-  gawk = "#",
-  stata = "*",
-  java = "//",
-  groovy = "//",
-  sed = "#",
-  perl = "#",
-  ruby = "#",
-  tikz = "%",
-  javascript = "//",
-  js = "//",
-  d3 = "//",
-  node = "//",
-  sass = "//",
-  coffee = "#",
-  go = "//",
-  asy = "//",
-  haskell = "--",
-  dot = "//",
-  apl = "⍝"
-)
+# from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/jupyter/notebook.py
+langs = defaultdict(
+    lambda: '#',  r = "#", python = "#", julia = "#", scala = "//", matlab = "%", csharp = "//", fsharp = "//",
+    c = ["/*","*/"], css = ["/*","*/"], sas = ["*",";"], powershell = "#", bash = "#", sql = "--", mysql = "--", psql = "--",
+    lua = "--", cpp = "//", cc = "//", stan = "#", octave = "#", fortran = "!", fortran95 = "!", awk = "#", gawk = "#", stata = "*",
+    java = "//", groovy = "//", sed = "#", perl = "#", ruby = "#", tikz = "%", javascript = "//", js = "//", d3 = "//", node = "//",
+    sass = "//", coffee = "#", go = "//", asy = "//", haskell = "--", dot = "//", apl = "⍝")
 
 # %% ../nbs/03_process.ipynb 7
 def nb_lang(nb): return nested_attr(nb, 'metadata.kernelspec.language', 'python')

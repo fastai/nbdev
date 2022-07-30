@@ -150,8 +150,7 @@ def nbdev_export(
     if os.environ.get('IN_TEST',0): return
     files = nbglob(path=path, recursive=recursive, file_re=file_re, 
                    folder_re=folder_re, skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, symlinks=symlinks)
-    for f in files:
-        nb_export(f)
+    for f in files: nb_export(f)
     add_init(get_config().path('lib_path'))
     build_modidx()
 

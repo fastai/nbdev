@@ -47,7 +47,11 @@ def create_modules(path, dest, procs=None, debug=False, mod_maker=ModuleMaker):
     nb.process()
     for mod,cells in exp.modules.items():
         all_cells = exp.in_all[mod]
-        name = exp.default_exp if mod=='#' else mod
+        name = getattr(exp, 'default_exp', None) if mod=='#' else mod
+        if not name:
+            warn("Could not find `#|default_exp` cell. Note nbdev2 no longer supports nbdev1 syntax. Run `nbdev_migrate` to upgrade.\n"
+                "See https://nbdev.fast.ai/getting_started.html for more information.")
+            return
         mm = mod_maker(dest=dest, name=name, nb_path=path, is_new=mod=='#')
         mm.make(cells, all_cells)
 
