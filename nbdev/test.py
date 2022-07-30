@@ -82,7 +82,7 @@ def nbdev_test(
         print('No files were eligible for testing')
         return
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
-    os.chdir(config_key("nbs_path"))
+    os.chdir(config_key("nbs_path", "."))
     results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers, pause=pause, do_print=do_print)
     passed,times = zip(*results)
     if all(passed): print("Success.")

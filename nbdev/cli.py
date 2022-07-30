@@ -21,7 +21,8 @@ import os, tarfile, subprocess, sys
 
 # %% auto 0
 __all__ = ['nbdev_ghp_deploy', 'nbdev_sidebar', 'FilterDefaults', 'nbdev_filter', 'update_version', 'bump_version',
-           'nbdev_bump_version', 'extract_tgz', 'prompt_user', 'refresh_quarto_yml', 'nbdev_new', 'nbdev_quarto']
+           'nbdev_bump_version', 'extract_tgz', 'prompt_user', 'refresh_quarto_yml', 'nbdev_new', 'nbdev_readme',
+           'nbdev_quarto']
 
 # %% ../nbs/10_cli.ipynb 5
 @call_parse
@@ -59,7 +60,7 @@ def nbdev_sidebar(
 ):
     "Create sidebar.yml"
     if not force and str2bool(config_key('custom_sidebar', path=False)): return
-    path = config_key("nbs_path") if not path else Path(path)
+    path = config_key("nbs_path", ".") if not path else Path(path)
     files = nbglob(path, func=_f, symlinks=symlinks, file_re=file_re, folder_re=folder_re, file_glob=file_glob,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re).sorted(key=_sort)
     lastd,res = Path(),[]
@@ -301,6 +302,30 @@ def _sprun(cmd):
     except subprocess.CalledProcessError as cpe: sys.exit(cpe.returncode)
 
 # %% ../nbs/10_cli.ipynb 26
+def _doc_paths(path:str=None, doc_path:str=None):
+    cfg = get_config()
+    cfg_path = cfg.config_path
+    path = config_key("nbs_path", ".") if not path else Path(path)
+    doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
+    tmp_doc_path = path/f"{cfg['doc_path']}"
+    return cfg,cfg_path,path,doc_path,tmp_doc_path
+
+# %% ../nbs/10_cli.ipynb 27
+@call_parse
+def nbdev_readme(
+    path:str=None, # Path to notebooks
+    doc_path:str=None): # Path to output docs
+    "Render README.md from index.ipynb"
+    cfg,cfg_path,path,doc_path,tmp_doc_path = _doc_paths(path, doc_path)
+    idx_path = path/config_key('readme_nb', 'index.ipynb', path=False)
+    if idx_path.exists(): 
+        _sprun(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute')
+    if (tmp_doc_path/'README.md').exists():
+        _rdm = cfg_path/'README.md'
+        if _rdm.exists(): _rdm.unlink() # py37 doesn't have arg missing_ok so have to check first
+        shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
+
+# %% ../nbs/10_cli.ipynb 28
 @call_parse
 def nbdev_quarto(
     path:str=None, # Path to notebooks
@@ -313,27 +338,15 @@ def nbdev_quarto(
     preview:bool=False # Preview the site instead of building it
 ):
     "Create Quarto docs and README.md"
-    cfg = get_config()
-    cfg_path = cfg.config_path
+    cfg,cfg_path,path,doc_path,tmp_doc_path = _doc_paths(path, doc_path)
     refresh_quarto_yml()
-    path = config_key("nbs_path") if not path else Path(path)
-    idx_path = path/config_key('readme_nb', 'index.ipynb', path=False)
     files = nbdev_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
                             skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, returnit=True)
-    doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
-    tmp_doc_path = config_key('nbs_path')/f"{cfg['doc_path']}"
     shutil.rmtree(doc_path, ignore_errors=True)
     cmd = 'preview' if preview else 'render'
     _sprun(f'cd {path} && quarto {cmd} --no-execute')
     if not preview:
-        if idx_path.exists(): 
-            _sprun(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute')
-
-        if (tmp_doc_path/'README.md').exists():
-            _rdm = cfg_path/'README.md'
-            if _rdm.exists(): _rdm.unlink() #py 3.7 doesn't have arg missing_ok so have to check first
-            shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
-
+        nbdev_readme.__wrapped__(path, doc_path)
         if tmp_doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
             shutil.rmtree(doc_path, ignore_errors=True)
             shutil.move(tmp_doc_path, cfg_path)

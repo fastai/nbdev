@@ -117,7 +117,7 @@ def build_modidx():
     dest = config_key('lib_path')
     if os.environ.get('IN_TEST',0): return
     _fn = dest/'_modidx.py'
-    nbs_path = config_key('nbs_path')
+    nbs_path = config_key('nbs_path', '.')
     files = globtastic(nbs_path)
     with contextlib.suppress(FileNotFoundError): _fn.unlink()
     cfg = get_config()

@@ -29,6 +29,7 @@ d = { 'settings': { 'audience': 'Developers',
                                    'nbdev_conda=nbdev.shortcuts:conda\n'
                                    'nbdev_release=nbdev.shortcuts:release\n'
                                    'nbdev_prepare=nbdev.shortcuts:prepare\n'
+                                   'nbdev_readme=nbdev.cli:nbdev_readme\n'
                                    'nbdev_help=nbdev.shortcuts:chelp',
                 'copyright': '2020 onwards, Jeremy Howard',
                 'custom_sidebar': 'True',
@@ -75,6 +76,7 @@ d = { 'settings': { 'audience': 'Developers',
                            'nbdev.cli.nbdev_ghp_deploy': 'https://nbdev.fast.ai/cli.html#nbdev_ghp_deploy',
                            'nbdev.cli.nbdev_new': 'https://nbdev.fast.ai/cli.html#nbdev_new',
                            'nbdev.cli.nbdev_quarto': 'https://nbdev.fast.ai/cli.html#nbdev_quarto',
+                           'nbdev.cli.nbdev_readme': 'https://nbdev.fast.ai/cli.html#nbdev_readme',
                            'nbdev.cli.nbdev_sidebar': 'https://nbdev.fast.ai/cli.html#nbdev_sidebar',
                            'nbdev.cli.prompt_user': 'https://nbdev.fast.ai/cli.html#prompt_user',
                            'nbdev.cli.refresh_quarto_yml': 'https://nbdev.fast.ai/cli.html#refresh_quarto_yml',
