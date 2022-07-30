@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.0.5
+
+### New Features
+
+- add `nbdev_readme` ([#688](https://github.com/fastai/nbdev/issues/688))
+
+
 ## 2.0.4
 
 ### New Features
