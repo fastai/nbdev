@@ -2,6 +2,17 @@
 
 <!-- do not remove -->
 
+## 2.0.6
+
+### New Features
+
+- new jupyter save hook to clean NBs ([#697](https://github.com/fastai/nbdev/issues/697)), thanks to [@seeM](https://github.com/seeM)
+- new directive `exec_doc` to auto-exec cell when building docs ([#699](https://github.com/fastai/nbdev/issues/699))
+- automatically escape YAML strings for title and description in frontmatter ([#691](https://github.com/fastai/nbdev/issues/691))
+- add `unbump` param to `nbdev_bump_version` ([#689](https://github.com/fastai/nbdev/issues/689))
+- install ghapi automatically ([#690](https://github.com/fastai/nbdev/issues/690))
+
+
 ## 2.0.5
 
 ### New Features
