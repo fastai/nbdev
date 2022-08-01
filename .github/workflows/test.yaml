@@ -20,7 +20,6 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.version }}
-          architecture: "x64"
           cache: "pip"
           cache-dependency-path: settings.ini
       - name: Install Dependencies
