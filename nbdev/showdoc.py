@@ -35,9 +35,6 @@ def _maybe_nm(o):
 def _list2row(l:list): return '| '+' | '.join([_maybe_nm(o) for o in l]) + ' |'
 
 # %% ../nbs/08_showdoc.ipynb 13
-def _basic_repr(o): return f'<{type(o).__module__}.{type(o).__name__}>'
-
-# %% ../nbs/08_showdoc.ipynb 14
 class DocmentTbl:
     # this is the column order we want these items to appear
     _map = OrderedDict({'anno':'Type', 'default':'Default', 'docment':'Details'})
@@ -107,9 +104,9 @@ class DocmentTbl:
     def __eq__(self,other): return self.__str__() == str(other).strip()
 
     def __str__(self): return self._repr_markdown_()
-    __repr__ = _basic_repr
+    __repr__ = basic_repr()
 
-# %% ../nbs/08_showdoc.ipynb 29
+# %% ../nbs/08_showdoc.ipynb 28
 class ShowDocRenderer:
     def __init__(self, sym, disp:bool=True, name:str|None=None, title_level:int|None=None):
         "Show documentation for `sym`"
@@ -124,9 +121,9 @@ class ShowDocRenderer:
         self.docs = docstring(sym)
         self.dm = DocmentTbl(sym)
         
-    __repr__ = _basic_repr
+    __repr__ = basic_repr()
 
-# %% ../nbs/08_showdoc.ipynb 30
+# %% ../nbs/08_showdoc.ipynb 29
 def _fmt_sig(sig):
     if sig is None: return ''
     p = {k:v for k,v in sig.parameters.items()}
@@ -139,7 +136,7 @@ def _wrap_sig(s):
     indent = pad + ' ' * (s.find('(') + 1)
     return fill(s, width=80, initial_indent=pad, subsequent_indent=indent)
 
-# %% ../nbs/08_showdoc.ipynb 32
+# %% ../nbs/08_showdoc.ipynb 31
 class BasicMarkdownRenderer(ShowDocRenderer):
     def _repr_markdown_(self):
         doc = '---\n\n'
@@ -150,7 +147,7 @@ class BasicMarkdownRenderer(ShowDocRenderer):
         if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 33
+# %% ../nbs/08_showdoc.ipynb 32
 def show_doc(sym, disp=True, renderer=None, name:str|None=None, title_level:int|None=None):
     if renderer is None: renderer = get_config().get('renderer', None)
     if renderer is None: renderer=BasicMarkdownRenderer
@@ -160,7 +157,7 @@ def show_doc(sym, disp=True, renderer=None, name:str|None=None, title_level:int|
     if isinstance(sym, TypeDispatch): pass
     else:return renderer(sym or show_doc, disp=disp, name=name, title_level=title_level)
 
-# %% ../nbs/08_showdoc.ipynb 47
+# %% ../nbs/08_showdoc.ipynb 46
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
@@ -169,12 +166,12 @@ class BasicHtmlRenderer(ShowDocRenderer):
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 52
+# %% ../nbs/08_showdoc.ipynb 51
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(get_patch_name(tree), tree.name)
 
-# %% ../nbs/08_showdoc.ipynb 55
+# %% ../nbs/08_showdoc.ipynb 54
 def colab_link(path):
     "Get a link to the notebook at `path` on Colab"
     from IPython.display import Markdown
