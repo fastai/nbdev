@@ -1,4 +1,4 @@
-__version__ = "2.0.7"
+__version__ = "2.0.8"
 
 from .doclinks import nbdev_export
 from .showdoc import show_doc
