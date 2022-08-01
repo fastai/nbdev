@@ -2,6 +2,21 @@
 
 <!-- do not remove -->
 
+## 2.0.7
+
+### New Features
+
+- git merge hooks: automatically resolve conflicts and render markers as separate cells ([#704](https://github.com/fastai/nbdev/pull/704)), thanks to [@seeM](https://github.com/seeM)
+- Allow clean to keep some metadata keys ([#672](https://github.com/fastai/nbdev/pull/672)), thanks to [@dleen](https://github.com/dleen)
+- enable mac terminal install instead of visual installer ([#705](https://github.com/fastai/nbdev/pull/705)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Conditional content for markdown vs HTML for README ([#694](https://github.com/fastai/nbdev/pull/694)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Export a single module ([#652](https://github.com/fastai/nbdev/issues/652))
+
+### Bugs Squashed
+
+- Re-enable Mac CI [#425](https://github.com/fastai/nbdev/issues/425))
+
+
 ## 2.0.6
 
 ### New Features
