@@ -9,6 +9,7 @@ d = { 'settings': { 'audience': 'Developers',
                                    'nbdev_update=nbdev.sync:nbdev_update\n'
                                    'nbdev_export=nbdev.doclinks:nbdev_export\n'
                                    'nbdev_fix=nbdev.merge:nbdev_fix\n'
+                                   'nbdev_merge=nbdev.merge:nbdev_merge\n'
                                    'nbdev_trust=nbdev.clean:nbdev_trust\n'
                                    'nbdev_clean=nbdev.clean:nbdev_clean\n'
                                    'nbdev_install_hooks=nbdev.clean:nbdev_install_hooks\n'
@@ -120,6 +121,7 @@ d = { 'settings': { 'audience': 'Developers',
                              'nbdev.maker.update_var': 'https://nbdev.fast.ai/maker.html#update_var'},
             'nbdev.merge': { 'nbdev.merge.conf_re': 'https://nbdev.fast.ai/merge.html#conf_re',
                              'nbdev.merge.nbdev_fix': 'https://nbdev.fast.ai/merge.html#nbdev_fix',
+                             'nbdev.merge.nbdev_merge': 'https://nbdev.fast.ai/merge.html#nbdev_merge',
                              'nbdev.merge.unpatch': 'https://nbdev.fast.ai/merge.html#unpatch'},
             'nbdev.migrate': { 'nbdev.migrate.migrate_md_fm': 'https://nbdev.fast.ai/migrate.html#migrate_md_fm',
                                'nbdev.migrate.migrate_nb_fm': 'https://nbdev.fast.ai/migrate.html#migrate_nb_fm',
