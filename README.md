@@ -8,7 +8,7 @@ to nbdev1 aren’t huge, it does require some changes. The old version
 docs are at [nbdev1.fast.ai](https://nbdev1.fast.ai). You can use
 version-pinning in `settings.ini` (i.e `'nbdev<2'`) to stop nbdev from
 upgrading. To upgrade, follow the [migration
-tutorial](/migrating.html).*
+tutorial](https://nbdev.fast.ai/migrate.html).*
 
 ------------------------------------------------------------------------
 
@@ -45,11 +45,14 @@ practices because tests and documentation are first class.
 
 ## Install
 
-With pip:
+nbdev works on macOS, Linux, and most Unix-style operating systems. It
+works on Windows under WSL, but not under cmd or Powershell.
+
+You can install nbdev with pip:
 
     pip install nbdev
 
-With conda:
+… or with conda (or mamba):
 
     conda install -c fastai nbdev
 
@@ -80,7 +83,7 @@ src="https://github.com/fastai/logos/raw/main/nbdev_walkthrough.png" /></a>
 </div>
 
 (There’s an [alternate version of the
-walkthru](https://youtu.be/67FdzLSt4aA) avaialable with the coding
+walkthru](https://youtu.be/67FdzLSt4aA) available with the coding
 sections sped up using the `unsilence` python library – it’s 27 minutes
 faster, but it’s be harder to follow along with.)
 
