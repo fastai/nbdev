@@ -56,7 +56,7 @@ def create_modules(path, dest, procs=None, debug=False, mod_maker=ModuleMaker):
         mm = mod_maker(dest=dest, name=name, nb_path=path, is_new=mod=='#')
         mm.make(cells, all_cells, lib_path=dest)
 
-# %% ../nbs/04a_export.ipynb 17
+# %% ../nbs/04a_export.ipynb 16
 def nb_export(nbname, lib_path=None):
     if lib_path is None: lib_path = get_config().path('lib_path')
     create_modules(nbname, lib_path, procs=[black_format])
