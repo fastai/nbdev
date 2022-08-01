@@ -142,6 +142,7 @@ def _nested_setdefault(o, attr, default):
 def nbdev_install_hooks():
     "Install Jupyter and git hooks to automatically clean, trust, and fix merge conflicts in notebooks"
     cfg_path = Path.home()/'.jupyter'
+    cfg_path.mkdir(exist_ok=True)
     cfg_fns = [cfg_path/f'jupyter_{o}_config.json' for o in ('notebook','server')]
     attr,hook = 'ContentsManager.pre_save_hook','nbdev.clean.clean_jupyter'
     for fn in cfg_fns:
