@@ -10,9 +10,7 @@ from .export import *
 from .imports import *
 
 from fastcore.script import *
-from fastcore.imports import *
-from fastcore.basics import *
-from fastcore.imports import *
+from fastcore.utils import *
 from fastcore.meta import delegates
 
 import ast,contextlib
@@ -58,7 +56,6 @@ def _binop_leafs(bo, o):
     else: right = [f'{unparse(bo.right).strip()}.{o.name}']
     return concat(left + right)
 
-# %% ../nbs/04b_doclinks.ipynb 16
 def _all_or_exports(fn):
     code = Path(fn).read_text()
     trees = L(ast.parse(code).body)
@@ -69,10 +66,7 @@ def _get_patch(o):
     if not isinstance(o, (ast.FunctionDef,ast.AsyncFunctionDef)): return
     return first([d for d in o.decorator_list if decor_id(d).startswith('patch')])
 
-def _id_or_attr(a):
-    if hasattr(a, 'id'): return a.id
-    return a.attr
-
+# %% ../nbs/04b_doclinks.ipynb 16
 def get_patch_name(o):
     d = _get_patch(o)
     if not d: return
@@ -98,20 +92,20 @@ def update_syms(self:DocLinks):
     exp = exp.map(f"{self.mod_name}.{{}}")
     self.d['syms'][self.mod_name] = exp.map_dict(partial(self.doc_func, self.mod_name))
 
-# %% ../nbs/04b_doclinks.ipynb 23
+# %% ../nbs/04b_doclinks.ipynb 24
 @patch
 def build_index(self:DocLinks):
     self.update_syms()
     self.d['settings'] = dict(**get_config().d)
     self.write_nbdev_idx()
 
-# %% ../nbs/04b_doclinks.ipynb 25
+# %% ../nbs/04b_doclinks.ipynb 26
 def _doc_link(url, mod, sym=None):
     res = urljoin(url, remove_prefix(mod, get_config()['lib_name']+".")) + '.html'
     if sym: res += "#" + remove_prefix(sym, mod+".").lower()
     return res
 
-# %% ../nbs/04b_doclinks.ipynb 26
+# %% ../nbs/04b_doclinks.ipynb 27
 def build_modidx():
     "Create _modidx.py"
     dest = config_key('lib_path')
@@ -125,7 +119,7 @@ def build_modidx():
     for file in dest.glob("**/*.py"):
         if file.name[0]!='_': DocLinks(file, doc_func, _fn).build_index()
 
-# %% ../nbs/04b_doclinks.ipynb 27
+# %% ../nbs/04b_doclinks.ipynb 28
 @delegates(globtastic, but=['file_glob', 'skip_folder_re'])
 def nbglob(path=None, skip_folder_re = '^[_.]', file_glob='*.ipynb', recursive=True, key='nbs_path',
            as_path=False, **kwargs):
@@ -135,7 +129,7 @@ def nbglob(path=None, skip_folder_re = '^[_.]', file_glob='*.ipynb', recursive=T
     res = globtastic(path, file_glob=file_glob, skip_folder_re=skip_folder_re, **kwargs)
     return res.map(Path) if as_path else res
 
-# %% ../nbs/04b_doclinks.ipynb 28
+# %% ../nbs/04b_doclinks.ipynb 29
 @call_parse
 def nbdev_export(
     path:str=None, # Path or filename
@@ -154,14 +148,14 @@ def nbdev_export(
     add_init(get_config().path('lib_path'))
     build_modidx()
 
-# %% ../nbs/04b_doclinks.ipynb 30
+# %% ../nbs/04b_doclinks.ipynb 31
 def _settings_libs():
     try: # settings.ini doesn't exist yet until you call nbdev_new
         cfg = get_config()
         return cfg.get('strip_libs', cfg.get('lib_path')).split()
     except FileNotFoundError: return 'nbdev'
 
-# %% ../nbs/04b_doclinks.ipynb 31
+# %% ../nbs/04b_doclinks.ipynb 32
 class NbdevLookup:
     "Mapping from symbol names to URLs with docs"
     def __init__(self, strip_libs=None, incl_libs=None, skip_mods=None):
@@ -184,7 +178,7 @@ class NbdevLookup:
 
     def __getitem__(self, s): return self.syms.get(s, None)
 
-# %% ../nbs/04b_doclinks.ipynb 39
+# %% ../nbs/04b_doclinks.ipynb 40
 @patch
 def _link_sym(self:NbdevLookup, m):
     l = m.group(1)

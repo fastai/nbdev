@@ -30,7 +30,8 @@ class ExportModuleProc:
 def black_format(cell, # A cell node 
                  force=False): # Turn black formatting on regardless of settings.ini
     "Format code with `black`"
-    cfg = get_config()
+    try: cfg = get_config()
+    except FileNotFoundError: return
     if (str(cfg.get('black_formatting')).lower() != 'true' and not force) or cell.cell_type != 'code': return
     try: import black
     except: raise ImportError("You must install black: `pip install black` if you wish to use black formatting with nbdev")
@@ -53,9 +54,9 @@ def create_modules(path, dest, procs=None, debug=False, mod_maker=ModuleMaker):
                 "See https://nbdev.fast.ai/getting_started.html for more information.")
             return
         mm = mod_maker(dest=dest, name=name, nb_path=path, is_new=mod=='#')
-        mm.make(cells, all_cells)
+        mm.make(cells, all_cells, lib_path=dest)
 
-# %% ../nbs/04a_export.ipynb 16
+# %% ../nbs/04a_export.ipynb 17
 def nb_export(nbname, lib_path=None):
     if lib_path is None: lib_path = get_config().path('lib_path')
     create_modules(nbname, lib_path, procs=[black_format])

@@ -48,6 +48,8 @@ def nbdev_create_config(
     doc_path:str='_docs', # Folder name containing docs
     tst_flags:str='', # Test flags
     version:str='0.0.1', # Version number
+    doc_host:str='example.org',  # Hostname for docs
+    doc_base_url:str='/',  # Base URL for docs
     keywords='python', # Keywords for PyPI
     license='apache2', # License for PyPI
     copyright='', # Copyright for PyPI, defaults to author from current year
