@@ -8,11 +8,12 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}-latest
     continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
+        os:  [ubuntu, macos]
         version: ["3.7", "3.8", "3.9", "3.10"]
     steps:
       - uses: actions/checkout@v3
