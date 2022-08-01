@@ -29,7 +29,7 @@ def _install_linux():
     
 def _install_mac():
     system(f'curl -LO {BASE_QUARTO_URL}quarto-macos.pkg')
-    system('open quarto-macos.pkg')
+    system('sudo installer -pkg quarto-macos.pkg -target /')
 
 def install_quarto():
     "Install latest Quarto on macOS or Linux, prints instructions for Windows"
