@@ -112,12 +112,11 @@ class FilterDefaults:
 @call_parse
 def nbdev_filter(
     nb_txt:str=None,  # Notebook text (uses stdin if not provided)
-    fname:str=None  # Notebook to read (uses `nb_txt` if not provided)
+    fname:str=None,  # Notebook to read (uses `nb_txt` if not provided)
 ):
     "A notebook filter for Quarto"
-    os.environ["IN_TEST"] = "1"    
-    try: filt = get_config().get('exporter', FilterDefaults)()
-    except FileNotFoundError: filt = FilterDefaults()
+    os.environ["IN_TEST"] = "1"
+    filt = get_config().get('exporter', FilterDefaults)()
     printit = False
     if fname: nb_txt = Path(fname).read_text()
     elif not nb_txt: nb_txt,printit = sys.stdin.read(),True
@@ -182,7 +181,7 @@ Edit `settings.ini` to verify all information is correct.
     
     try: r = api.repos.get()
     except HTTPError:
-        msg= [f"""Could not access repo: {owner}/{repo} to find your default branch - `{default} assumed.
+        msg= [f"""Could not access repo: {owner}/{repo} to find your default branch - `{default_branch} assumed.
 Edit `settings.ini` if this is incorrect.
 In the future, you can allow nbdev to see private repos by setting the environment variable GITHUB_TOKEN as described here:
 https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
@@ -210,13 +209,14 @@ def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     try:
         url = run('git config --get remote.origin.url')
-        owner,repo = repo_details(url)
-        branch,keywords,descrip = _get_info(owner=owner, repo=repo)
         author = run('git config --get user.name').strip()
         email = run('git config --get user.email').strip()
-    except Exception as e:
+        owner,repo = repo_details(url)
+        branch,keywords,descrip = _get_info(owner=owner, repo=repo)
+    except OSError as e:
         if raise_err: raise(e)
-        return dict(lib_name=None,user=None,branch=None,author=None,author_email=None,keywords=None,description=None, repo=None)
+        return dict(lib_name=None,user=None,branch=None,author=None,author_email=None,
+                    keywords=None,description=None,repo=None)
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, 
                 author_email=email, keywords=keywords, description=descrip, repo=repo)
 
