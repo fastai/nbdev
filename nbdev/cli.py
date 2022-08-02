@@ -35,7 +35,7 @@ def nbdev_ghp_deploy():
     ghp_import(config_key('doc_path'), push=True, stderr=True, no_history=True)
 
 # %% ../nbs/10_cli.ipynb 7
-_def_file_re = '\.(?:ipynb|md|html)$'
+_def_file_re = '\.(?:ipynb|qmd|html)$'
 
 def _f(a,b): return Path(a),b
 def _pre(p,b=True): return '    ' * (len(p.parts)) + ('- ' if b else '  ')
@@ -229,6 +229,7 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
+    toc-depth: 4
 
 website:
   title: "{title}"

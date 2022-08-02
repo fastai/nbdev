@@ -113,7 +113,7 @@ def _is_showdoc(cell): return cell['cell_type'] == 'code' and _re_showdoc.search
 def clean_show_doc(cell):
     "Remove ShowDoc input cells"
     if not _is_showdoc(cell): return
-    cell.source = '#| echo: false\n' + cell.source
+    cell.source = '#|output: asis\n#| echo: false\n' + cell.source
 
 # %% ../nbs/09_processors.ipynb 33
 _imps = {ast.Import, ast.ImportFrom}
