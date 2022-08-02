@@ -170,13 +170,7 @@ def extract_tgz(url, dest='.'):
 
 # %% ../nbs/10_cli.ipynb 17
 def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
-    try: from ghapi.all import GhApi
-    except: 
-        print('''Could not get information from GitHub automatically because `ghapi` is not installed.
-Edit `settings.ini` to verify all information is correct.
-''')
-        return (default_branch,default_kw,'')
-    
+    from ghapi.all import GhApi
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
     
     try: r = api.repos.get()
