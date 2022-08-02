@@ -73,7 +73,7 @@ def nbdev_test(
     ignore_fname:str='.notest' # Filename that will result in siblings being ignored
 ):
     "Test in parallel notebooks matching `fname`, passing along `flags`"
-    skip_flags = config_key('tst_flags', '', path=False).split()
+    skip_flags = config_key('tst_flags', '', path=False, missing_ok=True).split()
     force_flags = flags.split()
     files = nbglob(fname, recursive=recursive, file_re=file_re, folder_re=folder_re,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, as_path=True, symlinks=symlinks)
@@ -82,7 +82,7 @@ def nbdev_test(
         print('No files were eligible for testing')
         return
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
-    os.chdir(config_key("nbs_path", "."))
+    os.chdir(config_key("nbs_path", ".", missing_ok=True))
     results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers, pause=pause, do_print=do_print)
     passed,times = zip(*results)
     if all(passed): print("Success.")
