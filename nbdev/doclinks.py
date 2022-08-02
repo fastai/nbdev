@@ -152,7 +152,7 @@ def nbdev_export(
 def _settings_libs():
     try: # settings.ini doesn't exist yet until you call nbdev_new
         cfg = get_config()
-        return cfg.get('strip_libs', cfg.get('lib_path')).split()
+        return cfg.get('strip_libs', cfg.get('lib_path', 'nbdev')).split()
     except FileNotFoundError: return 'nbdev'
 
 # %% ../nbs/04b_doclinks.ipynb 32
