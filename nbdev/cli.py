@@ -216,8 +216,7 @@ def _fetch_from_git(raise_err=False):
         branch,keywords,descrip = _get_info(owner=owner, repo=repo)
     except OSError as e:
         if raise_err: raise(e)
-        return dict(lib_name=None,user=None,branch=None,author=None,author_email=None,
-                    keywords=None,description=None,repo=None)
+        return dict(lib_name=None,user=None,branch=None,author=None,author_email=None,keywords=None,description=None,repo=None)
     return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, 
                 author_email=email, keywords=keywords, description=descrip, repo=repo)
 
