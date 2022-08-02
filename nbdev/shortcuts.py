@@ -6,7 +6,6 @@ __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'docs', 'preview', 'd
 
 # %% ../nbs/16_shortcuts.ipynb 2
 import sys, shutil
-from pkg_resources import iter_entry_points as ep
 from os import system
 from fastcore.utils import *
 from fastcore.script import *
@@ -103,10 +102,8 @@ def prepare():
     _c(nbdev_clean)
 
 # %% ../nbs/16_shortcuts.ipynb 17
+@call_parse
 def chelp():
     "Show help for all console scripts"
-    for e in ep('console_scripts'): 
-        if e.module_name.startswith('nbdev'): 
-            nm = f'\033[1m\033[94m{e.name}\033[0m'
-            spc = ' ' * (40 - len(nm))
-            print(f'{nm}     {spc}{e.load().__doc__}')
+    from fastcore.xtras import console_help
+    console_help('nbdev')
