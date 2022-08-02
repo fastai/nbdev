@@ -2,6 +2,25 @@
 
 <!-- do not remove -->
 
+## 2.1.0
+
+### Breaking Changes
+
+- `nbdev_sidebar` now looks for `.qmd` files instead of `.md` files
+
+### New Features
+
+- automatically add `output:asis` for showdoc cells ([#726](https://github.com/fastai/nbdev/issues/726))
+- accelerate `nbdev_readme` ([#715](https://github.com/fastai/nbdev/issues/715))
+- deterministic `show_doc` and `DocmentTbl` `repr` ([#707](https://github.com/fastai/nbdev/pull/707)), thanks to [@seeM](https://github.com/seeM)
+
+### Bugs Squashed
+
+- KeyError 'repo' when trying to create a new nbdev project with `nbdev_new` ([#720](https://github.com/fastai/nbdev/issues/720))
+- `show_doc` ends the details column at any `|` character ([#712](https://github.com/fastai/nbdev/issues/712))
+- only add to `.gitattributes` if missing ([#706](https://github.com/fastai/nbdev/pull/706)), thanks to [@seeM](https://github.com/seeM)
+
+
 ## 2.0.7
 
 ### New Features
