@@ -171,13 +171,7 @@ def extract_tgz(url, dest='.'):
 
 # %% ../nbs/10_cli.ipynb 17
 def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
-    try: from ghapi.all import GhApi
-    except: 
-        print('''Could not get information from GitHub automatically because `ghapi` is not installed.
-Edit `settings.ini` to verify all information is correct.
-''')
-        return (default_branch,default_kw,'')
-    
+    from ghapi.all import GhApi
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
     
     try: r = api.repos.get()
@@ -313,21 +307,35 @@ def _doc_paths(path:str=None, doc_path:str=None):
     return cfg,cfg_path,path,doc_path,tmp_doc_path
 
 # %% ../nbs/10_cli.ipynb 27
+def _render_readme(path):
+    idx_path = path/config_key('readme_nb', 'index.ipynb', path=False)
+    if not idx_path.exists(): return
+
+    yml_path = path/'sidebar.yml'
+    moved=False
+    if yml_path.exists():
+        # move out of the way to avoid rendering whole website
+        yml_path.rename(path/'sidebar.yml.bak')
+        moved=True
+    try:
+        _sprun(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute')
+    finally:
+        if moved: (path/'sidebar.yml.bak').rename(yml_path)
+
+# %% ../nbs/10_cli.ipynb 28
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
     doc_path:str=None): # Path to output docs
     "Render README.md from index.ipynb"
     cfg,cfg_path,path,doc_path,tmp_doc_path = _doc_paths(path, doc_path)
-    idx_path = path/config_key('readme_nb', 'index.ipynb', path=False)
-    if idx_path.exists(): 
-        _sprun(f'cd {path} && quarto render {idx_path} -o README.md -t gfm --no-execute')
+    _render_readme(path)
     if (tmp_doc_path/'README.md').exists():
         _rdm = cfg_path/'README.md'
         if _rdm.exists(): _rdm.unlink() # py37 doesn't have arg missing_ok so have to check first
         shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
 
-# %% ../nbs/10_cli.ipynb 28
+# %% ../nbs/10_cli.ipynb 29
 @call_parse
 def nbdev_quarto(
     path:str=None, # Path to notebooks
