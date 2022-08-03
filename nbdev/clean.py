@@ -127,7 +127,8 @@ def clean_jupyter(path, model, **kwargs):
     except FileNotFoundError: return
     in_nbdev_repo = 'nbs_path' in cfg
     jupyter_hooks = str2bool(cfg.get('jupyter_hooks', True))
-    is_nb_v4 = (model['type'],model['content']['nbformat']) == ('notebook',4)
+    if model['type'] != 'notebook': return
+    is_nb_v4 = model['content']['nbformat'] == 4
     if in_nbdev_repo and jupyter_hooks and is_nb_v4: _nbdev_clean(model['content'])
 
 # %% ../nbs/11_clean.ipynb 26
