@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['GH_HOST', 'Release', 'changelog', 'release_git', 'release_gh']
 
-# %% ../nbs/17_release.ipynb 2
+# %% ../nbs/17_release.ipynb 15
 from fastcore.all import *
 from ghapi.core import *
 
@@ -11,16 +11,16 @@ from datetime import datetime
 from configparser import ConfigParser
 import shutil,subprocess
 
-# %% ../nbs/17_release.ipynb 4
+# %% ../nbs/17_release.ipynb 17
 GH_HOST = "https://api.github.com"
 
-# %% ../nbs/17_release.ipynb 5
+# %% ../nbs/17_release.ipynb 18
 def _find_config(cfg_name="settings.ini"):
     cfg_path = Path().absolute()
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
     return Config(cfg_path, cfg_name)
 
-# %% ../nbs/17_release.ipynb 6
+# %% ../nbs/17_release.ipynb 19
 def _issue_txt(issue):
     res = '- {} ([#{}]({}))'.format(issue.title.strip(), issue.number, issue.html_url)
     if hasattr(issue, 'pull_request'): res += ', thanks to [@{}]({})'.format(issue.user.login, issue.user.html_url)
@@ -37,7 +37,7 @@ def _load_json(cfg, k):
     try: return json.loads(cfg[k])
     except json.JSONDecodeError as e: raise Exception(f"Key: `{k}` in .ini file is not a valid JSON string: {e}")
 
-# %% ../nbs/17_release.ipynb 8
+# %% ../nbs/17_release.ipynb 21
 class Release:
     def __init__(self, owner=None, repo=None, token=None, **groups):
         "Create CHANGELOG.md from GitHub issues"
@@ -48,7 +48,7 @@ class Release:
             groups=_load_json(self.cfg, 'label_groups') if 'label_groups' in self.cfg else default_groups
         os.chdir(self.cfg.config_path)
         owner,repo = owner or self.cfg.user, repo or self.cfg.lib_name
-        token = ifnone(token, os.getenv('FASTRELEASE_TOKEN',None))
+        token = ifnone(token, os.getenv('nbdev_TOKEN',None))
         if not token and Path('token').exists(): token = Path('token').read_text().strip()
         if not token: raise Exception('Failed to find token')
         self.gh = GhApi(owner, repo, token)
@@ -58,7 +58,7 @@ class Release:
         return self.gh.issues.list_for_repo(state='closed', sort='created', filter='all', since=self.commit_date, labels=label)
     def _issue_groups(self): return parallel(self._issues, self.groups.keys(), progress=False)
 
-# %% ../nbs/17_release.ipynb 10
+# %% ../nbs/17_release.ipynb 23
 @patch
 def changelog(self:Release,
               debug=False): ## Just print the latest changes, instead of updating file
@@ -76,7 +76,7 @@ def changelog(self:Release,
     self.changefile.write_text(res)
     run(f'git add {self.changefile}')
 
-# %% ../nbs/17_release.ipynb 12
+# %% ../nbs/17_release.ipynb 25
 @patch
 def release(self:Release):
     "Tag and create a release in GitHub for the current version"
@@ -85,7 +85,7 @@ def release(self:Release):
     self.gh.create_release(ver, branch=self.cfg.branch, body=notes)
     return ver
 
-# %% ../nbs/17_release.ipynb 14
+# %% ../nbs/17_release.ipynb 27
 @patch
 def latest_notes(self:Release):
     "Latest CHANGELOG entry"
@@ -94,7 +94,7 @@ def latest_notes(self:Release):
     if not len(its)>0: return ''
     return '\n'.join(its[1].splitlines()[1:]).strip()
 
-# %% ../nbs/17_release.ipynb 17
+# %% ../nbs/17_release.ipynb 30
 @call_parse
 def changelog(
     debug:store_true=False,  # Print info to be added to CHANGELOG, instead of updating file
@@ -104,7 +104,7 @@ def changelog(
     res = Release(repo=repo).changelog(debug=debug)
     if debug: print(res)
 
-# %% ../nbs/17_release.ipynb 18
+# %% ../nbs/17_release.ipynb 31
 @call_parse
 def release_git(
     token:str=None  # Optional GitHub token (otherwise `token` file is used)
@@ -113,12 +113,12 @@ def release_git(
     ver = Release(token=token).release()
     print(f"Released {ver}")
 
-# %% ../nbs/17_release.ipynb 19
+# %% ../nbs/17_release.ipynb 32
 @call_parse
 def release_gh(
     token:str=None  # Optional GitHub token (otherwise `token` file is used)
 ):
-    "Calls `Release.changelog`, lets you edit the result, then pushes to git and calls `Release.release_git`"
+    "Calls `nbdev_changelog`, lets you edit the result, then pushes to git and calls `nbdev_release_git`"
     cfg = _find_config()
     Release().changelog()
     subprocess.run([os.environ.get('EDITOR','nano'), cfg.config_path/'CHANGELOG.md'])
