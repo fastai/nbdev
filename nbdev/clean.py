@@ -132,13 +132,6 @@ def clean_jupyter(path, model, **kwargs):
     if in_nbdev_repo and jupyter_hooks and is_nb_v4: _nbdev_clean(model['content'])
 
 # %% ../nbs/11_clean.ipynb 26
-def _nested_setdefault(o, attr, default):
-    "Same as `setdefault`, but if `attr` includes a `.`, then looks inside nested objects"
-    attrs = attr.split('.')
-    for a in attrs[:-1]: o = o.setdefault(a, type(o)())
-    return o.setdefault(attrs[-1], default)
-
-# %% ../nbs/11_clean.ipynb 30
 @call_parse
 def nbdev_install_hooks():
     "Install Jupyter and git hooks to automatically clean, trust, and fix merge conflicts in notebooks"
@@ -150,7 +143,7 @@ def nbdev_install_hooks():
         cfg = dict2obj(fn.read_json() if fn.exists() else {})
         val = nested_attr(cfg, attr)
         if val is None:
-            _nested_setdefault(cfg, attr, hook)
+            nested_setdefault(cfg, attr, hook)
             fn.write_text(dumps(obj2dict(cfg), indent=2))
         elif val != hook:
             sys.stderr.write(f"Can't install hook to '{p}' since it already contains `{attr} = '{val}'`. "
