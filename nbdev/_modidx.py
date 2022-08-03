@@ -32,6 +32,9 @@ d = { 'settings': { 'audience': 'Developers',
                                    'nbdev_release=nbdev.shortcuts:release\n'
                                    'nbdev_prepare=nbdev.shortcuts:prepare\n'
                                    'nbdev_readme=nbdev.cli:nbdev_readme\n'
+                                   'nbdev_release_gh=nbdev.release:release_gh\n'
+                                   'nbdev_release_git=nbdev.release:release_git\n'
+                                   'nbdev_changelog=nbdev.release:changelog\n'
                                    'nbdev_help=nbdev.shortcuts:chelp',
                 'copyright': '2020 onwards, Jeremy Howard',
                 'custom_sidebar': 'True',
