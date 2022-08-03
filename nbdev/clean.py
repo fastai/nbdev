@@ -122,14 +122,21 @@ def nbdev_clean(
 # %% ../nbs/11_clean.ipynb 24
 def clean_jupyter(path, model, **kwargs):
     "Clean Jupyter `model` pre save to `path`"
-    get_config.cache_clear() # Reset Jupyter's cache
+    get_config.cache_clear() # Allow config changes without restarting Jupyter
     try: cfg = get_config(path=path)
-    except FileNotFoundError: return
+    except FileNotFoundError: cfg = {}
+
+    jupyter_hooks = cfg.get('jupyter_hooks', 'user')
+    try: jupyter_hooks = str2bool(jupyter_hooks)
+    except ValueError: pass
+    else:
+        warn(("Boolean-valued `jupyter_hooks` is deprecated. Use one of `{'user','nbdev','none'} instead.\n"
+              "See the docs for more: https://nbdev.fast.ai/clean.html#clean_jupyter"), DeprecationWarning)
+        jupyter_hooks = 'nbdev' if jupyter_hooks else 'none'
+
+    if not (model['type']=='notebook' and model['content']['nbformat']==4): return
     in_nbdev_repo = 'nbs_path' in cfg
-    jupyter_hooks = str2bool(cfg.get('jupyter_hooks', True))
-    if model['type'] != 'notebook': return
-    is_nb_v4 = model['content']['nbformat'] == 4
-    if in_nbdev_repo and jupyter_hooks and is_nb_v4: _nbdev_clean(model['content'])
+    if jupyter_hooks=='user' or (jupyter_hooks=='nbdev' and in_nbdev_repo): _nbdev_clean(model['content'])
 
 # %% ../nbs/11_clean.ipynb 26
 def _nested_setdefault(o, attr, default):
