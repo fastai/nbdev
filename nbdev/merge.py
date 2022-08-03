@@ -18,7 +18,7 @@ from difflib import SequenceMatcher
 
 # %% ../nbs/06_merge.ipynb 16
 _BEG,_MID,_END = '<'*7,'='*7,'>'*7
-conf_re = re.compile(rf'^{_BEG}\s+(\S+)\n(.*?)\n{_MID}\n(.*?)^{_END}\s+(\S+)\n', re.MULTILINE|re.DOTALL)
+conf_re = re.compile(rf'^{_BEG}\s+(\S+)\n(.*?)\n{_MID}\n(.*?)^{_END}\s+([\S ]+)\n', re.MULTILINE|re.DOTALL)
 
 def _unpatch_f(before, cb1, cb2, c, r):
     if cb1 is not None and cb1 != cb2: raise Exception(f'Branch mismatch: {cb1}/{cb2}')
@@ -55,10 +55,10 @@ def _merge_cells(a, b, brancha, branchb, theirs):
 
 # %% ../nbs/06_merge.ipynb 23
 def _nbdev_fix(nbname:str, # Notebook filename to fix
-              outname:str=None, # Filename of output notebook (defaults to `nbname`)
-              nobackup:bool=True, # Do not backup `nbname` to `nbname`.bak if `outname` not provided
-              theirs:bool=False, # Use their outputs and metadata instead of ours
-              noprint:bool=False): # Do not print info about whether conflicts are found
+               outname:str=None, # Filename of output notebook (defaults to `nbname`)
+               nobackup:bool_arg=True, # Do not backup `nbname` to `nbname`.bak if `outname` not provided
+               theirs:bool=False, # Use their outputs and metadata instead of ours
+               noprint:bool=False): # Do not print info about whether conflicts are found
     "Create working notebook from conflicted notebook `nbname`"
     nbname = Path(nbname)
     if not nobackup and not outname: shutil.copy(nbname, nbname.with_suffix('.ipynb.bak'))
@@ -91,11 +91,25 @@ def _only(o):
 def _git_branch_merge(): return _only(v for k,v in os.environ.items() if k.startswith('GITHEAD'))
 
 # %% ../nbs/06_merge.ipynb 31
+def _git_rebase_head():
+    for d in ('apply','merge'):
+        d = Path(f'.git/rebase-{d}')
+        if d.is_dir():
+            cmt = (d/'orig-head').read_text()
+            msg = run(f'git show-branch --no-name {cmt}')
+            return f'{cmt[:7]} ({msg})'
+
+# %% ../nbs/06_merge.ipynb 32
+def _git_merge_file(base, ours, theirs):
+    "`git merge-file` with expected labels depending on if a `merge` or `rebase` is in-progress"
+    l_theirs = _git_rebase_head() or _git_branch_merge()
+    cmd = f"git merge-file -L HEAD -L BASE -L '{l_theirs}' {ours} {base} {theirs}"
+    return subprocess.run(cmd, shell=True, capture_output=True, text=True)
+
+# %% ../nbs/06_merge.ipynb 33
 @call_parse
 def nbdev_merge(base:str, ours:str, theirs:str, path:str):
     "Git merge driver for notebooks"
-    proc = subprocess.run(f'git merge-file -L HEAD -L BASE -L {_git_branch_merge()} {ours} {base} {theirs}',
-                          shell=True, capture_output=True, text=True)
-    if proc.returncode == 0: return
+    if not _git_merge_file(base, ours, theirs).returncode: return
     theirs = str2bool(os.environ.get('THEIRS', False))
     return _nbdev_fix(ours, theirs=theirs)
