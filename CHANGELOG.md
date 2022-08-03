@@ -2,6 +2,17 @@
 
 <!-- do not remove -->
 
+## 2.1.1
+
+### New Features
+
+- add tools from fastrelease to nbdev ([#733](https://github.com/fastai/nbdev/issues/733))
+
+### Bugs Squashed
+
+- fix `nbdev_test` with no `--fname` in non-nbdev repos ([#730](https://github.com/fastai/nbdev/pull/730)), thanks to [@seeM](https://github.com/seeM)
+- Auto-generated showdoc headers not in ToC ([#703](https://github.com/fastai/nbdev/issues/703))
+
 
 ## 2.1.0
 
