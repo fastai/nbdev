@@ -19,3 +19,4 @@ website:
         - 14_test.ipynb
         - 15_migrate.ipynb
         - 16_shortcuts.ipynb
+        - 17_release.ipynb
