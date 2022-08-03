@@ -78,19 +78,9 @@ def _nbdev_fix(nbname:str, # Notebook filename to fix
 nbdev_fix = call_parse(_nbdev_fix)
 
 # %% ../nbs/06_merge.ipynb 28
-def _only(o):
-    "Return the only item of `o`, raise if `o` doesn't have exactly one item"
-    it = iter(o)
-    try: res = next(it)
-    except StopIteration: raise ValueError('iterable has 0 items') from None
-    try: next(it)
-    except StopIteration: return res
-    raise ValueError(f'iterable has more than 1 item')
+def _git_branch_merge(): return only(v for k,v in os.environ.items() if k.startswith('GITHEAD'))
 
-# %% ../nbs/06_merge.ipynb 30
-def _git_branch_merge(): return _only(v for k,v in os.environ.items() if k.startswith('GITHEAD'))
-
-# %% ../nbs/06_merge.ipynb 31
+# %% ../nbs/06_merge.ipynb 29
 def _git_rebase_head():
     for d in ('apply','merge'):
         d = Path(f'.git/rebase-{d}')
@@ -99,14 +89,14 @@ def _git_rebase_head():
             msg = run(f'git show-branch --no-name {cmt}')
             return f'{cmt[:7]} ({msg})'
 
-# %% ../nbs/06_merge.ipynb 32
+# %% ../nbs/06_merge.ipynb 30
 def _git_merge_file(base, ours, theirs):
     "`git merge-file` with expected labels depending on if a `merge` or `rebase` is in-progress"
     l_theirs = _git_rebase_head() or _git_branch_merge()
     cmd = f"git merge-file -L HEAD -L BASE -L '{l_theirs}' {ours} {base} {theirs}"
     return subprocess.run(cmd, shell=True, capture_output=True, text=True)
 
-# %% ../nbs/06_merge.ipynb 33
+# %% ../nbs/06_merge.ipynb 31
 @call_parse
 def nbdev_merge(base:str, ours:str, theirs:str, path:str):
     "Git merge driver for notebooks"
