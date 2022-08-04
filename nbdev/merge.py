@@ -18,7 +18,7 @@ from difflib import SequenceMatcher
 
 # %% ../nbs/06_merge.ipynb 16
 _BEG,_MID,_END = '<'*7,'='*7,'>'*7
-conf_re = re.compile(rf'^{_BEG}\s+(\S+)\n(.*?)\n{_MID}\n(.*?)^{_END}\s+([\S ]+)\n', re.MULTILINE|re.DOTALL)
+conf_re = re.compile(rf'^{_BEG}\s+(\S+)\n(.*?)^{_MID}\n(.*?)^{_END}\s+([\S ]+)\n', re.MULTILINE|re.DOTALL)
 
 def _unpatch_f(before, cb1, cb2, c, r):
     if cb1 is not None and cb1 != cb2: raise Exception(f'Branch mismatch: {cb1}/{cb2}')
