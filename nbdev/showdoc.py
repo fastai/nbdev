@@ -157,7 +157,7 @@ def show_doc(sym, disp=True, renderer=None, name:str|None=None, title_level:int|
     if isinstance(sym, TypeDispatch): pass
     else:return renderer(sym or show_doc, disp=disp, name=name, title_level=title_level)
 
-# %% ../nbs/08_showdoc.ipynb 46
+# %% ../nbs/08_showdoc.ipynb 48
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
@@ -166,12 +166,12 @@ class BasicHtmlRenderer(ShowDocRenderer):
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 51
+# %% ../nbs/08_showdoc.ipynb 53
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(get_patch_name(tree), tree.name)
 
-# %% ../nbs/08_showdoc.ipynb 54
+# %% ../nbs/08_showdoc.ipynb 56
 def colab_link(path):
     "Get a link to the notebook at `path` on Colab"
     from IPython.display import Markdown
