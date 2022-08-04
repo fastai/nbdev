@@ -19,6 +19,7 @@ from execnb.nbio import *
 from execnb.shell import *
 from fastcore.imports import *
 from fastcore.xtras import *
+from yaml import load, FullLoader, dump
 import sys
 
 # %% ../nbs/09_processors.ipynb 9
@@ -185,7 +186,7 @@ def add_show_docs(nb):
 
 # %% ../nbs/09_processors.ipynb 49
 _re_title = re.compile(r'^#\s+(.*)[\n\r]+(?:^>\s+(.*))?', flags=re.MULTILINE)
-_re_fm = re.compile(r'^---.*\S+.*---', flags=re.DOTALL)
+_re_fm = re.compile(r'^---(.*\S+.*)---', flags=re.DOTALL)
 _re_defaultexp = re.compile(r'^\s*#\|\s*default_exp\s+(\S+)', flags=re.MULTILINE)
 
 def _celltyp(nb, cell_type): return nb.cells.filter(lambda c: c.cell_type == cell_type)
@@ -194,21 +195,21 @@ def _istitle(cell):
     txt = cell.get('source', '')
     return bool(_re_title.search(txt)) if txt else False
 
-# %% ../nbs/09_processors.ipynb 50
+# %% ../nbs/09_processors.ipynb 52
 def _default_exp(nb):
     "get the default_exp from a notebook"
     code_src = nb.cells.filter(lambda x: x.cell_type == 'code').attrgot('source')
     default_exp = first(code_src.filter().map(_re_defaultexp.search).filter())
     return default_exp.group(1) if default_exp else None
 
-# %% ../nbs/09_processors.ipynb 52
+# %% ../nbs/09_processors.ipynb 54
 def yaml_str(s:str):
     "Create a valid YAML string from `s`"
     if s[0]=='"' and s[-1]=='"': return s
     res = s.replace('\\', '\\\\').replace('"', r'\"')
     return f'"{res}"'
 
-# %% ../nbs/09_processors.ipynb 53
+# %% ../nbs/09_processors.ipynb 55
 def nb_fmdict(nb, remove=True): 
     "Infer the front matter from a notebook's markdown formatting"
     md_cells = _celltyp(nb, 'markdown').filter(_istitle)
@@ -224,21 +225,41 @@ def nb_fmdict(nb, remove=True):
         return flags
     else: return {}
 
-# %% ../nbs/09_processors.ipynb 56
-DEFAULT_FM_KEYS = ['title', 'description', 'author', 'image', 'categories', 'output-file', 'aliases']
+# %% ../nbs/09_processors.ipynb 58
+def _replace_fm(d:dict, # dictionary you wish to conditionally change
+                k:str,  # key to check 
+                val:str,# value to check if d[k] == v
+                repl_dict:dict #dictionary that will be used as a replacement 
+               ):
+    "replace key `k` in dict `d` if d[k] == val with `repl_dict`"
+    if d.get(k, '').lower().strip() == val.lower().strip():
+        d.pop(k)
+        d = merge(d, repl_dict)
+    return d
+
+def _fp_alias(d):
+    "create aliases for fastpages front matter to match Quarto front matter."
+    d = _replace_fm(d, 'search_exclude', 'true', {'search':'false'})
+    d = _replace_fm(d, 'hide', 'true', {'draft': 'true'})
+    d = _replace_fm(d, 'comments', 'true', {'comments': {'hypothesis': {'theme': 'clean'}}})
+    return d
+
+# %% ../nbs/09_processors.ipynb 60
+DEFAULT_FM_KEYS = ['title', 'description', 'author', 'image', 'categories', 'output-file', 'aliases', 'search', 'draft', 'comments']
 
 def construct_fm(fmdict:dict, keys = DEFAULT_FM_KEYS):
     "construct front matter from a dictionary, but only for `keys`"
     if not fmdict: return None
     return '---\n'+'\n'.join([f"{k}: {fmdict[k]}" for k in keys if k in fmdict])+'\n---'
+    
 
-# %% ../nbs/09_processors.ipynb 58
+# %% ../nbs/09_processors.ipynb 62
 def insert_frontmatter(nb, fm_dict:dict, filter_keys:list=DEFAULT_FM_KEYS):
     "Add frontmatter into notebook based on `filter_keys` that exist in `fmdict`."
     fm = construct_fm(fm_dict, keys=filter_keys)
     if fm: nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=fm, directives_={})))
 
-# %% ../nbs/09_processors.ipynb 59
+# %% ../nbs/09_processors.ipynb 63
 def infer_frontmatter(nb):
     "Insert front matter if it doesn't exist automatically from nbdev styled markdown."
     if is_frontmatter(nb): return
