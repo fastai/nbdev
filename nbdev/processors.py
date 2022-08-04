@@ -252,6 +252,13 @@ def _fp_alias(d):
     return d
 
 # %% ../nbs/09_processors.ipynb 60
+def _fp_image(d):
+    "Correct path of fastpages images"
+    prefix = 'images/copied_from_nb/'
+    if d.get('image', '').startswith(prefix): d['image'] = d['image'].replace(prefix, '')
+    return d
+
+# %% ../nbs/09_processors.ipynb 62
 DEFAULT_FM_KEYS = ['title', 'description', 'author', 'image', 'categories', 'output-file', 'aliases', 'search', 'draft', 'comments']
 
 def construct_fm(fmdict:dict, keys = DEFAULT_FM_KEYS):
@@ -260,19 +267,21 @@ def construct_fm(fmdict:dict, keys = DEFAULT_FM_KEYS):
     return '---\n'+dump(filter_keys(fmdict, in_(keys)))+'\n---'
     
 
-# %% ../nbs/09_processors.ipynb 62
+# %% ../nbs/09_processors.ipynb 64
 def insert_frontmatter(nb, fm_dict:dict, filter_dict_keys:list=DEFAULT_FM_KEYS):
     "Add frontmatter into notebook based on `filter_keys` that exist in `fmdict`."
     fm = construct_fm(fm_dict)
     if fm: nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=fm, directives_={})))
 
-# %% ../nbs/09_processors.ipynb 63
+# %% ../nbs/09_processors.ipynb 65
+_fp_convert = compose(_fp_alias, _fp_image)
+
 def infer_frontmatter(nb):
     "Insert front matter if it doesn't exist automatically from nbdev styled markdown."
     raw_fm_cell = first(is_frontmatter(nb))
     raw_fm = yml2dict(raw_fm_cell.source) if raw_fm_cell else {}
     _exp = _default_exp(nb)
-    _fmdict = merge(_fp_alias(nb_fmdict(nb)), {'output-file': _exp+'.html'} if _exp else {}, raw_fm)
+    _fmdict = merge(_fp_convert(nb_fmdict(nb)), {'output-file': _exp+'.html'} if _exp else {}, raw_fm)
     if 'title' in _fmdict: 
         if raw_fm: raw_fm_cell['source'] = None
         insert_frontmatter(nb, fm_dict=_fmdict)
