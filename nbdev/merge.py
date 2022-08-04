@@ -100,6 +100,9 @@ def _git_merge_file(base, ours, theirs):
 @call_parse
 def nbdev_merge(base:str, ours:str, theirs:str, path:str):
     "Git merge driver for notebooks"
+    print(f'Auto-merging {path}')
     if not _git_merge_file(base, ours, theirs).returncode: return
     theirs = str2bool(os.environ.get('THEIRS', False))
-    return _nbdev_fix(ours, theirs=theirs)
+    conflict = _nbdev_fix(ours, theirs=theirs, noprint=True)
+    if conflict: print(f'CONFLICT (content): Merge conflict in {path}')
+    return conflict
