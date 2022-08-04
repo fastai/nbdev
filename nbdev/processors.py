@@ -249,7 +249,6 @@ def _fp_alias(d):
     "create aliases for fastpages front matter to match Quarto front matter."
     d = _replace_fm(d, 'search_exclude', 'true', {'search':'false'})
     d = _replace_fm(d, 'hide', 'true', {'draft': 'true'})
-    d = _replace_fm(d, 'comments', 'true', {'comments': {'hypothesis': {'theme': 'clean'}}})
     return d
 
 # %% ../nbs/09_processors.ipynb 60
