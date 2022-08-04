@@ -25,6 +25,7 @@ statuses = [ '1 - Planning', '2 - Pre-Alpha', '3 - Alpha',
 py_versions = '3.7 3.8 3.9 3.10'.split()
 
 requirements = cfg.get('requirements','').split()
+if cfg.get('pip_requirements'): requirements += cfg.get('pip_requirements','').split()
 min_python = cfg['min_python']
 lic = licenses.get(cfg['license'].lower(), (cfg['license'], None))
 dev_requirements = (cfg.get('dev_requirements') or '').split()
