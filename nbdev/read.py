@@ -9,6 +9,7 @@ from fastcore.imports import *
 from fastcore.foundation import *
 from fastcore.basics import *
 from fastcore.imports import *
+from fastcore.meta import *
 from fastcore.script import *
 from fastcore.xtras import *
 
@@ -23,54 +24,66 @@ def create_output(txt, mime):
              "execution_count": 1, "metadata": {}, "output_type": "execute_result"}]
 
 # %% ../nbs/01_read.ipynb 7
+def apply_defaults(
+    cfg,
+    lib_name:str=None, # Package name, defaults to local repo folder name
+    branch='master', # Repo default branch
+    git_url='https://github.com/%(user)s/%(lib_name)s', # Repo URL
+    custom_sidebar:bool_arg=False, # Create custom sidebar?
+    nbs_path='.', # Path to notebooks
+    lib_path='%(lib_name)s', # Path to package root
+    doc_path='_docs', # Path to rendered docs
+    tst_flags='', # Test flags
+    version='0.0.1', # Version of this release
+    doc_host='https://%(user)s.github.io',  # Hostname for docs
+    doc_baseurl='/%(lib_name)s',  # Base URL for docs
+    keywords='nbdev jupyter notebook python', # Space-separated list of package keywords
+    license='apache2', # License for the package
+    copyright:str=None, # Copyright for the package, defaults to '`current_year` onwards, `author`'
+    status='3', # Development status PyPI classifier
+    min_python='3.7', # Minimum Python version PyPI classifier
+    audience='Developers', # Intended audience PyPI classifier
+    language='English', # Language PyPI classifier
+    recursive:bool_arg=False, # Include subfolders in notebook globs?
+    black_formatting:bool_arg=False, # Format libraries with black?
+    readme_nb='index.ipynb', # Notebook to export as repo readme
+    title='%(lib_name)s', # Quarto website title
+):
+    "Apply default settings where missing in `cfg`"
+    if lib_name is None:
+        _parent = Path.cwd().parent
+        lib_name = _parent.parent.name if _parent.name=='nbs' else _parent.name
+    if copyright is None and 'author' in cfg: copyright = f"{datetime.now().year} ownwards, {cfg['author']}"
+    for k,v in locals().items():
+        if not (k.startswith('_') or k=='cfg' or k in cfg): cfg[k] = v
+    return cfg
+
+# %% ../nbs/01_read.ipynb 8
 @call_parse
+@delegates(apply_defaults, but='cfg')
 def nbdev_create_config(
     user:str, # Repo username
-    lib_name:str=None, # Name of library
-    description='TODO fill me in', # Description for PyPI
-    author='TODO fill me in', # Author for PyPI
-    author_email='todo@example.org', # Email for PyPI
+    author:str, # Package author's name
+    author_email:str, # Package author's email address
+    description:str, # Short summary of the package
     path:str='.', # Path to create config file
     cfg_name:str='settings.ini', # Name of config file to create
-    branch:str='master', # Repo branch
-    host:str='github', # Repo hostname
-    git_url:str="https://github.com/%(user)s/%(lib_name)s/tree/%(branch)s/", # Repo URL
-    custom_sidebar:bool_arg=False, # Create custom sidebar?
-    nbs_path:str='.', # Name of folder containing notebooks
-    lib_path:str='%(lib_name)s', # Folder name of root module
-    doc_path:str='_docs', # Folder name containing docs
-    tst_flags:str='', # Test flags
-    version:str='0.0.1', # Version number
-    doc_host:str='example.org',  # Hostname for docs
-    doc_base_url:str='/',  # Base URL for docs
-    keywords='python', # Keywords for PyPI
-    license='apache2', # License for PyPI
-    copyright='', # Copyright for PyPI, defaults to author from current year
-    status='3', # Status for PyPI
-    min_python='3.6', # Minimum python version for PyPI
-    audience='Developers', # Audience for PyPI
-    language='English' # Language for PyPI
+    **kwargs
 ):
     "Create a config file"
-    if lib_name is None:
-        parent = Path.cwd().parent
-        lib_name = parent.parent.name if parent.name=='nbs' else parent.name
-    if not copyright: copyright = f'{datetime.now().year} ownwards, {author}'
-    g = locals()
-    config = {o:g[o] for o in 'host lib_name user branch nbs_path doc_path \
-        description author author_email keywords license tst_flags version custom_sidebar \
-        copyright status min_python audience language git_url lib_path'.split()}
-    save_config_file(Path(path)/cfg_name, config)
+    cfg = {k:v for k,v in locals().items() if k not in ('path','cfg_name')}
+    cfg = apply_defaults(cfg, **kwargs)
+    save_config_file(Path(path)/cfg_name, cfg)
 
-# %% ../nbs/01_read.ipynb 9
+# %% ../nbs/01_read.ipynb 10
 @functools.lru_cache(maxsize=None)
 def get_config(cfg_name='settings.ini', path=None):
     "`Config` for ini file found in `path` (defaults to `cwd`)"
     cfg_path = Path.cwd() if path is None else Path(path)
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
-    return Config(cfg_path, cfg_name=cfg_name)
+    return apply_defaults(Config(cfg_path, cfg_name=cfg_name))
 
-# %% ../nbs/01_read.ipynb 12
+# %% ../nbs/01_read.ipynb 13
 def config_key(c, default=None, path=True, missing_ok=False):
     "Look for key `c` in settings.ini and fail gracefully if not found and no default provided"
     try: cfg = get_config()
@@ -81,7 +94,7 @@ def config_key(c, default=None, path=True, missing_ok=False):
     if res is None: raise ValueError(f'`{c}` not specified in settings.ini')
     return res
 
-# %% ../nbs/01_read.ipynb 14
+# %% ../nbs/01_read.ipynb 15
 _init = '__init__.py'
 
 def _has_py(fs): return any(1 for f in fs if f.endswith('.py'))
@@ -97,13 +110,13 @@ def add_init(path):
         subds = (os.listdir(r/d) for d in ds)
         if _has_py(fs) or any(filter(_has_py, subds)) and not (r/_init).exists(): (r/_init).touch()
 
-# %% ../nbs/01_read.ipynb 18
+# %% ../nbs/01_read.ipynb 19
 def write_cells(cells, hdr, file, offset=0):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbdev internal use)"
     for cell in cells:
         if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell.source}')
 
-# %% ../nbs/01_read.ipynb 19
+# %% ../nbs/01_read.ipynb 20
 def basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbdev"
     if dest is None: dest = config_key('lib_path')
