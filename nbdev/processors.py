@@ -3,8 +3,8 @@
 # %% auto 0
 __all__ = ['DEFAULT_FM_KEYS', 'nbflags_', 'cell_lang', 'add_links', 'strip_ansi', 'strip_hidden_metadata', 'hide_', 'hide_line',
            'filter_stream_', 'clean_magics', 'lang_identify', 'rm_header_dash', 'rm_export', 'clean_show_doc',
-           'exec_show_docs', 'populate_language', 'insert_warning', 'add_show_docs', 'is_frontmatter', 'yaml_str',
-           'nb_fmdict', 'construct_fm', 'insert_frontmatter', 'infer_frontmatter']
+           'exec_show_docs', 'populate_language', 'insert_warning', 'add_show_docs', 'is_frontmatter', 'yml2dict',
+           'yaml_str', 'nb_fmdict', 'construct_fm', 'insert_frontmatter', 'infer_frontmatter']
 
 # %% ../nbs/09_processors.ipynb 2
 import ast
@@ -195,6 +195,14 @@ def _istitle(cell):
     txt = cell.get('source', '')
     return bool(_re_title.search(txt)) if txt else False
 
+# %% ../nbs/09_processors.ipynb 50
+def yml2dict(s:str, rm_fence=True):
+    "convert a string that is in a yaml format to a dict"
+    if rm_fence: 
+        match = _re_fm.search(s.strip())
+        if match: s = match.group(1)
+    return load(s, Loader=FullLoader)
+
 # %% ../nbs/09_processors.ipynb 52
 def _default_exp(nb):
     "get the default_exp from a notebook"
@@ -222,7 +230,7 @@ def nb_fmdict(nb, remove=True):
         flags = merge({k:v for k,v in flags if k and v}, 
                       {'title':yaml_str(title)}, {'description':yaml_str(desc)} if desc else {})
         if remove: cell['source'] = None
-        return flags
+        return yml2dict('\n'.join([f"{k}: {flags[k]}" for k in flags]))
     else: return {}
 
 # %% ../nbs/09_processors.ipynb 58
@@ -232,7 +240,7 @@ def _replace_fm(d:dict, # dictionary you wish to conditionally change
                 repl_dict:dict #dictionary that will be used as a replacement 
                ):
     "replace key `k` in dict `d` if d[k] == val with `repl_dict`"
-    if d.get(k, '').lower().strip() == val.lower().strip():
+    if str(d.get(k, '')).lower().strip() == str(val.lower()).strip():
         d.pop(k)
         d = merge(d, repl_dict)
     return d
@@ -250,19 +258,22 @@ DEFAULT_FM_KEYS = ['title', 'description', 'author', 'image', 'categories', 'out
 def construct_fm(fmdict:dict, keys = DEFAULT_FM_KEYS):
     "construct front matter from a dictionary, but only for `keys`"
     if not fmdict: return None
-    return '---\n'+'\n'.join([f"{k}: {fmdict[k]}" for k in keys if k in fmdict])+'\n---'
+    return '---\n'+dump(filter_keys(fmdict, in_(keys)))+'\n---'
     
 
 # %% ../nbs/09_processors.ipynb 62
-def insert_frontmatter(nb, fm_dict:dict, filter_keys:list=DEFAULT_FM_KEYS):
+def insert_frontmatter(nb, fm_dict:dict, filter_dict_keys:list=DEFAULT_FM_KEYS):
     "Add frontmatter into notebook based on `filter_keys` that exist in `fmdict`."
-    fm = construct_fm(fm_dict, keys=filter_keys)
+    fm = construct_fm(fm_dict)
     if fm: nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=fm, directives_={})))
 
 # %% ../nbs/09_processors.ipynb 63
 def infer_frontmatter(nb):
     "Insert front matter if it doesn't exist automatically from nbdev styled markdown."
-    if is_frontmatter(nb): return
+    raw_fm_cell = first(is_frontmatter(nb))
+    raw_fm = yml2dict(raw_fm_cell.source) if raw_fm_cell else {}
     _exp = _default_exp(nb)
-    _fmdict = merge(nb_fmdict(nb), {'output-file': _exp+'.html'} if _exp else {})
-    if 'title' in _fmdict: insert_frontmatter(nb, fm_dict=_fmdict)
+    _fmdict = merge(_fp_alias(nb_fmdict(nb)), {'output-file': _exp+'.html'} if _exp else {}, raw_fm)
+    if 'title' in _fmdict: 
+        if raw_fm: raw_fm_cell['source'] = None
+        insert_frontmatter(nb, fm_dict=_fmdict)

@@ -5,7 +5,7 @@ __all__ = ['migrate_nb_fm', 'migrate_md_fm', 'nbdev_migrate_directives']
 
 # %% ../nbs/15_migrate.ipynb 2
 from .process import first_code_ln
-from .processors import nb_fmdict, construct_fm, insert_frontmatter, is_frontmatter
+from .processors import nb_fmdict, construct_fm, insert_frontmatter, is_frontmatter, yml2dict
 from .read import read_nb, config_key
 from .sync import write_nb
 from .clean import process_write
@@ -19,8 +19,7 @@ def _get_raw_fm(nb):
 # %% ../nbs/15_migrate.ipynb 5
 def _cat_slug(fmdict):
     "Get the partial slug from the category front matter."
-    cats = [c for c in fmdict.get('categories', '').strip().strip('][').split(', ') if c]
-    return '/' + '/'.join(sorted(cats)) if cats else ''
+    return '/' + '/'.join(sorted(fmdict.get('categories', '')))
 
 # %% ../nbs/15_migrate.ipynb 7
 def _file_slug(fname): 
@@ -31,14 +30,14 @@ def _file_slug(fname):
 
 # %% ../nbs/15_migrate.ipynb 9
 def _add_alias(fm:dict, path:Path):
-    if 'permalink' in fm: fm['aliases'] = '[' + fm.pop('permalink').strip() + ']'
-    else: fm['aliases'] = '[' + _cat_slug(fm) + _file_slug(path) + ']'
+    if 'permalink' in fm: fm['aliases'] = [f"{fm.pop('permalink').strip()}"]
+    else: fm['aliases'] = [f'{_cat_slug(fm) + _file_slug(path)}']
 
 # %% ../nbs/15_migrate.ipynb 11
 def migrate_nb_fm(path, overwrite=True):
     "Migrate fastpages front matter in notebooks to a raw cell."
     nb = read_nb(path)
-    if is_frontmatter(nb): return None
+    # if is_frontmatter(nb): return None
     fm = nb_fmdict(nb)
     _add_alias(fm, path)
     insert_frontmatter(nb, fm_dict=fm)
@@ -51,9 +50,9 @@ _re_fm_md = re.compile(r'^---(.*\S+.)?---', flags=re.DOTALL)
 def _md_fmdict(txt):
     "Get front matter as a dict from a markdown file."
     m = _re_fm_md.match(txt)
-    if m:
-        fm = [s.split(':', 1) for s in m.group(1).splitlines() if s]
-        return {k:v.strip() for k,v in fm if k and v}
+    if m: return yml2dict(m.group(1))
+        # fm = [s.split(':', 1) for s in m.group(1).splitlines() if s]
+        # return {k:v.strip() for k,v in fm if k and v}
     else: return {}
 
 # %% ../nbs/15_migrate.ipynb 18
