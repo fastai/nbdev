@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 # %% auto 0
-__all__ = ['find_var', 'read_var', 'update_var', 'ModuleMaker', 'decor_id', 'retr_exports', 'make_code_cell', 'make_code_cells',
-           'relative_import', 'update_import', 'basic_export_nb2']
+__all__ = ['find_var', 'read_var', 'update_var', 'ModuleMaker', 'decor_id', 'retr_exports', 'make_code_cells', 'relative_import',
+           'update_import', 'basic_export_nb2']
 
 # %% ../nbs/02_maker.ipynb 4
 from .read import *
@@ -109,8 +109,7 @@ def make_all(self:ModuleMaker, cells):
     return retr_exports(cells.map(NbCell.parsed_).concat())
 
 # %% ../nbs/02_maker.ipynb 22
-def make_code_cell(code): return AttrDict(source=code, cell_type="code", execution_count=None)
-def make_code_cells(*ss): return dict2nb({'cells':L(ss).map(make_code_cell)}).cells
+def make_code_cells(*ss): return dict2nb({'cells':L(ss).map(mk_cell)}).cells
 
 # %% ../nbs/02_maker.ipynb 25
 def relative_import(name, fname, level=0):
