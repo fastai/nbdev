@@ -37,7 +37,6 @@ def _add_alias(fm:dict, path:Path):
 def migrate_nb_fm(path, overwrite=True):
     "Migrate fastpages front matter in notebooks to a raw cell."
     nb = read_nb(path)
-    # if is_frontmatter(nb): return None
     fm = nb_fmdict(nb)
     _add_alias(fm, path)
     insert_frontmatter(nb, fm_dict=fm)
