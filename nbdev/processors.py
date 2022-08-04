@@ -19,7 +19,7 @@ from execnb.nbio import *
 from execnb.shell import *
 from fastcore.imports import *
 from fastcore.xtras import *
-from yaml import load, FullLoader, dump
+from yaml import load, SafeLoader, dump
 import sys
 
 # %% ../nbs/09_processors.ipynb 9
@@ -201,7 +201,7 @@ def yml2dict(s:str, rm_fence=True):
     if rm_fence: 
         match = _re_fm.search(s.strip())
         if match: s = match.group(1)
-    return load(s, Loader=FullLoader)
+    return load(s, Loader=SafeLoader)
 
 # %% ../nbs/09_processors.ipynb 52
 def _default_exp(nb):
