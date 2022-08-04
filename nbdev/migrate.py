@@ -51,8 +51,6 @@ def _md_fmdict(txt):
     "Get front matter as a dict from a markdown file."
     m = _re_fm_md.match(txt)
     if m: return yml2dict(m.group(1))
-        # fm = [s.split(':', 1) for s in m.group(1).splitlines() if s]
-        # return {k:v.strip() for k,v in fm if k and v}
     else: return {}
 
 # %% ../nbs/15_migrate.ipynb 18
