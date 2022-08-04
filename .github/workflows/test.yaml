@@ -3,48 +3,19 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-    branches:
-      - master
+    branches: [master]
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}-latest
     continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
         os:  [ubuntu, macos]
         version: ["3.7", "3.8", "3.9", "3.10"]
+    runs-on: ${{ matrix.os }}-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      uses: fastai/workflows/nbdev-ci@master
         with:
-          python-version: ${{ matrix.version }}
-          cache: "pip"
-          cache-dependency-path: settings.ini
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -qe ".[dev]"
-          pip install -Uq git+https://github.com/fastai/fastcore.git
-          pip install -Uq git+https://github.com/fastai/ghapi.git
-          pip install -Uq git+https://github.com/fastai/execnb.git
-      - name: Set git info for tests
-        run: |
-          git config --global user.email "${GH_EMAIL}"
-          git config --global user.name "${GH_USERNAME}"
-      - name: Check if all notebooks are cleaned
-        run: |
-          echo "Check we are starting with clean git checkout"
-          if [ -n "$(git status -uno -s)" ]; then echo "git status is not clean"; false; fi
-          echo "Trying to strip out notebooks"
-          nbdev_clean
-          echo "Check that strip out was unnecessary"
-          git status -s # display the status to see which nbs need cleaning up
-          if [ -n "$(git status -uno -s)" ]; then echo -e "!!! Detected unstripped out notebooks\n!!!Remember to run nbdev_install_hooks"; false; fi
-      - name: Test Notebooks
-        run: nbdev_test
-      - name: Test Docs Creation
-        run: |
-          nbdev_install_quarto
-          nbdev_docs
+          version: ${{ matrix.version }}
+
