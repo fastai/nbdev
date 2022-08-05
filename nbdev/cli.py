@@ -233,6 +233,7 @@ format:
 
 website:
   title: "{title}"
+  site-url: {doc_host}{doc_baseurl}
   description: "{description}"
   execute: 
     enabled: false
@@ -260,7 +261,7 @@ def refresh_quarto_yml():
     "Generate `_quarto.yml` from `settings.ini`."
     cfg = get_config()
     p = cfg.path('nbs_path')/'_quarto.yml'
-    vals = {k:cfg.get(k) for k in ['doc_path', 'title', 'description', 'branch', 'git_url']}
+    vals = {k:cfg.get(k) for k in ['doc_path', 'title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl']}
     if 'title' not in vals: vals['title'] = vals['lib_name']
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
