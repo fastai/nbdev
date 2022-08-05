@@ -233,7 +233,7 @@ format:
 
 website:
   title: "{title}"
-  site-url: {doc_host}{doc_baseurl}
+  site-url: "{doc_host}{doc_baseurl}"
   description: "{description}"
   execute: 
     enabled: false
@@ -241,14 +241,14 @@ website:
   open-graph: true
   reader-mode: true
   repo-branch: {branch}
-  repo-url: {git_url}
+  repo-url: "{git_url}"
   repo-actions: [issue]
   navbar:
     background: primary
     search: true
     right:
       - icon: github
-        href: {git_url}
+        href: "{git_url}"
   sidebar:
     style: "floating"
 
