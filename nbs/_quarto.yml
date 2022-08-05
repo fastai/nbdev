@@ -16,6 +16,7 @@ format:
 
 website:
   title: "nbdev"
+  site-url: "https://nbdev.fast.ai/"
   description: "Create delightful software with Jupyter Notebooks"
   execute: 
     enabled: false
