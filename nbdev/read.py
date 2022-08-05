@@ -16,6 +16,7 @@ from fastcore.xtras import *
 
 import ast,functools
 from IPython.display import Markdown
+from configparser import ConfigParser
 from execnb.nbio import read_nb,NbCell
 from pprint import pformat,pprint
 
@@ -29,6 +30,18 @@ def create_output(txt, mime):
 def show_src(src, lang='python'): return Markdown(f'```{lang}\n{src}\n```')
 
 # %% ../nbs/01_read.ipynb 10
+@patch
+def __init__(self:Config, cfg_path, cfg_name, create=None, save=True):
+    cfg_path = Path(cfg_path).expanduser().absolute()
+    self.config_path,self.config_file = cfg_path,cfg_path/cfg_name
+    if self.config_file.exists(): self.d = read_config_file(self.config_file)
+    elif create is not None:
+        self.d = ConfigParser(create)['DEFAULT']
+        if save:
+            cfg_path.mkdir(exist_ok=True, parents=True)
+            self.save()
+
+# %% ../nbs/01_read.ipynb 13
 def apply_defaults(
     cfg,
     lib_name:str=None, # Package name, defaults to local repo folder name
@@ -42,7 +55,7 @@ def apply_defaults(
     version='0.0.1', # Version of this release
     doc_host='https://%(user)s.github.io',  # Hostname for docs
     doc_baseurl='/%(lib_name)s',  # Base URL for docs
-    keywords='nbdev jupyter notebook python', # Space-separated list of package keywords
+    keywords='nbdev jupyter notebook python', # Package keywords
     license='apache2', # License for the package
     copyright:str=None, # Copyright for the package, defaults to '`current_year` onwards, `author`'
     status='3', # Development status PyPI classifier
@@ -53,17 +66,19 @@ def apply_defaults(
     black_formatting:bool_arg=False, # Format libraries with black?
     readme_nb='index.ipynb', # Notebook to export as repo readme
     title='%(lib_name)s', # Quarto website title
+    allowed_metadata_keys='', # Preserve the list of keys in the main notebook metadata
+    allowed_cell_metadata_keys='', # Preserve the list of keys in cell level metadata
 ):
     "Apply default settings where missing in `cfg`"
     if lib_name is None:
         _parent = Path.cwd().parent
         lib_name = _parent.parent.name if _parent.name=='nbs' else _parent.name
-    if copyright is None and 'author' in cfg: copyright = f"{datetime.now().year} ownwards, {cfg['author']}"
+    if copyright is None and hasattr(cfg,'author'): copyright = f"{datetime.now().year} ownwards, {cfg.author}"
     for k,v in locals().items():
         if not (k.startswith('_') or k=='cfg' or k in cfg): cfg[k] = v
     return cfg
 
-# %% ../nbs/01_read.ipynb 11
+# %% ../nbs/01_read.ipynb 14
 @call_parse
 @delegates(apply_defaults, but='cfg')
 def nbdev_create_config(
@@ -76,30 +91,32 @@ def nbdev_create_config(
     **kwargs
 ):
     "Create a config file"
-    cfg = {k:v for k,v in locals().items() if k not in ('path','cfg_name')}
+    d = {k:v for k,v in locals().items() if k not in ('path','cfg_name')}
+    cfg = Config(path, cfg_name, d, save=False)
     cfg = apply_defaults(cfg, **kwargs)
-    save_config_file(Path(path)/cfg_name, cfg)
+    cfg.save()
 
-# %% ../nbs/01_read.ipynb 13
+# %% ../nbs/01_read.ipynb 16
 @functools.lru_cache(maxsize=None)
 def get_config(cfg_name='settings.ini', path=None):
     "`Config` for ini file found in `path` (defaults to `cwd`)"
-    cfg_path = Path.cwd() if path is None else Path(path)
+    cfg_path = path = Path.cwd() if path is None else Path(path)
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
-    return apply_defaults(Config(cfg_path, cfg_name=cfg_name))
+    if not (cfg_path/cfg_name).exists(): cfg_path = path
+    cfg = Config(cfg_path, cfg_name=cfg_name, create={}, save=False)
+    return apply_defaults(cfg)
 
-# %% ../nbs/01_read.ipynb 16
-def config_key(c, default=None, path=True, missing_ok=False):
+# %% ../nbs/01_read.ipynb 20
+def config_key(c, default=None, path=True, missing_ok=None):
     "Look for key `c` in settings.ini and fail gracefully if not found and no default provided"
-    try: cfg = get_config()
-    except FileNotFoundError:
-        if missing_ok and default is not None: return default
-        else: raise ValueError('settings.ini not found')
-    res = cfg.path(c) if path else cfg.get(c, default=default)
+    if missing_ok is not None:
+        warn("`missing_ok` is no longer used. Don't pass it to `config_key` to silence this warning.")
+    cfg = get_config()
+    res = cfg.path(c, default) if path else cfg.get(c, default)
     if res is None: raise ValueError(f'`{c}` not specified in settings.ini')
     return res
 
-# %% ../nbs/01_read.ipynb 18
+# %% ../nbs/01_read.ipynb 23
 _init = '__init__.py'
 
 def _has_py(fs): return any(1 for f in fs if f.endswith('.py'))
@@ -115,13 +132,13 @@ def add_init(path):
         subds = (os.listdir(r/d) for d in ds)
         if _has_py(fs) or any(filter(_has_py, subds)) and not (r/_init).exists(): (r/_init).touch()
 
-# %% ../nbs/01_read.ipynb 22
+# %% ../nbs/01_read.ipynb 27
 def write_cells(cells, hdr, file, offset=0):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbdev internal use)"
     for cell in cells:
         if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell.source}')
 
-# %% ../nbs/01_read.ipynb 23
+# %% ../nbs/01_read.ipynb 28
 def basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbdev"
     if dest is None: dest = config_key('lib_path')
