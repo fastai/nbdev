@@ -31,7 +31,7 @@ def nbdev_trust(
         warnings.warn("Please install jupyter and try again")
         return
 
-    fname = Path(fname if fname else config_key("nbs_path", '.'))
+    fname = Path(fname if fname else config_key("nbs_path"))
     path = fname if fname.is_dir() else fname.parent
     check_fname = path/".last_checked"
     last_checked = os.path.getmtime(check_fname) if check_fname.exists() else None
@@ -99,8 +99,8 @@ def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
 
 # %% ../nbs/11_clean.ipynb 23
 def _nbdev_clean(nb, **kwargs):
-    allowed_metadata_keys = config_key("allowed_metadata_keys", '', missing_ok=True, path=False).split()
-    allowed_cell_metadata_keys = config_key("allowed_cell_metadata_keys", '', missing_ok=True, path=False).split()
+    allowed_metadata_keys = config_key("allowed_metadata_keys", path=False).split()
+    allowed_cell_metadata_keys = config_key("allowed_cell_metadata_keys", path=False).split()
     return clean_nb(nb, allowed_metadata_keys=allowed_metadata_keys,
                     allowed_cell_metadata_keys=allowed_cell_metadata_keys, **kwargs)
 
@@ -118,7 +118,7 @@ def nbdev_clean(
     _write = partial(process_write, warn_msg='Failed to clean notebook', proc_nb=_clean)
     if stdin: return _write(f_in=sys.stdin, f_out=sys.stdout)
     
-    if fname is None: fname = config_key("nbs_path", '.', missing_ok=True)
+    if fname is None: fname = config_key("nbs_path")
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'): _write(f_in=f, disp=disp)
 
 # %% ../nbs/11_clean.ipynb 27
@@ -180,7 +180,7 @@ def nbdev_install_hooks():
         upd = _add_jupyter_hooks(src, fn)
         if upd is not None: fn.write_text(upd)
 
-    nb_path = config_key("nbs_path", '.')
+    nb_path = config_key('nbs_path')
     path = get_config().config_path
     hook_path = path/'.git'/'hooks'
     fn = hook_path/'post-merge'
