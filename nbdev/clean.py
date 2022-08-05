@@ -4,7 +4,9 @@
 __all__ = ['nbdev_trust', 'clean_nb', 'process_write', 'nbdev_clean', 'clean_jupyter', 'nbdev_install_hooks']
 
 # %% ../nbs/11_clean.ipynb 2
-import warnings,stat
+import ast,warnings,stat
+from astunparse import unparse
+from textwrap import indent
 
 from execnb.nbio import *
 from fastcore.script import *
@@ -139,22 +141,44 @@ def clean_jupyter(path, model, **kwargs):
     if jupyter_hooks=='user' or (jupyter_hooks=='nbdev' and in_nbdev_repo): _nbdev_clean(model['content'])
 
 # %% ../nbs/11_clean.ipynb 30
+_pre_save_hook_src = '''
+def nbdev_clean_jupyter(**kwargs):
+    try: from nbdev.clean import clean_jupyter
+    except ModuleNotFoundError: return
+    clean_jupyter(**kwargs)
+
+c.ContentsManager.pre_save_hook = nbdev_clean_jupyter'''.strip()
+_pre_save_hook_re = re.compile(r'c\.(File)?ContentsManager\.pre_save_hook')
+
+# %% ../nbs/11_clean.ipynb 31
+def _add_jupyter_hooks(src, path):
+    if _pre_save_hook_src in src: return
+    mod = ast.parse(src)
+    for node in ast.walk(mod):
+        if not isinstance(node,ast.Assign): continue
+        target = only(node.targets)
+        if _pre_save_hook_re.match(unparse(target)):
+            pre = ' '*2
+            old = indent(unparse(node), pre)
+            new = indent(_pre_save_hook_src, pre)
+            sys.stderr.write(f"Can't install hook to '{path}' since it already contains:\n{old}\n"
+                             f"Manually update to the following (without indentation) for this functionality:\n\n{new}\n\n")
+            return
+    src = src.rstrip()
+    if src: src+='\n\n'
+    return src+_pre_save_hook_src
+
+# %% ../nbs/11_clean.ipynb 35
 @call_parse
 def nbdev_install_hooks():
     "Install Jupyter and git hooks to automatically clean, trust, and fix merge conflicts in notebooks"
     cfg_path = Path.home()/'.jupyter'
     cfg_path.mkdir(exist_ok=True)
-    cfg_fns = [cfg_path/f'jupyter_{o}_config.json' for o in ('notebook','server')]
-    attr,hook = 'ContentsManager.pre_save_hook','nbdev.clean.clean_jupyter'
+    cfg_fns = [cfg_path/f'jupyter_{o}_config.py' for o in ('notebook','server')]
     for fn in cfg_fns:
-        cfg = dict2obj(fn.read_json() if fn.exists() else {})
-        val = nested_attr(cfg, attr)
-        if val is None:
-            nested_setdefault(cfg, attr, hook)
-            fn.write_text(dumps(obj2dict(cfg), indent=2))
-        elif val != hook:
-            sys.stderr.write(f"Can't install hook to '{p}' since it already contains `{attr} = '{val}'`. "
-                             f"Manually update to `{attr} = '{hook}'` for this functionality.")
+        src = fn.read_text() if fn.exists() else ''
+        upd = _add_jupyter_hooks(src, fn)
+        if upd is not None: fn.write_text(upd)
 
     nb_path = config_key("nbs_path", '.')
     path = get_config().config_path
