@@ -2,6 +2,32 @@
 
 <!-- do not remove -->
 
+## 2.1.2
+
+### New Features
+
+- use global defaults instead of respecifying each time ([#770](https://github.com/fastai/nbdev/pull/770)), thanks to [@seeM](https://github.com/seeM)
+- `get_config` works without a settings file ([#768](https://github.com/fastai/nbdev/pull/768)), thanks to [@seeM](https://github.com/seeM)
+- add site url ([#767](https://github.com/fastai/nbdev/pull/767)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- add `show_src` to display rich source code ([#763](https://github.com/fastai/nbdev/pull/763)), thanks to [@seeM](https://github.com/seeM)
+- add support for `#|exports` ([#762](https://github.com/fastai/nbdev/issues/762))
+- `nbdev_merge` prints info like `git merge` ([#753](https://github.com/fastai/nbdev/issues/753))
+- helpers to convert fp front matter to quarto front matter ([#750](https://github.com/fastai/nbdev/pull/750)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Streamline default settings ([#747](https://github.com/fastai/nbdev/issues/747))
+- Config keys (and their defaults) should all be documented in one place
+- add `user` option to `jupyter_hooks` setting ([#738](https://github.com/fastai/nbdev/pull/738)), thanks to [@seeM](https://github.com/seeM)
+- Add appropriate `output-file` to existing frontmatter ([#728](https://github.com/fastai/nbdev/issues/728))
+
+### Bugs Squashed
+
+- `nbdev_prepare` sometimes throws BrokenProcessPool error on MacOS ([#731](https://github.com/fastai/nbdev/issues/731))
+- Incorrect relative import from package root inside nested module ([#773](https://github.com/fastai/nbdev/issues/773))
+- Jupyter hooks break in environments without `nbdev` installed ([#760](https://github.com/fastai/nbdev/issues/760))
+- `nbdev_fix` breaks with empty `ours` patch ([#752](https://github.com/fastai/nbdev/issues/752))
+- fix `nbdev_merge` during rebase; fix `nbdev_fix` `nobackup` default ([#737](https://github.com/fastai/nbdev/pull/737)), thanks to [@seeM](https://github.com/seeM)
+- non-notebooks do not have nbformat field ([#732](https://github.com/fastai/nbdev/pull/732)), thanks to [@dleen](https://github.com/dleen)
+
+
 ## 2.1.1
 
 ### New Features
