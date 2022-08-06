@@ -79,12 +79,14 @@ def nbdev_test(
     files = nbglob(fname, recursive=recursive, file_re=file_re, folder_re=folder_re,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, as_path=True, symlinks=symlinks)
     files = [f.absolute() for f in sorted(files) if _keep_file(f, ignore_fname)]
-    if len(files)==0:
-        print('No files were eligible for testing')
-        return
+    if len(files)==0: return print('No files were eligible for testing')
+
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
     os.chdir(config_key("nbs_path"))
-    results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers, pause=pause, do_print=do_print)
+    if IN_NOTEBOOK: kwargs = {'method':'spawn'} if os.name=='nt' else {'method':'forkserver'}
+    else: kwargs = {}
+    results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers,
+                       pause=pause, do_print=do_print, **kwargs)
     passed,times = zip(*results)
     if all(passed): print("Success.")
     else: 
