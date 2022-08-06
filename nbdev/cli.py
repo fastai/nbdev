@@ -60,7 +60,7 @@ def nbdev_sidebar(
 ):
     "Create sidebar.yml"
     if not force and str2bool(config_key('custom_sidebar', path=False)): return
-    path = config_key("nbs_path", ".") if not path else Path(path)
+    path = config_key("nbs_path") if not path else Path(path)
     files = nbglob(path, func=_f, symlinks=symlinks, file_re=file_re, folder_re=folder_re, file_glob=file_glob,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re).sorted(key=_sort)
     lastd,res = Path(),[]
@@ -303,14 +303,14 @@ def _sprun(cmd):
 def _doc_paths(path:str=None, doc_path:str=None):
     cfg = get_config()
     cfg_path = cfg.config_path
-    path = config_key("nbs_path", ".") if not path else Path(path)
+    path = config_key("nbs_path") if not path else Path(path)
     doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
     tmp_doc_path = path/f"{cfg['doc_path']}"
     return cfg,cfg_path,path,doc_path,tmp_doc_path
 
 # %% ../nbs/10_cli.ipynb 27
 def _render_readme(path):
-    idx_path = path/config_key('readme_nb', 'index.ipynb', path=False)
+    idx_path = path/config_key('readme_nb', path=False)
     if not idx_path.exists(): return
 
     yml_path = path/'sidebar.yml'

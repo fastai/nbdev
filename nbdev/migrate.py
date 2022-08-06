@@ -69,7 +69,7 @@ def migrate_md_fm(path, overwrite=True):
 def _re_v1():
     d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 
          'collapse_hide', 'hide_output', 'collapse_input', 'collapse_output', 'default_cls_lvl']
-    d += L(config_key('tst_flags', [], path=False, missing_ok=True))
+    d += L(config_key('tst_flags', path=False))
     d += [s.replace('_', '-') for s in d] # allow for hyphenated version of old directives
     _tmp = '|'.join(list(set(d)))
     return re.compile(f"^[ \f\v\t]*?(#)\s*({_tmp})", re.MULTILINE)
@@ -101,5 +101,5 @@ def nbdev_migrate_directives(
     _write = partial(process_write, warn_msg='Failed to replace directives', proc_nb=_repl_v1dir)
     if stdin: _write(f_in=sys.stdin, f_out=sys.stdout)
     _skip_re = None if no_skip else '^[_.]'
-    if fname is None: fname = config_key("nbs_path", '.', missing_ok=True)
+    if fname is None: fname = config_key("nbs_path")
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re=_skip_re): _write(f_in=f, disp=disp)
