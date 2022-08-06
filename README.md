@@ -8,7 +8,7 @@ to nbdev1 aren’t huge, it does require some changes. The old version
 docs are at [nbdev1.fast.ai](https://nbdev1.fast.ai). You can use
 version-pinning in `settings.ini` (i.e `'nbdev<2'`) to stop nbdev from
 upgrading. To upgrade, follow the [migration
-tutorial](https://nbdev.fast.ai/migrate.html).*
+tutorial](https://nbdev.fast.ai/migrating.html).*
 
 ------------------------------------------------------------------------
 
@@ -95,6 +95,7 @@ available commands:
 ```
 
     nbdev_bump_version              Increment version in settings.ini by one
+    nbdev_changelog                 Create a CHANGELOG.md file from closed and labeled GitHub issues
     nbdev_clean                     Clean all notebooks in `fname` to avoid merge conflicts
     nbdev_conda                     Create and upload a conda package
     nbdev_create_config             Create a config file
@@ -106,9 +107,10 @@ available commands:
     nbdev_ghp_deploy                Deploy docs in `doc_path` from settings.ini to GitHub Pages
     nbdev_help                      Show help for all console scripts
     nbdev_install                   Install Quarto and the current library
-    nbdev_install_hooks             Install git hooks to clean and trust notebooks automatically
+    nbdev_install_hooks             Install Jupyter and git hooks to automatically clean, trust, and fix merge conflicts in notebooks
     nbdev_install_quarto            Install latest Quarto on macOS or Linux, prints instructions for Windows
-    nbdev_migrate_directives        Convert all directives in `fname` from v1 to v2
+    nbdev_merge                     Git merge driver for notebooks
+    nbdev_migrate                   Convert all directives and callouts in `fname` from v1 to v2
     nbdev_new                       Create a new project from the current git repo
     nbdev_prepare                   Export, test, and clean notebooks
     nbdev_preview                   Start a local docs webserver
@@ -116,6 +118,8 @@ available commands:
     nbdev_quarto                    Create Quarto docs and README.md
     nbdev_readme                    Render README.md from index.ipynb
     nbdev_release                   Release both conda and PyPI packages
+    nbdev_release_gh                Calls `nbdev_changelog`, lets you edit the result, then pushes to git and calls `nbdev_release_git`
+    nbdev_release_git               Tag and create a release in GitHub for the current version
     nbdev_sidebar                   Create sidebar.yml
     nbdev_test                      Test in parallel notebooks matching `fname`, passing along `flags`
     nbdev_trust                     Trust notebooks matching `fname`

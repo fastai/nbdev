@@ -23,7 +23,7 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                                    'nbdev_test=nbdev.test:nbdev_test\n'
                                    'nbdev_bump_version=nbdev.cli:nbdev_bump_version\n'
                                    'nbdev_new=nbdev.cli:nbdev_new\n'
-                                   'nbdev_migrate_directives=nbdev.migrate:nbdev_migrate_directives\n'
+                                   'nbdev_migrate=nbdev.migrate:nbdev_migrate\n'
                                    'nbdev_install_quarto=nbdev.shortcuts:install_quarto\n'
                                    'nbdev_install=nbdev.shortcuts:install\n'
                                    'nbdev_docs=nbdev.shortcuts:docs\n'
@@ -129,7 +129,7 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                              'nbdev.merge.unpatch': 'https://nbdev.fast.ai/merge.html#unpatch'},
             'nbdev.migrate': { 'nbdev.migrate.migrate_md_fm': 'https://nbdev.fast.ai/migrate.html#migrate_md_fm',
                                'nbdev.migrate.migrate_nb_fm': 'https://nbdev.fast.ai/migrate.html#migrate_nb_fm',
-                               'nbdev.migrate.nbdev_migrate_directives': 'https://nbdev.fast.ai/migrate.html#nbdev_migrate_directives'},
+                               'nbdev.migrate.nbdev_migrate': 'https://nbdev.fast.ai/migrate.html#nbdev_migrate'},
             'nbdev.mkdocs': { 'nbdev.mkdocs.RmNumPrefix': 'https://nbdev.fast.ai/mkdocs.html#rmnumprefix',
                               'nbdev.mkdocs.RmNumPrefix.on_pre_page': 'https://nbdev.fast.ai/mkdocs.html#rmnumprefix.on_pre_page'},
             'nbdev.process': { 'nbdev.process.NBProcessor': 'https://nbdev.fast.ai/process.html#nbprocessor',

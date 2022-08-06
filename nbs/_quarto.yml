@@ -24,14 +24,14 @@ website:
   open-graph: true
   reader-mode: true
   repo-branch: master
-  repo-url: https://github.com/fastai/nbdev
+  repo-url: "https://github.com/fastai/nbdev"
   repo-actions: [issue]
   navbar:
     background: primary
     search: true
     right:
       - icon: github
-        href: https://github.com/fastai/nbdev
+        href: "https://github.com/fastai/nbdev"
   sidebar:
     style: "floating"
 
