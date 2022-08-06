@@ -176,7 +176,7 @@ def add_show_docs(nb):
         return c.source and c.cell_type=='code' and ('export' in c.directives_ or 'exports' in c.directives_)
 
     exports = L(cell for cell in nb.cells if _want(cell))
-    trees = nb.cells.map(NbCell.parsed_).concat()
+    trees = L(nb.cells).map(NbCell.parsed_).concat()
     shown_docs = {_get_nm(t) for t in _show_docs(trees)}
     for cell in reversed(exports):
         if cell_lang(cell) != 'python': 
@@ -189,7 +189,7 @@ _re_title = re.compile(r'^#\s+(.*)[\n\r]+(?:^>\s+(.*))?', flags=re.MULTILINE)
 _re_fm = re.compile(r'^---(.*\S+.*)---', flags=re.DOTALL)
 _re_defaultexp = re.compile(r'^\s*#\|\s*default_exp\s+(\S+)', flags=re.MULTILINE)
 
-def _celltyp(nb, cell_type): return nb.cells.filter(lambda c: c.cell_type == cell_type)
+def _celltyp(nb, cell_type): return L(nb.cells).filter(lambda c: c.cell_type == cell_type)
 def is_frontmatter(nb): return _celltyp(nb, 'raw').filter(lambda c: _re_fm.search(c.get('source', '')))
 def _istitle(cell): 
     txt = cell.get('source', '')
@@ -206,7 +206,7 @@ def yml2dict(s:str, rm_fence=True):
 # %% ../nbs/09_processors.ipynb 52
 def _default_exp(nb):
     "get the default_exp from a notebook"
-    code_src = nb.cells.filter(lambda x: x.cell_type == 'code').attrgot('source')
+    code_src = L(nb.cells).filter(lambda x: x.cell_type == 'code').attrgot('source')
     default_exp = first(code_src.filter().map(_re_defaultexp.search).filter())
     return default_exp.group(1) if default_exp else None
 

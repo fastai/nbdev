@@ -16,7 +16,7 @@ import shutil
 # %% ../nbs/15_migrate.ipynb 4
 def _get_fm(path): return nb_fmdict(read_nb(path), remove=False)
 def _get_raw_fm(nb): 
-    return first(nb.cells.filter(lambda x: x.cell_type == 'raw')).source
+    return first(L(nb.cells).filter(lambda x: x.cell_type == 'raw')).source
 
 # %% ../nbs/15_migrate.ipynb 5
 def _cat_slug(fmdict):

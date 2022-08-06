@@ -106,7 +106,7 @@ def retr_exports(trees):
 def make_all(self:ModuleMaker, cells):
     "Create `__all__` with all exports in `cells`"
     if cells is None: return ''
-    return retr_exports(cells.map(NbCell.parsed_).concat())
+    return retr_exports(L(cells).map(NbCell.parsed_).concat())
 
 # %% ../nbs/02_maker.ipynb 23
 def make_code_cells(*ss): return dict2nb({'cells':L(ss).map(mk_cell)}).cells
@@ -181,6 +181,7 @@ def _import2relative(cells, lib_name=None):
 def make(self:ModuleMaker, cells, all_cells=None, lib_path=None):
     "Write module containing `cells` with `__all__` generated from `all_cells`"
     if all_cells is None: all_cells = cells
+    cells,all_cells = L(cells),L(all_cells)
     if self.parse: 
         if not lib_path: lib_path = get_config().path('lib_path')
         mod_dir = os.path.relpath(self.fname.parent, Path(lib_path).parent)
