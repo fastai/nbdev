@@ -120,7 +120,8 @@ def relative_import(name, fname, level=0):
     rel = os.path.relpath(sname, fname)
     if rel==".": return "."
     res = rel.replace(f"..{os.path.sep}", ".")
-    return "." + res.replace(os.path.sep, ".")
+    if not all(o=='.' for o in res): res='.'+res
+    return res.replace(os.path.sep, ".")
 
 # %% ../nbs/02_maker.ipynb 28
 # Based on https://github.com/thonny/thonny/blob/master/thonny/ast_utils.py
