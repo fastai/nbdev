@@ -68,19 +68,23 @@ def migrate_md_fm(path, overwrite=True):
     else: return md 
 
 # %% ../nbs/15_migrate.ipynb 26
+_alias = merge({k:'code-fold: true' for k in ['collapse', 'collapse_input', 'collapse_hide']}, {'collapse_show':'code-fold: show'})
+def _subv1(s): return _alias.get(s, s)
+
+# %% ../nbs/15_migrate.ipynb 27
 def _re_v1():
-    d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 
-         'collapse_hide', 'hide_output', 'collapse_input', 'collapse_output', 'default_cls_lvl']
+    d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 'collapse',
+         'collapse_hide', 'collapse_input', 'hide_output',  'default_cls_lvl']
     d += L(config_key('tst_flags', path=False)).filter()
     d += [s.replace('_', '-') for s in d] # allow for hyphenated version of old directives
     _tmp = '|'.join(list(set(d)))
-    return re.compile(f"^[ \f\v\t]*?(#)\s*({_tmp})", re.MULTILINE)
+    return re.compile(f"^[ \f\v\t]*?(#)\s*({_tmp})(?!\S)", re.MULTILINE)
 
 def _repl_directives(code_str): 
-    def _fmt(x): return f"#| {x[2].replace('-', '_')}"
+    def _fmt(x): return f"#| {_subv1(x[2].replace('-', '_').strip())}"
     return _re_v1().sub(_fmt, code_str)
 
-# %% ../nbs/15_migrate.ipynb 30
+# %% ../nbs/15_migrate.ipynb 31
 def _repl_v1dir(nb):
     "Replace nbdev v1 with v2 directives."
     for cell in nb['cells']:
@@ -91,14 +95,14 @@ def _repl_v1dir(nb):
             if not ss: pass
             else: cell['source'] = [_repl_directives(c) for c in ss[:first_code]] + ss[first_code:]
 
-# %% ../nbs/15_migrate.ipynb 33
+# %% ../nbs/15_migrate.ipynb 34
 _re_callout = re.compile(r'^>\s(Warning|Note|Important|Tip):(.*)', flags=re.MULTILINE)
 def _co(x): return ":::{.callout-"+x[1].lower()+"}\n\n" + f"{x[2].strip()}\n\n" + ":::"
 def _convert_callout(s): 
     "Convert nbdev v1 to v2 callouts."
     return _re_callout.sub(_co, s)
 
-# %% ../nbs/15_migrate.ipynb 39
+# %% ../nbs/15_migrate.ipynb 40
 def _repl_v1callouts(nb):
     "Replace nbdev v1 with v2 callouts."
     for cell in nb['cells']:
@@ -106,7 +110,7 @@ def _repl_v1callouts(nb):
             cell['source'] = [_convert_callout(c) for c in cell['source'].copy()]
     return nb
 
-# %% ../nbs/15_migrate.ipynb 40
+# %% ../nbs/15_migrate.ipynb 41
 @call_parse
 def nbdev_migrate(
     fname:str=None, # A notebook name or glob to migrate
