@@ -269,7 +269,7 @@ def _fp_image(d):
 def filter_fm(fmdict:dict):
     "Filter front matter"
     keys = ['title', 'description', 'author', 'image', 'categories', 'output-file', 'aliases', 'search', 'draft', 'comments']
-    if not fmdict: return None
+    if not fmdict: return {}
     return filter_keys(fmdict, in_(keys))
 
 # %% ../nbs/09_processors.ipynb 62
