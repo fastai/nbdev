@@ -78,7 +78,9 @@ def _nbdev_fix(nbname:str, # Notebook filename to fix
 nbdev_fix = call_parse(_nbdev_fix)
 
 # %% ../nbs/06_merge.ipynb 28
-def _git_branch_merge(): return only(v for k,v in os.environ.items() if k.startswith('GITHEAD'))
+def _git_branch_merge():
+    try: return only(v for k,v in os.environ.items() if k.startswith('GITHEAD'))
+    except ValueError: return
 
 # %% ../nbs/06_merge.ipynb 29
 def _git_rebase_head():
@@ -92,7 +94,7 @@ def _git_rebase_head():
 # %% ../nbs/06_merge.ipynb 30
 def _git_merge_file(base, ours, theirs):
     "`git merge-file` with expected labels depending on if a `merge` or `rebase` is in-progress"
-    l_theirs = _git_rebase_head() or _git_branch_merge()
+    l_theirs = _git_rebase_head() or _git_branch_merge() or 'THEIRS'
     cmd = f"git merge-file -L HEAD -L BASE -L '{l_theirs}' {ours} {base} {theirs}"
     return subprocess.run(cmd, shell=True, capture_output=True, text=True)
 
