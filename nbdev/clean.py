@@ -98,9 +98,10 @@ def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
         warn(e)
 
 # %% ../nbs/11_clean.ipynb 23
-def _nbdev_clean(nb, **kwargs):
-    allowed_metadata_keys = config_key("allowed_metadata_keys", path=False).split()
-    allowed_cell_metadata_keys = config_key("allowed_cell_metadata_keys", path=False).split()
+def _nbdev_clean(nb, path=None, **kwargs):
+    cfg = get_config(path=path)
+    allowed_metadata_keys = cfg.get("allowed_metadata_keys").split()
+    allowed_cell_metadata_keys = cfg.get("allowed_cell_metadata_keys").split()
     return clean_nb(nb, allowed_metadata_keys=allowed_metadata_keys,
                     allowed_cell_metadata_keys=allowed_cell_metadata_keys, **kwargs)
 
@@ -132,7 +133,8 @@ def clean_jupyter(path, model, **kwargs):
               "See the docs for more: https://nbdev.fast.ai/clean.html#clean_jupyter"), DeprecationWarning)
         jupyter_hooks = False if jupyter_hooks == 'none' else True
     else: jupyter_hooks = str2bool(jupyter_hooks)
-    if jupyter_hooks: _nbdev_clean(model['content'])
+    if jupyter_hooks: _nbdev_clean(model['content'], path=path)
+
 
 # %% ../nbs/11_clean.ipynb 30
 _pre_save_hook_src = '''
