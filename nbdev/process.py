@@ -33,9 +33,9 @@ def nb_lang(nb): return nested_attr(nb, 'metadata.kernelspec.language', 'python'
 
 # %% ../nbs/03_process.ipynb 9
 def _dir_pre(lang=None): return fr"\s*{langs[lang]}\s*\|"
-def _quarto_re(lang=None): return re.compile(_dir_pre(lang) + r'\s*\w+\s*:')
+def _quarto_re(lang=None): return re.compile(_dir_pre(lang) + r'\s*[\w|-]+\s*:')
 
-# %% ../nbs/03_process.ipynb 10
+# %% ../nbs/03_process.ipynb 11
 def _directive(s, lang='python'):
     s = re.sub('^'+_dir_pre(lang), f"{langs[lang]}|", s)
     if ':' in s: s = s.replace(':', ': ')
@@ -44,19 +44,19 @@ def _directive(s, lang='python'):
     direc,*args = s
     return direc,args
 
-# %% ../nbs/03_process.ipynb 11
+# %% ../nbs/03_process.ipynb 12
 def _norm_quarto(s, lang='python'):
     "normalize quarto directives so they have a space after the colon"
     m = _quarto_re(lang).match(s)
     return m.group(0) + ' ' + _quarto_re(lang).sub('', s).lstrip() if m else s
 
-# %% ../nbs/03_process.ipynb 13
+# %% ../nbs/03_process.ipynb 14
 def first_code_ln(code_list, re_pattern=None, lang='python'):
     if re_pattern is None: re_pattern = _dir_pre(lang)
     "get first line number where code occurs, where `code_list` is a list of code"
     return first(i for i,o in enumerate(code_list) if o.strip() != '' and not re.match(re_pattern, o))
 
-# %% ../nbs/03_process.ipynb 15
+# %% ../nbs/03_process.ipynb 16
 def extract_directives(cell, remove=True, lang='python'):
     "Take leading comment directives from lines of code in `ss`, remove `#|`, and split"
     if cell.source:
@@ -69,22 +69,22 @@ def extract_directives(cell, remove=True, lang='python'):
             cell['source'] = ''.join([_norm_quarto(o, lang) for o in pre if _quarto_re(lang).match(o)] + ss[first_code:])
         return dict(L(_directive(s, lang) for s in pre).filter())
 
-# %% ../nbs/03_process.ipynb 19
+# %% ../nbs/03_process.ipynb 20
 def opt_set(var, newval):
     "newval if newval else var"
     return newval if newval else var
 
-# %% ../nbs/03_process.ipynb 20
+# %% ../nbs/03_process.ipynb 21
 def instantiate(x, **kwargs):
     "Instantiate `x` if it's a type"
     return x(**kwargs) if isinstance(x,type) else x
 
 def _mk_procs(procs, nb): return L(procs).map(instantiate, nb=nb)
 
-# %% ../nbs/03_process.ipynb 21
+# %% ../nbs/03_process.ipynb 22
 def _is_direc(f): return getattr(f, '__name__', '-')[-1]=='_'
 
-# %% ../nbs/03_process.ipynb 22
+# %% ../nbs/03_process.ipynb 23
 class NBProcessor:
     "Process cells and nbdev comments in a notebook"
     def __init__(self, path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False, rm_directives=True, process=False):
