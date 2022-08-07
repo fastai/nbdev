@@ -89,8 +89,7 @@ def _repl_v1dir(nb):
             first_code = first_code_ln(ss, re_pattern=_re_v1())
             if not first_code: first_code = len(ss)
             if not ss: pass
-            else: 
-                cell['source'] = [_repl_directives(c) for c in ss[:first_code]] + ss[first_code:]
+            else: cell['source'] = [_repl_directives(c) for c in ss[:first_code]] + ss[first_code:]
 
 # %% ../nbs/15_migrate.ipynb 33
 _re_callout = re.compile(r'^>\s(Warning|Note|Important|Tip):(.*)', flags=re.MULTILINE)
