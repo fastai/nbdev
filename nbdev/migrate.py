@@ -5,7 +5,7 @@ __all__ = ['migrate_nb_fm', 'migrate_md_fm', 'nbdev_migrate']
 
 # %% ../nbs/15_migrate.ipynb 2
 from .process import first_code_ln
-from .processors import nb_fmdict, construct_fm, insert_frontmatter, is_frontmatter, yml2dict
+from .processors import nb_fmdict, construct_fm, insert_frontmatter, is_frontmatter, yml2dict, filter_fm
 from .read import read_nb, config_key
 from .sync import write_nb
 from .clean import process_write
@@ -62,7 +62,7 @@ def migrate_md_fm(path, overwrite=True):
     fm = _md_fmdict(md)
     if fm:
         _add_alias(fm, path)
-        txt = _re_fm_md.sub(construct_fm(fm), md)
+        txt = _re_fm_md.sub(construct_fm(filter_fm(fm)), md)
         if overwrite: p.write_text(txt)
         return txt
     else: return md 
