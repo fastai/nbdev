@@ -221,7 +221,6 @@ project:
   type: website
   output-dir: {doc_path}
   preview:
-    port: 3000
     browser: false
 
 format:
