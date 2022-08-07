@@ -21,8 +21,14 @@ from execnb.nbio import *
 from execnb.shell import *
 
 # %% ../nbs/14_test.ipynb 3
-def test_nb(fn, skip_flags=None, force_flags=None, do_print=False, showerr=True):
+def test_nb(fn,  # file name of notebook to test
+            skip_flags=None,  # list of flags marking cells to skip
+            force_flags=None,  # list of flags marking cells to always run
+            do_print=False,  # print completion?
+            showerr=True,  # warn errors?
+            basepath=None):  # path to add to sys.path
     "Execute tests in notebook in `fn` except those with `skip_flags`"
+    if basepath: sys.path.insert(0, str(basepath))
     if not IN_NOTEBOOK: os.environ["IN_TEST"] = '1'
     flags=set(L(skip_flags)) - set(L(force_flags))
     nb = NBProcessor(fn, nbflags_, process=True).nb
@@ -86,7 +92,7 @@ def nbdev_test(
     if IN_NOTEBOOK: kwargs = {'method':'spawn'} if os.name=='nt' else {'method':'forkserver'}
     else: kwargs = {}
     results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers,
-                       pause=pause, do_print=do_print, **kwargs)
+                       basepath=get_config().config_path, pause=pause, do_print=do_print, **kwargs)
     passed,times = zip(*results)
     if all(passed): print("Success.")
     else: 
