@@ -124,21 +124,15 @@ def nbdev_clean(
 # %% ../nbs/11_clean.ipynb 27
 def clean_jupyter(path, model, **kwargs):
     "Clean Jupyter `model` pre save to `path`"
-    get_config.cache_clear() # Allow config changes without restarting Jupyter
-    try: cfg = get_config(path=path)
-    except FileNotFoundError: cfg = {}
-
-    jupyter_hooks = cfg.get('jupyter_hooks', 'user')
-    try: jupyter_hooks = str2bool(jupyter_hooks)
-    except ValueError: pass
-    else:
-        warn(("Boolean-valued `jupyter_hooks` is deprecated. Use one of `{'user','nbdev','none'} instead.\n"
-              "See the docs for more: https://nbdev.fast.ai/clean.html#clean_jupyter"), DeprecationWarning)
-        jupyter_hooks = 'nbdev' if jupyter_hooks else 'none'
-
     if not (model['type']=='notebook' and model['content']['nbformat']==4): return
-    in_nbdev_repo = 'nbs_path' in cfg
-    if jupyter_hooks=='user' or (jupyter_hooks=='nbdev' and in_nbdev_repo): _nbdev_clean(model['content'])
+    get_config.cache_clear() # Allow config changes without restarting Jupyter
+    jupyter_hooks = config_key('jupyter_hooks', path=False)
+    if jupyter_hooks in {'user','nbdev','none'}:
+        warn(("`jupyter_hooks` values in `{'user','nbdev','none'}` are deprecated. Use `True` or `False` instead.\n"
+              "See the docs for more: https://nbdev.fast.ai/clean.html#clean_jupyter"), DeprecationWarning)
+        jupyter_hooks = False if jupyter_hooks == 'none' else True
+    else: jupyter_hooks = str2bool(jupyter_hooks)
+    if jupyter_hooks: _nbdev_clean(model['content'])
 
 # %% ../nbs/11_clean.ipynb 30
 _pre_save_hook_src = '''

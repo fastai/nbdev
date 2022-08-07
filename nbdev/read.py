@@ -61,6 +61,7 @@ def apply_defaults(
     title='%(lib_name)s', # Quarto website title
     allowed_metadata_keys='', # Preserve the list of keys in the main notebook metadata
     allowed_cell_metadata_keys='', # Preserve the list of keys in cell level metadata
+    jupyter_hooks=True, # Run Jupyter hooks?
 ):
     "Apply default settings where missing in `cfg`"
     if lib_name is None:
