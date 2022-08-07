@@ -71,7 +71,7 @@ def migrate_md_fm(path, overwrite=True):
 def _re_v1():
     d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 
          'collapse_hide', 'hide_output', 'collapse_input', 'collapse_output', 'default_cls_lvl']
-    d += L(config_key('tst_flags', path=False))
+    d += L(config_key('tst_flags', path=False)).filter()
     d += [s.replace('_', '-') for s in d] # allow for hyphenated version of old directives
     _tmp = '|'.join(list(set(d)))
     return re.compile(f"^[ \f\v\t]*?(#)\s*({_tmp})", re.MULTILINE)
@@ -89,7 +89,8 @@ def _repl_v1dir(nb):
             first_code = first_code_ln(ss, re_pattern=_re_v1())
             if not first_code: first_code = len(ss)
             if not ss: pass
-            else: cell['source'] = [_repl_directives(c) for c in ss[:first_code]] + ss[first_code:]
+            else: 
+                cell['source'] = [_repl_directives(c) for c in ss[:first_code]] + ss[first_code:]
 
 # %% ../nbs/15_migrate.ipynb 33
 _re_callout = re.compile(r'^>\s(Warning|Note|Important|Tip):(.*)', flags=re.MULTILINE)
