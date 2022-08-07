@@ -17,7 +17,8 @@ from dataclasses import dataclass, is_dataclass
 from textwrap import fill
 
 # %% auto 0
-__all__ = ['DocmentTbl', 'ShowDocRenderer', 'BasicMarkdownRenderer', 'show_doc', 'BasicHtmlRenderer', 'showdoc_nm', 'colab_link']
+__all__ = ['DocmentTbl', 'ShowDocRenderer', 'BasicMarkdownRenderer', 'show_doc', 'doc', 'BasicHtmlRenderer', 'showdoc_nm',
+           'colab_link']
 
 # %% ../nbs/08_showdoc.ipynb 6
 def _non_empty_keys(d:dict): return L([k for k,v in d.items() if v != inspect._empty])
@@ -108,7 +109,7 @@ class DocmentTbl:
 
 # %% ../nbs/08_showdoc.ipynb 28
 class ShowDocRenderer:
-    def __init__(self, sym, disp:bool=True, name:str|None=None, title_level:int|None=None):
+    def __init__(self, sym, name:str|None=None, title_level:int|None=None):
         "Show documentation for `sym`"
         store_attr()
         self.nm = name or qual_name(sym)
@@ -148,16 +149,30 @@ class BasicMarkdownRenderer(ShowDocRenderer):
         return doc
 
 # %% ../nbs/08_showdoc.ipynb 32
-def show_doc(sym, disp=True, renderer=None, name:str|None=None, title_level:int|None=None):
+def show_doc(sym, renderer=None, name:str|None=None, title_level:int|None=None):
     if renderer is None: renderer = get_config().get('renderer', None)
     if renderer is None: renderer=BasicMarkdownRenderer
     elif isinstance(renderer,str):
         p,m = renderer.rsplit('.', 1)
         renderer = getattr(import_module(p), m)
     if isinstance(sym, TypeDispatch): pass
-    else:return renderer(sym or show_doc, disp=disp, name=name, title_level=title_level)
+    else:return renderer(sym or show_doc, name=name, title_level=title_level)
 
-# %% ../nbs/08_showdoc.ipynb 48
+# %% ../nbs/08_showdoc.ipynb 35
+def _fullname(o):
+    module,name = o.__module__,qual_name(o)
+    return name if module is None or module == 'builtins' else module + '.' + name
+
+def doc(elt, show_all_docments:bool=False):
+    "Show `show_doc` info along with link to docs"
+    from IPython.display import display,Markdown
+    md = BasicMarkdownRenderer(elt)._repr_markdown_()
+    doc_link = NbdevLookup()[_fullname(elt)]
+    if doc_link is not None:
+        md += f'\n\n<a href="{doc_link}" target="_blank" rel="noreferrer noopener">Show in docs</a>'
+    display(Markdown(md))
+
+# %% ../nbs/08_showdoc.ipynb 50
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
@@ -166,12 +181,12 @@ class BasicHtmlRenderer(ShowDocRenderer):
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 53
+# %% ../nbs/08_showdoc.ipynb 55
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(get_patch_name(tree), tree.name)
 
-# %% ../nbs/08_showdoc.ipynb 56
+# %% ../nbs/08_showdoc.ipynb 58
 def colab_link(path):
     "Get a link to the notebook at `path` on Colab"
     from IPython.display import Markdown
