@@ -47,7 +47,9 @@ def nbdev_trust(
 # %% ../nbs/11_clean.ipynb 9
 _repr_id_re = re.compile('(<.*?)( at 0x[0-9a-fA-F]+)(>)')
 
-def _clean_cell_output_id(lines): return [_repr_id_re.sub(r'\1\3', o) for o in lines]
+def _clean_cell_output_id(lines):
+    sub = partial(_repr_id_re.sub, r'\1\3')
+    return sub(lines) if isinstance(lines,str) else [sub(o) for o in lines]
 
 # %% ../nbs/11_clean.ipynb 11
 def _clean_cell_output(cell, clean_ids):
