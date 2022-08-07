@@ -62,6 +62,7 @@ def apply_defaults(
     allowed_metadata_keys='', # Preserve the list of keys in the main notebook metadata
     allowed_cell_metadata_keys='', # Preserve the list of keys in cell level metadata
     jupyter_hooks=True, # Run Jupyter hooks?
+    clean_ids=True, # Remove ids from plaintext reprs?
 ):
     "Apply default settings where missing in `cfg`"
     if lib_name is None:

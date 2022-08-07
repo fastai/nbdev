@@ -45,46 +45,57 @@ def nbdev_trust(
     check_fname.touch(exist_ok=True)
 
 # %% ../nbs/11_clean.ipynb 9
-def _clean_cell_output(cell):
-    "Remove execution count in `cell`"
-    if 'outputs' in cell:
-        for o in cell['outputs']:
-            if 'execution_count' in o: o['execution_count'] = None
-            o.get('data',{}).pop("application/vnd.google.colaboratory.intrinsic+json", None)
-            o.get('metadata', {}).pop('tags', None)
+_repr_id_re = re.compile('(<.*?)( at 0x[0-9a-fA-F]+)(>)')
 
-# %% ../nbs/11_clean.ipynb 10
-def _clean_cell(cell, clear_all=False, allowed_metadata_keys=None):
+def _clean_cell_output_id(lines): return [_repr_id_re.sub(r'\1\3', o) for o in lines]
+
+# %% ../nbs/11_clean.ipynb 11
+def _clean_cell_output(cell, clean_ids):
+    "Remove `cell` output execution count and optionally ids from text reprs"
+    outputs = cell.get('outputs', [])
+    for o in outputs:
+        if 'execution_count' in o: o['execution_count'] = None
+        data = o.get('data', {})
+        data.pop("application/vnd.google.colaboratory.intrinsic+json", None)
+        if clean_ids:
+            for k in data:
+                if k.startswith('text'): data[k] = _clean_cell_output_id(data[k])
+            if 'text' in o: o['text'] = _clean_cell_output_id(o['text'])
+        o.get('metadata', {}).pop('tags', None)
+
+# %% ../nbs/11_clean.ipynb 12
+def _clean_cell(cell, clear_all, allowed_metadata_keys, clean_ids):
     "Clean `cell` by removing superfluous metadata or everything except the input if `clear_all`"
     if 'execution_count' in cell: cell['execution_count'] = None
     if 'outputs' in cell:
         if clear_all: cell['outputs'] = []
-        else:         _clean_cell_output(cell)
+        else:         _clean_cell_output(cell, clean_ids)
     if cell['source'] == ['']: cell['source'] = []
     cell['metadata'] = {} if clear_all else {
         k:v for k,v in cell['metadata'].items() if k in allowed_metadata_keys}
 
-# %% ../nbs/11_clean.ipynb 11
+# %% ../nbs/11_clean.ipynb 13
 def clean_nb(
     nb, # The notebook to clean
     clear_all=False, # Remove all cell metadata and cell outputs
     allowed_metadata_keys:list=None, # Preserve the list of keys in the main notebook metadata
-    allowed_cell_metadata_keys:list=None # Preserve the list of keys in cell level metadata
+    allowed_cell_metadata_keys:list=None, # Preserve the list of keys in cell level metadata
+    clean_ids=True, # Remove ids from plaintext reprs?
 ):
     "Clean `nb` from superfluous metadata"
     metadata_keys = {"kernelspec", "jekyll", "jupytext", "doc"}
     if allowed_metadata_keys: metadata_keys.update(allowed_metadata_keys)
     cell_metadata_keys = {"hide_input"}
     if allowed_cell_metadata_keys: cell_metadata_keys.update(allowed_cell_metadata_keys)
-    for c in nb['cells']: _clean_cell(c, clear_all=clear_all, allowed_metadata_keys=cell_metadata_keys)
+    for c in nb['cells']: _clean_cell(c, clear_all, cell_metadata_keys, clean_ids)
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in metadata_keys}
 
-# %% ../nbs/11_clean.ipynb 20
+# %% ../nbs/11_clean.ipynb 24
 def _reconfigure(*strms):
     for s in strms:
         if hasattr(s,'reconfigure'): s.reconfigure(encoding='utf-8')
 
-# %% ../nbs/11_clean.ipynb 22
+# %% ../nbs/11_clean.ipynb 25
 def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
     if not f_out: f_out = sys.stdout if disp else f_in
     if isinstance(f_in, (str,Path)): f_in = Path(f_in).open()
@@ -97,15 +108,16 @@ def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
         warn(f'{warn_msg}')
         warn(e)
 
-# %% ../nbs/11_clean.ipynb 23
+# %% ../nbs/11_clean.ipynb 26
 def _nbdev_clean(nb, path=None, **kwargs):
     cfg = get_config(path=path)
     allowed_metadata_keys = cfg.get("allowed_metadata_keys").split()
     allowed_cell_metadata_keys = cfg.get("allowed_cell_metadata_keys").split()
-    return clean_nb(nb, allowed_metadata_keys=allowed_metadata_keys,
+    clean_ids = str2bool(cfg.get('clean_ids'))
+    return clean_nb(nb, clean_ids=clean_ids, allowed_metadata_keys=allowed_metadata_keys,
                     allowed_cell_metadata_keys=allowed_cell_metadata_keys, **kwargs)
 
-# %% ../nbs/11_clean.ipynb 24
+# %% ../nbs/11_clean.ipynb 27
 @call_parse
 def nbdev_clean(
     fname:str=None, # A notebook name or glob to clean
@@ -122,7 +134,7 @@ def nbdev_clean(
     if fname is None: fname = config_key("nbs_path")
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'): _write(f_in=f, disp=disp)
 
-# %% ../nbs/11_clean.ipynb 27
+# %% ../nbs/11_clean.ipynb 30
 def clean_jupyter(path, model, **kwargs):
     "Clean Jupyter `model` pre save to `path`"
     if not (model['type']=='notebook' and model['content']['nbformat']==4): return
@@ -135,7 +147,7 @@ def clean_jupyter(path, model, **kwargs):
     else: jupyter_hooks = str2bool(jupyter_hooks)
     if jupyter_hooks: _nbdev_clean(model['content'], path=path)
 
-# %% ../nbs/11_clean.ipynb 30
+# %% ../nbs/11_clean.ipynb 33
 _pre_save_hook_src = '''
 def nbdev_clean_jupyter(**kwargs):
     try: from nbdev.clean import clean_jupyter
@@ -145,7 +157,7 @@ def nbdev_clean_jupyter(**kwargs):
 c.ContentsManager.pre_save_hook = nbdev_clean_jupyter'''.strip()
 _pre_save_hook_re = re.compile(r'c\.(File)?ContentsManager\.pre_save_hook')
 
-# %% ../nbs/11_clean.ipynb 31
+# %% ../nbs/11_clean.ipynb 34
 def _add_jupyter_hooks(src, path):
     if _pre_save_hook_src in src: return
     mod = ast.parse(src)
@@ -163,12 +175,12 @@ def _add_jupyter_hooks(src, path):
     if src: src+='\n\n'
     return src+_pre_save_hook_src
 
-# %% ../nbs/11_clean.ipynb 35
+# %% ../nbs/11_clean.ipynb 38
 def _git_root(): 
     try: return Path(run('git rev-parse --show-toplevel'))
     except OSError: return None
 
-# %% ../nbs/11_clean.ipynb 38
+# %% ../nbs/11_clean.ipynb 41
 @call_parse
 def nbdev_install_hooks():
     "Install Jupyter and git hooks to automatically clean, trust, and fix merge conflicts in notebooks"
