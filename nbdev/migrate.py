@@ -93,7 +93,7 @@ def _repl_v1dir(nb):
 
 # %% ../nbs/15_migrate.ipynb 33
 _re_callout = re.compile(r'^>\s(Warning|Note|Important|Tip):(.*)', flags=re.MULTILINE)
-def _co(x): return ":::{.callout-"+x[1]+"}\n\n" + f"{x[2].strip()}\n\n" + ":::"
+def _co(x): return ":::{.callout-"+x[1].lower()+"}\n\n" + f"{x[2].strip()}\n\n" + ":::"
 def _convert_callout(s): 
     "Convert nbdev v1 to v2 callouts."
     return _re_callout.sub(_co, s)
