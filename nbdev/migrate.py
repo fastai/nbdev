@@ -71,7 +71,7 @@ def migrate_md_fm(path, overwrite=True):
 def _re_v1():
     d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 
          'collapse_hide', 'hide_output', 'collapse_input', 'collapse_output', 'default_cls_lvl']
-    d += L(config_key('tst_flags', path=False))
+    d += L(config_key('tst_flags', path=False)).filter()
     d += [s.replace('_', '-') for s in d] # allow for hyphenated version of old directives
     _tmp = '|'.join(list(set(d)))
     return re.compile(f"^[ \f\v\t]*?(#)\s*({_tmp})", re.MULTILINE)
