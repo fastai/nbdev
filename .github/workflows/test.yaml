@@ -18,3 +18,11 @@ jobs:
       - uses: fastai/workflows/nbdev-ci@master
         with:
           version: ${{ matrix.version }}
+      - name: test docs build
+        run: |
+          nbdev_docs
+          if [ -f "_docs/index.html" ]; then
+            echo "docs built successfully.";
+          else
+            exit 1;
+          fi
