@@ -65,8 +65,16 @@ class NB:
         
     def __getattr__(self, attr): return getattr(self.nb, attr)
 
+    def __getitem__(self, x): return getattr(self, x)
+
     @property
     def default_exp(self): return default_exp(self.nb)
+
+    @property
+    def text(self): return concat(L(self.nb.cells).attrgot('source').filter())
+    
+    def print_txt(self): 
+        for t in self.text: print(t + '\n')
 
     @property
     def title_cell(self): return _select_cell(self.nb, 'markdown', _re_title.search)        
