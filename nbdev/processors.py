@@ -9,7 +9,6 @@ __all__ = ['populate_language', 'insert_warning', 'cell_lang', 'add_show_docs', 
 import ast
 
 from .read import * 
-from .read import _default_exp
 from .imports import *
 from .process import *
 from .showdoc import *
