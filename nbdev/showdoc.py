@@ -15,6 +15,7 @@ from inspect import Signature, Parameter
 from collections import OrderedDict
 from dataclasses import dataclass, is_dataclass
 from textwrap import fill
+from types import FunctionType
 
 # %% auto 0
 __all__ = ['DocmentTbl', 'ShowDocRenderer', 'BasicMarkdownRenderer', 'show_doc', 'doc', 'BasicHtmlRenderer', 'showdoc_nm',
@@ -125,10 +126,23 @@ class ShowDocRenderer:
     __repr__ = basic_repr()
 
 # %% ../nbs/08_showdoc.ipynb 29
+def _f_name(o): return f'<function {o.__name__}>' if isinstance(o, FunctionType) else None
+def _fmt_anno(o): return inspect.formatannotation(o).strip("'").replace(' ','')
+
+def _show_param(param):
+    "Like `Parameter.__str__` except removes: quotes in annos, spaces, ids in reprs"
+    kind,res,anno,default = param.kind,param._name,param._annotation,param._default
+    kind = '*' if kind==inspect._VAR_POSITIONAL else '**' if kind==inspect._VAR_KEYWORD else ''
+    res = kind+res
+    if anno is not inspect._empty: res += f':{_f_name(anno) or _fmt_anno(anno)}'
+    if default is not inspect._empty: res += f'={_f_name(default) or repr(default)}'
+    return res
+
+# %% ../nbs/08_showdoc.ipynb 31
 def _fmt_sig(sig):
     if sig is None: return ''
     p = {k:v for k,v in sig.parameters.items()}
-    _params = [str(p[k]).replace(' ','') for k in p.keys() if k != 'self']
+    _params = [_show_param(p[k]).replace(' ','') for k in p.keys() if k != 'self']
     return "(" + ', '.join(_params)  + ")"
 
 def _wrap_sig(s):
@@ -137,7 +151,7 @@ def _wrap_sig(s):
     indent = pad + ' ' * (s.find('(') + 1)
     return fill(s, width=80, initial_indent=pad, subsequent_indent=indent)
 
-# %% ../nbs/08_showdoc.ipynb 31
+# %% ../nbs/08_showdoc.ipynb 33
 class BasicMarkdownRenderer(ShowDocRenderer):
     def _repr_markdown_(self):
         doc = '---\n\n'
@@ -148,7 +162,7 @@ class BasicMarkdownRenderer(ShowDocRenderer):
         if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 32
+# %% ../nbs/08_showdoc.ipynb 34
 def show_doc(sym, renderer=None, name:str|None=None, title_level:int|None=None):
     if renderer is None: renderer = get_config().get('renderer', None)
     if renderer is None: renderer=BasicMarkdownRenderer
@@ -158,7 +172,7 @@ def show_doc(sym, renderer=None, name:str|None=None, title_level:int|None=None):
     if isinstance(sym, TypeDispatch): pass
     else:return renderer(sym or show_doc, name=name, title_level=title_level)
 
-# %% ../nbs/08_showdoc.ipynb 35
+# %% ../nbs/08_showdoc.ipynb 37
 def _fullname(o):
     module,name = o.__module__,qual_name(o)
     return name if module is None or module == 'builtins' else module + '.' + name
@@ -172,21 +186,21 @@ def doc(elt, show_all_docments:bool=False):
         md += f'\n\n<a href="{doc_link}" target="_blank" rel="noreferrer noopener">Show in docs</a>'
     display(Markdown(md))
 
-# %% ../nbs/08_showdoc.ipynb 50
+# %% ../nbs/08_showdoc.ipynb 52
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
         lvl = 4 if self.isfunc else 3
-        doc += f'<h{lvl}>{self.nm}</h{lvl}>\n<blockquote><code>{self.nm}{self.sig}</code></blockquote>'
+        doc += f'<h{lvl}>{self.nm}</h{lvl}>\n<blockquote><code>{self.nm}{_fmt_sig(self.sig)}</code></blockquote>'
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 55
+# %% ../nbs/08_showdoc.ipynb 57
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(get_patch_name(tree), tree.name)
 
-# %% ../nbs/08_showdoc.ipynb 58
+# %% ../nbs/08_showdoc.ipynb 60
 def colab_link(path):
     "Get a link to the notebook at `path` on Colab"
     from IPython.display import Markdown
