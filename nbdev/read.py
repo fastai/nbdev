@@ -59,7 +59,8 @@ def yml2dict(s:str, rm_fence=True):
 class NB:
     "Notebook with tools for manipulating front matter"
     def __init__(self, nb:List[NbCell]): 
-        self.nb=nb
+        if isinstance(nb, NB): self.nb = nb.nb
+        else: self.nb=nb
         self._raw_fm_dict = yml2dict(getattr(self._fm_cell, 'source', None))
         
     def __getattr__(self, attr): return getattr(self.nb, attr)

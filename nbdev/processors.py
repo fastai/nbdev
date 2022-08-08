@@ -112,7 +112,7 @@ _fp_convert = compose(_fp_alias, _fp_image, filter_fm)
 
 def infer_frontmatter(nb):
     "Insert front matter if it doesn't exist automatically from nbdev styled markdown."
-    # import ipdb; ipdb.set_trace()
+    nb = NB(nb)
     fm = merge(_fp_convert(nb._md_fm_dict), {'output-file': nb.default_exp+'.html'} if nb.default_exp else {}, nb.raw_fm_dict)
     if not fm: return
     nb.raw_fm_dict = fm
