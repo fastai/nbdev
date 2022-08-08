@@ -39,7 +39,7 @@ def _alias(fm:dict, p:Path):
 def nb_alias_fm(path):
     "Fix slugs for fastpages and jekyll compatibility."
     nb = NB(read_nb(path))
-    nb.update_raw_fm(_alias(nb._fmdict, path)) #use the combined markdown & raw front matter to determine the alias
+    nb.update_raw_fm(_alias(nb.fmdict, path)) #use the combined markdown & raw front matter to determine the alias
     return nb
 
 # %% ../nbs/15_migrate.ipynb 13

@@ -73,8 +73,8 @@ class NB:
     @property
     def text(self): return concat(L(self.nb.cells).attrgot('source').filter())
     
-    def print_txt(self): 
-        for t in self.text: print(t + '\n')
+    def print_txt(self, n=None): 
+        for t in self.text[:n]: print(t + '\n')
 
     @property
     def title_cell(self): return _select_cell(self.nb, 'markdown', _re_title.search)        
@@ -84,8 +84,6 @@ class NB:
              
     @property
     def raw_fm_dict(self): return self._raw_fm_dict
-
-    def update_raw_fm(self, fmdict): self.raw_fm_dict = merge(self.raw_fm_dict, fmdict)
                                        
     @raw_fm_dict.setter
     def raw_fm_dict(self, val):
@@ -93,6 +91,8 @@ class NB:
         if self._fm_cell: self._fm_cell['source'] = None
         self.nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=dict2fm(val), directives_={})))
         self._raw_fm_dict = val
+        
+    def update_raw_fm(self, fmdict): self.raw_fm_dict = merge(self.raw_fm_dict, fmdict)
         
     @property
     def _md_fm_dict(self): 
@@ -109,10 +109,7 @@ class NB:
         else: return {}
     
     @property
-    def _fmdict(self): return merge(self._md_fm_dict, self.raw_fm_dict)
-    
-    @property
-    def fm(self): return dict2fm(self._fmdict)
+    def fmdict(self): return merge(self._md_fm_dict, self.raw_fm_dict)
 
 # %% ../nbs/01_read.ipynb 31
 @patch
