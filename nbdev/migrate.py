@@ -5,7 +5,8 @@ __all__ = ['migrate_nb_fm', 'migrate_md_fm', 'nbdev_migrate']
 
 # %% ../nbs/15_migrate.ipynb 2
 from .process import first_code_ln
-from .processors import nb_fmdict, construct_fm, insert_frontmatter, is_frontmatter, yml2dict, filter_fm
+from .read import *
+from .processors import construct_fm, yml2dict, filter_fm
 from .read import read_nb, config_key
 from .sync import write_nb
 from .clean import process_write
@@ -14,38 +15,31 @@ from fastcore.all import *
 import shutil
 
 # %% ../nbs/15_migrate.ipynb 4
-def _get_fm(path): return nb_fmdict(read_nb(path), remove=False)
-def _get_raw_fm(nb): 
-    return first(L(nb.cells).filter(lambda x: x.cell_type == 'raw')).source
-
-# %% ../nbs/15_migrate.ipynb 5
-def _cat_slug(fmdict):
+def _cat_slug(d):
     "Get the partial slug from the category front matter."
-    return '/' + '/'.join(sorted(fmdict.get('categories', '')))
+    return '/' + '/'.join(sorted(d.get('categories', '')))
 
-# %% ../nbs/15_migrate.ipynb 7
+# %% ../nbs/15_migrate.ipynb 6
 def _file_slug(fname): 
     "Get the partial slug from the filename."
     p = Path(fname)
     dt = '/'+p.name[:10].replace('-', '/')+'/'
     return dt + p.stem[11:]    
 
-# %% ../nbs/15_migrate.ipynb 9
+# %% ../nbs/15_migrate.ipynb 8
 def _add_alias(fm:dict, path:Path):
     if 'permalink' in fm: fm['aliases'] = [f"{fm.pop('permalink').strip()}"]
     else: fm['aliases'] = [f'{_cat_slug(fm) + _file_slug(path)}']
 
-# %% ../nbs/15_migrate.ipynb 11
+# %% ../nbs/15_migrate.ipynb 10
 def migrate_nb_fm(path, overwrite=True):
     "Migrate fastpages front matter in notebooks to a raw cell."
-    nb = read_nb(path)
-    fm = nb_fmdict(nb)
-    _add_alias(fm, path)
-    insert_frontmatter(nb, fm_dict=fm)
+    nb = nread_nb(path)
+    _add_alias(nb.raw_fm_dict, path)
     if overwrite: write_nb(nb, path)
     return nb
 
-# %% ../nbs/15_migrate.ipynb 15
+# %% ../nbs/15_migrate.ipynb 14
 _re_fm_md = re.compile(r'^---(.*\S+.)?---', flags=re.DOTALL)
 
 def _md_fmdict(txt):
@@ -54,7 +48,7 @@ def _md_fmdict(txt):
     if m: return yml2dict(m.group(1))
     else: return {}
 
-# %% ../nbs/15_migrate.ipynb 18
+# %% ../nbs/15_migrate.ipynb 17
 def migrate_md_fm(path, overwrite=True):
     "Make fastpages front matter in markdown files quarto compliant."
     p = Path(path)
@@ -67,11 +61,11 @@ def migrate_md_fm(path, overwrite=True):
         return txt
     else: return md 
 
-# %% ../nbs/15_migrate.ipynb 26
+# %% ../nbs/15_migrate.ipynb 25
 _alias = merge({k:'code-fold: true' for k in ['collapse', 'collapse_input', 'collapse_hide']}, {'collapse_show':'code-fold: show'})
 def _subv1(s): return _alias.get(s, s)
 
-# %% ../nbs/15_migrate.ipynb 27
+# %% ../nbs/15_migrate.ipynb 26
 def _re_v1():
     d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 'collapse',
          'collapse_hide', 'collapse_input', 'hide_output',  'default_cls_lvl']
@@ -84,7 +78,7 @@ def _repl_directives(code_str):
     def _fmt(x): return f"#| {_subv1(x[2].replace('-', '_').strip())}"
     return _re_v1().sub(_fmt, code_str)
 
-# %% ../nbs/15_migrate.ipynb 31
+# %% ../nbs/15_migrate.ipynb 30
 def _repl_v1dir(nb):
     "Replace nbdev v1 with v2 directives."
     for cell in nb['cells']:
@@ -95,14 +89,14 @@ def _repl_v1dir(nb):
             if not ss: pass
             else: cell['source'] = [_repl_directives(c) for c in ss[:first_code]] + ss[first_code:]
 
-# %% ../nbs/15_migrate.ipynb 34
+# %% ../nbs/15_migrate.ipynb 33
 _re_callout = re.compile(r'^>\s(Warning|Note|Important|Tip):(.*)', flags=re.MULTILINE)
 def _co(x): return ":::{.callout-"+x[1].lower()+"}\n\n" + f"{x[2].strip()}\n\n" + ":::"
 def _convert_callout(s): 
     "Convert nbdev v1 to v2 callouts."
     return _re_callout.sub(_co, s)
 
-# %% ../nbs/15_migrate.ipynb 40
+# %% ../nbs/15_migrate.ipynb 39
 def _repl_v1callouts(nb):
     "Replace nbdev v1 with v2 callouts."
     for cell in nb['cells']:
@@ -110,7 +104,7 @@ def _repl_v1callouts(nb):
             cell['source'] = [_convert_callout(c) for c in cell['source'].copy()]
     return nb
 
-# %% ../nbs/15_migrate.ipynb 41
+# %% ../nbs/15_migrate.ipynb 40
 @call_parse
 def nbdev_migrate(
     fname:str=None, # A notebook name or glob to migrate

@@ -88,7 +88,7 @@ def _is_direc(f): return getattr(f, '__name__', '-')[-1]=='_'
 class NBProcessor:
     "Process cells and nbdev comments in a notebook"
     def __init__(self, path=None, procs=None, preprocs=None, postprocs=None, nb=None, debug=False, rm_directives=True, process=False):
-        self.nb = read_nb(path) if nb is None else nb
+        self.nb = nread_nb(path) if nb is None else nb
         self.lang = nb_lang(self.nb)
         for cell in self.nb.cells: cell.directives_ = extract_directives(cell, remove=rm_directives, lang=self.lang)
         self.procs,self.preprocs,self.postprocs = map_ex((procs,preprocs,postprocs), _mk_procs, nb=self.nb)
