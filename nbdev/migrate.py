@@ -92,8 +92,7 @@ def repl_v1dir(nb):
 def migrate_nb(path, overwrite=False):
     "Migrate nbdev v1 and fastpages notebooks to nbdev v2."
     nb = compose(nb_alias_fm, _nb_repl_callouts, repl_v1dir)(path)
-    if overwrite: 
-        write_nb(nb.nb, path)
+    if overwrite: write_nb(nb, path)
     return nb
 
 # %% ../nbs/15_migrate.ipynb 37
