@@ -191,7 +191,8 @@ class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
         lvl = 4 if self.isfunc else 3
-        doc += f'<h{lvl}>{self.nm}</h{lvl}>\n<blockquote><code>{self.nm}{_fmt_sig(self.sig)}</code></blockquote>'
+        doc += f'<h{lvl}>{self.nm}</h{lvl}>\n'
+        doc += f'<blockquote><pre><code>{self.nm}{_fmt_sig(self.sig)}</code></pre></blockquote>'
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
