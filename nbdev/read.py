@@ -18,7 +18,7 @@ from fastcore.xtras import *
 import ast,functools,yaml
 from IPython.display import Markdown
 from configparser import ConfigParser
-from execnb.nbio import read_nb, NbCell
+from execnb.nbio import read_nb, NbCell, BaseNB
 from pprint import pformat,pprint
 
 # %% ../nbs/01_read.ipynb 4
@@ -56,19 +56,13 @@ def yml2dict(s:str, rm_fence=True):
     return yaml.safe_load(s)
 
 # %% ../nbs/01_read.ipynb 10
-class NB:
+class NB(BaseNB):
     "Notebook with tools for manipulating front matter"
-    def __init__(self, 
+    def __init__(self,
                  nb # an AttrDict or Path to a notebook
-                ): 
-        if isinstance(nb, NB): self.nb = nb.nb
-        elif isinstance(nb, (str, Path)): self.nb = read_nb(nb)
-        else: self.nb=nb
+                ):
+        super().__init__(nb)
         self._raw_fm_dict = yml2dict(getattr(self._fm_cell, 'source', None))
-        
-    def __getattr__(self, attr): return getattr(self.nb, attr)
-
-    def __getitem__(self, x): return getattr(self, x)
 
     @property
     def default_exp(self): return default_exp(self.nb)
