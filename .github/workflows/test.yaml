@@ -18,6 +18,7 @@ jobs:
       - uses: fastai/workflows/nbdev-ci@master
         with:
           version: ${{ matrix.version }}
+          pre: 1
       - name: test docs build
         run: |
           nbdev_docs
@@ -26,3 +27,4 @@ jobs:
           else
             exit 1;
           fi
+
