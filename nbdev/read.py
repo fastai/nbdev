@@ -58,8 +58,11 @@ def yml2dict(s:str, rm_fence=True):
 # %% ../nbs/01_read.ipynb 10
 class NB:
     "Notebook with tools for manipulating front matter"
-    def __init__(self, nb:List[NbCell]): 
+    def __init__(self, 
+                 nb # an AttrDict or Path to a notebook
+                ): 
         if isinstance(nb, NB): self.nb = nb.nb
+        elif isinstance(nb, (str, Path)): self.nb = read_nb(nb)
         else: self.nb=nb
         self._raw_fm_dict = yml2dict(getattr(self._fm_cell, 'source', None))
         
@@ -88,7 +91,7 @@ class NB:
     @raw_fm_dict.setter
     def raw_fm_dict(self, val):
         if not val: return
-        if self._fm_cell: self._fm_cell['source'] = None
+        if self._fm_cell: self.cells.remove(self._fm_cell) #self._fm_cell['source'] = None
         self.nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=dict2fm(val), directives_={})))
         self._raw_fm_dict = val
         
@@ -116,7 +119,7 @@ class NB:
 def repl_fm(self:NB, fmdict:dict):
     "replace raw front matter with a new dictionary `fmdict` and remove markdown frontmatter"
     self.raw_fm_dict = fmdict
-    if self.title_cell: self.title_cell.source = None
+    if self.title_cell: self.cells.remove(self.title_cell)
 
 # %% ../nbs/01_read.ipynb 34
 def create_output(txt, mime):
