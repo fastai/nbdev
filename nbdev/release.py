@@ -61,7 +61,7 @@ class Release:
 # %% ../nbs/17_release.ipynb 23
 @patch
 def changelog(self:Release,
-              debug=False): ## Just print the latest changes, instead of updating file
+              debug=False): # Just print the latest changes, instead of updating file
     "Create the CHANGELOG.md file, or return the proposed text if `debug` is `True`"
     if not self.changefile.exists(): self.changefile.write_text("# Release notes\n\n<!-- do not remove -->\n")
     marker = '<!-- do not remove -->\n'

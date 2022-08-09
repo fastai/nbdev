@@ -1,4 +1,4 @@
-.cell-output pre {
+.cell-output > .sourceCode > pre {
   margin-left: 0.8rem;
   margin-top: 0;
   background: none;
@@ -7,7 +7,7 @@
   border-top-right-radius: 0;
 }
 
-.cell-output .sourceCode {
+.cell-output > .sourceCode {
   background: none;
   margin-top: 0;
 }

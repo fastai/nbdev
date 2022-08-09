@@ -199,3 +199,12 @@ body {
   border: none;
 }
 
+/* Below are needed to make .ipynb equivalent to .qmd */
+
+.figure {
+  display: inline;
+}
+
+.quarto-figure {
+  margin: 0;
+}
