@@ -3,6 +3,8 @@ website:
     contents:
       - getting_started.ipynb
       - tutorial.ipynb
+      - migrating.ipynb
+      - git_friendly_jupyter.ipynb
       - section: API details
         contents:
         - 01_read.ipynb
