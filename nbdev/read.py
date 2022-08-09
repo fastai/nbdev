@@ -91,7 +91,7 @@ class NB:
     @raw_fm_dict.setter
     def raw_fm_dict(self, val):
         if not val: return
-        if self._fm_cell: self.cells.remove(self._fm_cell) #self._fm_cell['source'] = None
+        if self._fm_cell: self.cells.remove(self._fm_cell)
         self.nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=dict2fm(val), directives_={})))
         self._raw_fm_dict = val
         

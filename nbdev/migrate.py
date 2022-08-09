@@ -56,7 +56,7 @@ def _nb_repl_callouts(nb):
     "Replace nbdev v1 with v2 callouts."
     for cell in nb['cells']:
         if cell.get('source') and cell.get('cell_type') == 'markdown':
-            cell['source'] = [convert_callout(c) for c in _listify(cell['source'])]
+            cell['source'] = ''.join([convert_callout(c) for c in _listify(cell['source'])])
     return nb
 
 # %% ../nbs/15_migrate.ipynb 21
@@ -85,14 +85,15 @@ def repl_v1dir(nb):
             first_code = first_code_ln(ss, re_pattern=_re_v1())
             if not first_code: first_code = len(ss)
             if not ss: pass
-            else: cell['source'] = [_repl_directives(c) for c in ss[:first_code]] + ss[first_code:]
+            else: cell['source'] = ''.join([_repl_directives(c) for c in ss[:first_code]] + ss[first_code:])
     return nb
 
 # %% ../nbs/15_migrate.ipynb 32
 def migrate_nb(path, overwrite=False):
     "Migrate nbdev v1 and fastpages notebooks to nbdev v2."
     nb = compose(nb_alias_fm, _nb_repl_callouts, repl_v1dir)(path)
-    if overwrite: write_nb(nb.nb, path)
+    if overwrite: 
+        write_nb(nb.nb, path)
     return nb
 
 # %% ../nbs/15_migrate.ipynb 37
