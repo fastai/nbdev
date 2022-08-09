@@ -61,6 +61,8 @@ class NB(BaseNB):
     def __init__(self,
                  nb # an AttrDict or Path to a notebook
                 ):
+        if isinstance(nb, NB): self.nb = nb.nb
+        elif isinstance(nb, (str, Path)): self.nb = read_nb(nb)
         super().__init__(nb)
         self._raw_fm_dict = yml2dict(getattr(self._fm_cell, 'source', None))
 
