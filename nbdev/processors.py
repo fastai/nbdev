@@ -105,7 +105,7 @@ _fp_convert = compose(_fp_alias, _fp_image, filter_fm)
 
 def infer_frontmatter(nb):
     "Insert front matter if it doesn't exist automatically from nbdev styled markdown."
-    nb=NB(nb)
+    nb=NB(nb) # this line shouldn't be needed after NBProcessor is refactored
     fm = merge(_fp_convert(nb._md_fm_dict), {'output-file': nb.default_exp+'.html'} if nb.default_exp else {}, nb.raw_fm_dict)
     if fm: nb.repl_fm(fm)
 
