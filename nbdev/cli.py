@@ -13,6 +13,7 @@ from .doclinks import *
 from execnb.nbio import *
 from fastcore.utils import *
 from fastcore.script import call_parse
+from fastcore.style import S
 from fastcore import shutil
 
 from urllib.error import HTTPError
@@ -201,29 +202,26 @@ def _fetch_from_git(raise_err=False):
         res['branch'],res['keywords'],res['description'] = _get_info(owner=res['user'], repo=res['repo'])
     except OSError as e:
         if raise_err: raise(e)
-    res['lib_name'] = res['repo'].replace('-','_')
+    else: res['lib_name'] = res['repo'].replace('-','_')
     return res
 
 # %% ../nbs/10_cli.ipynb 22
-def _comment(s): return '\033[90m'+s+'\033[0m'
-
-# %% ../nbs/10_cli.ipynb 23
 def prompt_user(cfg, inferred):
     "Let user input values not in `cfg` or `inferred`."
-    print(_comment('# settings.ini'))
+    print(S.dark_gray('# settings.ini'))
     res = cfg.copy()
     for k,v in cfg.items():
         inf = inferred.get(k,None)
-        msg = f'\033[94m{k}\033[0m = '
+        msg = S.light_blue(k) + ' = '
         if v is None:
-            if inf is None: res[k] = input(_comment(' # Please enter a value for {k}')+msg)
+            if inf is None: res[k] = input(S.dark_gray(f'# Please enter a value for {k}\n')+msg)
             else:
                 res[k] = inf
-                print(msg+res[k]+_comment(' # Automatically inferred from git'))
+                print(msg+res[k]+S.dark_gray(' # Automatically inferred from git'))
         else: print(msg+str(v))
     return res
 
-# %% ../nbs/10_cli.ipynb 24
+# %% ../nbs/10_cli.ipynb 23
 _quarto_yml="""ipynb-filters: [nbdev_filter]
 
 project:
@@ -275,7 +273,7 @@ def refresh_quarto_yml():
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
-# %% ../nbs/10_cli.ipynb 25
+# %% ../nbs/10_cli.ipynb 24
 @call_parse
 def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo name)
     "Create a new project from the current git repo"
@@ -308,12 +306,12 @@ def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo n
 
     nbdev_export.__wrapped__()
 
-# %% ../nbs/10_cli.ipynb 27
+# %% ../nbs/10_cli.ipynb 26
 def _sprun(cmd):
     try: subprocess.check_output(cmd, shell=True)
     except subprocess.CalledProcessError as cpe: sys.exit(cpe.returncode)
 
-# %% ../nbs/10_cli.ipynb 28
+# %% ../nbs/10_cli.ipynb 27
 def _doc_paths(path:str=None, doc_path:str=None):
     cfg = get_config()
     cfg_path = cfg.config_path
@@ -322,7 +320,7 @@ def _doc_paths(path:str=None, doc_path:str=None):
     tmp_doc_path = path/f"{cfg['doc_path']}"
     return cfg,cfg_path,path,doc_path,tmp_doc_path
 
-# %% ../nbs/10_cli.ipynb 29
+# %% ../nbs/10_cli.ipynb 28
 def _render_readme(path):
     idx_path = path/config_key('readme_nb', path=False)
     if not idx_path.exists(): return
@@ -338,7 +336,7 @@ def _render_readme(path):
     finally:
         if moved: (path/'sidebar.yml.bak').rename(yml_path)
 
-# %% ../nbs/10_cli.ipynb 30
+# %% ../nbs/10_cli.ipynb 29
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
@@ -351,7 +349,7 @@ def nbdev_readme(
         if _rdm.exists(): _rdm.unlink() # py37 doesn't have arg missing_ok so have to check first
         shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
 
-# %% ../nbs/10_cli.ipynb 31
+# %% ../nbs/10_cli.ipynb 30
 @call_parse
 def nbdev_quarto(
     path:str=None, # Path to notebooks
