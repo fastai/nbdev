@@ -163,7 +163,7 @@ strive to abide by generally accepted best practices in open-source
 software development.
 
 Make sure you have `nbdev`’s git hooks installed by running
-[nbdev_install_hooks](https://nbdev.fast.ai/clean.html#nbdev_install_hooks)
+[`nbdev_install_hooks`](https://nbdev.fast.ai/clean.html#nbdev_install_hooks)
 in the cloned repository.
 
 ## Copyright
