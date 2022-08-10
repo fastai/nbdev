@@ -76,11 +76,15 @@ def deploy():
 
 # %% ../nbs/16_shortcuts.ipynb 13
 def _dist(): system(f'cd {_dir()}  && rm -rf dist && python setup.py sdist bdist_wheel')
-    
-def pypi(ver_bump=True):
+
+@call_parse
+def pypi(
+    ver_bump:bool=True, # Bump version
+    repository:str="pypi" # Respository to upload pypi, testpypi or other location defined in ~/.pypirc
+):
     "Create and upload Python package to PyPI"
     _dist()
-    system(f'twine upload --repository pypi {_dir()}/dist/*')
+    system(f'twine upload --repository {repository} {_dir()}/dist/*')
     if ver_bump: _c(nbdev_bump_version)
     
 def conda(ver_bump=True): 
