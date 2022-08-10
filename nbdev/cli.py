@@ -170,6 +170,9 @@ def extract_tgz(url, dest='.'):
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
 # %% ../nbs/10_cli.ipynb 17
+def _mk_cfg(**kwargs): return {k: kwargs.get(k,None) for k in 'lib_name user branch author author_email keywords description repo'.split()}
+
+# %% ../nbs/10_cli.ipynb 18
 def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
     from ghapi.all import GhApi
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
@@ -186,35 +189,41 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
     
     return r.default_branch, default_kw if not r.topics else ' '.join(r.topics), r.description
 
-# %% ../nbs/10_cli.ipynb 19
-def prompt_user(**kwargs):
-    config_vals = kwargs
-    print('================ nbdev Configuration ================\n')
-    for v in config_vals:
-        if not config_vals[v]:
-            print('\nPlease enter information for the following field in settings.ini:')
-            inp = input(f'{v}: ')
-            config_vals[v] = inp
-        else: print(f"{v}: '{config_vals[v]}' Automatically inferred from git.")
-    print(f"\n`settings.ini` updated with configuration values.")
-    return config_vals
-
 # %% ../nbs/10_cli.ipynb 20
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
+    res = {}
     try:
         url = run('git config --get remote.origin.url')
-        author = run('git config --get user.name').strip()
-        email = run('git config --get user.email').strip()
-        owner,repo = repo_details(url)
-        branch,keywords,descrip = _get_info(owner=owner, repo=repo)
+        res['author'] = run('git config --get user.name').strip()
+        res['author_email'] = run('git config --get user.email').strip()
+        res['user'],res['repo'] = repo_details(url)
+        res['branch'],res['keywords'],res['description'] = _get_info(owner=res['user'], repo=res['repo'])
     except OSError as e:
         if raise_err: raise(e)
-        return dict(lib_name=None,user=None,branch=None,author=None,author_email=None,keywords=None,description=None,repo=None)
-    return dict(lib_name=repo.replace('-', '_'), user=owner, branch=branch, author=author, 
-                author_email=email, keywords=keywords, description=descrip, repo=repo)
+    res['lib_name'] = res['repo'].replace('-','_')
+    return res
 
 # %% ../nbs/10_cli.ipynb 22
+def _comment(s): return '\033[90m'+s+'\033[0m'
+
+# %% ../nbs/10_cli.ipynb 23
+def prompt_user(cfg, inferred):
+    "Let user input values not in `cfg` or `inferred`."
+    print(_comment('# settings.ini'))
+    res = cfg.copy()
+    for k,v in cfg.items():
+        inf = inferred.get(k,None)
+        msg = f'\033[94m{k}\033[0m = '
+        if v is None:
+            if inf is None: res[k] = input(_comment(' # Please enter a value for {k}')+msg)
+            else:
+                res[k] = inf
+                print(msg+res[k]+_comment(' # Automatically inferred from git'))
+        else: print(msg+str(v))
+    return res
+
+# %% ../nbs/10_cli.ipynb 24
 _quarto_yml="""ipynb-filters: [nbdev_filter]
 
 project:
@@ -266,12 +275,15 @@ def refresh_quarto_yml():
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
-# %% ../nbs/10_cli.ipynb 23
+# %% ../nbs/10_cli.ipynb 25
 @call_parse
-def nbdev_new():
+def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo name)
     "Create a new project from the current git repo"
+    override = locals()
     from fastcore.net import urljson
-    config = prompt_user(**_fetch_from_git())
+    cfg = _mk_cfg(**override)
+    inferred = _fetch_from_git()
+    config = prompt_user(cfg, inferred)
     # download and untar template, and optionally notebooks
     tgnm = urljson('https://api.github.com/repos/fastai/nbdev-template/releases/latest')['tag_name']
     FILES_URL = f"https://github.com/fastai/nbdev-template/archive/{tgnm}.tar.gz"
@@ -294,12 +306,14 @@ def nbdev_new():
     settings_path.write_text(settings)
     refresh_quarto_yml()
 
-# %% ../nbs/10_cli.ipynb 25
+    nbdev_export.__wrapped__()
+
+# %% ../nbs/10_cli.ipynb 27
 def _sprun(cmd):
     try: subprocess.check_output(cmd, shell=True)
     except subprocess.CalledProcessError as cpe: sys.exit(cpe.returncode)
 
-# %% ../nbs/10_cli.ipynb 26
+# %% ../nbs/10_cli.ipynb 28
 def _doc_paths(path:str=None, doc_path:str=None):
     cfg = get_config()
     cfg_path = cfg.config_path
@@ -308,7 +322,7 @@ def _doc_paths(path:str=None, doc_path:str=None):
     tmp_doc_path = path/f"{cfg['doc_path']}"
     return cfg,cfg_path,path,doc_path,tmp_doc_path
 
-# %% ../nbs/10_cli.ipynb 27
+# %% ../nbs/10_cli.ipynb 29
 def _render_readme(path):
     idx_path = path/config_key('readme_nb', path=False)
     if not idx_path.exists(): return
@@ -324,7 +338,7 @@ def _render_readme(path):
     finally:
         if moved: (path/'sidebar.yml.bak').rename(yml_path)
 
-# %% ../nbs/10_cli.ipynb 28
+# %% ../nbs/10_cli.ipynb 30
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
@@ -337,7 +351,7 @@ def nbdev_readme(
         if _rdm.exists(): _rdm.unlink() # py37 doesn't have arg missing_ok so have to check first
         shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
 
-# %% ../nbs/10_cli.ipynb 29
+# %% ../nbs/10_cli.ipynb 31
 @call_parse
 def nbdev_quarto(
     path:str=None, # Path to notebooks
