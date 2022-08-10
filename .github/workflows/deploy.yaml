@@ -6,6 +6,4 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps: 
-      - uses: fastai/workflows/quarto-ghp@master
-        with: {pre: 1}
+    steps: [uses: fastai/workflows/quarto-ghp@master]
