@@ -3,12 +3,12 @@
 # %% auto 0
 __all__ = ['say_hello', 'HelloSayer']
 
-# %% ../nbs/tutorial.ipynb 25
+# %% ../nbs/tutorial.ipynb 32
 def say_hello(to):
     "Say hello to somebody"
     return f'Hello {to}!'
 
-# %% ../nbs/tutorial.ipynb 49
+# %% ../nbs/tutorial.ipynb 56
 class HelloSayer:
     "Say hello to `to` using `say_hello`"
     def __init__(self, to): self.to = to
