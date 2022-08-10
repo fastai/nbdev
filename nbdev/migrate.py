@@ -12,12 +12,13 @@ from .sync import write_nb
 from .clean import process_write
 from .showdoc import show_doc
 from fastcore.all import *
+from execnb.nbio import mk_cell, new_nb
 import shutil
 
 # %% ../nbs/15_migrate.ipynb 4
 def _cat_slug(d):
     "Get the partial slug from the category front matter."
-    slug = '/'.join(sorted(d.get('categories', '')))
+    slug = '/'.join(sorted(d.get('categories', [])))
     return '/' + slug if slug else ''
 
 # %% ../nbs/15_migrate.ipynb 6
@@ -39,7 +40,7 @@ def _alias(fm:dict, p:Path):
 def nb_alias_fm(path):
     "Fix slugs for fastpages and jekyll compatibility."
     nb = NB(path)
-    nb.update_raw_fm(_alias(nb.fmdict, path)) #use the combined markdown & raw front matter to determine the alias
+    nb.update_raw_fm_(_alias(nb.fmdict_, path)) #use the combined markdown & raw front matter to determine the alias
     return nb
 
 # %% ../nbs/15_migrate.ipynb 13
@@ -50,13 +51,11 @@ def convert_callout(s):
     return _re_callout.sub(_co, s)
 
 # %% ../nbs/15_migrate.ipynb 18
-def _listify(s): return s.splitlines() if type(s) == str else s
-
 def _nb_repl_callouts(nb):
     "Replace nbdev v1 with v2 callouts."
     for cell in nb['cells']:
         if cell.get('source') and cell.get('cell_type') == 'markdown':
-            cell['source'] = ''.join([convert_callout(c) for c in _listify(cell['source'])])
+            cell['source'] = convert_callout(cell.source)
     return nb
 
 # %% ../nbs/15_migrate.ipynb 21
@@ -81,21 +80,21 @@ def repl_v1dir(nb):
     "Replace nbdev v1 with v2 directives."
     for cell in nb['cells']:
         if cell.get('source') and cell.get('cell_type') == 'code':
-            ss = listify(cell['source'])
+            ss = cell['source'].splitlines()
             first_code = first_code_ln(ss, re_pattern=_re_v1())
             if not first_code: first_code = len(ss)
             if not ss: pass
-            else: cell['source'] = ''.join([_repl_directives(c) for c in ss[:first_code]] + ss[first_code:])
+            else: cell['source'] = '\n'.join([_repl_directives(c) for c in ss[:first_code]] + ss[first_code:])
     return nb
 
-# %% ../nbs/15_migrate.ipynb 32
+# %% ../nbs/15_migrate.ipynb 31
 def migrate_nb(path, overwrite=False):
     "Migrate nbdev v1 and fastpages notebooks to nbdev v2."
     nb = compose(nb_alias_fm, _nb_repl_callouts, repl_v1dir)(path)
     if overwrite: write_nb(nb, path)
     return nb
 
-# %% ../nbs/15_migrate.ipynb 37
+# %% ../nbs/15_migrate.ipynb 36
 _re_fm_md = re.compile(r'^---(.*\S+.)?---', flags=re.DOTALL)
 
 def _md_fmdict(txt):
@@ -103,7 +102,7 @@ def _md_fmdict(txt):
     m = _re_fm_md.match(txt)
     return yml2dict(m.group(1)) if m else {}
 
-# %% ../nbs/15_migrate.ipynb 39
+# %% ../nbs/15_migrate.ipynb 38
 def migrate_md(path, overwrite=False):
     "Make fastpages front matter in markdown files quarto compliant."
     p = Path(path)
@@ -116,7 +115,7 @@ def migrate_md(path, overwrite=False):
         return txt
     else: return md 
 
-# %% ../nbs/15_migrate.ipynb 45
+# %% ../nbs/15_migrate.ipynb 44
 @call_parse
 def nbdev_migrate(
     path:str = '.', # A path to search

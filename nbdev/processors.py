@@ -94,11 +94,11 @@ def _fp_image(d):
     return d
 
 # %% ../nbs/09_processors.ipynb 24
-def filter_fm(fmdict:dict):
+def filter_fm(d:dict):
     "Filter markdown front matter for Quarto valid keys only"
     keys = ['title', 'description', 'author', 'image', 'categories', 'output-file', 'aliases', 'search', 'draft', 'comments', 'toc']
-    if not fmdict: return {}
-    return filter_keys(fmdict, in_(keys))
+    if not d: return {}
+    return filter_keys(d, in_(keys))
 
 # %% ../nbs/09_processors.ipynb 25
 _fp_convert = compose(_fp_alias, _fp_image, filter_fm)
@@ -106,8 +106,8 @@ _fp_convert = compose(_fp_alias, _fp_image, filter_fm)
 def infer_frontmatter(nb):
     "Insert front matter if it doesn't exist automatically from nbdev styled markdown."
     nb=NB(nb) # this line shouldn't be needed after NBProcessor is refactored
-    fm = merge(_fp_convert(nb._md_fm_dict), {'output-file': nb.default_exp+'.html'} if nb.default_exp else {}, nb.raw_fm_dict)
-    if fm: nb.repl_fm(fm)
+    fm = merge(_fp_convert(nb._md_fm_dict_), {'output-file': nb.default_exp_+'.html'} if nb.default_exp_ else {}, nb.raw_fm_dict_)
+    if fm: nb.repl_fm_(fm)
 
 # %% ../nbs/09_processors.ipynb 35
 def nbflags_(nbp, cell, *args):
