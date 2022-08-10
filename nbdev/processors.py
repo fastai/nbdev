@@ -107,7 +107,7 @@ def infer_frontmatter(nb):
     "Insert front matter if it doesn't exist automatically from nbdev styled markdown."
     nb=NB(nb) # this line shouldn't be needed after NBProcessor is refactored
     fm = merge(_fp_convert(nb._md_fm_dict_), {'output-file': nb.default_exp_+'.html'} if nb.default_exp_ else {}, nb.raw_fm_dict_)
-    if fm: nb.repl_fm_(fm)
+    if fm: nb.set_fm_dict_(fm, rm_md=True)
 
 # %% ../nbs/09_processors.ipynb 35
 def nbflags_(nbp, cell, *args):

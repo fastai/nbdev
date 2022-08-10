@@ -83,14 +83,6 @@ class NB(AttrDict):
              
     @property
     def raw_fm_dict_(self): return self._raw_fm_dict_
-                                       
-    def set_fm_dict_(self, val):
-        if not val: return
-        if self._fm_cell_: self.cells.remove(self._fm_cell_)
-        self.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=dict2fm(val), directives_={})))
-        self._raw_fm_dict_ = val
-        
-    def update_raw_fm_(self, d): self.set_fm_dict_(merge(self.raw_fm_dict_, d))
         
     @property
     def _md_fm_dict_(self): 
@@ -109,27 +101,36 @@ class NB(AttrDict):
     @property
     def fmdict_(self): return merge(self._md_fm_dict_, self.raw_fm_dict_)
 
-# %% ../nbs/01_read.ipynb 30
+# %% ../nbs/01_read.ipynb 15
 @patch
-def repl_fm_(self:NB, d:dict):
-    "replace raw front matter with a new dictionary `d` and remove markdown frontmatter"
-    self.set_fm_dict_(d)
-    if self.title_cell_: self.cells.remove(self.title_cell_)
+def set_fm_dict_(self:NB, d, rm_md=False):
+    "replace raw front matter with a new dictionary `d` and optionally remove markdown frontmatter"
+    if not d: return
+    if self._fm_cell_: self.cells.remove(self._fm_cell_)
+    self.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=dict2fm(d), directives_={})))
+    self._raw_fm_dict_ = d
+    if rm_md and self.title_cell_: self.cells.remove(self.title_cell_)
 
-# %% ../nbs/01_read.ipynb 33
+# %% ../nbs/01_read.ipynb 19
+@patch
+def update_raw_fm_(self:NB, d): 
+    "Update (without replacing) a notebook's raw front matter with dictionary `d`."
+    self.set_fm_dict_(merge(self.raw_fm_dict_, d))
+
+# %% ../nbs/01_read.ipynb 35
 def create_output(txt, mime):
     "Add a cell output containing `txt` of the `mime` text MIME sub-type"
     return [{"data": { f"text/{mime}": str(txt).splitlines(True) },
              "execution_count": 1, "metadata": {}, "output_type": "execute_result"}]
 
-# %% ../nbs/01_read.ipynb 34
+# %% ../nbs/01_read.ipynb 36
 def show_src(src, lang='python'): return Markdown(f'```{lang}\n{src}\n```')
 
-# %% ../nbs/01_read.ipynb 38
+# %% ../nbs/01_read.ipynb 40
 _nbdev_home_dir = 'nbdev' # sub-directory of xdg base dir
 _nbdev_config_name = 'settings.ini'
 
-# %% ../nbs/01_read.ipynb 39
+# %% ../nbs/01_read.ipynb 41
 def apply_defaults(
     cfg,
     lib_name:str=None, # Package name, defaults to local repo folder name
@@ -168,7 +169,7 @@ def apply_defaults(
         if not (k.startswith('_') or k=='cfg' or k in cfg): cfg[k] = v
     return cfg
 
-# %% ../nbs/01_read.ipynb 40
+# %% ../nbs/01_read.ipynb 42
 @call_parse
 @delegates(apply_defaults, but='cfg')
 def nbdev_create_config(
@@ -186,19 +187,19 @@ def nbdev_create_config(
     cfg = apply_defaults(cfg, **kwargs)
     cfg.save()
 
-# %% ../nbs/01_read.ipynb 42
+# %% ../nbs/01_read.ipynb 44
 def _nbdev_config_file(cfg_name=_nbdev_config_name, path=None):
     cfg_path = path = Path.cwd() if path is None else Path(path)
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
     if not (cfg_path/cfg_name).exists(): cfg_path = path
     return cfg_path/cfg_name
 
-# %% ../nbs/01_read.ipynb 44
+# %% ../nbs/01_read.ipynb 46
 def _xdg_config_paths(cfg_name=_nbdev_config_name):
     xdg_config_paths = reversed([xdg_config_home()]+xdg_config_dirs())
     return [o/_nbdev_home_dir/cfg_name for o in xdg_config_paths]
 
-# %% ../nbs/01_read.ipynb 45
+# %% ../nbs/01_read.ipynb 47
 @functools.lru_cache(maxsize=None)
 def get_config(cfg_name=_nbdev_config_name, path=None):
     "`Config` for ini file found in `path` (defaults to `cwd`)"
@@ -207,7 +208,7 @@ def get_config(cfg_name=_nbdev_config_name, path=None):
     cfg = Config(cfg_file.parent, cfg_file.name, extra_files=extra_files)
     return apply_defaults(cfg)
 
-# %% ../nbs/01_read.ipynb 49
+# %% ../nbs/01_read.ipynb 51
 def config_key(c, default=None, path=True, missing_ok=None):
     "Look for key `c` in settings.ini and fail gracefully if not found and no default provided"
     if missing_ok is not None:
@@ -217,7 +218,7 @@ def config_key(c, default=None, path=True, missing_ok=None):
     if res is None: raise ValueError(f'`{c}` not specified in {_nbdev_config_name}')
     return res
 
-# %% ../nbs/01_read.ipynb 52
+# %% ../nbs/01_read.ipynb 54
 _init = '__init__.py'
 
 def _has_py(fs): return any(1 for f in fs if f.endswith('.py'))
@@ -233,13 +234,13 @@ def add_init(path):
         subds = (os.listdir(r/d) for d in ds)
         if _has_py(fs) or any(filter(_has_py, subds)) and not (r/_init).exists(): (r/_init).touch()
 
-# %% ../nbs/01_read.ipynb 56
+# %% ../nbs/01_read.ipynb 58
 def write_cells(cells, hdr, file, offset=0):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbdev internal use)"
     for cell in cells:
         if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell.source}')
 
-# %% ../nbs/01_read.ipynb 57
+# %% ../nbs/01_read.ipynb 59
 def basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbdev"
     if dest is None: dest = config_key('lib_path')
