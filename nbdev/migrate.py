@@ -118,7 +118,7 @@ def migrate_md(path, overwrite=False):
 # %% ../nbs/15_migrate.ipynb 44
 @call_parse
 def nbdev_migrate(
-    path:str = '.', # A path to search
+    path:str = None, # A path to search
     file_glob:str = '*.ipynb', # A file glob
     no_skip:bool=False, # Do not skip directories beginning with an underscore
 ):
