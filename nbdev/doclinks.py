@@ -115,7 +115,7 @@ def build_modidx():
     files = globtastic(nbs_path)
     with contextlib.suppress(FileNotFoundError): _fn.unlink()
     cfg = get_config()
-    doc_func = partial(_doc_link, urljoin(cfg.doc_host,cfg.doc_baseurl))
+    doc_func = partial(_doc_link, '')
     for file in dest.glob("**/*.py"):
         if file.name[0]!='_': DocLinks(file, doc_func, _fn).build_index()
 
