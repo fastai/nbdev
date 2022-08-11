@@ -295,4 +295,6 @@ class exec_show_docs:
         fm = getattr(cell.nb, 'frontmatter_', {})
         if str2bool(fm.get('skip_showdoc', False)): return
         if _do_eval(cell): self.k.cell(cell)
-        if self.k.exc: raise Exception(f'Error: cell {cell.idx_}:\n{cell.source}') from self.k.exc[1]
+        title = fm.get('title', '')
+        if self.k.exc: raise Exception(f"Error: cell {cell.idx_} {'in Document: '+title if title else ''}:\n{cell.source}") from self.k.exc[1]
+                           
