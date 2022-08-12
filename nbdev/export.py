@@ -50,8 +50,7 @@ def create_modules(path, dest, procs=None, debug=False, mod_maker=ModuleMaker):
         all_cells = exp.in_all[mod]
         name = getattr(exp, 'default_exp', None) if mod=='#' else mod
         if not name:
-            fn = Path(path).name
-            warn(f"Notebook '{fn}' uses `#|export` without `#|default_exp` cell.\n"
+            warn(f"Notebook '{path}' uses `#|export` without `#|default_exp` cell.\n"
                  "Note nbdev2 no longer supports nbdev1 syntax. Run `nbdev_migrate` to upgrade.\n"
                  "See https://nbdev.fast.ai/getting_started.html for more information.")
             return
