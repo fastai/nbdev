@@ -32,7 +32,7 @@ def _install_mac():
 
 def install_quarto():
     "Install latest Quarto on macOS or Linux, prints instructions for Windows"
-    if shutil.which(x) is not None:
+    if shutil.which('quarto') is not None:
         print('quarto already installed.')
         return
     system('sudo echo "...installing Quarto"')
