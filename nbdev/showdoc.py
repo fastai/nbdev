@@ -158,7 +158,7 @@ class BasicMarkdownRenderer(ShowDocRenderer):
         if self.isfunc or self.isprop: doc += '#'
         sig = _wrap_sig(f"{self.nm} {_fmt_sig(self.sig)}") if self.sig else ''
         doc += f'### {self.nm}\n\n{sig}'
-        if self.docs: doc += f"\n\n{self.docs.splitlines()[0]}"
+        if self.docs: doc += f"\n\n{self.docs}"
         if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
 

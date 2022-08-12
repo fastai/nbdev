@@ -366,7 +366,6 @@ def nbdev_quarto(
     refresh_quarto_yml()
     files = nbdev_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
                             skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, returnit=True)
-    shutil.rmtree(doc_path, ignore_errors=True)
     if preview: os.system(f'cd "{path}" && quarto preview --no-execute')
     else: _sprun(f'cd "{path}" && quarto render --no-execute')
     if not preview:
