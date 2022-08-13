@@ -137,6 +137,7 @@ from .cli import *
 
 import yaml,subprocess,glob,platform
 from copy import deepcopy
+from os import system
 try: from packaging.version import parse
 except ImportError: from pip._vendor.packaging.version import parse
 
@@ -163,11 +164,25 @@ def pypi_details(name):
     return ver,rel['url'],rel['digests']['sha256']
 
 # %% ../nbs/17_release.ipynb 37
+import shlex
+from subprocess import Popen, PIPE, CalledProcessError
+
+def _run(cmd):
+    res = ""
+    with Popen(shlex.split(cmd), stdout=PIPE, bufsize=1, text=True) as p:
+        for line in p.stdout:
+            print(line, end='') # process line here
+            res += line
+
+    if p.returncode != 0: raise CalledProcessError(p.returncode, p.args)
+    return res
+
+# %% ../nbs/17_release.ipynb 38
 def conda_output_path(name):
     "Output path for conda build"
     return run(f'conda build --output {name}').strip().replace('\\', '/')
 
-# %% ../nbs/17_release.ipynb 38
+# %% ../nbs/17_release.ipynb 39
 def _write_yaml(path, name, d1, d2):
     path = Path(path)
     p = path/name
@@ -177,9 +192,9 @@ def _write_yaml(path, name, d1, d2):
         yaml.safe_dump(d1, f)
         yaml.safe_dump(d2, f)
 
-# %% ../nbs/17_release.ipynb 39
+# %% ../nbs/17_release.ipynb 40
 def _get_conda_meta():
-    cfg = _find_config()
+    cfg = get_config()
     name,ver = cfg.lib_name,cfg.version
     url = cfg.doc_host or cfg.git_url
 
@@ -211,22 +226,22 @@ def _get_conda_meta():
     }
     return name,d1,d2
 
-# %% ../nbs/17_release.ipynb 40
+# %% ../nbs/17_release.ipynb 41
 def write_conda_meta(path='conda'):
     "Writes a `meta.yaml` file to the `conda` directory of the current directory"
     _write_yaml(path, *_get_conda_meta())
 
-# %% ../nbs/17_release.ipynb 42
-def anaconda_upload(name, user=None, token=None, env_token=None):
+# %% ../nbs/17_release.ipynb 43
+def anaconda_upload(name, loc, user=None, token=None, env_token=None):
     "Upload `name` to anaconda"
     user = f'-u {user} ' if user else ''
     if env_token: token = os.getenv(env_token)
     token = f'-t {token} ' if token else ''
     loc = conda_output_path(name)
     if not loc: raise Exception("Failed to find output")
-    return run(f'anaconda {token} upload {user} {loc} --skip-existing', stderr=True)
+    return _run(f'anaconda {token} upload {user} {loc} --skip-existing', stderr=True)
 
-# %% ../nbs/17_release.ipynb 43
+# %% ../nbs/17_release.ipynb 44
 @call_parse
 def release_conda(
     path:str='conda', # Path where package will be created
@@ -247,12 +262,12 @@ def release_conda(
     if not do_build: return print(f"{out}conda {build} .\n{out_upl}\n```")
 
     print(f"conda {build} --no-anaconda-upload {build_args} {name}")
-    res = run(f"conda {build} --no-anaconda-upload {build_args} {name}")
+    res = _run(f"conda {build} --no-anaconda-upload {build_args} {name}")
     if skip_upload: return
-    if not upload_user: upload_user = config_key('conda_user')
+    if not upload_user: upload_user = config_key('conda_user', path=False)
     if not upload_user: return print("`conda_user` not in settings.ini and no `upload_user` passed. Cannot upload")
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
-    return anaconda_upload(name)
+    return anaconda_upload(name, loc)
 
 # %% ../nbs/17_release.ipynb 45
 def chk_conda_rel(
@@ -268,16 +283,17 @@ def chk_conda_rel(
     pypitag = latest_pypi(nm)
     if force or not condatag or pypitag > max(condatag): return f'{pypitag}'
 
-# %% ../nbs/17_release.ipynb 46
+# %% ../nbs/17_release.ipynb 47
 @call_parse
 def release_pypi(
     repository:str="pypi" # Respository to upload to (defined in ~/.pypirc)
 ):
     "Create and upload Python package to PyPI"
-    system(f'cd {_dir()}  && rm -rf dist && python setup.py sdist bdist_wheel')
-    system(f'twine upload --repository {repository} {_dir()}/dist/*')
+    _dir = config_key("lib_path").parent
+    system(f'cd {_dir}  && rm -rf dist && python setup.py sdist bdist_wheel')
+    system(f'twine upload --repository {repository} {_dir}/dist/*')
 
-# %% ../nbs/17_release.ipynb 47
+# %% ../nbs/17_release.ipynb 48
 @call_parse
 def release_both(
     path:str='conda', # Path where package will be created
