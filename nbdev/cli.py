@@ -269,6 +269,8 @@ def refresh_quarto_yml():
     cfg = get_config()
     p = cfg.path('nbs_path')/'_quarto.yml'
     vals = {k:cfg.get(k) for k in ['doc_path', 'title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl']}
+    # Do not build _quarto_yml if custom_quarto_yml is set to True
+    if str2bool(config_key('custom_quarto_yml', default="False", path=False)): return
     if 'title' not in vals: vals['title'] = vals['lib_name']
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)

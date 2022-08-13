@@ -112,12 +112,11 @@ def build_modidx():
     if os.environ.get('IN_TEST',0): return
     _fn = dest/'_modidx.py'
     nbs_path = config_key('nbs_path')
-    files = globtastic(nbs_path)
     with contextlib.suppress(FileNotFoundError): _fn.unlink()
     cfg = get_config()
     doc_func = partial(_doc_link, urljoin(cfg.doc_host,cfg.doc_baseurl))
-    for file in dest.glob("**/*.py"):
-        if file.name[0]!='_': DocLinks(file, doc_func, _fn).build_index()
+    for file in globtastic(dest, file_glob="*.py", skip_folder_re="\.ipynb_checkpoints"):
+        if Path(file).name[0]!='_': DocLinks(file, doc_func, _fn).build_index()
 
 # %% ../nbs/04b_doclinks.ipynb 28
 @delegates(globtastic, but=['file_glob', 'skip_folder_re'])
