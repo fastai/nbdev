@@ -239,7 +239,7 @@ def anaconda_upload(name, loc, user=None, token=None, env_token=None):
     token = f'-t {token} ' if token else ''
     loc = conda_output_path(name)
     if not loc: raise Exception("Failed to find output")
-    return _run(f'anaconda {token} upload {user} {loc} --skip-existing', stderr=True)
+    return _run(f'anaconda {token} upload {user} {loc} --skip-existing')
 
 # %% ../nbs/17_release.ipynb 44
 @call_parse
