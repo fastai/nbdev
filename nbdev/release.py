@@ -231,45 +231,11 @@ def _get_conda_meta():
     return name,d1,d2
 
 # %% ../nbs/17_release.ipynb 41
-def _get_conda_meta():
-    cfg = get_config()
-    name,ver = cfg.lib_name,cfg.version
-    url = cfg.doc_host or cfg.git_url
-
-    reqs = ['pip', 'python', 'packaging']
-    if cfg.get('requirements'): reqs += cfg.requirements.split()
-    if cfg.get('conda_requirements'): reqs += cfg.conda_requirements.split()
-
-    pypi = pypi_json(f'{name}/{ver}')
-    rel = [o for o in pypi['urls'] if o['packagetype']=='sdist'][0]
-
-    # Work around conda build bug - 'package' and 'source' must be first
-    d1 = {
-        'package': {'name': name, 'version': ver},
-        'source': {'url':rel['url'], 'sha256':rel['digests']['sha256']}
-    }
-
-    d2 = {
-        'build': {'number': '0', 'noarch': 'python',
-                  'script': '{{ PYTHON }} -m pip install . -vv'},
-        'requirements': {'host':reqs, 'run':reqs},
-        'test': {'imports': [cfg.get('lib_path')]},
-        'about': {
-            'license': 'Apache Software',
-            'license_family': 'APACHE',
-            'home': url, 'doc_url': url, 'dev_url': url,
-            'summary': cfg.get('description')
-        },
-        'extra': {'recipe-maintainers': [cfg.get('user')]}
-    }
-    return name,d1,d2
-
-# %% ../nbs/17_release.ipynb 42
 def write_conda_meta(path='conda'):
     "Writes a `meta.yaml` file to the `conda` directory of the current directory"
     _write_yaml(path, *_get_conda_meta())
 
-# %% ../nbs/17_release.ipynb 44
+# %% ../nbs/17_release.ipynb 43
 def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     "Upload `name` to anaconda"
     user = f'-u {user} ' if user else ''
@@ -279,7 +245,7 @@ def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     if not loc: raise Exception("Failed to find output")
     return _run(f'anaconda {token} upload {user} {loc} --skip-existing')
 
-# %% ../nbs/17_release.ipynb 45
+# %% ../nbs/17_release.ipynb 44
 @call_parse
 def release_conda(
     path:str='conda', # Path where package will be created
@@ -307,7 +273,7 @@ def release_conda(
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
     return anaconda_upload(name, loc)
 
-# %% ../nbs/17_release.ipynb 46
+# %% ../nbs/17_release.ipynb 45
 def chk_conda_rel(
     nm:str,  # Package name on pypi
     apkg:str=None,  # Anaconda Package (defaults to {nm})
@@ -321,7 +287,7 @@ def chk_conda_rel(
     pypitag = latest_pypi(nm)
     if force or not condatag or pypitag > max(condatag): return f'{pypitag}'
 
-# %% ../nbs/17_release.ipynb 48
+# %% ../nbs/17_release.ipynb 47
 @call_parse
 def release_pypi(
     repository:str="pypi" # Respository to upload to (defined in ~/.pypirc)
@@ -331,7 +297,7 @@ def release_pypi(
     system(f'cd {_dir}  && rm -rf dist && python setup.py sdist bdist_wheel')
     system(f'twine upload --repository {repository} {_dir}/dist/*')
 
-# %% ../nbs/17_release.ipynb 49
+# %% ../nbs/17_release.ipynb 48
 @call_parse
 def release_both(
     path:str='conda', # Path where package will be created
