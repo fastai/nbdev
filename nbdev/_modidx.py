@@ -38,7 +38,7 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                                    'nbdev_changelog=nbdev.release:changelog\n'
                                    'nbdev_pypi=nbdev.release:release_pypi\n'
                                    'nbdev_conda=nbdev.release:release_conda\n'
-                                   'nbdev_release=nbdev.release:release_both\n'
+                                   'nbdev_release_both=nbdev.release:release_both\n'
                                    'nbdev_help=nbdev.shortcuts:chelp',
                 'copyright': '2020 onwards, Jeremy Howard',
                 'custom_sidebar': 'True',

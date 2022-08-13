@@ -232,12 +232,12 @@ def write_conda_meta(path='conda'):
     _write_yaml(path, *_get_conda_meta())
 
 # %% ../nbs/17_release.ipynb 43
-def anaconda_upload(name, loc, user=None, token=None, env_token=None):
+def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     "Upload `name` to anaconda"
     user = f'-u {user} ' if user else ''
     if env_token: token = os.getenv(env_token)
     token = f'-t {token} ' if token else ''
-    loc = conda_output_path(name)
+    if not loc: loc = conda_output_path(name)
     if not loc: raise Exception("Failed to find output")
     return _run(f'anaconda {token} upload {user} {loc} --skip-existing')
 
