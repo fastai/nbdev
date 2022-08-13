@@ -30,14 +30,14 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                                    'nbdev_docs=nbdev.shortcuts:docs\n'
                                    'nbdev_preview=nbdev.shortcuts:preview\n'
                                    'nbdev_deploy=nbdev.shortcuts:deploy\n'
-                                   'nbdev_pypi=nbdev.shortcuts:pypi\n'
-                                   'nbdev_conda=nbdev.shortcuts:conda\n'
-                                   'nbdev_release=nbdev.shortcuts:release\n'
                                    'nbdev_prepare=nbdev.shortcuts:prepare\n'
                                    'nbdev_readme=nbdev.cli:nbdev_readme\n'
                                    'nbdev_release_gh=nbdev.release:release_gh\n'
                                    'nbdev_release_git=nbdev.release:release_git\n'
                                    'nbdev_changelog=nbdev.release:changelog\n'
+                                   'nbdev_pypi=nbdev.release:release_pypi\n'
+                                   'nbdev_conda=nbdev.release:release_conda\n'
+                                   'nbdev_release=nbdev.shortcuts:release_both\n'
                                    'nbdev_help=nbdev.shortcuts:chelp',
                 'copyright': '2020 onwards, Jeremy Howard',
                 'custom_sidebar': 'True',
@@ -180,9 +180,19 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                                'nbdev.release.Release.changelog': 'https://nbdev.fast.ai/release.html#release.changelog',
                                'nbdev.release.Release.latest_notes': 'https://nbdev.fast.ai/release.html#release.latest_notes',
                                'nbdev.release.Release.release': 'https://nbdev.fast.ai/release.html#release.release',
+                               'nbdev.release.anaconda_upload': 'https://nbdev.fast.ai/release.html#anaconda_upload',
                                'nbdev.release.changelog': 'https://nbdev.fast.ai/release.html#changelog',
+                               'nbdev.release.chk_conda_rel': 'https://nbdev.fast.ai/release.html#chk_conda_rel',
+                               'nbdev.release.conda_output_path': 'https://nbdev.fast.ai/release.html#conda_output_path',
+                               'nbdev.release.latest_pypi': 'https://nbdev.fast.ai/release.html#latest_pypi',
+                               'nbdev.release.pypi_details': 'https://nbdev.fast.ai/release.html#pypi_details',
+                               'nbdev.release.pypi_json': 'https://nbdev.fast.ai/release.html#pypi_json',
+                               'nbdev.release.release_both': 'https://nbdev.fast.ai/release.html#release_both',
+                               'nbdev.release.release_conda': 'https://nbdev.fast.ai/release.html#release_conda',
                                'nbdev.release.release_gh': 'https://nbdev.fast.ai/release.html#release_gh',
-                               'nbdev.release.release_git': 'https://nbdev.fast.ai/release.html#release_git'},
+                               'nbdev.release.release_git': 'https://nbdev.fast.ai/release.html#release_git',
+                               'nbdev.release.release_pypi': 'https://nbdev.fast.ai/release.html#release_pypi',
+                               'nbdev.release.write_conda_meta': 'https://nbdev.fast.ai/release.html#write_conda_meta'},
             'nbdev.shortcuts': { 'nbdev.shortcuts.BASE_QUARTO_URL': 'https://nbdev.fast.ai/shortcuts.html#base_quarto_url',
                                  'nbdev.shortcuts.chelp': 'https://nbdev.fast.ai/shortcuts.html#chelp',
                                  'nbdev.shortcuts.conda': 'https://nbdev.fast.ai/shortcuts.html#conda',

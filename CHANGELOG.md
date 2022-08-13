@@ -2,6 +2,45 @@
 
 <!-- do not remove -->
 
+
+## 2.1.4
+
+### New Features
+
+- Add `custom_quarto_yml` setting ([#842](https://github.com/fastai/nbdev/pull/842)), thanks to [@benoit-cty](https://github.com/benoit-cty)
+- Display multiline docstrings ([#841](https://github.com/fastai/nbdev/issues/841))
+- Include filename in `nbdev_export` warning when nbdev1 syntax is used ([#835](https://github.com/fastai/nbdev/issues/835))
+- Streamline `nbdev_new`: outputs are now in color, you can pass `--lib_name`, and it calls `nbdev_export` ([#820](https://github.com/fastai/nbdev/pull/820)), thanks to [@seeM](https://github.com/seeM)
+- A command for uploading to the test pypi server ([#818](https://github.com/fastai/nbdev/pull/818)), thanks to [@tourdownunder](https://github.com/tourdownunder)
+- Include notebook title in `nbdev_preview` error message ([#802](https://github.com/fastai/nbdev/issues/802))
+- Migrate collapsible code cell directives ([#783](https://github.com/fastai/nbdev/pull/783)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Simplify `jupyter_hooks` configuration ([#780](https://github.com/fastai/nbdev/pull/780)), thanks to [@seeM](https://github.com/seeM)
+- Support `nbdev_install_hooks` in  non-nbdev repos ([#779](https://github.com/fastai/nbdev/pull/779)), thanks to [@seeM](https://github.com/seeM)
+- Allow users to provide user-level settings in ~/.config/nbdev/settings.ini ([#778](https://github.com/fastai/nbdev/pull/778)), thanks to [@seeM](https://github.com/seeM)
+- Support `nbdev_install_hooks` in  non-nbdev repos ([#777](https://github.com/fastai/nbdev/issues/777))
+- Port `doc()` from nbdev1 ([#772](https://github.com/fastai/nbdev/issues/772))
+- Make `show_doc` for function parameter defaults concise and deterministic ([#771](https://github.com/fastai/nbdev/issues/771))
+- Clean `id` from text `repr` outputs to further avoid git merge conflicts ([#749](https://github.com/fastai/nbdev/issues/749))
+- Add repo root to sys path on exec ([#735](https://github.com/fastai/nbdev/issues/735))
+- Use frontmatter `eval` and `showdoc` for controlling notebook execution ([#734](https://github.com/fastai/nbdev/issues/734))
+
+### Bugs Squashed
+
+- #|exports directive does not show source code in the docs ([#822](https://github.com/fastai/nbdev/issues/822))
+- nbdev commands fail when `doc_path` contains whitespace ([#813](https://github.com/fastai/nbdev/pull/813)), thanks to [@mone27](https://github.com/mone27)
+- `show_doc` html renderer is incorrectly formatted ([#808](https://github.com/fastai/nbdev/issues/808))
+- `show_doc` cell output is incorrectly styled ([#807](https://github.com/fastai/nbdev/issues/807))
+- links aren't rendered as code ([#795](https://github.com/fastai/nbdev/pull/795)), thanks to [@seeM](https://github.com/seeM)
+- `clean_ids` corrupts string outputs ([#794](https://github.com/fastai/nbdev/pull/794)), thanks to [@seeM](https://github.com/seeM)
+- quarto frontmatter is removed ([#789](https://github.com/fastai/nbdev/issues/789))
+- `nbdev_merge` fails on `git stash pop` conflict ([#787](https://github.com/fastai/nbdev/pull/787)), thanks to [@seeM](https://github.com/seeM)
+- Hooks search Jupyter start directory instead of notebook directory for settings file ([#784](https://github.com/fastai/nbdev/pull/784)), thanks to [@dleen](https://github.com/dleen)
+- Allow for dash in Quarto directives ([#782](https://github.com/fastai/nbdev/pull/782)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Fix directive migration when there is no test flag ([#781](https://github.com/fastai/nbdev/pull/781)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- `nbdev_prepare` throws BrokenProcessPool error on MacOS ([#731](https://github.com/fastai/nbdev/issues/731))
+- settings.ini not inferred by `nbdev_new` on newly cloned repo on MacOS ([#710](https://github.com/fastai/nbdev/issues/710))
+
+
 ## 2.1.2
 
 ### New Features
