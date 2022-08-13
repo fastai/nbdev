@@ -171,7 +171,7 @@ def _run(cmd):
     res = ""
     with Popen(shlex.split(cmd), stdout=PIPE, bufsize=1, text=True) as p:
         for line in p.stdout:
-            print(line, end='') # process line here
+            print(line, end='')
             res += line
 
     if p.returncode != 0: raise CalledProcessError(p.returncode, p.args)
