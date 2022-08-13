@@ -193,13 +193,13 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
 # %% ../nbs/10_cli.ipynb 20
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
-    res = {}
+    res={}
     try:
         url = run('git config --get remote.origin.url')
-        res['author'] = run('git config --get user.name').strip()
-        res['author_email'] = run('git config --get user.email').strip()
         res['user'],res['repo'] = repo_details(url)
         res['branch'],res['keywords'],res['description'] = _get_info(owner=res['user'], repo=res['repo'])
+        res['author'] = run('git config --get user.name').strip() # below two lines attempt to pull from global user config
+        res['author_email'] = run('git config --get user.email').strip()
     except OSError as e:
         if raise_err: raise(e)
     else: res['lib_name'] = res['repo'].replace('-','_')
