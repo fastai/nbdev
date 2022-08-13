@@ -2,6 +2,14 @@
 
 <!-- do not remove -->
 
+
+## 2.1.6
+
+### New Features
+
+- add `nbdev_conda` to create and upload conda packages ([#850](https://github.com/fastai/nbdev/issues/850))
+
+
 ## 2.1.4
 
 ### New Features
