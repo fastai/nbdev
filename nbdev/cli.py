@@ -193,13 +193,14 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
 # %% ../nbs/10_cli.ipynb 20
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
-    res = {}
+    res={}
     try:
         url = run('git config --get remote.origin.url')
-        res['author'] = run('git config --get user.name').strip()
-        res['author_email'] = run('git config --get user.email').strip()
         res['user'],res['repo'] = repo_details(url)
-        res['branch'],res['keywords'],res['description'] = _get_info(owner=res['user'], repo=res['repo'])
+        res['branch'],res['keywords'],desc = _get_info(owner=res['user'], repo=res['repo'])
+        if desc: res['description'] = desc
+        res['author'] = run('git config --get user.name').strip() # below two lines attempt to pull from global user config
+        res['author_email'] = run('git config --get user.email').strip()
     except OSError as e:
         if raise_err: raise(e)
     else: res['lib_name'] = res['repo'].replace('-','_')
@@ -214,10 +215,10 @@ def prompt_user(cfg, inferred):
         inf = inferred.get(k,None)
         msg = S.light_blue(k) + ' = '
         if v is None:
-            if inf is None: res[k] = input(S.dark_gray(f'# Please enter a value for {k}\n')+msg)
+            if inf is None: res[k] = input(f'# Please enter a value for {k}\n'+msg)
             else:
                 res[k] = inf
-                print(msg+res[k]+S.dark_gray(' # Automatically inferred from git'))
+                print(msg+res[k]+' # Automatically inferred from git')
         else: print(msg+str(v))
     return res
 
