@@ -41,6 +41,7 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                                    'nbdev_release_both=nbdev.release:release_both\n'
                                    'nbdev_help=nbdev.shortcuts:chelp',
                 'copyright': '2020 onwards, Jeremy Howard',
+                'custom_quarto_yml': 'False',
                 'custom_sidebar': 'True',
                 'description': 'Create delightful software with Jupyter Notebooks',
                 'dev_requirements': 'nbdev-numpy nbdev-stdlib pandas matplotlib black',

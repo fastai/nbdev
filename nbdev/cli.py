@@ -33,7 +33,7 @@ def nbdev_ghp_deploy():
     except:
         warnings.warn('Please install ghp-import with `pip install ghp-import`')
         return
-    ghp_import(config_key('doc_path'), push=True, stderr=True, no_history=True)
+    ghp_import(get_config().path('doc_path'), push=True, stderr=True, no_history=True)
 
 # %% ../nbs/10_cli.ipynb 7
 _def_file_re = '\.(?:ipynb|qmd|html)$'
@@ -60,8 +60,8 @@ def nbdev_sidebar(
     returnit:bool=False  # Return list of files found
 ):
     "Create sidebar.yml"
-    if not force and str2bool(config_key('custom_sidebar', path=False)): return
-    path = config_key("nbs_path") if not path else Path(path)
+    if not force and str2bool(get_config().custom_sidebar): return
+    path = get_config().path('nbs_path') if not path else Path(path)
     files = nbglob(path, func=_f, symlinks=symlinks, file_re=file_re, folder_re=folder_re, file_glob=file_glob,
                    skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re).sorted(key=_sort)
     lastd,res = Path(),[]
@@ -271,7 +271,7 @@ def refresh_quarto_yml():
     p = cfg.path('nbs_path')/'_quarto.yml'
     vals = {k:cfg.get(k) for k in ['doc_path', 'title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl']}
     # Do not build _quarto_yml if custom_quarto_yml is set to True
-    if str2bool(config_key('custom_quarto_yml', default="False", path=False)): return
+    if str2bool(get_config().custom_quarto_yml): return
     if 'title' not in vals: vals['title'] = vals['lib_name']
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
@@ -318,14 +318,14 @@ def _sprun(cmd):
 def _doc_paths(path:str=None, doc_path:str=None):
     cfg = get_config()
     cfg_path = cfg.config_path
-    path = config_key("nbs_path") if not path else Path(path)
-    doc_path = config_key("doc_path") if not doc_path else Path(doc_path)
+    path = cfg.path('nbs_path') if not path else Path(path)
+    doc_path = cfg.path('doc_path') if not doc_path else Path(doc_path)
     tmp_doc_path = path/f"{cfg['doc_path']}"
     return cfg,cfg_path,path,doc_path,tmp_doc_path
 
 # %% ../nbs/10_cli.ipynb 28
 def _render_readme(path):
-    idx_path = path/config_key('readme_nb', path=False)
+    idx_path = path/get_config().readme_nb
     if not idx_path.exists(): return
 
     yml_path = path/'sidebar.yml'

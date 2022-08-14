@@ -6,7 +6,7 @@ __all__ = ['migrate_nb_fm', 'migrate_md_fm', 'nbdev_migrate']
 # %% ../nbs/15_migrate.ipynb 2
 from .process import first_code_ln
 from .processors import nb_fmdict, construct_fm, insert_frontmatter, is_frontmatter, yml2dict, filter_fm
-from .read import read_nb, config_key
+from .read import get_config, read_nb
 from .sync import write_nb
 from .clean import process_write
 from .showdoc import show_doc
@@ -75,7 +75,7 @@ def _subv1(s): return _alias.get(s, s)
 def _re_v1():
     d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 'collapse',
          'collapse_hide', 'collapse_input', 'hide_output',  'default_cls_lvl']
-    d += L(config_key('tst_flags', path=False)).filter()
+    d += L(get_config().tst_flags).filter()
     d += [s.replace('_', '-') for s in d] # allow for hyphenated version of old directives
     _tmp = '|'.join(list(set(d)))
     return re.compile(f"^[ \f\v\t]*?(#)\s*({_tmp})(?!\S)", re.MULTILINE)
@@ -123,5 +123,5 @@ def nbdev_migrate(
     _write = partial(process_write, warn_msg='Failed to replace directives', proc_nb=_migrate)
     if stdin: _write(f_in=sys.stdin, f_out=sys.stdout)
     _skip_re = None if no_skip else '^[_.]'
-    if fname is None: fname = config_key("nbs_path")
+    if fname is None: fname = get_config().path('nbs_path')
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re=_skip_re): _write(f_in=f, disp=disp)
