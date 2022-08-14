@@ -16,11 +16,12 @@ from execnb.nbio import *
 from fastcore.utils import *
 from fastcore.script import call_parse
 from fastcore.style import S
-from fastcore import shutil
+from fastcore.shutil import rmtree,move
 
+from os import system
 from urllib.error import HTTPError
 from contextlib import redirect_stdout
-import os, tarfile, subprocess, sys
+import os, tarfile, subprocess, sys, shutil
 
 # %% auto 0
 __all__ = ['BASE_QUARTO_URL', 'prepare', 'nbdev_sidebar', 'FilterDefaults', 'nbdev_filter', 'bump_version', 'nbdev_bump_version',
@@ -284,9 +285,9 @@ def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo n
             new_txt = o.read_text().replace('your_lib', config['lib_name'])
             o.write_text(new_txt)
         if o.name == '00_core.ipynb':
-            if not nbexists: shutil.move(str(o), './')
-        elif not Path(f'./{o.name}').exists(): shutil.move(str(o), './')
-    shutil.rmtree(f'nbdev-template-{tgnm}')
+            if not nbexists: move(str(o), './')
+        elif not Path(f'./{o.name}').exists(): move(str(o), './')
+    rmtree(f'nbdev-template-{tgnm}')
 
     # auto-config settings.ini from git
     settings_path = Path('settings.ini')
@@ -329,8 +330,8 @@ def install_quarto():
 def install():
     "Install Quarto and the current library"
     install_quarto()
-    if (get_config().path('lib_path')/'__init__.py').exists():
-        system(f'pip install -e "{_dir()}[dev]"')
+    d = get_config().path('lib_path')
+    if (d/'__init__.py').exists(): system(f'pip install -e "{d.parent}[dev]"')
 
 # %% ../nbs/12_cli.ipynb 28
 def _doc_paths(path:str=None, doc_path:str=None):
@@ -368,7 +369,7 @@ def nbdev_readme(
     if (tmp_doc_path/'README.md').exists():
         _rdm = cfg_path/'README.md'
         if _rdm.exists(): _rdm.unlink() # py37 doesn't have arg missing_ok so have to check first
-        shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
+        move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
 
 # %% ../nbs/12_cli.ipynb 31
 def _ensure_quarto():
