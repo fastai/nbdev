@@ -95,24 +95,15 @@ class NBProcessor:
         self.debug,self.rm_directives = debug,rm_directives
         if process: self.process()
 
-    def _process_cell(self, cell):
+    def _process_cell(self, proc, cell):
         self.cell = cell
         cell.nb = self.nb
-        for proc in self.procs:
-            if not hasattr(cell,'source'): return
-            if not hasattr(cell, 'directives_'):
-                cell.nb=None
-                raise Exception(cell)
-            if cell.cell_type=='code' and cell.directives_:
-                for cmd,args in cell.directives_.items():
-                    self._process_comment(proc, cell, cmd, args)
-                    if not hasattr(cell,'source'): return
-            if callable(proc) and not _is_direc(proc):
-                cell = opt_set(cell, proc(cell))
-#                 try: cell = opt_set(cell, proc(cell))
-#                 except:
-#                     cell.nb = None
-#                     raise Exception((proc,cell))
+        if not hasattr(cell,'source'): return
+        if cell.cell_type=='code' and cell.directives_:
+            for cmd,args in cell.directives_.items():
+                self._process_comment(proc, cell, cmd, args)
+                if not hasattr(cell,'source'): return
+        if callable(proc) and not _is_direc(proc): cell = opt_set(cell, proc(cell))
         cell.nb = None
 
     def _process_comment(self, proc, cell, cmd, args):
@@ -127,6 +118,7 @@ class NBProcessor:
         for proc in self.preprocs:
             self.nb = opt_set(self.nb, proc(self.nb))
             for i,cell in enumerate(self.nb.cells): cell.idx_ = i
-        for cell in self.nb.cells: self._process_cell(cell)
+        for proc in self.procs:
+            for cell in self.nb.cells: self._process_cell(proc, cell)
         for proc in self.postprocs: self.nb = opt_set(self.nb, proc(self.nb))
         self.nb.cells = [c for c in self.nb.cells if c and getattr(c,'source',None) is not None]
