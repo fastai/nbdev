@@ -40,7 +40,7 @@ def apply_defaults(
     lib_name:str=None, # Package name, defaults to local repo folder name
     branch='master', # Repo default branch
     git_url='https://github.com/%(user)s/%(lib_name)s', # Repo URL
-    custom_sidebar:bool_arg=False, # Create custom sidebar?
+    custom_sidebar:bool_arg=False, # Use a custom sidebar.yml?
     nbs_path='.', # Path to notebooks
     lib_path='%(lib_name)s', # Path to package root
     doc_path='_docs', # Path to rendered docs
@@ -63,6 +63,7 @@ def apply_defaults(
     allowed_cell_metadata_keys='', # Preserve the list of keys in cell level metadata
     jupyter_hooks=True, # Run Jupyter hooks?
     clean_ids=True, # Remove ids from plaintext reprs?
+    custom_quarto_yml=False, # Use a custom _quarto.yml?
 ):
     "Apply default settings where missing in `cfg`"
     if lib_name is None:
@@ -114,13 +115,9 @@ def get_config(cfg_name=_nbdev_config_name, path=None):
 
 # %% ../nbs/01_read.ipynb 21
 def config_key(c, default=None, path=True, missing_ok=None):
-    "Look for key `c` in settings.ini and fail gracefully if not found and no default provided"
-    if missing_ok is not None:
-        warn("`missing_ok` is no longer used. Don't pass it to `config_key` to silence this warning.")
-    cfg = get_config()
-    res = cfg.path(c, default) if path else cfg.get(c, default)
-    if res is None: raise ValueError(f'`{c}` not specified in {_nbdev_config_name}')
-    return res
+    "Deprecated: use `get_config().get` or `get_config().path` instead."
+    warn("`config_key` is deprecated. Use `get_config().get` or `get_config().path` instead.", DeprecationWarning)
+    return get_config().path(c, default) if path else get_config().get(c, default)
 
 # %% ../nbs/01_read.ipynb 24
 _init = '__init__.py'
@@ -147,7 +144,7 @@ def write_cells(cells, hdr, file, offset=0):
 # %% ../nbs/01_read.ipynb 29
 def basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbdev"
-    if dest is None: dest = config_key('lib_path')
+    if dest is None: dest = get_config().path('lib_path')
     fname,dest = Path(fname),Path(dest)
     nb = read_nb(fname)
 

@@ -108,10 +108,10 @@ def _doc_link(url, mod, sym=None):
 # %% ../nbs/04b_doclinks.ipynb 27
 def build_modidx():
     "Create _modidx.py"
-    dest = config_key('lib_path')
+    dest = get_config().path('lib_path')
     if os.environ.get('IN_TEST',0): return
     _fn = dest/'_modidx.py'
-    nbs_path = config_key('nbs_path')
+    nbs_path = get_config().path('nbs_path')
     with contextlib.suppress(FileNotFoundError): _fn.unlink()
     cfg = get_config()
     doc_func = partial(_doc_link, urljoin(cfg.doc_host,cfg.doc_baseurl))
@@ -122,9 +122,9 @@ def build_modidx():
 @delegates(globtastic, but=['file_glob', 'skip_folder_re'])
 def nbglob(path=None, skip_folder_re = '^[_.]', file_glob='*.ipynb', recursive=True, key='nbs_path',
            as_path=False, **kwargs):
-    "Find all files in a directory matching an extension given a `config_key`."
-    path = Path(path or config_key(key))
-    if recursive is None: recursive=str2bool(config_key('recursive', path=False))
+    "Find all files in a directory matching an extension given a config key."
+    path = Path(path or get_config().path(key))
+    if recursive is None: recursive=str2bool(get_config().recursive)
     res = globtastic(path, file_glob=file_glob, skip_folder_re=skip_folder_re, **kwargs)
     return res.map(Path) if as_path else res
 

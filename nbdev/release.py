@@ -256,7 +256,7 @@ def release_conda(
     upload_user:str=None  # Optional user to upload package to
 ):
     "Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it"
-    name = config_key('lib_name', path=False)
+    name = get_config().lib_name
     write_conda_meta(path)
     out = f"Done. Next steps:\n```\ncd {path}\n"""
     os.chdir(path)
@@ -268,7 +268,7 @@ def release_conda(
     print(f"conda {build} --no-anaconda-upload {build_args} {name}")
     res = _run(f"conda {build} --no-anaconda-upload {build_args} {name}")
     if skip_upload: return
-    if not upload_user: upload_user = config_key('conda_user', path=False)
+    if not upload_user: upload_user = get_config().conda_user
     if not upload_user: return print("`conda_user` not in settings.ini and no `upload_user` passed. Cannot upload")
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
     return anaconda_upload(name, loc)
@@ -293,7 +293,7 @@ def release_pypi(
     repository:str="pypi" # Respository to upload to (defined in ~/.pypirc)
 ):
     "Create and upload Python package to PyPI"
-    _dir = config_key("lib_path").parent
+    _dir = get_config().path('lib_path').parent
     system(f'cd {_dir}  && rm -rf dist && python setup.py sdist bdist_wheel')
     system(f'twine upload --repository {repository} {_dir}/dist/*')
 

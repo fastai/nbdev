@@ -31,7 +31,7 @@ def nbdev_trust(
         warnings.warn("Please install jupyter and try again")
         return
 
-    fname = Path(fname if fname else config_key("nbs_path"))
+    fname = Path(fname if fname else get_config().path('nbs_path'))
     path = fname if fname.is_dir() else fname.parent
     check_fname = path/".last_checked"
     last_checked = os.path.getmtime(check_fname) if check_fname.exists() else None
@@ -133,7 +133,7 @@ def nbdev_clean(
     _write = partial(process_write, warn_msg='Failed to clean notebook', proc_nb=_clean)
     if stdin: return _write(f_in=sys.stdin, f_out=sys.stdout)
     
-    if fname is None: fname = config_key("nbs_path")
+    if fname is None: fname = get_config().path('nbs_path')
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'): _write(f_in=f, disp=disp)
 
 # %% ../nbs/11_clean.ipynb 30
