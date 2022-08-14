@@ -9,6 +9,8 @@ from .sync import *
 from .process import *
 from .processors import *
 from .doclinks import *
+from .test import *
+from .clean import *
 
 from execnb.nbio import *
 from fastcore.utils import *
@@ -21,19 +23,17 @@ from contextlib import redirect_stdout
 import os, tarfile, subprocess, sys
 
 # %% auto 0
-__all__ = ['nbdev_ghp_deploy', 'nbdev_sidebar', 'FilterDefaults', 'nbdev_filter', 'update_version', 'bump_version',
-           'nbdev_bump_version', 'extract_tgz', 'prompt_user', 'refresh_quarto_yml', 'nbdev_new', 'nbdev_readme',
-           'nbdev_quarto']
+__all__ = ['BASE_QUARTO_URL', 'prepare', 'nbdev_sidebar', 'FilterDefaults', 'nbdev_filter', 'bump_version', 'nbdev_bump_version',
+           'extract_tgz', 'prompt_user', 'refresh_quarto_yml', 'nbdev_new', 'install_quarto', 'install', 'nbdev_readme',
+           'nbdev_quarto', 'preview', 'deploy', 'chelp']
 
 # %% ../nbs/10_cli.ipynb 5
 @call_parse
-def nbdev_ghp_deploy():
-    "Deploy docs in `doc_path` from settings.ini to GitHub Pages"
-    try: from ghp_import import ghp_import
-    except:
-        warnings.warn('Please install ghp-import with `pip install ghp-import`')
-        return
-    ghp_import(get_config().path('doc_path'), push=True, stderr=True, no_history=True)
+def prepare():
+    "Export, test, and clean notebooks"
+    nbdev_export.__wrapped__()
+    nbdev_test.__wrapped__()
+    nbdev_clean.__wrapped__()
 
 # %% ../nbs/10_cli.ipynb 7
 _def_file_re = '\.(?:ipynb|qmd|html)$'
@@ -133,19 +133,6 @@ def nbdev_filter(
     else: return res
 
 # %% ../nbs/10_cli.ipynb 14
-_re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
-
-def update_version():
-    "Add or update `__version__` in the main `__init__.py` of the library"
-    fname = get_config().path("lib_path")/'__init__.py'
-    if not fname.exists(): fname.touch()
-    version = f'__version__ = "{get_config().version}"'
-    with open(fname, 'r') as f: code = f.read()
-    if _re_version.search(code) is None: code = version + "\n" + code
-    else: code = _re_version.sub(version, code)
-    with open(fname, 'w') as f: f.write(code)
-
-
 def bump_version(version, part=2, unbump=False):
     version = version.split('.')
     incr = -1 if unbump else 1
@@ -163,6 +150,7 @@ def nbdev_bump_version(
     cfg.d['version'] = bump_version(get_config().version, part, unbump=unbump)
     cfg.save()
     update_version()
+    nbdev_export()
     print(f'New version: {cfg.version}')
 
 # %% ../nbs/10_cli.ipynb 16
@@ -315,6 +303,36 @@ def _sprun(cmd):
     except subprocess.CalledProcessError as cpe: sys.exit(cpe.returncode)
 
 # %% ../nbs/10_cli.ipynb 27
+BASE_QUARTO_URL='https://www.quarto.org/download/latest/'
+
+def _install_linux():
+    system(f'curl -LO {BASE_QUARTO_URL}quarto-linux-amd64.deb')
+    system('sudo dpkg -i *64.deb && rm *64.deb')
+    
+def _install_mac():
+    system(f'curl -LO {BASE_QUARTO_URL}quarto-macos.pkg')
+    system('sudo installer -pkg quarto-macos.pkg -target /')
+
+def install_quarto():
+    "Install latest Quarto on macOS or Linux, prints instructions for Windows"
+    if sys.platform not in ('darwin','linux'):
+        return print('Please visit https://quarto.org/docs/get-started/ to install quarto')
+    print("Installing or upgrading quarto -- this requires root access.")
+    system('sudo touch .installing')
+    try:
+        installing = Path('.installing')
+        if not installing.exists(): return print("Cancelled. Please download and install Quarto from quarto.org.")
+        if 'darwin' in sys.platform: _install_mac()
+        elif 'linux' in sys.platform: _install_linux()
+    finally: system('sudo rm -f .installing')
+    
+def install():
+    "Install Quarto and the current library"
+    install_quarto()
+    if (get_config().path('lib_path')/'__init__.py').exists():
+        system(f'pip install -e "{_dir()}[dev]"')
+
+# %% ../nbs/10_cli.ipynb 28
 def _doc_paths(path:str=None, doc_path:str=None):
     cfg = get_config()
     cfg_path = cfg.config_path
@@ -323,7 +341,7 @@ def _doc_paths(path:str=None, doc_path:str=None):
     tmp_doc_path = path/f"{cfg['doc_path']}"
     return cfg,cfg_path,path,doc_path,tmp_doc_path
 
-# %% ../nbs/10_cli.ipynb 28
+# %% ../nbs/10_cli.ipynb 29
 def _render_readme(path):
     idx_path = path/get_config().readme_nb
     if not idx_path.exists(): return
@@ -339,7 +357,7 @@ def _render_readme(path):
     finally:
         if moved: (path/'sidebar.yml.bak').rename(yml_path)
 
-# %% ../nbs/10_cli.ipynb 29
+# %% ../nbs/10_cli.ipynb 30
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
@@ -352,7 +370,13 @@ def nbdev_readme(
         if _rdm.exists(): _rdm.unlink() # py37 doesn't have arg missing_ok so have to check first
         shutil.move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
 
-# %% ../nbs/10_cli.ipynb 30
+# %% ../nbs/10_cli.ipynb 31
+def _ensure_quarto():
+    if shutil.which('quarto'): return
+    print("Quarto is not installed. We will download and install it for you.")
+    install()
+
+# %% ../nbs/10_cli.ipynb 32
 @call_parse
 def nbdev_quarto(
     path:str=None, # Path to notebooks
@@ -365,10 +389,11 @@ def nbdev_quarto(
     preview:bool=False # Preview the site instead of building it
 ):
     "Create Quarto docs and README.md"
+    _ensure_quarto()
     cfg,cfg_path,path,doc_path,tmp_doc_path = _doc_paths(path, doc_path)
     refresh_quarto_yml()
-    files = nbdev_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
-                            skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, returnit=True)
+    nbdev_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
+                              skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
     if preview: os.system(f'cd "{path}" && quarto preview --no-execute')
     else: _sprun(f'cd "{path}" && quarto render --no-execute')
     if not preview:
@@ -376,3 +401,45 @@ def nbdev_quarto(
         if tmp_doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
             shutil.rmtree(doc_path, ignore_errors=True)
             shutil.move(tmp_doc_path, cfg_path)
+
+# %% ../nbs/10_cli.ipynb 33
+@call_parse
+def preview(
+    path:str=None, # Path to notebooks
+    doc_path:str=None, # Path to output docs
+    symlinks:bool=False, # Follow symlinks?
+    file_re:str=_def_file_re, # Only include files matching regex
+    folder_re:str=None, # Only enter folders matching regex
+    skip_file_glob:str=None, # Skip files matching glob
+    skip_file_re:str=None, # Skip files matching regex
+):
+    "Preview docs locally"
+    nbdev_quarto(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
+                 skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, preview=True)
+
+# %% ../nbs/10_cli.ipynb 34
+@call_parse
+def deploy(
+    path:str=None, # Path to notebooks
+    doc_path:str=None, # Path to output docs
+    skip_build:bool=False,  # Don't build docs first
+    symlinks:bool=False, # Follow symlinks?
+    file_re:str=_def_file_re, # Only include files matching regex
+    folder_re:str=None, # Only enter folders matching regex
+    skip_file_glob:str=None, # Skip files matching glob
+    skip_file_re:str=None, # Skip files matching regex
+):
+    "Deploy docs to GitHub Pages"
+    if not skip_build:
+        nbdev_quarto(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
+                     skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
+    try: from ghp_import import ghp_import
+    except: return warnings.warn('Please install ghp-import with `pip install ghp-import`')
+    ghp_import(get_config().path('doc_path'), push=True, stderr=True, no_history=True)
+
+# %% ../nbs/10_cli.ipynb 36
+@call_parse
+def chelp():
+    "Show help for all console scripts"
+    from fastcore.xtras import console_help
+    console_help('nbdev')
