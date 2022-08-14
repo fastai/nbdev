@@ -415,8 +415,8 @@ def preview(
     skip_file_re:str=None, # Skip files matching regex
 ):
     "Preview docs locally"
-    nbdev_quarto(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
-                 skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, preview=True)
+    nbdev_quarto.__wrapped__(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
+                             skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, preview=True)
 
 # %% ../nbs/12_cli.ipynb 34
 @call_parse
@@ -432,8 +432,8 @@ def deploy(
 ):
     "Deploy docs to GitHub Pages"
     if not skip_build:
-        nbdev_quarto(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
-                     skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
+        nbdev_quarto.__wrapped__(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
+                                 skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
     try: from ghp_import import ghp_import
     except: return warnings.warn('Please install ghp-import with `pip install ghp-import`')
     ghp_import(get_config().path('doc_path'), push=True, stderr=True, no_history=True)
