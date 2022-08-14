@@ -145,7 +145,7 @@ def _show_param(param):
 def _fmt_sig(sig):
     if sig is None: return ''
     p = {k:v for k,v in sig.parameters.items()}
-    _params = [_show_param(p[k]).replace(' ','') for k in p.keys() if k != 'self']
+    _params = [_show_param(p[k]) for k in p.keys() if k != 'self']
     return "(" + ', '.join(_params)  + ")"
 
 def _wrap_sig(s):
