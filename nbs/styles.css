@@ -1,4 +1,16 @@
-.cell-output > .sourceCode > pre {
+.cell {
+  margin-bottom: 1rem;
+}
+
+.cell > .sourceCode {
+  margin-bottom: 0;
+}
+
+.cell-output > pre {
+  margin-bottom: 0;
+}
+
+.cell-output > pre, .cell-output > .sourceCode > pre, .cell-output-stdout > pre {
   margin-left: 0.8rem;
   margin-top: 0;
   background: none;
@@ -8,12 +20,12 @@
 }
 
 .cell-output > .sourceCode {
-  background: none;
-  margin-top: 0;
+  border: none;
 }
 
-.cell > .sourceCode {
-  margin-bottom: 0;
+.cell-output > .sourceCode {
+  background: none;
+  margin-top: 0;
 }
 
 div.description {
