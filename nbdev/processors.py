@@ -64,12 +64,8 @@ def _get_nm(tree):
     return f'{val}.{i.attr}' if isinstance(i, ast.Attribute) else i.id
 
 # %% ../nbs/09_processors.ipynb 16
-_imps = {ast.Import, ast.ImportFrom}
-
 def _show_docs(trees):
     return [t for t in trees if isinstance(t,ast.Expr) and nested_attr(t, 'value.func.id')=='show_doc']
-
-_show_dirs = {'export','exports','exporti','exec_doc'}
 
 def cell_lang(cell): return nested_attr(cell, 'metadata.language', 'python')
 
@@ -86,6 +82,7 @@ def add_show_docs(nb):
             raise ValueError(f'{cell.metadata.language} cell attempted export:\n{cell.source}')
         for nm in _def_names(cell, shown_docs):
             nb.cells.insert(cell.idx_+1, mk_cell(f'show_doc({nm})'))
+    nb.has_docs_ = shown_docs or exports
 
 # %% ../nbs/09_processors.ipynb 20
 def yaml_str(s:str):
@@ -163,7 +160,7 @@ def insert_frontmatter(nb, fm_dict:dict):
     fm = construct_fm(fm_dict)
     if fm: nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=fm, directives_={})))
 
-# %% ../nbs/09_processors.ipynb 33
+# %% ../nbs/09_processors.ipynb 34
 _re_defaultexp = re.compile(r'^\s*#\|\s*default_exp\s+(\S+)', flags=re.MULTILINE)
 
 def _default_exp(nb):
@@ -172,7 +169,7 @@ def _default_exp(nb):
     default_exp = first(code_src.filter().map(_re_defaultexp.search).filter())
     return default_exp.group(1) if default_exp else None
 
-# %% ../nbs/09_processors.ipynb 35
+# %% ../nbs/09_processors.ipynb 36
 _fp_convert = compose(_fp_alias, _fp_image)
 
 def infer_frontmatter(nb):
@@ -185,12 +182,12 @@ def infer_frontmatter(nb):
     insert_frontmatter(nb, fm_dict=_fmdict)
     nb.frontmatter_=_fmdict
 
-# %% ../nbs/09_processors.ipynb 45
+# %% ../nbs/09_processors.ipynb 46
 def nbflags_(nbp, cell, *args):
     "Store flags marked with `nbflags`"
     nbp.nb._nbflags = args
 
-# %% ../nbs/09_processors.ipynb 47
+# %% ../nbs/09_processors.ipynb 48
 def add_links(cell):
     "Add links to markdown cells"
     nl = NbdevLookup()
@@ -199,7 +196,7 @@ def add_links(cell):
         if hasattr(o, 'data') and hasattr(o['data'], 'text/markdown'):
             o.data['text/markdown'] = [nl.link_line(s) for s in o.data['text/markdown']]
 
-# %% ../nbs/09_processors.ipynb 50
+# %% ../nbs/09_processors.ipynb 51
 _re_ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 
 def strip_ansi(cell):
@@ -207,17 +204,17 @@ def strip_ansi(cell):
     for outp in cell.get('outputs', []):
         if outp.get('name')=='stdout': outp['text'] = [_re_ansi_escape.sub('', o) for o in outp.text]
 
-# %% ../nbs/09_processors.ipynb 52
+# %% ../nbs/09_processors.ipynb 53
 def strip_hidden_metadata(cell):
     '''Strips "hidden" metadata property from code cells so it doesn't interfere with docs rendering'''
     if cell.cell_type == 'code' and 'metadata' in cell: cell.metadata.pop('hidden',None)
 
-# %% ../nbs/09_processors.ipynb 53
+# %% ../nbs/09_processors.ipynb 54
 def hide_(nbp, cell):
     "Hide cell from output"
     del(cell['source'])
 
-# %% ../nbs/09_processors.ipynb 55
+# %% ../nbs/09_processors.ipynb 56
 def _re_hideline(lang=None): return re.compile(fr'{langs[lang]}\|\s*hide_line\s*$', re.MULTILINE)
 
 def hide_line(cell):
@@ -226,7 +223,7 @@ def hide_line(cell):
     if cell.cell_type == 'code' and _re_hideline(lang).search(cell.source):
         cell.source = '\n'.join([c for c in cell.source.splitlines() if not _re_hideline(lang).search(c)])
 
-# %% ../nbs/09_processors.ipynb 58
+# %% ../nbs/09_processors.ipynb 59
 def filter_stream_(nbp, cell, *words):
     "Remove output lines containing any of `words` in `cell` stream output"
     if not words: return
@@ -234,14 +231,14 @@ def filter_stream_(nbp, cell, *words):
         if outp.output_type == 'stream':
             outp['text'] = [l for l in outp.text if not re.search('|'.join(words), l)]
 
-# %% ../nbs/09_processors.ipynb 60
+# %% ../nbs/09_processors.ipynb 61
 _magics_pattern = re.compile(r'^\s*(%%|%).*', re.MULTILINE)
 
 def clean_magics(cell):
     "A preprocessor to remove cell magic commands"
     if cell.cell_type == 'code': cell.source = _magics_pattern.sub('', cell.source).strip()
 
-# %% ../nbs/09_processors.ipynb 62
+# %% ../nbs/09_processors.ipynb 63
 _langs = 'bash|html|javascript|js|latex|markdown|perl|ruby|sh|svg'
 _lang_pattern = re.compile(rf'^\s*%%\s*({_langs})\s*$', flags=re.MULTILINE)
 
@@ -251,7 +248,7 @@ def lang_identify(cell):
         lang = _lang_pattern.findall(cell.source)
         if lang: cell.metadata.language = lang[0]
 
-# %% ../nbs/09_processors.ipynb 65
+# %% ../nbs/09_processors.ipynb 66
 _re_hdr_dash = re.compile(r'^#+\s+.*\s+-\s*$', re.MULTILINE)
 
 def rm_header_dash(cell):
@@ -260,7 +257,7 @@ def rm_header_dash(cell):
         src = cell.source.strip()
         if cell.cell_type == 'markdown' and src.startswith('#') and src.endswith(' -'): del(cell['source'])
 
-# %% ../nbs/09_processors.ipynb 67
+# %% ../nbs/09_processors.ipynb 68
 _hide_dirs = {'export','exporti', 'hide','default_exp'}
 
 def rm_export(cell):
@@ -268,7 +265,7 @@ def rm_export(cell):
     if cell.directives_:
         if cell.directives_.keys() & _hide_dirs: del(cell['source'])
 
-# %% ../nbs/09_processors.ipynb 69
+# %% ../nbs/09_processors.ipynb 70
 _re_showdoc = re.compile(r'^show_doc', re.MULTILINE)
 def _is_showdoc(cell): return cell['cell_type'] == 'code' and _re_showdoc.search(cell.source)
 
@@ -277,16 +274,28 @@ def clean_show_doc(cell):
     if not _is_showdoc(cell): return
     cell.source = '#|output: asis\n#| echo: false\n' + cell.source
 
-# %% ../nbs/09_processors.ipynb 70
+# %% ../nbs/09_processors.ipynb 71
+def _ast_contains(trees, types):
+    for tree in trees:
+        for node in ast.walk(tree):
+            if isinstance(node, types): return True
+
 def _do_eval(cell):
     if cell_lang(cell) != 'python': return
+    if not cell.source or 'nbdev_export'+'()' in cell.source: return
     trees = cell.parsed_()
     if cell.cell_type != 'code' or not trees: return
     if cell.directives_.get('eval:', [''])[0].lower() == 'false': return
-    if cell.directives_.keys() & _show_dirs or filter_ex(trees, risinstance(_imps)): return True
+
+    _show_dirs = {'export','exports','exporti','exec_doc'}
+    if cell.directives_.keys() & _show_dirs: return True
+    if _ast_contains(trees, (ast.Import, ast.ImportFrom)):
+        if _ast_contains(trees, (ast.Expr, ast.Assign)):
+            warn(f'Found a cell containing mix of imports and computations. Please use separate cells. See nbdev FAQ.\n---\n{cell.source}\n---\n')
+        return True
     if _show_docs(trees): return True
 
-# %% ../nbs/09_processors.ipynb 71
+# %% ../nbs/09_processors.ipynb 72
 class exec_show_docs:
     "Execute cells needed for `show_docs` output, including exported cells and imports"
     def __init__(self, nb):
@@ -296,7 +305,7 @@ class exec_show_docs:
         self.k.run_cell('from nbdev.showdoc import show_doc')
 
     def __call__(self, cell):
-        if not hasattr(self, 'k'): return
+        if not self.nb.has_docs_ or not hasattr(self, 'k'): return
         fm = getattr(self.nb, 'frontmatter_', {})
         if str2bool(fm.get('skip_showdoc', False)): return
         if _do_eval(cell): self.k.cell(cell)

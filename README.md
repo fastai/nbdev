@@ -164,29 +164,37 @@ else in your path.)
 
 ## FAQ
 
+### Q: What is the warning “Found a cell containing mix of imports and computations. Please use separate cells”?
+
+A: You should not have cells that are not exported, *and* contain a mix
+of `import` statements along with other code. For instance, don’t do
+this in a single cell:
+
+``` python
+import some_module
+some_module.something()
+```
+
+Instead, split this into two cells, one which does `import some_module`,
+and the other which does `some_module.something()`.
+
+The reason for this is that when we create your documentation website,
+we ensure that all of the signatures for functions you document are up
+to date, by running the imports, exported cells, and
+[`show_doc`](https://nbdev.fast.ai/showdoc.html#show_doc) functions in
+your notebooks. When you mix imports with other code, that other code
+will be run too, which can cause errors (or at least slowdowns) when
+creating your website.
+
 ### Q: Someone told me not to use notebooks for “serious” software development!
 
-[Watch this video](https://youtu.be/9Q6sLbz37gk). Don’t worry, we still
-get this too, despite having used `nbdev` for a wide range of “very
-serious” software projects over the last three years, including [deep
-learning libraries](https://github.com/fastai/fastai), [API
+A: [Watch this video](https://youtu.be/9Q6sLbz37gk). Don’t worry, we
+still get this too, despite having used `nbdev` for a wide range of
+“very serious” software projects over the last three years, including
+[deep learning libraries](https://github.com/fastai/fastai), [API
 clients](https://github.com/fastai/ghapi), [Python language
 extensions](https://github.com/fastai/fastcore), [terminal user
 interfaces](https://github.com/nat/ghtop), and more!
-
-## nbdev in the wild
-
-### fastai ecosystem
-
-`nbdev` has been used to build innovative software in the fastai
-ecosystem, including the [`fastai`](https://docs.fast.ai/) deep learning
-library which implements a [unique layered API and callback
-system](https://arxiv.org/abs/2002.04688), and
-[`fastcore`](https://fastcore.fast.ai/), which supercharges Python
-leveraging its dynamic nature. Furthermore, `nbdev` allows a very small
-number of developers to maintain and grow a [large
-ecosystem](https://github.com/fastai) of software engineering, data
-science, machine learning, and devops tools.
 
 ## Contributing
 
