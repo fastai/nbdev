@@ -20,10 +20,10 @@ class ExportModuleProc:
     "A processor which exports code to a module"
     def __init__(self): self.modules,self.in_all = defaultdict(L),defaultdict(L)
     def _default_exp_(self, nbp, cell, exp_to): self.default_exp = exp_to
-    def _exporti_(self, nbp, cell, exp_to=None): self.modules[ifnone(exp_to, '#')].append(nbp.cell)
+    def _exporti_(self, nbp, cell, exp_to=None): self.modules[ifnone(exp_to, '#')].append(cell)
     def _export_(self, nbp, cell, exp_to=None):
         self._exporti_(nbp, cell, exp_to)
-        self.in_all[ifnone(exp_to, '#')].append(nbp.cell)
+        self.in_all[ifnone(exp_to, '#')].append(cell)
     _exports_=_export_
 
 # %% ../nbs/04a_export.ipynb 7

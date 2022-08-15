@@ -11,12 +11,7 @@ from .imports import *
 from execnb.nbio import *
 from fastcore.script import *
 from fastcore.imports import *
-from fastcore.xtras import *
 
-from collections import defaultdict
-from pprint import pformat
-from inspect import signature,Parameter
-import ast,contextlib,copy
 from collections import defaultdict
 
 # %% ../nbs/03_process.ipynb 6
@@ -96,22 +91,22 @@ class NBProcessor:
         if process: self.process()
 
     def _process_cell(self, proc, cell):
-        self.cell = cell
-        cell.nb = self.nb
         if not hasattr(cell,'source'): return
         if cell.cell_type=='code' and cell.directives_:
-            for cmd,args in cell.directives_.items():
-                self._process_comment(proc, cell, cmd, args)
-                if not hasattr(cell,'source'): return
+            # Option 1: `proc` is directive name with `_` suffix
+            f = getattr(proc, '__name__', '-').rstrip('_')
+            if f in cell.directives_: self._process_comment(proc, cell, f)
+            
+            # Option 2: `proc` contains a method named `_{directive}_`
+            for cmd in cell.directives_:
+                f = getattr(proc, f'_{cmd}_', None)
+                if f: self._process_comment(f, cell, cmd)
         if callable(proc) and not _is_direc(proc): cell = opt_set(cell, proc(cell))
-        cell.nb = None
 
-    def _process_comment(self, proc, cell, cmd, args):
-        if _is_direc(proc) and getattr(proc, '__name__', '-')[:-1]==cmd: f=proc
-        else: f = getattr(proc, f'_{cmd}_', None)
-        if not f: return
+    def _process_comment(self, proc, cell, cmd):
+        args = cell.directives_[cmd]
         if self.debug: print(cmd, args, f)
-        return f(self, cell, *args)
+        return proc(self, cell, *args)
         
     def process(self):
         "Process all cells with `process_cell`"

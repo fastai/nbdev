@@ -21,11 +21,6 @@ from pprint import pformat
 from urllib.parse import urljoin
 from importlib import import_module
 
-if IN_NOTEBOOK:
-    from IPython.display import Markdown,display
-    from IPython.core import page
-else: Markdown,display,page = None,None,None
-
 # %% ../nbs/04b_doclinks.ipynb 5
 def _mod_fn2name(fn):
     "Convert filename `fn` to its module name"
