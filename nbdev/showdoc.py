@@ -115,6 +115,7 @@ class DocmentTbl:
 class ShowDocRenderer:
     def __init__(self, sym, name:str|None=None, title_level:int|None=None):
         "Show documentation for `sym`"
+        sym = getattr(sym, '__wrapped__', sym)
         store_attr()
         self.nm = name or qual_name(sym)
         self.isfunc = inspect.isfunction(sym)
