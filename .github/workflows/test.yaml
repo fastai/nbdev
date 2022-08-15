@@ -7,7 +7,6 @@ on:
 
 jobs:
   test:
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
