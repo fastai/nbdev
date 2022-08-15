@@ -400,8 +400,8 @@ def nbdev_quarto(
     if not preview:
         nbdev_readme.__wrapped__(path, doc_path)
         if tmp_doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
-            shutil.rmtree(doc_path, ignore_errors=True)
-            shutil.move(tmp_doc_path, cfg_path)
+            rmtree(doc_path, ignore_errors=True)
+            move(tmp_doc_path, cfg_path)
 
 # %% ../nbs/12_cli.ipynb 34
 @call_parse
