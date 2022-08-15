@@ -117,7 +117,7 @@ class ShowDocRenderer:
         "Show documentation for `sym`"
         store_attr()
         self.nm = name or qual_name(sym)
-        self.isfunc = inspect.isfunction(sym)
+        self.isfunc = inspect.isfunction(sym) or isinstance(sym, functools._lru_cache_wrapper)
         self.isprop = isinstance_str(sym, 'property')
         if self.isprop: self.sig = None
         else:
