@@ -13,6 +13,8 @@ from datetime import datetime
 from configparser import ConfigParser
 import shutil,subprocess
 
+from .doclinks import *
+
 # %% ../nbs/17_release.ipynb 16
 GH_HOST = "https://api.github.com"
 

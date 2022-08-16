@@ -159,7 +159,6 @@ def _wrap_sig(s):
 class BasicMarkdownRenderer(ShowDocRenderer):
     def _repr_markdown_(self):
         doc = '---\n\n'
-        if self.isfunc or self.isprop: doc += '#'
         sig = _wrap_sig(f"{self.nm} {_fmt_sig(self.sig)}") if self.sig else ''
         doc += f'### {self.nm}\n\n{sig}'
         if self.docs: doc += f"\n\n{self.docs}"
@@ -190,7 +189,7 @@ def doc(elt, show_all_docments:bool=False):
         md += f'\n\n<a href="{doc_link}" target="_blank" rel="noreferrer noopener">Show in docs</a>'
     display(Markdown(md))
 
-# %% ../nbs/08_showdoc.ipynb 55
+# %% ../nbs/08_showdoc.ipynb 54
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
@@ -200,12 +199,12 @@ class BasicHtmlRenderer(ShowDocRenderer):
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 60
+# %% ../nbs/08_showdoc.ipynb 59
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(get_patch_name(tree), tree.name)
 
-# %% ../nbs/08_showdoc.ipynb 64
+# %% ../nbs/08_showdoc.ipynb 63
 def colab_link(path):
     "Get a link to the notebook at `path` on Colab"
     from IPython.display import Markdown
