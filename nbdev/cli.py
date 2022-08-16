@@ -4,8 +4,7 @@
 from __future__ import annotations
 import warnings
 
-from .read import *
-from .sync import *
+from .config import *
 from .process import *
 from .processors import *
 from .doclinks import *
@@ -19,10 +18,9 @@ from fastcore.script import call_parse
 from fastcore.style import S
 from fastcore.shutil import rmtree,move
 
-from os import system
 from urllib.error import HTTPError
 from contextlib import redirect_stdout
-import os, tarfile, subprocess, sys
+import os, tarfile, sys
 
 # %% auto 0
 __all__ = ['prepare', 'FilterDefaults', 'nbdev_filter', 'extract_tgz', 'prompt_user', 'nbdev_new', 'chelp']

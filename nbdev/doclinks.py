@@ -4,7 +4,7 @@
 __all__ = ['DocLinks', 'get_patch_name', 'build_modidx', 'nbglob', 'nbdev_export', 'NbdevLookup']
 
 # %% ../nbs/04b_doclinks.ipynb 2
-from .read import *
+from .config import *
 from .maker import *
 from .export import *
 from .imports import *

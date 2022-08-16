@@ -8,7 +8,7 @@ __all__ = ['find_var', 'read_var', 'update_var', 'ModuleMaker', 'decor_id', 'ret
            'update_import', 'basic_export_nb2']
 
 # %% ../nbs/02_maker.ipynb 4
-from .read import *
+from .config import *
 from .imports import *
 
 from fastcore.script import *

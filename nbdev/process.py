@@ -4,7 +4,7 @@
 __all__ = ['langs', 'nb_lang', 'first_code_ln', 'extract_directives', 'opt_set', 'instantiate', 'NBProcessor', 'Processor']
 
 # %% ../nbs/03_process.ipynb 2
-from .read import *
+from .config import *
 from .maker import *
 from .imports import *
 

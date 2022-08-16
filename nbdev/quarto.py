@@ -4,35 +4,28 @@
 from __future__ import annotations
 import warnings
 
-from .read import *
-from .sync import *
-from .process import *
-from .processors import *
+from .config import *
 from .doclinks import *
-from .test import *
-from .clean import *
 
-from execnb.nbio import *
 from fastcore.utils import *
 from fastcore.script import call_parse
-from fastcore.style import S
 from fastcore.shutil import rmtree,move
 
 from os import system
-import os, subprocess, sys, shutil
+import subprocess,sys,shutil
 
 # %% auto 0
 __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'nbdev_readme', 'refresh_quarto_yml', 'nbdev_quarto',
            'preview', 'deploy']
 
-# %% ../nbs/13_quarto.ipynb 5
+# %% ../nbs/13_quarto.ipynb 4
 _def_file_re = '\.(?:ipynb|qmd|html)$'
 
 def _sprun(cmd):
     try: subprocess.check_output(cmd, shell=True)
     except subprocess.CalledProcessError as cpe: sys.exit(cpe.returncode)
 
-# %% ../nbs/13_quarto.ipynb 6
+# %% ../nbs/13_quarto.ipynb 5
 BASE_QUARTO_URL='https://www.quarto.org/download/latest/'
 
 def _install_linux():
@@ -57,7 +50,7 @@ def install_quarto():
         elif 'linux' in sys.platform: _install_linux()
     finally: system('sudo rm -f .installing')
 
-# %% ../nbs/13_quarto.ipynb 7
+# %% ../nbs/13_quarto.ipynb 6
 @call_parse
 def install():
     "Install Quarto and the current library"
@@ -65,7 +58,7 @@ def install():
     d = get_config().path('lib_path')
     if (d/'__init__.py').exists(): system(f'pip install -e "{d.parent}[dev]"')
 
-# %% ../nbs/13_quarto.ipynb 8
+# %% ../nbs/13_quarto.ipynb 7
 def _doc_paths(path:str=None, doc_path:str=None):
     cfg = get_config()
     cfg_path = cfg.config_path
@@ -74,7 +67,7 @@ def _doc_paths(path:str=None, doc_path:str=None):
     tmp_doc_path = path/f"{cfg['doc_path']}"
     return cfg,cfg_path,path,doc_path,tmp_doc_path
 
-# %% ../nbs/13_quarto.ipynb 9
+# %% ../nbs/13_quarto.ipynb 8
 def _f(a,b): return Path(a),b
 def _pre(p,b=True): return '    ' * (len(p.parts)) + ('- ' if b else '  ')
 def _sort(a):
@@ -82,7 +75,7 @@ def _sort(a):
     if y.startswith('index.'): return x,'00'
     return a
 
-# %% ../nbs/13_quarto.ipynb 10
+# %% ../nbs/13_quarto.ipynb 9
 @call_parse
 def nbdev_sidebar(
     path:str=None, # Path to notebooks
@@ -118,7 +111,7 @@ def nbdev_sidebar(
     yml_path.write_text(yml)
     if returnit: return files
 
-# %% ../nbs/13_quarto.ipynb 12
+# %% ../nbs/13_quarto.ipynb 11
 def _render_readme(path):
     idx_path = path/get_config().readme_nb
     if not idx_path.exists(): return
@@ -134,7 +127,7 @@ def _render_readme(path):
     finally:
         if moved: (path/'sidebar.yml.bak').rename(yml_path)
 
-# %% ../nbs/13_quarto.ipynb 13
+# %% ../nbs/13_quarto.ipynb 12
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
@@ -147,13 +140,13 @@ def nbdev_readme(
         if _rdm.exists(): _rdm.unlink() # py37 doesn't have arg missing_ok so have to check first
         move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
 
-# %% ../nbs/13_quarto.ipynb 14
+# %% ../nbs/13_quarto.ipynb 13
 def _ensure_quarto():
     if shutil.which('quarto'): return
     print("Quarto is not installed. We will download and install it for you.")
     install.__wrapped__()
 
-# %% ../nbs/13_quarto.ipynb 15
+# %% ../nbs/13_quarto.ipynb 14
 _quarto_yml="""ipynb-filters: [nbdev_filter]
 
 project:
@@ -194,7 +187,7 @@ metadata-files:
   - custom.yml
 """
 
-# %% ../nbs/13_quarto.ipynb 16
+# %% ../nbs/13_quarto.ipynb 15
 def refresh_quarto_yml():
     "Generate `_quarto.yml` from `settings.ini`."
     cfg = get_config()
@@ -206,7 +199,7 @@ def refresh_quarto_yml():
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
-# %% ../nbs/13_quarto.ipynb 17
+# %% ../nbs/13_quarto.ipynb 16
 @call_parse
 def nbdev_quarto(
     path:str=None, # Path to notebooks
@@ -233,7 +226,7 @@ def nbdev_quarto(
             rmtree(doc_path, ignore_errors=True)
             move(tmp_doc_path, cfg_path)
 
-# %% ../nbs/13_quarto.ipynb 18
+# %% ../nbs/13_quarto.ipynb 17
 @call_parse
 def preview(
     path:str=None, # Path to notebooks
@@ -249,7 +242,7 @@ def preview(
     nbdev_quarto.__wrapped__(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
                              skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, preview=True, port=port)
 
-# %% ../nbs/13_quarto.ipynb 19
+# %% ../nbs/13_quarto.ipynb 18
 @call_parse
 def deploy(
     path:str=None, # Path to notebooks

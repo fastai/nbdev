@@ -9,7 +9,7 @@ __all__ = ['is_frontmatter', 'yml2dict', 'populate_language', 'insert_warning', 
 # %% ../nbs/09_processors.ipynb 2
 import ast
 
-from .read import *
+from .config import *
 from .imports import *
 from .process import *
 from .showdoc import *

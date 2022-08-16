@@ -5,7 +5,7 @@ __all__ = ['conf_re', 'nbdev_fix', 'unpatch', 'nbdev_merge']
 
 # %% ../nbs/06_merge.ipynb 2
 from .imports import *
-from .read import *
+from .config import *
 from .export import *
 from .sync import *
 

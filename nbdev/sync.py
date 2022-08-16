@@ -5,7 +5,7 @@ __all__ = ['absolute_import', 'nbdev_update']
 
 # %% ../nbs/05_sync.ipynb 3
 from .imports import *
-from .read import *
+from .config import *
 from .maker import *
 from .process import *
 from .export import *

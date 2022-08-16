@@ -3,7 +3,7 @@
 # %% ../nbs/08_showdoc.ipynb 2
 from __future__ import annotations
 from .doclinks import *
-from .read import get_config
+from .config import get_config
 
 from fastcore.dispatch import TypeDispatch
 from fastcore.docments import *

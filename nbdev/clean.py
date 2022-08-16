@@ -14,7 +14,7 @@ from fastcore.basics import *
 from fastcore.imports import *
 
 from .imports import *
-from .read import *
+from .config import *
 from .sync import *
 from .process import first_code_ln
 

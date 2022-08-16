@@ -134,7 +134,7 @@ def release_gh(
 
 # %% ../nbs/17_release.ipynb 33
 from fastcore.all import *
-from .read import *
+from .config import *
 from .cli import *
 
 import yaml,subprocess,glob,platform

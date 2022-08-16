@@ -11,7 +11,7 @@ from fastcore.foundation import *
 from fastcore.parallel import *
 from fastcore.script import *
 
-from .read import *
+from .config import *
 from .doclinks import *
 from .process import NBProcessor, nb_lang
 from .processors import infer_frontmatter

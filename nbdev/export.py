@@ -4,7 +4,7 @@
 __all__ = ['ExportModuleProc', 'black_format', 'create_modules', 'nb_export']
 
 # %% ../nbs/04a_export.ipynb 2
-from .read import *
+from .config import *
 from .maker import *
 from .imports import *
 from .process import *

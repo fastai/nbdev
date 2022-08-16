@@ -10,7 +10,7 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                 'clean_ids': 'True',
                 'conda_requirements': 'pyyaml',
                 'conda_user': 'fastai',
-                'console_scripts': 'nbdev_create_config=nbdev.read:nbdev_create_config\n'
+                'console_scripts': 'nbdev_create_config=nbdev.config:nbdev_create_config\n'
                                    'nbdev_update=nbdev.sync:nbdev_update\n'
                                    'nbdev_export=nbdev.doclinks:nbdev_export\n'
                                    'nbdev_fix=nbdev.merge:nbdev_fix\n'
@@ -82,6 +82,15 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                            'nbdev.cli.nbdev_new': 'https://nbdev.fast.ai/cli.html#nbdev_new',
                            'nbdev.cli.prepare': 'https://nbdev.fast.ai/cli.html#prepare',
                            'nbdev.cli.prompt_user': 'https://nbdev.fast.ai/cli.html#prompt_user'},
+            'nbdev.config': { 'nbdev.config.add_init': 'https://nbdev.fast.ai/config.html#add_init',
+                              'nbdev.config.basic_export_nb': 'https://nbdev.fast.ai/config.html#basic_export_nb',
+                              'nbdev.config.config_key': 'https://nbdev.fast.ai/config.html#config_key',
+                              'nbdev.config.create_output': 'https://nbdev.fast.ai/config.html#create_output',
+                              'nbdev.config.get_config': 'https://nbdev.fast.ai/config.html#get_config',
+                              'nbdev.config.nbdev_create_config': 'https://nbdev.fast.ai/config.html#nbdev_create_config',
+                              'nbdev.config.show_src': 'https://nbdev.fast.ai/config.html#show_src',
+                              'nbdev.config.update_version': 'https://nbdev.fast.ai/config.html#update_version',
+                              'nbdev.config.write_cells': 'https://nbdev.fast.ai/config.html#write_cells'},
             'nbdev.doclinks': { 'nbdev.doclinks.DocLinks': 'https://nbdev.fast.ai/doclinks.html#doclinks',
                                 'nbdev.doclinks.DocLinks.build_index': 'https://nbdev.fast.ai/doclinks.html#doclinks.build_index',
                                 'nbdev.doclinks.DocLinks.update_syms': 'https://nbdev.fast.ai/doclinks.html#doclinks.update_syms',

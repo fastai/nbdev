@@ -7,7 +7,7 @@ website:
       - git_friendly_jupyter.ipynb
       - section: API details
         contents:
-        - 01_read.ipynb
+        - 01_config.ipynb
         - 02_maker.ipynb
         - 03_process.ipynb
         - 04a_export.ipynb
@@ -19,5 +19,6 @@ website:
         - 10_clean.ipynb
         - 11_test.ipynb
         - 12_cli.ipynb
+        - 13_quarto.ipynb
         - 15_migrate.ipynb
         - 17_release.ipynb
