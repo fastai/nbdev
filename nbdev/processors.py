@@ -2,7 +2,7 @@
 
 # %% auto 0
 __all__ = ['is_frontmatter', 'yml2dict', 'populate_language', 'insert_warning', 'cell_lang', 'add_show_docs', 'yaml_str',
-           'nb_fmdict', 'filter_fm', 'construct_fm', 'insert_frontmatter', 'infer_frontmatter', 'nbflags_', 'add_links',
+           'nb_fmdict', 'filter_fm', 'construct_fm', 'insert_frontmatter', 'infer_frontmatter', 'add_links',
            'strip_ansi', 'strip_hidden_metadata', 'hide_', 'hide_line', 'filter_stream_', 'clean_magics',
            'lang_identify', 'rm_header_dash', 'rm_export', 'clean_show_doc', 'exec_show_docs']
 
@@ -183,11 +183,6 @@ def infer_frontmatter(nb):
     nb.frontmatter_=_fmdict
 
 # %% ../nbs/09_processors.ipynb 46
-def nbflags_(nbp, cell, *args):
-    "Store flags marked with `nbflags`"
-    nbp.nb._nbflags = args
-
-# %% ../nbs/09_processors.ipynb 48
 def add_links(cell):
     "Add links to markdown cells"
     nl = NbdevLookup()
@@ -196,7 +191,7 @@ def add_links(cell):
         if hasattr(o, 'data') and hasattr(o['data'], 'text/markdown'):
             o.data['text/markdown'] = [nl.link_line(s) for s in o.data['text/markdown']]
 
-# %% ../nbs/09_processors.ipynb 51
+# %% ../nbs/09_processors.ipynb 49
 _re_ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 
 def strip_ansi(cell):
@@ -204,17 +199,17 @@ def strip_ansi(cell):
     for outp in cell.get('outputs', []):
         if outp.get('name')=='stdout': outp['text'] = [_re_ansi_escape.sub('', o) for o in outp.text]
 
-# %% ../nbs/09_processors.ipynb 53
+# %% ../nbs/09_processors.ipynb 51
 def strip_hidden_metadata(cell):
     '''Strips "hidden" metadata property from code cells so it doesn't interfere with docs rendering'''
     if cell.cell_type == 'code' and 'metadata' in cell: cell.metadata.pop('hidden',None)
 
-# %% ../nbs/09_processors.ipynb 54
+# %% ../nbs/09_processors.ipynb 52
 def hide_(nbp, cell):
     "Hide cell from output"
     del(cell['source'])
 
-# %% ../nbs/09_processors.ipynb 56
+# %% ../nbs/09_processors.ipynb 54
 def _re_hideline(lang=None): return re.compile(fr'{langs[lang]}\|\s*hide_line\s*$', re.MULTILINE)
 
 def hide_line(cell):
@@ -223,7 +218,7 @@ def hide_line(cell):
     if cell.cell_type == 'code' and _re_hideline(lang).search(cell.source):
         cell.source = '\n'.join([c for c in cell.source.splitlines() if not _re_hideline(lang).search(c)])
 
-# %% ../nbs/09_processors.ipynb 59
+# %% ../nbs/09_processors.ipynb 57
 def filter_stream_(nbp, cell, *words):
     "Remove output lines containing any of `words` in `cell` stream output"
     if not words: return
@@ -231,14 +226,14 @@ def filter_stream_(nbp, cell, *words):
         if outp.output_type == 'stream':
             outp['text'] = [l for l in outp.text if not re.search('|'.join(words), l)]
 
-# %% ../nbs/09_processors.ipynb 61
+# %% ../nbs/09_processors.ipynb 59
 _magics_pattern = re.compile(r'^\s*(%%|%).*', re.MULTILINE)
 
 def clean_magics(cell):
     "A preprocessor to remove cell magic commands"
     if cell.cell_type == 'code': cell.source = _magics_pattern.sub('', cell.source).strip()
 
-# %% ../nbs/09_processors.ipynb 63
+# %% ../nbs/09_processors.ipynb 61
 _langs = 'bash|html|javascript|js|latex|markdown|perl|ruby|sh|svg'
 _lang_pattern = re.compile(rf'^\s*%%\s*({_langs})\s*$', flags=re.MULTILINE)
 
@@ -248,7 +243,7 @@ def lang_identify(cell):
         lang = _lang_pattern.findall(cell.source)
         if lang: cell.metadata.language = lang[0]
 
-# %% ../nbs/09_processors.ipynb 66
+# %% ../nbs/09_processors.ipynb 64
 _re_hdr_dash = re.compile(r'^#+\s+.*\s+-\s*$', re.MULTILINE)
 
 def rm_header_dash(cell):
@@ -257,7 +252,7 @@ def rm_header_dash(cell):
         src = cell.source.strip()
         if cell.cell_type == 'markdown' and src.startswith('#') and src.endswith(' -'): del(cell['source'])
 
-# %% ../nbs/09_processors.ipynb 68
+# %% ../nbs/09_processors.ipynb 66
 _hide_dirs = {'export','exporti', 'hide','default_exp'}
 
 def rm_export(cell):
@@ -265,7 +260,7 @@ def rm_export(cell):
     if cell.directives_:
         if cell.directives_.keys() & _hide_dirs: del(cell['source'])
 
-# %% ../nbs/09_processors.ipynb 70
+# %% ../nbs/09_processors.ipynb 68
 _re_showdoc = re.compile(r'^show_doc', re.MULTILINE)
 def _is_showdoc(cell): return cell['cell_type'] == 'code' and _re_showdoc.search(cell.source)
 
@@ -274,7 +269,7 @@ def clean_show_doc(cell):
     if not _is_showdoc(cell): return
     cell.source = '#|output: asis\n#| echo: false\n' + cell.source
 
-# %% ../nbs/09_processors.ipynb 71
+# %% ../nbs/09_processors.ipynb 69
 def _ast_contains(trees, types):
     for tree in trees:
         for node in ast.walk(tree):
@@ -295,7 +290,7 @@ def _do_eval(cell):
         return True
     if _show_docs(trees): return True
 
-# %% ../nbs/09_processors.ipynb 72
+# %% ../nbs/09_processors.ipynb 70
 class exec_show_docs:
     "Execute cells needed for `show_docs` output, including exported cells and imports"
     def __init__(self, nb):
