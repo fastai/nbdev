@@ -84,30 +84,20 @@ def nbdev_sidebar(
 # %% ../nbs/12_cli.ipynb 10
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
-    def _nothing(self): return []
-    xtra_procs=xtra_preprocs=xtra_postprocs=_nothing
-    
-    def base_preprocs(self): return [populate_language, infer_frontmatter, add_show_docs, insert_warning]
-    def base_postprocs(self): return []
+    def xtra_procs(self): return []
+
     def base_procs(self):
-        return [lang_identify, strip_ansi, hide_line, filter_stream_, rm_header_dash,
+        return [populate_language, infer_frontmatter, add_show_docs, insert_warning,
+                strip_ansi, hide_line, filter_stream_, rm_header_dash,
                 clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_, add_links, strip_hidden_metadata]
 
     def procs(self):
         "Processors for export"
         return self.base_procs() + self.xtra_procs()
-
-    def preprocs(self):
-        "Preprocessors for export"
-        return self.base_preprocs() + self.xtra_preprocs()
-
-    def postprocs(self):
-        "Postprocessors for export"
-        return self.base_postprocs() + self.xtra_postprocs()
     
     def nb_proc(self, nb):
         "Get an `NBProcessor` with these processors"
-        return NBProcessor(nb=nb, procs=self.procs(), preprocs=self.preprocs(), postprocs=self.postprocs())
+        return NBProcessor(nb=nb, procs=self.procs())
 
 # %% ../nbs/12_cli.ipynb 11
 @call_parse

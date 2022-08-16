@@ -18,18 +18,18 @@ from collections import defaultdict
 # %% ../nbs/04a_export.ipynb 4
 class ExportModuleProc:
     "A processor which exports code to a module"
-    def __init__(self): self.modules,self.in_all = defaultdict(L),defaultdict(L)
-    def _default_exp_(self, nbp, cell, exp_to): self.default_exp = exp_to
-    def _exporti_(self, nbp, cell, exp_to=None): self.modules[ifnone(exp_to, '#')].append(cell)
-    def _export_(self, nbp, cell, exp_to=None):
-        self._exporti_(nbp, cell, exp_to)
+    def begin(self): self.modules,self.in_all = defaultdict(L),defaultdict(L)
+    def _default_exp_(self, cell, exp_to): self.default_exp = exp_to
+    def _exporti_(self, cell, exp_to=None): self.modules[ifnone(exp_to, '#')].append(cell)
+    def _export_(self, cell, exp_to=None):
+        self._exporti_(cell, exp_to)
         self.in_all[ifnone(exp_to, '#')].append(cell)
     _exports_=_export_
 
 # %% ../nbs/04a_export.ipynb 7
-def black_format(cell, # A cell node 
+def black_format(cell, # Cell to format
                  force=False): # Turn black formatting on regardless of settings.ini
-    "Format code with `black`"
+    "Processor to format code with `black`"
     try: cfg = get_config()
     except FileNotFoundError: return
     if (str(cfg.get('black_formatting')).lower() != 'true' and not force) or cell.cell_type != 'code': return
