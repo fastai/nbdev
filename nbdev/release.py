@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['GH_HOST', 'Release', 'changelog', 'release_git', 'release_gh', 'pypi_json', 'latest_pypi', 'pypi_details',
            'conda_output_path', 'write_conda_meta', 'anaconda_upload', 'release_conda', 'chk_conda_rel', 'release_pypi',
-           'release_both']
+           'release_both', 'bump_version', 'nbdev_bump_version']
 
 # %% ../nbs/17_release.ipynb 14
 from fastcore.all import *
@@ -312,3 +312,25 @@ def release_both(
     release_pypi.__wrapped__(repository)
     release_conda.__wrapped__(path, do_build=do_build, build_args=build_args, skip_upload=skip_upload, mambabuild=mambabuild, upload_user=upload_user)
     nbdev_bump_version.__wrapped__()
+
+# %% ../nbs/17_release.ipynb 50
+def bump_version(version, part=2, unbump=False):
+    version = version.split('.')
+    incr = -1 if unbump else 1
+    version[part] = str(int(version[part]) + incr)
+    for i in range(part+1, 3): version[i] = '0'
+    return '.'.join(version)
+
+# %% ../nbs/17_release.ipynb 51
+@call_parse
+def nbdev_bump_version(
+    part:int=2,  # Part of version to bump
+    unbump:bool=False):  # Reduce version instead of increasing it
+    "Increment version in settings.ini by one"
+    cfg = get_config()
+    print(f'Old version: {cfg.version}')
+    cfg.d['version'] = bump_version(get_config().version, part, unbump=unbump)
+    cfg.save()
+    update_version()
+    nbdev_export.__wrapped__()
+    print(f'New version: {cfg.version}')

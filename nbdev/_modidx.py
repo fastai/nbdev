@@ -19,25 +19,25 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                                    'nbdev_clean=nbdev.clean:nbdev_clean\n'
                                    'nbdev_install_hooks=nbdev.clean:nbdev_install_hooks\n'
                                    'nbdev_filter=nbdev.cli:nbdev_filter\n'
-                                   'nbdev_quarto=nbdev.cli:nbdev_quarto\n'
-                                   'nbdev_sidebar=nbdev.cli:nbdev_sidebar\n'
+                                   'nbdev_sidebar=nbdev.quarto:nbdev_sidebar\n'
                                    'nbdev_test=nbdev.test:nbdev_test\n'
-                                   'nbdev_bump_version=nbdev.cli:nbdev_bump_version\n'
                                    'nbdev_new=nbdev.cli:nbdev_new\n'
                                    'nbdev_migrate=nbdev.migrate:nbdev_migrate\n'
-                                   'nbdev_install_quarto=nbdev.cli:install_quarto\n'
-                                   'nbdev_install=nbdev.cli:install\n'
-                                   'nbdev_docs=nbdev.cli:nbdev_quarto\n'
-                                   'nbdev_preview=nbdev.cli:preview\n'
-                                   'nbdev_deploy=nbdev.cli:deploy\n'
+                                   'nbdev_quarto=nbdev.quarto:nbdev_quarto\n'
+                                   'nbdev_install_quarto=nbdev.quarto:install_quarto\n'
+                                   'nbdev_install=nbdev.quarto:install\n'
+                                   'nbdev_docs=nbdev.quarto:nbdev_quarto\n'
+                                   'nbdev_preview=nbdev.quarto:preview\n'
+                                   'nbdev_deploy=nbdev.quarto:deploy\n'
                                    'nbdev_prepare=nbdev.cli:prepare\n'
-                                   'nbdev_readme=nbdev.cli:nbdev_readme\n'
+                                   'nbdev_readme=nbdev.quarto:nbdev_readme\n'
                                    'nbdev_release_gh=nbdev.release:release_gh\n'
                                    'nbdev_release_git=nbdev.release:release_git\n'
                                    'nbdev_changelog=nbdev.release:changelog\n'
                                    'nbdev_pypi=nbdev.release:release_pypi\n'
                                    'nbdev_conda=nbdev.release:release_conda\n'
                                    'nbdev_release_both=nbdev.release:release_both\n'
+                                   'nbdev_bump_version=nbdev.release:nbdev_bump_version\n'
                                    'nbdev_help=nbdev.cli:chelp',
                 'copyright': '2020 onwards, Jeremy Howard',
                 'custom_quarto_yml': 'False',
@@ -71,28 +71,18 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                              'nbdev.clean.nbdev_install_hooks': 'https://nbdev.fast.ai/clean.html#nbdev_install_hooks',
                              'nbdev.clean.nbdev_trust': 'https://nbdev.fast.ai/clean.html#nbdev_trust',
                              'nbdev.clean.process_write': 'https://nbdev.fast.ai/clean.html#process_write'},
-            'nbdev.cli': { 'nbdev.cli.BASE_QUARTO_URL': 'https://nbdev.fast.ai/cli.html#base_quarto_url',
-                           'nbdev.cli.FilterDefaults': 'https://nbdev.fast.ai/cli.html#filterdefaults',
+            'nbdev.cli': { 'nbdev.cli.FilterDefaults': 'https://nbdev.fast.ai/cli.html#filterdefaults',
                            'nbdev.cli.FilterDefaults.base_procs': 'https://nbdev.fast.ai/cli.html#filterdefaults.base_procs',
                            'nbdev.cli.FilterDefaults.nb_proc': 'https://nbdev.fast.ai/cli.html#filterdefaults.nb_proc',
                            'nbdev.cli.FilterDefaults.procs': 'https://nbdev.fast.ai/cli.html#filterdefaults.procs',
                            'nbdev.cli.FilterDefaults.xtra_procs': 'https://nbdev.fast.ai/cli.html#filterdefaults.xtra_procs',
-                           'nbdev.cli.bump_version': 'https://nbdev.fast.ai/cli.html#bump_version',
                            'nbdev.cli.chelp': 'https://nbdev.fast.ai/cli.html#chelp',
-                           'nbdev.cli.deploy': 'https://nbdev.fast.ai/cli.html#deploy',
                            'nbdev.cli.extract_tgz': 'https://nbdev.fast.ai/cli.html#extract_tgz',
-                           'nbdev.cli.install': 'https://nbdev.fast.ai/cli.html#install',
-                           'nbdev.cli.install_quarto': 'https://nbdev.fast.ai/cli.html#install_quarto',
-                           'nbdev.cli.nbdev_bump_version': 'https://nbdev.fast.ai/cli.html#nbdev_bump_version',
                            'nbdev.cli.nbdev_filter': 'https://nbdev.fast.ai/cli.html#nbdev_filter',
                            'nbdev.cli.nbdev_new': 'https://nbdev.fast.ai/cli.html#nbdev_new',
-                           'nbdev.cli.nbdev_quarto': 'https://nbdev.fast.ai/cli.html#nbdev_quarto',
-                           'nbdev.cli.nbdev_readme': 'https://nbdev.fast.ai/cli.html#nbdev_readme',
                            'nbdev.cli.nbdev_sidebar': 'https://nbdev.fast.ai/cli.html#nbdev_sidebar',
                            'nbdev.cli.prepare': 'https://nbdev.fast.ai/cli.html#prepare',
-                           'nbdev.cli.preview': 'https://nbdev.fast.ai/cli.html#preview',
-                           'nbdev.cli.prompt_user': 'https://nbdev.fast.ai/cli.html#prompt_user',
-                           'nbdev.cli.refresh_quarto_yml': 'https://nbdev.fast.ai/cli.html#refresh_quarto_yml'},
+                           'nbdev.cli.prompt_user': 'https://nbdev.fast.ai/cli.html#prompt_user'},
             'nbdev.doclinks': { 'nbdev.doclinks.DocLinks': 'https://nbdev.fast.ai/doclinks.html#doclinks',
                                 'nbdev.doclinks.DocLinks.build_index': 'https://nbdev.fast.ai/doclinks.html#doclinks.build_index',
                                 'nbdev.doclinks.DocLinks.update_syms': 'https://nbdev.fast.ai/doclinks.html#doclinks.update_syms',
@@ -176,6 +166,15 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                                   'nbdev.processors.strip_hidden_metadata': 'https://nbdev.fast.ai/processors.html#strip_hidden_metadata',
                                   'nbdev.processors.yaml_str': 'https://nbdev.fast.ai/processors.html#yaml_str',
                                   'nbdev.processors.yml2dict': 'https://nbdev.fast.ai/processors.html#yml2dict'},
+            'nbdev.quarto': { 'nbdev.quarto.BASE_QUARTO_URL': 'https://nbdev.fast.ai/quarto.html#base_quarto_url',
+                              'nbdev.quarto.deploy': 'https://nbdev.fast.ai/quarto.html#deploy',
+                              'nbdev.quarto.install': 'https://nbdev.fast.ai/quarto.html#install',
+                              'nbdev.quarto.install_quarto': 'https://nbdev.fast.ai/quarto.html#install_quarto',
+                              'nbdev.quarto.nbdev_quarto': 'https://nbdev.fast.ai/quarto.html#nbdev_quarto',
+                              'nbdev.quarto.nbdev_readme': 'https://nbdev.fast.ai/quarto.html#nbdev_readme',
+                              'nbdev.quarto.nbdev_sidebar': 'https://nbdev.fast.ai/quarto.html#nbdev_sidebar',
+                              'nbdev.quarto.preview': 'https://nbdev.fast.ai/quarto.html#preview',
+                              'nbdev.quarto.refresh_quarto_yml': 'https://nbdev.fast.ai/quarto.html#refresh_quarto_yml'},
             'nbdev.read': { 'nbdev.read.add_init': 'https://nbdev.fast.ai/read.html#add_init',
                             'nbdev.read.basic_export_nb': 'https://nbdev.fast.ai/read.html#basic_export_nb',
                             'nbdev.read.config_key': 'https://nbdev.fast.ai/read.html#config_key',
@@ -191,10 +190,12 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                                'nbdev.release.Release.latest_notes': 'https://nbdev.fast.ai/release.html#release.latest_notes',
                                'nbdev.release.Release.release': 'https://nbdev.fast.ai/release.html#release.release',
                                'nbdev.release.anaconda_upload': 'https://nbdev.fast.ai/release.html#anaconda_upload',
+                               'nbdev.release.bump_version': 'https://nbdev.fast.ai/release.html#bump_version',
                                'nbdev.release.changelog': 'https://nbdev.fast.ai/release.html#changelog',
                                'nbdev.release.chk_conda_rel': 'https://nbdev.fast.ai/release.html#chk_conda_rel',
                                'nbdev.release.conda_output_path': 'https://nbdev.fast.ai/release.html#conda_output_path',
                                'nbdev.release.latest_pypi': 'https://nbdev.fast.ai/release.html#latest_pypi',
+                               'nbdev.release.nbdev_bump_version': 'https://nbdev.fast.ai/release.html#nbdev_bump_version',
                                'nbdev.release.pypi_details': 'https://nbdev.fast.ai/release.html#pypi_details',
                                'nbdev.release.pypi_json': 'https://nbdev.fast.ai/release.html#pypi_json',
                                'nbdev.release.release_both': 'https://nbdev.fast.ai/release.html#release_both',

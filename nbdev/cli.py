@@ -21,12 +21,10 @@ from fastcore.shutil import rmtree,move
 from os import system
 from urllib.error import HTTPError
 from contextlib import redirect_stdout
-import os, tarfile, subprocess, sys, shutil
+import os, tarfile, subprocess, sys
 
 # %% auto 0
-__all__ = ['BASE_QUARTO_URL', 'prepare', 'nbdev_sidebar', 'FilterDefaults', 'nbdev_filter', 'bump_version', 'nbdev_bump_version',
-           'extract_tgz', 'prompt_user', 'refresh_quarto_yml', 'nbdev_new', 'install_quarto', 'install', 'nbdev_readme',
-           'nbdev_quarto', 'preview', 'deploy', 'chelp']
+__all__ = ['prepare', 'nbdev_sidebar', 'FilterDefaults', 'nbdev_filter', 'extract_tgz', 'prompt_user', 'nbdev_new', 'chelp']
 
 # %% ../nbs/12_cli.ipynb 5
 @call_parse
@@ -123,36 +121,14 @@ def nbdev_filter(
     else: return res
 
 # %% ../nbs/12_cli.ipynb 14
-def bump_version(version, part=2, unbump=False):
-    version = version.split('.')
-    incr = -1 if unbump else 1
-    version[part] = str(int(version[part]) + incr)
-    for i in range(part+1, 3): version[i] = '0'
-    return '.'.join(version)
-
-# %% ../nbs/12_cli.ipynb 15
-@call_parse
-def nbdev_bump_version(
-    part:int=2,  # Part of version to bump
-    unbump:bool=False):  # Reduce version instead of increasing it
-    "Increment version in settings.ini by one"
-    cfg = get_config()
-    print(f'Old version: {cfg.version}')
-    cfg.d['version'] = bump_version(get_config().version, part, unbump=unbump)
-    cfg.save()
-    update_version()
-    nbdev_export.__wrapped__()
-    print(f'New version: {cfg.version}')
-
-# %% ../nbs/12_cli.ipynb 17
 def extract_tgz(url, dest='.'):
     from fastcore.net import urlopen
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/12_cli.ipynb 18
+# %% ../nbs/12_cli.ipynb 15
 def _mk_cfg(**kwargs): return {k: kwargs.get(k,None) for k in 'lib_name user branch author author_email keywords description repo'.split()}
 
-# %% ../nbs/12_cli.ipynb 19
+# %% ../nbs/12_cli.ipynb 16
 def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
     from ghapi.all import GhApi
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
@@ -169,7 +145,7 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
     
     return r.default_branch, default_kw if not r.topics else ' '.join(r.topics), r.description
 
-# %% ../nbs/12_cli.ipynb 21
+# %% ../nbs/12_cli.ipynb 18
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     res={}
@@ -185,7 +161,7 @@ def _fetch_from_git(raise_err=False):
     else: res['lib_name'] = res['repo'].replace('-','_')
     return res
 
-# %% ../nbs/12_cli.ipynb 23
+# %% ../nbs/12_cli.ipynb 20
 def prompt_user(cfg, inferred):
     "Let user input values not in `cfg` or `inferred`."
     print(S.dark_gray('# settings.ini'))
@@ -201,59 +177,7 @@ def prompt_user(cfg, inferred):
         else: print(msg+str(v))
     return res
 
-# %% ../nbs/12_cli.ipynb 24
-_quarto_yml="""ipynb-filters: [nbdev_filter]
-
-project:
-  type: website
-  output-dir: {doc_path}
-  preview:
-    port: 3000
-    browser: false
-
-format:
-  html:
-    theme: cosmo
-    css: styles.css
-    toc: true
-    toc-depth: 4
-
-website:
-  title: "{title}"
-  site-url: "{doc_host}{doc_baseurl}"
-  description: "{description}"
-  twitter-card: true
-  open-graph: true
-  reader-mode: true
-  repo-branch: {branch}
-  repo-url: "{git_url}"
-  repo-actions: [issue]
-  navbar:
-    background: primary
-    search: true
-    right:
-      - icon: github
-        href: "{git_url}"
-  sidebar:
-    style: "floating"
-
-metadata-files: 
-  - sidebar.yml
-  - custom.yml
-"""
-
-def refresh_quarto_yml():
-    "Generate `_quarto.yml` from `settings.ini`."
-    cfg = get_config()
-    p = cfg.path('nbs_path')/'_quarto.yml'
-    vals = {k:cfg.get(k) for k in ['doc_path', 'title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl']}
-    # Do not build _quarto_yml if custom_quarto_yml is set to True
-    if str2bool(get_config().custom_quarto_yml): return
-    if 'title' not in vals: vals['title'] = vals['lib_name']
-    yml=_quarto_yml.format(**vals)
-    p.write_text(yml)
-
-# %% ../nbs/12_cli.ipynb 25
+# %% ../nbs/12_cli.ipynb 21
 @call_parse
 def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo name)
     "Create a new project from the current git repo"
@@ -282,151 +206,9 @@ def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo n
     settings = settings_path.read_text()
     settings = settings.format(**config)
     settings_path.write_text(settings)
-    refresh_quarto_yml()
-
     nbdev_export.__wrapped__()
 
-# %% ../nbs/12_cli.ipynb 27
-def _sprun(cmd):
-    try: subprocess.check_output(cmd, shell=True)
-    except subprocess.CalledProcessError as cpe: sys.exit(cpe.returncode)
-
-# %% ../nbs/12_cli.ipynb 28
-BASE_QUARTO_URL='https://www.quarto.org/download/latest/'
-
-def _install_linux():
-    system(f'curl -LO {BASE_QUARTO_URL}quarto-linux-amd64.deb')
-    system('sudo dpkg -i *64.deb && rm *64.deb')
-    
-def _install_mac():
-    system(f'curl -LO {BASE_QUARTO_URL}quarto-macos.pkg')
-    system('sudo installer -pkg quarto-macos.pkg -target /')
-
-def install_quarto():
-    "Install latest Quarto on macOS or Linux, prints instructions for Windows"
-    if sys.platform not in ('darwin','linux'):
-        return print('Please visit https://quarto.org/docs/get-started/ to install quarto')
-    print("Installing or upgrading quarto -- this requires root access.")
-    system('sudo touch .installing')
-    try:
-        installing = Path('.installing')
-        if not installing.exists(): return print("Cancelled. Please download and install Quarto from quarto.org.")
-        if 'darwin' in sys.platform: _install_mac()
-        elif 'linux' in sys.platform: _install_linux()
-    finally: system('sudo rm -f .installing')
-    
-def install():
-    "Install Quarto and the current library"
-    install_quarto()
-    d = get_config().path('lib_path')
-    if (d/'__init__.py').exists(): system(f'pip install -e "{d.parent}[dev]"')
-
-# %% ../nbs/12_cli.ipynb 29
-def _doc_paths(path:str=None, doc_path:str=None):
-    cfg = get_config()
-    cfg_path = cfg.config_path
-    path = cfg.path('nbs_path') if not path else Path(path)
-    doc_path = cfg.path('doc_path') if not doc_path else Path(doc_path)
-    tmp_doc_path = path/f"{cfg['doc_path']}"
-    return cfg,cfg_path,path,doc_path,tmp_doc_path
-
-# %% ../nbs/12_cli.ipynb 30
-def _render_readme(path):
-    idx_path = path/get_config().readme_nb
-    if not idx_path.exists(): return
-
-    yml_path = path/'sidebar.yml'
-    moved=False
-    if yml_path.exists():
-        # move out of the way to avoid rendering whole website
-        yml_path.rename(path/'sidebar.yml.bak')
-        moved=True
-    try:
-        _sprun(f'cd "{path}" && quarto render "{idx_path}" -o README.md -t gfm --no-execute')
-    finally:
-        if moved: (path/'sidebar.yml.bak').rename(yml_path)
-
-# %% ../nbs/12_cli.ipynb 31
-@call_parse
-def nbdev_readme(
-    path:str=None, # Path to notebooks
-    doc_path:str=None): # Path to output docs
-    "Render README.md from index.ipynb"
-    cfg,cfg_path,path,doc_path,tmp_doc_path = _doc_paths(path, doc_path)
-    _render_readme(path)
-    if (tmp_doc_path/'README.md').exists():
-        _rdm = cfg_path/'README.md'
-        if _rdm.exists(): _rdm.unlink() # py37 doesn't have arg missing_ok so have to check first
-        move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
-
-# %% ../nbs/12_cli.ipynb 32
-def _ensure_quarto():
-    if shutil.which('quarto'): return
-    print("Quarto is not installed. We will download and install it for you.")
-    install()
-
-# %% ../nbs/12_cli.ipynb 33
-@call_parse
-def nbdev_quarto(
-    path:str=None, # Path to notebooks
-    doc_path:str=None, # Path to output docs
-    symlinks:bool=False, # Follow symlinks?
-    file_re:str=_def_file_re, # Only include files matching regex
-    folder_re:str=None, # Only enter folders matching regex
-    skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str=None, # Skip files matching regex
-    preview:bool=False # Preview the site instead of building it
-):
-    "Create Quarto docs and README.md"
-    _ensure_quarto()
-    cfg,cfg_path,path,doc_path,tmp_doc_path = _doc_paths(path, doc_path)
-    refresh_quarto_yml()
-    nbdev_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
-                              skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
-    if preview: os.system(f'cd "{path}" && quarto preview')
-    else: _sprun(f'cd "{path}" && quarto render')
-    if not preview:
-        nbdev_readme.__wrapped__(path, doc_path)
-        if tmp_doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
-            rmtree(doc_path, ignore_errors=True)
-            move(tmp_doc_path, cfg_path)
-
-# %% ../nbs/12_cli.ipynb 34
-@call_parse
-def preview(
-    path:str=None, # Path to notebooks
-    doc_path:str=None, # Path to output docs
-    symlinks:bool=False, # Follow symlinks?
-    file_re:str=_def_file_re, # Only include files matching regex
-    folder_re:str=None, # Only enter folders matching regex
-    skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str=None, # Skip files matching regex
-):
-    "Preview docs locally"
-    nbdev_quarto.__wrapped__(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
-                             skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, preview=True)
-
-# %% ../nbs/12_cli.ipynb 35
-@call_parse
-def deploy(
-    path:str=None, # Path to notebooks
-    doc_path:str=None, # Path to output docs
-    skip_build:bool=False,  # Don't build docs first
-    symlinks:bool=False, # Follow symlinks?
-    file_re:str=_def_file_re, # Only include files matching regex
-    folder_re:str=None, # Only enter folders matching regex
-    skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str=None, # Skip files matching regex
-):
-    "Deploy docs to GitHub Pages"
-    if not skip_build:
-        nbdev_quarto.__wrapped__(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
-                                 skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
-    try: from ghp_import import ghp_import
-    except: return warnings.warn('Please install ghp-import with `pip install ghp-import`')
-    ghp_import(get_config().path('doc_path'), push=True, stderr=True, no_history=True)
-
-# %% ../nbs/12_cli.ipynb 37
+# %% ../nbs/12_cli.ipynb 23
 @call_parse
 def chelp():
     "Show help for all console scripts"
