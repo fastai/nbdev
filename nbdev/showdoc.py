@@ -124,6 +124,7 @@ class ShowDocRenderer:
         else:
             try: self.sig = signature_ex(sym, eval_str=True)
             except (ValueError,TypeError): self.sig = None
+        if self.title_level is None: self.title_level = 4 if self.isfunc or self.isprop else 3
         self.docs = docstring(sym)
         self.dm = DocmentTbl(sym)
         
@@ -159,9 +160,9 @@ def _wrap_sig(s):
 class BasicMarkdownRenderer(ShowDocRenderer):
     def _repr_markdown_(self):
         doc = '---\n\n'
-        if self.isfunc or self.isprop: doc += '#'
+        doc += '#'*self.title_level
         sig = _wrap_sig(f"{self.nm} {_fmt_sig(self.sig)}") if self.sig else ''
-        doc += f'### {self.nm}\n\n{sig}'
+        doc += f' {self.nm}\n\n{sig}'
         if self.docs: doc += f"\n\n{self.docs}"
         if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
@@ -194,8 +195,7 @@ def doc(elt, show_all_docments:bool=False):
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
-        lvl = 4 if self.isfunc else 3
-        doc += f'<h{lvl}>{self.nm}</h{lvl}>\n'
+        doc += f'<h{self.title_level}>{self.nm}</h{self.title_level}>\n'
         doc += f'<blockquote><pre><code>{self.nm}{_fmt_sig(self.sig)}</code></pre></blockquote>'
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc

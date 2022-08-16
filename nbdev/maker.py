@@ -81,7 +81,7 @@ _def_types = ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef
 _assign_types = ast.AnnAssign, ast.Assign, ast.AugAssign
 
 def _val_or_id(it): 
-    if sys.version_info < (3,8): return [getattr(o, 's', None) for o in it.value.elts]
+    if sys.version_info < (3,8): return [getattr(o, 's', getattr(o, 'id', None)) for o in it.value.elts]
     else:return [getattr(o, 'value', getattr(o, 'id', None)) for o in it.value.elts]
 def _all_targets(a): return L(getattr(a,'elts',a))
 def _filt_dec(x): return decor_id(x).startswith('patch')
@@ -95,7 +95,6 @@ def retr_exports(trees):
     all_assigns = assigns.filter(lambda o: getattr(o.targets[0],'id',None)=='_all_')
     all_vals = all_assigns.map(_val_or_id).concat()
     syms = trees.filter(_wants).attrgot('name')
-
     # assignment targets (NB: can be multiple, e.g. "a=b=c", and/or destructuring e.g "a,b=(1,2)")
     assign_targs = L(L(assn.targets).map(_all_targets).concat() for assn in assigns).concat()
     exports = (assign_targs.attrgot('id')+syms).filter(lambda o: o and o[0]!='_')
