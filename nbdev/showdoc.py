@@ -108,7 +108,7 @@ class DocmentTbl:
     
     def __eq__(self,other): return self.__str__() == str(other).strip()
 
-    def __str__(self): return self._repr_markdown_()
+    __str__ = _repr_markdown_
     __repr__ = basic_repr()
 
 # %% ../nbs/08_showdoc.ipynb 31
@@ -124,6 +124,7 @@ class ShowDocRenderer:
         else:
             try: self.sig = signature_ex(sym, eval_str=True)
             except (ValueError,TypeError): self.sig = None
+        if self.title_level is None: self.title_level = 3
         self.docs = docstring(sym)
         self.dm = DocmentTbl(sym)
         
@@ -159,11 +160,13 @@ def _wrap_sig(s):
 class BasicMarkdownRenderer(ShowDocRenderer):
     def _repr_markdown_(self):
         doc = '---\n\n'
+        doc += '#'*self.title_level
         sig = _wrap_sig(f"{self.nm} {_fmt_sig(self.sig)}") if self.sig else ''
-        doc += f'### {self.nm}\n\n{sig}'
+        doc += f' {self.nm}\n\n{sig}'
         if self.docs: doc += f"\n\n{self.docs}"
         if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
+    __repr__=__str__=_repr_markdown_
 
 # %% ../nbs/08_showdoc.ipynb 37
 def show_doc(sym, renderer=None, name:str|None=None, title_level:int|None=None):
@@ -183,28 +186,27 @@ def _fullname(o):
 def doc(elt, show_all_docments:bool=False):
     "Show `show_doc` info along with link to docs"
     from IPython.display import display,Markdown
-    md = BasicMarkdownRenderer(elt)._repr_markdown_()
+    md = str(BasicMarkdownRenderer(elt))
     doc_link = NbdevLookup()[_fullname(elt)]
     if doc_link is not None:
         md += f'\n\n<a href="{doc_link}" target="_blank" rel="noreferrer noopener">Show in docs</a>'
     display(Markdown(md))
 
-# %% ../nbs/08_showdoc.ipynb 54
+# %% ../nbs/08_showdoc.ipynb 55
 class BasicHtmlRenderer(ShowDocRenderer):
     def _repr_html_(self):
         doc = '<hr/>\n'
-        lvl = 4 if self.isfunc else 3
-        doc += f'<h{lvl}>{self.nm}</h{lvl}>\n'
+        doc += f'<h{self.title_level}>{self.nm}</h{self.title_level}>\n'
         doc += f'<blockquote><pre><code>{self.nm}{_fmt_sig(self.sig)}</code></pre></blockquote>'
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
 
-# %% ../nbs/08_showdoc.ipynb 59
+# %% ../nbs/08_showdoc.ipynb 60
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(get_patch_name(tree), tree.name)
 
-# %% ../nbs/08_showdoc.ipynb 63
+# %% ../nbs/08_showdoc.ipynb 64
 def colab_link(path):
     "Get a link to the notebook at `path` on Colab"
     from IPython.display import Markdown
