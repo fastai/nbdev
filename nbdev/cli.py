@@ -232,8 +232,6 @@ website:
   title: "{title}"
   site-url: "{doc_host}{doc_baseurl}"
   description: "{description}"
-  execute: 
-    enabled: false
   twitter-card: true
   open-graph: true
   reader-mode: true
@@ -395,8 +393,8 @@ def nbdev_quarto(
     refresh_quarto_yml()
     nbdev_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
                               skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
-    if preview: os.system(f'cd "{path}" && quarto preview --no-execute')
-    else: _sprun(f'cd "{path}" && quarto render --no-execute')
+    if preview: os.system(f'cd "{path}" && quarto preview')
+    else: _sprun(f'cd "{path}" && quarto render')
     if not preview:
         nbdev_readme.__wrapped__(path, doc_path)
         if tmp_doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
