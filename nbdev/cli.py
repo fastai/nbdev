@@ -163,7 +163,7 @@ def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo n
     settings_path.write_text(settings)
     nbdev_export.__wrapped__()
 
-# %% ../nbs/12_cli.ipynb 20
+# %% ../nbs/12_cli.ipynb 33
 @call_parse
 def chelp():
     "Show help for all console scripts"
