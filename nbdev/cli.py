@@ -24,7 +24,7 @@ from contextlib import redirect_stdout
 import os, tarfile, subprocess, sys
 
 # %% auto 0
-__all__ = ['prepare', 'nbdev_sidebar', 'FilterDefaults', 'nbdev_filter', 'extract_tgz', 'prompt_user', 'nbdev_new', 'chelp']
+__all__ = ['prepare', 'FilterDefaults', 'nbdev_filter', 'extract_tgz', 'prompt_user', 'nbdev_new', 'chelp']
 
 # %% ../nbs/12_cli.ipynb 5
 @call_parse
@@ -35,51 +35,6 @@ def prepare():
     nbdev_clean.__wrapped__()
 
 # %% ../nbs/12_cli.ipynb 7
-_def_file_re = '\.(?:ipynb|qmd|html)$'
-
-def _f(a,b): return Path(a),b
-def _pre(p,b=True): return '    ' * (len(p.parts)) + ('- ' if b else '  ')
-def _sort(a):
-    x,y = a
-    if y.startswith('index.'): return x,'00'
-    return a
-
-@call_parse
-def nbdev_sidebar(
-    path:str=None, # Path to notebooks
-    symlinks:bool=False, # Follow symlinks?
-    file_glob:str=None, # Only include files matching glob
-    file_re:str=_def_file_re, # Only include files matching regex
-    folder_re:str=None, # Only enter folders matching regex
-    skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str='^[_.]', # Skip files matching regex
-    skip_folder_re:str='(?:^[_.]|^www$)', # Skip folders matching regex
-    printit:bool=False,  # Print YAML for debugging
-    force:bool=False,  # Create sidebar even if settings.ini custom_sidebar=False
-    returnit:bool=False  # Return list of files found
-):
-    "Create sidebar.yml"
-    if not force and str2bool(get_config().custom_sidebar): return
-    path = get_config().path('nbs_path') if not path else Path(path)
-    files = nbglob(path, func=_f, symlinks=symlinks, file_re=file_re, folder_re=folder_re, file_glob=file_glob,
-                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re).sorted(key=_sort)
-    lastd,res = Path(),[]
-    for d,name in files:
-        d = d.relative_to(path)
-        if d != lastd:
-            res.append(_pre(d.parent) + f'section: {d.name}')
-            res.append(_pre(d.parent, False) + 'contents:')
-            lastd = d
-        res.append(f'{_pre(d)}{d.joinpath(name)}')
-
-    yml_path = path/'sidebar.yml'
-    yml = "website:\n  sidebar:\n    contents:\n"
-    yml += '\n'.join(f'      {o}' for o in res)
-    if printit: return print(yml)
-    yml_path.write_text(yml)
-    if returnit: return files
-
-# %% ../nbs/12_cli.ipynb 10
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
     def xtra_procs(self): return []
@@ -97,7 +52,7 @@ class FilterDefaults:
         "Get an `NBProcessor` with these processors"
         return NBProcessor(nb=nb, procs=self.procs())
 
-# %% ../nbs/12_cli.ipynb 11
+# %% ../nbs/12_cli.ipynb 8
 @call_parse
 def nbdev_filter(
     nb_txt:str=None,  # Notebook text (uses stdin if not provided)
@@ -120,15 +75,15 @@ def nbdev_filter(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/12_cli.ipynb 14
+# %% ../nbs/12_cli.ipynb 11
 def extract_tgz(url, dest='.'):
     from fastcore.net import urlopen
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/12_cli.ipynb 15
+# %% ../nbs/12_cli.ipynb 12
 def _mk_cfg(**kwargs): return {k: kwargs.get(k,None) for k in 'lib_name user branch author author_email keywords description repo'.split()}
 
-# %% ../nbs/12_cli.ipynb 16
+# %% ../nbs/12_cli.ipynb 13
 def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
     from ghapi.all import GhApi
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
@@ -145,7 +100,7 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
     
     return r.default_branch, default_kw if not r.topics else ' '.join(r.topics), r.description
 
-# %% ../nbs/12_cli.ipynb 18
+# %% ../nbs/12_cli.ipynb 15
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     res={}
@@ -161,7 +116,7 @@ def _fetch_from_git(raise_err=False):
     else: res['lib_name'] = res['repo'].replace('-','_')
     return res
 
-# %% ../nbs/12_cli.ipynb 20
+# %% ../nbs/12_cli.ipynb 17
 def prompt_user(cfg, inferred):
     "Let user input values not in `cfg` or `inferred`."
     print(S.dark_gray('# settings.ini'))
@@ -177,7 +132,7 @@ def prompt_user(cfg, inferred):
         else: print(msg+str(v))
     return res
 
-# %% ../nbs/12_cli.ipynb 21
+# %% ../nbs/12_cli.ipynb 18
 @call_parse
 def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo name)
     "Create a new project from the current git repo"
@@ -208,7 +163,7 @@ def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo n
     settings_path.write_text(settings)
     nbdev_export.__wrapped__()
 
-# %% ../nbs/12_cli.ipynb 23
+# %% ../nbs/12_cli.ipynb 20
 @call_parse
 def chelp():
     "Show help for all console scripts"
