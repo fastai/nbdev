@@ -375,7 +375,8 @@ def nbdev_quarto(
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str=None, # Skip files matching regex
-    preview:bool=False # Preview the site instead of building it
+    preview:bool=False, # Preview the site instead of building it
+    port:int=3000, # The port on which to run preview
 ):
     "Create Quarto docs and README.md"
     _ensure_quarto()
@@ -383,7 +384,7 @@ def nbdev_quarto(
     refresh_quarto_yml()
     nbdev_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
                               skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
-    if preview: os.system(f'cd "{path}" && quarto preview')
+    if preview: os.system(f'cd "{path}" && quarto preview --port {port}')
     else: _sprun(f'cd "{path}" && quarto render')
     if not preview:
         nbdev_readme.__wrapped__(path, doc_path)
@@ -401,10 +402,11 @@ def preview(
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str=None, # Skip files matching regex
+    port:int=3000, # The port on which to run preview
 ):
     "Preview docs locally"
     nbdev_quarto.__wrapped__(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
-                             skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, preview=True)
+                             skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, preview=True, port=port)
 
 # %% ../nbs/12_cli.ipynb 35
 @call_parse
