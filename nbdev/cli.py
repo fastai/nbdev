@@ -11,6 +11,7 @@ from .processors import *
 from .doclinks import *
 from .test import *
 from .clean import *
+from .quarto import refresh_quarto_yml
 
 from execnb.nbio import *
 from fastcore.utils import *
@@ -24,9 +25,9 @@ from contextlib import redirect_stdout
 import os, tarfile, subprocess, sys
 
 # %% auto 0
-__all__ = ['prepare', 'FilterDefaults', 'nbdev_filter', 'extract_tgz', 'prompt_user', 'nbdev_new', 'chelp']
+__all__ = ['prepare', 'nbdev_filter', 'extract_tgz', 'prompt_user', 'nbdev_new', 'chelp', 'FilterDefaults']
 
-# %% ../nbs/12_cli.ipynb 5
+# %% ../nbs/12_cli.ipynb 6
 @call_parse
 def prepare():
     "Export, test, and clean notebooks"
@@ -34,7 +35,7 @@ def prepare():
     nbdev_test.__wrapped__()
     nbdev_clean.__wrapped__()
 
-# %% ../nbs/12_cli.ipynb 7
+# %% ../nbs/12_cli.ipynb 8
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
     def xtra_procs(self): return []
@@ -52,7 +53,10 @@ class FilterDefaults:
         "Get an `NBProcessor` with these processors"
         return NBProcessor(nb=nb, procs=self.procs())
 
-# %% ../nbs/12_cli.ipynb 8
+# %% ../nbs/12_cli.ipynb 9
+_all_ = [FilterDefaults]
+
+# %% ../nbs/12_cli.ipynb 11
 @call_parse
 def nbdev_filter(
     nb_txt:str=None,  # Notebook text (uses stdin if not provided)
@@ -75,15 +79,15 @@ def nbdev_filter(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/12_cli.ipynb 11
+# %% ../nbs/12_cli.ipynb 14
 def extract_tgz(url, dest='.'):
     from fastcore.net import urlopen
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/12_cli.ipynb 12
+# %% ../nbs/12_cli.ipynb 15
 def _mk_cfg(**kwargs): return {k: kwargs.get(k,None) for k in 'lib_name user branch author author_email keywords description repo'.split()}
 
-# %% ../nbs/12_cli.ipynb 13
+# %% ../nbs/12_cli.ipynb 16
 def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
     from ghapi.all import GhApi
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
@@ -100,7 +104,7 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
     
     return r.default_branch, default_kw if not r.topics else ' '.join(r.topics), r.description
 
-# %% ../nbs/12_cli.ipynb 15
+# %% ../nbs/12_cli.ipynb 18
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     res={}
@@ -116,7 +120,7 @@ def _fetch_from_git(raise_err=False):
     else: res['lib_name'] = res['repo'].replace('-','_')
     return res
 
-# %% ../nbs/12_cli.ipynb 17
+# %% ../nbs/12_cli.ipynb 20
 def prompt_user(cfg, inferred):
     "Let user input values not in `cfg` or `inferred`."
     print(S.dark_gray('# settings.ini'))
@@ -132,38 +136,45 @@ def prompt_user(cfg, inferred):
         else: print(msg+str(v))
     return res
 
-# %% ../nbs/12_cli.ipynb 18
+# %% ../nbs/12_cli.ipynb 21
+def _render_nb(fn, cfg):
+    "Render templated values like `{{lib_name}}` in notebook at `fn` from `cfg`"
+    txt = fn.read_text()
+    txt = txt.replace('from your_lib.core', f'from {cfg.lib_path}.core') # for compatibility with old templates
+    for k,v in cfg.d.items(): txt = txt.replace('{{'+k+'}}', v)
+    fn.write_text(txt)
+
+# %% ../nbs/12_cli.ipynb 22
 @call_parse
 def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo name)
-    "Create a new project from the current git repo"
-    override = locals()
+    "Create a new project."
     from fastcore.net import urljson
-    cfg = _mk_cfg(**override)
-    inferred = _fetch_from_git()
-    config = prompt_user(cfg, inferred)
-    # download and untar template, and optionally notebooks
-    tgnm = urljson('https://api.github.com/repos/fastai/nbdev-template/releases/latest')['tag_name']
-    FILES_URL = f"https://github.com/fastai/nbdev-template/archive/{tgnm}.tar.gz"
-    extract_tgz(FILES_URL)
-    path = Path()
-    nbexists = True if first(path.glob('*.ipynb')) else False
-    for o in (path/f'nbdev-template-{tgnm}').ls():
-        if o.name == 'index.ipynb':
-            new_txt = o.read_text().replace('your_lib', config['lib_name'])
-            o.write_text(new_txt)
-        if o.name == '00_core.ipynb':
-            if not nbexists: move(str(o), './')
-        elif not Path(f'./{o.name}').exists(): move(str(o), './')
-    rmtree(f'nbdev-template-{tgnm}')
 
-    # auto-config settings.ini from git
-    settings_path = Path('settings.ini')
-    settings = settings_path.read_text()
-    settings = settings.format(**config)
-    settings_path.write_text(settings)
+    path = Path()
+    tag = urljson('https://api.github.com/repos/fastai/nbdev-template/releases/latest')['tag_name']
+    url = f"https://github.com/fastai/nbdev-template/archive/{tag}.tar.gz"
+    extract_tgz(url)
+    tmpl_path = path/f'nbdev-template-{tag}'
+
+    defaults = _mk_cfg(lib_name=lib_name)
+    inferred = _fetch_from_git()
+    user_cfg = prompt_user(defaults, inferred)
+    tmpl_cfg = Path(tmpl_path/'settings.ini').read_text().format(**user_cfg)
+    Path('settings.ini').write_text(tmpl_cfg)
+    cfg = get_config()
+
+    nbexists = bool(first(path.glob('*.ipynb')))
+    for o in tmpl_path.ls():
+        if o.name == 'index.ipynb': _render_nb(o, cfg)
+        if o.name == '00_core.ipynb' and not nbexists: move(str(o), './')
+        elif not (path/o.name).exists(): move(str(o), './')
+    rmtree(tmpl_path)
+
+    refresh_quarto_yml()
+
     nbdev_export.__wrapped__()
 
-# %% ../nbs/12_cli.ipynb 33
+# %% ../nbs/12_cli.ipynb 51
 @call_parse
 def chelp():
     "Show help for all console scripts"
