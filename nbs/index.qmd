@@ -1,0 +1,56 @@
+---
+pagetitle: nbdev – Create delightful software with Jupyter Notebooks
+page-layout: custom
+section-divs: false
+jupyter: python3
+execute:
+  echo: false
+  output: asis
+css: index.css
+toc: false
+image: https://nbdev.fast.ai/images/card.png
+description: Write, test, document, and distribute software packages and technical articles — all in one place, your notebook.
+---
+
+```{python}
+from index import *
+
+b(f"""# <span style='color:#009AF1'>Create delightful software</span><br>with Jupyter Notebooks
+
+### Write, test, document, and distribute software packages and technical articles — all in one place, your notebook.
+
+{btn('Get started', 'getting_started.ipynb')}
+
+{img('card.png', style={"margin-top": "40px", "margin-bottom": "40px"}, link=True)}""", "content-block")
+
+industries = '\n'.join([
+    industry('netflix.svg', height=26, relative=("top",1)),
+    industry('transform.svg', height=26, relative=("bottom",1)),
+    industry('outerbounds.svg', height=26, relative=("bottom",1)),
+    industry('novetta.svg', height=30, relative=("top",1)),
+    industry('amd.svg', height=22),
+    industry('overstory.png', height=26),
+    industry('bom.png', height=46, relative=("bottom",12)),
+    industry('lyft.svg', height=34),
+])
+industries = qmd_div(industries, 'grid', style={"column-gap": "50px"})
+
+b(f"""## <span style='color:#009AF1'>Trusted</span> in industry
+
+{industries}""", "mid-content")
+
+feature_h = banner(f"""## <span style='color:#009AF1'>Exploratory programming</span><br>without compromise
+
+### Traditional programming environments throw away the result of your exploration in REPLs or notebooks. nbdev makes exploration an integral part of your workflow, all while promoting software engineering best practices.""")
+
+d(feature_h+feature_d, "content-block")
+
+expert_b = banner("## Here's what experts are saying")
+
+d(expert_b+expert_d, "mid-content")
+
+b(f"""## Get started in seconds
+
+{btn('Install nbdev', 'getting_started.ipynb')}""", 'content-block', style={"margin-top": "40px"})
+```
+
