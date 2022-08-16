@@ -25,7 +25,7 @@ from contextlib import redirect_stdout
 import os, tarfile, subprocess, sys
 
 # %% auto 0
-__all__ = ['prepare', 'nbdev_filter', 'extract_tgz', 'prompt_user', 'nbdev_new', 'chelp', 'FilterDefaults']
+__all__ = ['prepare', 'FilterDefaults', 'nbdev_filter', 'extract_tgz', 'prompt_user', 'nbdev_new', 'chelp']
 
 # %% ../nbs/12_cli.ipynb 6
 @call_parse
@@ -54,9 +54,6 @@ class FilterDefaults:
         return NBProcessor(nb=nb, procs=self.procs())
 
 # %% ../nbs/12_cli.ipynb 9
-_all_ = [FilterDefaults]
-
-# %% ../nbs/12_cli.ipynb 11
 @call_parse
 def nbdev_filter(
     nb_txt:str=None,  # Notebook text (uses stdin if not provided)
@@ -79,15 +76,15 @@ def nbdev_filter(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/12_cli.ipynb 14
+# %% ../nbs/12_cli.ipynb 12
 def extract_tgz(url, dest='.'):
     from fastcore.net import urlopen
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/12_cli.ipynb 15
+# %% ../nbs/12_cli.ipynb 13
 def _mk_cfg(**kwargs): return {k: kwargs.get(k,None) for k in 'lib_name user branch author author_email keywords description repo'.split()}
 
-# %% ../nbs/12_cli.ipynb 16
+# %% ../nbs/12_cli.ipynb 14
 def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
     from ghapi.all import GhApi
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
@@ -104,7 +101,7 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos
     
     return r.default_branch, default_kw if not r.topics else ' '.join(r.topics), r.description
 
-# %% ../nbs/12_cli.ipynb 18
+# %% ../nbs/12_cli.ipynb 16
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     res={}
@@ -120,7 +117,7 @@ def _fetch_from_git(raise_err=False):
     else: res['lib_name'] = res['repo'].replace('-','_')
     return res
 
-# %% ../nbs/12_cli.ipynb 20
+# %% ../nbs/12_cli.ipynb 18
 def prompt_user(cfg, inferred):
     "Let user input values not in `cfg` or `inferred`."
     print(S.dark_gray('# settings.ini'))
@@ -136,7 +133,7 @@ def prompt_user(cfg, inferred):
         else: print(msg+str(v))
     return res
 
-# %% ../nbs/12_cli.ipynb 21
+# %% ../nbs/12_cli.ipynb 19
 def _render_nb(fn, cfg):
     "Render templated values like `{{lib_name}}` in notebook at `fn` from `cfg`"
     txt = fn.read_text()
@@ -144,7 +141,7 @@ def _render_nb(fn, cfg):
     for k,v in cfg.d.items(): txt = txt.replace('{{'+k+'}}', v)
     fn.write_text(txt)
 
-# %% ../nbs/12_cli.ipynb 22
+# %% ../nbs/12_cli.ipynb 20
 @call_parse
 def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo name)
     "Create a new project."
@@ -174,7 +171,7 @@ def nbdev_new(lib_name: str=None): # Package name (default: inferred from repo n
 
     nbdev_export.__wrapped__()
 
-# %% ../nbs/12_cli.ipynb 51
+# %% ../nbs/12_cli.ipynb 36
 @call_parse
 def chelp():
     "Show help for all console scripts"
