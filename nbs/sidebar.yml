@@ -11,6 +11,7 @@ website:
         contents:
         - explanations/config.ipynb
         - explanations/showdoc.ipynb
+        - explanations/directives.ipynb
       - section: API details
         contents:
         - 01_config.ipynb
