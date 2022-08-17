@@ -5,6 +5,9 @@ website:
       - tutorial.ipynb
       - migrating.ipynb
       - git_friendly_jupyter.ipynb
+      - section: Explanations
+        contents:
+        - explanations/config.ipynb
       - section: API details
         contents:
         - 01_config.ipynb
