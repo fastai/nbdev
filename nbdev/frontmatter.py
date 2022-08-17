@@ -29,7 +29,7 @@ def _md2dict(s:str):
     res = {'title': m.group(1)}
     m = re.search(r'^>\s+(\S.*?)\s*$', s, flags=re.MULTILINE)
     if m: res['description'] = m.group(1)
-    r = re.findall(r'^-\s+(\S.*?)\s*$', s, flags=re.MULTILINE)
+    r = re.findall(r'^-\s+(\S.*:.*\S)\s*$', s, flags=re.MULTILINE)
     if r:
         try: res.update(yaml.safe_load('\n'.join(r)))
         except Exception as e: warn(f'Failed to create YAML dict for:\n{r}\n\n{e}\n')
