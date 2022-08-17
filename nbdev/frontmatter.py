@@ -44,7 +44,7 @@ class FrontmatterProc(Processor):
     def _update(self, f, cell):
         s = cell.get('source')
         if not s: return
-        d = f(cell.source)
+        d = f(s)
         if not d: return
         self.fm.update(d)
         cell.source = None
