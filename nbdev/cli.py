@@ -115,7 +115,7 @@ def nbdev_new(**kwargs):
 
     nbdev_export.__wrapped__()
 
-# %% ../nbs/12_cli.ipynb 29
+# %% ../nbs/12_cli.ipynb 30
 @call_parse
 def chelp():
     "Show help for all console scripts"
