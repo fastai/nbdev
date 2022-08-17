@@ -8,6 +8,7 @@ website:
       - section: Explanations
         contents:
         - explanations/config.ipynb
+        - explanations/showdoc.ipynb
       - section: API details
         contents:
         - 01_config.ipynb
