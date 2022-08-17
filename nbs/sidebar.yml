@@ -2,9 +2,11 @@ website:
   sidebar:
     contents:
       - getting_started.ipynb
-      - tutorial.ipynb
       - migrating.ipynb
-      - git_friendly_jupyter.ipynb
+      - section: Tutorials
+        contents:
+        - tutorial.ipynb
+        - git_friendly_jupyter.ipynb
       - section: Explanations
         contents:
         - explanations/config.ipynb
@@ -19,7 +21,8 @@ website:
         - 05_sync.ipynb
         - 06_merge.ipynb
         - 08_showdoc.ipynb
-        - 09_processors.ipynb
+        - 09a_frontmatter.ipynb
+        - 09b_processors.ipynb
         - 10_clean.ipynb
         - 11_test.ipynb
         - 12_cli.ipynb

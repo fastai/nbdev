@@ -11,6 +11,7 @@ from .doclinks import *
 from .test import *
 from .clean import *
 from .quarto import refresh_quarto_yml
+from .frontmatter import FrontmatterProc
 
 from execnb.nbio import *
 from fastcore.meta import *
@@ -40,7 +41,7 @@ class FilterDefaults:
     def xtra_procs(self): return []
 
     def base_procs(self):
-        return [populate_language, infer_frontmatter, add_show_docs, insert_warning,
+        return [FrontmatterProc, populate_language, add_show_docs, insert_warning,
                 strip_ansi, hide_line, filter_stream_, rm_header_dash,
                 clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_, add_links, strip_hidden_metadata]
 
