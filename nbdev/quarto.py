@@ -10,6 +10,7 @@ from .doclinks import *
 from fastcore.utils import *
 from fastcore.script import call_parse
 from fastcore.shutil import rmtree,move
+from fastcore.meta import delegates
 
 from os import system
 import subprocess,sys,shutil,ast
@@ -77,24 +78,20 @@ def _sort(a):
 
 # %% ../nbs/13_quarto.ipynb 10
 @call_parse
+@delegates(nbglob_cli)
 def nbdev_sidebar(
     path:str=None, # Path to notebooks
-    symlinks:bool=False, # Follow symlinks?
-    file_glob:str=None, # Only include files matching glob
-    file_re:str=_def_file_re, # Only include files matching regex
-    folder_re:str=None, # Only enter folders matching regex
-    skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str='^[_.]', # Skip files matching regex
     skip_folder_re:str='(?:^[_.]|^www$)', # Skip folders matching regex
+    file_glob:str=None, # Only include files matching glob    
+    file_re:str=_def_file_re, # Only include files matching regex
     printit:bool=False,  # Print YAML for debugging
     force:bool=False,  # Create sidebar even if settings.ini custom_sidebar=False
-    returnit:bool=False  # Return list of files found
-):
+    **kwargs):
     "Create sidebar.yml"
     if not force and str2bool(get_config().custom_sidebar): return
     path = get_config().path('nbs_path') if not path else Path(path)
-    files = nbglob(path, func=_f, symlinks=symlinks, file_re=file_re, folder_re=folder_re, file_glob=file_glob,
-                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re).sorted(key=_sort)
+    files = nbglob(path, func=_f, skip_folder_re=skip_folder_re, file_glob=file_glob, file_re=file_re, **kwargs
+                  ).sorted(key=_sort)
     lastd,res = Path(),[]
     for d,name in files:
         d = d.relative_to(path)
@@ -109,7 +106,6 @@ def nbdev_sidebar(
     yml += '\n'.join(f'      {o}' for o in res)
     if printit: return print(yml)
     yml_path.write_text(yml)
-    if returnit: return files
 
 # %% ../nbs/13_quarto.ipynb 12
 def _render_readme(path):
@@ -220,25 +216,21 @@ def _exec_py(fname):
 
 # %% ../nbs/13_quarto.ipynb 19
 @call_parse
+@delegates(nbglob_cli)
 def nbdev_quarto(
     path:str=None, # Path to notebooks
     doc_path:str=None, # Path to output docs
-    symlinks:bool=False, # Follow symlinks?
     file_re:str=_def_file_re, # Only include files matching regex
-    folder_re:str=None, # Only enter folders matching regex
-    skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str=None, # Skip files matching regex
+    file_glob:str=None, # Only include files matching glob    
     preview:bool=False, # Preview the site instead of building it
-    port:int=3000 # The port on which to run preview
-):
+    port:int=3000, # The port on which to run preview
+    **kwargs):
     "Create Quarto docs and README.md"
     _ensure_quarto()
     cfg,cfg_path,path,doc_path,tmp_doc_path = _doc_paths(path, doc_path)
     refresh_quarto_yml()
-    nbdev_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
-                              skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
-    pys = globtastic(path, file_glob='*.py', symlinks=symlinks, folder_re=folder_re, skip_folder_re='^[_.]',
-                     skip_file_glob=skip_file_glob, skip_file_re=skip_file_re).filter(_is_qpy)
+    nbdev_sidebar.__wrapped__(path, file_re=file_re, file_glob=file_glob, **kwargs)
+    pys = globtastic(path, file_glob='*.py', **kwargs).filter(_is_qpy)
     for py in pys: _exec_py(py)
     if preview: os.system(f'cd "{path}" && quarto preview --port {port}')
     else: _sprun(f'cd "{path}" && quarto render')
@@ -250,36 +242,29 @@ def nbdev_quarto(
 
 # %% ../nbs/13_quarto.ipynb 20
 @call_parse
+@delegates(nbglob_cli)
 def preview(
     path:str=None, # Path to notebooks
     doc_path:str=None, # Path to output docs
-    symlinks:bool=False, # Follow symlinks?
     file_re:str=_def_file_re, # Only include files matching regex
-    folder_re:str=None, # Only enter folders matching regex
-    skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str=None, # Skip files matching regex
-    port:int=3000 # The port on which to run preview
-):
+    file_glob:str=None, # Only include files matching glob    
+    port:int=3000, # The port on which to run preview
+    **kwargs):
     "Preview docs locally"
-    nbdev_quarto.__wrapped__(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
-                             skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, preview=True, port=port)
+    nbdev_quarto.__wrapped__(path, doc_path=doc_path, file_re=file_re, file_glob=file_glob, preview=True, port=port, **kwargs)
 
 # %% ../nbs/13_quarto.ipynb 21
 @call_parse
+@delegates(nbglob_cli)
 def deploy(
     path:str=None, # Path to notebooks
     doc_path:str=None, # Path to output docs
     skip_build:bool=False,  # Don't build docs first
-    symlinks:bool=False, # Follow symlinks?
     file_re:str=_def_file_re, # Only include files matching regex
-    folder_re:str=None, # Only enter folders matching regex
-    skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str=None, # Skip files matching regex
-):
+    **kwargs):
     "Deploy docs to GitHub Pages"
     if not skip_build:
-        nbdev_quarto.__wrapped__(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
-                                 skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
+        nbdev_quarto.__wrapped__(path, doc_path=doc_path, file_re=file_re, **kwargs)
     try: from ghp_import import ghp_import
     except: return warnings.warn('Please install ghp-import with `pip install ghp-import`')
     ghp_import(get_config().path('doc_path'), push=True, stderr=True, no_history=True)

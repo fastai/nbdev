@@ -10,6 +10,7 @@ from fastcore.imports import *
 from fastcore.foundation import *
 from fastcore.parallel import *
 from fastcore.script import *
+from fastcore.meta import delegates
 
 from .config import *
 from .doclinks import *
@@ -65,6 +66,7 @@ def _keep_file(p:Path, # filename for which to check for `indicator_fname`
 
 # %% ../nbs/11_test.ipynb 10
 @call_parse
+@delegates(nbglob_cli)
 def nbdev_test(
     fname:str=None,  # A notebook name or glob to test
     flags:str='',  # Space separated list of test flags to run that are normally ignored
@@ -72,28 +74,21 @@ def nbdev_test(
     timing:bool=False,  # Time each notebook to see which are slow
     do_print:bool=False, # Print start and end of each notebook
     pause:float=0.01,  # Pause time (in seconds) between notebooks to avoid race conditions
-    symlinks:bool=False, # Follow symlinks?
-    recursive:bool=None, # Include subfolders?
-    file_re:str=None, # Only include files matching regex
-    folder_re:str=None, # Only enter folders matching regex
-    skip_file_glob:str=None, # Skip files matching glob
-    skip_file_re:str='^[_.]', # Skip files matching regex
-    ignore_fname:str='.notest' # Filename that will result in siblings being ignored
-):
+    ignore_fname:str='.notest', # Filename that will result in siblings being ignored
+    **kwargs):
     "Test in parallel notebooks matching `fname`, passing along `flags`"
     skip_flags = get_config().tst_flags.split()
     force_flags = flags.split()
-    files = nbglob(fname, recursive=recursive, file_re=file_re, folder_re=folder_re,
-                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, as_path=True, symlinks=symlinks)
+    files = nbglob(fname, as_path=True, **kwargs)
     files = [f.absolute() for f in sorted(files) if _keep_file(f, ignore_fname)]
     if len(files)==0: return print('No files were eligible for testing')
 
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
     os.chdir(get_config().path('nbs_path'))
-    if IN_NOTEBOOK: kwargs = {'method':'spawn'} if os.name=='nt' else {'method':'forkserver'}
-    else: kwargs = {}
+    if IN_NOTEBOOK: kw = {'method':'spawn'} if os.name=='nt' else {'method':'forkserver'}
+    else: kw = {}
     results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers,
-                       basepath=get_config().config_path, pause=pause, do_print=do_print, **kwargs)
+                       basepath=get_config().config_path, pause=pause, do_print=do_print, **kw)
     passed,times = zip(*results)
     if all(passed): print("Success.")
     else: 
