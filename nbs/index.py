@@ -11,22 +11,18 @@ description: Write, test, document, and distribute software packages and technic
 """
 
 from fastcore.foundation import L
-import sys,os
-from nbdev.qmd import *
-from nbdev.config import get_config
+from nbdev import qmd
 
-os.chdir(get_config().path('nbs_path'))
-sys.stdout = open('index.qmd', 'w')
-print(__doc__)
+qmd.setup()
 
 def img(fname, classes=None, **kwargs):
-    return qmd_img(f"images/{fname}", classes=classes, **kwargs)
+    return qmd.img(f"images/{fname}", classes=classes, **kwargs)
 
 def btn(txt, link):
     classes = ['btn-action-primary', 'btn-action', 'btn', 'btn-success', 'btn-lg']
-    return qmd_btn(txt, link=link, classes=classes)
+    return qmd.btn(txt, link=link, classes=classes)
 
-def banner(txt, classes=None, style=None): return qmd_div(txt, L('hero-banner')+classes, style=style)
+def banner(txt, classes=None, style=None): return qmd.div(txt, L('hero-banner')+classes, style=style)
 
 features = L(
     ('docs', 'Beautiful technical documentation and scientific articles with Quarto'),
@@ -46,10 +42,10 @@ testms = L(
     ('hugo-bowne-anderson.jpeg', 'Hugo Bowne-Anderson', 'Head of Developer Relations, Outerbounds', 'Nbdev has transformed the way we write documentation. Gone are the days of worrying about broken code examples when our API changes or due to human errors associated with copying & pasting code into markdown files. The authoring experience of nbdev is also powerful, allowing us to write prose and live code in a unified interface, which allows more experimentation with technical content. On top of this,  nbdev allows us to include unit tests in our documentation which mitigates the burden of maintaining the docs over time.')
 )
 
-def industry(im, **kwargs): return qmd_div(img(im, **kwargs), ["g-col-12", "g-col-sm-6", "g-col-md-3"])
+def industry(im, **kwargs): return qmd.div(img(im, **kwargs), ["g-col-12", "g-col-sm-6", "g-col-md-3"])
 
 def testm(im, nm, detl, txt):
-    return qmd_div(f"""{img(im, link=True)}
+    return qmd.div(f"""{img(im, link=True)}
 
 # {nm}
 
@@ -57,14 +53,14 @@ def testm(im, nm, detl, txt):
 
 ### {txt}""", ["testimonial", "g-col-12", "g-col-md-6"])
 
-expert_d = qmd_div('\n'.join(testms.starmap(testm)), ['content-block', 'grid', 'gap-4'])
+expert_d = qmd.div('\n'.join(testms.starmap(testm)), ['content-block', 'grid', 'gap-4'])
 
-def feature(im, desc): return qmd_div(f"{img(im+'.svg')}\n\n{desc}\n", ['feature', 'g-col-12', 'g-col-sm-6', 'g-col-md-4'])
+def feature(im, desc): return qmd.div(f"{img(im+'.svg')}\n\n{desc}\n", ['feature', 'g-col-12', 'g-col-sm-6', 'g-col-md-4'])
 
-feature_d = qmd_div('\n'.join(features.starmap(feature)), ['grid', 'gap-4'], style={"padding-bottom": "60px"})
+feature_d = qmd.div('\n'.join(features.starmap(feature)), ['grid', 'gap-4'], style={"padding-bottom": "60px"})
 
 def b(*args, **kwargs): print(banner (*args, **kwargs))
-def d(*args, **kwargs): print(qmd_div(*args, **kwargs))
+def d(*args, **kwargs): print(qmd.div(*args, **kwargs))
 
 ###
 # Output section
@@ -88,7 +84,7 @@ industries = '\n'.join([
     industry('bom.png', height=46, relative=("bottom",12)),
     industry('lyft.svg', height=34),
 ])
-industries = qmd_div(industries, 'grid', style={"column-gap": "50px"})
+industries = qmd.div(industries, 'grid', style={"column-gap": "50px"})
 
 b(f"""## <span style='color:#009AF1'>Trusted</span> in industry
 

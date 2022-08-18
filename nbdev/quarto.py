@@ -12,7 +12,7 @@ from fastcore.script import call_parse
 from fastcore.shutil import rmtree,move
 
 from os import system
-import subprocess,sys,shutil
+import subprocess,sys,shutil,ast
 
 # %% auto 0
 __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'nbdev_readme', 'refresh_quarto_yml', 'nbdev_quarto',
@@ -200,6 +200,25 @@ def refresh_quarto_yml():
     p.write_text(yml)
 
 # %% ../nbs/13_quarto.ipynb 17
+def _is_qpy(path:Path):
+    "Is `path` a py script starting with frontmatter?"
+    path = Path(path)
+    if not path.suffix=='.py': return
+    try: p = ast.parse(path.read_text())
+    except: return
+    if not p.body: return
+    a = p.body[0]
+    if isinstance(a, ast.Expr) and isinstance(a.value, ast.Constant):
+        v = a.value.value.strip().splitlines()
+        return v[0]=='---' and v[-1]=='---'
+
+# %% ../nbs/13_quarto.ipynb 18
+def _exec_py(fname):
+    "Exec a python script and warn on error"
+    try: subprocess.check_output('python ' + fname, shell=True)
+    except subprocess.CalledProcessError as cpe: warn(str(cpe))
+
+# %% ../nbs/13_quarto.ipynb 19
 @call_parse
 def nbdev_quarto(
     path:str=None, # Path to notebooks
@@ -218,6 +237,9 @@ def nbdev_quarto(
     refresh_quarto_yml()
     nbdev_sidebar.__wrapped__(path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
                               skip_file_glob=skip_file_glob, skip_file_re=skip_file_re)
+    pys = globtastic(path, file_glob='*.py', symlinks=symlinks, folder_re=folder_re, skip_folder_re='^[_.]',
+                     skip_file_glob=skip_file_glob, skip_file_re=skip_file_re).filter(_is_qpy)
+    for py in pys: _exec_py(py)
     if preview: os.system(f'cd "{path}" && quarto preview --port {port}')
     else: _sprun(f'cd "{path}" && quarto render')
     if not preview:
@@ -226,7 +248,7 @@ def nbdev_quarto(
             rmtree(doc_path, ignore_errors=True)
             move(tmp_doc_path, cfg_path)
 
-# %% ../nbs/13_quarto.ipynb 18
+# %% ../nbs/13_quarto.ipynb 20
 @call_parse
 def preview(
     path:str=None, # Path to notebooks
@@ -242,7 +264,7 @@ def preview(
     nbdev_quarto.__wrapped__(path, doc_path=doc_path, symlinks=symlinks, file_re=file_re, folder_re=folder_re,
                              skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, preview=True, port=port)
 
-# %% ../nbs/13_quarto.ipynb 19
+# %% ../nbs/13_quarto.ipynb 21
 @call_parse
 def deploy(
     path:str=None, # Path to notebooks

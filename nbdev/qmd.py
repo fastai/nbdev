@@ -2,18 +2,27 @@
 
 # %% ../nbs/14_qmd.ipynb 2
 from __future__ import annotations
+import sys,os,inspect
 
 from fastcore.utils import *
 from fastcore.meta import delegates
 
 # %% auto 0
-__all__ = ['qmd_meta', 'qmd_div', 'qmd_img', 'qmd_btn']
+__all__ = ['setup', 'meta', 'div', 'img', 'btn']
 
 # %% ../nbs/14_qmd.ipynb 5
-def qmd_meta(md,  # Markdown to add meta to
-             classes=None,  # List of CSS classes to add
-             style=None,  # Dict of CSS styles to add
-             **kwargs):   # Additional attributes to add to meta
+def setup():
+    mod = inspect.getmodule(inspect.currentframe().f_back)
+    path = Path(mod.__file__)
+    os.chdir(path.parent)
+    sys.stdout = open(path.with_suffix('.qmd'), 'w')
+    print(mod.__doc__)
+
+# %% ../nbs/14_qmd.ipynb 6
+def meta(md,  # Markdown to add meta to
+         classes=None,  # List of CSS classes to add
+         style=None,  # Dict of CSS styles to add
+         **kwargs):   # Additional attributes to add to meta
     "A metadata section for qmd div in `{}`"
     if style: kwargs['style'] = "; ".join(f'{k}: {v}' for k,v in style.items())
     props = ' '.join(f'{k}="{v}"' for k,v in kwargs.items())
@@ -24,16 +33,16 @@ def qmd_meta(md,  # Markdown to add meta to
     meta = ' '.join(meta)
     return md + ("{" + meta + "}" if meta else "")
 
-# %% ../nbs/14_qmd.ipynb 6
-def qmd_div(txt,  # Markdown to add meta to
-            classes=None,  # List of CSS classes to add
-            style=None,  # Dict of CSS styles to add
-            **kwargs):
-    "A qmd div with optional metadata section"
-    return qmd_meta("::: ", classes=classes, style=style, **kwargs) + f"\n\n{txt}\n\n:::\n\n"
-
 # %% ../nbs/14_qmd.ipynb 7
-def qmd_img(fname,  # Image to link to
+def div(txt,  # Markdown to add meta to
+        classes=None,  # List of CSS classes to add
+        style=None,  # Dict of CSS styles to add
+        **kwargs):
+    "A qmd div with optional metadata section"
+    return meta("::: ", classes=classes, style=style, **kwargs) + f"\n\n{txt}\n\n:::\n\n"
+
+# %% ../nbs/14_qmd.ipynb 8
+def img(fname,  # Image to link to
         classes=None,  # List of CSS classes to add
         style=None,   # Dict of CSS styles to add
         height=None,  # Height attribute
@@ -47,15 +56,14 @@ def qmd_img(fname,  # Image to link to
         pos,px = relative
         style["position"] = "relative"
         style[pos] = f"{px}px"
-    res = f'![]({fname})'
-    res = qmd_meta(res, classes=classes, style=style, **kwargs)
-    if link: res = f'[{res}]({fname})'
-    return res
+    res = meta(f'![]({fname})', classes=classes, style=style, **kwargs)
+    return  f'[{res}]({fname})' if link else res
 
-# %% ../nbs/14_qmd.ipynb 8
-def qmd_btn(txt, # Button text
-            link,  # Button link URL
-            classes=None,  # List of CSS classes to add
-            style=None):   # Dict of CSS styles to add
+# %% ../nbs/14_qmd.ipynb 9
+def btn(txt, # Button text
+        link,  # Button link URL
+        classes=None,  # List of CSS classes to add
+        style=None,    # Dict of CSS styles to add
+        **kwargs):
     "A qmd button"
-    return qmd_meta(f'[{txt}]({link})', classes=classes, style=style, role="button")
+    return meta(f'[{txt}]({link})', classes=classes, style=style, role="button")
