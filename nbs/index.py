@@ -1,32 +1,33 @@
+"""
+---
+pagetitle: nbdev – Create delightful software with Jupyter Notebooks
+page-layout: custom
+section-divs: false
+jupyter: python3
+execute:
+    enabled: false
+css: index.css
+toc: false
+image: https://nbdev.fast.ai/images/card.png
+description: Write, test, document, and distribute software packages and technical articles — all in one place, your notebook.
+---
+"""
+
 from fastcore.foundation import L
+import sys,os
+from nbdev.qmd import *
+from nbdev.config import get_config
 
-def qmd_meta(md, classes=None, style=None, **kwargs):
-  if style: kwargs['style'] = "; ".join(f'{k}: {v}' for k,v in style.items())
-  props = ' '.join(f'{k}="{v}"' for k,v in kwargs.items())
-  classes = ' '.join('.'+c for c in L(classes))
-  meta = []
-  if classes: meta.append(classes)
-  if props: meta.append(props)
-  meta = ' '.join(meta)
-  return md + ("{" + meta + "}" if meta else "")
+os.chdir(get_config().path('nbs_path'))
+sys.stdout = open('index.qmd', 'w')
+print(__doc__)
 
-def qmd_div(txt, classes=None, style=None, **kwargs): return qmd_meta("::: ", classes=classes, style=style, **kwargs) + f"\n\n{txt}\n\n:::\n\n"
-
-def img(fname, classes=None, style=None, height=None, relative=None, link=False, **kwargs):
-    kwargs,style = kwargs or {}, style or {}
-    if height: kwargs["height"]= f"{height}px"
-    if relative:
-        pos,px = relative
-        style["position"] = "relative"
-        style[pos] = f"{px}px"
-    res = f'![](images/{fname})'
-    res = qmd_meta(res, classes=classes, style=style, **kwargs)
-    if link: res = f'[{res}](images/{fname})'
-    return res
+def img(fname, classes=None, **kwargs):
+    return qmd_img(f"images/{fname}", classes=classes, **kwargs)
 
 def btn(txt, link):
     classes = ['btn-action-primary', 'btn-action', 'btn', 'btn-success', 'btn-lg']
-    return qmd_meta(f'[{txt}]({link})', classes, role="button")
+    return qmd_btn(txt, link=link, classes=classes)
 
 def banner(txt, classes=None, style=None): return qmd_div(txt, L('hero-banner')+classes, style=style)
 
@@ -67,4 +68,46 @@ feature_d = qmd_div('\n'.join(features.starmap(feature)), ['grid', 'gap-4'], sty
 
 def b(*args, **kwargs): print(banner (*args, **kwargs))
 def d(*args, **kwargs): print(qmd_div(*args, **kwargs))
+
+###
+# Output section
+###
+
+b(f"""# <span style='color:#009AF1'>Create delightful software</span><br>with Jupyter Notebooks
+
+### Write, test, document, and distribute software packages and technical articles — all in one place, your notebook.
+
+{btn('Get started', 'getting_started.ipynb')}
+
+{img('card.png', style={"margin-top": "40px", "margin-bottom": "40px"}, link=True)}""", "content-block")
+
+industries = '\n'.join([
+    industry('netflix.svg', height=26, relative=("top",1)),
+    industry('transform.svg', height=26, relative=("bottom",1)),
+    industry('outerbounds.svg', height=26, relative=("bottom",1)),
+    industry('novetta.svg', height=30, relative=("top",1)),
+    industry('amd.svg', height=22),
+    industry('overstory.png', height=26),
+    industry('bom.png', height=46, relative=("bottom",12)),
+    industry('lyft.svg', height=34),
+])
+industries = qmd_div(industries, 'grid', style={"column-gap": "50px"})
+
+b(f"""## <span style='color:#009AF1'>Trusted</span> in industry
+
+{industries}""", "mid-content")
+
+feature_h = banner(f"""## <span style='color:#009AF1'>Exploratory programming</span><br>without compromise
+
+### Traditional programming environments throw away the result of your exploration in REPLs or notebooks. nbdev makes exploration an integral part of your workflow, all while promoting software engineering best practices.""")
+
+d(feature_h+feature_d, "content-block")
+
+expert_b = banner("## Here's what experts are saying")
+
+d(expert_b+expert_d, "mid-content")
+
+b(f"""## Get started in seconds
+
+{btn('Install nbdev', 'getting_started.ipynb')}""", 'content-block', style={"margin-top": "40px"})
 
