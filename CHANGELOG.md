@@ -2,6 +2,50 @@
 
 <!-- do not remove -->
 
+## 2.2.0
+### Breaking Changes
+
+- Combine preprocs and postprocs into new `Processor` class ([#874](https://github.com/fastai/nbdev/issues/874))
+- Rename `nbdev.read` to `nbdev.config` ([#879](https://github.com/fastai/nbdev/issues/879))
+- Use H3 for functions and properties, instead of H4 ([#875](https://github.com/fastai/nbdev/issues/875))
+- Remove `nbflags` directive ([#871](https://github.com/fastai/nbdev/issues/871))
+- Deprecate `config_key` in favor of `get_config` ([#856](https://github.com/fastai/nbdev/pull/856)), thanks to [@seeM](https://github.com/seeM)
+
+### New Features
+
+- Add simple qmd generation functions in `nbdev.qmd` ([#893](https://github.com/fastai/nbdev/issues/893))
+- Add `FrontmatterProc` ([#890](https://github.com/fastai/nbdev/issues/890))
+- Improvements to `nbdev_new` and `nbdev_create_config` ([#878](https://github.com/fastai/nbdev/pull/878)), thanks to [@seeM](https://github.com/seeM)
+  - `nbdev_create_config` infers settings from git/GitHub, prompts for missing settings, and renders the settings file with commented sections
+  - `nbdev_new` uses `nbdev_create_config` instead of a file provided by `nbdev-template`, which means it'll benefit from future improvements to `nbdev_create_config` as well as always using latest defaults
+- Add frontmatter bullet point processor ([#873](https://github.com/fastai/nbdev/issues/873))
+- Allow specifying port for preview ([#872](https://github.com/fastai/nbdev/pull/872)), thanks to [@dleen](https://github.com/dleen)
+- `nbdev_new` renders notebooks with information from your config file ([#866](https://github.com/fastai/nbdev/pull/866)), thanks to [@seeM](https://github.com/seeM)
+- Improve config documentation in `read` module ([#864](https://github.com/fastai/nbdev/pull/864)), thanks to [@seeM](https://github.com/seeM)
+- Install quarto without root access ([#860](https://github.com/fastai/nbdev/issues/860))
+- Explain more detail during quarto installation process ([#859](https://github.com/fastai/nbdev/issues/859))
+- Automatically maintain `__version__` in `__init__.py` ([#854](https://github.com/fastai/nbdev/issues/854))
+- Prettify output for `nbdev_test` ([#849](https://github.com/fastai/nbdev/pull/849)), thanks to [@deven367](https://github.com/deven367)
+- Ignore .ipynb_checkpoints folder in module dir ([#848](https://github.com/fastai/nbdev/pull/848)), thanks to [@dleen](https://github.com/dleen)
+- Escape Footnotes from Docments Table ([#847](https://github.com/fastai/nbdev/pull/847)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Include filename in `nbdev_export` warning when nbdev1 syntax is used ([#838](https://github.com/fastai/nbdev/pull/838)), thanks to [@seeM](https://github.com/seeM)
+- Show title if nbdev_filter errors ([#828](https://github.com/fastai/nbdev/pull/828)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Added "topics" to match GitHub's terminology ([#817](https://github.com/fastai/nbdev/pull/817)), thanks to [@tylere](https://github.com/tylere)
+- Accelerate `quarto preview` ([#748](https://github.com/fastai/nbdev/issues/748))
+- Throw a warning when imports and code are mixed in a cell ([#714](https://github.com/fastai/nbdev/issues/714))
+- Make conda release work for anyone ([#653](https://github.com/fastai/nbdev/issues/653))
+
+### Bugs Squashed
+
+- `_all_` works for strings but not objects in py3.7 ([#870](https://github.com/fastai/nbdev/issues/870))
+- `show_doc` `title_level` argument has no effect ([#869](https://github.com/fastai/nbdev/issues/869))
+- `show_doc` sometimes does not show wrapped functions correctly ([#863](https://github.com/fastai/nbdev/issues/863))
+- `show_doc` treats functions decorated with `lru_cache` as classes ([#862](https://github.com/fastai/nbdev/pull/862)), thanks to [@seeM](https://github.com/seeM)
+- Fix `show_doc` signature whitespace removal ([#855](https://github.com/fastai/nbdev/pull/855)), thanks to [@seeM](https://github.com/seeM)
+- `nbdev_new` doesn't infer anything if no gitconfig ([#846](https://github.com/fastai/nbdev/issues/846))
+- `show_doc` paremeter default may render as footnote ([#796](https://github.com/fastai/nbdev/issues/796))
+- Conda description is empty ([#745](https://github.com/fastai/nbdev/issues/745))
+
 
 ## 2.1.6
 
