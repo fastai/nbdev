@@ -3,8 +3,6 @@
 pagetitle: nbdev – Create delightful software with Jupyter Notebooks
 page-layout: custom
 section-divs: false
-execute:
-    enabled: false
 css: index.css
 toc: false
 image: https://nbdev.fast.ai/images/card.png
