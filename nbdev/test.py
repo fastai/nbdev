@@ -95,6 +95,6 @@ def nbdev_test(
         _fence = '='*50
         failed = '\n\t'.join(f.name for p,f in zip(passed,files) if not p)
         sys.stderr.write(f"\nnbdev Tests Failed On The Following Notebooks:\n{_fence}\n\t{failed}\n")
-        exit(1)
+        sys.exit(1)
     if timing:
         for i,t in sorted(enumerate(times), key=lambda o:o[1], reverse=True): print(f"{files[i].name}: {int(t)} secs")
