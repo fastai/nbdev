@@ -74,13 +74,13 @@ def nbdev_test(
     timing:bool=False,  # Time each notebook to see which are slow
     do_print:bool=False, # Print start and end of each notebook
     pause:float=0.01,  # Pause time (in seconds) between notebooks to avoid race conditions
-    ignore_path:str='.notest', # Filename that will result in siblings being ignored
+    ignore_fname:str='.notest', # Filename that will result in siblings being ignored
     **kwargs):
     "Test in parallel notebooks matching `path`, passing along `flags`"
     skip_flags = get_config().tst_flags.split()
     force_flags = flags.split()
     files = nbglob(path, as_path=True, **kwargs)
-    files = [f.absolute() for f in sorted(files) if _keep_file(f, ignore_path)]
+    files = [f.absolute() for f in sorted(files) if _keep_file(f, ignore_fname)]
     if len(files)==0: return print('No files were eligible for testing')
 
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
