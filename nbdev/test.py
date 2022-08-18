@@ -31,7 +31,7 @@ def test_nb(fn,  # file name of notebook to test
     if basepath: sys.path.insert(0, str(basepath))
     if not IN_NOTEBOOK: os.environ["IN_TEST"] = '1'
     flags=set(L(skip_flags)) - set(L(force_flags))
-    nb = NBProcessor(fn, preprocs=FrontmatterProc, process=True).nb
+    nb = NBProcessor(fn, procs=FrontmatterProc, process=True).nb
     fm = getattr(nb, 'frontmatter_', {})
     if str2bool(fm.get('skip_exec', False)) or nb_lang(nb) != 'python': return True, 0
 
