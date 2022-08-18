@@ -273,11 +273,10 @@ def _do_eval(cell):
     if _show_docs(trees): return True
 
 # %% ../nbs/09b_processors.ipynb 56
-class exec_show_docs:
+class exec_show_docs(Processor):
     "Execute cells needed for `show_docs` output, including exported cells and imports"
-    def __init__(self, nb):
-        if nb_lang(nb) != 'python': return
-        self.nb = nb
+    def begin(self):
+        if nb_lang(self.nb) != 'python': return
         self.k = CaptureShell()
         self.k.run_cell('from nbdev.showdoc import show_doc')
 
