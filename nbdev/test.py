@@ -68,19 +68,19 @@ def _keep_file(p:Path, # filename for which to check for `indicator_fname`
 @call_parse
 @delegates(nbglob_cli)
 def nbdev_test(
-    fname:str=None,  # A notebook name or glob to test
+    path:str=None,  # A notebook name or glob to test
     flags:str='',  # Space separated list of test flags to run that are normally ignored
     n_workers:int=None,  # Number of workers
     timing:bool=False,  # Time each notebook to see which are slow
     do_print:bool=False, # Print start and end of each notebook
     pause:float=0.01,  # Pause time (in seconds) between notebooks to avoid race conditions
-    ignore_fname:str='.notest', # Filename that will result in siblings being ignored
+    ignore_path:str='.notest', # Filename that will result in siblings being ignored
     **kwargs):
-    "Test in parallel notebooks matching `fname`, passing along `flags`"
+    "Test in parallel notebooks matching `path`, passing along `flags`"
     skip_flags = get_config().tst_flags.split()
     force_flags = flags.split()
-    files = nbglob(fname, as_path=True, **kwargs)
-    files = [f.absolute() for f in sorted(files) if _keep_file(f, ignore_fname)]
+    files = nbglob(path, as_path=True, **kwargs)
+    files = [f.absolute() for f in sorted(files) if _keep_file(f, ignore_path)]
     if len(files)==0: return print('No files were eligible for testing')
 
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
