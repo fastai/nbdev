@@ -3,7 +3,6 @@
 pagetitle: nbdev – Create delightful software with Jupyter Notebooks
 page-layout: custom
 section-divs: false
-jupyter: python3
 execute:
     enabled: false
 css: index.css
