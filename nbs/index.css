@@ -16,6 +16,10 @@ body {
   text-align: center;
 }
 
+#title-block-header {
+  display: none;
+}
+
 .navbar {
   background: var(--background);
   text-align: left;
