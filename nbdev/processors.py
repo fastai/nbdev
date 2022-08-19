@@ -61,8 +61,9 @@ class insert_warning(Processor):
 # %% ../nbs/09b_processors.ipynb 14
 _def_types = (ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)
 def _def_names(cell, shown):
-    return [showdoc_nm(o) for o in concat(cell.parsed_())
-            if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_']
+    cellp = cell.parsed_()
+    return [showdoc_nm(o) for o in concat(cellp)
+            if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_'] if cellp else []
 
 def _get_nm(tree):
     i = tree.value.args[0]
@@ -70,7 +71,7 @@ def _get_nm(tree):
     else: val = try_attrs(i.value, 'id', 'func', 'attr')
     return f'{val}.{i.attr}' if isinstance(i, ast.Attribute) else i.id
 
-# %% ../nbs/09b_processors.ipynb 16
+# %% ../nbs/09b_processors.ipynb 15
 def _show_docs(trees):
     return [t for t in trees if isinstance(t,ast.Expr) and nested_attr(t, 'value.func.id')=='show_doc']
 
@@ -90,14 +91,14 @@ class add_show_docs(Processor):
             for nm in _def_names(cell, shown_docs): nb.cells.insert(cell.idx_+1, mk_cell(f'show_doc({nm})'))
         nb.has_docs_ = shown_docs or exports
 
-# %% ../nbs/09b_processors.ipynb 20
+# %% ../nbs/09b_processors.ipynb 19
 def yaml_str(s:str):
     "Create a valid YAML string from `s`"
     if s[0]=='"' and s[-1]=='"': return s
     res = s.replace('\\', '\\\\').replace('"', r'\"')
     return f'"{res}"'
 
-# %% ../nbs/09b_processors.ipynb 21
+# %% ../nbs/09b_processors.ipynb 20
 _re_title = re.compile(r'^#\s+(.*)[\n\r]+(?:^>\s+(.*))?', flags=re.MULTILINE)
 
 def _celltyp(nb, cell_type): return L(nb.cells).filter(lambda c: c.cell_type == cell_type)
@@ -105,7 +106,7 @@ def _istitle(cell):
     txt = cell.get('source', '')
     return bool(_re_title.search(txt)) if txt else False
 
-# %% ../nbs/09b_processors.ipynb 22
+# %% ../nbs/09b_processors.ipynb 21
 def nb_fmdict(nb, remove=True): 
     "Infer the front matter from a notebook's markdown formatting"
     md_cells = _celltyp(nb, 'markdown').filter(_istitle)
@@ -122,7 +123,7 @@ def nb_fmdict(nb, remove=True):
         return yml2dict('\n'.join([f"{k}: {flags[k]}" for k in flags]))
     else: return {}
 
-# %% ../nbs/09b_processors.ipynb 25
+# %% ../nbs/09b_processors.ipynb 24
 def _replace_fm(d:dict, # dictionary you wish to conditionally change
                 k:str,  # key to check 
                 val:str,# value to check if d[k] == v
@@ -140,33 +141,33 @@ def _fp_alias(d):
     d = _replace_fm(d, 'hide', 'true', {'draft': 'true'})
     return d
 
-# %% ../nbs/09b_processors.ipynb 27
+# %% ../nbs/09b_processors.ipynb 26
 def _fp_image(d):
     "Correct path of fastpages images"
     prefix = 'images/copied_from_nb/'
     if d.get('image', '').startswith(prefix): d['image'] = d['image'].replace(prefix, '')
     return d
 
-# %% ../nbs/09b_processors.ipynb 29
+# %% ../nbs/09b_processors.ipynb 28
 def filter_fm(fmdict:dict):
     "Filter front matter"
     keys = ['title', 'description', 'author', 'image', 'categories', 'output-file', 'aliases', 'search', 'draft', 'comments']
     if not fmdict: return {}
     return filter_keys(fmdict, in_(keys))
 
-# %% ../nbs/09b_processors.ipynb 30
+# %% ../nbs/09b_processors.ipynb 29
 def construct_fm(fmdict:dict):
     "Construct front matter from a dictionary"
     if not fmdict: return None
     return '---\n'+yaml.dump(fmdict)+'\n---'    
 
-# %% ../nbs/09b_processors.ipynb 32
+# %% ../nbs/09b_processors.ipynb 31
 def insert_frontmatter(nb, fm_dict:dict):
     "Add frontmatter into notebook based on `filter_keys` that exist in `fmdict`."
     fm = construct_fm(fm_dict)
     if fm: nb.cells.insert(0, NbCell(0, dict(cell_type='raw', metadata={}, source=fm, directives_={})))
 
-# %% ../nbs/09b_processors.ipynb 34
+# %% ../nbs/09b_processors.ipynb 33
 _re_defaultexp = re.compile(r'^\s*#\|\s*default_exp\s+(\S+)', flags=re.MULTILINE)
 
 def _default_exp(nb):
@@ -175,7 +176,7 @@ def _default_exp(nb):
     default_exp = first(code_src.filter().map(_re_defaultexp.search).filter())
     return default_exp.group(1) if default_exp else None
 
-# %% ../nbs/09b_processors.ipynb 36
+# %% ../nbs/09b_processors.ipynb 35
 def add_links(cell):
     "Add links to markdown cells"
     nl = NbdevLookup()
@@ -184,7 +185,7 @@ def add_links(cell):
         if hasattr(o, 'data') and hasattr(o['data'], 'text/markdown'):
             o.data['text/markdown'] = [nl.link_line(s) for s in o.data['text/markdown']]
 
-# %% ../nbs/09b_processors.ipynb 39
+# %% ../nbs/09b_processors.ipynb 38
 _re_ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
 
 def strip_ansi(cell):
@@ -192,17 +193,17 @@ def strip_ansi(cell):
     for outp in cell.get('outputs', []):
         if outp.get('name')=='stdout': outp['text'] = [_re_ansi_escape.sub('', o) for o in outp.text]
 
-# %% ../nbs/09b_processors.ipynb 41
+# %% ../nbs/09b_processors.ipynb 40
 def strip_hidden_metadata(cell):
     '''Strips "hidden" metadata property from code cells so it doesn't interfere with docs rendering'''
     if cell.cell_type == 'code' and 'metadata' in cell: cell.metadata.pop('hidden',None)
 
-# %% ../nbs/09b_processors.ipynb 42
+# %% ../nbs/09b_processors.ipynb 41
 def hide_(cell):
     "Hide cell from output"
     del(cell['source'])
 
-# %% ../nbs/09b_processors.ipynb 44
+# %% ../nbs/09b_processors.ipynb 43
 def _re_hideline(lang=None): return re.compile(fr'{langs[lang]}\|\s*hide_line\s*$', re.MULTILINE)
 
 def hide_line(cell):
@@ -211,7 +212,7 @@ def hide_line(cell):
     if cell.cell_type == 'code' and _re_hideline(lang).search(cell.source):
         cell.source = '\n'.join([c for c in cell.source.splitlines() if not _re_hideline(lang).search(c)])
 
-# %% ../nbs/09b_processors.ipynb 47
+# %% ../nbs/09b_processors.ipynb 46
 def filter_stream_(cell, *words):
     "Remove output lines containing any of `words` in `cell` stream output"
     if not words: return
@@ -219,14 +220,14 @@ def filter_stream_(cell, *words):
         if outp.output_type == 'stream':
             outp['text'] = [l for l in outp.text if not re.search('|'.join(words), l)]
 
-# %% ../nbs/09b_processors.ipynb 49
+# %% ../nbs/09b_processors.ipynb 48
 _magics_pattern = re.compile(r'^\s*(%%|%).*', re.MULTILINE)
 
 def clean_magics(cell):
     "A preprocessor to remove cell magic commands"
     if cell.cell_type == 'code': cell.source = _magics_pattern.sub('', cell.source).strip()
 
-# %% ../nbs/09b_processors.ipynb 51
+# %% ../nbs/09b_processors.ipynb 50
 _re_hdr_dash = re.compile(r'^#+\s+.*\s+-\s*$', re.MULTILINE)
 
 def rm_header_dash(cell):
@@ -235,14 +236,14 @@ def rm_header_dash(cell):
         src = cell.source.strip()
         if cell.cell_type == 'markdown' and src.startswith('#') and src.endswith(' -'): del(cell['source'])
 
-# %% ../nbs/09b_processors.ipynb 53
+# %% ../nbs/09b_processors.ipynb 52
 _hide_dirs = {'export','exporti', 'hide','default_exp'}
 
 def rm_export(cell):
     "Remove cells that are exported or hidden"
     if cell.directives_ and (cell.directives_.keys() & _hide_dirs): del(cell['source'])
 
-# %% ../nbs/09b_processors.ipynb 55
+# %% ../nbs/09b_processors.ipynb 54
 _re_showdoc = re.compile(r'^show_doc', re.MULTILINE)
 def _is_showdoc(cell): return cell['cell_type'] == 'code' and _re_showdoc.search(cell.source)
 
@@ -251,7 +252,7 @@ def clean_show_doc(cell):
     if not _is_showdoc(cell): return
     cell.source = '#|output: asis\n#| echo: false\n' + cell.source
 
-# %% ../nbs/09b_processors.ipynb 56
+# %% ../nbs/09b_processors.ipynb 55
 def _ast_contains(trees, types):
     for tree in trees:
         for node in ast.walk(tree):
@@ -272,7 +273,7 @@ def _do_eval(cell):
         return True
     if _show_docs(trees): return True
 
-# %% ../nbs/09b_processors.ipynb 57
+# %% ../nbs/09b_processors.ipynb 56
 class exec_show_docs(Processor):
     "Execute cells needed for `show_docs` output, including exported cells and imports"
     def begin(self):
