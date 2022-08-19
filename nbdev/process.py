@@ -47,11 +47,12 @@ def _norm_quarto(s, lang='python'):
 
 # %% ../nbs/03_process.ipynb 14
 def first_code_ln(code_list, re_pattern=None, lang='python'):
-    if re_pattern is None: re_pattern = _dir_pre(lang)
     "get first line number where code occurs, where `code_list` is a list of code"
-    return first(i for i,o in enumerate(code_list) if o.strip() != '' and not re.match(re_pattern, o))
+    if re_pattern is None: re_pattern = _dir_pre(lang)
+    _cell_magic='^\s*%%\w+' # if cell magic is present it is the first line of code in a cell
+    return first(i for i,o in enumerate(code_list) if o.strip() != '' and not re.match(re_pattern+'|'+_cell_magic, o))
 
-# %% ../nbs/03_process.ipynb 16
+# %% ../nbs/03_process.ipynb 17
 def extract_directives(cell, remove=True, lang='python'):
     "Take leading comment directives from lines of code in `ss`, remove `#|`, and split"
     if cell.source:
@@ -64,22 +65,22 @@ def extract_directives(cell, remove=True, lang='python'):
             cell['source'] = ''.join([_norm_quarto(o, lang) for o in pre if _quarto_re(lang).match(o)] + ss[first_code:])
         return dict(L(_directive(s, lang) for s in pre).filter())
 
-# %% ../nbs/03_process.ipynb 20
+# %% ../nbs/03_process.ipynb 21
 def opt_set(var, newval):
     "newval if newval else var"
     return newval if newval else var
 
-# %% ../nbs/03_process.ipynb 21
+# %% ../nbs/03_process.ipynb 22
 def instantiate(x, **kwargs):
     "Instantiate `x` if it's a type"
     return x(**kwargs) if isinstance(x,type) else x
 
 def _mk_procs(procs, nb): return L(procs).map(instantiate, nb=nb)
 
-# %% ../nbs/03_process.ipynb 22
+# %% ../nbs/03_process.ipynb 23
 def _is_direc(f): return getattr(f, '__name__', '-')[-1]=='_'
 
-# %% ../nbs/03_process.ipynb 23
+# %% ../nbs/03_process.ipynb 24
 class NBProcessor:
     "Process cells and nbdev comments in a notebook"
     def __init__(self, path=None, procs=None, nb=None, debug=False, rm_directives=True, process=False):
@@ -119,7 +120,7 @@ class NBProcessor:
         "Process all cells with all processors"
         for proc in self.procs: self._proc(proc)
 
-# %% ../nbs/03_process.ipynb 33
+# %% ../nbs/03_process.ipynb 34
 class Processor:
     "Base class for processors"
     def __init__(self, nb): self.nb = nb
