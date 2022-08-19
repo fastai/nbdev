@@ -7,7 +7,7 @@ d = { 'settings': { 'allowed_cell_metadata_keys': '',
                 'author_email': 'j@fast.ai',
                 'black_formatting': 'False',
                 'branch': 'master',
-                'clean_ids': 'True',
+                'clean_ids': 'False',
                 'conda_requirements': 'pyyaml',
                 'conda_user': 'fastai',
                 'console_scripts': 'nbdev_create_config=nbdev.config:nbdev_create_config\n'

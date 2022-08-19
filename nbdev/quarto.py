@@ -227,7 +227,6 @@ def _exec_py(fname):
 def nbdev_quarto(
     path:str=None, # Path to notebooks
     doc_path:str=None, # Path to output docs
-    file_glob:str=None, # Only include files matching glob    
     preview:bool=False, # Preview the site instead of building it
     port:int=3000, # The port on which to run preview
     **kwargs):
@@ -235,7 +234,7 @@ def nbdev_quarto(
     _ensure_quarto()
     cfg,cfg_path,path,doc_path,tmp_doc_path = _doc_paths(path, doc_path)
     refresh_quarto_yml()
-    nbdev_sidebar.__wrapped__(path, file_glob=file_glob, **kwargs)
+    nbdev_sidebar.__wrapped__(path, **kwargs)
     pys = globtastic(path, file_glob='*.py', **kwargs).filter(_is_qpy)
     for py in pys: _exec_py(py)
     if preview: os.system(f'cd "{path}" && quarto preview --port {port}')

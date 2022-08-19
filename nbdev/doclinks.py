@@ -121,7 +121,8 @@ def nbglob(path=None, skip_folder_re = '^[_.]', file_glob='*.ipynb', skip_file_r
     "Find all files in a directory matching an extension given a config key."
     path = Path(path or get_config().path(key))
     if recursive is None: recursive=str2bool(get_config().recursive)
-    res = globtastic(path, file_glob=file_glob, skip_folder_re=skip_folder_re, **kwargs)
+    res = globtastic(path, file_glob=file_glob, skip_folder_re=skip_folder_re,
+                     skip_file_re=skip_file_re, recursive=True, **kwargs)
     return res.map(Path) if as_path else res
 
 # %% ../nbs/04b_doclinks.ipynb 31
