@@ -152,7 +152,7 @@ _nbdev_cfg_tail = '''### Optional ###
 
 # %% ../nbs/01_config.ipynb 20
 @call_parse
-@delegates(_apply_defaults, but='cfg', verbose=False)
+@delegates(_apply_defaults, but='cfg')
 def nbdev_create_config(
     repo:str=None, # Repo name
     user:str=None, # Repo username
