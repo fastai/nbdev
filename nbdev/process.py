@@ -46,11 +46,12 @@ def _norm_quarto(s, lang='python'):
     return m.group(0) + ' ' + _quarto_re(lang).sub('', s).lstrip() if m else s
 
 # %% ../nbs/03_process.ipynb 14
+_cell_mgc = re.compile(r"^\s*%%\w+")
+
 def first_code_ln(code_list, re_pattern=None, lang='python'):
     "get first line number where code occurs, where `code_list` is a list of code"
     if re_pattern is None: re_pattern = _dir_pre(lang)
-    _cell_magic='^\s*%%\w+' # if cell magic is present it is the first line of code in a cell
-    return first(i for i,o in enumerate(code_list) if o.strip() != '' and not re.match(re_pattern+'|'+_cell_magic, o))
+    return first(i for i,o in enumerate(code_list) if o.strip() != '' and not re.match(re_pattern, o) and not _cell_mgc.match(o))
 
 # %% ../nbs/03_process.ipynb 17
 def extract_directives(cell, remove=True, lang='python'):
@@ -61,8 +62,8 @@ def extract_directives(cell, remove=True, lang='python'):
         if not ss or first_code==0: return {}
         pre = ss[:first_code]
         if remove:
-            # Leave Quarto directives in place for later processing
-            cell['source'] = ''.join([_norm_quarto(o, lang) for o in pre if _quarto_re(lang).match(o)] + ss[first_code:])
+            # Leave Quarto directives and cell magic in place for later processing
+            cell['source'] = ''.join([_norm_quarto(o, lang) for o in pre if _quarto_re(lang).match(o) or _cell_mgc.match(o)] + ss[first_code:])
         return dict(L(_directive(s, lang) for s in pre).filter())
 
 # %% ../nbs/03_process.ipynb 21
