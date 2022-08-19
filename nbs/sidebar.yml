@@ -15,20 +15,20 @@ website:
           - 02_Explanations/showdoc.ipynb
       - section: API
         contents:
-          - API/01_config.ipynb
-          - API/02_maker.ipynb
-          - API/03_process.ipynb
-          - API/04a_export.ipynb
-          - API/04b_doclinks.ipynb
-          - API/05_sync.ipynb
-          - API/06_merge.ipynb
-          - API/08_showdoc.ipynb
-          - API/09a_frontmatter.ipynb
-          - API/09b_processors.ipynb
-          - API/10_clean.ipynb
-          - API/11_test.ipynb
-          - API/12_cli.ipynb
-          - API/13_quarto.ipynb
-          - API/14_qmd.ipynb
-          - API/15_migrate.ipynb
-          - API/17_release.ipynb
+          - 01_config.ipynb
+          - 02_maker.ipynb
+          - 03_process.ipynb
+          - 04a_export.ipynb
+          - 04b_doclinks.ipynb
+          - 05_sync.ipynb
+          - 06_merge.ipynb
+          - 08_showdoc.ipynb
+          - 09a_frontmatter.ipynb
+          - 09b_processors.ipynb
+          - 10_clean.ipynb
+          - 11_test.ipynb
+          - 12_cli.ipynb
+          - 13_quarto.ipynb
+          - 14_qmd.ipynb
+          - 15_migrate.ipynb
+          - 17_release.ipynb
