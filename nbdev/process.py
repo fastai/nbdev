@@ -46,12 +46,14 @@ def _norm_quarto(s, lang='python'):
     return m.group(0) + ' ' + _quarto_re(lang).sub('', s).lstrip() if m else s
 
 # %% ../nbs/03_process.ipynb 14
-def first_code_ln(code_list, re_pattern=None, lang='python'):
-    if re_pattern is None: re_pattern = _dir_pre(lang)
-    "get first line number where code occurs, where `code_list` is a list of code"
-    return first(i for i,o in enumerate(code_list) if o.strip() != '' and not re.match(re_pattern, o))
+_cell_mgc = re.compile(r"^\s*%%\w+")
 
-# %% ../nbs/03_process.ipynb 16
+def first_code_ln(code_list, re_pattern=None, lang='python'):
+    "get first line number where code occurs, where `code_list` is a list of code"
+    if re_pattern is None: re_pattern = _dir_pre(lang)
+    return first(i for i,o in enumerate(code_list) if o.strip() != '' and not re.match(re_pattern, o) and not _cell_mgc.match(o))
+
+# %% ../nbs/03_process.ipynb 17
 def extract_directives(cell, remove=True, lang='python'):
     "Take leading comment directives from lines of code in `ss`, remove `#|`, and split"
     if cell.source:
@@ -60,26 +62,26 @@ def extract_directives(cell, remove=True, lang='python'):
         if not ss or first_code==0: return {}
         pre = ss[:first_code]
         if remove:
-            # Leave Quarto directives in place for later processing
-            cell['source'] = ''.join([_norm_quarto(o, lang) for o in pre if _quarto_re(lang).match(o)] + ss[first_code:])
+            # Leave Quarto directives and cell magic in place for later processing
+            cell['source'] = ''.join([_norm_quarto(o, lang) for o in pre if _quarto_re(lang).match(o) or _cell_mgc.match(o)] + ss[first_code:])
         return dict(L(_directive(s, lang) for s in pre).filter())
 
-# %% ../nbs/03_process.ipynb 20
+# %% ../nbs/03_process.ipynb 21
 def opt_set(var, newval):
     "newval if newval else var"
     return newval if newval else var
 
-# %% ../nbs/03_process.ipynb 21
+# %% ../nbs/03_process.ipynb 22
 def instantiate(x, **kwargs):
     "Instantiate `x` if it's a type"
     return x(**kwargs) if isinstance(x,type) else x
 
 def _mk_procs(procs, nb): return L(procs).map(instantiate, nb=nb)
 
-# %% ../nbs/03_process.ipynb 22
+# %% ../nbs/03_process.ipynb 23
 def _is_direc(f): return getattr(f, '__name__', '-')[-1]=='_'
 
-# %% ../nbs/03_process.ipynb 23
+# %% ../nbs/03_process.ipynb 24
 class NBProcessor:
     "Process cells and nbdev comments in a notebook"
     def __init__(self, path=None, procs=None, nb=None, debug=False, rm_directives=True, process=False):
@@ -119,7 +121,7 @@ class NBProcessor:
         "Process all cells with all processors"
         for proc in self.procs: self._proc(proc)
 
-# %% ../nbs/03_process.ipynb 33
+# %% ../nbs/03_process.ipynb 34
 class Processor:
     "Base class for processors"
     def __init__(self, nb): self.nb = nb
