@@ -68,7 +68,7 @@ class ModuleMaker:
         self.fname = dest/(name.replace('.','/') + ".py")
         if is_new: dest.mkdir(parents=True, exist_ok=True)
         else: assert self.fname.exists(), f"{self.fname} does not exist"
-        self.dest2nb = nb_path.relpath(dest)
+        self.dest2nb = nb_path.relpath(self.fname.parent)
         self.hdr = f"# %% {self.dest2nb}"
 
 # %% ../nbs/02_maker.ipynb 19
@@ -201,7 +201,7 @@ def make(self:ModuleMaker, cells, all_cells=None, lib_path=None):
         write_cells(cells[last_future:], self.hdr, f, 1 if last_future>0 else 0)
         f.write('\n')
 
-# %% ../nbs/02_maker.ipynb 39
+# %% ../nbs/02_maker.ipynb 38
 @patch
 def _update_all(self:ModuleMaker, all_cells, alls):
     return pformat(alls + self.make_all(all_cells), width=160)
@@ -212,7 +212,7 @@ def _make_exists(self:ModuleMaker, cells, all_cells=None):
     if all_cells and self.parse: update_var('__all__', partial(self._update_all, all_cells), fn=self.fname)
     with self.fname.open('a') as f: write_cells(cells, self.hdr, f)
 
-# %% ../nbs/02_maker.ipynb 45
+# %% ../nbs/02_maker.ipynb 44
 def _basic_export_nb2(fname, name, dest=None):
     "A basic exporter to bootstrap nbdev using `ModuleMaker`"
     if dest is None: dest = get_config().path('lib_path')

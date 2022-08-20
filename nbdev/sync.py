@@ -47,11 +47,11 @@ def _update_lib(nbname, nb_locs, lib_name=None):
         cell.source = directives + _to_absolute(code, lib_name)
     write_nb(nb, nbname)
 
+# %% ../nbs/05_sync.ipynb 10
 def _get_call(s):
     top,*rest = s.splitlines()
     return (*top.split(),'\n'.join(rest))
 
-# %% ../nbs/05_sync.ipynb 10
 @call_parse
 def nbdev_update(fname:str): # A Python file name to update
     "Propagate change in modules matching `fname` to notebooks that created them"

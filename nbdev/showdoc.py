@@ -204,7 +204,7 @@ class BasicHtmlRenderer(ShowDocRenderer):
 # %% ../nbs/08_showdoc.ipynb 60
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
-    return ifnone(get_patch_name(tree), tree.name)
+    return ifnone(patch_name(tree), tree.name)
 
 # %% ../nbs/08_showdoc.ipynb 64
 def colab_link(path):
