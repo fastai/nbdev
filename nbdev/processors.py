@@ -61,8 +61,9 @@ class insert_warning(Processor):
 # %% ../nbs/09b_processors.ipynb 14
 _def_types = (ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)
 def _def_names(cell, shown):
-    return [showdoc_nm(o) for o in concat(cell.parsed_())
-            if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_']
+    cellp = cell.parsed_()
+    return [showdoc_nm(o) for o in concat(cellp)
+            if isinstance(o,_def_types) and o.name not in shown and o.name[0]!='_'] if cellp else []
 
 def _get_nm(tree):
     i = tree.value.args[0]
@@ -76,7 +77,7 @@ def _show_docs(trees):
 
 def cell_lang(cell): return nested_attr(cell, 'metadata.language', 'python')
 def _want_doc(c):
-    return c.source and c.cell_type=='code' and ('export' in c.directives_ or 'exports' in c.directives_)
+    return c.source and c.cell_type=='code' and (set(['export', 'exports', 'exec_doc']).intersection(c.directives_))
 
 class add_show_docs(Processor):
     "Add show_doc cells after exported cells, unless they are already documented"
