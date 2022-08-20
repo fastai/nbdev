@@ -1,5 +1,6 @@
 """
 ---
+title: Home
 pagetitle: nbdev – Create delightful software with Jupyter Notebooks
 page-layout: custom
 section-divs: false
@@ -15,13 +16,8 @@ from nbdev import qmd
 
 qmd.setup()
 
-def img(fname, classes=None, **kwargs):
-    return qmd.img(f"images/{fname}", classes=classes, **kwargs)
-
-def btn(txt, link):
-    classes = ['btn-action-primary', 'btn-action', 'btn', 'btn-success', 'btn-lg']
-    return qmd.btn(txt, link=link, classes=classes)
-
+def img(fname, classes=None, **kwargs): return qmd.img(f"images/{fname}", classes=classes, **kwargs)
+def btn(txt, link): return qmd.btn(txt, link=link, classes=['btn-action-primary', 'btn-action', 'btn', 'btn-success', 'btn-lg'])
 def banner(txt, classes=None, style=None): return qmd.div(txt, L('hero-banner')+classes, style=style)
 
 features = L(
