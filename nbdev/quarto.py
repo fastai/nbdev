@@ -6,7 +6,6 @@ import warnings
 
 from .config import *
 from .doclinks import *
-from .doclinks import _build_modidx
 
 from fastcore.utils import *
 from fastcore.script import call_parse
@@ -249,12 +248,13 @@ def nbdev_quarto(
     **kwargs):
     "Create Quarto docs and README.md"
     _ensure_quarto()
+    import nbdev.doclinks
+    nbdev.doclinks._build_modidx(skip_exists=True)
     cfg,cfg_path,path,doc_path,tmp_doc_path = _doc_paths(path, doc_path)
     refresh_quarto_yml()
     nbdev_sidebar.__wrapped__(path, file_glob=file_glob, **kwargs)
     pys = globtastic(path, file_glob='*.py', **kwargs).filter(_is_qpy)
     for py in pys: _exec_py(py)
-    _build_modidx()
     if preview: os.system(f'cd "{path}" && quarto preview --port {port}')
     else: _sprun(f'cd "{path}" && quarto render')
     if not preview:
