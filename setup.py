@@ -66,7 +66,6 @@ setuptools.setup(
     zip_safe = False,
     entry_points = {
         'console_scripts': cfg.get('console_scripts','').split(),
-        'mkdocs.plugins': [ 'rm_num_prefix = nbdev.mkdocs:RmNumPrefix' ],
         'nbdev': [f'{cfg.get("lib_path")}={cfg.get("lib_path")}._modidx:d']
     },
     project_urls = project_urls,
