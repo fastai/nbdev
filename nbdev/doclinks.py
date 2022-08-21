@@ -73,12 +73,13 @@ def _get_modidx(pyfile, code_root, nbs_path):
     return {mod_name: d}
 
 # %% ../nbs/04b_doclinks.ipynb 10
-def _build_modidx(dest=None, nbs_path=None):
+def _build_modidx(dest=None, nbs_path=None, skip_exists=False):
     "Create _modidx.py"
     if dest is None: dest = get_config().path('lib_path')
     nbs_path = Path(nbs_path or get_config().path('nbs_path')).resolve()
     if os.environ.get('IN_TEST',0): return
     idxfile = dest/'_modidx.py'
+    if skip_exists and idxfile.exists(): return
     with contextlib.suppress(FileNotFoundError): idxfile.unlink()
     if idxfile.exists(): res = exec_local(idxfile.read_text(), 'd')
     else: res = dict(syms={}, settings={}) 

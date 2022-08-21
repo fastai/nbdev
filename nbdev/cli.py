@@ -52,6 +52,8 @@ def nbdev_filter(
     fname:str=None,  # Notebook to read (uses `nb_txt` if not provided)
 ):
     "A notebook filter for Quarto"
+    import nbdev.doclinks
+    nbdev.doclinks._build_modidx(skip_exists=True)
     os.environ["IN_TEST"] = "1"
     try: filt = get_config().get('exporter', FilterDefaults)()
     except FileNotFoundError: filt = FilterDefaults()
