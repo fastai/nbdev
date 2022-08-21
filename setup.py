@@ -1,6 +1,7 @@
 from pkg_resources import parse_version
 from configparser import ConfigParser
 import setuptools
+from setuptools.command.develop import develop
 assert parse_version(setuptools.__version__)>=parse_version('36.2')
 
 # note: all settings are in settings.ini; edit there, not here
@@ -32,7 +33,14 @@ dev_requirements = (cfg.get('dev_requirements') or '').split()
 project_urls = {}
 if cfg.get('doc_host'): project_urls["Documentation"] = cfg['doc_host'] + cfg.get('doc_baseurl', '')
 
+class PostDevelopCommand(develop):
+    def run(self):
+        develop.run(self)
+        from nbdev.doclinks import _build_modidx
+        _build_modidx()
+
 setuptools.setup(
+    cmdclass={'develop': PostDevelopCommand},
     name = cfg['lib_name'],
     license = lic[0],
     classifiers = [

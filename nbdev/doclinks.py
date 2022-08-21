@@ -137,7 +137,7 @@ def _settings_libs():
 
 # %% ../nbs/04b_doclinks.ipynb 19
 class NbdevLookup:
-    "Mapping from symbol names to URLs with docs"
+    "Mapping from symbol names to docs and source URLs"
     def __init__(self, strip_libs=None, incl_libs=None, skip_mods=None):
         if strip_libs is None: strip_libs = _settings_libs()
         skip_mods = setify(skip_mods)
@@ -156,15 +156,16 @@ class NbdevLookup:
                 py_syms = merge(stripped, py_syms)
         self.syms = py_syms
 
-    def __getitem__(self, s):
-        res = self.syms.get(s, None)
+    def __getitem__(self, s): return self.syms.get(s, None)
+    def doc(self, s):
+        res = self[s]
         return res[0] if isinstance(res, tuple) else res
 
 # %% ../nbs/04b_doclinks.ipynb 27
 @patch
 def _link_sym(self:NbdevLookup, m):
     l = m.group(1)
-    s = self[l]
+    s = self.doc(l)
     if s is None: return m.group(0)
     l = l.replace('\\', r'\\')
     return rf"[`{l}`]({s})"
