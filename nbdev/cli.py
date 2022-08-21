@@ -25,17 +25,9 @@ from contextlib import redirect_stdout
 import os, tarfile, sys
 
 # %% auto 0
-__all__ = ['prepare', 'FilterDefaults', 'nbdev_filter', 'extract_tgz', 'nbdev_new', 'chelp']
+__all__ = ['FilterDefaults', 'nbdev_filter', 'extract_tgz', 'nbdev_new', 'chelp']
 
 # %% ../nbs/12_cli.ipynb 6
-@call_parse
-def prepare():
-    "Export, test, and clean notebooks"
-    nbdev_export.__wrapped__()
-    nbdev_test.__wrapped__()
-    nbdev_clean.__wrapped__()
-
-# %% ../nbs/12_cli.ipynb 8
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
     def xtra_procs(self): return []
@@ -53,7 +45,7 @@ class FilterDefaults:
         "Get an `NBProcessor` with these processors"
         return NBProcessor(nb=nb, procs=self.procs())
 
-# %% ../nbs/12_cli.ipynb 9
+# %% ../nbs/12_cli.ipynb 7
 @call_parse
 def nbdev_filter(
     nb_txt:str=None,  # Notebook text (uses stdin if not provided)
@@ -76,12 +68,12 @@ def nbdev_filter(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/12_cli.ipynb 12
+# %% ../nbs/12_cli.ipynb 10
 def extract_tgz(url, dest='.'):
     from fastcore.net import urlopen
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/12_cli.ipynb 13
+# %% ../nbs/12_cli.ipynb 11
 def _render_nb(fn, cfg):
     "Render templated values like `{{lib_name}}` in notebook at `fn` from `cfg`"
     txt = fn.read_text()
@@ -89,7 +81,7 @@ def _render_nb(fn, cfg):
     for k,v in cfg.d.items(): txt = txt.replace('{{'+k+'}}', v)
     fn.write_text(txt)
 
-# %% ../nbs/12_cli.ipynb 14
+# %% ../nbs/12_cli.ipynb 12
 @call_parse
 @delegates(nbdev_create_config)
 def nbdev_new(**kwargs):
@@ -116,7 +108,7 @@ def nbdev_new(**kwargs):
 
     nbdev_export.__wrapped__()
 
-# %% ../nbs/12_cli.ipynb 30
+# %% ../nbs/12_cli.ipynb 28
 @call_parse
 def chelp():
     "Show help for all console scripts"

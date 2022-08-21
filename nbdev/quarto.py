@@ -17,8 +17,8 @@ from os import system
 import subprocess,sys,shutil,ast
 
 # %% auto 0
-__all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'nbdev_readme', 'refresh_quarto_yml', 'nbdev_quarto',
-           'preview', 'deploy']
+__all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'nbdev_readme', 'prepare', 'refresh_quarto_yml',
+           'nbdev_quarto', 'preview', 'deploy']
 
 # %% ../nbs/13_quarto.ipynb 5
 def _sprun(cmd):
@@ -117,9 +117,11 @@ def nbdev_sidebar(
     yml_path.write_text(yml)
 
 # %% ../nbs/13_quarto.ipynb 17
-def _render_readme(path):
+def _render_readme(cfg_path, path, chk_time):
     idx_path = path/get_config().readme_nb
     if not idx_path.exists(): return
+    readme_path = cfg_path/'README.md'
+    if chk_time and readme_path.exists() and readme_path.stat().st_mtime>=idx_path.stat().st_mtime: return
 
     yml_path = path/'sidebar.yml'
     moved=False
@@ -136,22 +138,34 @@ def _render_readme(path):
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
-    doc_path:str=None): # Path to output docs
+    doc_path:str=None, # Path to output docs
+    chk_time:bool=False): # Only build if out of date
     "Render README.md from index.ipynb"
     cfg,cfg_path,path,doc_path,tmp_doc_path = _doc_paths(path, doc_path)
-    _render_readme(path)
+    _render_readme(cfg_path, path, chk_time)
     if (tmp_doc_path/'README.md').exists():
         _rdm = cfg_path/'README.md'
         if _rdm.exists(): _rdm.unlink() # py37 doesn't have arg missing_ok so have to check first
         move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
 
 # %% ../nbs/13_quarto.ipynb 19
+@call_parse
+def prepare():
+    "Export, test, and clean notebooks, and render README if needed"
+    import nbdev.test
+    import nbdev.clean
+    nbdev_export.__wrapped__()
+    nbdev.test.nbdev_test.__wrapped__()
+    nbdev.clean.nbdev_clean.__wrapped__()
+    nbdev_readme.__wrapped__(chk_time=True)
+
+# %% ../nbs/13_quarto.ipynb 20
 def _ensure_quarto():
     if shutil.which('quarto'): return
     print("Quarto is not installed. We will download and install it for you.")
     install.__wrapped__()
 
-# %% ../nbs/13_quarto.ipynb 20
+# %% ../nbs/13_quarto.ipynb 21
 _quarto_yml="""ipynb-filters: [nbdev_filter]
 
 project:
@@ -192,7 +206,7 @@ metadata-files:
   - custom.yml
 """
 
-# %% ../nbs/13_quarto.ipynb 21
+# %% ../nbs/13_quarto.ipynb 22
 def refresh_quarto_yml():
     "Generate `_quarto.yml` from `settings.ini`."
     cfg = get_config()
@@ -204,7 +218,7 @@ def refresh_quarto_yml():
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
-# %% ../nbs/13_quarto.ipynb 22
+# %% ../nbs/13_quarto.ipynb 23
 def _is_qpy(path:Path):
     "Is `path` a py script starting with frontmatter?"
     path = Path(path)
@@ -217,13 +231,13 @@ def _is_qpy(path:Path):
         v = a.value.value.strip().splitlines()
         return v[0]=='---' and v[-1]=='---'
 
-# %% ../nbs/13_quarto.ipynb 23
+# %% ../nbs/13_quarto.ipynb 24
 def _exec_py(fname):
     "Exec a python script and warn on error"
     try: subprocess.check_output('python ' + fname, shell=True)
     except subprocess.CalledProcessError as cpe: warn(str(cpe))
 
-# %% ../nbs/13_quarto.ipynb 24
+# %% ../nbs/13_quarto.ipynb 25
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_quarto(
@@ -249,7 +263,7 @@ def nbdev_quarto(
             rmtree(doc_path, ignore_errors=True)
             move(tmp_doc_path, cfg_path)
 
-# %% ../nbs/13_quarto.ipynb 25
+# %% ../nbs/13_quarto.ipynb 26
 @call_parse
 @delegates(nbdev_quarto, but=['preview'])
 def preview(
@@ -258,7 +272,7 @@ def preview(
     "Preview docs locally"
     nbdev_quarto.__wrapped__(path, preview=True, **kwargs)
 
-# %% ../nbs/13_quarto.ipynb 26
+# %% ../nbs/13_quarto.ipynb 27
 @call_parse
 @delegates(nbdev_quarto)
 def deploy(
