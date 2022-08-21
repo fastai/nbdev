@@ -18,7 +18,7 @@ from textwrap import fill
 from types import FunctionType
 
 # %% auto 0
-__all__ = ['DocmentTbl', 'ShowDocRenderer', 'BasicMarkdownRenderer', 'show_doc', 'doc', 'BasicHtmlRenderer', 'showdoc_nm',
+__all__ = ['DocmentTbl', 'ShowDocRenderer', 'BasicMarkdownRenderer', 'show_doc', 'BasicHtmlRenderer', 'doc', 'showdoc_nm',
            'colab_link']
 
 # %% ../nbs/08_showdoc.ipynb 7
@@ -48,10 +48,8 @@ class DocmentTbl:
         "Compute the docment table string"
         self.verbose = verbose
         self.returns = False if isdataclass(obj) else returns
-        if isinstance_str(obj, 'property'): self.params = []
-        else:
-            try: self.params = L(signature_ex(obj, eval_str=True).parameters.keys())
-            except (ValueError,TypeError): self.params=[]
+        try: self.params = L(signature_ex(obj, eval_str=True).parameters.keys())
+        except (ValueError,TypeError): self.params=[]
         try: _dm = docments(obj, full=True, returns=returns)
         except: _dm = {}
         if 'self' in _dm: del _dm['self']
@@ -112,22 +110,24 @@ class DocmentTbl:
     __repr__ = basic_repr()
 
 # %% ../nbs/08_showdoc.ipynb 31
+def _fullname(o):
+    module,name = o.__module__,qual_name(o)
+    return name if module is None or module in ('__main__','builtins') else module + '.' + name
+
 class ShowDocRenderer:
-    def __init__(self, sym, name:str|None=None, title_level:int|None=None):
+    def __init__(self, sym, name:str|None=None, title_level:int=3):
         "Show documentation for `sym`"
         sym = getattr(sym, '__wrapped__', sym)
+        sym = getattr(sym, 'fget', None) or getattr(sym, 'fset', None) or sym
         store_attr()
         self.nm = name or qual_name(sym)
         self.isfunc = inspect.isfunction(sym)
-        self.isprop = isinstance_str(sym, 'property')
-        if self.isprop: self.sig = None
-        else:
-            try: self.sig = signature_ex(sym, eval_str=True)
-            except (ValueError,TypeError): self.sig = None
-        if self.title_level is None: self.title_level = 3
+        try: self.sig = signature_ex(sym, eval_str=True)
+        except (ValueError,TypeError): self.sig = None
         self.docs = docstring(sym)
         self.dm = DocmentTbl(sym)
-        
+        self.nbl = NbdevLookup()[_fullname(sym)]
+
     __repr__ = basic_repr()
 
 # %% ../nbs/08_showdoc.ipynb 32
@@ -157,19 +157,29 @@ def _wrap_sig(s):
     return fill(s, width=80, initial_indent=pad, subsequent_indent=indent)
 
 # %% ../nbs/08_showdoc.ipynb 36
+def _ext_link(url, txt, xtra=""): return f'[{txt}]({url}){{target="_blank" {xtra}}}'
+
 class BasicMarkdownRenderer(ShowDocRenderer):
+    "Markdown renderer for `show_doc`"
     def _repr_markdown_(self):
         doc = '---\n\n'
-        doc += '#'*self.title_level
+        if self.nbl is not None and isinstance(self.nbl, tuple) and self.nbl[1]:
+            doc += _ext_link(self.nbl[1], 'source', 'style="float:right; font-size:smaller"') + '\n\n'
+        h = '#'*self.title_level
+        doc += f'{h} {self.nm}\n\n'
         sig = _wrap_sig(f"{self.nm} {_fmt_sig(self.sig)}") if self.sig else ''
-        doc += f' {self.nm}\n\n{sig}'
+        doc += f'{sig}'
         if self.docs: doc += f"\n\n{self.docs}"
         if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
     __repr__=__str__=_repr_markdown_
 
 # %% ../nbs/08_showdoc.ipynb 37
-def show_doc(sym, renderer=None, name:str|None=None, title_level:int|None=None):
+def show_doc(sym,  # Symbol to document
+             renderer=None,  # Optional renderer (defaults to markdown)
+             name:str|None=None,  # Optionally override displayed name of `sym`
+             title_level:int=3):  # Heading level to use for symbol name
+    "Show signature and docstring for `sym`"
     if renderer is None: renderer = get_config().get('renderer', None)
     if renderer is None: renderer=BasicMarkdownRenderer
     elif isinstance(renderer,str):
@@ -178,28 +188,29 @@ def show_doc(sym, renderer=None, name:str|None=None, title_level:int|None=None):
     if isinstance(sym, TypeDispatch): pass
     else:return renderer(sym or show_doc, name=name, title_level=title_level)
 
-# %% ../nbs/08_showdoc.ipynb 40
-def _fullname(o):
-    module,name = o.__module__,qual_name(o)
-    return name if module is None or module == 'builtins' else module + '.' + name
+# %% ../nbs/08_showdoc.ipynb 53
+def _html_link(url, txt): return f'<a href="{url}" target="_blank" rel="noreferrer noopener">{txt}</a>'
 
-def doc(elt, show_all_docments:bool=False):
-    "Show `show_doc` info along with link to docs"
-    from IPython.display import display,Markdown
-    md = str(BasicMarkdownRenderer(elt))
-    doc_link = NbdevLookup()[_fullname(elt)]
-    if doc_link is not None:
-        md += f'\n\n<a href="{doc_link}" target="_blank" rel="noreferrer noopener">Show in docs</a>'
-    display(Markdown(md))
-
-# %% ../nbs/08_showdoc.ipynb 55
 class BasicHtmlRenderer(ShowDocRenderer):
+    "Simple HTML renderer for `show_doc`"
     def _repr_html_(self):
         doc = '<hr/>\n'
         doc += f'<h{self.title_level}>{self.nm}</h{self.title_level}>\n'
         doc += f'<blockquote><pre><code>{self.nm}{_fmt_sig(self.sig)}</code></pre></blockquote>'
         if self.docs: doc += f"<p>{self.docs}</p>"
         return doc
+
+    def doc(self):
+        "Show `show_doc` info along with link to docs"
+        from IPython.display import display,HTML
+        res = self._repr_html_()
+        if self.nbl is not None: res += '\n<p>' +_html_link(self.nbl[0], "Show in docs") + '</p>'
+        display(HTML(res))
+
+# %% ../nbs/08_showdoc.ipynb 54
+def doc(elt):
+    "Show `show_doc` info along with link to docs"
+    BasicHtmlRenderer(elt).doc()
 
 # %% ../nbs/08_showdoc.ipynb 60
 def showdoc_nm(tree):

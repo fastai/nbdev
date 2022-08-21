@@ -60,7 +60,7 @@ def _get_modidx(pyfile, code_root, nbs_path):
         if nb != 'auto':
             nbpath = ((pyfile.parent)/nb).resolve()  # NB paths are stored relative to .py file
             loc = nbpath.relative_to(nbs_path).with_suffix('.html')
-            loc = urljoin(nburl, re.sub(r'\d+_', '', str(loc)).lower()) + '#'
+            loc = urljoin(nburl, re.sub(r'\d+[a-zA-Z0-9]*_', '', str(loc)).lower()) + '#'
             source = f'{cfg.git_url}/blob/{cfg.branch}/{rel_name}#L'
 
             def _stor(nm, tree, pre=''): d[f'{mod_name}{pre}.{nm}'] = loc+nm.lower(),f'{source}{tree.lineno+c}'

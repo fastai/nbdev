@@ -70,7 +70,7 @@ that you use for both Jupyter and your project.
 The best way to learn to use nbdev is to complete one of these tutorials
 (we suggest replicating each step to solidify your understanding):
 
-- [Written tutorial](https://nbdev.fast.ai/tutorial.html)
+- [Written tutorial](https://nbdev.fast.ai/01_Tutorials/tutorial.html)
 
 **Video step-by-step walkthru** (to view full screen, click the little
 square in the bottom right of the video; to view in a separate Youtube
