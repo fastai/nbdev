@@ -2,6 +2,21 @@
 
 <!-- do not remove -->
 
+## 2.2.6
+
+### New Features
+
+- Build `_modidx.py` on demand in order to git conflicts ([#911](https://github.com/fastai/nbdev/issues/911))
+- Add source link to index ([#909](https://github.com/fastai/nbdev/issues/909))
+- Order left navigation sections using numeric prefix ([#901](https://github.com/fastai/nbdev/issues/901))
+- Automatic rendering of python files with frontmatter ([#895](https://github.com/fastai/nbdev/issues/895))
+
+### Bugs Squashed
+
+- Make sure `#|exec_doc` triggers an update even when there is no export or show_doc ([#906](https://github.com/fastai/nbdev/pull/906)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- allow nbdev directives to work with cell magic ([#905](https://github.com/fastai/nbdev/pull/905)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
+
 ## 2.2.0
 ### Breaking Changes
 
