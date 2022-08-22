@@ -163,6 +163,8 @@ def _qual_syms(entries):
     return {'syms': {mod:_qual_mod(d, settings) for mod,d in entries['syms'].items()}, 'settings':settings}
 
 # %% ../nbs/04b_doclinks.ipynb 23
+_re_backticks = re.compile(r'`([^`\s]+)`')
+
 @lru_cache(None)
 class NbdevLookup:
     "Mapping from symbol names to docs and source URLs"
@@ -202,25 +204,20 @@ class NbdevLookup:
         line = _lineno(sym, py)
         return f'{gh}#L{line}'
 
-# %% ../nbs/04b_doclinks.ipynb 35
-@patch
-def _link_sym(self:NbdevLookup, m):
-    l = m.group(1)
-    s = self.doc(l)
-    if s is None: return m.group(0)
-    l = l.replace('\\', r'\\')
-    return rf"[`{l}`]({s})"
+    def _link_sym(self, m):
+        l = m.group(1)
+        s = self.doc(l)
+        if s is None: return m.group(0)
+        l = l.replace('\\', r'\\')
+        return rf"[`{l}`]({s})"
 
-_re_backticks = re.compile(r'`([^`\s]+)`')
-@patch
-def link_line(self:NbdevLookup, l): return _re_backticks.sub(self._link_sym, l)
+    def link_line(self, l): return _re_backticks.sub(self._link_sym, l)
 
-@patch
-def linkify(self:NbdevLookup, md):
-    if md:
-        in_fence=False
-        lines = md.splitlines()
-        for i,l in enumerate(lines):
-            if l.startswith("```"): in_fence=not in_fence
-            elif not l.startswith('    ') and not in_fence: lines[i] = self.link_line(l)
-        return '\n'.join(lines)
+    def linkify(self, md):
+        if md:
+            in_fence=False
+            lines = md.splitlines()
+            for i,l in enumerate(lines):
+                if l.startswith("```"): in_fence=not in_fence
+                elif not l.startswith('    ') and not in_fence: lines[i] = self.link_line(l)
+            return '\n'.join(lines)
