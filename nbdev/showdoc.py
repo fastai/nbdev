@@ -126,7 +126,7 @@ class ShowDocRenderer:
         except (ValueError,TypeError): self.sig = None
         self.docs = docstring(sym)
         self.dm = DocmentTbl(sym)
-        self.nbl = NbdevLookup()[_fullname(sym)]
+        self.fn = _fullname(sym)
 
     __repr__ = basic_repr()
 
@@ -163,8 +163,8 @@ class BasicMarkdownRenderer(ShowDocRenderer):
     "Markdown renderer for `show_doc`"
     def _repr_markdown_(self):
         doc = '---\n\n'
-        if self.nbl is not None and isinstance(self.nbl, tuple) and self.nbl[1]:
-            doc += _ext_link(self.nbl[1], 'source', 'style="float:right; font-size:smaller"') + '\n\n'
+        src = NbdevLookup().code(self.fn)
+        if src: doc += _ext_link(src, 'source', 'style="float:right; font-size:smaller"') + '\n\n'
         h = '#'*self.title_level
         doc += f'{h} {self.nm}\n\n'
         sig = _wrap_sig(f"{self.nm} {_fmt_sig(self.sig)}") if self.sig else ''
@@ -204,7 +204,8 @@ class BasicHtmlRenderer(ShowDocRenderer):
         "Show `show_doc` info along with link to docs"
         from IPython.display import display,HTML
         res = self._repr_html_()
-        if self.nbl is not None: res += '\n<p>' +_html_link(self.nbl[0], "Show in docs") + '</p>'
+        docs = NbdevLookup().doc(self.fn)
+        if docs is not None: res += '\n<p>' +_html_link(docs, "Show in docs") + '</p>'
         display(HTML(res))
 
 # %% ../nbs/08_showdoc.ipynb 54

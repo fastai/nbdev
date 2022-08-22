@@ -270,6 +270,7 @@ def preview(
     path:str=None, # Path to notebooks
     **kwargs):
     "Preview docs locally"
+    os.environ['QUARTO_PREVIEW']='1'
     nbdev_quarto.__wrapped__(path, preview=True, **kwargs)
 
 # %% ../nbs/13_quarto.ipynb 27
