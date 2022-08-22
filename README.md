@@ -27,27 +27,27 @@ traditional programming environments since you always have live objects
 at your fingertips. `nbdev` also promotes software engineering best
 practices because tests and documentation are first class.
 
-- **Documentation** is automatically generated using
-  [Quarto](https://quarto.org/) and hosted on [GitHub
-  Pages](https://pages.github.com/). Docs support LaTeX, are searchable,
-  and are automatically hyperlinked (including out-of-the-box support
-  for many packages via
-  [`nbdev-index`](https://github.com/fastai/nbdev-index)). You also have
-  fine-grained control over how cells are displayed.
-- **Publish packages to PyPI and conda** as well as tools to simplify
-  package releases. Python best practices are automatically followed,
-  for example, only exported objects are included in `__all__`
-- **Two-way sync between notebooks and plaintext** source code allowing
-  you to use your IDE for code navigation or quick edits.
-- **Tests** written as ordinary notebook cells are run in parallel with
-  a single command. You have fine-grained control over which tests are
-  run.
-- **Continuous integration** out-of-the-box with [GitHub
-  Actions](https://github.com/features/actions) that run your tests on
-  each push and rebuild docs on each merge.
-- **Git-friendly notebooks** with tools that clean unwanted metadata and
-  render merge conflicts in a human-readable format.
-- … and much more!
+-   **Documentation** is automatically generated using
+    [Quarto](https://quarto.org/) and hosted on [GitHub
+    Pages](https://pages.github.com/). Docs support LaTeX, are
+    searchable, and are automatically hyperlinked (including
+    out-of-the-box support for many packages via
+    [`nbdev-index`](https://github.com/fastai/nbdev-index)). You also
+    have fine-grained control over how cells are displayed.
+-   **Publish packages to PyPI and conda** as well as tools to simplify
+    package releases. Python best practices are automatically followed,
+    for example, only exported objects are included in `__all__`
+-   **Two-way sync between notebooks and plaintext** source code
+    allowing you to use your IDE for code navigation or quick edits.
+-   **Tests** written as ordinary notebook cells are run in parallel
+    with a single command. You have fine-grained control over which
+    tests are run.
+-   **Continuous integration** out-of-the-box with [GitHub
+    Actions](https://github.com/features/actions) that run your tests on
+    each push and rebuild docs on each merge.
+-   **Git-friendly notebooks** with tools that clean unwanted metadata
+    and render merge conflicts in a human-readable format.
+-   … and much more!
 
 ## Install
 
@@ -70,7 +70,7 @@ that you use for both Jupyter and your project.
 The best way to learn to use nbdev is to complete one of these tutorials
 (we suggest replicating each step to solidify your understanding):
 
-- [Written tutorial](https://nbdev.fast.ai/01_Tutorials/tutorial.html)
+-   [Written tutorial](https://nbdev.fast.ai/01_Tutorials/tutorial.html)
 
 **Video step-by-step walkthru** (to view full screen, click the little
 square in the bottom right of the video; to view in a separate Youtube
