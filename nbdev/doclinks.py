@@ -163,9 +163,9 @@ def _qual_syms(entries):
     return {'syms': {mod:_qual_mod(d, settings) for mod,d in entries['syms'].items()}, 'settings':settings}
 
 # %% ../nbs/04b_doclinks.ipynb 23
+@lru_cache(None)
 class NbdevLookup:
     "Mapping from symbol names to docs and source URLs"
-    @lru_cache(None)
     def __init__(self, strip_libs=None, incl_libs=None, skip_mods=None):
         cfg = get_config()
         if strip_libs is None:
