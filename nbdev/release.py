@@ -42,63 +42,72 @@ def _load_json(cfg, k):
     except json.JSONDecodeError as e: raise Exception(f"Key: `{k}` in .ini file is not a valid JSON string: {e}")
 
 # %% ../nbs/17_release.ipynb 20
-class Release:
+
+
+class Release():
+
     def __init__(self, owner=None, repo=None, token=None, **groups):
-        "Create CHANGELOG.md from GitHub issues"
+        'Create CHANGELOG.md from GitHub issues'
         self.cfg = _find_config()
-        self.changefile = self.cfg.config_path/'CHANGELOG.md'
-        if not groups:
-            default_groups=dict(breaking="Breaking Changes", enhancement="New Features", bug="Bugs Squashed")
-            groups=_load_json(self.cfg, 'label_groups') if 'label_groups' in self.cfg else default_groups
+        self.changefile = (self.cfg.config_path / 'CHANGELOG.md')
+        if (not groups):
+            default_groups = dict(breaking='Breaking Changes', enhancement='New Features', bug='Bugs Squashed')
+            groups = (_load_json(self.cfg, 'label_groups') if ('label_groups' in self.cfg) else default_groups)
         os.chdir(self.cfg.config_path)
-        owner,repo = owner or self.cfg.user, repo or self.cfg.lib_name
-        token = ifnone(token, os.getenv('NBDEV_TOKEN',None))
-        if not token and Path('token').exists(): token = Path('token').read_text().strip()
-        if not token: raise Exception('Failed to find token')
+        (owner, repo) = ((owner or self.cfg.user), (repo or self.cfg.lib_name))
+        token = ifnone(token, os.getenv('NBDEV_TOKEN', None))
+        if ((not token) and Path('token').exists()):
+            token = Path('token').read_text().strip()
+        if (not token):
+            raise Exception('Failed to find token')
         self.gh = GhApi(owner, repo, token)
         self.groups = groups
 
     def _issues(self, label):
         return self.gh.issues.list_for_repo(state='closed', sort='created', filter='all', since=self.commit_date, labels=label)
-    def _issue_groups(self): return parallel(self._issues, self.groups.keys(), progress=False)
 
-# %% ../nbs/17_release.ipynb 22
-@patch
-def changelog(self:Release,
-              debug=False): # Just print the latest changes, instead of updating file
-    "Create the CHANGELOG.md file, or return the proposed text if `debug` is `True`"
-    if not self.changefile.exists(): self.changefile.write_text("# Release notes\n\n<!-- do not remove -->\n")
-    marker = '<!-- do not remove -->\n'
-    try: self.commit_date = self.gh.repos.get_latest_release().published_at
-    except HTTP404NotFoundError: self.commit_date = '2000-01-01T00:00:004Z'
-    res = f"\n## {self.cfg.version}\n"
-    issues = self._issue_groups()
-    res += '\n'.join(_issues_txt(*o) for o in zip(issues, self.groups.values()))
-    if debug: return res
-    res = self.changefile.read_text().replace(marker, marker+res+"\n")
-    shutil.copy(self.changefile, self.changefile.with_suffix(".bak"))
-    self.changefile.write_text(res)
-    run(f'git add {self.changefile}')
+    def _issue_groups(self):
+        return parallel(self._issues, self.groups.keys(), progress=False)
 
-# %% ../nbs/17_release.ipynb 24
-@patch
-def release(self:Release):
-    "Tag and create a release in GitHub for the current version"
-    ver = self.cfg.version
-    notes = self.latest_notes()
-    self.gh.create_release(ver, branch=self.cfg.branch, body=notes)
-    return ver
+    def changelog(self, debug=False):
+        'Create the CHANGELOG.md file, or return the proposed text if `debug` is `True`'
+        if (not self.changefile.exists()):
+            self.changefile.write_text('# Release notes\n\n<!-- do not remove -->\n')
+        marker = '<!-- do not remove -->\n'
+        try:
+            self.commit_date = self.gh.repos.get_latest_release().published_at
+        except HTTP404NotFoundError:
+            self.commit_date = '2000-01-01T00:00:004Z'
+        res = f'''
+## {self.cfg.version}
+'''
+        issues = self._issue_groups()
+        res += '\n'.join((_issues_txt(*o) for o in zip(issues, self.groups.values())))
+        if debug:
+            return res
+        res = self.changefile.read_text().replace(marker, ((marker + res) + '\n'))
+        shutil.copy(self.changefile, self.changefile.with_suffix('.bak'))
+        self.changefile.write_text(res)
+        run(f'git add {self.changefile}')
+
+    def release(self):
+        'Tag and create a release in GitHub for the current version'
+        ver = self.cfg.version
+        notes = self.latest_notes()
+        self.gh.create_release(ver, branch=self.cfg.branch, body=notes)
+        return ver
+
+    def latest_notes(self):
+        'Latest CHANGELOG entry'
+        if (not self.changefile.exists()):
+            return ''
+        its = re.split('^## ', self.changefile.read_text(), flags=re.MULTILINE)
+        if (not (len(its) > 0)):
+            return ''
+        return '\n'.join(its[1].splitlines()[1:]).strip()
+
 
 # %% ../nbs/17_release.ipynb 26
-@patch
-def latest_notes(self:Release):
-    "Latest CHANGELOG entry"
-    if not self.changefile.exists(): return ''
-    its = re.split(r'^## ', self.changefile.read_text(), flags=re.MULTILINE)
-    if not len(its)>0: return ''
-    return '\n'.join(its[1].splitlines()[1:]).strip()
-
-# %% ../nbs/17_release.ipynb 29
 @call_parse
 def changelog(
     debug:store_true=False,  # Print info to be added to CHANGELOG, instead of updating file
@@ -108,7 +117,7 @@ def changelog(
     res = Release(repo=repo).changelog(debug=debug)
     if debug: print(res)
 
-# %% ../nbs/17_release.ipynb 30
+# %% ../nbs/17_release.ipynb 27
 @call_parse
 def release_git(
     token:str=None  # Optional GitHub token (otherwise `token` file is used)
@@ -117,7 +126,7 @@ def release_git(
     ver = Release(token=token).release()
     print(f"Released {ver}")
 
-# %% ../nbs/17_release.ipynb 31
+# %% ../nbs/17_release.ipynb 28
 @call_parse
 def release_gh(
     token:str=None  # Optional GitHub token (otherwise `token` file is used)
@@ -132,7 +141,7 @@ def release_gh(
     ver = Release(token=token).release()
     print(f"Released {ver}")
 
-# %% ../nbs/17_release.ipynb 33
+# %% ../nbs/17_release.ipynb 30
 from fastcore.all import *
 from .config import *
 from .cli import *
@@ -145,18 +154,18 @@ except ImportError: from pip._vendor.packaging.version import parse
 
 _PYPI_URL = 'https://pypi.org/pypi/'
 
-# %% ../nbs/17_release.ipynb 34
+# %% ../nbs/17_release.ipynb 31
 def pypi_json(s):
     "Dictionary decoded JSON for PYPI path `s`"
     return urljson(f'{_PYPI_URL}{s}/json')
 
-# %% ../nbs/17_release.ipynb 35
+# %% ../nbs/17_release.ipynb 32
 def latest_pypi(name):
     "Latest version of `name` on pypi"
     return max(parse(r) for r,o in pypi_json(name)['releases'].items()
                if not parse(r).is_prerelease and not nested_idx(o, 0, 'yanked'))
 
-# %% ../nbs/17_release.ipynb 36
+# %% ../nbs/17_release.ipynb 33
 def pypi_details(name):
     "Version, URL, and SHA256 for `name` from pypi"
     ver = str(latest_pypi(name))
@@ -165,7 +174,7 @@ def pypi_details(name):
     rel = [o for o in pypi['urls'] if o['packagetype']=='sdist'][0]
     return ver,rel['url'],rel['digests']['sha256']
 
-# %% ../nbs/17_release.ipynb 37
+# %% ../nbs/17_release.ipynb 34
 import shlex
 from subprocess import Popen, PIPE, CalledProcessError
 
@@ -179,12 +188,12 @@ def _run(cmd):
     if p.returncode != 0: raise CalledProcessError(p.returncode, p.args)
     return res
 
-# %% ../nbs/17_release.ipynb 38
+# %% ../nbs/17_release.ipynb 35
 def conda_output_path(name):
     "Output path for conda build"
     return run(f'conda build --output {name}').strip().replace('\\', '/')
 
-# %% ../nbs/17_release.ipynb 39
+# %% ../nbs/17_release.ipynb 36
 def _write_yaml(path, name, d1, d2):
     path = Path(path)
     p = path/name
@@ -194,7 +203,7 @@ def _write_yaml(path, name, d1, d2):
         yaml.safe_dump(d1, f)
         yaml.safe_dump(d2, f)
 
-# %% ../nbs/17_release.ipynb 40
+# %% ../nbs/17_release.ipynb 37
 def _get_conda_meta():
     cfg = get_config()
     name,ver = cfg.lib_name,cfg.version
@@ -232,12 +241,12 @@ def _get_conda_meta():
     }
     return name,d1,d2
 
-# %% ../nbs/17_release.ipynb 41
+# %% ../nbs/17_release.ipynb 38
 def write_conda_meta(path='conda'):
     "Writes a `meta.yaml` file to the `conda` directory of the current directory"
     _write_yaml(path, *_get_conda_meta())
 
-# %% ../nbs/17_release.ipynb 43
+# %% ../nbs/17_release.ipynb 40
 def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     "Upload `name` to anaconda"
     user = f'-u {user} ' if user else ''
@@ -247,7 +256,7 @@ def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     if not loc: raise Exception("Failed to find output")
     return _run(f'anaconda {token} upload {user} {loc} --skip-existing')
 
-# %% ../nbs/17_release.ipynb 44
+# %% ../nbs/17_release.ipynb 41
 @call_parse
 def release_conda(
     path:str='conda', # Path where package will be created
@@ -275,7 +284,7 @@ def release_conda(
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
     return anaconda_upload(name, loc)
 
-# %% ../nbs/17_release.ipynb 45
+# %% ../nbs/17_release.ipynb 42
 def chk_conda_rel(
     nm:str,  # Package name on pypi
     apkg:str=None,  # Anaconda Package (defaults to {nm})
@@ -289,7 +298,7 @@ def chk_conda_rel(
     pypitag = latest_pypi(nm)
     if force or not condatag or pypitag > max(condatag): return f'{pypitag}'
 
-# %% ../nbs/17_release.ipynb 47
+# %% ../nbs/17_release.ipynb 44
 @call_parse
 def release_pypi(
     repository:str="pypi" # Respository to upload to (defined in ~/.pypirc)
@@ -299,7 +308,7 @@ def release_pypi(
     system(f'cd {_dir}  && rm -rf dist && python setup.py sdist bdist_wheel')
     system(f'twine upload --repository {repository} {_dir}/dist/*')
 
-# %% ../nbs/17_release.ipynb 48
+# %% ../nbs/17_release.ipynb 45
 @call_parse
 def release_both(
     path:str='conda', # Path where package will be created
@@ -315,7 +324,7 @@ def release_both(
     release_conda.__wrapped__(path, do_build=do_build, build_args=build_args, skip_upload=skip_upload, mambabuild=mambabuild, upload_user=upload_user)
     nbdev_bump_version.__wrapped__()
 
-# %% ../nbs/17_release.ipynb 50
+# %% ../nbs/17_release.ipynb 47
 def bump_version(version, part=2, unbump=False):
     version = version.split('.')
     incr = -1 if unbump else 1
@@ -323,7 +332,7 @@ def bump_version(version, part=2, unbump=False):
     for i in range(part+1, 3): version[i] = '0'
     return '.'.join(version)
 
-# %% ../nbs/17_release.ipynb 51
+# %% ../nbs/17_release.ipynb 48
 @call_parse
 def nbdev_bump_version(
     part:int=2,  # Part of version to bump

@@ -41,7 +41,7 @@ def black_format(cell, # Cell to format
         except: pass
 
 # %% ../nbs/04a_export.ipynb 9
-def nb_export(nbname, lib_path=None, procs=black_format, debug=False, mod_maker=ModuleMaker):
+def nb_export(nbname, lib_path=None, procs=[black_format,PatchAnnotationProcessor], debug=False, mod_maker=ModuleMaker):
     "Create module(s) from notebook"
     if lib_path is None: lib_path = get_config().path('lib_path')
     exp = ExportModuleProc()

@@ -13,7 +13,7 @@ from fastcore.script import *
 from fastcore.utils import *
 from fastcore.meta import delegates
 
-import ast,contextlib
+import ast,contextlib,re
 import pkg_resources,importlib
 from astunparse import unparse
 
@@ -48,7 +48,10 @@ def _get_modidx(pyfile, code_root, nbs_path):
     cfg = get_config()
     rel_name = str(pyfile.resolve().relative_to(code_root))
     mod_name = '.'.join(rel_name.rpartition('.')[0].split('/'))  # module name created by pyfile
-    cells = Path(pyfile).read_text().split("\n# %% ")
+    # https://regex101.com/r/3jT381/1
+    # Must use [0::2] here as re.split returns capturing group info inline, but we are using
+    # a negative lookbehind and don't care about the group, so we skip each of them
+    cells = re.split(r'(?<!(f\'\'\'|f""")\n)\n# %% ', Path(pyfile).read_text())[0::2]
 
     _def_types = ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef
     d = {}
