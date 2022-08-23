@@ -6,8 +6,8 @@ website:
       - migrating.ipynb
       - section: Tutorials
         contents:
-          - 01_Tutorials/git_friendly_jupyter.ipynb
-          - 01_Tutorials/tutorial.ipynb
+          - 01_Tutorials/01_tutorial.ipynb
+          - 01_Tutorials/02_git_friendly_jupyter.ipynb
       - section: Explanations
         contents:
           - 02_Explanations/config.ipynb
