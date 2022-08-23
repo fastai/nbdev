@@ -10,7 +10,7 @@ from .processors import *
 from .doclinks import *
 from .test import *
 from .clean import *
-from .quarto import refresh_quarto_yml
+from .quarto import nbdev_readme, refresh_quarto_yml
 from .frontmatter import FrontmatterProc
 
 from execnb.nbio import *
@@ -85,7 +85,7 @@ def _render_nb(fn, cfg):
 @call_parse
 @delegates(nbdev_create_config)
 def nbdev_new(**kwargs):
-    "Create a new project."
+    "Create an nbdev project."
     from fastcore.net import urljson
     
     nbdev_create_config.__wrapped__(**kwargs)
@@ -107,8 +107,9 @@ def nbdev_new(**kwargs):
     refresh_quarto_yml()
 
     nbdev_export.__wrapped__()
+    nbdev_readme.__wrapped__()
 
-# %% ../nbs/12_cli.ipynb 28
+# %% ../nbs/12_cli.ipynb 15
 @call_parse
 def chelp():
     "Show help for all console scripts"
