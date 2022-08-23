@@ -18,7 +18,7 @@ tutorial](https://nbdev.fast.ai/migrating.html).*
 
 ------------------------------------------------------------------------
 
-`nbdev` is a system for *exploratory programming*. Simply write
+`nbdev` is a notebook-driven development platform. Simply write
 notebooks with lightweight markup and get high-quality documentation,
 tests, continuous integration, and packaging for free!
 
@@ -32,21 +32,21 @@ practices because tests and documentation are first class.
   Pages](https://pages.github.com/). Docs support LaTeX, are searchable,
   and are automatically hyperlinked (including out-of-the-box support
   for many packages via
-  [`nbdev-index`](https://github.com/fastai/nbdev-index)). You also have
-  fine-grained control over how cells are displayed.
+  [`nbdev-index`](https://github.com/fastai/nbdev-index))
 - **Publish packages to PyPI and conda** as well as tools to simplify
   package releases. Python best practices are automatically followed,
   for example, only exported objects are included in `__all__`
-- **Two-way sync between notebooks and plaintext** source code allowing
-  you to use your IDE for code navigation or quick edits.
+- **Two-way sync between notebooks and plaintext** allowing you to use
+  your IDE for code navigation or quick edits
 - **Tests** written as ordinary notebook cells are run in parallel with
-  a single command. You have fine-grained control over which tests are
-  run.
+  a single command
 - **Continuous integration** out-of-the-box with [GitHub
-  Actions](https://github.com/features/actions) that run your tests on
-  each push and rebuild docs on each merge.
-- **Git-friendly notebooks** with tools that clean unwanted metadata and
-  render merge conflicts in a human-readable format.
+  Actions](https://github.com/features/actions) that run your tests and
+  rebuild your docs
+- **Git-friendly notebooks** with [Jupyter/Git
+  hooks](/01_Tutorials/02_git_friendly_jupyter.ipynb) that clean
+  unwanted metadata and render merge conflicts in a human-readable
+  format
 - … and much more!
 
 ## Install
@@ -56,44 +56,51 @@ works on Windows under WSL, but not under cmd or Powershell.
 
 You can install nbdev with pip:
 
-    pip install nbdev
+``` sh
+pip install nbdev
+```
 
 … or with conda (or mamba):
 
-    conda install -c fastai nbdev
+``` sh
+conda install -c fastai nbdev
+```
 
 Note that `nbdev` must be installed into the same Python environment
 that you use for both Jupyter and your project.
 
 ## How to use nbdev
 
-The best way to learn to use nbdev is to complete one of these tutorials
-(we suggest replicating each step to solidify your understanding):
+The best way to learn how to use nbdev is to complete one of these
+tutorials (we suggest replicating each step to solidify your
+understanding):
 
-- [Written tutorial](https://nbdev.fast.ai/01_Tutorials/tutorial.html)
+- [Written walkthrough](01_Tutorials/01_tutorial.ipynb)
+- [Video walkthrough](https://www.youtube.com/watch?v=l7zS8Ld4_iA).
 
-**Video step-by-step walkthru** (to view full screen, click the little
-square in the bottom right of the video; to view in a separate Youtube
-window, click the Youtube logo):
+Here is the video walkthrough for convenience (to view full screen,
+click the little square in the bottom right of the video; to view in a
+separate Youtube window, click the Youtube logo):
 
-<div>
+<div style="text-align: center">
 
 <div>
 
 <a href="http://www.youtube.com/watch?v=l7zS8Ld4_iA" target="_blank"
 title="nbdev walkthrough"><img
-src="https://github.com/fastai/logos/raw/main/nbdev_walkthrough.png" /></a>
+src="https://github.com/fastai/logos/raw/main/nbdev_walkthrough.png"
+style="border-radius: 10px" width="560" height="315" /></a>
 
 </div>
 
 </div>
 
-(There’s an [alternate version of the
-walkthru](https://youtu.be/67FdzLSt4aA) available with the coding
-sections sped up using the `unsilence` python library – it’s 27 minutes
-faster, but it’s be harder to follow along with.)
+There’s a [shortened version of the
+walkthrough](https://youtu.be/67FdzLSt4aA) available with coding
+sections sped up using the `unsilence` Python library – it’s 27 minutes
+faster, but a bit harder to follow.
 
-You can run `nbdev_help` from the terminal to see the full list of
+You can also run `nbdev_help` from the terminal to see the full list of
 available commands:
 
 ``` python
@@ -103,64 +110,32 @@ available commands:
     nbdev_bump_version              Increment version in settings.ini by one
     nbdev_changelog                 Create a CHANGELOG.md file from closed and labeled GitHub issues
     nbdev_clean                     Clean all notebooks in `fname` to avoid merge conflicts
-    nbdev_conda                     Create and upload a conda package
-    nbdev_create_config             Create a config file
+    nbdev_conda                     Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it
+    nbdev_create_config             Create a config file.
     nbdev_deploy                    Deploy docs to GitHub Pages
-    nbdev_docs                      Generate docs
+    nbdev_docs                      Create Quarto docs and README.md
     nbdev_export                    Export notebooks in `path` to Python modules
     nbdev_filter                    A notebook filter for Quarto
     nbdev_fix                       Create working notebook from conflicted notebook `nbname`
-    nbdev_ghp_deploy                Deploy docs in `doc_path` from settings.ini to GitHub Pages
     nbdev_help                      Show help for all console scripts
     nbdev_install                   Install Quarto and the current library
     nbdev_install_hooks             Install Jupyter and git hooks to automatically clean, trust, and fix merge conflicts in notebooks
     nbdev_install_quarto            Install latest Quarto on macOS or Linux, prints instructions for Windows
     nbdev_merge                     Git merge driver for notebooks
     nbdev_migrate                   Convert all directives and callouts in `fname` from v1 to v2
-    nbdev_new                       Create a new project from the current git repo
-    nbdev_prepare                   Export, test, and clean notebooks
-    nbdev_preview                   Start a local docs webserver
+    nbdev_new                       Create a new project.
+    nbdev_prepare                   Export, test, and clean notebooks, and render README if needed
+    nbdev_preview                   Preview docs locally
     nbdev_pypi                      Create and upload Python package to PyPI
     nbdev_quarto                    Create Quarto docs and README.md
     nbdev_readme                    Render README.md from index.ipynb
-    nbdev_release                   Release both conda and PyPI packages
+    nbdev_release_both              Release both conda and PyPI packages
     nbdev_release_gh                Calls `nbdev_changelog`, lets you edit the result, then pushes to git and calls `nbdev_release_git`
     nbdev_release_git               Tag and create a release in GitHub for the current version
     nbdev_sidebar                   Create sidebar.yml
-    nbdev_test                      Test in parallel notebooks matching `fname`, passing along `flags`
+    nbdev_test                      Test in parallel notebooks matching `path`, passing along `flags`
     nbdev_trust                     Trust notebooks matching `fname`
     nbdev_update                    Propagate change in modules matching `fname` to notebooks that created them
-
-## Installing Quarto
-
-Note that when you setup your first project, nbdev will attempt to
-automatically download and install [quarto](https://quarto.org/) for
-you. This is the program that we use to create your documentation
-website.
-
-Quarto’s standard installation process requires root access, and nbdev
-will therefore ask for your root password during installation. For most
-people, this will work fine and everything will be handled automatically
-– if so, you can skip over the rest of this section, which talks about
-installing without root access.
-
-If you need to install quarto without root access on Linux, first `cd`
-to wherever you want to store it, then [download
-quarto](https://quarto.org/docs/get-started/), and type:
-
-``` bash
-dpkg -x quarto*.deb .
-mv opt/quarto ./
-rmdir opt
-mkdir -p ~/.local/bin
-ln -s "$(pwd)"/quarto/bin/quarto ~/.local/bin
-```
-
-To use this non-root version of quarto, you’ll need `~/.local/bin` in
-your [`PATH` environment
-variable](https://linuxize.com/post/how-to-add-directory-to-path-in-linux/).
-(Alternatively, change the `ln -s` step to place the symlink somewhere
-else in your path.)
 
 ## FAQ
 
@@ -185,6 +160,37 @@ to date, by running the imports, exported cells, and
 your notebooks. When you mix imports with other code, that other code
 will be run too, which can cause errors (or at least slowdowns) when
 creating your website.
+
+### Q: Why is nbdev asking for root access? How do I install Quarto without root access?
+
+A: When you setup your first project, nbdev will attempt to
+automatically download and install [Quarto](https://quarto.org/) for
+you. This is the program that we use to create your documentation
+website.
+
+Quarto’s standard installation process requires root access, and nbdev
+will therefore ask for your root password during installation. For most
+people, this will work fine and everything will be handled automatically
+– if so, you can skip over the rest of this section, which talks about
+installing without root access.
+
+If you need to install Quarto without root access on Linux, first `cd`
+to wherever you want to store it, then [download
+Quarto](https://quarto.org/docs/get-started/), and type:
+
+``` bash
+dpkg -x quarto*.deb .
+mv opt/quarto ./
+rmdir opt
+mkdir -p ~/.local/bin
+ln -s "$(pwd)"/quarto/bin/quarto ~/.local/bin
+```
+
+To use this non-root version of Quarto, you’ll need `~/.local/bin` in
+your [`PATH` environment
+variable](https://linuxize.com/post/how-to-add-directory-to-path-in-linux/).
+(Alternatively, change the `ln -s` step to place the symlink somewhere
+else in your path.)
 
 ### Q: Someone told me not to use notebooks for “serious” software development!
 

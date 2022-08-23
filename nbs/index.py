@@ -86,7 +86,7 @@ b(f"""## <span style='color:#009AF1'>Trusted</span> in industry
 
 {industries}""", "mid-content")
 
-feature_h = banner(f"""## <span style='color:#009AF1'>Exploratory programming</span><br>without compromise
+feature_h = banner(f"""## <span style='color:#009AF1'>Interactive programming</span><br>without compromise
 
 ### Traditional programming environments throw away the result of your exploration in REPLs or notebooks. nbdev makes exploration an integral part of your workflow, all while promoting software engineering best practices.""")
 

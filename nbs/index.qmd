@@ -97,7 +97,7 @@ description: Write, test, document, and distribute software packages and technic
 
 ::: {.hero-banner}
 
-## <span style='color:#009AF1'>Exploratory programming</span><br>without compromise
+## <span style='color:#009AF1'>Interactive programming</span><br>without compromise
 
 ### Traditional programming environments throw away the result of your exploration in REPLs or notebooks. nbdev makes exploration an integral part of your workflow, all while promoting software engineering best practices.
 
