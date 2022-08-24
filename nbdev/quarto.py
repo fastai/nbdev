@@ -100,9 +100,12 @@ def nbdev_sidebar(
     path = get_config().path('nbs_path') if not path else Path(path)
     files = nbglob(path, func=_f, skip_folder_re=skip_folder_re, **kwargs).sorted(key=_sort)
     lastd,res = Path(),[]
-    for d,name in files:
-        d = d.relative_to(path)
-        if d != lastd:
+    for dabs,name in files:
+        drel = dabs.relative_to(path)
+        d = Path()
+        for p in drel.parts:
+            d /= p
+            if d == lastd: continue
             title = re.sub('^\d+_', '', d.name)
             res.append(_pre(d.parent) + f'section: {title}')
             res.append(_pre(d.parent, False) + 'contents:')
