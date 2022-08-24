@@ -16,7 +16,7 @@ from .frontmatter import FrontmatterProc
 from execnb.nbio import *
 from fastcore.meta import *
 from fastcore.utils import *
-from fastcore.script import call_parse
+from fastcore.script import *
 from fastcore.style import S
 from fastcore.shutil import rmtree,move
 
@@ -50,14 +50,14 @@ class FilterDefaults:
 def nbdev_filter(
     nb_txt:str=None,  # Notebook text (uses stdin if not provided)
     fname:str=None,  # Notebook to read (uses `nb_txt` if not provided)
+    printit:bool_arg=True, # Print to stdout?
 ):
     "A notebook filter for Quarto"
     os.environ["IN_TEST"] = "1"
     try: filt = get_config().get('exporter', FilterDefaults)()
     except FileNotFoundError: filt = FilterDefaults()
-    printit = False
-    if fname: nb_txt = Path(fname).read_text()
-    elif not nb_txt: nb_txt,printit = sys.stdin.read(),True
+    if fname:        nb_txt = Path(fname).read_text()
+    elif not nb_txt: nb_txt = sys.stdin.read()
     nb = dict2nb(loads(nb_txt))
     if printit:
         with open(os.devnull, 'w') as dn:
