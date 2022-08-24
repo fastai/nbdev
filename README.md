@@ -36,8 +36,8 @@ practices because tests and documentation are first class.
 - **Publish packages to PyPI and conda** as well as tools to simplify
   package releases. Python best practices are automatically followed,
   for example, only exported objects are included in `__all__`
-- **Two-way sync between notebooks and plaintext** allowing you to use
-  your IDE for code navigation or quick edits
+- **Two-way sync between notebooks and plaintext source code** allowing
+  you to use your IDE for code navigation or quick edits
 - **Tests** written as ordinary notebook cells are run in parallel with
   a single command
 - **Continuous integration** out-of-the-box with [GitHub
@@ -71,16 +71,9 @@ that you use for both Jupyter and your project.
 
 ## How to use nbdev
 
-The best way to learn how to use nbdev is to complete one of these
-tutorials (we suggest replicating each step to solidify your
-understanding):
-
-- [Written walkthrough](01_Tutorials/01_tutorial.ipynb)
-- [Video walkthrough](https://www.youtube.com/watch?v=l7zS8Ld4_iA).
-
-Here is the video walkthrough for convenience (to view full screen,
-click the little square in the bottom right of the video; to view in a
-separate Youtube window, click the Youtube logo):
+The best way to learn how to use nbdev is to complete either the
+[written walkthrough](01_Tutorials/01_tutorial.ipynb) or video
+walkthrough:
 
 <div style="text-align: center">
 
@@ -95,10 +88,10 @@ style="border-radius: 10px" width="560" height="315" /></a>
 
 </div>
 
-There’s a [shortened version of the
-walkthrough](https://youtu.be/67FdzLSt4aA) available with coding
-sections sped up using the `unsilence` Python library – it’s 27 minutes
-faster, but a bit harder to follow.
+Alternatively, there’s a [shortened version of the video
+walkthrough](https://youtu.be/67FdzLSt4aA) with coding sections sped up
+using the `unsilence` Python library – it’s 27 minutes faster, but a bit
+harder to follow.
 
 You can also run `nbdev_help` from the terminal to see the full list of
 available commands:
