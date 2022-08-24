@@ -29,7 +29,7 @@ def _git_repo():
 # %% ../nbs/01_config.ipynb 10
 def _apply_defaults(
     cfg,
-    lib_name='%(repo)s', # Package name
+    lib_name:str=None, # Package name
     branch='master', # Repo default branch
     git_url='https://github.com/%(user)s/%(repo)s', # Repo URL
     custom_sidebar:bool_arg=False, # Use a custom sidebar.yml?
@@ -67,7 +67,7 @@ def _apply_defaults(
     if copyright is None: copyright = f"{datetime.now().year} ownwards, %(author)s"
     for k,v in locals().items():
         if k.startswith('_') or k == 'cfg' or cfg.get(k) is not None: continue
-        if k == 'lib_name': cfg[k] = v.replace('-', '_') # the repo name might have dashes but the lib name cannot
+        if k == 'lib_name': cfg[k] = cfg.repo.replace('-', '_') # the repo name might have dashes but the lib name cannot
         else: cfg[k] = v
     return cfg
 
