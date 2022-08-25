@@ -147,7 +147,7 @@ def nbdev_readme(
     _render_readme(cfg_path, path, chk_time)
     if (tmp_doc_path/'README.md').exists():
         _rdm = cfg_path/'README.md'
-        _rdmi = tmp_doc_path/'index_files'
+        _rdmi = tmp_doc_path/(Path(get_config().readme_nb).stem + '_files')
         if _rdm.exists(): _rdm.unlink() # py37 doesn't have arg missing_ok so have to check first
         move(str(tmp_doc_path/'README.md'), cfg_path) # README.md is temporarily in nbs/_docs
         if _rdmi.exists(): move(str(_rdmi), cfg_path) # Move Supporting files for README
