@@ -41,7 +41,7 @@ def _update_lib(nbname, nb_locs, lib_name=None):
 
     for name,idx,code in nb_locs:
         assert name==nbname
-        cell = nb.cells[int(idx)-1]
+        cell = nb.cells[int(idx)]
         lines = cell.source.splitlines(True)
         directives = ''.join(cell.source.splitlines(True)[:len(cell.directives_)])
         cell.source = directives + _to_absolute(code, lib_name)
