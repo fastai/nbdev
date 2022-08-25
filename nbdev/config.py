@@ -31,7 +31,7 @@ def _apply_defaults(
     cfg,
     lib_name='%(repo)s', # Package name
     branch='master', # Repo default branch
-    git_url='https://github.com/%(user)s/%(lib_name)s', # Repo URL
+    git_url='https://github.com/%(user)s/%(repo)s', # Repo URL
     custom_sidebar:bool_arg=False, # Use a custom sidebar.yml?
     nbs_path='.', # Path to notebooks
     lib_path:str=None, # Path to package root (default: `repo` with `-` replaced by `_`)
@@ -39,7 +39,7 @@ def _apply_defaults(
     tst_flags='notest', # Test flags
     version='0.0.1', # Version of this release
     doc_host='https://%(user)s.github.io',  # Hostname for docs
-    doc_baseurl='/%(lib_name)s',  # Base URL for docs
+    doc_baseurl='/%(repo)s',  # Base URL for docs
     keywords='nbdev jupyter notebook python', # Package keywords
     license='apache2', # License for the package
     copyright:str=None, # Copyright for the package, defaults to '`current_year` onwards, `author`'
