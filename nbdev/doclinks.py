@@ -89,12 +89,12 @@ def _build_modidx(dest=None, nbs_path=None, skip_exists=False):
 # %% ../nbs/09_API/04b_doclinks.ipynb 15
 @delegates(globtastic, but=('file_glob', 'skip_folder_re', 'skip_file_re'))
 def nbglob(path=None, skip_folder_re = '^[_.]', file_glob='*.ipynb', skip_file_re='^[_.]',
-           recursive=True, key='nbs_path', as_path=False, **kwargs):
+           recursive=None, key='nbs_path', as_path=False, **kwargs):
     "Find all files in a directory matching an extension given a config key."
     path = Path(path or get_config().path(key))
     if recursive is None: recursive=str2bool(get_config().recursive)
     res = globtastic(path, file_glob=file_glob, skip_folder_re=skip_folder_re,
-                     skip_file_re=skip_file_re, recursive=True, **kwargs)
+                     skip_file_re=skip_file_re, recursive=recursive, **kwargs)
     return res.map(Path) if as_path else res
 
 # %% ../nbs/09_API/04b_doclinks.ipynb 16
@@ -107,7 +107,7 @@ def nbglob_cli(
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str='^[_.]', # Skip files matching regex
     skip_folder_re:str = '^[_.]', # Skip folders matching regex
-    recursive:bool=True): # Search subfolders too
+    recursive:bool=None): # Search subfolders too
     "Find all files in a directory matching an extension given a config key."
     return nbglob(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
