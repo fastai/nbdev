@@ -152,8 +152,9 @@ def _lineno(sym, fname): return _get_exps(fname).get(sym.rpartition('.')[2], Non
 def _qual_sym(s, settings):
     if not isinstance(s,tuple): return s
     nb,py = s
-    nb = urljoin(settings["doc_host"],settings["doc_baseurl"]) + nb
-    gh = f'{settings["git_url"]}blob/{settings["branch"]}/{py}'
+    nbbase = urljoin(settings["doc_host"]+'/',settings["doc_baseurl"])
+    nb = urljoin(nbbase+'/', nb)
+    gh = urljoin(settings["git_url"]+'/', f'blob/{settings["branch"]}/{py}')
     return nb,py,gh
 
 def _qual_mod(mod_d, settings): return {sym:_qual_sym(s, settings) for sym,s in mod_d.items()}
