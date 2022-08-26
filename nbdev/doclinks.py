@@ -88,11 +88,10 @@ def _build_modidx(dest=None, nbs_path=None, skip_exists=False):
 
 # %% ../nbs/09_API/04b_doclinks.ipynb 15
 @delegates(globtastic, but=('file_glob', 'skip_folder_re', 'skip_file_re'))
-def nbglob(path=None, skip_folder_re = '^[_.]', file_glob='*.ipynb', skip_file_re='^[_.]',
-           recursive=None, key='nbs_path', as_path=False, **kwargs):
+def nbglob(path=None, skip_folder_re = '^[_.]', file_glob='*.ipynb', skip_file_re='^[_.]', key='nbs_path', as_path=False, **kwargs):
     "Find all files in a directory matching an extension given a config key."
     path = Path(path or get_config().path(key))
-    if recursive is None: recursive=str2bool(get_config().recursive)
+    recursive=str2bool(get_config().recursive)
     res = globtastic(path, file_glob=file_glob, skip_folder_re=skip_folder_re,
                      skip_file_re=skip_file_re, recursive=recursive, **kwargs)
     return res.map(Path) if as_path else res
@@ -106,8 +105,7 @@ def nbglob_cli(
     folder_re:str=None, # Only enter folders matching regex
     skip_file_glob:str=None, # Skip files matching glob
     skip_file_re:str='^[_.]', # Skip files matching regex
-    skip_folder_re:str = '^[_.]', # Skip folders matching regex
-    recursive:bool=None): # Search subfolders too
+    skip_folder_re:str = '^[_.]'): # Skip folders matching regex
     "Find all files in a directory matching an extension given a config key."
     return nbglob(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
@@ -129,7 +127,7 @@ def nbdev_export(
 import importlib,ast
 from functools import lru_cache
 
-# %% ../nbs/09_API/04b_doclinks.ipynb 20
+# %% ../nbs/09_API/04b_doclinks.ipynb 22
 def _find_mod(mod):
     mp,_,mr = mod.partition('/')
     loc = Path(importlib.util.find_spec(mp).origin).parent
@@ -146,9 +144,9 @@ def _get_exps(mod):
         if isinstance(tree, ast.ClassDef): d.update({tree.name+"."+t2.name: t2.lineno for t2 in tree.body if isinstance(t2, _def_types)})
     return d
 
-def _lineno(sym, fname): return _get_exps(fname).get(sym.rpartition('.')[2], None) if fname else None
+def _lineno(sym, fname): return _get_exps(fname).get(sym, None) if fname else None
 
-# %% ../nbs/09_API/04b_doclinks.ipynb 22
+# %% ../nbs/09_API/04b_doclinks.ipynb 24
 def _qual_sym(s, settings):
     if not isinstance(s,tuple): return s
     nb,py = s
@@ -163,9 +161,10 @@ def _qual_syms(entries):
     if 'doc_host' not in settings: return entries
     return {'syms': {mod:_qual_mod(d, settings) for mod,d in entries['syms'].items()}, 'settings':settings}
 
-# %% ../nbs/09_API/04b_doclinks.ipynb 23
+# %% ../nbs/09_API/04b_doclinks.ipynb 25
 _re_backticks = re.compile(r'`([^`\s]+)`')
 
+# %% ../nbs/09_API/04b_doclinks.ipynb 26
 @lru_cache(None)
 class NbdevLookup:
     "Mapping from symbol names to docs and source URLs"
