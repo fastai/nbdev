@@ -86,13 +86,12 @@ def _render_nb(fn, cfg):
 @delegates(nbdev_create_config)
 def nbdev_new(**kwargs):
     "Create an nbdev project."
-    from fastcore.net import urljson
-    
+    from ghapi.core import GhApi
     nbdev_create_config.__wrapped__(**kwargs)
     cfg = get_config()
 
     path = Path()
-    tag = urljson('https://api.github.com/repos/fastai/nbdev-template/releases/latest')['tag_name']
+    tag = GhApi().repos.get_latest_release('fastai', 'nbdev-template').tag_name
     url = f"https://github.com/fastai/nbdev-template/archive/{tag}.tar.gz"
     extract_tgz(url)
     tmpl_path = path/f'nbdev-template-{tag}'
