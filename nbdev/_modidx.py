@@ -303,8 +303,4 @@ d = { 'settings': { 'branch': 'master',
                             'nbdev.sync.nbdev_update': ('09_API/sync.html#nbdev_update', 'nbdev/sync.py')},
             'nbdev.test': { 'nbdev.test._keep_file': ('09_API/test.html#_keep_file', 'nbdev/test.py'),
                             'nbdev.test.nbdev_test': ('09_API/test.html#nbdev_test', 'nbdev/test.py'),
-                            'nbdev.test.test_nb': ('09_API/test.html#test_nb', 'nbdev/test.py')},
-            'nbdev.tutorial': { 'nbdev.tutorial.HelloSayer': ('01_Tutorials/tutorial.html#hellosayer', 'nbdev/tutorial.py'),
-                                'nbdev.tutorial.HelloSayer.__init__': ('01_Tutorials/tutorial.html#__init__', 'nbdev/tutorial.py'),
-                                'nbdev.tutorial.HelloSayer.say': ('01_Tutorials/tutorial.html#say', 'nbdev/tutorial.py'),
-                                'nbdev.tutorial.say_hello': ('01_Tutorials/tutorial.html#say_hello', 'nbdev/tutorial.py')}}}
+                            'nbdev.test.test_nb': ('09_API/test.html#test_nb', 'nbdev/test.py')}}}
