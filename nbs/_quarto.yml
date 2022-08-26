@@ -20,7 +20,6 @@ website:
   description: "Create delightful software with Jupyter Notebooks"
   twitter-card: true
   open-graph: true
-  reader-mode: true
   repo-branch: master
   repo-url: "https://github.com/fastai/nbdev"
   repo-actions: [issue]

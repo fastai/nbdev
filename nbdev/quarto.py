@@ -191,7 +191,6 @@ website:
   description: "{description}"
   twitter-card: true
   open-graph: true
-  reader-mode: true
   repo-branch: {branch}
   repo-url: "{git_url}"
   repo-actions: [issue]
