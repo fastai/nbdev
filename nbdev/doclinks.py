@@ -130,12 +130,15 @@ from functools import lru_cache
 # %% ../nbs/09_API/04b_doclinks.ipynb 22
 def _find_mod(mod):
     mp,_,mr = mod.partition('/')
-    loc = Path(importlib.util.find_spec(mp).origin).parent
+    spec = importlib.util.find_spec(mp)
+    if not spec: return
+    loc = Path(spec.origin).parent
     return loc/mr
 
 @lru_cache(None)
 def _get_exps(mod):
     mf = _find_mod(mod)
+    if not mf: return {}
     txt = mf.read_text()
     _def_types = ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef
     d = {}
