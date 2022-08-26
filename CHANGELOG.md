@@ -2,6 +2,27 @@
 
 <!-- do not remove -->
 
+## 2.2.7
+
+### New Features
+
+- Add `printit` arg to `nbdev_filter` so it can be called with `fname` and still print to stdout ([#931](https://github.com/fastai/nbdev/pull/931)), thanks to [@seeM](https://github.com/seeM)
+- Run `nbdev_readme` in `nbdev_new` ([#919](https://github.com/fastai/nbdev/pull/919)), thanks to [@seeM](https://github.com/seeM)
+- In `nbdev_prepare()` auto render README if needed ([#913](https://github.com/fastai/nbdev/issues/913))
+- Filter keys stored in modidx settings ([#903](https://github.com/fastai/nbdev/issues/903))
+- Regression: reintroduce `[source]` link ([#692](https://github.com/fastai/nbdev/issues/692))
+
+### Bugs Squashed
+
+- Deploy Action fails with `ModuleNotFoundError: No module named 'https://github'` ([#936](https://github.com/fastai/nbdev/issues/936))
+- Correct cell index in `nbdev_update` ([#934](https://github.com/fastai/nbdev/pull/934)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Handle repo names with dashes and correct index page rendering with file attachments ([#930](https://github.com/fastai/nbdev/pull/930)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- `IPython.display.Image(embed=True)` results in incorrect image reference in GitHub Pages ([#924](https://github.com/fastai/nbdev/issues/924))
+- `nbdev_preview` not starting if there is a folder with no notebook in it ([#922](https://github.com/fastai/nbdev/issues/922))
+- Fix images ([#918](https://github.com/fastai/nbdev/pull/918)), thanks to [@seeM](https://github.com/seeM)
+- `nbdev_update` creates a new cell, instead of updating the original code ([#775](https://github.com/fastai/nbdev/issues/775))
+
+
 ## 2.2.6
 
 ### New Features
