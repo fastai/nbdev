@@ -116,7 +116,7 @@ available commands:
     nbdev_install_quarto            Install latest Quarto on macOS or Linux, prints instructions for Windows
     nbdev_merge                     Git merge driver for notebooks
     nbdev_migrate                   Convert all directives and callouts in `fname` from v1 to v2
-    nbdev_new                       Create a new project.
+    nbdev_new                       Create an nbdev project.
     nbdev_prepare                   Export, test, and clean notebooks, and render README if needed
     nbdev_preview                   Preview docs locally
     nbdev_pypi                      Create and upload Python package to PyPI
@@ -149,10 +149,10 @@ and the other which does `some_module.something()`.
 The reason for this is that when we create your documentation website,
 we ensure that all of the signatures for functions you document are up
 to date, by running the imports, exported cells, and
-[`show_doc`](https://nbdev.fast.ai/showdoc.html#show_doc) functions in
-your notebooks. When you mix imports with other code, that other code
-will be run too, which can cause errors (or at least slowdowns) when
-creating your website.
+[`show_doc`](https://nbdev.fast.ai/09_API/showdoc.html#show_doc)
+functions in your notebooks. When you mix imports with other code, that
+other code will be run too, which can cause errors (or at least
+slowdowns) when creating your website.
 
 ### Q: Why is nbdev asking for root access? How do I install Quarto without root access?
 
@@ -207,7 +207,7 @@ strive to abide by generally accepted best practices in open-source
 software development.
 
 Make sure you have `nbdev`’s git hooks installed by running
-[`nbdev_install_hooks`](https://nbdev.fast.ai/clean.html#nbdev_install_hooks)
+[`nbdev_install_hooks`](https://nbdev.fast.ai/09_API/clean.html#nbdev_install_hooks)
 in the cloned repository.
 
 ## Copyright
