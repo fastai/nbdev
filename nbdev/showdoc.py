@@ -111,7 +111,7 @@ class DocmentTbl:
 
 # %% ../nbs/09_API/08_showdoc.ipynb 31
 def _fullname(o):
-    module,name = o.__module__,qual_name(o)
+    module,name = getattr(o, "__module__", None),qual_name(o)
     return name if module is None or module in ('__main__','builtins') else module + '.' + name
 
 class ShowDocRenderer:
