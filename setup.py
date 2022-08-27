@@ -32,21 +32,7 @@ dev_requirements = (cfg.get('dev_requirements') or '').split()
 project_urls = {}
 if cfg.get('doc_host'): project_urls["Documentation"] = cfg['doc_host'] + cfg.get('doc_baseurl', '')
 
-from setuptools.command.develop import develop
-from setuptools.command.install import install
-class PostDevelopCommand(develop):
-    def run(self):
-        super().run()
-        import nbdev.doclinks
-        nbdev.doclinks._build_modidx()
-class PostInstallCommand(install):
-    def run(self):
-        super().run()
-        import nbdev.doclinks
-        nbdev.doclinks._build_modidx()
-
 setuptools.setup(
-    cmdclass={'develop': PostDevelopCommand, 'install': PostInstallCommand},
     name = cfg['lib_name'],
     license = lic[0],
     classifiers = [

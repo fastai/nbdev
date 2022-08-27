@@ -1,6 +1,5 @@
 website:
   favicon: favicon.png
-  reader-mode: false
   navbar:
     collapse-below: lg
     left:
