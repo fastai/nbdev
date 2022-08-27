@@ -72,8 +72,9 @@ that you use for both Jupyter and your project.
 ## How to use nbdev
 
 The best way to learn how to use nbdev is to complete either the
-[written walkthrough](01_Tutorials/01_tutorial.ipynb) or video
-walkthrough:
+[written
+walkthrough](https://nbdev.fast.ai/01_Tutorials/01_tutorial.html) or
+video walkthrough:
 
 <div style="text-align: center">
 
