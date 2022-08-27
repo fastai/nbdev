@@ -27,7 +27,7 @@ import os, tarfile, sys
 # %% auto 0
 __all__ = ['FilterDefaults', 'nbdev_filter', 'extract_tgz', 'nbdev_new', 'chelp']
 
-# %% ../nbs/09_API/12_cli.ipynb 6
+# %% ../nbs/09_API/12_cli.ipynb 5
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
     def xtra_procs(self): return []
@@ -45,7 +45,7 @@ class FilterDefaults:
         "Get an `NBProcessor` with these processors"
         return NBProcessor(nb=nb, procs=self.procs())
 
-# %% ../nbs/09_API/12_cli.ipynb 7
+# %% ../nbs/09_API/12_cli.ipynb 6
 @call_parse
 def nbdev_filter(
     nb_txt:str=None,  # Notebook text (uses stdin if not provided)
@@ -68,12 +68,12 @@ def nbdev_filter(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/09_API/12_cli.ipynb 10
+# %% ../nbs/09_API/12_cli.ipynb 9
 def extract_tgz(url, dest='.'):
     from fastcore.net import urlopen
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/09_API/12_cli.ipynb 11
+# %% ../nbs/09_API/12_cli.ipynb 10
 def _render_nb(fn, cfg):
     "Render templated values like `{{lib_name}}` in notebook at `fn` from `cfg`"
     txt = fn.read_text()
@@ -81,7 +81,7 @@ def _render_nb(fn, cfg):
     for k,v in cfg.d.items(): txt = txt.replace('{{'+k+'}}', v)
     fn.write_text(txt)
 
-# %% ../nbs/09_API/12_cli.ipynb 12
+# %% ../nbs/09_API/12_cli.ipynb 11
 @call_parse
 @delegates(nbdev_create_config)
 def nbdev_new(**kwargs):
@@ -108,7 +108,7 @@ def nbdev_new(**kwargs):
     nbdev_export.__wrapped__()
     nbdev_readme.__wrapped__()
 
-# %% ../nbs/09_API/12_cli.ipynb 15
+# %% ../nbs/09_API/12_cli.ipynb 14
 @call_parse
 def chelp():
     "Show help for all console scripts"

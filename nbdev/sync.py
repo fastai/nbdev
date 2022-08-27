@@ -38,13 +38,12 @@ def _update_lib(nbname, nb_locs, lib_name=None):
     if lib_name is None: lib_name = get_config().lib_name
     absnm = get_config().path('lib_path')/nbname
     nbp = NBProcessor(absnm, ExportModuleProc(), rm_directives=False)
-    nb = nbp.nb
     nbp.process()
+    nb = nbp.nb
 
     for name,idx,code in nb_locs:
         assert name==nbname
         cell = nb.cells[int(idx)]
-        lines = cell.source.splitlines(True)
         directives = ''.join(cell.source.splitlines(True)[:len(cell.directives_)])
         cell.source = directives + _to_absolute(code, lib_name)
     write_nb(nb, absnm)
