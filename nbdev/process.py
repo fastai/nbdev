@@ -107,7 +107,7 @@ class NBProcessor:
 
     def _process_comment(self, proc, cell, cmd):
         args = cell.directives_[cmd]
-        if self.debug: print(cmd, args, f)
+        if self.debug: print(cmd, args, proc)
         return proc(cell, *args)
         
     def _proc(self, proc):
