@@ -9,7 +9,7 @@ from .doclinks import *
 
 from fastcore.utils import *
 from fastcore.script import call_parse
-from fastcore.shutil import rmtree,move
+from fastcore.shutil import rmtree,move,copytree
 from fastcore.meta import delegates
 
 from os import system
@@ -150,7 +150,7 @@ def nbdev_readme(
         _rdmi = tmp_doc_path/(Path(get_config().readme_nb).stem + '_files')
         if _rdm.exists(): _rdm.unlink() # py37 doesn't have arg missing_ok so have to check first
         move(tmp_doc_path/'README.md', cfg_path) # README.md is temporarily in nbs/_docs
-        if _rdmi.exists(): move(_rdmi, cfg_path) # Move Supporting files for README
+        if _rdmi.exists(): copytree(_rdmi, cfg_path/_rdmi.name) # Move Supporting files for README
 
 # %% ../nbs/09_API/13_quarto.ipynb 19
 @call_parse
@@ -215,7 +215,7 @@ def refresh_quarto_yml():
     p = cfg.path('nbs_path')/'_quarto.yml'
     vals = {k:cfg.get(k) for k in ['doc_path', 'title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl']}
     # Do not build _quarto_yml if custom_quarto_yml is set to True
-    if str2bool(get_config().custom_quarto_yml): return
+    if str2bool(cfg.get('custom_quarto_yml', False)): return
     if 'title' not in vals: vals['title'] = vals['lib_name']
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)

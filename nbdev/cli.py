@@ -54,7 +54,7 @@ def nbdev_filter(
 ):
     "A notebook filter for Quarto"
     os.environ["IN_TEST"] = "1"
-    try: filt = get_config().get('exporter', FilterDefaults)()
+    try: filt = globals()[get_config().get('exporter', 'FilterDefaults')]()
     except FileNotFoundError: filt = FilterDefaults()
     if fname:        nb_txt = Path(fname).read_text()
     elif not nb_txt: nb_txt = sys.stdin.read()

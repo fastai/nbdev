@@ -169,49 +169,52 @@ def nbdev_create_config(
     cfg_fn = Path(path)/cfg_name
     print(f'{cfg_fn} created.')
 
-# %% ../nbs/09_API/01_config.ipynb 26
+# %% ../nbs/09_API/01_config.ipynb 23
 def _nbdev_config_file(cfg_name=_nbdev_cfg_name, path=None):
     cfg_path = path = Path.cwd() if path is None else Path(path)
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
     if not (cfg_path/cfg_name).exists(): cfg_path = path
     return cfg_path/cfg_name
 
-# %% ../nbs/09_API/01_config.ipynb 28
+# %% ../nbs/09_API/01_config.ipynb 25
 def _xdg_config_paths(cfg_name=_nbdev_cfg_name):
     xdg_config_paths = reversed([xdg_config_home()]+xdg_config_dirs())
     return [o/_nbdev_home_dir/cfg_name for o in xdg_config_paths]
 
-# %% ../nbs/09_API/01_config.ipynb 29
+# %% ../nbs/09_API/01_config.ipynb 26
+_types = dict(custom_sidebar=bool, nbs_path=Path, lib_path=Path, doc_path=Path, recursive=bool, 
+    black_formatting=bool, jupyter_hooks=bool, clean_ids=bool, custom_quarto_yml=bool)
+
 @functools.lru_cache(maxsize=None)
 def get_config(cfg_name=_nbdev_cfg_name, path=None):
     "Return nbdev config."
     cfg_file = _nbdev_config_file(cfg_name, path)
     extra_files = _xdg_config_paths(cfg_name)
-    cfg = Config(cfg_file.parent, cfg_file.name, extra_files=extra_files)
+    cfg = Config(cfg_file.parent, cfg_file.name, extra_files=extra_files, types=_types)
     return _apply_defaults(cfg)
 
-# %% ../nbs/09_API/01_config.ipynb 45
+# %% ../nbs/09_API/01_config.ipynb 41
 def config_key(c, default=None, path=True, missing_ok=None):
     "Deprecated: use `get_config().get` or `get_config().path` instead."
     warn("`config_key` is deprecated. Use `get_config().get` or `get_config().path` instead.", DeprecationWarning)
     return get_config().path(c, default) if path else get_config().get(c, default)
 
-# %% ../nbs/09_API/01_config.ipynb 47
+# %% ../nbs/09_API/01_config.ipynb 43
 def create_output(txt, mime):
     "Add a cell output containing `txt` of the `mime` text MIME sub-type"
     return [{"data": { f"text/{mime}": str(txt).splitlines(True) },
              "execution_count": 1, "metadata": {}, "output_type": "execute_result"}]
 
-# %% ../nbs/09_API/01_config.ipynb 48
+# %% ../nbs/09_API/01_config.ipynb 44
 def show_src(src, lang='python'): return Markdown(f'```{lang}\n{src}\n```')
 
-# %% ../nbs/09_API/01_config.ipynb 51
+# %% ../nbs/09_API/01_config.ipynb 47
 _re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
 _init = '__init__.py'
 
 def update_version(path=None):
     "Add or update `__version__` in the main `__init__.py` of the library."
-    path = Path(path or get_config().path("lib_path"))
+    path = Path(path or get_config().lib_path)
     fname = path/_init
     if not fname.exists(): fname.touch()
     version = f'__version__ = "{get_config().version}"'
@@ -225,7 +228,7 @@ def _has_py(fs): return any(1 for f in fs if f.endswith('.py'))
 def add_init(path=None):
     "Add `__init__.py` in all subdirs of `path` containing python files if it's not there already."
     # we add the lowest-level `__init__.py` files first, which ensures _has_py succeeds for parent modules
-    path = Path(path or get_config().path("lib_path"))
+    path = Path(path or get_config().lib_path)
     path.mkdir(exist_ok=True)
     if not (path/_init).exists(): (path/_init).touch()
     for r,ds,fs in os.walk(path, topdown=False):
@@ -234,16 +237,16 @@ def add_init(path=None):
         if _has_py(fs) or any(filter(_has_py, subds)) and not (r/_init).exists(): (r/_init).touch()
     update_version(path)
 
-# %% ../nbs/09_API/01_config.ipynb 54
+# %% ../nbs/09_API/01_config.ipynb 50
 def write_cells(cells, hdr, file, offset=0):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbdev internal use)."
     for cell in cells:
         if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell.source}')
 
-# %% ../nbs/09_API/01_config.ipynb 55
+# %% ../nbs/09_API/01_config.ipynb 51
 def _basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbdev."
-    if dest is None: dest = get_config().path('lib_path')
+    if dest is None: dest = get_config().lib_path
     add_init()
     fname,dest = Path(fname),Path(dest)
     nb = read_nb(fname)

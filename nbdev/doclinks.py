@@ -174,7 +174,7 @@ class NbdevLookup:
     def __init__(self, strip_libs=None, incl_libs=None, skip_mods=None):
         cfg = get_config()
         if strip_libs is None:
-            try: strip_libs = cfg.get('strip_libs', cfg.get('lib_path', 'nbdev')).split()
+            try: strip_libs = cfg.get('strip_libs', cfg.get('lib_path', 'nbdev').name).split()
             except FileNotFoundError: strip_libs = 'nbdev'
         skip_mods = setify(skip_mods)
         strip_libs = L(strip_libs)
