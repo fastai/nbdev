@@ -115,7 +115,7 @@ def _nbdev_clean(nb, path=None, **kwargs):
     cfg = get_config(path=path)
     allowed_metadata_keys = cfg.get("allowed_metadata_keys").split()
     allowed_cell_metadata_keys = cfg.get("allowed_cell_metadata_keys").split()
-    clean_ids = str2bool(cfg.get('clean_ids'))
+    clean_ids = cfg.clean_ids
     return clean_nb(nb, clean_ids=clean_ids, allowed_metadata_keys=allowed_metadata_keys,
                     allowed_cell_metadata_keys=allowed_cell_metadata_keys, **kwargs)
 
@@ -142,11 +142,6 @@ def clean_jupyter(path, model, **kwargs):
     if not (model['type']=='notebook' and model['content']['nbformat']==4): return
     get_config.cache_clear() # Allow config changes without restarting Jupyter
     jupyter_hooks = get_config(path=path).jupyter_hooks
-    if jupyter_hooks in {'user','nbdev','none'}:
-        warn(("`jupyter_hooks` values in `{'user','nbdev','none'}` are deprecated. Use `True` or `False` instead.\n"
-              "See the docs for more: https://nbdev.fast.ai/clean.html#clean_jupyter"), DeprecationWarning)
-        jupyter_hooks = False if jupyter_hooks == 'none' else True
-    else: jupyter_hooks = str2bool(jupyter_hooks)
     if jupyter_hooks: _nbdev_clean(model['content'], path=path)
 
 # %% ../nbs/09_API/10_clean.ipynb 33

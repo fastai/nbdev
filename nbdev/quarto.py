@@ -96,7 +96,7 @@ def nbdev_sidebar(
     skip_folder_re:str='(?:^[_.]|^www$)', # Skip folders matching regex
     **kwargs):
     "Create sidebar.yml"
-    if not force and str2bool(get_config().custom_sidebar): return
+    if not force and get_config().custom_sidebar: return
     path = get_config().nbs_path if not path else Path(path)
     files = nbglob(path, func=_f, skip_folder_re=skip_folder_re, **kwargs).sorted(key=_sort)
     lastd,res = Path(),[]
@@ -215,7 +215,7 @@ def refresh_quarto_yml():
     p = cfg.nbs_path/'_quarto.yml'
     vals = {k:cfg.get(k) for k in ['doc_path', 'title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl']}
     # Do not build _quarto_yml if custom_quarto_yml is set to True
-    if str2bool(cfg.get('custom_quarto_yml', False)): return
+    if cfg.get('custom_quarto_yml', False): return
     if 'title' not in vals: vals['title'] = vals['lib_name']
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
