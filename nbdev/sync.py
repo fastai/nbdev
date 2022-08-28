@@ -15,6 +15,7 @@ from fastcore.script import *
 from fastcore.xtras import *
 
 import ast,tempfile
+from importlib import import_module
 
 # %% ../nbs/09_API/05_sync.ipynb 5
 def absolute_import(name, fname, level):
@@ -35,27 +36,42 @@ def _to_absolute(code, lib_name):
 
 def _update_lib(nbname, nb_locs, lib_name=None):
     if lib_name is None: lib_name = get_config().lib_name
-    nbp = NBProcessor(nbname, ExportModuleProc(), rm_directives=False)
-    nb = nbp.nb
+    absnm = get_config().path('lib_path')/nbname
+    nbp = NBProcessor(absnm, ExportModuleProc(), rm_directives=False)
     nbp.process()
+    nb = nbp.nb
 
     for name,idx,code in nb_locs:
         assert name==nbname
         cell = nb.cells[int(idx)]
-        lines = cell.source.splitlines(True)
         directives = ''.join(cell.source.splitlines(True)[:len(cell.directives_)])
         cell.source = directives + _to_absolute(code, lib_name)
-    write_nb(nb, nbname)
+    write_nb(nb, absnm)
 
 # %% ../nbs/09_API/05_sync.ipynb 10
+@functools.lru_cache(maxsize=None)
+def _mod_files():
+    mdir = get_config().path('lib_path').parent
+    midx = import_module(f'{get_config().lib_name}._modidx')
+    return L(files for mod in midx.d['syms'].values() for _,files in mod.values()).unique()
+
+# %% ../nbs/09_API/05_sync.ipynb 12
 def _get_call(s):
     top,*rest = s.splitlines()
     return (*top.split(),'\n'.join(rest))
 
-@call_parse
-def nbdev_update(fname:str): # A Python file name to update
-    "Propagate change in modules matching `fname` to notebooks that created them"
-    if os.environ.get('IN_TEST',0): return
+def _script2notebook(fname:str):
     code_cells = Path(fname).read_text().split("\n# %% ")[1:]
     locs = L(_get_call(s) for s in code_cells if not s.startswith('auto '))
     for nbname,nb_locs in groupby(locs, 0).items(): _update_lib(nbname, nb_locs)
+
+@call_parse
+def nbdev_update(fname:str=None): # A Python file name to update
+    "Propagate change in modules matching `fname` to notebooks that created them"
+    if fname and fname.endswith('.ipynb'): raise ValueError("`nbdev_update` operates on .py files.  If you wish to convert notebooks instead, see `nbdev_export`.")
+    if os.environ.get('IN_TEST',0): return
+    fname = Path(fname or get_config().path('lib_path'))
+    lib_dir = get_config().path("lib_path").parent
+    files = globtastic(fname, file_glob='*.py').filter(lambda x: str(Path(x).absolute().relative_to(lib_dir) in _mod_files()))
+    files.map(_script2notebook)
+
