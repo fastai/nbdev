@@ -123,5 +123,5 @@ def nbdev_migrate(
     _write = partial(process_write, warn_msg='Failed to replace directives', proc_nb=_migrate)
     if stdin: _write(f_in=sys.stdin, f_out=sys.stdout)
     _skip_re = None if no_skip else '^[_.]'
-    if fname is None: fname = get_config().path('nbs_path')
+    if fname is None: fname = get_config().nbs_path
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re=_skip_re): _write(f_in=f, disp=disp)

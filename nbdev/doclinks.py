@@ -71,8 +71,8 @@ def _get_modidx(pyfile, code_root, nbs_path):
 # %% ../nbs/09_API/04b_doclinks.ipynb 10
 def _build_modidx(dest=None, nbs_path=None, skip_exists=False):
     "Create _modidx.py"
-    if dest is None: dest = get_config().path('lib_path')
-    nbs_path = Path(nbs_path or get_config().path('nbs_path')).resolve()
+    if dest is None: dest = get_config().lib_path
+    nbs_path = Path(nbs_path or get_config().nbs_path).resolve()
     if os.environ.get('IN_TEST',0): return
     idxfile = dest/'_modidx.py'
     if skip_exists and idxfile.exists(): return
@@ -90,7 +90,7 @@ def _build_modidx(dest=None, nbs_path=None, skip_exists=False):
 @delegates(globtastic, but=('file_glob', 'skip_folder_re', 'skip_file_re'))
 def nbglob(path=None, skip_folder_re = '^[_.]', file_glob='*.ipynb', skip_file_re='^[_.]', key='nbs_path', as_path=False, **kwargs):
     "Find all files in a directory matching an extension given a config key."
-    path = Path(path or get_config().path(key))
+    path = Path(path or get_config()[key])
     recursive=str2bool(get_config().recursive)
     res = globtastic(path, file_glob=file_glob, skip_folder_re=skip_folder_re,
                      skip_file_re=skip_file_re, recursive=recursive, **kwargs)
@@ -120,7 +120,7 @@ def nbdev_export(
     if os.environ.get('IN_TEST',0): return
     files = nbglob(path=path, **kwargs)
     for f in files: nb_export(f)
-    add_init(get_config().path('lib_path'))
+    add_init(get_config().lib_path)
     _build_modidx()
 
 # %% ../nbs/09_API/04b_doclinks.ipynb 19

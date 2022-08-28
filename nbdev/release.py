@@ -213,7 +213,7 @@ def _get_conda_meta():
         'source': {'url':rel['url'], 'sha256':rel['digests']['sha256']}
     }
 
-    _dir = cfg.path('lib_path').parent
+    _dir = cfg.lib_path.parent
     readme = _dir/'README.md'
     descr = readme.read_text() if readme.exists() else ''
     d2 = {
@@ -295,7 +295,7 @@ def release_pypi(
     repository:str="pypi" # Respository to upload to (defined in ~/.pypirc)
 ):
     "Create and upload Python package to PyPI"
-    _dir = get_config().path('lib_path').parent
+    _dir = get_config().lib_path.parent
     system(f'cd {_dir}  && rm -rf dist && python setup.py sdist bdist_wheel')
     system(f'twine upload --repository {repository} {_dir}/dist/*')
 

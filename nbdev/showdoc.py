@@ -224,5 +224,5 @@ def colab_link(path):
     from IPython.display import Markdown
     cfg = get_config()
     pre = 'https://colab.research.google.com/github/'
-    res = f'{pre}{cfg.user}/{cfg.lib_name}/blob/{cfg.branch}/{cfg.path("nbs_path").name}/{path}.ipynb'
+    res = f'{pre}{cfg.user}/{cfg.lib_name}/blob/{cfg.branch}/{cfg.nbs_path.name}/{path}.ipynb'
     display(Markdown(f'[Open `{path}` in Colab]({res})'))

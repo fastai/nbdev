@@ -54,15 +54,15 @@ def install_quarto():
 def install():
     "Install Quarto and the current library"
     install_quarto.__wrapped__()
-    d = get_config().path('lib_path')
+    d = get_config().lib_path
     if (d/'__init__.py').exists(): system(f'pip install -e "{d.parent}[dev]"')
 
 # %% ../nbs/09_API/13_quarto.ipynb 9
 def _doc_paths(path:str=None, doc_path:str=None):
     cfg = get_config()
     cfg_path = cfg.config_path
-    path = cfg.path('nbs_path') if not path else Path(path)
-    doc_path = cfg.path('doc_path') if not doc_path else Path(doc_path)
+    path = cfg.nbs_path if not path else Path(path)
+    doc_path = cfg.doc_path if not doc_path else Path(doc_path)
     tmp_doc_path = path/f"{cfg['doc_path']}"
     return cfg,cfg_path,path,doc_path,tmp_doc_path
 
@@ -97,7 +97,7 @@ def nbdev_sidebar(
     **kwargs):
     "Create sidebar.yml"
     if not force and str2bool(get_config().custom_sidebar): return
-    path = get_config().path('nbs_path') if not path else Path(path)
+    path = get_config().nbs_path if not path else Path(path)
     files = nbglob(path, func=_f, skip_folder_re=skip_folder_re, **kwargs).sorted(key=_sort)
     lastd,res = Path(),[]
     for dabs,name in files:
@@ -212,7 +212,7 @@ metadata-files:
 def refresh_quarto_yml():
     "Generate `_quarto.yml` from `settings.ini`."
     cfg = get_config()
-    p = cfg.path('nbs_path')/'_quarto.yml'
+    p = cfg.nbs_path/'_quarto.yml'
     vals = {k:cfg.get(k) for k in ['doc_path', 'title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl']}
     # Do not build _quarto_yml if custom_quarto_yml is set to True
     if str2bool(cfg.get('custom_quarto_yml', False)): return
@@ -287,4 +287,4 @@ def deploy(
     if not skip_build: nbdev_quarto.__wrapped__(path, **kwargs)
     try: from ghp_import import ghp_import
     except: return warnings.warn('Please install ghp-import with `pip install ghp-import`')
-    ghp_import(get_config().path('doc_path'), push=True, stderr=True, no_history=True)
+    ghp_import(get_config().doc_path, push=True, stderr=True, no_history=True)

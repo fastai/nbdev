@@ -182,7 +182,7 @@ def make(self:ModuleMaker, cells, all_cells=None, lib_path=None):
     if all_cells is None: all_cells = cells
     cells,all_cells = L(cells),L(all_cells)
     if self.parse: 
-        if not lib_path: lib_path = get_config().path('lib_path')
+        if not lib_path: lib_path = get_config().lib_path
         mod_dir = os.path.relpath(self.fname.parent, Path(lib_path).parent)
         _import2relative(all_cells, mod_dir)
     if not self.is_new: return self._make_exists(cells, all_cells)
@@ -215,6 +215,6 @@ def _make_exists(self:ModuleMaker, cells, all_cells=None):
 # %% ../nbs/09_API/02_maker.ipynb 43
 def _basic_export_nb2(fname, name, dest=None):
     "A basic exporter to bootstrap nbdev using `ModuleMaker`"
-    if dest is None: dest = get_config().path('lib_path')
+    if dest is None: dest = get_config().lib_path
     cells = L(c for c in read_nb(fname).cells if re.match(r'#\|\s*export', c.source))
     ModuleMaker(dest=dest, name=name, nb_path=fname).make(cells)
