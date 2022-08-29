@@ -88,11 +88,6 @@ def _update_repo_meta(cfg):
     if token: 
         from ghapi.core import GhApi
         api = GhApi(owner=cfg.user, repo=cfg.repo, token=token)
-        try: # repo needs something in it before you can enable pages
-            cmds = L(['git add settings.ini', "git commit -m'add settings'", 'git config push.default current', 'git push']) 
-            cmds.map(partial(run, ignore_ex=True))
-            api.enable_pages(branch='gh-pages')
-        except HTTPError: print("Could not enable GitHub Pages automatically.")
         try: api.repos.update(homepage=f'{cfg.doc_host}/{cfg.doc_baseurl}', description=cfg.description)
         except HTTPError:print(f"Could not update the description & URL on the repo: {cfg.user}/{cfg.repo} using $GITHUB_TOKEN.\n"
                   "Use a token with the correction permissions or perform these steps manually.")
