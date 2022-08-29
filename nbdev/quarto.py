@@ -213,7 +213,8 @@ def refresh_quarto_yml():
     "Generate `_quarto.yml` from `settings.ini`."
     cfg = get_config()
     p = cfg.nbs_path/'_quarto.yml'
-    vals = {k:cfg.get(k) for k in ['doc_path', 'title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl']}
+    vals = {k:cfg[k] for k in ['title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl']}
+    vals['doc_path'] = cfg.doc_path.name
     # Do not build _quarto_yml if custom_quarto_yml is set to True
     if cfg.get('custom_quarto_yml', False): return
     if 'title' not in vals: vals['title'] = vals['lib_name']

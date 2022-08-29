@@ -220,7 +220,7 @@ def _get_conda_meta():
         'build': {'number': '0', 'noarch': 'python',
                   'script': '{{ PYTHON }} -m pip install . -vv'},
         'requirements': {'host':reqs, 'run':reqs},
-        'test': {'imports': [cfg.get('lib_path')]},
+        'test': {'imports': [cfg.lib_path.name]},
         'about': {
             'license': 'Apache Software',
             'license_family': 'APACHE',
