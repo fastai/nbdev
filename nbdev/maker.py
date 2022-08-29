@@ -87,6 +87,8 @@ def _filt_dec(x): return decor_id(x).startswith('patch')
 def _wants(o): return isinstance(o,_def_types) and not any(L(o.decorator_list).filter(_filt_dec))
 
 # %% ../nbs/09_API/02_maker.ipynb 20
+def _targets(o): return [o.target] if isinstance(o, ast.AnnAssign) else o.targets
+
 @patch
 def make_all(self:ModuleMaker, cells):
     "Create `__all__` with all exports in `cells`"
@@ -95,11 +97,11 @@ def make_all(self:ModuleMaker, cells):
     # include anything mentioned in "_all_", even if otherwise private
     # NB: "_all_" can include strings (names), or symbols, so we look for "id" or "value"
     assigns = trees.filter(risinstance(_assign_types))
-    all_assigns = assigns.filter(lambda o: getattr(o.targets[0],'id',None)=='_all_')
+    all_assigns = assigns.filter(lambda o: getattr(_targets(o)[0],'id',None)=='_all_')
     all_vals = all_assigns.map(_val_or_id).concat()
     syms = trees.filter(_wants).attrgot('name')
     # assignment targets (NB: can be multiple, e.g. "a=b=c", and/or destructuring e.g "a,b=(1,2)")
-    assign_targs = L(L(assn.targets).map(_all_targets).concat() for assn in assigns).concat()
+    assign_targs = L(L(_targets(assn)).map(_all_targets).concat() for assn in assigns).concat()
     exports = (assign_targs.attrgot('id')+syms).filter(lambda o: o and o[0]!='_')
     return (exports+all_vals).unique()
 
