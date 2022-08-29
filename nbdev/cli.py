@@ -88,7 +88,7 @@ def _update_repo_meta(cfg):
     if token: 
         from ghapi.core import GhApi
         api = GhApi(owner=cfg.user, repo=cfg.repo, token=token)
-        try: api.repos.update(homepage=f'{cfg.doc_host}/{cfg.doc_baseurl}', description=cfg.description)
+        try: api.repos.update(homepage=f'{cfg.doc_host}{cfg.doc_baseurl}', description=cfg.description)
         except HTTPError:print(f"Could not update the description & URL on the repo: {cfg.user}/{cfg.repo} using $GITHUB_TOKEN.\n"
                   "Use a token with the correction permissions or perform these steps manually.")
 
