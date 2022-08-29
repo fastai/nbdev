@@ -82,6 +82,22 @@ def _render_nb(fn, cfg):
     fn.write_text(txt)
 
 # %% ../nbs/09_API/12_cli.ipynb 11
+def _update_repo_meta(cfg):
+    "Enable gh pages and update the homepage and description in your GitHub repo."
+    token=os.getenv('GITHUB_TOKEN')
+    if token: 
+        from ghapi.core import GhApi
+        api = GhApi(owner=cfg.user, repo=cfg.repo, token=token)
+        try: # repo needs something in it before you can enable pages
+            cmds = L(['git add settings.ini', "git commit -m'add settings'", 'git config push.default current', 'git push']) 
+            cmds.map(partial(run, ignore_ex=True))
+            api.enable_pages(branch='gh-pages')
+        except HTTPError: print("Could not enable GitHub Pages automatically.")
+        try: api.repos.update(homepage=f'{cfg.doc_host}/{cfg.doc_baseurl}', description=cfg.description)
+        except HTTPError:print(f"Could not update the description & URL on the repo: {cfg.user}/{cfg.repo} using $GITHUB_TOKEN.\n"
+                  "Use a token with the correction permissions or perform these steps manually.")
+
+# %% ../nbs/09_API/12_cli.ipynb 12
 @call_parse
 @delegates(nbdev_create_config)
 def nbdev_new(**kwargs):
@@ -89,6 +105,7 @@ def nbdev_new(**kwargs):
     from ghapi.core import GhApi
     nbdev_create_config.__wrapped__(**kwargs)
     cfg = get_config()
+    _update_repo_meta(cfg)
 
     path = Path()
     tag = GhApi().repos.get_latest_release('fastai', 'nbdev-template').tag_name
@@ -108,7 +125,7 @@ def nbdev_new(**kwargs):
     nbdev_export.__wrapped__()
     nbdev_readme.__wrapped__()
 
-# %% ../nbs/09_API/12_cli.ipynb 14
+# %% ../nbs/09_API/12_cli.ipynb 15
 @call_parse
 def chelp():
     "Show help for all console scripts"
