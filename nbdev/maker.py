@@ -177,8 +177,9 @@ def _import2relative(cells, lib_name=None):
 def _retr_mdoc(cells):
     "Search for `_doc_` variable, used to create module docstring"
     trees = L(cells).map(NbCell.parsed_).concat()
-    res = [nested_attr(o, 'value.value') for o in trees
-           if isinstance(o, _assign_types) and getattr(o.targets[0],'id',None)=='_doc_']
+    r1 = [o for o in trees if isinstance(o, _assign_types)]
+    res = [nested_attr(o, 'value.value') for o in r1 if getattr(o.targets[0],'id',None)=='_doc_']
+    raise Exception(([getattr(o.targets[0],'id',None) for o in r1], trees, r1, res))
     return f'"""{res[0]}"""\n\n' if res else ""
 
 # %% ../nbs/09_API/02_maker.ipynb 33
