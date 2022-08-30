@@ -177,11 +177,13 @@ def _import2relative(cells, lib_name=None):
 def _retr_mdoc(cells):
     "Search for `_doc_` variable, used to create module docstring"
     trees = L(cells).map(NbCell.parsed_).concat()
-    r1 = [o for o in trees if isinstance(o, _assign_types)]
-    res = [nested_attr(o, 'value.value') for o in r1 if getattr(o.targets[0],'id',None)=='_doc_']
-    return f'"""{res[0]}"""\n\n' if res else ""
+    for o in trees:
+        if isinstance(o, _assign_types) and getattr(o.targets[0],'id',None)=='_doc_':
+            v = try_attrs(o.value, 'value', 's') # py37 uses `ast.Str.s`
+            return f'"""{v}"""\n\n' 
+    return ""
 
-# %% ../nbs/09_API/02_maker.ipynb 34
+# %% ../nbs/09_API/02_maker.ipynb 33
 @patch
 def make(self:ModuleMaker, cells, all_cells=None, lib_path=None):
     "Write module containing `cells` with `__all__` generated from `all_cells`"
@@ -208,7 +210,7 @@ def make(self:ModuleMaker, cells, all_cells=None, lib_path=None):
         write_cells(cells[last_future:], self.hdr, f)
         f.write('\n')
 
-# %% ../nbs/09_API/02_maker.ipynb 39
+# %% ../nbs/09_API/02_maker.ipynb 38
 @patch
 def _update_all(self:ModuleMaker, all_cells, alls):
     return pformat(alls + self.make_all(all_cells), width=160)
@@ -220,7 +222,7 @@ def _make_exists(self:ModuleMaker, cells, all_cells=None):
         update_var('__all__', partial(self._update_all, all_cells), fn=self.fname)
     with self.fname.open('a') as f: write_cells(cells, self.hdr, f)
 
-# %% ../nbs/09_API/02_maker.ipynb 45
+# %% ../nbs/09_API/02_maker.ipynb 44
 def _basic_export_nb2(fname, name, dest=None):
     "A basic exporter to bootstrap nbdev using `ModuleMaker`"
     if dest is None: dest = get_config().lib_path
