@@ -178,7 +178,7 @@ def _retr_mdoc(cells):
     "Search for `_doc_` variable, used to create module docstring"
     trees = L(cells).map(NbCell.parsed_).concat()
     for o in trees:
-        if isinstance(o, _assign_types) and getattr(o.targets[0],'id',None)=='_doc_':
+        if isinstance(o, _assign_types) and getattr(_targets(o)[0],'id',None)=='_doc_':
             v = try_attrs(o.value, 'value', 's') # py37 uses `ast.Str.s`
             return f'"""{v}"""\n\n' 
     return ""
