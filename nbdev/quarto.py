@@ -63,7 +63,7 @@ def _doc_paths(path:str=None, doc_path:str=None):
     cfg_path = cfg.config_path
     path = cfg.nbs_path if not path else Path(path)
     doc_path = cfg.doc_path if not doc_path else Path(doc_path)
-    tmp_doc_path = path/f"{cfg['doc_path']}"
+    tmp_doc_path = path/cfg.doc_path.name
     return cfg,cfg_path,path,doc_path,tmp_doc_path
 
 # %% ../nbs/09_API/13_quarto.ipynb 10
