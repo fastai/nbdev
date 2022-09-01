@@ -1,0 +1,29 @@
+name: Deploy to GitHub Pages
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - name: Install Dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          pip install -Uq git+https://github.com/fastai/ghapi.git # you need this for enabling pages
+          pip install -Uq git+https://github.com/fastai/fastcore.git
+          pip install -Uq git+https://github.com/fastai/execnb.git
+          pip install -e ".[dev]"
+          wget -nv https://www.quarto.org/download/latest/quarto-linux-amd64.deb
+          sudo dpkg -i quarto*.deb
+          nbdev_docs
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ github.token }}
+          force_orphan: true
+          publish_dir: ${{ env.NBDEV_DOCS }}
+          user_name: github-actions[bot]
+          user_email: 41898282+github-actions[bot]@users.noreply.github.com
+      
