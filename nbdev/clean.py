@@ -177,7 +177,7 @@ def _git_root():
     try: return Path(run('git rev-parse --show-toplevel'))
     except OSError: return None
 
-# %% ../nbs/09_API/10_clean.ipynb 42
+# %% ../nbs/09_API/10_clean.ipynb 41
 @call_parse
 def nbdev_install_hooks():
     "Install Jupyter and git hooks to automatically clean, trust, and fix merge conflicts in notebooks"
