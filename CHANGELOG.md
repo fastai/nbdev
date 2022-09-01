@@ -4,6 +4,14 @@
 
 ## 2.2.9
 
+
+### Bugs Squashed
+
+- missing `doc_path.name` in `_docs` move ([#973](https://github.com/fastai/nbdev/issues/973))
+
+
+## 2.2.9
+
 ### New Features
 
 - Experimental: pre-commit hooks ([#959](https://github.com/fastai/nbdev/pull/959)), thanks to [@seeM](https://github.com/seeM)
