@@ -2,6 +2,28 @@
 
 <!-- do not remove -->
 
+## 2.2.9
+
+### New Features
+
+- Experimental: pre-commit hooks ([#959](https://github.com/fastai/nbdev/pull/959)), thanks to [@seeM](https://github.com/seeM)
+- setup GitHub repo automatically ([#955](https://github.com/fastai/nbdev/pull/955)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Authenticate nbdev-template github API call ([#940](https://github.com/fastai/nbdev/issues/940))
+- Support module level docstrings ([#473](https://github.com/fastai/nbdev/issues/473))
+
+### Bugs Squashed
+
+- `show_doc` includes parsed sections from numpy docstrings ([#964](https://github.com/fastai/nbdev/issues/964))
+- `AnnAssign` object has no attribute 'targets' ([#953](https://github.com/fastai/nbdev/issues/953))
+- Exported images not found in docs ([#951](https://github.com/fastai/nbdev/issues/951))
+- fix #769 ([#946](https://github.com/fastai/nbdev/pull/946)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- `recursive` in settings.ini ignored ([#942](https://github.com/fastai/nbdev/issues/942))
+- Wrong source link when using @patch ([#939](https://github.com/fastai/nbdev/issues/939))
+- Deploy Action fails with `ModuleNotFoundError: No module named 'https://github'` ([#936](https://github.com/fastai/nbdev/issues/936))
+- Recursive mode doesn't seem to work when running `nbdev_preview` ([#935](https://github.com/fastai/nbdev/issues/935))
+- Update All Python Scripts to nbs similar to `nbdev_update_lib` in v1 ([#769](https://github.com/fastai/nbdev/issues/769))
+
+
 ## 2.2.7
 
 ### New Features
