@@ -14,8 +14,6 @@ description: Write, test, document, and distribute software packages and technic
 from fastcore.foundation import L
 from nbdev import qmd
 
-qmd.setup()
-
 def img(fname, classes=None, **kwargs): return qmd.img(f"images/{fname}", classes=classes, **kwargs)
 def btn(txt, link): return qmd.btn(txt, link=link, classes=['btn-action-primary', 'btn-action', 'btn', 'btn-success', 'btn-lg'])
 def banner(txt, classes=None, style=None): return qmd.div(txt, L('hero-banner')+classes, style=style)

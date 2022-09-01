@@ -16,8 +16,8 @@ from os import system
 import subprocess,sys,shutil,ast
 
 # %% auto 0
-__all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'nbdev_readme', 'prepare', 'refresh_quarto_yml',
-           'nbdev_quarto', 'preview', 'deploy']
+__all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'nbdev_readme', 'refresh_quarto_yml', 'nbdev_quarto',
+           'preview', 'deploy', 'prepare']
 
 # %% ../nbs/09_API/13_quarto.ipynb 4
 def _sprun(cmd):
@@ -67,17 +67,14 @@ def _doc_paths(path:str=None, doc_path:str=None):
     return cfg,cfg_path,path,doc_path,tmp_doc_path
 
 # %% ../nbs/09_API/13_quarto.ipynb 10
-def _f(a,b): return Path(a),b
 def _pre(p,b=True): return '    ' * (len(p.parts)) + ('- ' if b else '  ')
 def _sort(a):
     x,y = a
     if y.startswith('index.'): return x,'00'
     return a
 
-# %% ../nbs/09_API/13_quarto.ipynb 11
 _def_file_re = '\.(?:ipynb|qmd|html)$'
 
-# %% ../nbs/09_API/13_quarto.ipynb 12
 @delegates(nbglob_cli)
 def _nbglob_docs(
     path:str=None, # Path to notebooks
@@ -86,7 +83,7 @@ def _nbglob_docs(
     **kwargs):
     return nbglob(path, file_glob=file_glob, file_re=file_re, **kwargs)
 
-# %% ../nbs/09_API/13_quarto.ipynb 13
+# %% ../nbs/09_API/13_quarto.ipynb 11
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_sidebar(
@@ -98,6 +95,7 @@ def nbdev_sidebar(
     "Create sidebar.yml"
     if not force and get_config().custom_sidebar: return
     path = get_config().nbs_path if not path else Path(path)
+    def _f(a,b): return Path(a),b
     files = nbglob(path, func=_f, skip_folder_re=skip_folder_re, **kwargs).sorted(key=_sort)
     lastd,res = Path(),[]
     for dabs,name in files:
@@ -118,7 +116,7 @@ def nbdev_sidebar(
     if printit: return print(yml)
     yml_path.write_text(yml)
 
-# %% ../nbs/09_API/13_quarto.ipynb 16
+# %% ../nbs/09_API/13_quarto.ipynb 14
 def _render_readme(cfg_path, path, chk_time):
     idx_path = path/get_config().readme_nb
     if not idx_path.exists(): return
@@ -136,7 +134,7 @@ def _render_readme(cfg_path, path, chk_time):
     finally:
         if moved: (path/'sidebar.yml.bak').rename(yml_path)
 
-# %% ../nbs/09_API/13_quarto.ipynb 17
+# %% ../nbs/09_API/13_quarto.ipynb 15
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
@@ -152,26 +150,14 @@ def nbdev_readme(
         move(tmp_doc_path/'README.md', cfg_path) # README.md is temporarily in nbs/_docs
         if _rdmi.exists(): copytree(_rdmi, cfg_path/_rdmi.name) # Move Supporting files for README
 
-# %% ../nbs/09_API/13_quarto.ipynb 18
-@call_parse
-def prepare():
-    "Export, test, and clean notebooks, and render README if needed"
-    import nbdev.test, nbdev.clean
-    nbdev_export.__wrapped__()
-    nbdev.test.nbdev_test.__wrapped__()
-    nbdev.clean.nbdev_clean.__wrapped__()
-    nbdev_readme.__wrapped__(chk_time=True)
-
-# %% ../nbs/09_API/13_quarto.ipynb 19
+# %% ../nbs/09_API/13_quarto.ipynb 16
 def _ensure_quarto():
     if shutil.which('quarto'): return
     print("Quarto is not installed. We will download and install it for you.")
     install.__wrapped__()
 
-# %% ../nbs/09_API/13_quarto.ipynb 20
-_quarto_yml="""ipynb-filters: [nbdev_filter]
-
-project:
+# %% ../nbs/09_API/13_quarto.ipynb 17
+_quarto_yml="""project:
   type: website
   output-dir: {doc_path}
   preview:
@@ -208,7 +194,7 @@ metadata-files:
   - custom.yml
 """
 
-# %% ../nbs/09_API/13_quarto.ipynb 21
+# %% ../nbs/09_API/13_quarto.ipynb 18
 def refresh_quarto_yml():
     "Generate `_quarto.yml` from `settings.ini`."
     cfg = get_config()
@@ -221,63 +207,39 @@ def refresh_quarto_yml():
     yml=_quarto_yml.format(**vals)
     p.write_text(yml)
 
-# %% ../nbs/09_API/13_quarto.ipynb 22
-def _is_qpy(path:Path):
-    "Is `path` a py script starting with frontmatter?"
-    path = Path(path)
-    if not path.suffix=='.py': return
-    try: p = ast.parse(path.read_text())
-    except: return
-    if not p.body: return
-    a = p.body[0]
-    if isinstance(a, ast.Expr) and isinstance(a.value, ast.Constant):
-        v = a.value.value.strip().splitlines()
-        return v[0]=='---' and v[-1]=='---'
-
-# %% ../nbs/09_API/13_quarto.ipynb 23
-def _exec_py(fname):
-    "Exec a python script and warn on error"
-    try: subprocess.check_output('python ' + fname, shell=True)
-    except subprocess.CalledProcessError as cpe: warn(str(cpe))
-
-# %% ../nbs/09_API/13_quarto.ipynb 24
+# %% ../nbs/09_API/13_quarto.ipynb 19
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_quarto(
     path:str=None, # Path to notebooks
     doc_path:str=None, # Path to output docs
     preview:bool=False, # Preview the site instead of building it
-    file_glob:str=None, # Only include files matching glob    
     port:int=3000, # The port on which to run preview
     **kwargs):
     "Create Quarto docs and README.md"
     _ensure_quarto()
     import nbdev.doclinks
-    nbdev.doclinks._build_modidx(skip_exists=True)
+    nbdev.doclinks._build_modidx()
     cfg,cfg_path,path,doc_path,tmp_doc_path = _doc_paths(path, doc_path)
     refresh_quarto_yml()
-    nbdev_sidebar.__wrapped__(path, file_glob=file_glob, **kwargs)
-    pys = globtastic(path, file_glob='*.py', **kwargs).filter(_is_qpy)
-    for py in pys: _exec_py(py)
-    if preview: os.system(f'cd "{path}" && quarto preview --port {port}')
+    nbdev_sidebar.__wrapped__(path, **kwargs)
+    import nbdev.serve
+    cache = nbdev.serve.proc_nbs.__wrapped__(path)
+    if preview:
+        os.environ['QUARTO_PREVIEW']='1'
+        os.system(f'cd "{path}" && quarto preview --port {port}')
     else: 
-        nbdev_readme.__wrapped__(path, doc_path) # README must be generated BEFORE render because of how index.html is generated by Quarto
-        _sprun(f'cd "{path}" && quarto render --no-cache')
-        if tmp_doc_path.parent != cfg_path: # move docs folder to root of repo if it doesn't exist there
-            rmtree(doc_path, ignore_errors=True)
-            move(tmp_doc_path, cfg_path)
+        nbdev_readme.__wrapped__(cache, doc_path)
+        _sprun(f'cd "{cache}" && quarto render --no-cache')
 
-# %% ../nbs/09_API/13_quarto.ipynb 25
+# %% ../nbs/09_API/13_quarto.ipynb 20
 @call_parse
 @delegates(nbdev_quarto, but=['preview'])
-def preview(
-    path:str=None, # Path to notebooks
-    **kwargs):
+def preview(**kwargs):
     "Preview docs locally"
-    os.environ['QUARTO_PREVIEW']='1'
-    nbdev_quarto.__wrapped__(path, preview=True, **kwargs)
+    nbdev_quarto.__wrapped__(preview=True, **kwargs)
 
-# %% ../nbs/09_API/13_quarto.ipynb 26
+# %% ../nbs/09_API/13_quarto.ipynb 21
 @call_parse
 @delegates(nbdev_quarto)
 def deploy(
@@ -289,3 +251,14 @@ def deploy(
     try: from ghp_import import ghp_import
     except: return warnings.warn('Please install ghp-import with `pip install ghp-import`')
     ghp_import(get_config().doc_path, push=True, stderr=True, no_history=True)
+
+# %% ../nbs/09_API/13_quarto.ipynb 22
+@call_parse
+def prepare():
+    "Export, test, and clean notebooks, and render README if needed"
+    import nbdev.test, nbdev.clean
+    nbdev_export.__wrapped__()
+    nbdev.test.nbdev_test.__wrapped__()
+    nbdev.clean.nbdev_clean.__wrapped__()
+    refresh_quarto_yml()
+    nbdev_readme.__wrapped__(chk_time=True)

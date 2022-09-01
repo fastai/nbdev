@@ -1,5 +1,6 @@
 _publish.yml
 _quarto.yml
+_proc/
 nbs/sidebar.yml
 tests/settings.ini
 idx/

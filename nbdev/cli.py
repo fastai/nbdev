@@ -44,6 +44,8 @@ class FilterDefaults:
     def nb_proc(self, nb):
         "Get an `NBProcessor` with these processors"
         return NBProcessor(nb=nb, procs=self.procs())
+    
+    def __call__(self, nb): return self.nb_proc(nb).process
 
 # %% ../nbs/09_API/12_cli.ipynb 6
 @call_parse
@@ -61,8 +63,8 @@ def nbdev_filter(
     nb = dict2nb(loads(nb_txt))
     if printit:
         with open(os.devnull, 'w') as dn:
-            with redirect_stdout(dn): filt.nb_proc(nb).process()
-    else: filt.nb_proc(nb).process()
+            with redirect_stdout(dn): filt(nb)
+    else: filt(nb)
     res = nb2str(nb)
     del os.environ["IN_TEST"]
     if printit: print(res, flush=True)
