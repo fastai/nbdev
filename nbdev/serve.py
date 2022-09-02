@@ -44,7 +44,7 @@ def proc_nbs(
     path:str='', # Path to notebooks
     n_workers:int=defaults.cpus,  # Number of workers
     force:bool=False,  # Ignore cache and build all
-    file_glob:str='*.*', # Only include files matching glob
+    file_glob:str='', # Only include files matching glob
     **kwargs):
     "Process notebooks in `path` for docs rendering"
     from multiprocessing.forkserver import set_forkserver_preload
