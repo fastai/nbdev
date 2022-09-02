@@ -115,7 +115,7 @@ def _nbdev_clean(nb, path=None, **kwargs):
     cfg = get_config(path=path)
     allowed_metadata_keys = cfg.get("allowed_metadata_keys").split()
     allowed_cell_metadata_keys = cfg.get("allowed_cell_metadata_keys").split()
-    clean_ids = cfg.clean_ids
+    clean_ids = cfg.get('clean_ids', False)
     return clean_nb(nb, clean_ids=clean_ids, allowed_metadata_keys=allowed_metadata_keys,
                     allowed_cell_metadata_keys=allowed_cell_metadata_keys, **kwargs)
 

@@ -14,7 +14,7 @@ from fastcore.meta import delegates
 
 from .config import get_config
 from .doclinks import nbglob_cli,nbglob
-from .cli import FilterDefaults
+from .processors import FilterDefaults
 import nbdev.serve_drv
 
 # %% ../nbs/09_API/16_serve.ipynb 4
@@ -37,12 +37,13 @@ def _exec_py(fname):
     try: subprocess.check_output('python ' + fname, shell=True)
     except subprocess.CalledProcessError as cpe: warn(str(cpe))
 
-# %% ../nbs/09_API/16_serve.ipynb 6
+# %% ../nbs/09_API/16_serve.ipynb 5
 @call_parse
 @delegates(nbglob)
 def proc_nbs(
     path:str='', # Path to notebooks
     n_workers:int=defaults.cpus,  # Number of workers
+    force:bool=False,  # Ignore cache and build all
     file_glob:str='*.*', # Only include files matching glob
     **kwargs):
     "Process notebooks in `path` for docs rendering"
@@ -59,7 +60,7 @@ def proc_nbs(
     chk_mtime = max(cfg.config_file.stat().st_mtime, Path(__file__).stat().st_mtime)
     cache.mkdir(parents=True, exist_ok=True)
     cache_mtime = cache.stat().st_mtime
-    if cache.exists and cache_mtime<chk_mtime: rmtree(cache)
+    if force or (cache.exists and cache_mtime<chk_mtime): rmtree(cache)
 
     def _doproc(o):
         src,dst=o

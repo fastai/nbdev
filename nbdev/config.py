@@ -63,6 +63,8 @@ def _apply_defaults(
     jupyter_hooks=True, # Run Jupyter hooks?
     clean_ids=True, # Remove ids from plaintext reprs?
     custom_quarto_yml=False, # Use a custom _quarto.yml?
+    preview_port=3000, # Port for Quarto preview
+    preview_host='localhost', # Hostname for Quarto preview
 ):
     "Apply default settings where missing in `cfg`."
     if getattr(cfg,'repo',None) is None:
@@ -142,7 +144,7 @@ _nbdev_cfg_head = '''# All sections below are required unless otherwise specifie
 '''
 _nbdev_cfg_sections = {'Python library': 'repo lib_name version min_python license',
                        'nbdev': 'doc_path lib_path nbs_path recursive tst_flags',
-                       'Docs': 'branch custom_sidebar doc_host doc_baseurl git_url title',
+                       'Docs': 'branch custom_sidebar doc_host doc_baseurl git_url title custom_quarto_yml preview_port preview_host',
                        'PyPI': 'audience author author_email copyright description keywords language status user'}
 _nbdev_cfg_tail = '''### Optional ###
 # requirements = fastcore pandas
@@ -189,7 +191,7 @@ def _xdg_config_paths(cfg_name=_nbdev_cfg_name):
 
 # %% ../nbs/09_API/01_config.ipynb 28
 _types = dict(custom_sidebar=bool, nbs_path=Path, lib_path=Path, doc_path=Path, recursive=bool, 
-    black_formatting=bool, jupyter_hooks=bool, clean_ids=bool, custom_quarto_yml=bool)
+    black_formatting=bool, jupyter_hooks=bool, clean_ids=bool, custom_quarto_yml=bool, preview_port=int)
 
 @functools.lru_cache(maxsize=None)
 def get_config(cfg_name=_nbdev_cfg_name, path=None):

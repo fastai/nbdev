@@ -25,29 +25,9 @@ from contextlib import redirect_stdout
 import os, tarfile, sys
 
 # %% auto 0
-__all__ = ['FilterDefaults', 'nbdev_filter', 'extract_tgz', 'nbdev_new', 'chelp']
+__all__ = ['nbdev_filter', 'extract_tgz', 'nbdev_new', 'chelp']
 
 # %% ../nbs/09_API/12_cli.ipynb 5
-class FilterDefaults:
-    "Override `FilterDefaults` to change which notebook processors are used"
-    def xtra_procs(self): return []
-
-    def base_procs(self):
-        return [FrontmatterProc, populate_language, add_show_docs, insert_warning,
-                strip_ansi, hide_line, filter_stream_, rm_header_dash,
-                clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_, add_links, strip_hidden_metadata]
-
-    def procs(self):
-        "Processors for export"
-        return self.base_procs() + self.xtra_procs()
-    
-    def nb_proc(self, nb):
-        "Get an `NBProcessor` with these processors"
-        return NBProcessor(nb=nb, procs=self.procs())
-    
-    def __call__(self, nb): return self.nb_proc(nb).process
-
-# %% ../nbs/09_API/12_cli.ipynb 6
 @call_parse
 def nbdev_filter(
     nb_txt:str=None,  # Notebook text (uses stdin if not provided)
@@ -70,12 +50,12 @@ def nbdev_filter(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/09_API/12_cli.ipynb 9
+# %% ../nbs/09_API/12_cli.ipynb 8
 def extract_tgz(url, dest='.'):
     from fastcore.net import urlopen
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/09_API/12_cli.ipynb 10
+# %% ../nbs/09_API/12_cli.ipynb 9
 def _render_nb(fn, cfg):
     "Render templated values like `{{lib_name}}` in notebook at `fn` from `cfg`"
     txt = fn.read_text()
@@ -83,7 +63,7 @@ def _render_nb(fn, cfg):
     for k,v in cfg.d.items(): txt = txt.replace('{{'+k+'}}', v)
     fn.write_text(txt)
 
-# %% ../nbs/09_API/12_cli.ipynb 11
+# %% ../nbs/09_API/12_cli.ipynb 10
 def _update_repo_meta(cfg):
     "Enable gh pages and update the homepage and description in your GitHub repo."
     token=os.getenv('GITHUB_TOKEN')
@@ -94,7 +74,7 @@ def _update_repo_meta(cfg):
         except HTTPError:print(f"Could not update the description & URL on the repo: {cfg.user}/{cfg.repo} using $GITHUB_TOKEN.\n"
                   "Use a token with the correction permissions or perform these steps manually.")
 
-# %% ../nbs/09_API/12_cli.ipynb 12
+# %% ../nbs/09_API/12_cli.ipynb 11
 @call_parse
 @delegates(nbdev_create_config)
 def nbdev_new(**kwargs):
@@ -122,7 +102,7 @@ def nbdev_new(**kwargs):
     nbdev_export.__wrapped__()
     nbdev_readme.__wrapped__()
 
-# %% ../nbs/09_API/12_cli.ipynb 15
+# %% ../nbs/09_API/12_cli.ipynb 14
 @call_parse
 def chelp():
     "Show help for all console scripts"

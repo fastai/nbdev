@@ -4,7 +4,7 @@
 __all__ = ['is_frontmatter', 'yml2dict', 'populate_language', 'insert_warning', 'cell_lang', 'add_show_docs', 'yaml_str',
            'nb_fmdict', 'filter_fm', 'construct_fm', 'insert_frontmatter', 'add_links', 'strip_ansi',
            'strip_hidden_metadata', 'hide_', 'hide_line', 'filter_stream_', 'clean_magics', 'rm_header_dash',
-           'rm_export', 'clean_show_doc', 'exec_show_docs']
+           'rm_export', 'clean_show_doc', 'exec_show_docs', 'FilterDefaults']
 
 # %% ../nbs/09_API/09b_processors.ipynb 2
 import ast
@@ -14,6 +14,7 @@ from .imports import *
 from .process import *
 from .showdoc import *
 from .doclinks import *
+from .frontmatter import *
 
 from execnb.nbio import *
 from execnb.shell import *
@@ -269,7 +270,7 @@ def _do_eval(cell):
     if cell.directives_.keys() & _show_dirs: return True
     if _ast_contains(trees, (ast.Import, ast.ImportFrom)):
         if _ast_contains(trees, (ast.Expr, ast.Assign)):
-            warn(f'Found a cell containing mix of imports and computations. Please use separate cells. See nbdev FAQ.\n---\n{cell.source}\n---\n')
+            warn(f'Found cells containing imports and other code. See FAQ.\n---\n{cell.source}\n---\n')
         return True
     if _show_docs(trees): return True
 
@@ -287,4 +288,25 @@ class exec_show_docs(Processor):
         if str2bool(fm.get('skip_showdoc', False)): return
         if _do_eval(cell): self.k.cell(cell)
         title = fm.get('title', '')
-        if self.k.exc: raise Exception(f"Error{' in notebook: '+title if title else ''} in cell {cell.idx_} :\n{cell.source}") from self.k.exc[1]
+        if self.k.exc: 
+            raise Exception(f"Error{' in notebook: '+title if title else ''} in cell {cell.idx_} :\n{cell.source}") from self.k.exc[1]
+
+# %% ../nbs/09_API/09b_processors.ipynb 58
+class FilterDefaults:
+    "Override `FilterDefaults` to change which notebook processors are used"
+    def xtra_procs(self): return []
+
+    def base_procs(self):
+        return [FrontmatterProc, populate_language, add_show_docs, insert_warning,
+                strip_ansi, hide_line, filter_stream_, rm_header_dash,
+                clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_, add_links, strip_hidden_metadata]
+
+    def procs(self):
+        "Processors for export"
+        return self.base_procs() + self.xtra_procs()
+    
+    def nb_proc(self, nb):
+        "Get an `NBProcessor` with these processors"
+        return NBProcessor(nb=nb, procs=self.procs())
+    
+    def __call__(self, nb): return self.nb_proc(nb).process()
