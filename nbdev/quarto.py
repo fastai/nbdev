@@ -164,13 +164,6 @@ def refresh_quarto_yml():
     p.write_text(_quarto_yml.format(**vals))
 
 # %% ../nbs/09_API/13_quarto.ipynb 16
-def _prep_quarto():
-    _ensure_quarto()
-    refresh_quarto_yml()
-    import nbdev.doclinks
-    nbdev.doclinks._build_modidx()
-
-# %% ../nbs/09_API/13_quarto.ipynb 17
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
@@ -204,15 +197,19 @@ def nbdev_readme(
         move(readme, cfg_path)
         if _rdmi.exists(): copytree(_rdmi, cfg_path/_rdmi.name) # Move Supporting files for README
 
-# %% ../nbs/09_API/13_quarto.ipynb 19
+# %% ../nbs/09_API/13_quarto.ipynb 18
 def _pre_docs(path, **kwargs):
     cfg = get_config()
     path = Path(path) if path else cfg.nbs_path
+    _ensure_quarto()
+    refresh_quarto_yml()
+    import nbdev.doclinks
+    nbdev.doclinks._build_modidx()
     nbdev_sidebar.__wrapped__(path=path, **kwargs)
     cache = proc_nbs.__wrapped__(path)
     return cache,cfg,path
 
-# %% ../nbs/09_API/13_quarto.ipynb 20
+# %% ../nbs/09_API/13_quarto.ipynb 19
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_quarto(
@@ -225,7 +222,7 @@ def nbdev_quarto(
     shutil.rmtree(cfg.doc_path, ignore_errors=True)
     move(cache/cfg.doc_path.name, cfg.config_path)
 
-# %% ../nbs/09_API/13_quarto.ipynb 22
+# %% ../nbs/09_API/13_quarto.ipynb 21
 @call_parse
 @delegates(_nbglob_docs)
 def preview(
@@ -240,7 +237,7 @@ def preview(
     if not host: host=cfg.get('preview_host', 'localhost')
     os.system(f'cd "{cache}" && quarto preview --port {port} --host {host}')
 
-# %% ../nbs/09_API/13_quarto.ipynb 24
+# %% ../nbs/09_API/13_quarto.ipynb 23
 @call_parse
 @delegates(nbdev_quarto)
 def deploy(
@@ -253,7 +250,7 @@ def deploy(
     except: return warnings.warn('Please install ghp-import with `pip install ghp-import`')
     ghp_import(get_config().doc_path, push=True, stderr=True, no_history=True)
 
-# %% ../nbs/09_API/13_quarto.ipynb 25
+# %% ../nbs/09_API/13_quarto.ipynb 24
 @call_parse
 def prepare():
     "Export, test, and clean notebooks, and render README if needed"
