@@ -11,14 +11,14 @@ from fastcore.utils import *
 from fastcore.script import call_parse
 from fastcore.shutil import rmtree,move,copytree
 from fastcore.meta import delegates
-from .serve import proc_nbs
+from .serve import proc_nbs,preview_server
 
 from os import system
 import subprocess,sys,shutil,ast
 
 # %% auto 0
-__all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'refresh_quarto_yml', 'nbdev_readme', 'nbdev_quarto',
-           'preview', 'deploy', 'prepare']
+__all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'refresh_quarto_yml', 'nbdev_readme', 'nbdev_docs',
+           'nbdev_preview', 'deploy', 'prepare']
 
 # %% ../nbs/09_API/13_quarto.ipynb 4
 def _sprun(cmd):
@@ -212,7 +212,7 @@ def _pre_docs(path, **kwargs):
 # %% ../nbs/09_API/13_quarto.ipynb 19
 @call_parse
 @delegates(_nbglob_docs)
-def nbdev_quarto(
+def nbdev_docs(
     path:str=None, # Path to notebooks
     **kwargs):
     "Create Quarto docs and README.md"
@@ -225,7 +225,7 @@ def nbdev_quarto(
 # %% ../nbs/09_API/13_quarto.ipynb 21
 @call_parse
 @delegates(_nbglob_docs)
-def preview(
+def nbdev_preview(
     path:str=None, # Path to notebooks
     port:int=None, # The port on which to run preview
     host:str=None, # The host on which to run preview
@@ -235,17 +235,18 @@ def preview(
     cache,cfg,path = _pre_docs(path, **kwargs)
     if not port: port=cfg.get('preview_port', 3000)
     if not host: host=cfg.get('preview_host', 'localhost')
-    os.system(f'cd "{cache}" && quarto preview --port {port} --host {host}')
+    xtra = ['--port', str(port), '--host', host]
+    preview_server(path, xtra)
 
 # %% ../nbs/09_API/13_quarto.ipynb 23
 @call_parse
-@delegates(nbdev_quarto)
+@delegates(nbdev_docs)
 def deploy(
     path:str=None, # Path to notebooks
     skip_build:bool=False,  # Don't build docs first
     **kwargs):
     "Deploy docs to GitHub Pages"
-    if not skip_build: nbdev_quarto.__wrapped__(path, **kwargs)
+    if not skip_build: nbdev_docs.__wrapped__(path, **kwargs)
     try: from ghp_import import ghp_import
     except: return warnings.warn('Please install ghp-import with `pip install ghp-import`')
     ghp_import(get_config().doc_path, push=True, stderr=True, no_history=True)
