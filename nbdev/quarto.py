@@ -119,7 +119,7 @@ _quarto_yml="""project:
   type: website
   output-dir: {doc_path}
   preview:
-    port: 3000
+    port: {doc_preview_port}
     browser: false
 
 format:
@@ -158,7 +158,7 @@ def refresh_quarto_yml():
     cfg = get_config()
     if cfg.get('custom_quarto_yml', False): return
     p = cfg.nbs_path/'_quarto.yml'
-    vals = {k:cfg[k] for k in ['title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl']}
+    vals = {k:cfg[k] for k in ['title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl', 'doc_preview_port']}
     vals['doc_path'] = cfg.doc_path.name
     if 'title' not in vals: vals['title'] = vals['lib_name']
     p.write_text(_quarto_yml.format(**vals))

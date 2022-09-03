@@ -63,7 +63,7 @@ def _apply_defaults(
     jupyter_hooks=True, # Run Jupyter hooks?
     clean_ids=True, # Remove ids from plaintext reprs?
     custom_quarto_yml=False, # Use a custom _quarto.yml?
-    preview_port=3000, # Port for Quarto preview
+    preview_port='%(doc_preview_port)s', # Port for Quarto preview
     preview_host='localhost', # Hostname for Quarto preview
 ):
     "Apply default settings where missing in `cfg`."
