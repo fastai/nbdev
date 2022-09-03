@@ -4,7 +4,7 @@
 __all__ = ['proc_nbs', 'fs_watchdog', 'preview_server']
 
 # %% ../nbs/09_API/16_serve.ipynb 2
-import ast,subprocess,threading,sys
+import ast,subprocess,threading,sys,traceback
 from shutil import rmtree,copy2
 from contextlib import contextmanager
 
@@ -108,7 +108,9 @@ def preview_server(path:str='', xtra=None):
         src = Path(e.src_path)
         if src.is_file() and not any(o[0]=='.' for o in src.parts):
             res = _proc_file(src, cache, path)
-            if res: serve_drv.main(res)
+            if res:
+                try: serve_drv.main(res)
+                except: traceback.print_exc()
 
     os.chdir(cache)
     xtra = xtra or []
