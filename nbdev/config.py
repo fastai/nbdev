@@ -93,7 +93,7 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos"""]
         print(''.join(msg))
         return default_branch,default_kw,''
     
-    return r.default_branch, default_kw if not r.topics else ' '.join(r.topics), r.description
+    return r.default_branch, default_kw if not getattr(r, 'topics', []) else ' '.join(r.topics), r.description
 
 # %% ../nbs/09_API/01_config.ipynb 15
 def _fetch_from_git(raise_err=False):
