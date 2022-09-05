@@ -67,7 +67,7 @@ class ModuleMaker:
         self.fname = dest/(name.replace('.','/') + ".py")
         if is_new: dest.mkdir(parents=True, exist_ok=True)
         else: assert self.fname.exists(), f"{self.fname} does not exist"
-        self.dest2nb = nb_path.relpath(self.fname.parent)
+        self.dest2nb = nb_path.relpath(self.fname.parent).as_posix()
         self.hdr = f"# %% {self.dest2nb}"
 
 # %% ../nbs/09_API/02_maker.ipynb 18

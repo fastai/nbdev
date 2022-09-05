@@ -46,7 +46,7 @@ def patch_name(o):
 def _get_modidx(pyfile, code_root, nbs_path):
     "Get module symbol index for a Python source file"
     cfg = get_config()
-    rel_name = str(pyfile.resolve().relative_to(code_root))
+    rel_name = pyfile.resolve().relative_to(code_root).as_posix()
     mod_name = '.'.join(rel_name.rpartition('.')[0].split('/'))  # module name created by pyfile
     cells = Path(pyfile).read_text().split("\n# %% ")
 
@@ -60,7 +60,7 @@ def _get_modidx(pyfile, code_root, nbs_path):
             nbpath = nbpath.with_name(re.sub(r'\d+[a-zA-Z0-9]*_', '', nbpath.name.lower()))
             loc = nbpath.relative_to(nbs_path).with_suffix('.html')
 
-            def _stor(nm, tree, pre=''): d[f'{mod_name}{pre}.{nm}'] = f'{loc}#{nm.lower()}',rel_name
+            def _stor(nm, tree, pre=''): d[f'{mod_name}{pre}.{nm}'] = f'{loc.as_posix()}#{nm.lower()}',rel_name
             for tree in ast.parse('\n'.join(rest)).body:
                 if isinstance(tree, _def_types): _stor(patch_name(tree), tree)
                 if isinstance(tree, ast.ClassDef):
