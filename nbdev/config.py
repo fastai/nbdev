@@ -73,7 +73,7 @@ def _apply_defaults(
             _parent = Path.cwd()
             cfg.repo = _parent.parent.name if _parent.name=='nbs' else _parent.name
     if lib_path is None: lib_path = cfg.repo.replace('-', '_')
-    if copyright is None: copyright = f"{datetime.now().year} ownwards, %(author)s"
+    if copyright is None: copyright = f"{datetime.now().year} onwards, %(author)s"
     for k,v in locals().items():
         if k.startswith('_') or k == 'cfg' or cfg.get(k) is not None: continue
         cfg[k] = v
