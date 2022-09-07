@@ -16,7 +16,6 @@ from .config import *
 from .doclinks import *
 from .process import NBProcessor, nb_lang
 from .frontmatter import FrontmatterProc
-from logging import warning
 
 from execnb.nbio import *
 from execnb.shell import *
@@ -26,7 +25,7 @@ def test_nb(fn,  # file name of notebook to test
             skip_flags=None,  # list of flags marking cells to skip
             force_flags=None,  # list of flags marking cells to always run
             do_print=False,  # print completion?
-            showerr=True,  # warn errors?
+            showerr=True,  # print errors to stderr?
             basepath=None):  # path to add to sys.path
     "Execute tests in notebook in `fn` except those with `skip_flags`"
     if basepath: sys.path.insert(0, str(basepath))
@@ -51,7 +50,7 @@ def test_nb(fn,  # file name of notebook to test
             k.run_all(nb, exc_stop=True, preproc=_no_eval)
             res = True
     except: 
-        if showerr: warning(k.prettytb(fname=fn))
+        if showerr: sys.stderr.write(k.prettytb(fname=fn)+'\n')
         res=False
     if do_print: print(f'- Completed {fn}')
     return res,time.time()-start
