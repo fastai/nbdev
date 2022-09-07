@@ -63,8 +63,6 @@ def _apply_defaults(
     jupyter_hooks=True, # Run Jupyter hooks?
     clean_ids=True, # Remove ids from plaintext reprs?
     custom_quarto_yml=False, # Use a custom _quarto.yml?
-    preview_port=3000, # Port for Quarto preview
-    preview_host='localhost', # Hostname for Quarto preview
 ):
     "Apply default settings where missing in `cfg`."
     if getattr(cfg,'repo',None) is None:
@@ -144,7 +142,7 @@ _nbdev_cfg_head = '''# All sections below are required unless otherwise specifie
 '''
 _nbdev_cfg_sections = {'Python library': 'repo lib_name version min_python license',
                        'nbdev': 'doc_path lib_path nbs_path recursive tst_flags',
-                       'Docs': 'branch custom_sidebar doc_host doc_baseurl git_url title custom_quarto_yml preview_port preview_host',
+                       'Docs': 'branch custom_sidebar doc_host doc_baseurl git_url title custom_quarto_yml',
                        'PyPI': 'audience author author_email copyright description keywords language status user'}
 _nbdev_cfg_tail = '''### Optional ###
 # requirements = fastcore pandas

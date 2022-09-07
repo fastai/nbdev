@@ -233,9 +233,9 @@ def nbdev_preview(
     "Preview docs locally"
     os.environ['QUARTO_PREVIEW']='1'
     cache,cfg,path = _pre_docs(path, **kwargs)
-    if not port: port=cfg.get('preview_port', 3000)
-    if not host: host=cfg.get('preview_host', 'localhost')
-    xtra = ['--port', str(port), '--host', host]
+    xtra = []
+    if port: xtra += ['--port', str(port)]
+    if host: xtra += ['--host', host]
     preview_server(path, xtra)
 
 # %% ../nbs/API/quarto.ipynb 23
