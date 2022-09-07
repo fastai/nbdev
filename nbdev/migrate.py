@@ -148,7 +148,7 @@ def nbdev_migrate(
     path:str=None, # A path or glob containing notebooks and markdown files to migrate
     no_skip:bool=False, # Do not skip directories beginning with an underscore
 ):
-    "Convert all markdown and notebook files in  and callouts in `fname` from v1 to v2"
+    "Convert all markdown and notebook files in `path` from v1 to v2"
     _skip_re = None if no_skip else '^[_.]'
     if path is None: path = get_config().nbs_path
     for f in globtastic(path, file_re='(.ipynb$)|(.md$)', skip_folder_re=_skip_re, func=Path):
