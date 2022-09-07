@@ -1,0 +1,9 @@
+website:
+  sidebar:
+    contents:
+      - getting_started.ipynb
+      - migrating.ipynb
+      - auto: Tutorials
+      - auto: Explanations
+      - auto: API
+
