@@ -18,15 +18,4 @@ jobs:
         with:
           version: ${{ matrix.version }}
           pre: 1
-      - name: test docs build
-        run: |
-          nbdev_docs
-          if [ -f "_docs/index.html" ]; then
-            echo "docs built successfully."
-          else
-            echo "index page not found in rendered docs."
-            ls -la
-            ls -la _docs
-            exit 1
-          fi
 

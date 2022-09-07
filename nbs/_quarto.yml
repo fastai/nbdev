@@ -18,13 +18,13 @@ website:
   sidebar:
     style: floating
     contents:
-      - auto: "/*.ipynb"
+      - auto: "top/*.ipynb"
       - section: Tutorials
         contents: {auto: Tutorials}
       - section: Explanations
         contents: {auto: Explanations}
       - section: API
-        contents: {auto: API}
+        contents: {auto: "/*.ipynb"}
   favicon: favicon.png
   navbar:
     background: primary
@@ -32,7 +32,7 @@ website:
     collapse-below: lg
     left:
       - text: "Get Started"
-        href: getting_started.ipynb
+        href: top/getting_started.ipynb
       - text: "Tutorial"
         href: Tutorials/tutorial.ipynb
       - text: "Blog"
@@ -47,7 +47,7 @@ website:
             href: https://forums.fast.ai/
           - text: "FAQ"
             icon: question-circle
-            href: getting_started.ipynb#faq
+            href: top/getting_started.ipynb#faq
     right:
       - icon: github
         href: "https://github.com/fastai/nbdev"
