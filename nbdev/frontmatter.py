@@ -12,13 +12,17 @@ from fastcore.imports import *
 import yaml
 
 # %% ../nbs/API/frontmatter.ipynb 5
-_re_fm = re.compile(r'''^---\s*
-(.*\S+.*)
----\s*$''', flags=re.DOTALL)
+_RE_FM_BASE=r'''^---\s*
+(.*?\S+.*?)
+---\s*'''
 
-def _fm2dict(s:str):
+_re_fm_nb = re.compile(_RE_FM_BASE+'$', flags=re.DOTALL)
+_re_fm_md = re.compile(_RE_FM_BASE, flags=re.DOTALL)
+
+def _fm2dict(s:str, nb=True):
     "Load YAML frontmatter into a `dict`"
-    match = _re_fm.search(s.strip())
+    re_fm = _re_fm_nb if nb else _re_fm_md
+    match = re_fm.search(s.strip())
     return yaml.safe_load(match.group(1)) if match else {}
 
 def _md2dict(s:str):
@@ -36,9 +40,13 @@ def _md2dict(s:str):
     return res
 
 # %% ../nbs/API/frontmatter.ipynb 6
+def _dict2fm(d): return f'---\n{yaml.dump(d)}\n---\n\n'
+def _insertfm(nb, fm): nb.cells.insert(0, mk_cell(_dict2fm(fm), 'raw'))
+
 class FrontmatterProc(Processor):
     "A YAML and formatted-markdown frontmatter processor"
-    def begin(self): self.fm = {}
+    def begin(self): self.fm = getattr(self.nb, 'frontmatter_', {})
+                
     def _default_exp_(self, cell, exp): self.default_exp = exp
 
     def _update(self, f, cell):
@@ -58,5 +66,4 @@ class FrontmatterProc(Processor):
         if not self.fm: return
         exp = getattr(self, 'default_exp', None)
         if exp: self.fm.update({'output-file': exp+'.html'})
-        s = f'---\n{yaml.dump(self.fm)}\n---'
-        self.nb.cells.insert(0, mk_cell(s, 'raw'))
+        _insertfm(self.nb, self.fm)
