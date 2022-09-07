@@ -13,7 +13,7 @@ from fastcore.utils import *
 from fastcore.script import call_parse
 from fastcore.shutil import rmtree,move,copytree
 from fastcore.meta import delegates
-from .serve import proc_nbs
+from .serve import proc_nbs,_proc_file
 
 # %% auto 0
 __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'refresh_quarto_yml', 'nbdev_readme', 'nbdev_docs',
