@@ -76,7 +76,7 @@ def instantiate(x, **kwargs):
     "Instantiate `x` if it's a type"
     return x(**kwargs) if isinstance(x,type) else x
 
-def _mk_procs(procs, nb): return L(procs).map(instantiate, nb=nb)
+def _mk_procs(procs, nb, path): return L(procs).map(instantiate, nb=nb, path=path)
 
 # %% ../nbs/09_API/03_process.ipynb 23
 def _is_direc(f): return getattr(f, '__name__', '-')[-1]=='_'
@@ -88,7 +88,7 @@ class NBProcessor:
         self.nb = read_nb(path) if nb is None else nb
         self.lang = nb_lang(self.nb)
         for cell in self.nb.cells: cell.directives_ = extract_directives(cell, remove=rm_directives, lang=self.lang)
-        self.procs = _mk_procs(procs, nb=self.nb)
+        self.procs = _mk_procs(procs, nb=self.nb, path=path)
         self.debug,self.rm_directives = debug,rm_directives
         if process: self.process()
 
@@ -124,6 +124,6 @@ class NBProcessor:
 # %% ../nbs/09_API/03_process.ipynb 34
 class Processor:
     "Base class for processors"
-    def __init__(self, nb): self.nb = nb
+    def __init__(self, nb, path): self.nb,self.path = nb,path
     def cell(self, cell): pass
     def __call__(self, cell): return self.cell(cell)
