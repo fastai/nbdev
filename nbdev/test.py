@@ -84,11 +84,11 @@ def nbdev_test(
     if len(files)==0: return print('No files were eligible for testing')
 
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
-    os.chdir(get_config().nbs_path)
     if IN_NOTEBOOK: kw = {'method':'spawn'} if os.name=='nt' else {'method':'forkserver'}
     else: kw = {}
-    results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers,
-                       basepath=get_config().config_path, pause=pause, do_print=do_print, **kw)
+    with working_directory(get_config().nbs_path):
+        results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers,
+                           basepath=get_config().config_path, pause=pause, do_print=do_print, **kw)
     passed,times = zip(*results)
     if all(passed): print("Success.")
     else: 
