@@ -20,9 +20,9 @@ website:
     contents:
       - auto: "top/*.ipynb"
       - section: Tutorials
-        contents: {auto: Tutorials}
+        contents: Tutorials
       - section: Explanations
-        contents: {auto: Explanations}
+        contents: Explanations
       - section: API
         contents: {auto: "/*.ipynb"}
   favicon: favicon.png
