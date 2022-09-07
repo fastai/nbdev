@@ -16,13 +16,15 @@ website:
   open-graph: true
   repo-actions: [issue]
   sidebar:
-    style: "floating"
+    style: floating
     contents:
-      - getting_started.ipynb
-      - migrating.ipynb
-      - auto: Tutorials
-      - auto: Explanations
-      - auto: API
+      - auto: "/*.ipynb"
+      - section: Tutorials
+        contents: {auto: Tutorials}
+      - section: Explanations
+        contents: {auto: Explanations}
+      - section: API
+        contents: {auto: API}
   favicon: favicon.png
   navbar:
     background: primary
@@ -53,6 +55,5 @@ website:
         href: https://twitter.com/fastdotai
         aria-label: Fast.ai Twitter
 
-metadata-files: 
-  - nbdev.yml
+metadata-files: [nbdev.yml]
 
