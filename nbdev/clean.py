@@ -90,6 +90,8 @@ def clean_nb(
     cell_metadata_keys = {"hide_input"}
     if allowed_cell_metadata_keys: cell_metadata_keys.update(allowed_cell_metadata_keys)
     for c in nb['cells']: _clean_cell(c, clear_all, cell_metadata_keys, clean_ids)
+    if nested_attr(nb, 'metadata.kernelspec.name'):
+        nb['metadata']['kernelspec']['display_name'] = nb.metadata.kernelspec.name
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in metadata_keys}
 
 # %% ../nbs/09_API/10_clean.ipynb 24

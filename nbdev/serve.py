@@ -55,7 +55,7 @@ def _proc_file(s, cache, path, mtime=None):
 
 # %% ../nbs/09_API/16_serve.ipynb 6
 @call_parse
-@delegates(nbglob)
+@delegates(nbglob_cli)
 def proc_nbs(
     path:str='', # Path to notebooks
     n_workers:int=defaults.cpus,  # Number of workers
