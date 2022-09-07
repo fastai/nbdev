@@ -105,11 +105,6 @@ def _repl_directives(code_str):
     return _re_v1().sub(_fmt, code_str)
 
 # %% ../nbs/API/migrate.ipynb 35
-def _listify_src(cell): 
-    src = cell.get('source')
-    return src.splitlines() if isinstance(src, str) else src.copy() if src else None
-
-# %% ../nbs/API/migrate.ipynb 36
 def _repl_v1dir(cell):
     "Replace nbdev v1 with v2 directives."
     if cell.get('source') and cell.get('cell_type') == 'code':
@@ -119,20 +114,20 @@ def _repl_v1dir(cell):
         if not ss: pass
         else: cell['source'] = '\n'.join([_repl_directives(c) for c in ss[:first_code]] + ss[first_code:])
 
-# %% ../nbs/API/migrate.ipynb 39
+# %% ../nbs/API/migrate.ipynb 38
 _re_callout = re.compile(r'^>\s(Warning|Note|Important|Tip):(.*)', flags=re.MULTILINE)
 def _co(x): return ":::{.callout-"+x[1].lower()+"}\n\n" + f"{x[2].strip()}\n\n" + ":::"
 def _convert_callout(s): 
     "Convert nbdev v1 to v2 callouts."
     return _re_callout.sub(_co, s)
 
-# %% ../nbs/API/migrate.ipynb 45
+# %% ../nbs/API/migrate.ipynb 44
 def _repl_v1callouts(cell):
     "Replace nbdev v1 with v2 callouts."
     if cell.get('source') and cell.get('cell_type') == 'markdown':
         cell['source'] = _convert_callout(cell['source'])
 
-# %% ../nbs/API/migrate.ipynb 46
+# %% ../nbs/API/migrate.ipynb 45
 def migrate_nb(path, overwrite=True):
     "Migrate Notebooks from nbdev v1 and fastpages."
     nbp = NBProcessor(path, procs=[FrontmatterProc, MigrateProc, _repl_v1callouts, _repl_v1dir])
@@ -140,14 +135,14 @@ def migrate_nb(path, overwrite=True):
     if overwrite: write_nb(nbp.nb, path)
     return nbp.nb
 
-# %% ../nbs/API/migrate.ipynb 47
+# %% ../nbs/API/migrate.ipynb 46
 def migrate_md(path, overwrite=True):
     "Migrate Markdown Files from fastpages."
     txt = fp_md_fm(path)
     if overwrite: path.write_text(txt)
     return txt
 
-# %% ../nbs/API/migrate.ipynb 48
+# %% ../nbs/API/migrate.ipynb 47
 @call_parse
 def nbdev_migrate(
     path:str=None, # A path or glob containing notebooks and markdown files to migrate
