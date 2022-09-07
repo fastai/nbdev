@@ -2,7 +2,9 @@
 
 # %% ../nbs/API/quarto.ipynb 2
 from __future__ import annotations
-import warnings
+import subprocess,sys,shutil,ast,warnings
+from os import system
+from contextlib import contextmanager
 
 from .config import *
 from .doclinks import *
@@ -11,14 +13,11 @@ from fastcore.utils import *
 from fastcore.script import call_parse
 from fastcore.shutil import rmtree,move,copytree
 from fastcore.meta import delegates
-from .serve import proc_nbs,preview_server
-
-from os import system
-import subprocess,sys,shutil,ast
+from .serve import proc_nbs
 
 # %% auto 0
 __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'refresh_quarto_yml', 'nbdev_readme', 'nbdev_docs',
-           'nbdev_preview', 'deploy', 'prepare']
+           'deploy', 'prepare', 'fs_watchdog', 'nbdev_preview']
 
 # %% ../nbs/API/quarto.ipynb 4
 def _sprun(cmd):
@@ -64,7 +63,7 @@ def _sort(a):
     x,y = a
     if y.startswith('index.'): return x,'00'
     return a
-
+#|export
 _def_file_re = '\.(?:ipynb|qmd|html)$'
 
 @delegates(nbglob_cli)
@@ -74,6 +73,17 @@ def _nbglob_docs(
     file_re:str=_def_file_re, # Only include files matching regex
     **kwargs):
     return nbglob(path, file_glob=file_glob, file_re=file_re, **kwargs)
+
+def _pre_docs(path, n_workers:int=defaults.cpus, **kwargs):
+    cfg = get_config()
+    path = Path(path) if path else cfg.nbs_path
+    _ensure_quarto()
+    refresh_quarto_yml()
+    import nbdev.doclinks
+    nbdev.doclinks._build_modidx()
+    nbdev_sidebar.__wrapped__(path=path, **kwargs)
+    cache = proc_nbs.__wrapped__(path, n_workers=n_workers)
+    return cache,cfg,path
 
 # %% ../nbs/API/quarto.ipynb 10
 @call_parse
@@ -198,47 +208,20 @@ def nbdev_readme(
         if _rdmi.exists(): copytree(_rdmi, cfg_path/_rdmi.name) # Move Supporting files for README
 
 # %% ../nbs/API/quarto.ipynb 18
-def _pre_docs(path, **kwargs):
-    cfg = get_config()
-    path = Path(path) if path else cfg.nbs_path
-    _ensure_quarto()
-    refresh_quarto_yml()
-    import nbdev.doclinks
-    nbdev.doclinks._build_modidx()
-    nbdev_sidebar.__wrapped__(path=path, **kwargs)
-    cache = proc_nbs.__wrapped__(path)
-    return cache,cfg,path
-
-# %% ../nbs/API/quarto.ipynb 19
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_docs(
     path:str=None, # Path to notebooks
+    n_workers:int=defaults.cpus,  # Number of workers
     **kwargs):
     "Create Quarto docs and README.md"
-    cache,cfg,path = _pre_docs(path, **kwargs)
+    cache,cfg,path = _pre_docs(path, n_workers=n_workers, **kwargs)
     nbdev_readme.__wrapped__(path=path, chk_time=True)
     _sprun(f'cd "{cache}" && quarto render --no-cache')
     shutil.rmtree(cfg.doc_path, ignore_errors=True)
     move(cache/cfg.doc_path.name, cfg.config_path)
 
-# %% ../nbs/API/quarto.ipynb 21
-@call_parse
-@delegates(_nbglob_docs)
-def nbdev_preview(
-    path:str=None, # Path to notebooks
-    port:int=None, # The port on which to run preview
-    host:str=None, # The host on which to run preview
-    **kwargs):
-    "Preview docs locally"
-    os.environ['QUARTO_PREVIEW']='1'
-    cache,cfg,path = _pre_docs(path, **kwargs)
-    xtra = []
-    if port: xtra += ['--port', str(port)]
-    if host: xtra += ['--host', host]
-    preview_server(path, xtra)
-
-# %% ../nbs/API/quarto.ipynb 23
+# %% ../nbs/API/quarto.ipynb 20
 @call_parse
 @delegates(nbdev_docs)
 def deploy(
@@ -251,7 +234,7 @@ def deploy(
     except: return warnings.warn('Please install ghp-import with `pip install ghp-import`')
     ghp_import(get_config().doc_path, push=True, stderr=True, no_history=True)
 
-# %% ../nbs/API/quarto.ipynb 24
+# %% ../nbs/API/quarto.ipynb 21
 @call_parse
 def prepare():
     "Export, test, and clean notebooks, and render README if needed"
@@ -261,3 +244,47 @@ def prepare():
     nbdev.clean.nbdev_clean.__wrapped__()
     refresh_quarto_yml()
     nbdev_readme.__wrapped__(chk_time=True)
+
+# %% ../nbs/API/quarto.ipynb 23
+@contextmanager
+def fs_watchdog(func, path, recursive:bool=True):
+    "File system watchdog dispatching to `func`"
+    from watchdog.observers import Observer
+    from watchdog.events import FileSystemEventHandler
+    class _ProcessHandler(FileSystemEventHandler): dispatch=func
+    observer = Observer()
+    observer.schedule(_ProcessHandler, path, recursive=True)
+    observer.start()
+    try: yield
+    except KeyboardInterrupt: pass
+    finally:
+        observer.stop()
+        observer.join()
+
+# %% ../nbs/API/quarto.ipynb 24
+@call_parse
+@delegates(_nbglob_docs)
+def nbdev_preview(
+    path:str=None, # Path to notebooks
+    port:int=None, # The port on which to run preview
+    host:str=None, # The host on which to run preview
+    n_workers:int=defaults.cpus,  # Number of workers
+    **kwargs):
+    "Preview docs locally"
+    os.environ['QUARTO_PREVIEW']='1'
+    cache,cfg,path = _pre_docs(path, n_workers=n_workers, **kwargs)
+    xtra = []
+    if port: xtra += ['--port', str(port)]
+    if host: xtra += ['--host', host]
+
+    def _f(e):
+        src = Path(e.src_path)
+        if src.is_file() and not any(o[0]=='.' for o in src.parts):
+            res = _proc_file(src, cache, path)
+            if res:
+                try: serve_drv.main(res)
+                except: traceback.print_exc()
+
+    os.chdir(cache)
+    xtra = xtra or []
+    with fs_watchdog(_f, path): subprocess.run(['quarto','preview']+xtra)
