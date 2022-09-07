@@ -6,7 +6,7 @@ __all__ = ['MigrateProc', 'fp_nb_fm', 'fp_md_fm', 'migrate_nb', 'migrate_md', 'n
 # %% ../nbs/API/migrate.ipynb 2
 from .process import *
 from .frontmatter import *
-from .frontmatter import _fm2dict, _re_fm_md
+from .frontmatter import _fm2dict, _re_fm_md, _dict2fm, _insertfm
 from .processors import *
 from .config import get_config, read_nb
 from .sync import write_nb
@@ -65,9 +65,9 @@ def _fp_convert(fm:dict, path:Path):
 # %% ../nbs/API/migrate.ipynb 15
 class MigrateProc(Processor):
     def begin(self): 
-        self.nb.frontmatter_ = _fp_convert(self.nb.frontmatter_, self.path)
+        self.nb.frontmatter_ = _fp_convert(self.nb.frontmatter_, self.nb.path_)
         if getattr(first(self.nb.cells), 'cell_type', None) == 'raw': del self.nb.cells[0]
-        insertfm(self.nb, self.nb.frontmatter_)
+        _insertfm(self.nb, self.nb.frontmatter_)
 
 def fp_nb_fm(path, overwrite=True):
     "Migrate fastpages front matter in notebooks to a raw cell."
@@ -84,7 +84,7 @@ def fp_md_fm(path):
     fm = _fm2dict(md, nb=False)
     if fm:
         fm = _fp_convert(fm, path)
-        return _re_fm_md.sub(dict2fm(fm), md)
+        return _re_fm_md.sub(_dict2fm(fm), md)
     else: return md 
 
 # %% ../nbs/API/migrate.ipynb 30
