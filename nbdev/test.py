@@ -16,7 +16,6 @@ from .config import *
 from .doclinks import *
 from .process import NBProcessor, nb_lang
 from .frontmatter import FrontmatterProc
-from logging import warning
 
 from execnb.nbio import *
 from execnb.shell import *
@@ -26,7 +25,7 @@ def test_nb(fn,  # file name of notebook to test
             skip_flags=None,  # list of flags marking cells to skip
             force_flags=None,  # list of flags marking cells to always run
             do_print=False,  # print completion?
-            showerr=True,  # warn errors?
+            showerr=True,  # print errors to stderr?
             basepath=None):  # path to add to sys.path
     "Execute tests in notebook in `fn` except those with `skip_flags`"
     if basepath: sys.path.insert(0, str(basepath))
@@ -51,7 +50,7 @@ def test_nb(fn,  # file name of notebook to test
             k.run_all(nb, exc_stop=True, preproc=_no_eval)
             res = True
     except: 
-        if showerr: warning(k.prettytb(fname=fn))
+        if showerr: sys.stderr.write(k.prettytb(fname=fn)+'\n')
         res=False
     if do_print: print(f'- Completed {fn}')
     return res,time.time()-start
@@ -84,11 +83,11 @@ def nbdev_test(
     if len(files)==0: return print('No files were eligible for testing')
 
     if n_workers is None: n_workers = 0 if len(files)==1 else min(num_cpus(), 8)
-    os.chdir(get_config().nbs_path)
     if IN_NOTEBOOK: kw = {'method':'spawn'} if os.name=='nt' else {'method':'forkserver'}
     else: kw = {}
-    results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers,
-                       basepath=get_config().config_path, pause=pause, do_print=do_print, **kw)
+    with working_directory(get_config().nbs_path):
+        results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers,
+                           basepath=get_config().config_path, pause=pause, do_print=do_print, **kw)
     passed,times = zip(*results)
     if all(passed): print("Success.")
     else: 
