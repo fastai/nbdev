@@ -1,0 +1,35 @@
+website:
+  sidebar:
+    contents:
+      - getting_started.ipynb
+      - migrating.ipynb
+      - section: Tutorials
+        contents:
+          - 01_Tutorials/01_tutorial.ipynb
+          - 01_Tutorials/02_git_friendly_jupyter.ipynb
+          - 01_Tutorials/03_modular_nbdev.ipynb
+      - section: Explanations
+        contents:
+          - 02_Explanations/config.ipynb
+          - 02_Explanations/directives.ipynb
+          - 02_Explanations/docs.ipynb
+      - section: API
+        contents:
+          - 09_API/01_config.ipynb
+          - 09_API/02_maker.ipynb
+          - 09_API/03_process.ipynb
+          - 09_API/04a_export.ipynb
+          - 09_API/04b_doclinks.ipynb
+          - 09_API/05_sync.ipynb
+          - 09_API/06_merge.ipynb
+          - 09_API/08_showdoc.ipynb
+          - 09_API/09a_frontmatter.ipynb
+          - 09_API/09b_processors.ipynb
+          - 09_API/10_clean.ipynb
+          - 09_API/11_test.ipynb
+          - 09_API/12_cli.ipynb
+          - 09_API/13_quarto.ipynb
+          - 09_API/14_qmd.ipynb
+          - 09_API/15_migrate.ipynb
+          - 09_API/16_serve.ipynb
+          - 09_API/17_release.ipynb

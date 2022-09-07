@@ -1,10 +1,9 @@
 project:
-  type: website
   output-dir: _docs
 
 website:
   title: "nbdev"
   site-url: "https://nbdev.fast.ai/"
   description: "Create delightful software with Jupyter Notebooks"
+  repo-branch: master
   repo-url: "https://github.com/fastai/nbdev"
-

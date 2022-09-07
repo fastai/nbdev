@@ -1,6 +1,5 @@
 project:
   type: website
-  output-dir: _docs
   preview:
     port: 3000
     browser: false
@@ -13,23 +12,47 @@ format:
     toc-depth: 4
 
 website:
-  title: "nbdev"
-  site-url: "https://nbdev.fast.ai/"
-  description: "Create delightful software with Jupyter Notebooks"
   twitter-card: true
   open-graph: true
-  repo-branch: master
-  repo-url: "https://github.com/fastai/nbdev"
   repo-actions: [issue]
+  sidebar:
+    style: "floating"
+    contents:
+      - getting_started.ipynb
+      - migrating.ipynb
+      - auto: Tutorials
+      - auto: Explanations
+      - auto: API
+  favicon: favicon.png
   navbar:
     background: primary
     search: true
+    collapse-below: lg
+    left:
+      - text: "Get Started"
+        href: getting_started.ipynb
+      - text: "Tutorial"
+        href: Tutorials/tutorial.ipynb
+      - text: "Blog"
+        href: https://www.fast.ai/2022/07/28/nbdev-v2/
+      - text: "Help"
+        menu:
+          - text: "Report an Issue"
+            icon: bug
+            href: https://github.com/fastai/nbdev/issues
+          - text: "Fast.ai Forum"
+            icon: chat-right-text
+            href: https://forums.fast.ai/
+          - text: "FAQ"
+            icon: question-circle
+            href: getting_started.ipynb#faq
     right:
       - icon: github
         href: "https://github.com/fastai/nbdev"
-  sidebar:
-    style: "floating"
+      - icon: twitter
+        href: https://twitter.com/fastdotai
+        aria-label: Fast.ai Twitter
 
 metadata-files: 
-  - sidebar.yml
-  - custom.yml
+  - nbdev.yml
+

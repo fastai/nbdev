@@ -44,9 +44,8 @@ practices because tests and documentation are first class.
   Actions](https://github.com/features/actions) that run your tests and
   rebuild your docs
 - **Git-friendly notebooks** with [Jupyter/Git
-  hooks](/01_Tutorials/02_git_friendly_jupyter.ipynb) that clean
-  unwanted metadata and render merge conflicts in a human-readable
-  format
+  hooks](/Tutorials/git_friendly_jupyter.ipynb) that clean unwanted
+  metadata and render merge conflicts in a human-readable format
 - … and much more!
 
 ## Install
@@ -72,8 +71,7 @@ that you use for both Jupyter and your project.
 ## How to use nbdev
 
 The best way to learn how to use nbdev is to complete either the
-[written
-walkthrough](https://nbdev.fast.ai/01_Tutorials/01_tutorial.html) or
+[written walkthrough](https://nbdev.fast.ai/Tutorials/tutorial.html) or
 video walkthrough:
 
 <div style="text-align: center">
@@ -150,10 +148,10 @@ and the other which does `some_module.something()`.
 The reason for this is that when we create your documentation website,
 we ensure that all of the signatures for functions you document are up
 to date, by running the imports, exported cells, and
-[`show_doc`](https://nbdev.fast.ai/09_API/showdoc.html#show_doc)
-functions in your notebooks. When you mix imports with other code, that
-other code will be run too, which can cause errors (or at least
-slowdowns) when creating your website.
+[`show_doc`](https://nbdev.fast.ai/API/showdoc.html#show_doc) functions
+in your notebooks. When you mix imports with other code, that other code
+will be run too, which can cause errors (or at least slowdowns) when
+creating your website.
 
 ### Q: Why is nbdev asking for root access? How do I install Quarto without root access?
 
@@ -208,7 +206,7 @@ strive to abide by generally accepted best practices in open-source
 software development.
 
 Make sure you have `nbdev`’s git hooks installed by running
-[`nbdev_install_hooks`](https://nbdev.fast.ai/09_API/clean.html#nbdev_install_hooks)
+[`nbdev_install_hooks`](https://nbdev.fast.ai/API/clean.html#nbdev_install_hooks)
 in the cloned repository.
 
 ## Copyright
