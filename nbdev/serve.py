@@ -40,7 +40,7 @@ def _exec_py(fname):
 # %% ../nbs/api/serve.ipynb 5
 def _proc_file(s, cache, path, mtime=None):
     d = cache/s.relative_to(path)
-    if s.suffix=='.py': d = d.with_suffix('.qmd')
+    if s.suffix=='.py': d = d.with_suffix('')
     if d.exists():
         dtime = d.stat().st_mtime
         if mtime: dtime = max(dtime, mtime)
@@ -62,9 +62,6 @@ def proc_nbs(
     file_glob:str='', # Only include files matching glob
     **kwargs):
     "Process notebooks in `path` for docs rendering"
-    from multiprocessing.forkserver import set_forkserver_preload
-    set_forkserver_preload(['io', 'contextlib', 'execnb.nbio'])
-
     cfg = get_config()
     cache = cfg.config_path/'_proc'
     path = Path(path or cfg.nbs_path)
@@ -78,7 +75,7 @@ def proc_nbs(
     if force or (cache.exists and cache_mtime<chk_mtime): rmtree(cache)
 
     files = files.map(_proc_file, mtime=cache_mtime, cache=cache, path=path).filter()
-    kw = {} if IN_NOTEBOOK else {'method':'forkserver' if os.name=='posix' else 'spawn'}
+    kw = {} if IN_NOTEBOOK else {'method':'spawn'}
     parallel(serve_drv.main, files, n_workers=n_workers, pause=0.01, **kw)
     if cache.exists(): cache.touch()
     return cache
