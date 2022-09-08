@@ -21,6 +21,8 @@ jobs:
       - name: test docs build
         if: ${{ (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && matrix.version == '3.9' && matrix.os == 'ubuntu' }}
         run: |
+          wget $(curl https://latest.fast.ai/pre/quarto-dev/quarto-cli/linux-amd64.deb)
+          sudo dpkg -i quarto*.deb
           nbdev_docs
           if [ -f "_docs/index.html" ]; then
             echo "docs built successfully."
