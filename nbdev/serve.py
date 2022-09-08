@@ -15,7 +15,7 @@ from fastcore.meta import delegates
 from .config import get_config
 from .doclinks import nbglob_cli,nbglob
 from .processors import FilterDefaults
-from . import serve_drv
+import nbdev.serve_drv
 
 # %% ../nbs/api/serve.ipynb 4
 def _is_qpy(path:Path):
@@ -30,7 +30,7 @@ def _is_qpy(path:Path):
     if isinstance(a, ast.Expr) and isinstance(a.value, ast.Constant):
         v = a.value.value.strip()
         vl = v.splitlines()
-        if vl[0]=='---' and vl[-1]=='---': return v
+        if vl[0]=='---' and vl[-1]=='---': return '\n'.join(vl[1:-1])
 
 def _exec_py(fname):
     "Exec a python script and warn on error"
@@ -49,10 +49,10 @@ def _proc_file(s, cache, path, mtime=None):
     d.parent.mkdir(parents=True, exist_ok=True)
     if s.suffix=='.ipynb': return s,d,FilterDefaults
     md = _is_qpy(s)
-    if md: return s,d,md
+    if md is not None: return s,d,md.strip()
     else: copy2(s,d)
 
-# %% ../nbs/api/serve.ipynb 6
+# %% ../nbs/api/serve.ipynb 7
 @call_parse
 @delegates(nbglob_cli)
 def proc_nbs(
@@ -76,6 +76,6 @@ def proc_nbs(
 
     files = files.map(_proc_file, mtime=cache_mtime, cache=cache, path=path).filter()
     kw = {} if IN_NOTEBOOK else {'method':'spawn'}
-    parallel(serve_drv.main, files, n_workers=n_workers, pause=0.01, **kw)
+    parallel(nbdev.serve_drv.main, files, n_workers=n_workers, pause=0.01, **kw)
     if cache.exists(): cache.touch()
     return cache

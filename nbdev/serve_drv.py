@@ -7,7 +7,9 @@ def exec_scr(src, dst, md):
     f = StringIO()
     g = {}
     with redirect_stdout(f): exec(compile(src.read_text(), src, 'exec'), g)
-    dst.write_text(md + "\n\n" + f.getvalue())
+    res = ""
+    if md: res += "---\n" + md + "\n---\n\n"
+    dst.write_text(res + f.getvalue())
 
 def exec_nb(src, dst, cb):
     nb = read_nb(src)
