@@ -19,7 +19,7 @@ jobs:
           version: ${{ matrix.version }}
           pre: 1
       - name: test docs build
-        if: ${{ github.event_name == 'pull_request' && matrix.version == '3.9' && matrix.os == 'ubuntu' }}
+        if: ${{ (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && matrix.version == '3.9' && matrix.os == 'ubuntu' }}
         run: |
           nbdev_docs
           if [ -f "_docs/index.html" ]; then
