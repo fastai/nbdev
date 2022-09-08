@@ -64,7 +64,7 @@ b(f"""# <span style='color:#009AF1'>Create delightful software</span><br>with Ju
 
 ### Write, test, document, and distribute software packages and technical articles — all in one place, your notebook.
 
-{btn('Get started', 'top/getting_started.ipynb')}
+{btn('Get started', '/getting_started.ipynb')}
 
 {img('card.png', style={"margin-top": "40px", "margin-bottom": "40px"}, link=True)}""", "content-block")
 
@@ -96,5 +96,5 @@ d(expert_b+expert_d, "mid-content")
 
 b(f"""## Get started in seconds
 
-{btn('Install nbdev', 'top/getting_started.ipynb')}""", 'content-block', style={"margin-top": "40px"})
+{btn('Install nbdev', '/getting_started.ipynb')}""", 'content-block', style={"margin-top": "40px"})
 

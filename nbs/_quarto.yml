@@ -32,7 +32,7 @@ website:
     collapse-below: lg
     left:
       - text: "Get Started"
-        href: top/getting_started.ipynb
+        href: getting_started.ipynb
       - text: "Tutorial"
         href: Tutorials/tutorial.ipynb
       - text: "Blog"
@@ -47,7 +47,7 @@ website:
             href: https://forums.fast.ai/
           - text: "FAQ"
             icon: question-circle
-            href: top/getting_started.ipynb#faq
+            href: getting_started.ipynb#faq
     right:
       - icon: github
         href: "https://github.com/fastai/nbdev"
