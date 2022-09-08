@@ -32,11 +32,6 @@ def _is_qpy(path:Path):
         vl = v.splitlines()
         if vl[0]=='---' and vl[-1]=='---': return '\n'.join(vl[1:-1])
 
-def _exec_py(fname):
-    "Exec a python script and warn on error"
-    try: subprocess.check_output('python ' + fname, shell=True)
-    except subprocess.CalledProcessError as cpe: warn(str(cpe))
-
 # %% ../nbs/api/serve.ipynb 5
 def _proc_file(s, cache, path, mtime=None):
     d = cache/s.relative_to(path)
