@@ -85,7 +85,7 @@ def nbdev_new(**kwargs):
     _update_repo_meta(cfg)
 
     path = Path()
-    tag = GhApi().repos.get_latest_release('fastai', 'nbdev-template').tag_name
+    tag = GhApi(gh_host='https://api.github.com').repos.get_latest_release('fastai', 'nbdev-template').tag_name
     url = f"https://github.com/fastai/nbdev-template/archive/{tag}.tar.gz"
     extract_tgz(url)
     tmpl_path = path/f'nbdev-template-{tag}'
@@ -102,7 +102,7 @@ def nbdev_new(**kwargs):
     nbdev_export.__wrapped__()
     nbdev_readme.__wrapped__()
 
-# %% ../nbs/cli.ipynb 14
+# %% ../nbs/cli.ipynb 15
 @call_parse
 def chelp():
     "Show help for all console scripts"
