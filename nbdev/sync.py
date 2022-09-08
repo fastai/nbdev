@@ -14,7 +14,7 @@ from execnb.nbio import *
 from fastcore.script import *
 from fastcore.xtras import *
 
-import ast,tempfile
+import ast
 from importlib import import_module
 
 # %% ../nbs/api/sync.ipynb 5
@@ -51,7 +51,6 @@ def _update_lib(nbname, nb_locs, lib_name=None):
 # %% ../nbs/api/sync.ipynb 10
 @functools.lru_cache(maxsize=None)
 def _mod_files():
-    mdir = get_config().path('lib_path').parent
     midx = import_module(f'{get_config().lib_name}._modidx')
     return L(files for mod in midx.d['syms'].values() for _,files in mod.values()).unique()
 

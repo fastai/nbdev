@@ -10,7 +10,6 @@ from fastcore.all import *
 from ghapi.core import *
 
 from datetime import datetime
-from configparser import ConfigParser
 import shutil,subprocess
 
 from .doclinks import *
@@ -138,7 +137,6 @@ from .config import *
 from .cli import *
 
 import yaml,subprocess,glob,platform
-from copy import deepcopy
 from os import system
 try: from packaging.version import parse
 except ImportError: from pip._vendor.packaging.version import parse
@@ -161,7 +159,6 @@ def pypi_details(name):
     "Version, URL, and SHA256 for `name` from pypi"
     ver = str(latest_pypi(name))
     pypi = pypi_json(f'{name}/{ver}')
-    info = pypi['info']
     rel = [o for o in pypi['urls'] if o['packagetype']=='sdist'][0]
     return ver,rel['url'],rel['digests']['sha256']
 
