@@ -18,13 +18,13 @@ website:
   sidebar:
     style: floating
     contents:
-      - auto: "top/*.ipynb"
-      - section: Tutorials
+      - auto: "/*.ipynb"
+      - section: Tutorials/index.qmd
         contents: Tutorials
-      - section: Explanations
+      - section: Explanations/index.qmd
         contents: Explanations
-      - section: API
-        contents: {auto: "/*.ipynb"}
+      - section: api/index.qmd
+        contents: api
   favicon: favicon.png
   navbar:
     background: primary

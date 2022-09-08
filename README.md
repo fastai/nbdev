@@ -148,8 +148,8 @@ and the other which does `some_module.something()`.
 The reason for this is that when we create your documentation website,
 we ensure that all of the signatures for functions you document are up
 to date, by running the imports, exported cells, and
-[`show_doc`](https://nbdev.fast.ai/showdoc.html#show_doc) functions in
-your notebooks. When you mix imports with other code, that other code
+[`show_doc`](https://nbdev.fast.ai/api/showdoc.html#show_doc) functions
+in your notebooks. When you mix imports with other code, that other code
 will be run too, which can cause errors (or at least slowdowns) when
 creating your website.
 
@@ -206,7 +206,7 @@ strive to abide by generally accepted best practices in open-source
 software development.
 
 Make sure you have `nbdev`’s git hooks installed by running
-[`nbdev_install_hooks`](https://nbdev.fast.ai/clean.html#nbdev_install_hooks)
+[`nbdev_install_hooks`](https://nbdev.fast.ai/api/clean.html#nbdev_install_hooks)
 in the cloned repository.
 
 ## Copyright
