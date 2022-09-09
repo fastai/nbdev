@@ -1,5 +1,4 @@
-"""
----
+"""---
 title: Home
 pagetitle: nbdev – Create delightful software with Jupyter Notebooks
 page-layout: custom
@@ -8,8 +7,7 @@ css: index.css
 toc: false
 image: https://nbdev.fast.ai/images/card.png
 description: Write, test, document, and distribute software packages and technical articles — all in one place, your notebook.
----
-"""
+---"""
 
 from fastcore.foundation import L
 from nbdev import qmd
