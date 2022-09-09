@@ -34,6 +34,7 @@ def _is_qpy(path:Path):
 
 # %% ../nbs/api/serve.ipynb 5
 def _proc_file(s, cache, path, mtime=None):
+    if not s.is_file() or any(o[0]=='.' or o=='_proc' for o in s.parts): return
     d = cache/s.relative_to(path)
     if s.suffix=='.py': d = d.with_suffix('')
     if d.exists():

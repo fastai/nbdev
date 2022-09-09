@@ -279,12 +279,10 @@ def nbdev_preview(
     if host: xtra += ['--host', host]
 
     def _f(e):
-        src = Path(e.src_path)
-        if src.is_file() and not any(o[0]=='.' for o in src.parts):
-            res = _proc_file(src, cache, path)
-            if res:
-                try: serve_drv.main(res)
-                except: traceback.print_exc()
+        res = _proc_file(Path(e.src_path), cache, path)
+        if res:
+            try: serve_drv.main(res)
+            except: traceback.print_exc()
 
     os.chdir(cache)
     xtra = xtra or []
