@@ -50,7 +50,7 @@ class Release:
             default_groups=dict(breaking="Breaking Changes", enhancement="New Features", bug="Bugs Squashed")
             groups=_load_json(self.cfg, 'label_groups') if 'label_groups' in self.cfg else default_groups
         os.chdir(self.cfg.config_path)
-        owner,repo = owner or self.cfg.user, repo or self.cfg.lib_name
+        owner,repo = owner or self.cfg.user, repo or self.cfg.repo
         token = ifnone(token, os.getenv('NBDEV_TOKEN',None))
         if not token and Path('token').exists(): token = Path('token').read_text().strip()
         if not token: raise Exception('Failed to find token')
