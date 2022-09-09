@@ -44,8 +44,9 @@ practices because tests and documentation are first class.
   Actions](https://github.com/features/actions) that run your tests and
   rebuild your docs
 - **Git-friendly notebooks** with [Jupyter/Git
-  hooks](/Tutorials/git_friendly_jupyter.ipynb) that clean unwanted
-  metadata and render merge conflicts in a human-readable format
+  hooks](https://nbdev.fast.ai/Tutorials/git_friendly_jupyter.html) that
+  clean unwanted metadata and render merge conflicts in a human-readable
+  format
 - … and much more!
 
 ## Install

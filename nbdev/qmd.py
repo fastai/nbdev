@@ -8,7 +8,7 @@ from fastcore.utils import *
 from fastcore.meta import delegates
 
 # %% auto 0
-__all__ = ['meta', 'div', 'img', 'btn']
+__all__ = ['meta', 'div', 'img', 'btn', 'tblrow', 'tblhdr']
 
 # %% ../nbs/api/qmd.ipynb 4
 def meta(md,  # Markdown to add meta to
@@ -59,3 +59,14 @@ def btn(txt, # Button text
         **kwargs):
     "A qmd button"
     return meta(f'[{txt}]({link})', classes=classes, style=style, role="button")
+
+# %% ../nbs/api/qmd.ipynb 8
+def tblrow(cols):
+    "Create a table row from `cols`"
+    return '|' + '|'.join(str(c or '') for c in cols) + '|\n'
+
+# %% ../nbs/api/qmd.ipynb 9
+def tblhdr(titles, sizes=None):
+    "Create a table header with `titles` and relative size `sizes`"
+    if sizes is None: sizes = [3]*len(titles)
+    return tblrow(titles)+tblrow('-'*s for s in sizes)

@@ -19,9 +19,9 @@ website:
     style: floating
     contents:
       - auto: "/*.ipynb"
-      - section: Tutorials/index.qmd
+      - section: Tutorials
         contents: Tutorials
-      - section: Explanations/index.qmd
+      - section: Explanations
         contents: Explanations
       - section: api/index.qmd
         contents: api
