@@ -53,6 +53,7 @@ class Release:
         owner,repo = owner or self.cfg.user, repo or self.cfg.repo
         token = ifnone(token, os.getenv('NBDEV_TOKEN',None))
         if not token and Path('token').exists(): token = Path('token').read_text().strip()
+        token = ifnone(token, os.getenv('GITHUB_TOKEN',None))
         if not token: raise Exception('Failed to find token')
         self.gh = GhApi(owner, repo, token)
         self.groups = groups
