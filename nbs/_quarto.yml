@@ -20,10 +20,10 @@ website:
     contents:
       - auto: "/*.ipynb"
       - section: Tutorials
-        contents: Tutorials
+        contents: tutorials
       - section: Explanations
-        contents: Explanations
-      - section: api/index.qmd
+        contents: explanations
+      - section: api
         contents: api
   favicon: favicon.png
   navbar:

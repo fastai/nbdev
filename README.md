@@ -44,7 +44,7 @@ practices because tests and documentation are first class.
   Actions](https://github.com/features/actions) that run your tests and
   rebuild your docs
 - **Git-friendly notebooks** with [Jupyter/Git
-  hooks](https://nbdev.fast.ai/Tutorials/git_friendly_jupyter.html) that
+  hooks](https://nbdev.fast.ai/tutorials/git_friendly_jupyter.html) that
   clean unwanted metadata and render merge conflicts in a human-readable
   format
 - … and much more!
@@ -72,7 +72,7 @@ that you use for both Jupyter and your project.
 ## How to use nbdev
 
 The best way to learn how to use nbdev is to complete either the
-[written walkthrough](https://nbdev.fast.ai/Tutorials/tutorial.html) or
+[written walkthrough](https://nbdev.fast.ai/tutorials/tutorial.html) or
 video walkthrough:
 
 <div style="text-align: center">
