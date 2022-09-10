@@ -21,7 +21,7 @@ from fastcore.style import S
 from fastcore.shutil import rmtree,move
 
 from urllib.error import HTTPError
-from contextlib import redirect_stdout
+from contextlib import contextmanager,redirect_stdout
 import os, tarfile, sys
 
 # %% auto 0
@@ -75,21 +75,37 @@ def _update_repo_meta(cfg):
                   "Use a token with the correction permissions or perform these steps manually.")
 
 # %% ../nbs/api/cli.ipynb 11
+@contextmanager
+def _env(k, v):
+    "Temporarily set environment variable `k` to `v`."
+    orig = os.getenv(k)
+    try:
+        os.environ[k] = v
+        yield
+    finally:
+        if orig is not None: os.environ[k] = orig
+
+# %% ../nbs/api/cli.ipynb 12
+def _download_template(path):
+    from ghapi.core import GhApi
+    with _env('GITHUB_TOKEN', ''), warnings.catch_warnings():
+        warnings.simplefilter('ignore', UserWarning)
+        tag = GhApi(gh_host='https://api.github.com', token='').repos.get_latest_release('fastai', 'nbdev-template').tag_name
+    url = f"https://github.com/fastai/nbdev-template/archive/{tag}.tar.gz"
+    extract_tgz(url)
+    return path/f'nbdev-template-{tag}'
+
+# %% ../nbs/api/cli.ipynb 13
 @call_parse
 @delegates(nbdev_create_config)
 def nbdev_new(**kwargs):
     "Create an nbdev project."
-    from ghapi.core import GhApi
     nbdev_create_config.__wrapped__(**kwargs)
     cfg = get_config()
     _update_repo_meta(cfg)
 
     path = Path()
-    tag = GhApi(gh_host='https://api.github.com').repos.get_latest_release('fastai', 'nbdev-template').tag_name
-    url = f"https://github.com/fastai/nbdev-template/archive/{tag}.tar.gz"
-    extract_tgz(url)
-    tmpl_path = path/f'nbdev-template-{tag}'
-
+    tmpl_path = _download_template(path)
     nbexists = bool(first(path.glob('*.ipynb')))
     for o in tmpl_path.ls():
         if o.name == 'index.ipynb': _render_nb(o, cfg)
@@ -102,7 +118,7 @@ def nbdev_new(**kwargs):
     nbdev_export.__wrapped__()
     nbdev_readme.__wrapped__()
 
-# %% ../nbs/api/cli.ipynb 15
+# %% ../nbs/api/cli.ipynb 17
 @call_parse
 def chelp():
     "Show help for all console scripts"
