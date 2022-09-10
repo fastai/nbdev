@@ -52,7 +52,7 @@ r += tblhdr(['','Name','Position'], [1,3,4])
 r += [tblrow([im(fn, 60), nm, ps]) for fn,nm,ps in testms]
 ```
 
-`r` is a list which is printed at the end of the script, and `tblhdr` and `tblrow` are two functions imported from the module `nbdev.qmd`. [`nbdev.qmd`](https://nbdev.fast.ai/api/qmd.html) is a small module that has some convenient functions for creating `.qmd` documents, such as the table creation functions used above. You can see more examples of their use in [index.qmd.py](https://github.com/fastai/nbdev/blob/master/nbs/index.qmd.py), which is the RenderScript which creates the [nbdev home page](https://nbdev.fast.ai).
+`r` is a list which is printed at the end of the script, and [`tblhdr`](https://nbdev.fast.ai/api/qmd.html#tblhdr) and [`tblrow`](https://nbdev.fast.ai/api/qmd.html#tblrow) are two functions imported from the module `nbdev.qmd`. [`nbdev.qmd`](https://nbdev.fast.ai/api/qmd.html) is a small module that has some convenient functions for creating `.qmd` documents, such as the table creation functions used above. You can see more examples of their use in [index.qmd.py](https://github.com/fastai/nbdev/blob/master/nbs/index.qmd.py), which is the RenderScript which creates the [nbdev home page](https://nbdev.fast.ai).
 
 You can use RenderScripts to create any kind of file. For instance, the SVG below is created dynamically using [this script](https://github.com/fastai/nbdev/blob/master/nbs/images/circles.svg.py):
 """)
