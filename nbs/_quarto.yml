@@ -34,7 +34,7 @@ website:
       - text: "Get Started"
         href: getting_started.ipynb
       - text: "Tutorial"
-        href: Tutorials/tutorial.ipynb
+        href: tutorials/tutorial.ipynb
       - text: "Blog"
         href: https://www.fast.ai/2022/07/28/nbdev-v2/
       - text: "Help"
