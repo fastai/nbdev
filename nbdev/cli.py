@@ -83,7 +83,8 @@ def _env(k, v):
         os.environ[k] = v
         yield
     finally:
-        if orig is not None: os.environ[k] = orig
+        if orig is None: del os.environ[k]
+        else: os.environ[k] = orig
 
 # %% ../nbs/api/cli.ipynb 12
 def _download_template(path):
