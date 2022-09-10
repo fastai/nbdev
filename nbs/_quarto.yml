@@ -23,7 +23,7 @@ website:
         contents: tutorials
       - section: Explanations
         contents: explanations
-      - section: api
+      - section: API
         contents: api
   favicon: favicon.png
   navbar:
