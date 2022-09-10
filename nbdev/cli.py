@@ -85,7 +85,9 @@ def nbdev_new(**kwargs):
     _update_repo_meta(cfg)
 
     path = Path()
-    tag = GhApi(gh_host='https://api.github.com').repos.get_latest_release('fastai', 'nbdev-template').tag_name
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore', UserWarning)
+        tag = GhApi(gh_host='https://api.github.com').repos.get_latest_release('fastai', 'nbdev-template').tag_name
     url = f"https://github.com/fastai/nbdev-template/archive/{tag}.tar.gz"
     extract_tgz(url)
     tmpl_path = path/f'nbdev-template-{tag}'
