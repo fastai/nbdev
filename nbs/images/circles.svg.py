@@ -1,12 +1,10 @@
-"""
----
----
-"""
+"""---
+---"""
 
 # Original copyright 2022 Gram, MIT license; https://github.com/orsinium-labs/generative-art; Changes copyright Jeremy Howard
 
 import math,svg
-from random import randint, random
+from random import randint,random,seed
 from typing import NamedTuple
 
 class Point(NamedTuple):
@@ -71,5 +69,6 @@ class Generator:
         if r < self.min_radius: return None
         return Circle(c=center, r=r)
 
+seed(42)
 print(Generator().generate())
 

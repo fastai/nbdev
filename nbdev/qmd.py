@@ -63,10 +63,10 @@ def btn(txt, # Button text
 # %% ../nbs/api/qmd.ipynb 8
 def tblrow(cols):
     "Create a table row from `cols`"
-    return '|' + '|'.join(str(c or '') for c in cols) + '|\n'
+    return '|' + '|'.join(str(c or '') for c in cols) + '|'
 
 # %% ../nbs/api/qmd.ipynb 9
 def tblhdr(titles, sizes=None):
     "Create a table header with `titles` and relative size `sizes`"
     if sizes is None: sizes = [3]*len(titles)
-    return tblrow(titles)+tblrow('-'*s for s in sizes)
+    return [tblrow(titles), tblrow('-'*s for s in sizes)]
