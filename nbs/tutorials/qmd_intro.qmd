@@ -1,5 +1,6 @@
 ---
 title: Qmd documents
+description: Introduction to qmd -- markdown on steroids
 order: 3
 execute:
   echo: false
