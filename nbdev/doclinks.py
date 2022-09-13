@@ -60,12 +60,12 @@ def _get_modidx(pyfile, code_root, nbs_path):
             nbpath = nbpath.with_name(re.sub(r'\d+[a-zA-Z0-9]*_', '', nbpath.name.lower()))
             loc = nbpath.relative_to(nbs_path).with_suffix('.html')
 
-            def _stor(nm, tree, pre=''): d[f'{mod_name}{pre}.{nm}'] = f'{loc.as_posix()}#{nm.lower()}',rel_name
+            def _stor(nm): d[f'{mod_name}.{nm}'] = f'{loc.as_posix()}#{nm.lower()}',rel_name
             for tree in ast.parse('\n'.join(rest)).body:
-                if isinstance(tree, _def_types): _stor(patch_name(tree), tree)
+                if isinstance(tree, _def_types): _stor(patch_name(tree))
                 if isinstance(tree, ast.ClassDef):
                     for t2 in tree.body:
-                        if isinstance(t2, _def_types): _stor(t2.name, t2, f'.{tree.name}')
+                        if isinstance(t2, _def_types): _stor(f'{tree.name}.{t2.name}')
     return {mod_name: d}
 
 # %% ../nbs/api/doclinks.ipynb 10
