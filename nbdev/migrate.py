@@ -60,7 +60,7 @@ def _fp_convert(fm:dict, path:Path):
         fm = compose(_fp_fm, _fp_image)(fm)
         if 'permalink' in fm: fm['aliases'] = [f"{fm['permalink'].strip()}"]
         else: fm['aliases'] = [f'{_cat_slug(fm) + _file_slug(path)}']
-    if fm.get('comments'): fm.pop('comments') #in quarto true the default, and true is not a valid value for comments https://quarto.org/docs/output-formats/html-basics.html#commenting
+    if fm.get('comments'): fm.pop('comments') #true by itself is not a valid value for comments https://quarto.org/docs/output-formats/html-basics.html#commenting, and the default is true
     return fm
 
 # %% ../nbs/api/migrate.ipynb 14
