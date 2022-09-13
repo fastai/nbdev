@@ -79,7 +79,7 @@ def _clean_cell(cell, clear_all, allowed_metadata_keys, clean_ids):
 # %% ../nbs/api/clean.ipynb 13
 def clean_nb(
     nb, # The notebook to clean
-    clear_all=False, # Remove all cell metadata and cell outputs
+    clear_all=False, # Remove all cell metadata and cell outputs?
     allowed_metadata_keys:list=None, # Preserve the list of keys in the main notebook metadata
     allowed_cell_metadata_keys:list=None, # Preserve the list of keys in cell level metadata
     clean_ids=True, # Remove ids from plaintext reprs?
@@ -113,19 +113,18 @@ def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
         warn(e)
 
 # %% ../nbs/api/clean.ipynb 26
-def _nbdev_clean(nb, path=None, **kwargs):
+def _nbdev_clean(nb, path=None, clear_all=None):
     cfg = get_config(path=path)
+    clear_all = clear_all or cfg.clear_all
     allowed_metadata_keys = cfg.get("allowed_metadata_keys").split()
     allowed_cell_metadata_keys = cfg.get("allowed_cell_metadata_keys").split()
-    clean_ids = cfg.get('clean_ids', False)
-    return clean_nb(nb, clean_ids=clean_ids, allowed_metadata_keys=allowed_metadata_keys,
-                    allowed_cell_metadata_keys=allowed_cell_metadata_keys, **kwargs)
+    return clean_nb(nb, clear_all, allowed_metadata_keys, allowed_cell_metadata_keys, cfg.clean_ids)
 
 # %% ../nbs/api/clean.ipynb 27
 @call_parse
 def nbdev_clean(
     fname:str=None, # A notebook name or glob to clean
-    clear_all:bool=False, # Clean all metadata and outputs
+    clear_all:bool=False, # Remove all cell metadata and cell outputs?
     disp:bool=False,  # Print the cleaned outputs
     stdin:bool=False # Read notebook from input stream
 ):
@@ -134,7 +133,6 @@ def nbdev_clean(
     _clean = partial(_nbdev_clean, clear_all=clear_all)
     _write = partial(process_write, warn_msg='Failed to clean notebook', proc_nb=_clean)
     if stdin: return _write(f_in=sys.stdin, f_out=sys.stdout)
-    
     if fname is None: fname = get_config().nbs_path
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'): _write(f_in=f, disp=disp)
 
