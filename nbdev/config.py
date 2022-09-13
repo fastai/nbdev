@@ -13,6 +13,7 @@ _doc_ = """Read and write nbdev's `settings.ini` file.
 
 # %% ../nbs/api/config.ipynb 4
 from datetime import datetime
+from fastcore.docments import *
 from fastcore.utils import *
 from fastcore.meta import *
 from fastcore.script import *
@@ -40,9 +41,9 @@ def _apply_defaults(
     branch='master', # Repo default branch
     git_url='https://github.com/%(user)s/%(repo)s', # Repo URL
     custom_sidebar:bool_arg=False, # Use a custom sidebar.yml?
-    nbs_path='.', # Path to notebooks
-    lib_path:str=None, # Path to package root (default: `repo` with `-` replaced by `_`)
-    doc_path='_docs', # Path to rendered docs
+    nbs_path:Path='.', # Path to notebooks
+    lib_path:Path=None, # Path to package root (default: `repo` with `-` replaced by `_`)
+    doc_path:Path='_docs', # Path to rendered docs
     tst_flags='notest', # Test flags
     version='0.0.1', # Version of this release
     doc_host='https://%(user)s.github.io',  # Hostname for docs
@@ -62,6 +63,7 @@ def _apply_defaults(
     allowed_cell_metadata_keys='', # Preserve the list of keys in cell level metadata
     jupyter_hooks=True, # Run Jupyter hooks?
     clean_ids=True, # Remove ids from plaintext reprs?
+    clear_all=False, # Remove all cell metadata and cell outputs?
     custom_quarto_yml=False, # Use a custom _quarto.yml?
 ):
     "Apply default settings where missing in `cfg`."
@@ -188,8 +190,8 @@ def _xdg_config_paths(cfg_name=_nbdev_cfg_name):
     return [o/_nbdev_home_dir/cfg_name for o in xdg_config_paths]
 
 # %% ../nbs/api/config.ipynb 28
-_types = dict(custom_sidebar=bool, nbs_path=Path, lib_path=Path, doc_path=Path, recursive=bool, 
-    black_formatting=bool, jupyter_hooks=bool, clean_ids=bool, custom_quarto_yml=bool, preview_port=int)
+def _type(t): return bool if t==bool_arg else t
+_types = {k:_type(v['anno']) for k,v in docments(_apply_defaults,full=True,returns=False).items() if k != 'cfg'}
 
 @functools.lru_cache(maxsize=None)
 def get_config(cfg_name=_nbdev_cfg_name, path=None):
