@@ -63,6 +63,7 @@ def _apply_defaults(
     jupyter_hooks=True, # Run Jupyter hooks?
     clean_ids=True, # Remove ids from plaintext reprs?
     custom_quarto_yml=False, # Use a custom _quarto.yml?
+    put_version_in_init=True, # Add the version to the main __init__.py in nbdev_export
 ):
     "Apply default settings where missing in `cfg`."
     if getattr(cfg,'repo',None) is None:
@@ -189,7 +190,7 @@ def _xdg_config_paths(cfg_name=_nbdev_cfg_name):
 
 # %% ../nbs/api/config.ipynb 28
 _types = dict(custom_sidebar=bool, nbs_path=Path, lib_path=Path, doc_path=Path, recursive=bool, 
-    black_formatting=bool, jupyter_hooks=bool, clean_ids=bool, custom_quarto_yml=bool, preview_port=int)
+    black_formatting=bool, jupyter_hooks=bool, clean_ids=bool, custom_quarto_yml=bool, preview_port=int, put_version_in_init=bool)
 
 @functools.lru_cache(maxsize=None)
 def get_config(cfg_name=_nbdev_cfg_name, path=None):
@@ -241,7 +242,8 @@ def add_init(path=None):
         r = Path(r)
         subds = (os.listdir(r/d) for d in ds)
         if _has_py(fs) or any(filter(_has_py, subds)) and not (r/_init).exists(): (r/_init).touch()
-    update_version(path)
+    if get_config().put_version_in_init:
+        update_version(path)
 
 # %% ../nbs/api/config.ipynb 52
 def write_cells(cells, hdr, file, offset=0):
