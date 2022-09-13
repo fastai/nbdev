@@ -72,3 +72,18 @@ def tbl_sep(sizes:int|list=3  # List of column sizes, or single `int` if all siz
     "Create a markdown table separator with relative column size `sizes`"
     if isinstance(sizes,int): sizes = [3]*sizes
     return tbl_row('-'*s for s in sizes)
+
+# %% ../nbs/api/qmd.ipynb 10
+def _install_nbdev():
+    return div('''#### pip
+
+```sh
+pip install -U nbdev
+```
+
+#### conda
+
+```sh
+conda install -c fastai nbdev
+```
+''', ['panel-tabset'])
