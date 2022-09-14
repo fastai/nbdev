@@ -65,6 +65,7 @@ def _apply_defaults(
     clean_ids=True, # Remove ids from plaintext reprs?
     clear_all=False, # Remove all cell metadata and cell outputs?
     custom_quarto_yml=False, # Use a custom _quarto.yml?
+    put_version_in_init=True, # Add the version to the main __init__.py in nbdev_export
 ):
     "Apply default settings where missing in `cfg`."
     if getattr(cfg,'repo',None) is None:
@@ -243,7 +244,7 @@ def add_init(path=None):
         r = Path(r)
         subds = (os.listdir(r/d) for d in ds)
         if _has_py(fs) or any(filter(_has_py, subds)) and not (r/_init).exists(): (r/_init).touch()
-    update_version(path)
+    if get_config().get('put_version_in_init', True): update_version(path)
 
 # %% ../nbs/api/config.ipynb 52
 def write_cells(cells, hdr, file, offset=0):
