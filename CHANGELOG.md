@@ -2,6 +2,21 @@
 
 <!-- do not remove -->
 
+## 2.3.1
+
+### Breaking Changes
+
+- `_quarto.yml` no longer replaced with automatically generated version ([#1059](https://github.com/fastai/nbdev/issues/1059))
+  - This was listed in 2.3.0 but wasn't actually included in the release
+
+### Bugs Squashed
+
+- fix `nbdev_update` ([#1058](https://github.com/fastai/nbdev/pull/1058)), thanks to [@seeM](https://github.com/seeM)
+  - fix bug in `nbdev.maker.update_import` which meant that `nbdev_update` didn't convert relative imports without `None` module (e.g `from . import foo` -> `from pkg import foo`)
+  - fix `FileNotFoundError` in `nbdev_update` by passing the correct py module and corresponding notebook paths
+  - fix `nbdev_update` introducing whitespace changes to notebooks
+
+
 ## 2.3.0
 
 ### Breaking Changes
