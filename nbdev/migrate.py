@@ -64,7 +64,9 @@ def _fp_convert(fm:dict, path:Path):
         fm = compose(_fp_fm, _fp_image)(fm)
         if 'permalink' in fm: fm['aliases'] = [f"{fm['permalink'].strip()}"]
         else: fm['aliases'] = [f'{_cat_slug(fm) + _file_slug(path)}']
-    if fm.get('title'): fm['title'] = _rm_quote(fm['title'])
+        
+    for k in ['title', 'description']:
+        if k in fm: fm[k] = _rm_quote(fm[k])
     if fm.get('comments'): fm.pop('comments') #true by itself is not a valid value for comments https://quarto.org/docs/output-formats/html-basics.html#commenting, and the default is true
     return fm
 
