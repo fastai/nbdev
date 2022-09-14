@@ -149,7 +149,7 @@ def update_import(source, tree, libname, f=relative_import):
         nmod = f(imp.module, libname, imp.level)
         lin = imp.lineno-1
         sec = src[lin][imp.col_offset:imp.end_col_offset]
-        newsec = re.sub(f"(from +){'.'*imp.level}{imp.module}", fr"\1{nmod}", sec)
+        newsec = re.sub(f"(from +){'.'*imp.level}{imp.module or ''}", fr"\1{nmod}", sec)
         src[lin] = src[lin].replace(sec,newsec)
     return src
 
