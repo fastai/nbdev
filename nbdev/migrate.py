@@ -52,6 +52,10 @@ def _fp_image(d):
     return d
 
 # %% ../nbs/api/migrate.ipynb 11
+def _rm_quote(s): 
+    title = re.search('''"(.*?)"''', s)
+    return title.group(1) if title else s
+
 def _is_jekyll_post(path): return bool(re.search(r'^\d{4}-\d{2}-\d{2}-', Path(path).name))
 
 def _fp_convert(fm:dict, path:Path):
@@ -60,6 +64,7 @@ def _fp_convert(fm:dict, path:Path):
         fm = compose(_fp_fm, _fp_image)(fm)
         if 'permalink' in fm: fm['aliases'] = [f"{fm['permalink'].strip()}"]
         else: fm['aliases'] = [f'{_cat_slug(fm) + _file_slug(path)}']
+    if fm.get('title'): fm['title'] = _rm_quote(fm['title'])
     if fm.get('comments'): fm.pop('comments') #true by itself is not a valid value for comments https://quarto.org/docs/output-formats/html-basics.html#commenting, and the default is true
     return fm
 
@@ -84,7 +89,7 @@ def fp_md_fm(path):
 
 # %% ../nbs/api/migrate.ipynb 29
 _alias = merge({k:'code-fold: true' for k in ['collapse', 'collapse_input', 'collapse_hide']}, 
-               {'collapse_show':'code-fold: show', 'hide_input': 'echo: false', 'hide': 'include: false'})
+               {'collapse_show':'code-fold: show', 'hide_input': 'echo: false', 'hide': 'include: false', 'hide_output': 'output: false'})
 def _subv1(s): return _alias.get(s, s)
 
 # %% ../nbs/api/migrate.ipynb 30
