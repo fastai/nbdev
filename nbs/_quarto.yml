@@ -33,10 +33,10 @@ website:
     left:
       - text: "Get Started"
         href: getting_started.ipynb
-      - text: "Tutorial"
+      - text: "Tutorials"
         href: tutorials/tutorial.ipynb
       - text: "Blog"
-        href: https://www.fast.ai/2022/07/28/nbdev-v2/
+        href: blog/index.qmd
       - text: "Help"
         menu:
           - text: "Report an Issue"
