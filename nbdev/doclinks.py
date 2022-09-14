@@ -60,7 +60,8 @@ def _get_modidx(pyfile, code_root, nbs_path):
             nbpath = nbpath.with_name(re.sub(r'\d+[a-zA-Z0-9]*_', '', nbpath.name.lower()))
             loc = nbpath.relative_to(nbs_path).with_suffix('.html')
 
-            def _stor(nm): d[f'{mod_name}.{nm}'] = f'{loc.as_posix()}#{nm.lower()}',rel_name
+            def _stor(nm):
+                for n in L(nm): d[f'{mod_name}.{n}'] = f'{loc.as_posix()}#{n.lower()}',rel_name
             for tree in ast.parse('\n'.join(rest)).body:
                 if isinstance(tree, _def_types): _stor(patch_name(tree))
                 if isinstance(tree, ast.ClassDef):
@@ -127,7 +128,7 @@ def nbdev_export(
 import importlib,ast
 from functools import lru_cache
 
-# %% ../nbs/api/doclinks.ipynb 22
+# %% ../nbs/api/doclinks.ipynb 20
 def _find_mod(mod):
     mp,_,mr = mod.partition('/')
     spec = importlib.util.find_spec(mp)
@@ -143,13 +144,14 @@ def _get_exps(mod):
     _def_types = ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef
     d = {}
     for tree in ast.parse(txt).body:
-        if isinstance(tree, _def_types): d[patch_name(tree)] = tree.lineno
+        if isinstance(tree, _def_types):
+            for t in L(patch_name(tree)): d[t] = tree.lineno
         if isinstance(tree, ast.ClassDef): d.update({tree.name+"."+t2.name: t2.lineno for t2 in tree.body if isinstance(t2, _def_types)})
     return d
 
 def _lineno(sym, fname): return _get_exps(fname).get(sym, None) if fname else None
 
-# %% ../nbs/api/doclinks.ipynb 24
+# %% ../nbs/api/doclinks.ipynb 22
 def _qual_sym(s, settings):
     if not isinstance(s,tuple): return s
     nb,py = s
@@ -164,10 +166,10 @@ def _qual_syms(entries):
     if 'doc_host' not in settings: return entries
     return {'syms': {mod:_qual_mod(d, settings) for mod,d in entries['syms'].items()}, 'settings':settings}
 
-# %% ../nbs/api/doclinks.ipynb 25
+# %% ../nbs/api/doclinks.ipynb 23
 _re_backticks = re.compile(r'`([^`\s]+)`')
 
-# %% ../nbs/api/doclinks.ipynb 26
+# %% ../nbs/api/doclinks.ipynb 24
 @lru_cache(None)
 class NbdevLookup:
     "Mapping from symbol names to docs and source URLs"
