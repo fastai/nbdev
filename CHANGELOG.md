@@ -2,6 +2,47 @@
 
 <!-- do not remove -->
 
+## 2.3.0
+
+### Breaking Changes
+
+- `_quarto.yml` no longer replaced with automatically generated version
+  - You can now customise your `_quarto.yml` file and it will not be overridden by nbdev
+  - This means that `custom_host` and `custom_port` in `settings.ini` are no longer supported -- use the standard quarto configuration instead
+- Parallel ipynb filter ([#961](https://github.com/fastai/nbdev/issues/961))
+  - `ipynb-filters` in `_quarto.yml` is no longer needed or recommended. Instead, nbdev preprocesses your notebooks in parallel into a folder called `_proc` before calling quarto
+  - The new processing system generally results in speedups of around 10x compared to the previous approach
+- Deprecate `config_key` in favor of `get_config` ([#856](https://github.com/fastai/nbdev/pull/856)), thanks to [@seeM](https://github.com/seeM)
+
+### New Features
+
+- Setting `put_version_in_init ` to make adding `__version__` to `__init__.py` optional ([#1051](https://github.com/fastai/nbdev/pull/1051)), thanks to [@MichaelJFishmanBA](https://github.com/MichaelJFishmanBA)
+- `nbdev_new` support for GitHub Enterprise ([#1043](https://github.com/fastai/nbdev/pull/1043)), thanks to [@seeM](https://github.com/seeM)
+- Use `GITHUB_TOKEN` if present for `nbdev.release` ([#1025](https://github.com/fastai/nbdev/issues/1025))
+- Support non qmd py rendering scripts ([#1014](https://github.com/fastai/nbdev/issues/1014))
+- Use penultimate suffix for extension of rendered .py scripts ([#1010](https://github.com/fastai/nbdev/issues/1010))
+- Print `nbdev_test` cell errors to stderr instead of using `logging.warning` ([#1003](https://github.com/fastai/nbdev/issues/1003))
+- Make nb meta `display_name` consistent with `name` to simplify diffs ([#995](https://github.com/fastai/nbdev/issues/995))
+- Windows support for clean nb ([#989](https://github.com/fastai/nbdev/pull/989)), thanks to [@jvanelteren](https://github.com/jvanelteren)
+- Preview support for parallel filter ([#976](https://github.com/fastai/nbdev/issues/976))
+- Settings.ini option for choosing preview listen port ([#967](https://github.com/fastai/nbdev/issues/967))
+- Vscode extension for nbdev which cleans notebooks ([#952](https://github.com/fastai/nbdev/issues/952))
+- Authenticate nbdev-template github API call ([#940](https://github.com/fastai/nbdev/issues/940))
+- Add `printit` arg to `nbdev_filter` so it can be called with `fname` and still print to stdout ([#931](https://github.com/fastai/nbdev/pull/931)), thanks to [@seeM](https://github.com/seeM)
+- Run `nbdev_readme` in `nbdev_new` ([#919](https://github.com/fastai/nbdev/pull/919)), thanks to [@seeM](https://github.com/seeM)
+- Improve config documentation in `read` module ([#864](https://github.com/fastai/nbdev/pull/864)), thanks to [@seeM](https://github.com/seeM)
+- Simplify `jupyter_hooks` configuration ([#780](https://github.com/fastai/nbdev/pull/780)), thanks to [@seeM](https://github.com/seeM)
+
+### Bugs Squashed
+
+- Class method doclinks target `mod.html#method` instead of `mod.html#class.method` ([#1046](https://github.com/fastai/nbdev/pull/1046)), thanks to [@seeM](https://github.com/seeM)
+- "Bad credentials" error in `nbdev_new` if GitHub Enterprise `GH_HOST` and `GITHUB_TOKEN` are used ([#1038](https://github.com/fastai/nbdev/issues/1038))
+- Suppress `UserWarning` for unset `GITHUB_TOKEN` in `nbdev_new` ([#1028](https://github.com/fastai/nbdev/pull/1028)), thanks to [@seeM](https://github.com/seeM)
+- `nbdev.release` uses `cfg.lib_name` instead of `cfg.repo` ([#1024](https://github.com/fastai/nbdev/pull/1024)), thanks to [@seeM](https://github.com/seeM)
+- `nbdev_test` does not restore the original working directory ([#1004](https://github.com/fastai/nbdev/issues/1004))
+- `clean_ids` corrupts string outputs ([#794](https://github.com/fastai/nbdev/pull/794)), thanks to [@seeM](https://github.com/seeM)
+
+
 ## 2.2.10
 
 ### Bugs Squashed
