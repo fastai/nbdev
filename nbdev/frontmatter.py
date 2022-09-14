@@ -6,6 +6,7 @@ __all__ = ['FrontmatterProc']
 # %% ../nbs/api/frontmatter.ipynb 2
 from .imports import *
 from .process import *
+from .doclinks import _nbpath2html
 
 from execnb.nbio import *
 from fastcore.imports import *
@@ -46,8 +47,6 @@ def _insertfm(nb, fm): nb.cells.insert(0, mk_cell(_dict2fm(fm), 'raw'))
 class FrontmatterProc(Processor):
     "A YAML and formatted-markdown frontmatter processor"
     def begin(self): self.fm = getattr(self.nb, 'frontmatter_', {})
-                
-    def _default_exp_(self, cell, exp): self.default_exp = exp
 
     def _update(self, f, cell):
         s = cell.get('source')
@@ -64,6 +63,5 @@ class FrontmatterProc(Processor):
     def end(self):
         self.nb.frontmatter_ = self.fm
         if not self.fm: return
-        exp = getattr(self, 'default_exp', None)
-        if exp: self.fm.update({'output-file': exp+'.html'})
+        self.fm.update({'output-file': _nbpath2html(Path(self.nb.path_)).name})
         _insertfm(self.nb, self.fm)
