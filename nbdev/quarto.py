@@ -128,53 +128,50 @@ def _ensure_quarto():
 # %% ../nbs/api/quarto.ipynb 14
 _quarto_yml="""project:
   type: website
-  output-dir: {doc_path}
-  preview:
-    port: 3000
-    browser: false
 
 format:
   html:
     theme: cosmo
     css: styles.css
     toc: true
-    toc-depth: 4
+
+website:
+  twitter-card: true
+  open-graph: true
+  repo-actions: [issue]
+  navbar:
+    background: primary
+    search: true
+  sidebar:
+    style: floating
+
+metadata-files: [nbdev.yml, sidebar.yml]"""
+
+# %% ../nbs/api/quarto.ipynb 15
+_nbdev_yml="""project:
+  output-dir: {doc_path}
 
 website:
   title: "{title}"
   site-url: "{doc_host}{doc_baseurl}"
   description: "{description}"
-  twitter-card: true
-  open-graph: true
   repo-branch: {branch}
   repo-url: "{git_url}"
-  repo-actions: [issue]
-  navbar:
-    background: primary
-    search: true
-    right:
-      - icon: github
-        href: "{git_url}"
-  sidebar:
-    style: "floating"
-
-metadata-files: 
-  - sidebar.yml
-  - custom.yml
 """
 
-# %% ../nbs/api/quarto.ipynb 15
+# %% ../nbs/api/quarto.ipynb 16
 def refresh_quarto_yml():
     "Generate `_quarto.yml` from `settings.ini`."
     cfg = get_config()
-    if cfg.get('custom_quarto_yml', False): return
-    p = cfg.nbs_path/'_quarto.yml'
+    ny = cfg.nbs_path/'nbdev.yml'
     vals = {k:cfg[k] for k in ['title', 'description', 'branch', 'git_url', 'doc_host', 'doc_baseurl']}
     vals['doc_path'] = cfg.doc_path.name
     if 'title' not in vals: vals['title'] = vals['lib_name']
-    p.write_text(_quarto_yml.format(**vals))
+    ny.write_text(_nbdev_yml.format(**vals))
+    qy = cfg.nbs_path/'_quarto.yml'
+    if not qy.exists(): qy.write_text(_quarto_yml)
 
-# %% ../nbs/api/quarto.ipynb 16
+# %% ../nbs/api/quarto.ipynb 17
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
@@ -208,7 +205,7 @@ def nbdev_readme(
         move(readme, cfg_path)
         if _rdmi.exists(): copytree(_rdmi, cfg_path/_rdmi.name) # Move Supporting files for README
 
-# %% ../nbs/api/quarto.ipynb 18
+# %% ../nbs/api/quarto.ipynb 19
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_docs(
@@ -222,7 +219,7 @@ def nbdev_docs(
     shutil.rmtree(cfg.doc_path, ignore_errors=True)
     move(cache/cfg.doc_path.name, cfg.config_path)
 
-# %% ../nbs/api/quarto.ipynb 20
+# %% ../nbs/api/quarto.ipynb 21
 @call_parse
 @delegates(nbdev_docs)
 def deploy(
@@ -235,7 +232,7 @@ def deploy(
     except: return warnings.warn('Please install ghp-import with `pip install ghp-import`')
     ghp_import(get_config().doc_path, push=True, stderr=True, no_history=True)
 
-# %% ../nbs/api/quarto.ipynb 21
+# %% ../nbs/api/quarto.ipynb 22
 @call_parse
 def prepare():
     "Export, test, and clean notebooks, and render README if needed"
@@ -246,7 +243,7 @@ def prepare():
     refresh_quarto_yml()
     nbdev_readme.__wrapped__(chk_time=True)
 
-# %% ../nbs/api/quarto.ipynb 23
+# %% ../nbs/api/quarto.ipynb 24
 @contextmanager
 def fs_watchdog(func, path, recursive:bool=True):
     "File system watchdog dispatching to `func`"
@@ -262,7 +259,7 @@ def fs_watchdog(func, path, recursive:bool=True):
         observer.stop()
         observer.join()
 
-# %% ../nbs/api/quarto.ipynb 24
+# %% ../nbs/api/quarto.ipynb 25
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_preview(

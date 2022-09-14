@@ -64,7 +64,6 @@ def _apply_defaults(
     jupyter_hooks=True, # Run Jupyter hooks?
     clean_ids=True, # Remove ids from plaintext reprs?
     clear_all=False, # Remove all cell metadata and cell outputs?
-    custom_quarto_yml=False, # Use a custom _quarto.yml?
     put_version_in_init=True, # Add the version to the main __init__.py in nbdev_export
 ):
     "Apply default settings where missing in `cfg`."
@@ -144,8 +143,8 @@ _nbdev_cfg_head = '''# All sections below are required unless otherwise specifie
 
 '''
 _nbdev_cfg_sections = {'Python library': 'repo lib_name version min_python license',
-                       'nbdev': 'doc_path lib_path nbs_path recursive tst_flags',
-                       'Docs': 'branch custom_sidebar doc_host doc_baseurl git_url title custom_quarto_yml',
+                       'nbdev': 'doc_path lib_path nbs_path recursive tst_flags put_version_in_init',
+                       'Docs': 'branch custom_sidebar doc_host doc_baseurl git_url title',
                        'PyPI': 'audience author author_email copyright description keywords language status user'}
 _nbdev_cfg_tail = '''### Optional ###
 # requirements = fastcore pandas
