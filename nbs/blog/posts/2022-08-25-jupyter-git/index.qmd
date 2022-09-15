@@ -7,6 +7,8 @@ tags: [technical]
 title: The Jupyter+git problem is now solved
 ---
 
+_[Originally posted](https://www.fast.ai/2022/08/25/jupyter-git/) on the fast.ai blog_
+
 > Jupyter notebooks don’t work with git by default. With [nbdev2](https://nbdev.fast.ai/), the Jupyter+git problem has been totally solved. It provides a set of hooks which provide clean git diffs, solve most git conflicts automatically, and ensure that any remaining conflicts can be resolved entirely within the standard Jupyter notebook environment. To get started, follow the directions on [Git-friendly Jupyter](https://nbdev.fast.ai/01_Tutorials/02_git_friendly_jupyter.html).
 
 ## The Jupyter+git problem

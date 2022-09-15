@@ -7,6 +7,8 @@ tags: [technical]
 title: 'nbdev+Quarto: A new secret weapon for productivity'
 ---
 
+_[Originally posted](https://www.fast.ai/2022/07/28/nbdev-v2/) on the fast.ai blog_
+
 ![A single notebook can create a python module, tests, CI, pypi/conda packages, and more.](cover.png)
 
 ## Our new secret weapon for productivity
