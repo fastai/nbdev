@@ -1,7 +1,7 @@
 ---
 author: [Hamel Husain, Jeremy Howard]
 date: 2022-07-28
-image: cover.png
+image:  /images/card.png
 description: Our favorite tool for software engineering productivity--nbdev, now re-written with Quarto
 tags: [technical]
 title: 'nbdev+Quarto: A new secret weapon for productivity'
@@ -9,7 +9,7 @@ title: 'nbdev+Quarto: A new secret weapon for productivity'
 
 _[Originally posted](https://www.fast.ai/2022/07/28/nbdev-v2/) on the fast.ai blog_
 
-![A single notebook can create a python module, tests, CI, pypi/conda packages, and more.](cover.png)
+![A single notebook can create a python module, tests, CI, pypi/conda packages, and more.](/images/card.png)
 
 ## Our new secret weapon for productivity
 
