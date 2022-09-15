@@ -18,7 +18,7 @@ from . import serve_drv
 
 # %% auto 0
 __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'refresh_quarto_yml', 'nbdev_readme', 'nbdev_docs',
-           'deploy', 'prepare', 'fs_watchdog', 'nbdev_preview']
+           'prepare', 'fs_watchdog', 'nbdev_preview']
 
 # %% ../nbs/api/quarto.ipynb 4
 def _sprun(cmd):
@@ -221,19 +221,6 @@ def nbdev_docs(
 
 # %% ../nbs/api/quarto.ipynb 21
 @call_parse
-@delegates(nbdev_docs)
-def deploy(
-    path:str=None, # Path to notebooks
-    skip_build:bool=False,  # Don't build docs first
-    **kwargs):
-    "Deploy docs to GitHub Pages"
-    if not skip_build: nbdev_docs.__wrapped__(path, **kwargs)
-    try: from ghp_import import ghp_import
-    except: return warnings.warn('Please install ghp-import with `pip install ghp-import`')
-    ghp_import(get_config().doc_path, push=True, stderr=True, no_history=True)
-
-# %% ../nbs/api/quarto.ipynb 22
-@call_parse
 def prepare():
     "Export, test, and clean notebooks, and render README if needed"
     import nbdev.test, nbdev.clean
@@ -243,7 +230,7 @@ def prepare():
     refresh_quarto_yml()
     nbdev_readme.__wrapped__(chk_time=True)
 
-# %% ../nbs/api/quarto.ipynb 24
+# %% ../nbs/api/quarto.ipynb 23
 @contextmanager
 def fs_watchdog(func, path, recursive:bool=True):
     "File system watchdog dispatching to `func`"
@@ -259,7 +246,7 @@ def fs_watchdog(func, path, recursive:bool=True):
         observer.stop()
         observer.join()
 
-# %% ../nbs/api/quarto.ipynb 25
+# %% ../nbs/api/quarto.ipynb 24
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_preview(
