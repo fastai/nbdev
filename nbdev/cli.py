@@ -94,6 +94,7 @@ def nbdev_new(**kwargs):
 
     nbexists = bool(first(path.glob('*.ipynb')))
     for o in tmpl_path.ls():
+        if o.name == '_quarto.yml': continue
         if o.name == 'index.ipynb': _render_nb(o, cfg)
         if o.name == '00_core.ipynb' and not nbexists: move(str(o), './')
         elif not (path/o.name).exists(): move(str(o), './')
