@@ -33,7 +33,7 @@ website:
     left:
       - text: "Get Started"
         href: getting_started.ipynb
-      - text: "Tutorials"
+      - text: "Tutorial"
         href: tutorials/tutorial.ipynb
       - text: "Blog"
         href: blog/index.qmd
