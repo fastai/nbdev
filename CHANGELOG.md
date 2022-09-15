@@ -2,6 +2,18 @@
 
 <!-- do not remove -->
 
+
+## 2.3.2
+
+### New Features
+
+- Support GitHub Enterprise ([#944](https://github.com/fastai/nbdev/issues/944))
+
+### Bugs Squashed
+
+- `nbdev_new` fails with `AttributeError: path_` ([#1063](https://github.com/fastai/nbdev/issues/1063))
+
+
 ## 2.3.1
 
 ### Breaking Changes
