@@ -46,3 +46,7 @@ blockquote > pre {
   /* disable striped tables */
   --bs-table-striped-bg: var(--bs-table-bg);
 }
+
+.quarto-figure-center > figure > figcaption {
+  text-align: center;
+}
