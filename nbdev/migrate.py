@@ -61,11 +61,17 @@ def _is_jekyll_post(path): return bool(re.search(r'^\d{4}-\d{2}-\d{2}-', Path(pa
 
 def _fp_convert(fm:dict, path:Path):
     "Make fastpages frontmatter Quarto complaint and add redirects."
+    fs = _file_slug(path)
     if _is_jekyll_post(path):
         fm = compose(_fp_fm, _fp_image)(fm)
         if 'permalink' in fm: fm['aliases'] = [f"{fm['permalink'].strip()}"]
-        else: fm['aliases'] = [f'{_cat_slug(fm) + _file_slug(path)}']
+        else: fm['aliases'] = [f'{_cat_slug(fm) + fs}']
+        if not fm.get('date'): 
+            _,y,m,d,_ = fs.split('/')
+            fm['date'] = f'{y}-{m}-{d}'
         
+    if fm.get('summary') and not fm.get('description'): fm['description'] = fm['summary']
+    if fm.get('tags') and not fm.get('categories'): fm['categories'] = fm['tags'].split() if isinstance(fm['tags'], str) else fm['tags'] 
     for k in ['title', 'description']:
         if k in fm: fm[k] = _rm_quote(fm[k])
     if fm.get('comments'): fm.pop('comments') #true by itself is not a valid value for comments https://quarto.org/docs/output-formats/html-basics.html#commenting, and the default is true
