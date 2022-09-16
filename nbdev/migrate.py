@@ -71,7 +71,9 @@ def _fp_convert(fm:dict, path:Path):
             fm['date'] = f'{y}-{m}-{d}'
         
     if fm.get('summary') and not fm.get('description'): fm['description'] = fm['summary']
-    if fm.get('tags') and not fm.get('categories'): fm['categories'] = fm['tags'].split() if isinstance(fm['tags'], str) else fm['tags'] 
+    if fm.get('tags') and not fm.get('categories'): 
+        if isinstance(fm['tags'], str): fm['categories'] = fm['tags'].split()
+        elif isinstance(fm['tags'], list): fm['categories'] = fm['tags']
     for k in ['title', 'description']:
         if k in fm: fm[k] = _rm_quote(fm[k])
     if fm.get('comments'): fm.pop('comments') #true by itself is not a valid value for comments https://quarto.org/docs/output-formats/html-basics.html#commenting, and the default is true
