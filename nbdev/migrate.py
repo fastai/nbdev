@@ -17,7 +17,8 @@ import shutil
 # %% ../nbs/api/migrate.ipynb 5
 def _cat_slug(fmdict):
     "Get the partial slug from the category front matter."
-    return '/' + '/'.join(sorted(fmdict.get('categories', '')))
+    slug = '/'.join(sorted(fmdict.get('categories', '')))
+    return '/' + slug if slug else '' 
 
 # %% ../nbs/api/migrate.ipynb 7
 def _file_slug(fname): 
@@ -89,12 +90,12 @@ def fp_md_fm(path):
         return _re_fm_md.sub(_dict2fm(fm), md)
     else: return md 
 
-# %% ../nbs/api/migrate.ipynb 29
+# %% ../nbs/api/migrate.ipynb 30
 _alias = merge({k:'code-fold: true' for k in ['collapse', 'collapse_input', 'collapse_hide']}, 
                {'collapse_show':'code-fold: show', 'hide_input': 'echo: false', 'hide': 'include: false', 'hide_output': 'output: false'})
 def _subv1(s): return _alias.get(s, s)
 
-# %% ../nbs/api/migrate.ipynb 30
+# %% ../nbs/api/migrate.ipynb 31
 def _re_v1():
     d = ['default_exp', 'export', 'exports', 'exporti', 'hide', 'hide_input', 'collapse_show', 'collapse',
          'collapse_hide', 'collapse_input', 'hide_output',  'default_cls_lvl']
@@ -107,7 +108,7 @@ def _repl_directives(code_str):
     def _fmt(x): return f"#| {_subv1(x[2].replace('-', '_').strip())}"
     return _re_v1().sub(_fmt, code_str)
 
-# %% ../nbs/api/migrate.ipynb 32
+# %% ../nbs/api/migrate.ipynb 33
 def _repl_v1dir(cell):
     "Replace nbdev v1 with v2 directives."
     if cell.get('source') and cell.get('cell_type') == 'code':
@@ -117,21 +118,21 @@ def _repl_v1dir(cell):
         if not ss: pass
         else: cell['source'] = '\n'.join([_repl_directives(c) for c in ss[:first_code]] + ss[first_code:])
 
-# %% ../nbs/api/migrate.ipynb 37
+# %% ../nbs/api/migrate.ipynb 38
 _re_callout = re.compile(r'^>\s(Warning|Note|Important|Tip):(.*)', flags=re.MULTILINE)
 def _co(x): return ":::{.callout-"+x[1].lower()+"}\n\n" + f"{x[2].strip()}\n\n" + ":::"
 def _convert_callout(s): 
     "Convert nbdev v1 to v2 callouts."
     return _re_callout.sub(_co, s)
 
-# %% ../nbs/api/migrate.ipynb 44
+# %% ../nbs/api/migrate.ipynb 45
 _re_video = re.compile(r'^>\syoutube:(.*)', flags=re.MULTILINE)
 def _v(x): return "{{< " + f"video {x[1].strip()}" + " >}}"
 def _convert_video(s):
     "Replace nbdev v1 with v2 video embeds."
     return _re_video.sub(_v, s)
 
-# %% ../nbs/api/migrate.ipynb 48
+# %% ../nbs/api/migrate.ipynb 49
 _shortcuts = compose(_convert_video, _convert_callout)
 
 def _repl_v1shortcuts(cell):
@@ -139,7 +140,7 @@ def _repl_v1shortcuts(cell):
     if cell.get('source') and cell.get('cell_type') == 'markdown':
         cell['source'] = _shortcuts(cell['source'])
 
-# %% ../nbs/api/migrate.ipynb 49
+# %% ../nbs/api/migrate.ipynb 50
 def migrate_nb(path, overwrite=True):
     "Migrate Notebooks from nbdev v1 and fastpages."
     nbp = NBProcessor(path, procs=[FrontmatterProc, MigrateProc, _repl_v1shortcuts, _repl_v1dir])
@@ -147,14 +148,14 @@ def migrate_nb(path, overwrite=True):
     if overwrite: write_nb(nbp.nb, path)
     return nbp.nb
 
-# %% ../nbs/api/migrate.ipynb 50
+# %% ../nbs/api/migrate.ipynb 51
 def migrate_md(path, overwrite=True):
     "Migrate Markdown Files from fastpages."
     txt = fp_md_fm(path)
     if overwrite: path.write_text(txt)
     return txt
 
-# %% ../nbs/api/migrate.ipynb 51
+# %% ../nbs/api/migrate.ipynb 52
 @call_parse
 def nbdev_migrate(
     path:str=None, # A path or glob containing notebooks and markdown files to migrate
