@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.3.3
+
+### New Features
+
+- auto-upgrade `_quarto.yml` for v1.2 ([#1073](https://github.com/fastai/nbdev/issues/1073))
+- Add Blog Tutorial ([#1061](https://github.com/fastai/nbdev/pull/1061)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
 
 ## 2.3.2
 
