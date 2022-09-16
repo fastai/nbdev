@@ -2,6 +2,18 @@
 
 <!-- do not remove -->
 
+## 2.3.4
+
+### New Features
+
+- improve jekyll migration ([#1078](https://github.com/fastai/nbdev/pull/1078)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
+### Bugs Squashed
+
+- skip `_docs` and `_site` in processing ([#1085](https://github.com/fastai/nbdev/issues/1085))
+- fix alias bug ([#1075](https://github.com/fastai/nbdev/pull/1075)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
+
 ## 2.3.3
 
 ### New Features
