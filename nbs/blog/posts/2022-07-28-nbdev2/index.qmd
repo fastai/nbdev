@@ -11,6 +11,7 @@ _[Originally posted](https://www.fast.ai/2022/07/28/nbdev-v2/) on the fast.ai bl
 
 ![A single notebook can create a python module, tests, CI, pypi/conda packages, and more.](/images/card.png)
 
+
 ## Our new secret weapon for productivity
 
 Today we’re excited to announce that we’ve teamed up with Quarto to give [nbdev](https://nbdev.fast.ai) superpowers. nbdev offers Python programmers a common set of tools for using Jupyter notebooks to:
@@ -100,7 +101,11 @@ Quarto allows you to [compose pandoc filters in a processing pipeline](https://q
 
 We also find Quarto compelling because user interfaces such as [comment directives](https://quarto.org/docs/reference/cells/cells-jupyter.html#overview) (comments that start with `#|`) correlate with nbdev. In fact, we even learned that nbdev inspired Quarto in this regard!  In general, Quarto and nbdev share many goals, and the Quarto team has been incredibly responsive to our suggestions. For example, the ability to create [notebook filters](https://quarto.org/docs/extensions/nbfilter.html) to modify notebooks before rendering. Below is a screenshot of a Jupyter notebook rendered with Quarto and nbdev.
 
+::: {.column-page-inset}
+
 ![Quarto rendering a Jupyter notebook written with nbdev](nb_quarto.png)
+
+:::
 
 Finally, Quarto supports more programming languages than just Python and has been adding new features and fixing bugs at an impressive speed. This gives us confidence that we will be able to expand nbdev to support more use cases in the future. We discuss some of these future directions in the closing section.
 
