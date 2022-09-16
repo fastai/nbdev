@@ -59,8 +59,10 @@ def _show_docs(trees):
     return [t for t in trees if isinstance(t,ast.Expr) and nested_attr(t, 'value.func.id')=='show_doc']
 
 def cell_lang(cell): return nested_attr(cell, 'metadata.language', 'python')
+
+def _want_hide(c): return 'hide' in c.directives_ or c.directives_.get('include:') == ['false']
 def _want_doc(c):
-    return c.source and c.cell_type=='code' and (set(['export', 'exports', 'exec_doc']).intersection(c.directives_))
+    return c.source and c.cell_type=='code' and not _want_hide(c) and (set(['export', 'exports', 'exec_doc']).intersection(c.directives_))
 
 class add_show_docs(Processor):
     "Add show_doc cells after exported cells, unless they are already documented"
