@@ -169,7 +169,9 @@ def refresh_quarto_yml():
     if 'title' not in vals: vals['title'] = vals['lib_name']
     ny.write_text(_nbdev_yml.format(**vals))
     qy = cfg.nbs_path/'_quarto.yml'
-    if qy.exists() and not str2bool(cfg.get('custom_quarto_yml', False)): qy.unlink()
+    if qy.exists() and not str2bool(cfg.get('custom_quarto_yml', True)):
+        qy.unlink()
+        print("NB: From v1.2 `_quarto.yml` is no longer auto-updated. Please remove the `custom_quarto_yml` line from `settings.ini`")
     if not qy.exists(): qy.write_text(_quarto_yml)
 
 # %% ../nbs/api/quarto.ipynb 17
