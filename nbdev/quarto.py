@@ -17,8 +17,8 @@ from .serve import proc_nbs,_proc_file
 from . import serve_drv
 
 # %% auto 0
-__all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'refresh_quarto_yml', 'nbdev_readme', 'nbdev_docs',
-           'prepare', 'fs_watchdog', 'nbdev_preview']
+__all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'refresh_quarto_yml', 'nbdev_proc_nbs',
+           'nbdev_readme', 'nbdev_docs', 'prepare', 'fs_watchdog', 'nbdev_preview']
 
 # %% ../nbs/api/quarto.ipynb 4
 def _sprun(cmd):
@@ -75,17 +75,6 @@ def _nbglob_docs(
     **kwargs):
     return nbglob(path, file_glob=file_glob, file_re=file_re, **kwargs)
 
-def _pre_docs(path, n_workers:int=defaults.cpus, **kwargs):
-    cfg = get_config()
-    path = Path(path) if path else cfg.nbs_path
-    _ensure_quarto()
-    refresh_quarto_yml()
-    import nbdev.doclinks
-    nbdev.doclinks._build_modidx()
-    nbdev_sidebar.__wrapped__(path=path, **kwargs)
-    cache = proc_nbs.__wrapped__(path, n_workers=n_workers)
-    return cache,cfg,path
-
 # %% ../nbs/api/quarto.ipynb 10
 @call_parse
 @delegates(_nbglob_docs)
@@ -120,12 +109,6 @@ def nbdev_sidebar(
     yml_path.write_text(yml)
 
 # %% ../nbs/api/quarto.ipynb 13
-def _ensure_quarto():
-    if shutil.which('quarto'): return
-    print("Quarto is not installed. We will download and install it for you.")
-    install.__wrapped__()
-
-# %% ../nbs/api/quarto.ipynb 14
 _quarto_yml="""project:
   type: website
 
@@ -147,7 +130,7 @@ website:
 
 metadata-files: [nbdev.yml, sidebar.yml]"""
 
-# %% ../nbs/api/quarto.ipynb 15
+# %% ../nbs/api/quarto.ipynb 14
 _nbdev_yml="""project:
   output-dir: {doc_path}
 
@@ -159,7 +142,7 @@ website:
   repo-url: "{git_url}"
 """
 
-# %% ../nbs/api/quarto.ipynb 16
+# %% ../nbs/api/quarto.ipynb 15
 def refresh_quarto_yml():
     "Generate `_quarto.yml` from `settings.ini`."
     cfg = get_config()
@@ -174,7 +157,32 @@ def refresh_quarto_yml():
         print("NB: From v1.2 `_quarto.yml` is no longer auto-updated. Please remove the `custom_quarto_yml` line from `settings.ini`")
     if not qy.exists(): qy.write_text(_quarto_yml)
 
+# %% ../nbs/api/quarto.ipynb 16
+def _ensure_quarto():
+    if shutil.which('quarto'): return
+    print("Quarto is not installed. We will download and install it for you.")
+    install.__wrapped__()
+
 # %% ../nbs/api/quarto.ipynb 17
+def _pre_docs(path=None, n_workers:int=defaults.cpus, **kwargs):
+    cfg = get_config()
+    path = Path(path) if path else cfg.nbs_path
+    _ensure_quarto()
+    refresh_quarto_yml()
+    import nbdev.doclinks
+    nbdev.doclinks._build_modidx()
+    nbdev_sidebar.__wrapped__(path=path, **kwargs)
+    cache = proc_nbs(path, n_workers=n_workers, **kwargs)
+    return cache,cfg,path
+
+# %% ../nbs/api/quarto.ipynb 18
+@call_parse
+@delegates(proc_nbs)
+def nbdev_proc_nbs(**kwargs):
+    "Process notebooks in `path` for docs rendering"
+    return _pre_docs(**kwargs)[0]
+
+# %% ../nbs/api/quarto.ipynb 20
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
@@ -195,7 +203,7 @@ def nbdev_readme(
         moved=True
 
     try:
-        cache = proc_nbs.__wrapped__(path)
+        cache = proc_nbs(path)
         idx_cache = cache/cfg.readme_nb
         _sprun(f'cd "{cache}" && quarto render "{idx_cache}" -o README.md -t gfm --no-execute')
     finally:
@@ -208,7 +216,7 @@ def nbdev_readme(
         move(readme, cfg_path)
         if _rdmi.exists(): copytree(_rdmi, cfg_path/_rdmi.name) # Move Supporting files for README
 
-# %% ../nbs/api/quarto.ipynb 19
+# %% ../nbs/api/quarto.ipynb 22
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_docs(
@@ -222,7 +230,7 @@ def nbdev_docs(
     shutil.rmtree(cfg.doc_path, ignore_errors=True)
     move(cache/cfg.doc_path.name, cfg.config_path)
 
-# %% ../nbs/api/quarto.ipynb 21
+# %% ../nbs/api/quarto.ipynb 24
 @call_parse
 def prepare():
     "Export, test, and clean notebooks, and render README if needed"
@@ -233,7 +241,7 @@ def prepare():
     refresh_quarto_yml()
     nbdev_readme.__wrapped__(chk_time=True)
 
-# %% ../nbs/api/quarto.ipynb 23
+# %% ../nbs/api/quarto.ipynb 26
 @contextmanager
 def fs_watchdog(func, path, recursive:bool=True):
     "File system watchdog dispatching to `func`"
@@ -249,7 +257,7 @@ def fs_watchdog(func, path, recursive:bool=True):
         observer.stop()
         observer.join()
 
-# %% ../nbs/api/quarto.ipynb 24
+# %% ../nbs/api/quarto.ipynb 27
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_preview(

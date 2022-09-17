@@ -50,7 +50,6 @@ def _proc_file(s, cache, path, mtime=None):
     else: copy2(s,d)
 
 # %% ../nbs/api/serve.ipynb 7
-@call_parse
 @delegates(nbglob_cli)
 def proc_nbs(
     path:str='', # Path to notebooks
