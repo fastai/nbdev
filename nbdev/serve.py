@@ -56,12 +56,13 @@ def proc_nbs(
     n_workers:int=defaults.cpus,  # Number of workers
     force:bool=False,  # Ignore cache and build all
     file_glob:str='', # Only include files matching glob
+    file_re:str='', # Only include files matching glob
     **kwargs):
     "Process notebooks in `path` for docs rendering"
     cfg = get_config()
     cache = cfg.config_path/'_proc'
     path = Path(path or cfg.nbs_path)
-    files = nbglob(path, func=Path, file_glob=file_glob, **kwargs)
+    files = nbglob(path, func=Path, file_glob='', file_re='', **kwargs)
     if (path/'_quarto.yml').exists(): files.append(path/'_quarto.yml')
 
     # If settings.ini or filter script newer than cache folder modified, delete cache
