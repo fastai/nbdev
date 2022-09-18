@@ -40,7 +40,7 @@ def _apply_defaults(
     lib_name='%(repo)s', # Package name
     git_url='https://github.com/%(user)s/%(repo)s', # Repo URL
     custom_sidebar:bool_arg=False, # Use a custom sidebar.yml?
-    nbs_path:Path='.', # Path to notebooks
+    nbs_path:Path='nbs', # Path to notebooks
     lib_path:Path=None, # Path to package root (default: `repo` with `-` replaced by `_`)
     doc_path:Path='_docs', # Path to rendered docs
     tst_flags='notest', # Test flags

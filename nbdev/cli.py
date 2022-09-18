@@ -92,12 +92,15 @@ def nbdev_new(**kwargs):
     extract_tgz(url)
     tmpl_path = path/f'nbdev-template-{tag}'
 
-    nbexists = bool(first(path.glob('*.ipynb')))
+    cfg.nbs_path.mkdir(exist_ok=True)
+    nbexists = bool(first(cfg.nbs_path.glob('*.ipynb')))
+    _nbs_path_sufs = ('.ipynb','.css')
     for o in tmpl_path.ls():
+        p = cfg.nbs_path if o.suffix in _nbs_path_sufs else path
         if o.name == '_quarto.yml': continue
         if o.name == 'index.ipynb': _render_nb(o, cfg)
-        if o.name == '00_core.ipynb' and not nbexists: move(str(o), './')
-        elif not (path/o.name).exists(): move(str(o), './')
+        if o.name == '00_core.ipynb' and not nbexists: move(o, p)
+        elif not (path/o.name).exists(): move(o, p)
     rmtree(tmpl_path)
 
     refresh_quarto_yml()
