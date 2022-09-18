@@ -75,11 +75,21 @@ def _update_repo_meta(cfg):
                   "Use a token with the correction permissions or perform these steps manually.")
 
 # %% ../nbs/api/cli.ipynb 11
+def _nbdev_template_release(version):
+    from ghapi.core import GhApi
+    from ghapi.page import paged
+    ghapi = GhApi(gh_host='https://api.github.com', authenticate=False)
+    for page in paged(ghapi.repos.list_releases, 'fastai', 'nbdev-template'):
+        for rel in page:
+            ver = tuple(int(o.lstrip('v')) for o in rel.tag_name.split('.'))
+            if ver[:len(version)] == version: return rel
+    raise AssertionError(f'No nbdev-template release for version {version}')
+
+# %% ../nbs/api/cli.ipynb 12
 @call_parse
 @delegates(nbdev_create_config)
 def nbdev_new(**kwargs):
     "Create an nbdev project."
-    from ghapi.core import GhApi
     nbdev_create_config.__wrapped__(**kwargs)
     cfg = get_config()
     _update_repo_meta(cfg)
@@ -87,7 +97,7 @@ def nbdev_new(**kwargs):
     path = Path()
     with warnings.catch_warnings():
         warnings.simplefilter('ignore', UserWarning)
-        tag = GhApi(gh_host='https://api.github.com', authenticate=False).repos.get_latest_release('fastai', 'nbdev-template').tag_name
+        tag = _nbdev_template_release((1,1)).tag_name
     url = f"https://github.com/fastai/nbdev-template/archive/{tag}.tar.gz"
     extract_tgz(url)
     tmpl_path = path/f'nbdev-template-{tag}'
@@ -108,7 +118,7 @@ def nbdev_new(**kwargs):
     nbdev_export.__wrapped__()
     nbdev_readme.__wrapped__()
 
-# %% ../nbs/api/cli.ipynb 15
+# %% ../nbs/api/cli.ipynb 16
 @call_parse
 def chelp():
     "Show help for all console scripts"
