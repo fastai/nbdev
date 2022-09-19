@@ -151,7 +151,7 @@ def _repl_v1shortcuts(cell):
 # %% ../nbs/api/migrate.ipynb 50
 def migrate_nb(path, overwrite=True):
     "Migrate Notebooks from nbdev v1 and fastpages."
-    nbp = NBProcessor(path, procs=[FrontmatterProc, MigrateProc, _repl_v1shortcuts, _repl_v1dir])
+    nbp = NBProcessor(path, procs=[FrontmatterProc, MigrateProc, _repl_v1shortcuts, _repl_v1dir], rm_directives=False)
     nbp.process()
     if overwrite: write_nb(nbp.nb, path)
     return nbp.nb
