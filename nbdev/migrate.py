@@ -5,7 +5,6 @@ __all__ = ['MigrateProc', 'fp_md_fm', 'migrate_nb', 'migrate_md', 'nbdev_migrate
 
 # %% ../nbs/api/migrate.ipynb 2
 from .process import *
-from .process import _partition_cell
 from .frontmatter import *
 from .frontmatter import _fm2dict, _re_fm_md, _dict2fm, _insertfm
 from .processors import *
