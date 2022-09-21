@@ -192,7 +192,7 @@ class NbdevLookup:
         strip_libs = L(strip_libs)
         if incl_libs is not None: incl_libs = (L(incl_libs)+strip_libs).unique()
         # Dict from lib name to _nbdev module for incl_libs (defaults to all)
-        self.entries = {o.name: _qual_syms(o.load()) for o in list(pkg_resources.iter_entry_points(group='nbdev'))
+        self.entries = {o.name: _qual_syms(o.resolve()) for o in list(pkg_resources.iter_entry_points(group='nbdev'))
                        if incl_libs is None or o.dist.key in incl_libs}
         py_syms = merge(*L(o['syms'].values() for o in self.entries.values()).concat())
         for m in strip_libs:
