@@ -85,7 +85,7 @@ def clean_nb(
     clean_ids=True, # Remove ids from plaintext reprs?
 ):
     "Clean `nb` from superfluous metadata"
-    metadata_keys = {"kernelspec", "jekyll", "jupytext", "doc"}
+    metadata_keys = {"kernelspec", "jekyll", "jupytext", "doc", "widgets"}
     if allowed_metadata_keys: metadata_keys.update(allowed_metadata_keys)
     cell_metadata_keys = {"hide_input"}
     if allowed_cell_metadata_keys: cell_metadata_keys.update(allowed_cell_metadata_keys)
