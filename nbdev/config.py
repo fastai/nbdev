@@ -54,7 +54,7 @@ def _apply_defaults(
     min_python='3.7', # Minimum Python version PyPI classifier
     audience='Developers', # Intended audience PyPI classifier
     language='English', # Language PyPI classifier
-    recursive:bool_arg=False, # Include subfolders in notebook globs?
+    recursive:bool_arg=True, # Include subfolders in notebook globs?
     black_formatting:bool_arg=False, # Format libraries with black?
     readme_nb='index.ipynb', # Notebook to export as repo readme
     title='%(lib_name)s', # Quarto website title
