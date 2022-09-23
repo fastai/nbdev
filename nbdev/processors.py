@@ -200,6 +200,16 @@ class exec_show_docs(Processor):
         if self.k.exc: 
             raise Exception(f"Error{' in notebook: '+title if title else ''} in cell {cell.idx_} :\n{cell.source}") from self.k.exc[1]
 
+    def end(self):
+        try: from ipywidgets import Widget
+        except ImportError: pass
+        else:
+            mimetype = 'application/vnd.jupyter.widget-state+json'
+            old = nested_idx(self.nb.metadata, 'widgets', mimetype) or {'state': {}}
+            new = Widget.get_manager_state(drop_defaults=True)
+            widgets = {**old, **new, 'state': {**old['state'], **new['state']}}
+            self.nb.metadata['widgets'] = {mimetype: widgets}
+
 # %% ../nbs/api/processors.ipynb 42
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
