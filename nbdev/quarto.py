@@ -179,7 +179,7 @@ def _pre_docs(path=None, n_workers:int=defaults.cpus, **kwargs):
 @delegates(proc_nbs)
 def nbdev_proc_nbs(**kwargs):
     "Process notebooks in `path` for docs rendering"
-    return _pre_docs(**kwargs)[0]
+    _pre_docs(**kwargs)[0]
 
 # %% ../nbs/api/quarto.ipynb 20
 @call_parse
