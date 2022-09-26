@@ -2,6 +2,30 @@
 
 <!-- do not remove -->
 
+## 2.3.7
+
+### New Features
+
+- Set recursive `True` by default ([#1117](https://github.com/fastai/nbdev/pull/1117)), thanks to [@seeM](https://github.com/seeM)
+- `exec_doc` supports re-rendering widgets ([#1113](https://github.com/fastai/nbdev/pull/1113)), thanks to [@seeM](https://github.com/seeM)
+  - If users update widgets with the `exec_doc` directive, the widget "view" is updated (in the cell output), but the old widget "state" is used (in notebook metadata). This refreshes widget state using `ipywidgets.Widget.get_manager_state`.
+- `nbdev_new` pins on major+minor version of `nbdev-template` ([#1091](https://github.com/fastai/nbdev/issues/1091))
+- `nbdev_proc_nbs` completes all steps to build `_proc` for publishing ([#1086](https://github.com/fastai/nbdev/issues/1086))
+- `nbdev_new` defaults `nbs_path` setting to `'nbs'` ([#1083](https://github.com/fastai/nbdev/issues/1083))
+  - Since all website files (quarto config, css, images, etc) are in `nbs_path`, the current default `nbs_path='.'` can clutter the root folder.
+- `nbdev_new` queries `branch` from GitHub ([#1080](https://github.com/fastai/nbdev/issues/1080))
+
+### Bugs Squashed
+
+- fix exporting `patch_to` which is decorated with `staticmethod` ([#1100](https://github.com/fastai/nbdev/pull/1100)), thanks to [@seeM](https://github.com/seeM)
+- `show_doc` errors if a dependency in the `nbdev` group has a sub-dependency that isn't installed ([#1097](https://github.com/fastai/nbdev/issues/1097))
+- Running `nbdev_migrate` while upgrading removes nbdev2 compatible directives ([#1089](https://github.com/fastai/nbdev/issues/1089))
+- respect `#|hide` and `#|include: false` for showdoc ([#1079](https://github.com/fastai/nbdev/pull/1079)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Export class to library but hide from documentation ([#1076](https://github.com/fastai/nbdev/issues/1076))
+- `nbdev_clean` removes widget state ([#1069](https://github.com/fastai/nbdev/issues/1069))
+  - If widget state is present, it means the user had intentionally changed settings in their notebook editor.
+
+
 ## 2.3.4
 
 ### New Features
