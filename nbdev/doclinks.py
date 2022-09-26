@@ -83,6 +83,7 @@ def _get_modidx(py_path, code_root, nbs_path):
 def _build_modidx(dest=None, nbs_path=None, skip_exists=False):
     "Create _modidx.py"
     if dest is None: dest = get_config().lib_path
+    if not Path(dest).exists(): return
     nbs_path = Path(nbs_path or get_config().nbs_path).resolve()
     if os.environ.get('IN_TEST',0): return
     idxfile = dest/'_modidx.py'
