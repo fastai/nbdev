@@ -32,7 +32,7 @@ def black_format(cell, # Cell to format
     "Processor to format code with `black`"
     try: cfg = get_config()
     except FileNotFoundError: return
-    if (str(cfg.get('black_formatting')).lower() != 'true' and not force) or cell.cell_type != 'code': return
+    if (cfg.get('black_formatting') != 1 and not force) or cell.cell_type != 'code': return
     try: import black
     except: raise ImportError("You must install black: `pip install black` if you wish to use black formatting with nbdev")
     else:
