@@ -69,5 +69,5 @@ def nbdev_update(fname:str=None): # A Python file name to update
     cfg = get_config()
     fname = Path(fname or cfg.lib_path)
     lib_dir = cfg.lib_path.parent
-    files = globtastic(fname, file_glob='*.py').filter(lambda x: str(Path(x).absolute().relative_to(lib_dir) in _mod_files()))
+    files = globtastic(fname, file_glob='*.py', skip_folder_re='^[_.]').filter(lambda x: str(Path(x).absolute().relative_to(lib_dir) in _mod_files()))
     files.map(_update_mod, lib_dir=lib_dir)
