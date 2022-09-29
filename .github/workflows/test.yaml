@@ -21,7 +21,7 @@ jobs:
       - name: test docs build
         if: ${{ (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && matrix.version == '3.9' && matrix.os == 'ubuntu' }}
         run: |
-          wget -q $(curl https://latest.fast.ai/pre/quarto-dev/quarto-cli/linux-amd64.deb)
+          wget -q https://github.com/quarto-dev/quarto-cli/releases/download/v1.2.165/quarto-1.2.165-linux-amd64.deb # $(curl https://latest.fast.ai/pre/quarto-dev/quarto-cli/linux-amd64.deb)
           sudo dpkg -i quarto*.deb
           nbdev_docs
           if [ -f "_docs/index.html" ]; then
