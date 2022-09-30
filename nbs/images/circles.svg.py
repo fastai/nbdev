@@ -56,7 +56,7 @@ class Generator:
                     yield circle.render(stroke=self.color())
                     break
 
-    def get_random_circle( self, min_distance: int, circles: list[Circle],):
+    def get_random_circle(self, min_distance: int, circles: list):
         distance = randint(min_distance, math.floor(self.outer.r))
         angle = random() * math.pi * 2
         cx = self.outer.r + math.cos(angle) * distance
@@ -71,4 +71,3 @@ class Generator:
 
 seed(42)
 print(Generator().generate())
-
