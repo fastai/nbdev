@@ -101,13 +101,13 @@ def _reconfigure(*strms):
 
 # %% ../nbs/api/clean.ipynb 25
 def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
-    if not f_out: f_out = sys.stdout if disp else f_in
+    if not f_out: f_out = f_in
     if isinstance(f_in, (str,Path)): f_in = Path(f_in).open()
     try:
         _reconfigure(f_in, f_out)
         nb = loads(f_in.read())
         proc_nb(nb)
-        write_nb(nb, f_out)
+        write_nb(nb, f_out) if not disp else sys.stdout.write(nb2str(nb))
     except Exception as e:
         warn(f'{warn_msg}')
         warn(e)
