@@ -47,9 +47,12 @@ def nbdev_trust(
 # %% ../nbs/api/clean.ipynb 9
 _repr_id_re = re.compile('(<.*?)( at 0x[0-9a-fA-F]+)(>)')
 
+_sub = partial(_repr_id_re.sub, r'\1\3')
+
+def _skip_or_sub(x): return _sub(x) if "at 0x" in x else x
+
 def _clean_cell_output_id(lines):
-    sub = partial(_repr_id_re.sub, r'\1\3')
-    return sub(lines) if isinstance(lines,str) else [sub(o) for o in lines]
+    return _skip_or_sub(lines) if isinstance(lines,str) else [_skip_or_sub(o) for o in lines]
 
 # %% ../nbs/api/clean.ipynb 11
 def _clean_cell_output(cell, clean_ids):
