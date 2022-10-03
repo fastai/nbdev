@@ -213,7 +213,7 @@ def nbdev_readme(
         _rdmi = tmp_doc_path/(idx_cache.stem + '_files')
         if readme_path.exists(): readme_path.unlink() # py37 doesn't have `missing_ok`
         move(readme, cfg_path)
-        if _rdmi.exists(): copytree(_rdmi, cfg_path/_rdmi.name) # Move Supporting files for README
+        if _rdmi.exists(): copytree(_rdmi, cfg_path/_rdmi.name, dirs_exist_ok=True) # Move Supporting files for README
 
 # %% ../nbs/api/quarto.ipynb 22
 @call_parse
