@@ -156,11 +156,14 @@ def rm_export(cell):
 # %% ../nbs/api/processors.ipynb 38
 _re_showdoc = re.compile(r'^show_doc', re.MULTILINE)
 def _is_showdoc(cell): return cell['cell_type'] == 'code' and _re_showdoc.search(cell.source)
+def _add_directives(cell, d):
+    for k,v in d.items():
+        if not re.findall(f'#\| *{k}:', cell.source): cell.source = f'#| {k}: {v}\n' + cell.source
 
 def clean_show_doc(cell):
     "Remove ShowDoc input cells"
     if not _is_showdoc(cell): return
-    cell.source = '#|output: asis\n#| echo: false\n' + cell.source
+    _add_directives(cell, {'output':'asis','echo':'false'})
 
 # %% ../nbs/api/processors.ipynb 39
 def _ast_contains(trees, types):
