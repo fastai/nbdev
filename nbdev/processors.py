@@ -7,6 +7,7 @@ __all__ = ['populate_language', 'insert_warning', 'cell_lang', 'add_show_docs', 
 
 # %% ../nbs/api/processors.ipynb 2
 import ast
+import importlib
 
 from .config import *
 from .imports import *
@@ -214,9 +215,17 @@ class exec_show_docs(Processor):
             self.nb.metadata['widgets'] = {mimetype: widgets}
 
 # %% ../nbs/api/processors.ipynb 42
+def _import_obj(s):
+    mod_nm, obj_nm = s.split(':')
+    mod = importlib.import_module(mod_nm)
+    return getattr(mod, obj_nm)
+
+# %% ../nbs/api/processors.ipynb 43
 class FilterDefaults:
     "Override `FilterDefaults` to change which notebook processors are used"
-    def xtra_procs(self): return []
+    def xtra_procs(self):
+        imps = get_config().get('procs', '').split()
+        return [_import_obj(o) for o in imps]
 
     def base_procs(self):
         return [FrontmatterProc, populate_language, add_show_docs, insert_warning,
