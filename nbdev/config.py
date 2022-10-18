@@ -8,10 +8,12 @@ __all__ = ['nbdev_create_config', 'get_config', 'config_key', 'create_output', '
            'write_cells']
 
 # %% ../nbs/api/config.ipynb 2
+#|export
 _doc_ = """Read and write nbdev's `settings.ini` file.
 `get_config` is the main function for reading settings."""
 
 # %% ../nbs/api/config.ipynb 3
+#|export
 from datetime import datetime
 from fastcore.docments import *
 from fastcore.utils import *
@@ -26,15 +28,18 @@ from execnb.nbio import read_nb,NbCell
 from urllib.error import HTTPError
 
 # %% ../nbs/api/config.ipynb 8
+#|export
 _nbdev_home_dir = 'nbdev' # sub-directory of xdg base dir
 _nbdev_cfg_name = 'settings.ini'
 
 # %% ../nbs/api/config.ipynb 9
+#|export
 def _git_repo():
     try: return repo_details(run('git config --get remote.origin.url'))[1]
     except OSError: return
 
 # %% ../nbs/api/config.ipynb 11
+#|export
 def _apply_defaults(
     cfg,
     lib_name='%(repo)s', # Package name
@@ -79,6 +84,7 @@ def _apply_defaults(
     return cfg
 
 # %% ../nbs/api/config.ipynb 12
+#|export
 def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
     from ghapi.all import GhApi
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
@@ -95,6 +101,7 @@ https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos"""]
     return r.default_branch, default_kw if not getattr(r, 'topics', []) else ' '.join(r.topics), r.description
 
 # %% ../nbs/api/config.ipynb 14
+#|export
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     res={}
@@ -111,6 +118,7 @@ def _fetch_from_git(raise_err=False):
     return res
 
 # %% ../nbs/api/config.ipynb 16
+#|export
 def _prompt_user(cfg, inferred):
     "Let user input values not in `cfg` or `inferred`."
     res = cfg.copy()
@@ -125,6 +133,7 @@ def _prompt_user(cfg, inferred):
     return res
 
 # %% ../nbs/api/config.ipynb 18
+#|export
 def _cfg2txt(cfg, head, sections, tail=''):
     "Render `cfg` with commented sections."
     nm = cfg.d.name
@@ -137,6 +146,7 @@ def _cfg2txt(cfg, head, sections, tail=''):
     return res.strip()
 
 # %% ../nbs/api/config.ipynb 20
+#|export
 _nbdev_cfg_head = '''# All sections below are required unless otherwise specified.
 # See https://github.com/fastai/nbdev/blob/master/settings.ini for examples.
 
@@ -152,6 +162,7 @@ _nbdev_cfg_tail = '''### Optional ###
 '''
 
 # %% ../nbs/api/config.ipynb 21
+#|export
 @call_parse
 @delegates(_apply_defaults, but='cfg')
 def nbdev_create_config(
@@ -178,6 +189,7 @@ def nbdev_create_config(
     print(f'{cfg_fn} created.')
 
 # %% ../nbs/api/config.ipynb 24
+#|export
 def _nbdev_config_file(cfg_name=_nbdev_cfg_name, path=None):
     cfg_path = path = Path.cwd() if path is None else Path(path)
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
@@ -185,11 +197,13 @@ def _nbdev_config_file(cfg_name=_nbdev_cfg_name, path=None):
     return cfg_path/cfg_name
 
 # %% ../nbs/api/config.ipynb 26
+#|export
 def _xdg_config_paths(cfg_name=_nbdev_cfg_name):
     xdg_config_paths = reversed([xdg_config_home()]+xdg_config_dirs())
     return [o/_nbdev_home_dir/cfg_name for o in xdg_config_paths]
 
 # %% ../nbs/api/config.ipynb 27
+#|export
 def _type(t): return bool if t==bool_arg else t
 _types = {k:_type(v['anno']) for k,v in docments(_apply_defaults,full=True,returns=False).items() if k != 'cfg'}
 
@@ -202,21 +216,25 @@ def get_config(cfg_name=_nbdev_cfg_name, path=None):
     return _apply_defaults(cfg)
 
 # %% ../nbs/api/config.ipynb 42
+#|export
 def config_key(c, default=None, path=True, missing_ok=None):
     "Deprecated: use `get_config().get` or `get_config().path` instead."
     warn("`config_key` is deprecated. Use `get_config().get` or `get_config().path` instead.", DeprecationWarning)
     return get_config().path(c, default) if path else get_config().get(c, default)
 
 # %% ../nbs/api/config.ipynb 44
+#|export
 def create_output(txt, mime):
     "Add a cell output containing `txt` of the `mime` text MIME sub-type"
     return [{"data": { f"text/{mime}": str(txt).splitlines(True) },
              "execution_count": 1, "metadata": {}, "output_type": "execute_result"}]
 
 # %% ../nbs/api/config.ipynb 45
+#|export
 def show_src(src, lang='python'): return Markdown(f'```{lang}\n{src}\n```')
 
 # %% ../nbs/api/config.ipynb 48
+#|export
 _re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
 _init = '__init__.py'
 
@@ -246,12 +264,14 @@ def add_init(path=None):
     if get_config().get('put_version_in_init', True): update_version(path)
 
 # %% ../nbs/api/config.ipynb 51
+#|export
 def write_cells(cells, hdr, file, offset=0):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbdev internal use)."
     for cell in cells:
         if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell.source}')
 
 # %% ../nbs/api/config.ipynb 52
+#|export
 def _basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbdev."
     if dest is None: dest = get_config().lib_path
