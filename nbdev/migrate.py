@@ -173,5 +173,7 @@ def nbdev_migrate(
     _skip_re = None if no_skip else '^[_.]'
     if path is None: path = get_config().nbs_path
     for f in globtastic(path, file_re='(.ipynb$)|(.md$)', skip_folder_re=_skip_re, func=Path):
-        if f.name.endswith('.ipynb'): migrate_nb(f)
-        if f.name.endswith('.md'): migrate_md(f)        
+        try:
+            if f.name.endswith('.ipynb'): migrate_nb(f)
+            if f.name.endswith('.md'): migrate_md(f)
+        except Exception as e: raise Exception(f'Error in migrating file: {f}') from e
