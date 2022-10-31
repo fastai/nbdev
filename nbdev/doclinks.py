@@ -133,7 +133,7 @@ def nbdev_export(
     **kwargs):
     "Export notebooks in `path` to Python modules"
     if os.environ.get('IN_TEST',0): return
-    files = nbglob(path=path, as_path=True, sort_by=lambda path_str: Path(path_str).name, **kwargs)
+    files = nbglob(path=path, sort_by=lambda path_str: Path(path_str).name, **kwargs)
     for f in files: nb_export(f)
     add_init(get_config().lib_path)
     _build_modidx()
