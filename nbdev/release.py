@@ -245,7 +245,7 @@ def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     if not loc: raise Exception("Failed to find output")
     return _run(f'anaconda {token} upload {user} {loc} --skip-existing')
 
-# %% ../nbs/api/release.ipynb 44
+# %% ../nbs/api/release.ipynb 45
 @call_parse
 def release_conda(
     path:str='conda', # Path where package will be created
@@ -261,19 +261,21 @@ def release_conda(
     out = f"Done. Next steps:\n```\ncd {path}\n"""
     os.chdir(path)
     build = 'mambabuild' if mambabuild else 'build'
-    loc = conda_output_path(name, build=build)
-    out_upl = f"anaconda upload {loc}"
-    if not do_build: return print(f"{out}conda {build} .\n{out_upl}\n```")
+    if not do_build: return print(f"{out}conda {build} {name}")
 
-    print(f"conda {build} --no-anaconda-upload {build_args} {name}")
-    res = _run(f"conda {build} --no-anaconda-upload {build_args} {name}")
-    if skip_upload: return
+    cmd = f"conda {build} --output-folder out --no-anaconda-upload {build_args} {name}"
+    print(cmd)
+    res = _run(cmd)
+    outs = globtastic('out', file_glob='*.tar.bz2')
+    assert len(outs)==1
+    loc = outs[0]
+    if skip_upload: return print(loc)
     if not upload_user: upload_user = get_config().conda_user
     if not upload_user: return print("`conda_user` not in settings.ini and no `upload_user` passed. Cannot upload")
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
     return anaconda_upload(name, loc)
 
-# %% ../nbs/api/release.ipynb 45
+# %% ../nbs/api/release.ipynb 46
 def chk_conda_rel(
     nm:str,  # Package name on pypi
     apkg:str=None,  # Anaconda Package (defaults to {nm})
@@ -287,7 +289,7 @@ def chk_conda_rel(
     pypitag = latest_pypi(nm)
     if force or not condatag or pypitag > max(condatag): return f'{pypitag}'
 
-# %% ../nbs/api/release.ipynb 47
+# %% ../nbs/api/release.ipynb 48
 @call_parse
 def release_pypi(
     repository:str="pypi" # Respository to upload to (defined in ~/.pypirc)
@@ -297,7 +299,7 @@ def release_pypi(
     system(f'cd {_dir}  && rm -rf dist && python setup.py sdist bdist_wheel')
     system(f'twine upload --repository {repository} {_dir}/dist/*')
 
-# %% ../nbs/api/release.ipynb 48
+# %% ../nbs/api/release.ipynb 49
 @call_parse
 def release_both(
     path:str='conda', # Path where package will be created
@@ -313,7 +315,7 @@ def release_both(
     release_conda.__wrapped__(path, do_build=do_build, build_args=build_args, skip_upload=skip_upload, mambabuild=mambabuild, upload_user=upload_user)
     nbdev_bump_version.__wrapped__()
 
-# %% ../nbs/api/release.ipynb 50
+# %% ../nbs/api/release.ipynb 51
 def bump_version(version, part=2, unbump=False):
     version = version.split('.')
     incr = -1 if unbump else 1
@@ -321,7 +323,7 @@ def bump_version(version, part=2, unbump=False):
     for i in range(part+1, 3): version[i] = '0'
     return '.'.join(version)
 
-# %% ../nbs/api/release.ipynb 51
+# %% ../nbs/api/release.ipynb 52
 @call_parse
 def nbdev_bump_version(
     part:int=2,  # Part of version to bump
