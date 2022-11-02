@@ -178,9 +178,9 @@ def _run(cmd):
     return res
 
 # %% ../nbs/api/release.ipynb 38
-def conda_output_path(name):
+def conda_output_path(name, build='build'):
     "Output path for conda build"
-    return run(f'conda build --output {name}').strip().replace('\\', '/')
+    return run(f'conda {build} --output {name}').strip().replace('\\', '/')
 
 # %% ../nbs/api/release.ipynb 39
 def _write_yaml(path, name, d1, d2):
@@ -260,9 +260,9 @@ def release_conda(
     write_conda_meta(path)
     out = f"Done. Next steps:\n```\ncd {path}\n"""
     os.chdir(path)
-    loc = conda_output_path(name)
-    out_upl = f"anaconda upload {loc}"
     build = 'mambabuild' if mambabuild else 'build'
+    loc = conda_output_path(name, build=build)
+    out_upl = f"anaconda upload {loc}"
     if not do_build: return print(f"{out}conda {build} .\n{out_upl}\n```")
 
     print(f"conda {build} --no-anaconda-upload {build_args} {name}")
