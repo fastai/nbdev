@@ -239,7 +239,7 @@ def write_conda_meta(path='conda'):
 def write_requirements(directory=None):
     "Writes a `requirements.txt` file to `directory` based on settings.ini."
     cfg = get_config()
-    d = cfg.config_path if not directory else Path(directory)
+    d = Path(directory) if directory else cfg.config_path
     d.mkdir(exist_ok=True, parents=True)
     req = '\n'.join([cfg.get(k, '').replace(' ', '\n') for k in ['requirements', 'pip_requirements']])
     (d/'requirements.txt').write_text(req)
