@@ -2,8 +2,8 @@
 
 # %% auto 0
 __all__ = ['GH_HOST', 'Release', 'changelog', 'release_git', 'release_gh', 'pypi_json', 'latest_pypi', 'pypi_details',
-           'conda_output_path', 'write_conda_meta', 'anaconda_upload', 'release_conda', 'chk_conda_rel', 'release_pypi',
-           'release_both', 'bump_version', 'nbdev_bump_version']
+           'conda_output_path', 'write_conda_meta', 'write_requirements', 'anaconda_upload', 'release_conda',
+           'chk_conda_rel', 'release_pypi', 'release_both', 'bump_version', 'nbdev_bump_version']
 
 # %% ../nbs/api/release.ipynb 14
 from fastcore.all import *
@@ -236,6 +236,15 @@ def write_conda_meta(path='conda'):
     _write_yaml(path, *_get_conda_meta())
 
 # %% ../nbs/api/release.ipynb 43
+def write_requirements(directory=None):
+    "Writes a `requirements.txt` file to `directory` based on settings.ini."
+    cfg = get_config()
+    d = cfg.config_path if not directory else Path(directory)
+    d.mkdir(exist_ok=True, parents=True)
+    req = '\n'.join([cfg.get(k, '').replace(' ', '\n') for k in ['requirements', 'pip_requirements']])
+    (d/'requirements.txt').write_text(req)
+
+# %% ../nbs/api/release.ipynb 45
 def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     "Upload `name` to anaconda"
     user = f'-u {user} ' if user else ''
@@ -245,7 +254,7 @@ def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     if not loc: raise Exception("Failed to find output")
     return _run(f'anaconda {token} upload {user} {loc} --skip-existing')
 
-# %% ../nbs/api/release.ipynb 45
+# %% ../nbs/api/release.ipynb 47
 @call_parse
 def release_conda(
     path:str='conda', # Path where package will be created
@@ -275,7 +284,7 @@ def release_conda(
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
     return anaconda_upload(name, loc)
 
-# %% ../nbs/api/release.ipynb 46
+# %% ../nbs/api/release.ipynb 48
 def chk_conda_rel(
     nm:str,  # Package name on pypi
     apkg:str=None,  # Anaconda Package (defaults to {nm})
@@ -289,7 +298,7 @@ def chk_conda_rel(
     pypitag = latest_pypi(nm)
     if force or not condatag or pypitag > max(condatag): return f'{pypitag}'
 
-# %% ../nbs/api/release.ipynb 48
+# %% ../nbs/api/release.ipynb 50
 @call_parse
 def release_pypi(
     repository:str="pypi" # Respository to upload to (defined in ~/.pypirc)
@@ -299,7 +308,7 @@ def release_pypi(
     system(f'cd {_dir}  && rm -rf dist && python setup.py sdist bdist_wheel')
     system(f'twine upload --repository {repository} {_dir}/dist/*')
 
-# %% ../nbs/api/release.ipynb 49
+# %% ../nbs/api/release.ipynb 51
 @call_parse
 def release_both(
     path:str='conda', # Path where package will be created
@@ -315,7 +324,7 @@ def release_both(
     release_conda.__wrapped__(path, do_build=do_build, build_args=build_args, skip_upload=skip_upload, mambabuild=mambabuild, upload_user=upload_user)
     nbdev_bump_version.__wrapped__()
 
-# %% ../nbs/api/release.ipynb 51
+# %% ../nbs/api/release.ipynb 53
 def bump_version(version, part=2, unbump=False):
     version = version.split('.')
     incr = -1 if unbump else 1
@@ -323,7 +332,7 @@ def bump_version(version, part=2, unbump=False):
     for i in range(part+1, 3): version[i] = '0'
     return '.'.join(version)
 
-# %% ../nbs/api/release.ipynb 52
+# %% ../nbs/api/release.ipynb 54
 @call_parse
 def nbdev_bump_version(
     part:int=2,  # Part of version to bump
