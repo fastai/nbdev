@@ -236,13 +236,13 @@ def write_conda_meta(path='conda'):
     _write_yaml(path, *_get_conda_meta())
 
 # %% ../nbs/api/release.ipynb 43
+# This function is used as a utility for creating HF spaces.
 def write_requirements(directory=None):
     "Writes a `requirements.txt` file to `directory` based on settings.ini."
     cfg = get_config()
     d = Path(directory) if directory else cfg.config_path
-    d.mkdir(exist_ok=True, parents=True)
     req = '\n'.join([cfg.get(k, '').replace(' ', '\n') for k in ['requirements', 'pip_requirements']])
-    (d/'requirements.txt').write_text(req)
+    (d/'requirements.txt').mk_write(req)
 
 # %% ../nbs/api/release.ipynb 45
 def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
