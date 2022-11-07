@@ -49,11 +49,11 @@ def nb_export(nbname, lib_path=None, procs=black_format, debug=False, mod_maker=
     nb.process()
     for mod,cells in exp.modules.items():
         all_cells = exp.in_all[mod]
-        name = ifnone(name, getattr(exp, 'default_exp', None) if mod=='#' else mod)
-        if not name:
+        nm = ifnone(name, getattr(exp, 'default_exp', None) if mod=='#' else mod)
+        if not nm:
             warn(f"Notebook '{nbname}' uses `#|export` without `#|default_exp` cell.\n"
                  "Note nbdev2 no longer supports nbdev1 syntax. Run `nbdev_migrate` to upgrade.\n"
                  "See https://nbdev.fast.ai/getting_started.html for more information.")
             return
-        mm = mod_maker(dest=lib_path, name=name, nb_path=nbname, is_new=mod=='#')
+        mm = mod_maker(dest=lib_path, name=nm, nb_path=nbname, is_new=bool(name) or mod=='#')
         mm.make(cells, all_cells, lib_path=lib_path)
