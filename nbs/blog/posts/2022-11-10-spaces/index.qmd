@@ -149,7 +149,7 @@ Notice how the contents of app.py only contains the exported cells from this not
 
 ### Fill out `requirements.txt`
 
-You must supply a requirements.txt file so the Gradio app knows how to build your dependencies.  In this example, the only dependency other than Gradio is `fastcore`.  You don't need to specify Gradio itself as a dependency in `requirements.txt`, so our `requirements.txt` file has only one dependency:
+You must supply a `requirements.txt` file so the Gradio app knows how to build your dependencies.  In this example, the only dependency other than Gradio is `fastcore`.  You don't need to specify Gradio itself as a dependency in `requirements.txt`, so our `requirements.txt` file has only one dependency:
 
 
 ```python
