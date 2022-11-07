@@ -114,7 +114,7 @@ nb_export('app.ipynb', lib_path='.', name='app')
 
 ### Understanding what is generated
 
-Notice how the contents of app.py only contains the exported cells from this notebook:
+Notice how the contents of app.py only contain the exported cells from this notebook:
 
 
 ```python
