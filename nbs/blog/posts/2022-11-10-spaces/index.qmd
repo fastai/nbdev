@@ -11,7 +11,7 @@ skip_showdoc: true
 
 ![Image created with Stable Diffusion on [this space](https://huggingface.co/spaces/stabilityai/stable-diffusion), using the prompt "A data scientist at a computer in a futuristic city with a view of the planet Jupyter in the night sky, trending on artstation, high detail, science-fiction"](blog_cover.jpeg)
 
-[Hugging Face Spaces](https://huggingface.co/spaces/launch) provides an easy ways to deploy a web app with python.  [Gradio](https://gradio.app/) is one of my favorite tools for building these web apps.  Gradio allows you to prototype your web apps in notebooks, which allow you to iterate really fast.  However, Hugging Face Spaces requires you to package your web application code as a python script named `app.py`.  **In the below tutorial, we show you how you can use `nbdev` to auto-generate this app directly from a notebook, so you don't have to waste time refactoring code!**
+[Hugging Face Spaces](https://huggingface.co/spaces/launch) provides an easy ways to deploy a web app with python.  [Gradio](https://gradio.app/) is one of my favorite tools for building these web apps.  Gradio allows you to prototype your web apps in notebooks which allow you to iterate fast.  However, Hugging Face Spaces requires you to package your web application code as a python script named `app.py`.  **In the below tutorial, we show you how you can use `nbdev` to auto-generate this app directly from a notebook, so you don't have to waste time refactoring code!**
 
 ## 1. Create a Gradio-enabled Space on Hugging Face
 
@@ -53,7 +53,7 @@ def size(repo:str):
     return f'{gb:.2f} GB'
 ```
 
-`size` take as an input a [Hugging Face Dataset](https://huggingface.co/docs/datasets/index) repo and returns the total size in GB of the data.
+`size` takes as an input a [Hugging Face Dataset](https://huggingface.co/docs/datasets/index) repo and returns the total size in GB of the data.
 
 For example, we can check the size of [tglcourse/CelebA-faces-cropped-128](https://huggingface.co/datasets/tglcourse/CelebA-faces-cropped-128) like so:
 
