@@ -23,8 +23,6 @@ website:
         contents: tutorials/*
       - section: Explanations
         contents: explanations/*
-      - section: Integrations
-        contents: integrations/**/*.ipynb
       - section: API
         contents: api/*
   favicon: favicon.png
