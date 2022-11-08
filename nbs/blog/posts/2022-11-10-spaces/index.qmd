@@ -24,7 +24,7 @@ _The above app allows you to lookup the size, in GB of any [Hugging Face Dataset
 Authoring your spaces in notebooks offers a number of benefits such as the ability to:
 
 - Document your code (with `quarto` or `nbdev`)
-- Prototype and author your code
+- Prototype and author your code (with `nbdev.export.export_nb`)
 - Test your code (with `nbdev_test`)
 
 ... All from the same environment!
@@ -32,7 +32,7 @@ Authoring your spaces in notebooks offers a number of benefits such as the abili
 
 ## 1. Create a Gradio-enabled Space on Hugging Face
 
-The first step is to create a space and select the appropriate sdk (which is Gradio in this example), per [these instructions](https://huggingface.co/docs/hub/spaces-overview#creating-a-new-space):
+The first step is to create a space and select the appropriate sdk (which is Gradio in this example), according to [these instructions](https://huggingface.co/docs/hub/spaces-overview#creating-a-new-space):
 
 ![create a Hugging Face Space](create_space.png)
 
@@ -86,7 +86,7 @@ size("tglcourse/CelebA-faces-cropped-128")
 
 
 
-You can construct a simple UI with the `gradio.interface` and then call the `launch` method of that interface to display a preview in a notebook.  This is a great way to test your app to see if it works
+You can construct a simple UI with the `gradio.interface` and then call the `launch` method of that interface to display a preview in a notebook.  This is a great way to test your app to see if it works:
 
 
 ```python
@@ -121,7 +121,7 @@ iface.close()
 
 ## 4. Convert This Notebook Into A Gradio App
 
-In order to host this code on Hugging Faces spaces, you will export parts of this notebook to a script named `app.py`.  As a reminder, this is what the special `#|export` comment that you have seen in cells above do!  You can export code from this notebook like so:
+In order to host this code on Hugging Face Spaces, you will export parts of this notebook to a script named `app.py`.  As a reminder, this is what the special `#|export` comment that you have seen in cells above do!  You can export code from this notebook like so:
 
 
 ```python

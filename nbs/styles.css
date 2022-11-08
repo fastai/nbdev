@@ -50,3 +50,8 @@ blockquote > pre {
 .quarto-figure-center > figure > figcaption {
   text-align: center;
 }
+
+.figure-caption {
+  font-size: 75%;
+  font-style: italic;
+}
