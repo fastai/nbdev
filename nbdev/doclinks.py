@@ -49,7 +49,10 @@ def _iter_py_cells(p):
     cells = p.read_text().split("\n# %% ")
     for cell in cells[1:]:
         top,code = cell.split('\n', 1)
-        nb,idx = top.split()
+        try: nb,idx = top.split()
+        except ValueError:
+            raise NotImplementedError(f"Unexpected format in '{p}' at cell:\n```\n# %% {cell.strip()}.\n```\n"
+                                      "The expected format is: '# %% {nb_path} {cell_idx}'.")
         nb_path = None if nb=='auto' else (p.parent/nb).resolve()  # NB paths are stored relative to .py file
         if code.endswith('\n'): code=code[:-1]
         yield AttrDict(nb=nb, idx=int(idx), code=code, nb_path=nb_path, py_path=p.resolve())
