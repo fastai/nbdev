@@ -17,7 +17,7 @@ However, **thanks to [nbdev](https://nbdev.fast.ai), you can deploy a Gradio app
 
 [![<a href="https://huggingface.co/spaces/hamel/hfspace_demo">A Gradio app</a> that shows the size of a HF Dataset.](final_app.png)](https://huggingface.co/spaces/hamel/hfspace_demo)
 
-_The above app allows you to lookup the size, in GB of any [Hugging Face Dataset](https://huggingface.co/docs/datasets/index), using the [Hugging Face Datasets Server API](https://huggingface.co/docs/datasets-server/index)._
+_The above app allows you to lookup the size of any [Hugging Face Dataset](https://huggingface.co/docs/datasets/index), using the [Hugging Face Datasets Server API](https://huggingface.co/docs/datasets-server/index)._
 
 
 Authoring your spaces in notebooks offers a number of benefits such as the ability to:
