@@ -1,6 +1,6 @@
 ---
 author: Hamel Husain
-date: 2022-11-10
+date: 2022-11-07
 image: blog_cover.jpeg
 description: A demo of using nbdev with Hugging Face Spaces & Gradio.
 tags: [technical, "Hugging Face", gradio, Spaces]
