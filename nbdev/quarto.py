@@ -30,11 +30,11 @@ BASE_QUARTO_URL='https://www.quarto.org/download/latest/'
 
 def _install_linux():
     system(f'curl -LO {BASE_QUARTO_URL}quarto-linux-amd64.deb')
-    system('sudo dpkg -i *64.deb && rm *64.deb')
+    system('sudo dpkg -i quarto-linux-amd64.deb && rm quarto-linux-amd64.deb')
     
 def _install_mac():
     system(f'curl -LO {BASE_QUARTO_URL}quarto-macos.pkg')
-    system('sudo installer -pkg quarto-macos.pkg -target /')
+    system('sudo installer -pkg quarto-macos.pkg -target / && rm quarto-macos.pkg')
 
 @call_parse
 def install_quarto():
@@ -104,7 +104,7 @@ def nbdev_sidebar(
 
     yml_path = path/'sidebar.yml'
     yml = "website:\n  sidebar:\n    contents:\n"
-    yml += '\n'.join(f'      {o}' for o in res)
+    yml += '\n'.join(f'      {o}' for o in res)+'\n'
     if printit: return print(yml)
     yml_path.write_text(yml)
 
