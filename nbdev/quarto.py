@@ -104,7 +104,7 @@ def nbdev_sidebar(
 
     yml_path = path/'sidebar.yml'
     yml = "website:\n  sidebar:\n    contents:\n"
-    yml += '\n'.join(f'      {o}' for o in res)
+    yml += '\n'.join(f'      {o}' for o in res)+'\n'
     if printit: return print(yml)
     yml_path.write_text(yml)
 
