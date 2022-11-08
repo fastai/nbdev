@@ -203,8 +203,4 @@ After a couple of minutes, you will see your app published!  This app is publish
 Hopefully you felt something magical while doing this example.  Even though the target application required you to write a python script (`app.py`), you didn't have to refactor your script from a notebook!  I believe that you shouldn't have to refactor your code and switch contexts even when creating python packages!  If this intrigues you, check out [nbdev](https://nbdev.fast.ai/blog/posts/2022-07-28-nbdev2/)
 
 
-:::{.fn-hide-back}
-
 [^1]: The prompt that generated the cover image is: "A data scientist at a computer in a futuristic city with a view of the planet Jupyter in the night sky, trending on artstation, high detail, science-fiction"
-
-:::
