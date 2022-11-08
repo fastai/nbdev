@@ -12,7 +12,7 @@ skip_showdoc: true
 ![Image created with Stable Diffusion from [this space](https://huggingface.co/spaces/stabilityai/stable-diffusion)](blog_cover.jpeg)
 
 
-[Hugging Face Spaces](https://huggingface.co/spaces/launch) provides an easy ways to deploy a web app with python.  [Gradio](https://gradio.app/) is one of my favorite tools for building these web apps.  For example, the cover-image for this blog post was generated with a [Gradio App]((https://huggingface.co/spaces/stabilityai/stable-diffusion))![^1]  Gradio also allows you to prototype your web apps in notebooks which allow you to iterate fast.  Unfortunately, Hugging Face Spaces requires you to package your web application code as a python script named `app.py`.
+[Hugging Face Spaces](https://huggingface.co/spaces/launch) provides an easy ways to deploy a web app with python.  [Gradio](https://gradio.app/) is one of my favorite tools for building these web apps.  For example, the cover-image for this blog post was generated with a [Gradio App](https://huggingface.co/spaces/stabilityai/stable-diffusion)![^1]  Gradio also allows you to prototype your web apps in notebooks which allow you to iterate fast.  Unfortunately, Hugging Face Spaces requires you to package your web application code as a python script named `app.py`.
 
 However, **thanks to [nbdev](https://nbdev.fast.ai), you can deploy a Gradio app to Spaces from a notebook without having to refactor your code into a script!**   When you finish this tutorial, you will have an app that looks like this:
 
@@ -41,7 +41,21 @@ After you are done creating the space, clone the repo locally.  In this example,
 
 ## 2. Create A Notebook
 
-To follow along, create a notebook called `app.ipynb` in the root of your newly cloned repo. Alternatively, a minimal version of this notebook can also be [found here](https://gist.github.com/hamelsmu/35be07d242f3f19063c3a3839127dc67).
+Before getting started you will want to install the dependencies for this tutorial:
+
+```python
+!pip install git+https://github.com/fastai/nbdev.git gradio fastcore
+```
+
+Create a notebook called `app.ipynb` in the root of your newly cloned repo. Alternatively, download [the notebook](https://gist.github.com/hamelsmu/35be07d242f3f19063c3a3839127dc67) and follow along.
+
+:::{.callout-tip}
+
+### Download the notebook and follow along
+
+This blog post is a verbose version of the "notebook" you can use to create a Gradio app.  However, it can be useful to see just the code without any of the prose.  A [concise version of this notebook is here](https://gist.github.com/hamelsmu/35be07d242f3f19063c3a3839127dc67).  I recommend taking a look at this notebook during or after you read this blog post.
+
+:::
 
 ## 3. Make an app with Gradio
 
@@ -78,12 +92,11 @@ For example, I can check the size of [tglcourse/CelebA-faces-cropped-128](https:
 ```python
 size("tglcourse/CelebA-faces-cropped-128")
 ```
-
-
-
+:::{.cell-output}
 
     '5.49 GB'
 
+:::
 
 
 You can construct a simple UI with the `gradio.interface` and then call the `launch` method of that interface to display a preview in a notebook.  This is a great way to test your app to see if it works:
@@ -95,7 +108,7 @@ iface = gr.Interface(fn=size, inputs=gr.Text(value="tglcourse/CelebA-faces-cropp
 iface.launch(height=450, width=500)
 ```
     
-    
+:::{.cell-output}    
     Running on local URL:  http://127.0.0.1:7861
     
     To create a public link, set `share=True` in `launch()`.
@@ -106,7 +119,8 @@ iface.launch(height=450, width=500)
 ```
 
 ![](gradio_local.png)
-   
+
+:::
 
 Note how running the `launch()` method in a notebook runs a webserver in the background.  Below, I call the `close()` method to close the webserver.
 
@@ -116,8 +130,11 @@ Note how running the `launch()` method in a notebook runs a webserver in the bac
 iface.close()
 ```
 
+:::{.cell-output}
+
     Closing server running on port: 7861
 
+:::
 
 ## 4. Convert This Notebook Into A Gradio App
 
@@ -189,7 +206,7 @@ _Note: you may want to add operating system dependencies in addition to python d
 
 To launch your gradio app, you need to commit the changes to the Hugging Face repo:
 
-```
+```bash
 git add -A; git commit -m "Add application files"; git push
 ```
 
