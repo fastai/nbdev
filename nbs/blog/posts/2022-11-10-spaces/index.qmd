@@ -13,7 +13,7 @@ skip_showdoc: true
 
 [Hugging Face Spaces](https://huggingface.co/spaces/launch) provides an easy ways to deploy a web app with python.  [Gradio](https://gradio.app/) is one of my favorite tools for building these web apps.  Gradio also, allows you to prototype your web apps in notebooks which allow you to iterate fast.  Unfortunately, Hugging Face Spaces requires you to package your web application code as a python script named `app.py`.
 
-However, **thanks to [nbdev](https://nbdev.fast.ai) you can deploy a Gradio app to Spaces from a notebook without having to refactor your code into a script!**,   When you finish this tutorial, you will have an app that looks like this:
+However, **thanks to [nbdev](https://nbdev.fast.ai), you can deploy a Gradio app to Spaces from a notebook without having to refactor your code into a script!**,   When you finish this tutorial, you will have an app that looks like this:
 
 [![<a href="https://huggingface.co/spaces/hamel/hfspace_demo">A Gradio app</a> that shows the size of a HF Dataset.](final_app.png)](https://huggingface.co/spaces/hamel/hfspace_demo)
 
