@@ -12,7 +12,7 @@ skip_showdoc: true
 ![Image created with Stable Diffusion from [this space](https://huggingface.co/spaces/stabilityai/stable-diffusion)](blog_cover.jpeg)
 
 
-[Hugging Face Spaces](https://huggingface.co/spaces/launch) provides an easy ways to deploy a web app with python.  [Gradio](https://gradio.app/) is one of my favorite tools for building these web apps.  For example, the cover-image for this blog post was generated with a [Gradio App](https://huggingface.co/spaces/stabilityai/stable-diffusion)![^1]  Gradio also allows you to prototype your web apps in notebooks which allow you to iterate fast.  Unfortunately, Hugging Face Spaces requires you to package your web application code as a python script named `app.py`.
+[Hugging Face Spaces](https://huggingface.co/spaces/launch) provides an easy ways to deploy a web app with python.  [Gradio](https://gradio.app/) is one of my favorite tools for building these web apps.  For example, the cover-image for this blog post was generated with a [Gradio App](https://huggingface.co/spaces/stabilityai/stable-diffusion)![^1]  Gradio also allows you to prototype your web apps in notebooks which allows you to iterate fast.  Unfortunately, Hugging Face Spaces requires you to package your web application code as a python script named `app.py`.
 
 However, **thanks to [nbdev](https://nbdev.fast.ai), you can deploy a Gradio app to Spaces from a notebook without having to refactor your code into a script!**   When you finish this tutorial, you will have an app that looks like this:
 
