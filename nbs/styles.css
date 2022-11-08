@@ -55,3 +55,7 @@ blockquote > pre {
   font-size: 75%;
   font-style: italic;
 }
+
+.hide {
+  display:none;
+}
