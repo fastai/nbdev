@@ -2,6 +2,26 @@
 
 <!-- do not remove -->
 
+## 2.3.9
+
+### New Features
+
+- utility that creates a `requirements.txt` file from `settings.ini` ([#1202](https://github.com/fastai/nbdev/pull/1202)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- user-friendly error if py file has `# %%` comments with unexpected format ([#1211](https://github.com/fastai/nbdev/pull/1211)), thanks to [@seeM](https://github.com/seeM)
+- add parameter for name to `nb_export` ([#1204](https://github.com/fastai/nbdev/pull/1204)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- ensure newline at end of `_modidx.py` ([#1186](https://github.com/fastai/nbdev/issues/1186))
+
+### Bugs Squashed
+
+- end `sidebar.yml` with newline ([#1212](https://github.com/fastai/nbdev/pull/1212)), thanks to [@seeM](https://github.com/seeM)
+- fix: incorrect regex pattern for setting `output-file` ([#1210](https://github.com/fastai/nbdev/pull/1210)), thanks to [@seeM](https://github.com/seeM)
+- ensure newline at end of `_modidx.py` ([#1209](https://github.com/fastai/nbdev/pull/1209)), thanks to [@seeM](https://github.com/seeM)
+- fix: `nbdev_install_quarto` may install and remove unrelated packages ([#1208](https://github.com/fastai/nbdev/pull/1208)), thanks to [@seeM](https://github.com/seeM)
+- fix: key error if widgets is missing `state` ([#1207](https://github.com/fastai/nbdev/pull/1207)), thanks to [@seeM](https://github.com/seeM)
+-`nbdev_install_quarto` may install and remove unrelated packages ([#1182](https://github.com/fastai/nbdev/issues/1182))
+- Key error if widgets is missing `state` ([#1167](https://github.com/fastai/nbdev/issues/1167))
+
+
 ## 2.3.8
 
 ### New Features
