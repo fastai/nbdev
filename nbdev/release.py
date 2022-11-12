@@ -198,6 +198,9 @@ def _get_conda_meta():
     name,ver = cfg.lib_name,cfg.version
     url = cfg.doc_host or cfg.git_url
 
+    doc_url = (cfg.doc_host + cfg.doc_baseurl) if (cfg.doc_host and cfg.doc_baseurl) else url
+    dev_url = cfg.git_url if cfg.git_url else url
+
     reqs = ['pip', 'python', 'packaging']
     if cfg.get('requirements'): reqs += cfg.requirements.split()
     if cfg.get('conda_requirements'): reqs += cfg.conda_requirements.split()
@@ -222,7 +225,7 @@ def _get_conda_meta():
         'about': {
             'license': 'Apache Software',
             'license_family': 'APACHE',
-            'home': url, 'doc_url': url, 'dev_url': url,
+            'home': dev_url, 'doc_url': doc_url, 'dev_url': dev_url,
             'summary': cfg.get('description'),
             'description': descr
         },
