@@ -109,7 +109,7 @@ def nbglob(path=None, skip_folder_re = '^[_.]', file_glob='*.ipynb', skip_file_r
     res = res.map(Path) if as_path else res
     return res
 
-# %% ../nbs/api/doclinks.ipynb 22
+# %% ../nbs/api/doclinks.ipynb 21
 def nbglob_cli(
     path:str=None, # Path to notebooks
     symlinks:bool=False, # Follow symlinks?
@@ -123,7 +123,7 @@ def nbglob_cli(
     return nbglob(path, symlinks=symlinks, file_glob=file_glob, file_re=file_re, folder_re=folder_re,
                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
 
-# %% ../nbs/api/doclinks.ipynb 23
+# %% ../nbs/api/doclinks.ipynb 22
 @call_parse
 @delegates(nbglob_cli)
 def nbdev_export(
@@ -131,16 +131,16 @@ def nbdev_export(
     **kwargs):
     "Export notebooks in `path` to Python modules"
     if os.environ.get('IN_TEST',0): return
-    files = nbglob(path=path, **kwargs)#.sorted(lambda path_str: Path(path_str).name)
+    files = nbglob(path=path, as_path=True, **kwargs).sorted('name')
     for f in files: nb_export(f)
     add_init(get_config().lib_path)
     _build_modidx()
 
-# %% ../nbs/api/doclinks.ipynb 27
+# %% ../nbs/api/doclinks.ipynb 26
 import importlib,ast
 from functools import lru_cache
 
-# %% ../nbs/api/doclinks.ipynb 28
+# %% ../nbs/api/doclinks.ipynb 27
 def _find_mod(mod):
     mp,_,mr = mod.partition('/')
     spec = importlib.util.find_spec(mp)
@@ -163,7 +163,7 @@ def _get_exps(mod):
 
 def _lineno(sym, fname): return _get_exps(fname).get(sym, None) if fname else None
 
-# %% ../nbs/api/doclinks.ipynb 30
+# %% ../nbs/api/doclinks.ipynb 29
 def _qual_sym(s, settings):
     if not isinstance(s,tuple): return s
     nb,py = s
@@ -178,10 +178,10 @@ def _qual_syms(entries):
     if 'doc_host' not in settings: return entries
     return {'syms': {mod:_qual_mod(d, settings) for mod,d in entries['syms'].items()}, 'settings':settings}
 
-# %% ../nbs/api/doclinks.ipynb 31
+# %% ../nbs/api/doclinks.ipynb 30
 _re_backticks = re.compile(r'`([^`\s]+)`')
 
-# %% ../nbs/api/doclinks.ipynb 32
+# %% ../nbs/api/doclinks.ipynb 31
 @lru_cache(None)
 class NbdevLookup:
     "Mapping from symbol names to docs and source URLs"
