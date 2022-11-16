@@ -17,7 +17,7 @@ import shutil
 # %% ../nbs/api/migrate.ipynb 5
 def _cat_slug(fmdict):
     "Get the partial slug from the category front matter."
-    slug = '/'.join(sorted(fmdict.get('categories', '')))
+    slug = '/'.join(fmdict.get('categories', ''))
     return '/' + slug if slug else '' 
 
 # %% ../nbs/api/migrate.ipynb 7

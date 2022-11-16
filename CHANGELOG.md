@@ -2,6 +2,51 @@
 
 <!-- do not remove -->
 
+## 2.3.9
+
+### New Features
+
+- utility that creates a `requirements.txt` file from `settings.ini` ([#1202](https://github.com/fastai/nbdev/pull/1202)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- user-friendly error if py file has `# %%` comments with unexpected format ([#1211](https://github.com/fastai/nbdev/pull/1211)), thanks to [@seeM](https://github.com/seeM)
+- add parameter for name to `nb_export` ([#1204](https://github.com/fastai/nbdev/pull/1204)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- ensure newline at end of `_modidx.py` ([#1186](https://github.com/fastai/nbdev/issues/1186))
+
+### Bugs Squashed
+
+- end `sidebar.yml` with newline ([#1212](https://github.com/fastai/nbdev/pull/1212)), thanks to [@seeM](https://github.com/seeM)
+- fix: incorrect regex pattern for setting `output-file` ([#1210](https://github.com/fastai/nbdev/pull/1210)), thanks to [@seeM](https://github.com/seeM)
+- ensure newline at end of `_modidx.py` ([#1209](https://github.com/fastai/nbdev/pull/1209)), thanks to [@seeM](https://github.com/seeM)
+- fix: `nbdev_install_quarto` may install and remove unrelated packages ([#1208](https://github.com/fastai/nbdev/pull/1208)), thanks to [@seeM](https://github.com/seeM)
+- fix: key error if widgets is missing `state` ([#1207](https://github.com/fastai/nbdev/pull/1207)), thanks to [@seeM](https://github.com/seeM)
+-`nbdev_install_quarto` may install and remove unrelated packages ([#1182](https://github.com/fastai/nbdev/issues/1182))
+- Key error if widgets is missing `state` ([#1167](https://github.com/fastai/nbdev/issues/1167))
+
+
+## 2.3.8
+
+### New Features
+
+- better error messages for `nbdev_migrate` ([#1177](https://github.com/fastai/nbdev/issues/1177))
+- experimental: Users can provide extra processors via the `procs` key in `settings.ini` ([#1157](https://github.com/fastai/nbdev/pull/1157)), thanks to [@seeM](https://github.com/seeM)
+- enable Documentation Only Sites With `nbdev` ( + tutorial ) ([#1121](https://github.com/fastai/nbdev/pull/1121)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- support non-library projects ([#1119](https://github.com/fastai/nbdev/issues/1119))
+- throw a warning when imports and code are mixed in a cell ([#714](https://github.com/fastai/nbdev/issues/714))
+
+### Bugs Squashed
+
+- fix duplicated sections in the sidebar ([#1165](https://github.com/fastai/nbdev/pull/1165)), thanks to [@seeM](https://github.com/seeM)
+- setting `#| echo` in a cell with `show_doc` causes a Quarto error ([#1163](https://github.com/fastai/nbdev/issues/1163))
+- fix copying of index assets ([#1143](https://github.com/fastai/nbdev/pull/1143)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- images in index.ipynb causing deployments issues ([#1140](https://github.com/fastai/nbdev/issues/1140))
+- clean takes forever on notebooks with large output ([#1132](https://github.com/fastai/nbdev/issues/1132))
+- `nbdev_update` includes folders starting with `_` or `.` (e.g. `.ipynb_checkpoints`) ([#1130](https://github.com/fastai/nbdev/pull/1130)), thanks to [@seeM](https://github.com/seeM)
+- `nbdev_new` defaults bool parameters to `False` (e.g. `put_version_in_init`) ([#1129](https://github.com/fastai/nbdev/pull/1129)), thanks to [@seeM](https://github.com/seeM)
+- `black_formatting` setting is ignored ([#1122](https://github.com/fastai/nbdev/pull/1122)), thanks to [@jmoralez](https://github.com/jmoralez)
+- `nbdev_readme()` fails on the second run for the notebook with support files (e.g. Fig image). ([#1106](https://github.com/fastai/nbdev/issues/1106))
+- `nbdev_new` fails with `AttributeError: path_` ([#1063](https://github.com/fastai/nbdev/issues/1063))
+- fix #1041 ([#1049](https://github.com/fastai/nbdev/pull/1049)), thanks to [@seeM](https://github.com/seeM)
+
+
 ## 2.3.7
 
 ### New Features

@@ -211,7 +211,7 @@ class exec_show_docs(Processor):
             mimetype = 'application/vnd.jupyter.widget-state+json'
             old = nested_idx(self.nb.metadata, 'widgets', mimetype) or {'state': {}}
             new = Widget.get_manager_state(drop_defaults=True)
-            widgets = {**old, **new, 'state': {**old['state'], **new['state']}}
+            widgets = {**old, **new, 'state': {**old.get('state', {}), **new['state']}}
             self.nb.metadata['widgets'] = {mimetype: widgets}
 
 # %% ../nbs/api/processors.ipynb 42
