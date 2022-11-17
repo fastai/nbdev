@@ -59,8 +59,7 @@ def _iter_py_cells(p):
         yield AttrDict(nb=nb, idx=int(idx), code=code, nb_path=nb_path, py_path=p.resolve())
 
 # %% "../nbs/api/doclinks.ipynb" 11
-def _nbpath2html(p): 
-    return p.with_name(re.sub(r'^\d+[a-zA-Z0-9]*_', '', p.name.lower())).with_suffix('.html')
+def _nbpath2html(p): return p.with_name(re.sub(r'^\d+[a-zA-Z0-9]*_', '', p.name.lower())).with_suffix('.html')
 
 # %% "../nbs/api/doclinks.ipynb" 13
 def _get_modidx(py_path, code_root, nbs_path):
