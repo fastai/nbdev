@@ -35,6 +35,9 @@ def _git_repo():
     except OSError: return
 
 # %% ../nbs/api/config.ipynb 11
+# When adding a named default to the list below, be sure that that name
+# is also added to one of the sections in `_nbdev_cfg_sections` as well,
+# or it won't get written by `nbdev_create_config`:
 def _apply_defaults(
     cfg,
     lib_name='%(repo)s', # Package name
@@ -141,7 +144,7 @@ _nbdev_cfg_head = '''# All sections below are required unless otherwise specifie
 # See https://github.com/fastai/nbdev/blob/master/settings.ini for examples.
 
 '''
-_nbdev_cfg_sections = {'Python library': 'repo lib_name version min_python license',
+_nbdev_cfg_sections = {'Python library': 'repo lib_name version min_python license black_formatting',
                        'nbdev': 'doc_path lib_path nbs_path recursive tst_flags put_version_in_init',
                        'Docs': 'branch custom_sidebar doc_host doc_baseurl git_url title',
                        'PyPI': 'audience author author_email copyright description keywords language status user'}
@@ -207,16 +210,16 @@ def config_key(c, default=None, path=True, missing_ok=None):
     warn("`config_key` is deprecated. Use `get_config().get` or `get_config().path` instead.", DeprecationWarning)
     return get_config().path(c, default) if path else get_config().get(c, default)
 
-# %% ../nbs/api/config.ipynb 44
+# %% ../nbs/api/config.ipynb 46
 def create_output(txt, mime):
     "Add a cell output containing `txt` of the `mime` text MIME sub-type"
     return [{"data": { f"text/{mime}": str(txt).splitlines(True) },
              "execution_count": 1, "metadata": {}, "output_type": "execute_result"}]
 
-# %% ../nbs/api/config.ipynb 45
+# %% ../nbs/api/config.ipynb 47
 def show_src(src, lang='python'): return Markdown(f'```{lang}\n{src}\n```')
 
-# %% ../nbs/api/config.ipynb 48
+# %% ../nbs/api/config.ipynb 50
 _re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
 _init = '__init__.py'
 
@@ -245,13 +248,13 @@ def add_init(path=None):
         if _has_py(fs) or any(filter(_has_py, subds)) and not (r/_init).exists(): (r/_init).touch()
     if get_config().get('put_version_in_init', True): update_version(path)
 
-# %% ../nbs/api/config.ipynb 51
+# %% ../nbs/api/config.ipynb 53
 def write_cells(cells, hdr, file, offset=0):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbdev internal use)."
     for cell in cells:
         if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell.source}')
 
-# %% ../nbs/api/config.ipynb 52
+# %% ../nbs/api/config.ipynb 54
 def _basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbdev."
     if dest is None: dest = get_config().lib_path
