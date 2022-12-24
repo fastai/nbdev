@@ -30,7 +30,7 @@ def absolute_import(name, fname, level):
 # %% ../nbs/api/sync.ipynb 7
 @functools.lru_cache(maxsize=None)
 def _mod_files():
-    midx = import_module(f'{get_config().lib_name}._modidx')
+    midx = import_module(f'{get_config().lib_path.name}._modidx')
     return L(files for mod in midx.d['syms'].values() for _,files in mod.values()).unique()
 
 # %% ../nbs/api/sync.ipynb 8
