@@ -1,9 +1,7 @@
 ---
 name: Bug report
 about: Create a minimal reproducible example to help us improve
-title: ''
-labels: 'Bug'
-assignees: ''
+labels: ["bug"]
 
 ---
 
