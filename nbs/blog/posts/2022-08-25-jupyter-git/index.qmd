@@ -75,7 +75,7 @@ The techniques used to make the merge driver work are quite fascinating -- let's
 
 ### The nbdev2 git merge driver
 
-We provide here a summary of the git merge driver -- for full details and source code see the [`nbdev.merge` docs](https://nbdev.fast.ai/merge.html). Amazingly enough, the entire implementation is just 58 lines of code!
+We provide here a summary of the git merge driver -- for full details and source code see the [`nbdev.merge` docs](https://nbdev.fast.ai/api/merge.html). Amazingly enough, the entire implementation is just 58 lines of code!
 
 The basic idea is to first "undo" the original git merge which created the conflict, and then "redo" it at a cell level (instead of a line level) and looking only at cell source (not outputs or metadata). The "undoing" is straightforward: just create two copies of the conflicted file (representing the local and remove versions of the file), go through each git conflict marker, and replace the conflict section with either the local or remote version of the code.
 
