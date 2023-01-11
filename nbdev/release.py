@@ -2,8 +2,8 @@
 
 # %% auto 0
 __all__ = ['GH_HOST', 'Release', 'changelog', 'release_git', 'release_gh', 'pypi_json', 'latest_pypi', 'pypi_details',
-           'conda_output_path', 'write_conda_meta', 'write_requirements', 'anaconda_upload', 'release_conda',
-           'chk_conda_rel', 'release_pypi', 'release_both', 'bump_version', 'nbdev_bump_version']
+           'conda_output_path', 'write_conda_meta', 'write_requirements', 'write_pipfile', 'anaconda_upload',
+           'release_conda', 'chk_conda_rel', 'release_pypi', 'release_both', 'bump_version', 'nbdev_bump_version']
 
 # %% ../nbs/api/release.ipynb 14
 from fastcore.all import *
@@ -248,6 +248,29 @@ def write_requirements(directory=None):
     (d/'requirements.txt').mk_write(req)
 
 # %% ../nbs/api/release.ipynb 45
+import re
+def _to_pipfile_nv(namever):
+    m = re.search('^([a-z0-9_]+)(.*)$', namever)
+    if m:
+        n, v = m.group(1), m.group(2)
+        return f'{n}="{v}"' if v else f'{n}="*"'
+    else:
+        return ''
+
+def _to_pipfile_list(nv_list):
+    return '\n'.join([_to_pipfile_nv(nv) for nv in nv_list.split(' ')])
+
+def write_pipfile(directory=None):
+    "Writes a `Pipfile` file to `directory` based on settings.ini."
+    cfg = get_config()
+    d = Path(directory) if directory else cfg.config_path
+    req = '[[source]]\nurl = "https://pypi.python.org/simple"\nverify_ssl = true\nname = "pypi"\n'
+    req += '\n[requires]\npython_version="' + cfg.get('min_python', '') + '"\n'
+    req += '\n[packages]\n' + '\n'.join([_to_pipfile_list(cfg.get(k, '')) for k in ['requirements', 'pip_requirements']]) + '\n'
+    req += '\n[dev-packages]\n' + _to_pipfile_list(cfg.get('dev_requirements', '')) + '\n'
+    (d/'Pipfile').mk_write(req)
+
+# %% ../nbs/api/release.ipynb 47
 def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     "Upload `name` to anaconda"
     user = f'-u {user} ' if user else ''
@@ -257,7 +280,7 @@ def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     if not loc: raise Exception("Failed to find output")
     return _run(f'anaconda {token} upload {user} {loc} --skip-existing')
 
-# %% ../nbs/api/release.ipynb 47
+# %% ../nbs/api/release.ipynb 49
 @call_parse
 def release_conda(
     path:str='conda', # Path where package will be created
@@ -287,7 +310,7 @@ def release_conda(
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
     return anaconda_upload(name, loc)
 
-# %% ../nbs/api/release.ipynb 48
+# %% ../nbs/api/release.ipynb 50
 def chk_conda_rel(
     nm:str,  # Package name on pypi
     apkg:str=None,  # Anaconda Package (defaults to {nm})
@@ -301,7 +324,7 @@ def chk_conda_rel(
     pypitag = latest_pypi(nm)
     if force or not condatag or pypitag > max(condatag): return f'{pypitag}'
 
-# %% ../nbs/api/release.ipynb 50
+# %% ../nbs/api/release.ipynb 52
 @call_parse
 def release_pypi(
     repository:str="pypi" # Respository to upload to (defined in ~/.pypirc)
@@ -311,7 +334,7 @@ def release_pypi(
     system(f'cd {_dir}  && rm -rf dist && python setup.py sdist bdist_wheel')
     system(f'twine upload --repository {repository} {_dir}/dist/*')
 
-# %% ../nbs/api/release.ipynb 51
+# %% ../nbs/api/release.ipynb 53
 @call_parse
 def release_both(
     path:str='conda', # Path where package will be created
@@ -327,7 +350,7 @@ def release_both(
     release_conda.__wrapped__(path, do_build=do_build, build_args=build_args, skip_upload=skip_upload, mambabuild=mambabuild, upload_user=upload_user)
     nbdev_bump_version.__wrapped__()
 
-# %% ../nbs/api/release.ipynb 53
+# %% ../nbs/api/release.ipynb 55
 def bump_version(version, part=2, unbump=False):
     version = version.split('.')
     incr = -1 if unbump else 1
@@ -335,7 +358,7 @@ def bump_version(version, part=2, unbump=False):
     for i in range(part+1, 3): version[i] = '0'
     return '.'.join(version)
 
-# %% ../nbs/api/release.ipynb 54
+# %% ../nbs/api/release.ipynb 56
 @call_parse
 def nbdev_bump_version(
     part:int=2,  # Part of version to bump
