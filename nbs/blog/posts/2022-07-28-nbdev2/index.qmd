@@ -64,7 +64,7 @@ We have piloted nbdev at several companies. We were delighted to receive the fol
 
 ## What's nbdev?
 
-Nbdev embraces the dynamic nature of python and REPL-driven development in ways that traditional IDEs and software development workflows cannot. We thoroughly discussed the motivation, history, and goals of nbdev in this [initial launch post](https://www.fast.ai/posts/2019-11-27-nbdev.html) three years ago. The creator of Jupyter, Fernando Pérez, told us:
+Nbdev embraces the dynamic nature of python and REPL-driven development in ways that traditional IDEs and software development workflows cannot. We thoroughly discussed the motivation, history, and goals of nbdev in this [initial launch post](https://www.fast.ai/posts/2019-11-27-nbdev.html#software-development-tools) three years ago. The creator of Jupyter, Fernando Pérez, told us:
 
 
 > [Nbdev] should be celebrated and used a lot more - I have kept a tab with your original nbdev blog post open for months in Chrome because of how often I refer to it and point others to this work
