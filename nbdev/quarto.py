@@ -182,6 +182,13 @@ def nbdev_proc_nbs(**kwargs):
     _pre_docs(**kwargs)[0]
 
 # %% ../nbs/api/quarto.ipynb 20
+def _copytree(a,b):
+    if sys.version_info.major >=3 and sys.version_info.minor >=8: copytree(a, b, dirs_exist_ok=True)
+    else:
+        from distutils.dir_util import copy_tree
+        copy_tree(a, b)
+
+# %% ../nbs/api/quarto.ipynb 21
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
@@ -213,9 +220,9 @@ def nbdev_readme(
         _rdmi = tmp_doc_path/(idx_cache.stem + '_files')
         if readme_path.exists(): readme_path.unlink() # py37 doesn't have `missing_ok`
         move(readme, cfg_path)
-        if _rdmi.exists(): copytree(_rdmi, cfg_path/_rdmi.name, dirs_exist_ok=True) # Move Supporting files for README
+        if _rdmi.exists(): _copytree(_rdmi, cfg_path/_rdmi.name, dirs_exist_ok=True) # Supporting files for README
 
-# %% ../nbs/api/quarto.ipynb 22
+# %% ../nbs/api/quarto.ipynb 23
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_docs(
@@ -229,7 +236,7 @@ def nbdev_docs(
     shutil.rmtree(cfg.doc_path, ignore_errors=True)
     move(cache/cfg.doc_path.name, cfg.config_path)
 
-# %% ../nbs/api/quarto.ipynb 24
+# %% ../nbs/api/quarto.ipynb 25
 @call_parse
 def prepare():
     "Export, test, and clean notebooks, and render README if needed"
@@ -240,7 +247,7 @@ def prepare():
     refresh_quarto_yml()
     nbdev_readme.__wrapped__(chk_time=True)
 
-# %% ../nbs/api/quarto.ipynb 26
+# %% ../nbs/api/quarto.ipynb 27
 @contextmanager
 def fs_watchdog(func, path, recursive:bool=True):
     "File system watchdog dispatching to `func`"
@@ -256,7 +263,7 @@ def fs_watchdog(func, path, recursive:bool=True):
         observer.stop()
         observer.join()
 
-# %% ../nbs/api/quarto.ipynb 27
+# %% ../nbs/api/quarto.ipynb 28
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_preview(
