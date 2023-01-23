@@ -3,7 +3,7 @@
   name: nbdev_clean
   entry: nbdev_clean
   description: "Clean metadata from notebooks to avoid merge conflicts"
-  language: system
+  language: python
   always_run: true
   pass_filenames: false
 
