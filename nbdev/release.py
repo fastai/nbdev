@@ -308,7 +308,7 @@ def release_pypi(
 ):
     "Create and upload Python package to PyPI"
     _dir = get_config().lib_path.parent
-    system(f'cd {_dir}  && rm -rf dist && python setup.py sdist bdist_wheel')
+    system(f'cd {_dir}  && rm -rf dist build && python setup.py sdist bdist_wheel')
     system(f'twine upload --repository {repository} {_dir}/dist/*')
 
 # %% ../nbs/api/release.ipynb 51
