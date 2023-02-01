@@ -87,7 +87,7 @@ def _filt_dec(x): return decor_id(x).startswith('patch')
 def _wants(o): return isinstance(o,_def_types) and not any(L(o.decorator_list).filter(_filt_dec))
 
 # %% ../nbs/api/maker.ipynb 20
-def _targets(o): return [o.target] if isinstance(o, ast.AnnAssign) else o.targets
+def _targets(o): return [o.target] if isinstance(o, (ast.AugAssign,ast.AnnAssign)) else o.targets
 
 @patch
 def make_all(self:ModuleMaker, cells):
