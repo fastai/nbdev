@@ -275,7 +275,7 @@ def release_conda(
     build = 'mambabuild' if mambabuild else 'build'
     if not do_build: return print(f"{out}conda {build} {name}")
 
-    system('rm out/*.tar.bz2')
+    for f in globtastic('out', file_glob='*.tar.bz2'): os.remove(f)
     cmd = f"conda {build} --output-folder out --no-anaconda-upload {build_args} {name}"
     print(cmd)
     res = _run(cmd)
