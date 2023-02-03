@@ -35,6 +35,9 @@ def _git_repo():
     except OSError: return
 
 # %% ../nbs/api/01_config.ipynb 11
+# When adding a named default to the list below, be sure that that name
+# is also added to one of the sections in `_nbdev_cfg_sections` as well,
+# or it won't get written by `nbdev_create_config`:
 def _apply_defaults(
     cfg,
     lib_name='%(repo)s', # Package name
@@ -141,7 +144,7 @@ _nbdev_cfg_head = '''# All sections below are required unless otherwise specifie
 # See https://github.com/fastai/nbdev/blob/master/settings.ini for examples.
 
 '''
-_nbdev_cfg_sections = {'Python library': 'repo lib_name version min_python license',
+_nbdev_cfg_sections = {'Python library': 'repo lib_name version min_python license black_formatting',
                        'nbdev': 'doc_path lib_path nbs_path recursive tst_flags put_version_in_init',
                        'Docs': 'branch custom_sidebar doc_host doc_baseurl git_url title',
                        'PyPI': 'audience author author_email copyright description keywords language status user'}
