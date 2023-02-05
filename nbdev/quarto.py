@@ -182,7 +182,7 @@ def nbdev_proc_nbs(**kwargs):
     _pre_docs(**kwargs)[0]
 
 # %% ../nbs/api/14_quarto.ipynb 21
-def _readme_not_out_of_date(readme_path, readme_nb_path):
+def _readme_mtime_not_older(readme_path, readme_nb_path):
     if not readme_nb_path.exists():
         print(f"Could not find {readme_nb_path}")
         return True
@@ -226,7 +226,7 @@ def nbdev_readme(
     chk_time:bool=False): # Only build if out of date
     cfg = get_config()
     path = Path(path) if path else cfg.nbs_path
-    if chk_time and _readme_not_out_of_date(cfg.config_path/'README.md', path/cfg.readme_nb): return
+    if chk_time and _readme_mtime_not_older(cfg.config_path/'README.md', path/cfg.readme_nb): return
 
     with _SidebarYmlRemoved(path): # to avoid rendering whole website
         cache = proc_nbs(path)
