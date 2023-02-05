@@ -18,7 +18,7 @@ from . import serve_drv
 
 # %% auto 0
 __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'refresh_quarto_yml', 'nbdev_proc_nbs',
-           'SidebarYmlRemoved', 'nbdev_readme', 'nbdev_docs', 'prepare', 'fs_watchdog', 'nbdev_preview']
+           'nbdev_readme', 'nbdev_docs', 'prepare', 'fs_watchdog', 'nbdev_preview']
 
 # %% ../nbs/api/14_quarto.ipynb 5
 def _sprun(cmd):
@@ -189,7 +189,8 @@ def _readme_not_out_of_date(readme_path, readme_nb_path):
     return readme_path.exists() and readme_path.stat().st_mtime>=readme_nb_path.stat().st_mtime
 
 # %% ../nbs/api/14_quarto.ipynb 22
-class SidebarYmlRemoved:
+class _SidebarYmlRemoved:
+    "Context manager for `nbdev_readme` to avoid rendering whole docs website"
     def __init__(self,path): self._path=path
     def __enter__(self):
         self._yml_path = self._path/'sidebar.yml'
@@ -227,13 +228,13 @@ def nbdev_readme(
     path = Path(path) if path else cfg.nbs_path
     if chk_time and _readme_not_out_of_date(cfg.config_path/'README.md', path/cfg.readme_nb): return
 
-    with SidebarYmlRemoved(path): # to avoid rendering whole website
+    with _SidebarYmlRemoved(path): # to avoid rendering whole website
         cache = proc_nbs(path)
         _sprun(f'cd "{cache}" && quarto render "{cache/cfg.readme_nb}" -o README.md -t gfm --no-execute')
         
     _save_cached_readme(cache, cfg)
 
-# %% ../nbs/api/14_quarto.ipynb 29
+# %% ../nbs/api/14_quarto.ipynb 28
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_docs(
@@ -247,7 +248,7 @@ def nbdev_docs(
     shutil.rmtree(cfg.doc_path, ignore_errors=True)
     move(cache/cfg.doc_path.name, cfg.config_path)
 
-# %% ../nbs/api/14_quarto.ipynb 31
+# %% ../nbs/api/14_quarto.ipynb 30
 @call_parse
 def prepare():
     "Export, test, and clean notebooks, and render README if needed"
@@ -258,7 +259,7 @@ def prepare():
     refresh_quarto_yml()
     nbdev_readme.__wrapped__(chk_time=True)
 
-# %% ../nbs/api/14_quarto.ipynb 33
+# %% ../nbs/api/14_quarto.ipynb 32
 @contextmanager
 def fs_watchdog(func, path, recursive:bool=True):
     "File system watchdog dispatching to `func`"
@@ -274,7 +275,7 @@ def fs_watchdog(func, path, recursive:bool=True):
         observer.stop()
         observer.join()
 
-# %% ../nbs/api/14_quarto.ipynb 34
+# %% ../nbs/api/14_quarto.ipynb 33
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_preview(
