@@ -111,7 +111,7 @@ def _reconfigure(*strms):
 # %% ../nbs/api/11_clean.ipynb 28
 def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
     if not f_out: f_out = f_in
-    if isinstance(f_in, (str,Path)): f_in = Path(f_in).open()
+    if isinstance(f_in, (str,Path)): f_in = Path(f_in).open(encoding="utf-8")
     try:
         _reconfigure(f_in, f_out)
         nb = dict2nb(loads(f_in.read()))
