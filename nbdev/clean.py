@@ -55,6 +55,11 @@ def _clean_cell_output_id(lines):
     return _skip_or_sub(lines) if isinstance(lines,str) else [_skip_or_sub(o) for o in lines]
 
 # %% ../nbs/api/11_clean.ipynb 11
+def _add_trailing_n(img):
+    if not isinstance(img,str): return [ _add_trailing_n(o) for o in img ]
+    return img + "\n" if img[-1] != "\n" else img
+
+# %% ../nbs/api/11_clean.ipynb 12
 def _clean_cell_output(cell, clean_ids):
     "Remove `cell` output execution count and optionally ids from text reprs"
     outputs = cell.get('outputs', [])
@@ -62,13 +67,13 @@ def _clean_cell_output(cell, clean_ids):
         if 'execution_count' in o: o['execution_count'] = None
         data = o.get('data', {})
         data.pop("application/vnd.google.colaboratory.intrinsic+json", None)
-        if clean_ids:
-            for k in data:
-                if k.startswith('text'): data[k] = _clean_cell_output_id(data[k])
-            if 'text' in o: o['text'] = _clean_cell_output_id(o['text'])
+        for k in data:
+            if k.startswith('text') and clean_ids: data[k] = _clean_cell_output_id(data[k])
+            if k.startswith('image'): data[k] = _add_trailing_n(data[k])
+        if 'text' in o and clean_ids: o['text'] = _clean_cell_output_id(o['text'])
         o.get('metadata', {}).pop('tags', None)
 
-# %% ../nbs/api/11_clean.ipynb 12
+# %% ../nbs/api/11_clean.ipynb 13
 def _clean_cell(cell, clear_all, allowed_metadata_keys, clean_ids):
     "Clean `cell` by removing superfluous metadata or everything except the input if `clear_all`"
     if 'execution_count' in cell: cell['execution_count'] = None
@@ -79,7 +84,7 @@ def _clean_cell(cell, clear_all, allowed_metadata_keys, clean_ids):
     cell['metadata'] = {} if clear_all else {
         k:v for k,v in cell['metadata'].items() if k in allowed_metadata_keys}
 
-# %% ../nbs/api/11_clean.ipynb 13
+# %% ../nbs/api/11_clean.ipynb 14
 def clean_nb(
     nb, # The notebook to clean
     clear_all=False, # Remove all cell metadata and cell outputs?
@@ -97,12 +102,12 @@ def clean_nb(
         nb['metadata']['kernelspec']['display_name'] = nb.metadata.kernelspec.name
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in metadata_keys}
 
-# %% ../nbs/api/11_clean.ipynb 24
+# %% ../nbs/api/11_clean.ipynb 27
 def _reconfigure(*strms):
     for s in strms:
         if hasattr(s,'reconfigure'): s.reconfigure(encoding='utf-8')
 
-# %% ../nbs/api/11_clean.ipynb 25
+# %% ../nbs/api/11_clean.ipynb 28
 def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
     if not f_out: f_out = f_in
     if isinstance(f_in, (str,Path)): f_in = Path(f_in).open()
@@ -115,7 +120,7 @@ def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
         warn(f'{warn_msg}')
         warn(e)
 
-# %% ../nbs/api/11_clean.ipynb 26
+# %% ../nbs/api/11_clean.ipynb 29
 def _nbdev_clean(nb, path=None, clear_all=None):
     cfg = get_config(path=path)
     clear_all = clear_all or cfg.clear_all
@@ -123,7 +128,7 @@ def _nbdev_clean(nb, path=None, clear_all=None):
     allowed_cell_metadata_keys = cfg.get("allowed_cell_metadata_keys").split()
     return clean_nb(nb, clear_all, allowed_metadata_keys, allowed_cell_metadata_keys, cfg.clean_ids)
 
-# %% ../nbs/api/11_clean.ipynb 27
+# %% ../nbs/api/11_clean.ipynb 31
 @call_parse
 def nbdev_clean(
     fname:str=None, # A notebook name or glob to clean
@@ -139,7 +144,7 @@ def nbdev_clean(
     if fname is None: fname = get_config().nbs_path
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'): _write(f_in=f, disp=disp)
 
-# %% ../nbs/api/11_clean.ipynb 30
+# %% ../nbs/api/11_clean.ipynb 34
 def clean_jupyter(path, model, **kwargs):
     "Clean Jupyter `model` pre save to `path`"
     if not (model['type']=='notebook' and model['content']['nbformat']==4): return
@@ -147,7 +152,7 @@ def clean_jupyter(path, model, **kwargs):
     jupyter_hooks = get_config(path=path).jupyter_hooks
     if jupyter_hooks: _nbdev_clean(model['content'], path=path)
 
-# %% ../nbs/api/11_clean.ipynb 33
+# %% ../nbs/api/11_clean.ipynb 37
 _pre_save_hook_src = '''
 def nbdev_clean_jupyter(**kwargs):
     try: from nbdev.clean import clean_jupyter
@@ -157,7 +162,7 @@ def nbdev_clean_jupyter(**kwargs):
 c.ContentsManager.pre_save_hook = nbdev_clean_jupyter'''.strip()
 _pre_save_hook_re = re.compile(r'c\.(File)?ContentsManager\.pre_save_hook')
 
-# %% ../nbs/api/11_clean.ipynb 34
+# %% ../nbs/api/11_clean.ipynb 38
 def _add_jupyter_hooks(src, path):
     if _pre_save_hook_src in src: return
     mod = ast.parse(src)
@@ -175,12 +180,12 @@ def _add_jupyter_hooks(src, path):
     if src: src+='\n\n'
     return src+_pre_save_hook_src
 
-# %% ../nbs/api/11_clean.ipynb 38
+# %% ../nbs/api/11_clean.ipynb 42
 def _git_root(): 
     try: return Path(run('git rev-parse --show-toplevel'))
     except OSError: return None
 
-# %% ../nbs/api/11_clean.ipynb 41
+# %% ../nbs/api/11_clean.ipynb 45
 @call_parse
 def nbdev_install_hooks():
     "Install Jupyter and git hooks to automatically clean, trust, and fix merge conflicts in notebooks"
