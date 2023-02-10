@@ -93,6 +93,7 @@ def clean_nb(
     clean_ids=True, # Remove ids from plaintext reprs?
 ):
     "Clean `nb` from superfluous metadata"
+    assert isinstance(nb, AttrDict)
     metadata_keys = {"kernelspec", "jekyll", "jupytext", "doc", "widgets"}
     if allowed_metadata_keys: metadata_keys.update(allowed_metadata_keys)
     cell_metadata_keys = {"hide_input"}
@@ -113,7 +114,7 @@ def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
     if isinstance(f_in, (str,Path)): f_in = Path(f_in).open()
     try:
         _reconfigure(f_in, f_out)
-        nb = loads(f_in.read())
+        nb = dict2nb(loads(f_in.read()))
         proc_nb(nb)
         write_nb(nb, f_out) if not disp else sys.stdout.write(nb2str(nb))
     except Exception as e:
@@ -128,7 +129,7 @@ def _nbdev_clean(nb, path=None, clear_all=None):
     allowed_cell_metadata_keys = cfg.get("allowed_cell_metadata_keys").split()
     return clean_nb(nb, clear_all, allowed_metadata_keys, allowed_cell_metadata_keys, cfg.clean_ids)
 
-# %% ../nbs/api/11_clean.ipynb 31
+# %% ../nbs/api/11_clean.ipynb 30
 @call_parse
 def nbdev_clean(
     fname:str=None, # A notebook name or glob to clean
@@ -144,7 +145,7 @@ def nbdev_clean(
     if fname is None: fname = get_config().nbs_path
     for f in globtastic(fname, file_glob='*.ipynb', skip_folder_re='^[_.]'): _write(f_in=f, disp=disp)
 
-# %% ../nbs/api/11_clean.ipynb 34
+# %% ../nbs/api/11_clean.ipynb 33
 def clean_jupyter(path, model, **kwargs):
     "Clean Jupyter `model` pre save to `path`"
     if not (model['type']=='notebook' and model['content']['nbformat']==4): return
@@ -152,7 +153,7 @@ def clean_jupyter(path, model, **kwargs):
     jupyter_hooks = get_config(path=path).jupyter_hooks
     if jupyter_hooks: _nbdev_clean(model['content'], path=path)
 
-# %% ../nbs/api/11_clean.ipynb 37
+# %% ../nbs/api/11_clean.ipynb 36
 _pre_save_hook_src = '''
 def nbdev_clean_jupyter(**kwargs):
     try: from nbdev.clean import clean_jupyter
@@ -162,7 +163,7 @@ def nbdev_clean_jupyter(**kwargs):
 c.ContentsManager.pre_save_hook = nbdev_clean_jupyter'''.strip()
 _pre_save_hook_re = re.compile(r'c\.(File)?ContentsManager\.pre_save_hook')
 
-# %% ../nbs/api/11_clean.ipynb 38
+# %% ../nbs/api/11_clean.ipynb 37
 def _add_jupyter_hooks(src, path):
     if _pre_save_hook_src in src: return
     mod = ast.parse(src)
@@ -180,12 +181,12 @@ def _add_jupyter_hooks(src, path):
     if src: src+='\n\n'
     return src+_pre_save_hook_src
 
-# %% ../nbs/api/11_clean.ipynb 42
+# %% ../nbs/api/11_clean.ipynb 41
 def _git_root(): 
     try: return Path(run('git rev-parse --show-toplevel'))
     except OSError: return None
 
-# %% ../nbs/api/11_clean.ipynb 45
+# %% ../nbs/api/11_clean.ipynb 44
 @call_parse
 def nbdev_install_hooks():
     "Install Jupyter and git hooks to automatically clean, trust, and fix merge conflicts in notebooks"
