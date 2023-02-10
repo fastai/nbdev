@@ -20,7 +20,7 @@ Today we’re excited to announce that we’ve teamed up with Quarto to give [nb
 * Test code, and
 * Author documentation and technical articles
 
-Although notebooks are already widely used for once-off exploratory work, it’s less well-known that they are perfectly capable of writing quality software. In fact, we’ve used nbdev for a wide range of software projects over the last three years, including [deep learning libraries,](https://github.com/fastai/fastai) [API clients](https://github.com/fastai/ghapi), [Python language extensions](https://github.com/fastai/fastcore), [terminal user interfaces](https://github.com/nat/ghtop), and more. We discovered that it is not only capable of writing great software but that it **has also increased our productivity by 300% or more**. With nbdev, developers simply write notebooks with lightweight markup and get high-quality documentation, tests, continuous integration, and packaging for free!  Nbdev has allowed us to maintain and scale many[ open source projects](https://github.com/fastai). Pull requests are often accompanied by detailed documentation and tests–contributors simply write notebooks.
+Although notebooks are already widely used for once-off exploratory work, it’s less well-known that they are perfectly capable of writing quality software. In fact, we’ve used nbdev for a wide range of software projects over the last three years, including [deep learning libraries,](https://github.com/fastai/fastai) [API clients](https://github.com/fastai/ghapi), [Python language extensions](https://github.com/fastai/fastcore), [terminal user interfaces](https://github.com/nat/ghtop), and more. We discovered that it is not only capable of writing great software but that it **has also increased our productivity by 300% or more**. With nbdev, developers simply write notebooks with lightweight markup and get high-quality documentation, tests, continuous integration, and packaging for free!  Nbdev has allowed us to maintain and scale many [open source projects](https://github.com/fastai). Pull requests are often accompanied by detailed documentation and tests–contributors simply write notebooks.
 
 This is why we’re excited to share nbdev v2. It’s rewritten from the ground up, with much-anticipated features including:
 
@@ -64,7 +64,7 @@ We have piloted nbdev at several companies. We were delighted to receive the fol
 
 ## What's nbdev?
 
-Nbdev embraces the dynamic nature of python and REPL-driven development in ways that traditional IDEs and software development workflows cannot. We thoroughly discussed the motivation, history, and goals of nbdev in this [initial launch post](https://www.fast.ai/2019/12/02/nbdev/#software-development-tools) three years ago. The creator of Jupyter, Fernando Pérez, told us:
+Nbdev embraces the dynamic nature of python and REPL-driven development in ways that traditional IDEs and software development workflows cannot. We thoroughly discussed the motivation, history, and goals of nbdev in this [initial launch post](https://www.fast.ai/posts/2019-11-27-nbdev.html#software-development-tools) three years ago. The creator of Jupyter, Fernando Pérez, told us:
 
 
 > [Nbdev] should be celebrated and used a lot more - I have kept a tab with your original nbdev blog post open for months in Chrome because of how often I refer to it and point others to this work
@@ -73,7 +73,7 @@ In short, nbdev embraces ideas from [literate programming](https://en.wikipedia.
 
 ![State of the Octoverse 2021, GitHub](lang_rank.png)
 
-Even though nbdev is most widely used in scientific computing communities due to its integration with Jupyter Notebooks, we’ve found that nbdev is well suited for a much wider range of software. We have used nbdev to write [deep learning libraries,](https://github.com/fastai/fastai) [API clients](https://github.com/fastai/ghapi), [python language extensions](https://github.com/fastai/fastcore),[terminal user interfaces](https://github.com/nat/ghtop), and more!
+Even though nbdev is most widely used in scientific computing communities due to its integration with Jupyter Notebooks, we’ve found that nbdev is well suited for a much wider range of software. We have used nbdev to write [deep learning libraries,](https://github.com/fastai/fastai) [API clients](https://github.com/fastai/ghapi), [python language extensions](https://github.com/fastai/fastcore), [terminal user interfaces](https://github.com/nat/ghtop), and more!
 
 _Hamel: When I use nbdev, my colleagues are often astounded by how quickly I can create and distribute high-quality python packages. I consider nbdev to be a superpower that allows me to create tests and documentation without any additional friction, which makes all of my projects more maintainable. I also find writing software with nbdev to be more fun and productive as I can iterate very fast on ideas relative to more traditional software engineering workflows. Lastly, with nbdev I can also use traditional text-based IDEs if I want to, so I get the best of both worlds._
 

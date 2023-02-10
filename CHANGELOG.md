@@ -2,6 +2,26 @@
 
 <!-- do not remove -->
 
+## 2.3.11
+
+### New Features
+
+- add agplv3 license to project options ([#1268](https://github.com/fastai/nbdev/pull/1268)), thanks to [@joel-lbth](https://github.com/joel-lbth)
+- add 0 - Pre-planning status to project options ([#1262](https://github.com/fastai/nbdev/pull/1262)), thanks to [@ddobrinskiy](https://github.com/ddobrinskiy)
+- add conda installation docs to end-to-end tutorial ([#1215](https://github.com/fastai/nbdev/pull/1215)), thanks to [@restlessronin](https://github.com/restlessronin)
+
+### Bugs Squashed
+
+- Fix `nbdev_conda` error when there are prior release tarballs ([#1280](https://github.com/fastai/nbdev/pull/1280)), thanks to [@restlessronin](https://github.com/restlessronin)
+- delete build dir before pypi upload ([#1277](https://github.com/fastai/nbdev/pull/1277)), thanks to [@restlessronin](https://github.com/restlessronin)
+- copy contents of `_extensions` folder from nbs ([#1266](https://github.com/fastai/nbdev/pull/1266)), thanks to [@restlessronin](https://github.com/restlessronin)
+- Fix `nbdev_update` when `lib_name` and `lib_path` are not the same ([#1254](https://github.com/fastai/nbdev/pull/1254)), thanks to [@BirkhoffG](https://github.com/BirkhoffG)
+- Make `nbdev_create_config` write the `black_formatting` setting ([#1235](https://github.com/fastai/nbdev/pull/1235)), thanks to [@dmose](https://github.com/dmose)
+- fix order of categories for migration ([#1221](https://github.com/fastai/nbdev/pull/1221)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- make anaconda description links consistent with pypi ([#1214](https://github.com/fastai/nbdev/pull/1214)), thanks to [@restlessronin](https://github.com/restlessronin)
+- .get instead of acessing attr ([#1023](https://github.com/fastai/nbdev/pull/1023)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
+
 ## 2.3.9
 
 ### New Features

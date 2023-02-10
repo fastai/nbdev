@@ -1,6 +1,6 @@
 from pkg_resources import parse_version
 from configparser import ConfigParser
-import setuptools
+import setuptools,shlex
 assert parse_version(setuptools.__version__)>=parse_version('36.2')
 
 # note: all settings are in settings.ini; edit there, not here
@@ -18,14 +18,15 @@ licenses = {
     'mit': ('MIT License', 'OSI Approved :: MIT License'),
     'gpl2': ('GNU General Public License v2', 'OSI Approved :: GNU General Public License v2 (GPLv2)'),
     'gpl3': ('GNU General Public License v3', 'OSI Approved :: GNU General Public License v3 (GPLv3)'),
+    'agpl3': ('GNU Affero General Public License v3', 'OSI Approved :: GNU Affero General Public License (AGPLv3)'),
     'bsd3': ('BSD License', 'OSI Approved :: BSD License'),
 }
-statuses = [ '1 - Planning', '2 - Pre-Alpha', '3 - Alpha',
+statuses = [ '0 - Pre-Planning', '1 - Planning', '2 - Pre-Alpha', '3 - Alpha',
     '4 - Beta', '5 - Production/Stable', '6 - Mature', '7 - Inactive' ]
 py_versions = '3.7 3.8 3.9 3.10'.split()
 
-requirements = cfg.get('requirements','').split()
-if cfg.get('pip_requirements'): requirements += cfg.get('pip_requirements','').split()
+requirements = shlex.split(cfg.get('requirements', ''))
+if cfg.get('pip_requirements'): requirements += shlex.split(cfg.get('pip_requirements', ''))
 min_python = cfg['min_python']
 lic = licenses.get(cfg['license'].lower(), (cfg['license'], None))
 dev_requirements = (cfg.get('dev_requirements') or '').split()
