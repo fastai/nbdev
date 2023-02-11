@@ -271,7 +271,7 @@ def _basic_export_nb(fname, name, dest=None):
     exp_funcs = [f for f in funcs if f[0]!='_']
 
     # write out the file
-    with (dest/name).open('w') as f:
+    with (dest/name).open('w',encoding="utf-8") as f:
         f.write(f"# %% auto 0\n__all__ = {exp_funcs}")
         write_cells(cells, f"# %% {fname.relpath(dest)}", f)
         f.write('\n')

@@ -5,7 +5,7 @@ assert parse_version(setuptools.__version__)>=parse_version('36.2')
 
 # note: all settings are in settings.ini; edit there, not here
 config = ConfigParser(delimiters=['='])
-config.read('settings.ini')
+config.read('settings.ini', encoding="utf-8")
 cfg = config['DEFAULT']
 
 cfg_keys = 'version description keywords author author_email'.split()

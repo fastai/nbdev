@@ -42,7 +42,7 @@ def nbdev_filter(
     elif not nb_txt: nb_txt = sys.stdin.read()
     nb = dict2nb(loads(nb_txt))
     if printit:
-        with open(os.devnull, 'w') as dn:
+        with open(os.devnull, 'w', encoding="utf-8") as dn:
             with redirect_stdout(dn): filt(nb)
     else: filt(nb)
     res = nb2str(nb)
