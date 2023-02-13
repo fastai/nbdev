@@ -93,14 +93,13 @@ def clean_nb(
     clean_ids=True, # Remove ids from plaintext reprs?
 ):
     "Clean `nb` from superfluous metadata"
-    assert isinstance(nb, AttrDict)
     metadata_keys = {"kernelspec", "jekyll", "jupytext", "doc", "widgets"}
     if allowed_metadata_keys: metadata_keys.update(allowed_metadata_keys)
     cell_metadata_keys = {"hide_input"}
     if allowed_cell_metadata_keys: cell_metadata_keys.update(allowed_cell_metadata_keys)
     for c in nb['cells']: _clean_cell(c, clear_all, cell_metadata_keys, clean_ids)
-    if nested_attr(nb, 'metadata.kernelspec.name'):
-        nb['metadata']['kernelspec']['display_name'] = nb.metadata.kernelspec.name
+    if nb.get('metadata', {}).get('kernelspec', {}).get('name', None):
+        nb['metadata']['kernelspec']['display_name'] = nb["metadata"]["kernelspec"]["name"]
     nb['metadata'] = {k:v for k,v in nb['metadata'].items() if k in metadata_keys}
 
 # %% ../nbs/api/11_clean.ipynb 27
@@ -114,7 +113,7 @@ def process_write(warn_msg, proc_nb, f_in, f_out=None, disp=False):
     if isinstance(f_in, (str,Path)): f_in = Path(f_in).open()
     try:
         _reconfigure(f_in, f_out)
-        nb = dict2nb(loads(f_in.read()))
+        nb = loads(f_in.read())
         proc_nb(nb)
         write_nb(nb, f_out) if not disp else sys.stdout.write(nb2str(nb))
     except Exception as e:
