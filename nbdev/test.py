@@ -87,7 +87,8 @@ def nbdev_test(
     else: kw = {}
     with working_directory(get_config().nbs_path):
         results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers,
-                           basepath=get_config().config_path, pause=pause, do_print=do_print, **kw)
+                           basepath=get_config().config_path, pause=pause, do_print=do_print,
+                           executor=False, maxtasksperchild=1, **kw)
     passed,times = zip(*results)
     if all(passed): print("Success.")
     else: 
