@@ -127,23 +127,28 @@ def nbglob_cli(
                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
 
 # %% ../nbs/api/05_doclinks.ipynb 22
+# the import is needed to call getattr on it
+import nbdev.export
+
 @call_parse
 @delegates(nbglob_cli)
 def nbdev_export(
     path:str=None, # Path or filename
+    procs:str="black_format", # whitespace delimited tokens of processors to use.
     **kwargs):
     "Export notebooks in `path` to Python modules"
     if os.environ.get('IN_TEST',0): return
+    if procs: procs = [getattr(nbdev.export, p) for p in procs.split(" ") if p in optional_procs()]
     files = nbglob(path=path, as_path=True, **kwargs).sorted('name')
-    for f in files: nb_export(f)
+    for f in files: nb_export(f, procs=procs)
     add_init(get_config().lib_path)
     _build_modidx()
 
-# %% ../nbs/api/05_doclinks.ipynb 24
+# %% ../nbs/api/05_doclinks.ipynb 25
 import importlib,ast
 from functools import lru_cache
 
-# %% ../nbs/api/05_doclinks.ipynb 25
+# %% ../nbs/api/05_doclinks.ipynb 26
 def _find_mod(mod):
     mp,_,mr = mod.partition('/')
     spec = importlib.util.find_spec(mp)
@@ -166,7 +171,7 @@ def _get_exps(mod):
 
 def _lineno(sym, fname): return _get_exps(fname).get(sym, None) if fname else None
 
-# %% ../nbs/api/05_doclinks.ipynb 27
+# %% ../nbs/api/05_doclinks.ipynb 28
 def _qual_sym(s, settings):
     if not isinstance(s,tuple): return s
     nb,py = s
@@ -181,10 +186,10 @@ def _qual_syms(entries):
     if 'doc_host' not in settings: return entries
     return {'syms': {mod:_qual_mod(d, settings) for mod,d in entries['syms'].items()}, 'settings':settings}
 
-# %% ../nbs/api/05_doclinks.ipynb 28
+# %% ../nbs/api/05_doclinks.ipynb 29
 _re_backticks = re.compile(r'`([^`\s]+)`')
 
-# %% ../nbs/api/05_doclinks.ipynb 29
+# %% ../nbs/api/05_doclinks.ipynb 30
 @lru_cache(None)
 class NbdevLookup:
     "Mapping from symbol names to docs and source URLs"
