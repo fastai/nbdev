@@ -169,7 +169,7 @@ from subprocess import Popen, PIPE, CalledProcessError
 
 def _run(cmd):
     res = ""
-    with Popen(shlex.split(cmd), stdout=PIPE, bufsize=1, text=True) as p:
+    with Popen(shlex.split(cmd), stdout=PIPE, bufsize=1, text=True, encoding="utf-8") as p:
         for line in p.stdout:
             print(line, end='')
             res += line
@@ -188,7 +188,7 @@ def _write_yaml(path, name, d1, d2):
     p = path/name
     p.mkdir(exist_ok=True, parents=True)
     yaml.SafeDumper.ignore_aliases = lambda *args : True
-    with (p/'meta.yaml').open('w') as f:
+    with (p/'meta.yaml').open('w', encoding="utf-8") as f:
         yaml.safe_dump(d1, f)
         yaml.safe_dump(d2, f)
 
