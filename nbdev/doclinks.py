@@ -127,18 +127,17 @@ def nbglob_cli(
                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
 
 # %% ../nbs/api/05_doclinks.ipynb 22
-# the import is needed to call getattr on it
-import nbdev.export
-
 @call_parse
 @delegates(nbglob_cli)
 def nbdev_export(
     path:str=None, # Path or filename
-    procs:str="black_format", # whitespace delimited tokens of processors to use.
+    procs:Param("tokens naming the export processors to use.", nargs="*", choices=optional_procs())="black_format",
     **kwargs):
     "Export notebooks in `path` to Python modules"
     if os.environ.get('IN_TEST',0): return
-    if procs: procs = [getattr(nbdev.export, p) for p in procs.split(" ") if p in optional_procs()]
+    if procs:
+      import nbdev.export
+      procs = [getattr(nbdev.export, p) for p in L(procs)]
     files = nbglob(path=path, as_path=True, **kwargs).sorted('name')
     for f in files: nb_export(f, procs=procs)
     add_init(get_config().lib_path)
