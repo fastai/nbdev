@@ -250,11 +250,12 @@ def add_init(path=None):
 
 # %% ../nbs/api/01_config.ipynb 51
 def write_cells(cells, hdr, file, offset=0):
-    "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbdev internal use)."
+    "Write `cells` to `file` along with a space-indented header `hdr` starting at index `offset` (mainly for nbdev internal use)."
     for cell in cells:
-        if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell.source}')
+        indent = ' '*(len(cell.source)-len(cell.source.lstrip(" ")))
+        if cell.source.strip(): file.write(f'\n\n{indent}{hdr} {cell.idx_+offset}\n{cell.source}')
 
-# %% ../nbs/api/01_config.ipynb 52
+# %% ../nbs/api/01_config.ipynb 53
 def _basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbdev."
     if dest is None: dest = get_config().lib_path

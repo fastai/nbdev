@@ -24,9 +24,12 @@ class ExportModuleProc:
     def _export_(self, cell, exp_to=None):
         self._exporti_(cell, exp_to)
         self.in_all[ifnone(exp_to, '#')].append(cell)
+    def _expatch_(self, cell, indent=2, exp_to=None):
+      cell.source = "\n".join([' ' * indent + line for line in cell.source.split("\n")])
+      self._export_(cell, exp_to)
     _exports_=_export_
 
-# %% ../nbs/api/04_export.ipynb 8
+# %% ../nbs/api/04_export.ipynb 9
 def black_format(cell, # Cell to format
                  force=False): # Turn black formatting on regardless of settings.ini
     "Processor to format code with `black`"
@@ -40,7 +43,7 @@ def black_format(cell, # Cell to format
         try: cell.source = _format_str(cell.source).strip()
         except: pass
 
-# %% ../nbs/api/04_export.ipynb 10
+# %% ../nbs/api/04_export.ipynb 11
 # includes the newline, because calling .strip() would affect all cells.
 _magics_pattern = re.compile(r'^\s*(%%|%).*\n?', re.MULTILINE)
 
@@ -52,14 +55,14 @@ def scrub_magics(cell): # Cell to format
     try: cell.source = _magics_pattern.sub('', cell.source)
     except: pass
 
-# %% ../nbs/api/04_export.ipynb 13
+# %% ../nbs/api/04_export.ipynb 14
 import nbdev.export
 def optional_procs():
     "An explicit list of processors that could be used by `nb_export`"
     return L([p for p in nbdev.export.__all__
               if p not in ["nb_export", "ExportModuleProc", "optional_procs"]])
 
-# %% ../nbs/api/04_export.ipynb 16
+# %% ../nbs/api/04_export.ipynb 17
 def nb_export(nbname, lib_path=None, procs=None, debug=False, mod_maker=ModuleMaker, name=None):
     "Create module(s) from notebook"
     if lib_path is None: lib_path = get_config().lib_path
