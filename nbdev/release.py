@@ -201,8 +201,8 @@ def _get_conda_meta():
     doc_url = (cfg.doc_host + cfg.doc_baseurl) if (cfg.doc_host and cfg.doc_baseurl) else url
     dev_url = cfg.git_url if cfg.git_url else url
 
-    reqs = ['pip', 'python', 'packaging']
-    if cfg.get('requirements'): reqs += cfg.requirements.split()
+    hostreqs = ['pip', 'packaging', f'python >={cfg.min_python}']
+    if cfg.get('requirements'): reqs = hostreqs[-1:] + cfg.requirements.split()
     if cfg.get('conda_requirements'): reqs += cfg.conda_requirements.split()
 
     pypi = pypi_json(f'{name}/{ver}')
@@ -220,7 +220,7 @@ def _get_conda_meta():
     d2 = {
         'build': {'number': '0', 'noarch': 'python',
                   'script': '{{ PYTHON }} -m pip install . -vv'},
-        'requirements': {'host':reqs, 'run':reqs},
+        'requirements': {'host':hostreqs, 'run':reqs},
         'test': {'imports': [cfg.lib_path.name]},
         'about': {
             'license': 'Apache Software',
