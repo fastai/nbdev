@@ -33,6 +33,7 @@ def _quarto_re(lang=None): return re.compile(_dir_pre(lang) + r'\s*[\w|-]+\s*:')
 # %% ../nbs/api/03_process.ipynb 11
 def _directive(s, lang='python'):
     s = re.sub('^'+_dir_pre(lang), f"{langs[lang]}|", s)
+    if s.strip().endswith(':'): s = s.replace(':', '') # You can append colon at the end to be Quarto compliant.  Ex: #|hide:
     if ':' in s: s = s.replace(':', ': ')
     s = (s.strip()[2:]).strip().split()
     if not s: return None
@@ -70,22 +71,22 @@ def extract_directives(cell, remove=True, lang='python'):
         cell['source'] = ''.join([_norm_quarto(o, lang) for o in dirs if _quarto_re(lang).match(o) or _cell_mgc.match(o)] + code)
     return dict(L(_directive(s, lang) for s in dirs).filter())
 
-# %% ../nbs/api/03_process.ipynb 22
+# %% ../nbs/api/03_process.ipynb 21
 def opt_set(var, newval):
     "newval if newval else var"
     return newval if newval else var
 
-# %% ../nbs/api/03_process.ipynb 23
+# %% ../nbs/api/03_process.ipynb 22
 def instantiate(x, **kwargs):
     "Instantiate `x` if it's a type"
     return x(**kwargs) if isinstance(x,type) else x
 
 def _mk_procs(procs, nb): return L(procs).map(instantiate, nb=nb)
 
-# %% ../nbs/api/03_process.ipynb 24
+# %% ../nbs/api/03_process.ipynb 23
 def _is_direc(f): return getattr(f, '__name__', '-')[-1]=='_'
 
-# %% ../nbs/api/03_process.ipynb 25
+# %% ../nbs/api/03_process.ipynb 24
 class NBProcessor:
     "Process cells and nbdev comments in a notebook"
     def __init__(self, path=None, procs=None, nb=None, debug=False, rm_directives=True, process=False):
@@ -125,7 +126,7 @@ class NBProcessor:
         "Process all cells with all processors"
         for proc in self.procs: self._proc(proc)
 
-# %% ../nbs/api/03_process.ipynb 35
+# %% ../nbs/api/03_process.ipynb 34
 class Processor:
     "Base class for processors"
     def __init__(self, nb): self.nb = nb
