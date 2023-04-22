@@ -91,7 +91,7 @@ def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
         msg= [f"""Could not access repo: {owner}/{repo} to find your default branch - `{default_branch}` assumed.
 Edit `settings.ini` if this is incorrect.
 In the future, you can allow nbdev to see private repos by setting the environment variable GITHUB_TOKEN as described here:
-https://nbdev.fast.ai/cli.html#Using-nbdev_new-with-private-repos"""]
+https://nbdev.fast.ai/api/release.html#setup"""]
         print(''.join(msg))
         return default_branch,default_kw,''
     
