@@ -63,5 +63,10 @@ class FrontmatterProc(Processor):
     def end(self):
         self.nb.frontmatter_ = self.fm
         if not self.fm: return
+        if not hasattr(self.nb, 'path_'):
+            raise AttributeError('Notebook missing `path_` attribute.\n\nPlease remove any nbdev-related notebook filters '
+                                 'from your _quarto.yml file (e.g. `ipynb-filter: [nbdev_filter]`), since they are no '
+                                 'longer supported as of nbdev v2.3. See the v2.3 launch post for more information: '
+                                 'https://forums.fast.ai/t/upcoming-changes-in-v2-3-edit-now-released/98905.')
         self.fm.update({'output-file': _nbpath2html(Path(self.nb.path_)).name})
         _insertfm(self.nb, self.fm)

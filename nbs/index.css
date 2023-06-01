@@ -10,6 +10,10 @@ html {
   font-family: Inter, SF Pro Display, -apple-system, sans-serif;
 }
 
+h1, h2, h3 {
+  font-weight: normal;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
