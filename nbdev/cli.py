@@ -86,27 +86,12 @@ def nbdev_new(**kwargs):
     _update_repo_meta(cfg)
 
     path = Path()
-
-    _ORG_OR_USR = 'fastai'
-    _REPOSITORY = 'nbdev-template'
-    _TEMPLATE = f'{_ORG_OR_USR}/{_TEMPLATE}'
-    template = kwargs.get('template', _TEMPLATE)
-    try:
-        org_or_usr, repo = template.split('/')
-    except ValueError:
-        org_or_usr, repo = _ORG_OR_USR, _REPOSITORY
-
-    
-    tag = kwargs.get('tag', None)
-    if tag is None:
-        with warnings.catch_warnings():
-            warnings.simplefilter('ignore', UserWarning)
-            
-            tag = GhApi(gh_host='https://api.github.com', authenticate=False).repos.get_latest_release(org_or_usr, repo).tag_name
-    
-    url = f"https://github.com/{org_or_usr}/{repo}/archive/{tag}.tar.gz"
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore', UserWarning)
+        tag = GhApi(gh_host='https://api.github.com', authenticate=False).repos.get_latest_release('fastai', 'nbdev-template').tag_name
+    url = f"https://github.com/fastai/nbdev-template/archive/{tag}.tar.gz"
     extract_tgz(url)
-    tmpl_path = path/f'{repo}-{tag}'
+    tmpl_path = path/f'nbdev-template-{tag}'
 
     cfg.nbs_path.mkdir(exist_ok=True)
     nbexists = bool(first(cfg.nbs_path.glob('*.ipynb')))
