@@ -31,7 +31,7 @@ BASE_QUARTO_URL='https://www.quarto.org/download/latest/'
 def _install_linux():
     machine = 'arm' if uname().machine in ('arm64', 'aarch64', 'armv8', 'armv8l') else 'amd'
     system(f'curl -LO {BASE_QUARTO_URL}quarto-linux-{machine}64.deb')
-    system('sudo dpkg -i quarto-linux-{machine}64.deb && rm quarto-linux-{machine}64.deb')
+    system(f'sudo dpkg -i quarto-linux-{machine}64.deb && rm quarto-linux-{machine}64.deb')
     
 def _install_mac():
     system(f'curl -LO {BASE_QUARTO_URL}quarto-macos.pkg')
