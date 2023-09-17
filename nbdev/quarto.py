@@ -90,12 +90,10 @@ def _recursive_parser(
             else:
                 contents.append(str(dirpath/val))
         elif type(val) is dict:
-            if not len(val): contents.append({'section': name})
-            else:
-                name = re.sub('^\d+_', '', name)
-                section = {'section': name, 'contents': []}
-                contents.append(section)
-                _recursive_parser(val, section['contents'], dirpath/name, section=section)
+            name = re.sub('^\d+_', '', name)
+            section = {'section': name, 'contents': []}
+            contents.append(section)
+            _recursive_parser(val, section['contents'], dirpath/name, section=section)
 
 class IndentDumper(yaml.Dumper):
     def increase_indent(self, flow=False, indentless=False):
@@ -124,12 +122,10 @@ def nbdev_sidebar(
     dir_struct = dict()
     for dabs, name in files:
         drel = dabs.relative_to(path)
-        if str(drel) == '.':
-            dir_struct.update({name: name}); continue
         _dir = dir_struct
-        for depth, p in enumerate(drel.parts, start=1):
-            _dir = _dir.setdefault(p, dict())
-            if depth == len(drel.parts): _dir.update({name: name})
+        for subdir in drel.parts:
+            _dir = _dir.setdefault(subdir, dict())
+        _dir[name] = name
 
     _recursive_parser(dir_struct, _contents, Path())
     yml_path = path/'sidebar.yml'
