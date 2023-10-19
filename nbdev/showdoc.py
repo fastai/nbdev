@@ -29,7 +29,7 @@ def _escape_markdown(s):
     return s.replace('\n', '<br>')
 
 # %% ../nbs/api/08_showdoc.ipynb 9
-def _maybe_nm(o): 
+def _maybe_nm(o):
     if (o == inspect._empty): return ''
     else: return o.__name__ if hasattr(o, '__name__') else _escape_markdown(str(o))
 
@@ -40,7 +40,7 @@ def _list2row(l:list): return '| '+' | '.join([_maybe_nm(o) for o in l]) + ' |'
 class DocmentTbl:
     # this is the column order we want these items to appear
     _map = OrderedDict({'anno':'Type', 'default':'Default', 'docment':'Details'})
-    
+
     def __init__(self, obj, verbose=True, returns=True):
         "Compute the docment table string"
         self.verbose = verbose
@@ -52,30 +52,30 @@ class DocmentTbl:
         if 'self' in _dm: del _dm['self']
         for d in _dm.values(): d['docment'] = ifnone(d['docment'], inspect._empty)
         self.dm = _dm
-    
+
     @property
     def _columns(self):
         "Compute the set of fields that have at least one non-empty value so we don't show tables empty columns"
         cols = set(flatten(L(self.dm.values()).filter().map(_non_empty_keys)))
         candidates = self._map if self.verbose else {'docment': 'Details'}
         return OrderedDict({k:v for k,v in candidates.items() if k in cols})
-    
+
     @property
-    def has_docment(self): return 'docment' in self._columns and self._row_list 
+    def has_docment(self): return 'docment' in self._columns and self._row_list
 
     @property
     def has_return(self): return self.returns and bool(_non_empty_keys(self.dm.get('return', {})))
-    
-    def _row(self, nm, props): 
+
+    def _row(self, nm, props):
         "unpack data for single row to correspond with column names."
         return [nm] + [props[c] for c in self._columns]
-    
+
     @property
     def _row_list(self):
         "unpack data for all rows."
         ordered_params = [(p, self.dm[p]) for p in self.params if p != 'self' and p in self.dm]
         return L([self._row(nm, props) for nm,props in ordered_params])
-    
+
     @property
     def _hdr_list(self): return ['  '] + [_bold(l) for l in L(self._columns.values())]
 
@@ -84,23 +84,23 @@ class DocmentTbl:
         "The markdown string for the header portion of the table"
         md = _list2row(self._hdr_list)
         return md + '\n' + _list2row(['-' * len(l) for l in self._hdr_list])
-    
+
     @property
-    def params_str(self): 
+    def params_str(self):
         "The markdown string for the parameters portion of the table."
         return '\n'.join(self._row_list.map(_list2row))
-    
+
     @property
     def return_str(self):
         "The markdown string for the returns portion of the table."
         return _list2row(['**Returns**']+[_bold(_maybe_nm(self.dm['return'][c])) for c in self._columns])
-    
+
     def _repr_markdown_(self):
         if not self.has_docment: return ''
         _tbl = [self.hdr_str, self.params_str]
         if self.has_return: _tbl.append(self.return_str)
         return '\n'.join(_tbl)
-    
+
     def __eq__(self,other): return self.__str__() == str(other).strip()
 
     __str__ = _repr_markdown_
