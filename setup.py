@@ -1,6 +1,9 @@
-from pkg_resources import parse_version
+import shlex
 from configparser import ConfigParser
-import setuptools,shlex
+
+import setuptools
+from pkg_resources import parse_version
+
 assert parse_version(setuptools.__version__)>=parse_version('36.2')
 
 # note: all settings are in settings.ini; edit there, not here
@@ -23,7 +26,7 @@ licenses = {
 }
 statuses = [ '0 - Pre-Planning', '1 - Planning', '2 - Pre-Alpha', '3 - Alpha',
     '4 - Beta', '5 - Production/Stable', '6 - Mature', '7 - Inactive' ]
-py_versions = '3.7 3.8 3.9 3.10'.split()
+py_versions = '3.7 3.8 3.9 3.10 3.11'.split()
 
 requirements = shlex.split(cfg.get('requirements', ''))
 if cfg.get('pip_requirements'): requirements += shlex.split(cfg.get('pip_requirements', ''))
