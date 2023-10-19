@@ -11,7 +11,7 @@ jobs:
       fail-fast: true
       matrix:
         os:  [ubuntu, macos]
-        version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
     runs-on: ${{ matrix.os }}-latest
     steps:
       - uses: fastai/workflows/nbdev-ci@master
