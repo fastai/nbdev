@@ -2,6 +2,25 @@
 
 <!-- do not remove -->
 
+## 2.3.13
+
+### New Features
+
+- add support for 3.11 ([#1373](https://github.com/fastai/nbdev/pull/1373)), thanks to [@deven367](https://github.com/deven367)
+- update install_quarto to distinguish arm64 and amd64 ([#1356](https://github.com/fastai/nbdev/pull/1356)), thanks to [@JonasHarnau](https://github.com/JonasHarnau)
+- allow trailing `:` in directives for YAML compliance ([#1312](https://github.com/fastai/nbdev/pull/1312)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- CI error on uncleaned notebooks suggests upgrading nbdev ([#1308](https://github.com/fastai/nbdev/issues/1308))
+- Auto-add index file onto `section` ([#1307](https://github.com/fastai/nbdev/pull/1307)), thanks to [@p4perf4ce](https://github.com/p4perf4ce)
+- nbdev_clean: Add trailing newlines to mask diff between Jupyter and VSCode ([#1292](https://github.com/fastai/nbdev/pull/1292)), thanks to [@xl0](https://github.com/xl0)
+- exported modules can scrub_magics ([#1250](https://github.com/fastai/nbdev/pull/1250)), thanks to [@yegeniy](https://github.com/yegeniy)
+- Add extensions tutorial ([#1228](https://github.com/fastai/nbdev/pull/1228)), thanks to [@muellerzr](https://github.com/muellerzr)
+
+### Bugs Squashed
+
+- pin ipywidgets version ([#1318](https://github.com/fastai/nbdev/pull/1318)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Fix encoding issue for Windows OS User especially for non-English user ([#1314](https://github.com/fastai/nbdev/pull/1314)), thanks to [@JunDamin](https://github.com/JunDamin)
+
+
 ## 2.3.11
 
 ### New Features
