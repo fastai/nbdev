@@ -4,15 +4,6 @@
 
 ![CI](https://github.com/fastai/nbdev/actions/workflows/test.yaml/badge.svg)
 
-*NB: This is nbdev v2, a major upgrade of nbdev. Whilst the differences
-to nbdev1 aren’t huge, it does require some changes. The old version
-docs are at [nbdev1.fast.ai](https://nbdev1.fast.ai). You can use
-version-pinning in `settings.ini` (i.e `'nbdev<2'`) to stop nbdev from
-upgrading. To upgrade, follow the [migration
-tutorial](https://nbdev.fast.ai/migrating.html).*
-
-------------------------------------------------------------------------
-
 `nbdev` is a notebook-driven development platform. Simply write
 notebooks with lightweight markup and get high-quality documentation,
 tests, continuous integration, and packaging for free!
