@@ -312,7 +312,7 @@ def release_pypi(
     system(f'cd {_dir}  && rm -rf dist build && python setup.py sdist bdist_wheel')
     system(f'twine upload --repository {repository} {_dir}/dist/*')
 
-# %% ../nbs/api/18_release.ipynb 51
+# %% ../nbs/api/18_release.ipynb 52
 @call_parse
 def release_both(
     path:str='conda', # Path where package will be created
@@ -328,7 +328,7 @@ def release_both(
     release_conda.__wrapped__(path, do_build=do_build, build_args=build_args, skip_upload=skip_upload, mambabuild=mambabuild, upload_user=upload_user)
     nbdev_bump_version.__wrapped__()
 
-# %% ../nbs/api/18_release.ipynb 53
+# %% ../nbs/api/18_release.ipynb 54
 def bump_version(version, part=2, unbump=False):
     version = version.split('.')
     incr = -1 if unbump else 1
@@ -336,7 +336,7 @@ def bump_version(version, part=2, unbump=False):
     for i in range(part+1, 3): version[i] = '0'
     return '.'.join(version)
 
-# %% ../nbs/api/18_release.ipynb 54
+# %% ../nbs/api/18_release.ipynb 55
 @call_parse
 def nbdev_bump_version(
     part:int=2,  # Part of version to bump
