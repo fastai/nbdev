@@ -46,7 +46,7 @@ def patch_name(o):
 def _iter_py_cells(p):
     "Yield cells from an exported Python file."
     p = Path(p)
-    cells = p.read_text().split("\n# %% ")
+    cells = p.read_text(encoding='utf-8').split("\n# %% ")
     for cell in cells[1:]:
         top,code = cell.split('\n', 1)
         try:
@@ -93,7 +93,7 @@ def _build_modidx(dest=None, nbs_path=None, skip_exists=False):
     idxfile = dest/'_modidx.py'
     if skip_exists and idxfile.exists(): return
     with contextlib.suppress(FileNotFoundError): idxfile.unlink()
-    if idxfile.exists(): res = exec_local(idxfile.read_text(), 'd')
+    if idxfile.exists(): res = exec_local(idxfile.read_text(encoding='utf-8'), 'd')
     else: res = dict(syms={}, settings={}) 
     res['settings'] = {k:v for k,v in get_config().d.items()
                        if k in ('doc_host','doc_baseurl','lib_path','git_url','branch')}
@@ -159,7 +159,7 @@ def _find_mod(mod):
 def _get_exps(mod):
     mf = _find_mod(mod)
     if not mf: return {}
-    txt = mf.read_text()
+    txt = mf.read_text(encoding='utf-8')
     _def_types = ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef
     d = {}
     for tree in ast.parse(txt).body:

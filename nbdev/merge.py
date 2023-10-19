@@ -63,7 +63,7 @@ def nbdev_fix(nbname:str, # Notebook filename to fix
     "Create working notebook from conflicted notebook `nbname`"
     nbname = Path(nbname)
     if not nobackup and not outname: shutil.copy(nbname, nbname.with_suffix('.ipynb.bak'))
-    nbtxt = nbname.read_text()
+    nbtxt = nbname.read_text(encoding='utf-8')
     a,b,branch1,branch2 = unpatch(nbtxt)
     ac,bc = dict2nb(loads(a)),dict2nb(loads(b))
     dest = bc if theirs else ac
@@ -85,7 +85,7 @@ def _git_rebase_head():
     for d in ('apply','merge'):
         d = Path(f'.git/rebase-{d}')
         if d.is_dir():
-            cmt = (d/'orig-head').read_text()
+            cmt = (d/'orig-head').read_text(encoding='utf-8')
             msg = run(f'git show-branch --no-name {cmt}')
             return f'{cmt[:7]} ({msg})'
 

@@ -47,7 +47,7 @@ def update_var(varname, func, fn=None, code=None):
     "Update the definition of `varname` in file `fn`, by calling `func` with the current definition"
     if fn:
         fn = Path(fn)
-        code = fn.read_text()
+        code = fn.read_text(encoding='utf-8')
     lines = code.splitlines()
     v = read_var(code, varname)
     res = func(v)
