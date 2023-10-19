@@ -15,10 +15,11 @@ from fastcore.shutil import rmtree,move,copytree
 from fastcore.meta import delegates
 from .serve import proc_nbs,_proc_file
 from . import serve_drv
+import yaml
 
 # %% auto 0
-__all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'nbdev_sidebar', 'refresh_quarto_yml', 'nbdev_proc_nbs',
-           'nbdev_readme', 'nbdev_docs', 'prepare', 'fs_watchdog', 'nbdev_preview']
+__all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'IndentDumper', 'nbdev_sidebar', 'refresh_quarto_yml',
+           'nbdev_proc_nbs', 'nbdev_readme', 'nbdev_docs', 'prepare', 'fs_watchdog', 'nbdev_preview']
 
 # %% ../nbs/api/14_quarto.ipynb 5
 def _sprun(cmd):
@@ -77,6 +78,29 @@ def _nbglob_docs(
     return nbglob(path, file_glob=file_glob, file_re=file_re, **kwargs)
 
 # %% ../nbs/api/14_quarto.ipynb 11
+def _recursive_parser(
+        dir_dict: dict, # Directory structure as a dict.
+        contents: list, # `contents` list from `sidebar.yaml` template dict.
+        dirpath: Path,  # Directory path.
+        section = None, # `section` mapping.
+        set_index: bool = True): # If `True`, `index` file will be set to href.
+    for name, val in dir_dict.items():
+        if type(val) is str:
+            if re.search('index\..*', re.sub('^\d+_', '', val)) and set_index and section:
+                section.update({'href': str(dirpath/val)})
+            else:
+                contents.append(str(dirpath/val))
+        elif type(val) is dict:
+            name = re.sub('^\d+_', '', name)
+            section = {'section': name, 'contents': []}
+            contents.append(section)
+            _recursive_parser(val, section['contents'], dirpath/name, section=section)
+
+class IndentDumper(yaml.Dumper):
+    def increase_indent(self, flow=False, indentless=False):
+        return super(IndentDumper, self).increase_indent(flow, False)
+
+# %% ../nbs/api/14_quarto.ipynb 12
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_sidebar(
@@ -90,26 +114,28 @@ def nbdev_sidebar(
     path = get_config().nbs_path if not path else Path(path)
     def _f(a,b): return Path(a),b
     files = nbglob(path, func=_f, skip_folder_re=skip_folder_re, **kwargs).sorted(key=_sort)
-    lastd,res = Path(),[]
-    for dabs,name in files:
-        drel = dabs.relative_to(path)
-        d = Path()
-        for p in drel.parts:
-            d /= p
-            if d == lastd: continue
-            title = re.sub('^\d+_', '', d.name)
-            res.append(_pre(d.parent) + f'section: {title}')
-            res.append(_pre(d.parent, False) + 'contents:')
-            lastd = d
-        res.append(f'{_pre(d)}{d.joinpath(name)}')
+    lastd, res = Path(), []
 
+    # Parse directory structure to dict.
+    # dir => dict(), file => file.
+    parsed_struct = {'website': {'sidebar': {'contents': []}}}
+    _contents = parsed_struct['website']['sidebar']['contents']
+    dir_struct = dict()
+    for dabs, name in files:
+        drel = dabs.relative_to(path)
+        _dir = dir_struct
+        for subdir in drel.parts:
+            _dir = _dir.setdefault(subdir, dict())
+        _dir[name] = name
+
+    _recursive_parser(dir_struct, _contents, Path())
     yml_path = path/'sidebar.yml'
-    yml = "website:\n  sidebar:\n    contents:\n"
-    yml += '\n'.join(f'      {o}' for o in res)+'\n'
+    yml = yaml.dump(parsed_struct, Dumper=IndentDumper, sort_keys=False)
+
     if printit: return print(yml)
     yml_path.write_text(yml)
 
-# %% ../nbs/api/14_quarto.ipynb 14
+# %% ../nbs/api/14_quarto.ipynb 15
 _quarto_yml="""project:
   type: website
 
@@ -131,7 +157,7 @@ website:
 
 metadata-files: [nbdev.yml, sidebar.yml]"""
 
-# %% ../nbs/api/14_quarto.ipynb 15
+# %% ../nbs/api/14_quarto.ipynb 16
 _nbdev_yml="""project:
   output-dir: {doc_path}
 
@@ -143,7 +169,7 @@ website:
   repo-url: "{git_url}"
 """
 
-# %% ../nbs/api/14_quarto.ipynb 16
+# %% ../nbs/api/14_quarto.ipynb 17
 def refresh_quarto_yml():
     "Generate `_quarto.yml` from `settings.ini`."
     cfg = get_config()
@@ -157,13 +183,13 @@ def refresh_quarto_yml():
     if qy.exists() and not str2bool(cfg.get('custom_quarto_yml', True)): qy.unlink()
     if not qy.exists(): qy.write_text(_quarto_yml)
 
-# %% ../nbs/api/14_quarto.ipynb 17
+# %% ../nbs/api/14_quarto.ipynb 18
 def _ensure_quarto():
     if shutil.which('quarto'): return
     print("Quarto is not installed. We will download and install it for you.")
     install.__wrapped__()
 
-# %% ../nbs/api/14_quarto.ipynb 18
+# %% ../nbs/api/14_quarto.ipynb 19
 def _pre_docs(path=None, n_workers:int=defaults.cpus, **kwargs):
     cfg = get_config()
     path = Path(path) if path else cfg.nbs_path
@@ -175,21 +201,21 @@ def _pre_docs(path=None, n_workers:int=defaults.cpus, **kwargs):
     cache = proc_nbs(path, n_workers=n_workers, **kwargs)
     return cache,cfg,path
 
-# %% ../nbs/api/14_quarto.ipynb 19
+# %% ../nbs/api/14_quarto.ipynb 20
 @call_parse
 @delegates(proc_nbs)
 def nbdev_proc_nbs(**kwargs):
     "Process notebooks in `path` for docs rendering"
     _pre_docs(**kwargs)[0]
 
-# %% ../nbs/api/14_quarto.ipynb 21
+# %% ../nbs/api/14_quarto.ipynb 22
 def _readme_mtime_not_older(readme_path, readme_nb_path):
     if not readme_nb_path.exists():
         print(f"Could not find {readme_nb_path}")
         return True
     return readme_path.exists() and readme_path.stat().st_mtime>=readme_nb_path.stat().st_mtime
 
-# %% ../nbs/api/14_quarto.ipynb 22
+# %% ../nbs/api/14_quarto.ipynb 23
 class _SidebarYmlRemoved:
     "Context manager for `nbdev_readme` to avoid rendering whole docs website"
     def __init__(self,path): self._path=path
@@ -202,14 +228,14 @@ class _SidebarYmlRemoved:
     def __exit__(self, exc_type, exc_value, exc_tb):
         if self._moved: (self._path/'sidebar.yml.bak').rename(self._yml_path)
 
-# %% ../nbs/api/14_quarto.ipynb 23
+# %% ../nbs/api/14_quarto.ipynb 24
 def _copytree(a,b):
     if sys.version_info.major >=3 and sys.version_info.minor >=8: copytree(a, b, dirs_exist_ok=True)
     else:
         from distutils.dir_util import copy_tree
         copy_tree(a, b)
 
-# %% ../nbs/api/14_quarto.ipynb 24
+# %% ../nbs/api/14_quarto.ipynb 25
 def _save_cached_readme(cache, cfg):
     tmp_doc_path = cache/cfg.doc_path.name
     readme = tmp_doc_path/'README.md'
@@ -220,7 +246,7 @@ def _save_cached_readme(cache, cfg):
         _rdmi = tmp_doc_path/((cache/cfg.readme_nb).stem + '_files') # Supporting files for README
         if _rdmi.exists(): _copytree(_rdmi, cfg.config_path/_rdmi.name)
 
-# %% ../nbs/api/14_quarto.ipynb 25
+# %% ../nbs/api/14_quarto.ipynb 26
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
@@ -235,7 +261,7 @@ def nbdev_readme(
         
     _save_cached_readme(cache, cfg)
 
-# %% ../nbs/api/14_quarto.ipynb 28
+# %% ../nbs/api/14_quarto.ipynb 29
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_docs(
@@ -249,7 +275,7 @@ def nbdev_docs(
     shutil.rmtree(cfg.doc_path, ignore_errors=True)
     move(cache/cfg.doc_path.name, cfg.config_path)
 
-# %% ../nbs/api/14_quarto.ipynb 30
+# %% ../nbs/api/14_quarto.ipynb 31
 @call_parse
 def prepare():
     "Export, test, and clean notebooks, and render README if needed"
@@ -260,7 +286,7 @@ def prepare():
     refresh_quarto_yml()
     nbdev_readme.__wrapped__(chk_time=True)
 
-# %% ../nbs/api/14_quarto.ipynb 32
+# %% ../nbs/api/14_quarto.ipynb 33
 @contextmanager
 def fs_watchdog(func, path, recursive:bool=True):
     "File system watchdog dispatching to `func`"
@@ -276,7 +302,7 @@ def fs_watchdog(func, path, recursive:bool=True):
         observer.stop()
         observer.join()
 
-# %% ../nbs/api/14_quarto.ipynb 33
+# %% ../nbs/api/14_quarto.ipynb 34
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_preview(
