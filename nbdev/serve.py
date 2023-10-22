@@ -70,7 +70,7 @@ def proc_nbs(
     chk_mtime = max(cfg.config_file.stat().st_mtime, Path(__file__).stat().st_mtime)
     cache.mkdir(parents=True, exist_ok=True)
     cache_mtime = cache.stat().st_mtime
-    if force or (cache.exists and cache_mtime<chk_mtime): rmtree(cache)
+    if force or (cache.exists() and cache_mtime<chk_mtime): rmtree(cache)
 
     files = files.map(_proc_file, mtime=cache_mtime, cache=cache, path=path).filter()
     kw = {} if IN_NOTEBOOK else {'method':'spawn'}
