@@ -251,6 +251,7 @@ def _save_cached_readme(cache, cfg):
 def nbdev_readme(
     path:str=None, # Path to notebooks
     chk_time:bool=False): # Only build if out of date
+    "Generate README.md from index.ipynb"
     cfg = get_config()
     path = Path(path) if path else cfg.nbs_path
     if chk_time and _readme_mtime_not_older(cfg.config_path/'README.md', path/cfg.readme_nb): return
