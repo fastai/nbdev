@@ -82,35 +82,34 @@ available commands:
 !nbdev_help
 ```
 
-    nbdev_bump_version              Increment version in settings.ini by one
-    nbdev_changelog                 Create a CHANGELOG.md file from closed and labeled GitHub issues
-    nbdev_clean                     Clean all notebooks in `fname` to avoid merge conflicts
-    nbdev_conda                     Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it
-    nbdev_create_config             Create a config file.
-    nbdev_deploy                    Deploy docs to GitHub Pages
-    nbdev_docs                      Create Quarto docs and README.md
-    nbdev_export                    Export notebooks in `path` to Python modules
-    nbdev_filter                    A notebook filter for Quarto
-    nbdev_fix                       Create working notebook from conflicted notebook `nbname`
-    nbdev_help                      Show help for all console scripts
-    nbdev_install                   Install Quarto and the current library
-    nbdev_install_hooks             Install Jupyter and git hooks to automatically clean, trust, and fix merge conflicts in notebooks
-    nbdev_install_quarto            Install latest Quarto on macOS or Linux, prints instructions for Windows
-    nbdev_merge                     Git merge driver for notebooks
-    nbdev_migrate                   Convert all directives and callouts in `fname` from v1 to v2
-    nbdev_new                       Create an nbdev project.
-    nbdev_prepare                   Export, test, and clean notebooks, and render README if needed
-    nbdev_preview                   Preview docs locally
-    nbdev_proc_nbs                  Process notebooks in `path` for docs rendering
-    nbdev_pypi                      Create and upload Python package to PyPI
-    nbdev_readme                    None
-    nbdev_release_both              Release both conda and PyPI packages
-    nbdev_release_gh                Calls `nbdev_changelog`, lets you edit the result, then pushes to git and calls `nbdev_release_git`
-    nbdev_release_git               Tag and create a release in GitHub for the current version
-    nbdev_sidebar                   Create sidebar.yml
-    nbdev_test                      Test in parallel notebooks matching `path`, passing along `flags`
-    nbdev_trust                     Trust notebooks matching `fname`
-    nbdev_update                    Propagate change in modules matching `fname` to notebooks that created them
+    nbdev_bump_version        Increment version in settings.ini by one
+    nbdev_changelog           Create a CHANGELOG.md file from closed and labeled GitHub issues
+    nbdev_clean               Clean all notebooks in `fname` to avoid merge conflicts
+    nbdev_conda               Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it
+    nbdev_create_config       Create a config file.
+    nbdev_docs                Create Quarto docs and README.md
+    nbdev_export              Export notebooks in `path` to Python modules
+    nbdev_filter              A notebook filter for Quarto
+    nbdev_fix                 Create working notebook from conflicted notebook `nbname`
+    nbdev_help                Show help for all console scripts
+    nbdev_install             Install Quarto and the current library
+    nbdev_install_hooks       Install Jupyter and git hooks to automatically clean, trust, and fix merge conflicts in notebooks
+    nbdev_install_quarto      Install latest Quarto on macOS or Linux, prints instructions for Windows
+    nbdev_merge               Git merge driver for notebooks
+    nbdev_migrate             Convert all markdown and notebook files in `path` from v1 to v2
+    nbdev_new                 Create an nbdev project.
+    nbdev_prepare             Export, test, and clean notebooks, and render README if needed
+    nbdev_preview             Preview docs locally
+    nbdev_proc_nbs            Process notebooks in `path` for docs rendering
+    nbdev_pypi                Create and upload Python package to PyPI
+    nbdev_readme              Create README.md from readme_nb (index.ipynb by default)
+    nbdev_release_both        Release both conda and PyPI packages
+    nbdev_release_gh          Calls `nbdev_changelog`, lets you edit the result, then pushes to git and calls `nbdev_release_git`
+    nbdev_release_git         Tag and create a release in GitHub for the current version
+    nbdev_sidebar             Create sidebar.yml
+    nbdev_test                Test in parallel notebooks matching `path`, passing along `flags`
+    nbdev_trust               Trust notebooks matching `fname`
+    nbdev_update              Propagate change in modules matching `fname` to notebooks that created them
 
 ## FAQ
 
