@@ -25,7 +25,7 @@ from contextlib import redirect_stdout
 import os, tarfile, sys
 
 # %% auto 0
-__all__ = ['nbdev_filter', 'extract_tgz', 'nbdev_new', 'chelp']
+__all__ = ['mapping', 'nbdev_filter', 'extract_tgz', 'nbdev_new', 'nbdev_update_license', 'chelp']
 
 # %% ../nbs/api/13_cli.ipynb 5
 @call_parse
@@ -67,7 +67,7 @@ def _render_nb(fn, cfg):
 def _update_repo_meta(cfg):
     "Enable gh pages and update the homepage and description in your GitHub repo."
     token=os.getenv('GITHUB_TOKEN')
-    if token: 
+    if token:
         from ghapi.core import GhApi
         api = GhApi(owner=cfg.user, repo=cfg.repo, token=token)
         try: api.repos.update(homepage=f'{cfg.doc_host}{cfg.doc_baseurl}', description=cfg.description)
@@ -108,7 +108,47 @@ def nbdev_new(**kwargs):
     nbdev_export.__wrapped__()
     nbdev_readme.__wrapped__()
 
-# %% ../nbs/api/13_cli.ipynb 15
+# %% ../nbs/api/13_cli.ipynb 13
+mapping = {
+  'mit': 'mit',
+  'apache2': 'apache-2.0',
+  'gpl2': 'gpl-2.0',
+  'gpl3': 'gpl-3.0',
+  'bsd3': 'bsd-3-clause'
+}
+
+# %% ../nbs/api/13_cli.ipynb 14
+@call_parse
+def nbdev_update_license(
+    to: str=None, # update license to
+):
+    "Allows you to update the license of your project."
+    from ghapi.core import GhApi
+    warnings.filterwarnings("ignore")
+    avail_lic = GhApi().licenses.get_all_commonly_used().map(lambda x: x['key'])
+
+    cfg = get_config()
+    curr_lic = cfg['license']
+
+    mapped = mapping.get(to, None)
+
+    if mapped not in avail_lic: raise ValueError(f"{to} is not an available license")
+    body = GhApi().licenses.get(mapped)['body']
+
+    body = body.replace('[year], [fullname]', cfg['copyright'])
+    body = body.replace('[year] [fullname]', cfg['copyright'])
+
+    content = open("settings.ini", "r").read()
+    content = re.sub(r"^(license\s*=\s*).*?$", r"\1 " + to, content, flags=re.MULTILINE)
+
+    config = open("settings.ini", "w")
+    config.write(content)
+
+    lic = open('LICENSE', 'w')
+    lic.write(body)
+    print(f"License updated from {curr_lic} to {to}")
+
+# %% ../nbs/api/13_cli.ipynb 17
 @call_parse
 def chelp():
     "Show help for all console scripts"
