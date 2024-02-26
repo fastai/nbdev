@@ -3,7 +3,7 @@
 # %% ../nbs/api/14_quarto.ipynb 3
 from __future__ import annotations
 import subprocess,sys,shutil,ast,warnings,traceback
-from os import system, uname
+from os import system
 from contextlib import contextmanager
 
 from .config import *
@@ -30,6 +30,7 @@ def _sprun(cmd):
 BASE_QUARTO_URL='https://www.quarto.org/download/latest/'
 
 def _install_linux():
+    from os import uname
     machine = 'arm' if uname().machine in ('arm64', 'aarch64', 'armv8', 'armv8l') else 'amd'
     system(f'curl -LO {BASE_QUARTO_URL}quarto-linux-{machine}64.deb')
     system(f'sudo dpkg -i quarto-linux-{machine}64.deb && rm quarto-linux-{machine}64.deb')
