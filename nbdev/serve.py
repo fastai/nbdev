@@ -62,9 +62,9 @@ def proc_nbs(
     cfg = get_config()
     cache = cfg.config_path/'_proc'
     path = Path(path or cfg.nbs_path)
-    files = nbglob(path, func=Path, file_glob='', file_re='', **kwargs)
+    files = nbglob(path, func=Path, file_glob=file_glob, file_re=file_re, **kwargs)
     if (path/'_quarto.yml').exists(): files.append(path/'_quarto.yml')
-    if (path/'_extensions').exists(): files.extend(nbglob(path/'_extensions', func=Path, file_glob='', file_re='', skip_file_re='^[.]'))
+    if (path/'_extensions').exists(): files.extend(nbglob(path/'_extensions', func=Path, file_glob=file_glob, file_re=file_re, skip_file_re='^[.]'))
 
     # If settings.ini or filter script newer than cache folder modified, delete cache
     chk_mtime = max(cfg.config_file.stat().st_mtime, Path(__file__).stat().st_mtime)
