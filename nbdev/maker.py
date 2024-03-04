@@ -61,14 +61,18 @@ def update_var(varname, func, fn=None, code=None):
 # %% ../nbs/api/02_maker.ipynb 15
 class ModuleMaker:
     "Helper class to create exported library from notebook source cells"
-    def __init__(self, dest, name, nb_path, is_new=True, parse=True):
+    def __init__(self, dest, name, nb_path, is_new=True, parse=True, 
+                 write_cell_hdrs=True):
         dest,nb_path = Path(dest),Path(nb_path)
         store_attr()
         self.fname = dest/(name.replace('.','/') + ".py")
         if is_new: dest.mkdir(parents=True, exist_ok=True)
         else: assert self.fname.exists(), f"{self.fname} does not exist"
         self.dest2nb = nb_path.relpath(self.fname.parent).as_posix()
-        self.hdr = f"# %% {self.dest2nb}"
+        if write_cell_hdrs is True:
+            self.hdr = f"# %% {self.dest2nb}"
+        else:
+            self.hdr = None
 
 # %% ../nbs/api/02_maker.ipynb 18
 def decor_id(d):
@@ -210,7 +214,7 @@ def make(self:ModuleMaker, cells, all_cells=None, lib_path=None):
         write_cells(cells[last_future:], self.hdr, f)
         f.write('\n')
 
-# %% ../nbs/api/02_maker.ipynb 38
+# %% ../nbs/api/02_maker.ipynb 45
 @patch
 def _update_all(self:ModuleMaker, all_cells, alls):
     return pformat(alls + self.make_all(all_cells), width=160)
@@ -222,7 +226,13 @@ def _make_exists(self:ModuleMaker, cells, all_cells=None):
         update_var('__all__', partial(self._update_all, all_cells), fn=self.fname)
     with self.fname.open('a', encoding="utf-8") as f: write_cells(cells, self.hdr, f)
 
+<<<<<<< HEAD
 # %% ../nbs/api/02_maker.ipynb 44
+||||||| parent of 414c5f7 (WIP Add option to remove cell header comment lines on export, partly fixes #965)
+# %% ../nbs/api/maker.ipynb 44
+=======
+# %% ../nbs/api/maker.ipynb 51
+>>>>>>> 414c5f7 (WIP Add option to remove cell header comment lines on export, partly fixes #965)
 def _basic_export_nb2(fname, name, dest=None):
     "A basic exporter to bootstrap nbdev using `ModuleMaker`"
     if dest is None: dest = get_config().lib_path
