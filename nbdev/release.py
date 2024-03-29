@@ -2,8 +2,9 @@
 
 # %% auto 0
 __all__ = ['GH_HOST', 'Release', 'changelog', 'release_git', 'release_gh', 'pypi_json', 'latest_pypi', 'pypi_details',
-           'conda_output_path', 'write_conda_meta', 'write_requirements', 'anaconda_upload', 'release_conda',
-           'chk_conda_rel', 'release_pypi', 'release_both', 'bump_version', 'nbdev_bump_version']
+           'conda_output_path', 'write_conda_meta', 'write_requirements', 'write_config_from_requirements',
+           'anaconda_upload', 'release_conda', 'chk_conda_rel', 'release_pypi', 'release_both', 'bump_version',
+           'nbdev_bump_version']
 
 # %% ../nbs/api/18_release.ipynb 14
 from fastcore.all import *
@@ -11,6 +12,7 @@ from ghapi.core import *
 
 from datetime import datetime
 import shutil,subprocess
+from configparser import ConfigParser
 
 from .doclinks import *
 
@@ -248,6 +250,28 @@ def write_requirements(directory=None):
     (d/'requirements.txt').mk_write(req)
 
 # %% ../nbs/api/18_release.ipynb 45
+def write_config_from_requirements(directory=None, file_name='requirements.txt'):
+    "Updates settings.ini based on `file_name` in `directory`."
+    config = ConfigParser()
+    d = Path(directory) if directory else Path.cwd()
+    req_file = d / file_name
+    if not req_file.exists():
+        raise FileNotFoundError(f"{file_name} not found in {d}")
+    
+    config.read('settings.ini')
+    requirements = []
+    with open(req_file, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#'):
+                requirements.append(line)
+    
+    config.set('DEFAULT', 'requirements', ' '.join(requirements))
+    with open('settings.ini', 'w') as configfile:
+        config.write(configfile)
+    
+
+# %% ../nbs/api/18_release.ipynb 47
 def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     "Upload `name` to anaconda"
     user = f'-u {user} ' if user else ''
@@ -257,7 +281,7 @@ def anaconda_upload(name, loc=None, user=None, token=None, env_token=None):
     if not loc: raise Exception("Failed to find output")
     return _run(f'anaconda {token} upload {user} {loc} --skip-existing')
 
-# %% ../nbs/api/18_release.ipynb 47
+# %% ../nbs/api/18_release.ipynb 49
 @call_parse
 def release_conda(
     path:str='conda', # Path where package will be created
@@ -288,7 +312,7 @@ def release_conda(
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
     return anaconda_upload(name, loc)
 
-# %% ../nbs/api/18_release.ipynb 48
+# %% ../nbs/api/18_release.ipynb 50
 def chk_conda_rel(
     nm:str,  # Package name on pypi
     apkg:str=None,  # Anaconda Package (defaults to {nm})
@@ -302,7 +326,7 @@ def chk_conda_rel(
     pypitag = latest_pypi(nm)
     if force or not condatag or pypitag > max(condatag): return f'{pypitag}'
 
-# %% ../nbs/api/18_release.ipynb 50
+# %% ../nbs/api/18_release.ipynb 52
 @call_parse
 def release_pypi(
     repository:str="pypi" # Respository to upload to (defined in ~/.pypirc)
@@ -312,7 +336,7 @@ def release_pypi(
     system(f'cd {_dir}  && rm -rf dist build && python setup.py sdist bdist_wheel')
     system(f'twine upload --repository {repository} {_dir}/dist/*')
 
-# %% ../nbs/api/18_release.ipynb 52
+# %% ../nbs/api/18_release.ipynb 54
 @call_parse
 def release_both(
     path:str='conda', # Path where package will be created
@@ -328,7 +352,7 @@ def release_both(
     release_conda.__wrapped__(path, do_build=do_build, build_args=build_args, skip_upload=skip_upload, mambabuild=mambabuild, upload_user=upload_user)
     nbdev_bump_version.__wrapped__()
 
-# %% ../nbs/api/18_release.ipynb 54
+# %% ../nbs/api/18_release.ipynb 56
 def bump_version(version, part=2, unbump=False):
     version = version.split('.')
     incr = -1 if unbump else 1
@@ -336,7 +360,7 @@ def bump_version(version, part=2, unbump=False):
     for i in range(part+1, 3): version[i] = '0'
     return '.'.join(version)
 
-# %% ../nbs/api/18_release.ipynb 55
+# %% ../nbs/api/18_release.ipynb 57
 @call_parse
 def nbdev_bump_version(
     part:int=2,  # Part of version to bump
