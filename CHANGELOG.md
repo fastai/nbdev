@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.3.16
+
+### New Features
+
+- Add code folding for `exports` ([#1407](https://github.com/fastai/nbdev/issues/1407))
+
+
 ## 2.3.15
 
 ### Bugs Squashed
