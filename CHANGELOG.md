@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.3.15
+
+### Bugs Squashed
+
+- Reverted #1390
+
+
 ## 2.3.14
 
 ### New Features
