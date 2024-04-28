@@ -171,7 +171,7 @@ class BasicMarkdownRenderer(ShowDocRenderer):
         doc += f'{h} {self.nm}\n\n'
         sig = _wrap_sig(f"{self.nm} {_fmt_sig(self.sig)}") if self.sig else ''
         doc += f'{sig}'
-        if self.docs: doc += f"\n\n{self.docs}"
+        if self.docs: doc += f"\n\n*{self.docs}*"
         if self.dm.has_docment: doc += f"\n\n{self.dm}"
         return doc
     __repr__=__str__=_repr_markdown_
@@ -199,7 +199,7 @@ class BasicHtmlRenderer(ShowDocRenderer):
         doc = '<hr/>\n'
         doc += f'<h{self.title_level}>{self.nm}</h{self.title_level}>\n'
         doc += f'<blockquote><pre><code>{self.nm}{_fmt_sig(self.sig)}</code></pre></blockquote>'
-        if self.docs: doc += f"<p>{self.docs}</p>"
+        if self.docs: doc += f"<p><i>{self.docs}</i></p>"
         return doc
 
     def doc(self):
