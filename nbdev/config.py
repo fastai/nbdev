@@ -152,6 +152,8 @@ _nbdev_cfg_tail = '''### Optional ###
 # requirements = fastcore pandas
 # dev_requirements = 
 # console_scripts =
+# conda_user = 
+# package_data = 
 '''
 
 # %% ../nbs/api/01_config.ipynb 21
