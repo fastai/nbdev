@@ -2,6 +2,18 @@
 
 <!-- do not remove -->
 
+## 2.3.14
+
+### New Features
+
+- Add --no_browser option to nbdev_preview ([#1400](https://github.com/fastai/nbdev/pull/1400)), thanks to [@bamford](https://github.com/bamford)
+- added conda_user and package_data to cfg_tail ([#1351](https://github.com/fastai/nbdev/pull/1351)), thanks to [@dsm-72](https://github.com/dsm-72)
+- add repo and tag options to `nbdev_new` ([#1350](https://github.com/fastai/nbdev/pull/1350)), thanks to [@dsm-72](https://github.com/dsm-72)
+
+### Bugs Squashed
+
+- Changed `serve.proc_nbs` so that it makes use of its arguments `file_glob` and `file_re` ([#1390](https://github.com/fastai/nbdev/pull/1390)), thanks to [@lukastk](https://github.com/lukastk)
+
 
 ## 2.3.13
 
