@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.3.17
+
+### New Features
+
+- Move `exports` source after the `show_doc` ([#1408](https://github.com/fastai/nbdev/issues/1408))
+
+
 ## 2.3.16
 
 ### New Features
