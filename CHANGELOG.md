@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.3.19
+
+### Bugs Squashed
+
+- Remove boxes since they broke ToC ([#1411](https://github.com/fastai/nbdev/issues/1411))
+
+
 ## 2.3.18
 
 ### New Features
