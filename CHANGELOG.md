@@ -2,6 +2,14 @@
 
 <!-- do not remove -->
 
+## 2.3.18
+
+### New Features
+
+- Add magic `__` symbols to `show_doc` output ([#1410](https://github.com/fastai/nbdev/issues/1410))
+- wrap `exports` cells in a shadowed box (like a card) ([#1409](https://github.com/fastai/nbdev/pull/1409)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
+
 ## 2.3.17
 
 ### New Features
