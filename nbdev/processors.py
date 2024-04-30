@@ -106,7 +106,7 @@ class mv_exports(Processor):
             if getattr(cells[idx+1], 'has_sd', 0):
                 doccell = cells.pop(idx+1)
                 srccell = cells.pop(idx)
-                cells[idx:idx] = boxify([doccell,srccell])
+                cells[idx:idx] = [doccell,srccell]
 
 # %% ../nbs/api/10_processors.ipynb 21
 _re_defaultexp = re.compile(r'^\s*#\|\s*default_exp\s+(\S+)', flags=re.MULTILINE)
