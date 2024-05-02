@@ -88,7 +88,7 @@ def nbdev_new(**kwargs):
 
     _ORG_OR_USR = 'fastai'
     _REPOSITORY = 'nbdev-template'
-    _TEMPLATE = f'{_ORG_OR_USR}/{_TEMPLATE}'
+    _TEMPLATE = f'{_ORG_OR_USR}/{_REPOSITORY}'
     template = kwargs.get('template', _TEMPLATE)
     try:
         org_or_usr, repo = template.split('/')
