@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.3.20
+
+### Bugs Squashed
+
+- fixes UnboundLocalError: cannot access local variable `_TEMPLATE` where it is not associated with a value ([#1413](https://github.com/fastai/nbdev/pull/1413)), thanks to [@stepetal](https://github.com/stepetal)
+
+
 ## 2.3.19
 
 ### Bugs Squashed
