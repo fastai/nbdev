@@ -2,6 +2,14 @@
 
 <!-- do not remove -->
 
+
+## 2.3.21
+
+### Bugs Squashed
+
+- Remove unneeded ipywidgets requirement
+
+
 ## 2.3.20
 
 ### Bugs Squashed
