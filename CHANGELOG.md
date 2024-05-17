@@ -2,6 +2,10 @@
 
 <!-- do not remove -->
 
+## 2.3.22
+
+- Removes max version constraint on ipywidgets dev dependency
+
 
 ## 2.3.21
 
