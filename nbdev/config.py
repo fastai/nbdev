@@ -63,7 +63,7 @@ def _apply_defaults(
     title='%(lib_name)s', # Quarto website title
     allowed_metadata_keys='', # Preserve the list of keys in the main notebook metadata
     allowed_cell_metadata_keys='', # Preserve the list of keys in cell level metadata
-    jupyter_hooks:bool_arg=True, # Run Jupyter hooks?
+    jupyter_hooks:bool_arg=False, # Run Jupyter hooks?
     clean_ids:bool_arg=True, # Remove ids from plaintext reprs?
     clear_all:bool_arg=False, # Remove all cell metadata and cell outputs?
     put_version_in_init:bool_arg=True, # Add the version to the main __init__.py in nbdev_export

@@ -4,7 +4,12 @@
 
 ## 2.3.22
 
-- Removes max version constraint on ipywidgets dev dependency
+- Change `jupyter_hooks` default to `False`
+
+
+## 2.3.22
+
+- Remove max version constraint on ipywidgets dev dependency
 
 
 ## 2.3.21
