@@ -2,7 +2,7 @@
 
 <!-- do not remove -->
 
-## 2.3.22
+## 2.3.23
 
 - Change `jupyter_hooks` default to `False`
 
