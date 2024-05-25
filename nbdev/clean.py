@@ -30,6 +30,7 @@ def nbdev_trust(
         import warnings
         warnings.warn("Please install jupyter and try again")
         return
+    from nbformat import read
 
     fname = Path(fname if fname else get_config().nbs_path)
     path = fname if fname.is_dir() else fname.parent
@@ -40,7 +41,7 @@ def nbdev_trust(
         if last_checked and not force_all:
             last_changed = os.path.getmtime(fn)
             if last_changed < last_checked: continue
-        nb = read_nb(fn)
+        with open(fn, 'r', encoding='utf-8') as f: nb = read(f, as_version=4)
         if not NotebookNotary().check_signature(nb): NotebookNotary().sign(nb)
     check_fname.touch(exist_ok=True)
 
@@ -121,7 +122,8 @@ def _nbdev_clean(nb, path=None, clear_all=None):
     clear_all = clear_all or cfg.clear_all
     allowed_metadata_keys = cfg.get("allowed_metadata_keys").split()
     allowed_cell_metadata_keys = cfg.get("allowed_cell_metadata_keys").split()
-    return clean_nb(nb, clear_all, allowed_metadata_keys, allowed_cell_metadata_keys, cfg.clean_ids)
+    clean_nb(nb, clear_all, allowed_metadata_keys, allowed_cell_metadata_keys, cfg.clean_ids)
+    if path: nbdev_trust.__wrapped__(path)
 
 # %% ../nbs/api/11_clean.ipynb 29
 @call_parse
