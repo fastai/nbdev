@@ -2,6 +2,14 @@
 
 <!-- do not remove -->
 
+## 2.3.25
+
+### New Features
+
+- add `nbdev_requirements` ([#1415](https://github.com/fastai/nbdev/issues/1415))
+- Auto-trust notebooks after `nbdev_clean` ([#1414](https://github.com/fastai/nbdev/issues/1414))
+
+
 ## 2.3.23
 
 - Change `jupyter_hooks` default to `False`
