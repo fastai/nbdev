@@ -240,11 +240,11 @@ def write_conda_meta(path='conda'):
     _write_yaml(path, *_get_conda_meta())
 
 # %% ../nbs/api/18_release.ipynb 43
-# This function is used as a utility for creating HF spaces.
-def write_requirements(directory=None):
+@call_parse
+def write_requirements(path:str=''):
     "Writes a `requirements.txt` file to `directory` based on settings.ini."
     cfg = get_config()
-    d = Path(directory) if directory else cfg.config_path
+    d = Path(path) if path else cfg.config_path
     req = '\n'.join([cfg.get(k, '').replace(' ', '\n') for k in ['requirements', 'pip_requirements']])
     (d/'requirements.txt').mk_write(req)
 
