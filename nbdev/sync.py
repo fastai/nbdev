@@ -34,7 +34,7 @@ def _mod_files():
     return L(files for mod in midx.d['syms'].values() for _,files in mod.values()).unique()
 
 # %% ../nbs/api/06_sync.ipynb 8
-_re_import = re.compile("from\s+\S+\s+import\s+\S")
+_re_import = re.compile(r"from\s+\S+\s+import\s+\S")
 
 # %% ../nbs/api/06_sync.ipynb 10
 def _to_absolute(code, py_path, lib_dir):

@@ -222,7 +222,7 @@ def create_output(txt, mime):
 def show_src(src, lang='python'): return Markdown(f'```{lang}\n{src}\n```')
 
 # %% ../nbs/api/01_config.ipynb 48
-_re_version = re.compile('^__version__\s*=.*$', re.MULTILINE)
+_re_version = re.compile(r'^__version__\s*=.*$', re.MULTILINE)
 _init = '__init__.py'
 
 def update_version(path=None):

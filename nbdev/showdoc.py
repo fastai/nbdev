@@ -25,7 +25,7 @@ def _bold(s): return f'**{s}**' if s.strip() else s
 
 # %% ../nbs/api/08_showdoc.ipynb 7
 def _escape_markdown(s):
-    for c in '|^': s = re.sub(rf'\\?\{c}', f'\{c}', s)
+    for c in '|^': s = re.sub(rf'\\?\{c}', rf'\{c}', s)
     return s.replace('\n', '<br>')
 
 # %% ../nbs/api/08_showdoc.ipynb 9

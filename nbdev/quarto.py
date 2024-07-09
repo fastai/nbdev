@@ -68,7 +68,7 @@ def _sort(a):
     if y.startswith('index.'): return x,'00'
     return a
 #|export
-_def_file_re = '\.(?:ipynb|qmd|html)$'
+_def_file_re = r'\.(?:ipynb|qmd|html)$'
 
 @delegates(nbglob_cli)
 def _nbglob_docs(
@@ -87,12 +87,12 @@ def _recursive_parser(
         set_index: bool = True): # If `True`, `index` file will be set to href.
     for name, val in dir_dict.items():
         if type(val) is str:
-            if re.search('index\..*', re.sub('^\d+_', '', val)) and set_index and section:
+            if re.search('index\..*', re.sub(r'^\d+_', '', val)) and set_index and section:
                 section.update({'href': str(dirpath/val)})
             else:
                 contents.append(str(dirpath/val))
         elif type(val) is dict:
-            name = re.sub('^\d+_', '', name)
+            name = re.sub(r'^\d+_', '', name)
             section = {'section': name, 'contents': []}
             contents.append(section)
             _recursive_parser(val, section['contents'], dirpath/name, section=section)
