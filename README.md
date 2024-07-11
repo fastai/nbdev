@@ -103,10 +103,12 @@ available commands:
     nbdev_release_both        Release both conda and PyPI packages
     nbdev_release_gh          Calls `nbdev_changelog`, lets you edit the result, then pushes to git and calls `nbdev_release_git`
     nbdev_release_git         Tag and create a release in GitHub for the current version
+    nbdev_requirements        Writes a `requirements.txt` file to `directory` based on settings.ini.
     nbdev_sidebar             Create sidebar.yml
     nbdev_test                Test in parallel notebooks matching `path`, passing along `flags`
     nbdev_trust               Trust notebooks matching `fname`
     nbdev_update              Propagate change in modules matching `fname` to notebooks that created them
+    nbdev_update_license      Allows you to update the license of your project.
 
 ## FAQ
 
