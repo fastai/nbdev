@@ -2,6 +2,20 @@
 
 <!-- do not remove -->
 
+## 2.3.26
+
+### New Features
+
+- add enable/disable cell number in .py files ([#1428](https://github.com/fastai/nbdev/pull/1428)), thanks to [@dienhoa](https://github.com/dienhoa)
+  - When exporting a notebook to a .py file, we currently have something like `# %% {nb_path} {cell_number}` at the beginning of each exported cell.
+  - This PR adds one new setting in the setting.ini: `cell_number`. When set to False, we disable the `cell_number` discussed above.
+  - Side effect: The `cell_number` is used to update the changes from .py back to the notebook, so disabling it also disables this feature.
+
+### Bugs Squashed
+
+- showdoc: SyntaxWarning: invalid escape sequence with Python 3.12 ([#1396](https://github.com/fastai/nbdev/issues/1396))
+
+
 ## 2.3.25
 
 ### New Features
