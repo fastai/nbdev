@@ -66,6 +66,7 @@ def _apply_defaults(
     jupyter_hooks:bool_arg=False, # Run Jupyter hooks?
     clean_ids:bool_arg=True, # Remove ids from plaintext reprs?
     clear_all:bool_arg=False, # Remove all cell metadata and cell outputs?
+    cell_number:bool_arg=True, # Add cell number to the exported file
     put_version_in_init:bool_arg=True, # Add the version to the main __init__.py in nbdev_export
 ):
     "Apply default settings where missing in `cfg`."
@@ -251,10 +252,10 @@ def add_init(path=None):
     if get_config().get('put_version_in_init', True): update_version(path)
 
 # %% ../nbs/api/01_config.ipynb 51
-def write_cells(cells, hdr, file, offset=0):
+def write_cells(cells, hdr, file, offset=0, cell_number=True):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbdev internal use)."
     for cell in cells:
-        if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset}\n{cell.source}')
+        if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset if cell_number else ""}\n{cell.source}')
 
 # %% ../nbs/api/01_config.ipynb 52
 def _basic_export_nb(fname, name, dest=None):

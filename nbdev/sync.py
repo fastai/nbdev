@@ -67,6 +67,7 @@ def nbdev_update(fname:str=None): # A Python file name to update
     if fname and fname.endswith('.ipynb'): raise ValueError("`nbdev_update` operates on .py files.  If you wish to convert notebooks instead, see `nbdev_export`.")
     if os.environ.get('IN_TEST',0): return
     cfg = get_config()
+    if not cfg.cell_number: raise ValueError("`nbdev_update` does not support without cell_number in .py files. Please check your settings.ini")
     fname = Path(fname or cfg.lib_path)
     lib_dir = cfg.lib_path.parent
     files = globtastic(fname, file_glob='*.py', skip_folder_re='^[_.]').filter(lambda x: str(Path(x).absolute().relative_to(lib_dir) in _mod_files()))

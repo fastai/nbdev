@@ -47,16 +47,22 @@ def _iter_py_cells(p):
     "Yield cells from an exported Python file."
     p = Path(p)
     cells = p.read_text(encoding='utf-8').split("\n# %% ")
+    has_cell_number = get_config().cell_number
     for cell in cells[1:]:
         top,code = cell.split('\n', 1)
         try:
-          *nb,idx = top.split()
-          nb = ' '.join(nb)
+            if has_cell_number:
+                *nb,idx = top.split()
+                nb = ' '.join(nb)
+                idx = int(idx)
+            else:
+                nb = top
+                idx = None
         except ValueError: raise ValueError(f"Unexpected format in '{p}' at cell:\n```\n# %% {cell.strip()}.\n```\n"
                                             "The expected format is: '# %% {nb_path} {cell_idx}'.")
         nb_path = None if nb=='auto' else (p.parent/nb).resolve()  # NB paths are stored relative to .py file
         if code.endswith('\n'): code=code[:-1]
-        yield AttrDict(nb=nb, idx=int(idx), code=code, nb_path=nb_path, py_path=p.resolve())
+        yield AttrDict(nb=nb, idx=idx, code=code, nb_path=nb_path, py_path=p.resolve())
 
 # %% ../nbs/api/05_doclinks.ipynb 11
 def _nbpath2html(p): return p.with_name(re.sub(r'^\d+[a-zA-Z0-9]*_', '', p.name.lower())).with_suffix('.html')
@@ -71,7 +77,7 @@ def _get_modidx(py_path, code_root, nbs_path):
     _def_types = ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef
     d = {}
     for cell in _iter_py_cells(py_path):
-        if cell.nb == 'auto': continue
+        if 'auto' in cell.nb: continue
         loc = _nbpath2html(cell.nb_path.relative_to(nbs_path))
 
         def _stor(nm):
