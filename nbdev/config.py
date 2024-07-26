@@ -255,7 +255,9 @@ def add_init(path=None):
 def write_cells(cells, hdr, file, offset=0, cell_number=True):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbdev internal use)."
     for cell in cells:
-        if cell.source.strip(): file.write(f'\n\n{hdr} {cell.idx_+offset if cell_number else ""}\n{cell.source}')
+        if cell.source.strip():
+            idx = f" {cell.idx_+offset}" if cell_number else ""
+            file.write(f'\n\n{hdr}{idx}\n{cell.source}')
 
 # %% ../nbs/api/01_config.ipynb 52
 def _basic_export_nb(fname, name, dest=None):
