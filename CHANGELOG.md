@@ -2,6 +2,10 @@
 
 <!-- do not remove -->
 
+## 2.3.27
+
+- No new features or fixes---just an update to the pypi status since we forgot about it!
+
 ## 2.3.26
 
 ### New Features
