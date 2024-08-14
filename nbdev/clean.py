@@ -28,7 +28,7 @@ def nbdev_trust(
     try: from nbformat.sign import NotebookNotary
     except:
         import warnings
-        warnings.warn("Please install jupyter and try again")
+        warnings.warn("Please install jupyterlab and try again")
         return
     from nbformat import read
 
