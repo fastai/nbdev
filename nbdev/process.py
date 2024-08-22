@@ -14,6 +14,8 @@ from fastcore.imports import *
 
 from collections import defaultdict
 
+import jupytext, nbformat, tempfile
+
 # %% ../nbs/api/03_process.ipynb 6
 # from https://github.com/quarto-dev/quarto-cli/blob/main/src/resources/jupyter/notebook.py
 langs = defaultdict(
@@ -93,9 +95,6 @@ class NBProcessor:
         
         if nb is None:
             if str(path).endswith(".py"):
-                import jupytext
-                import nbformat
-                import tempfile
                 nb_converted = jupytext.read(path)
                 with tempfile.NamedTemporaryFile(delete=True, suffix=".ipynb") as temp_file:
                     nbformat.write(nb_converted, temp_file.name)
