@@ -7,11 +7,11 @@
 __all__ = ['nbdev_create_config', 'get_config', 'config_key', 'create_output', 'show_src', 'update_version', 'add_init',
            'write_cells']
 
-# %% ../nbs/api/01_config.ipynb 2
+# %% ../nbs/api/01_config.ipynb
 _doc_ = """Read and write nbdev's `settings.ini` file.
 `get_config` is the main function for reading settings."""
 
-# %% ../nbs/api/01_config.ipynb 3
+# %% ../nbs/api/01_config.ipynb
 from datetime import datetime
 from fastcore.docments import *
 from fastcore.utils import *
@@ -25,16 +25,16 @@ from IPython.display import Markdown
 from execnb.nbio import read_nb,NbCell
 from urllib.error import HTTPError
 
-# %% ../nbs/api/01_config.ipynb 8
+# %% ../nbs/api/01_config.ipynb
 _nbdev_home_dir = 'nbdev' # sub-directory of xdg base dir
 _nbdev_cfg_name = 'settings.ini'
 
-# %% ../nbs/api/01_config.ipynb 9
+# %% ../nbs/api/01_config.ipynb
 def _git_repo():
     try: return repo_details(run('git config --get remote.origin.url'))[1]
     except OSError: return
 
-# %% ../nbs/api/01_config.ipynb 11
+# %% ../nbs/api/01_config.ipynb
 # When adding a named default to the list below, be sure that that name
 # is also added to one of the sections in `_nbdev_cfg_sections` as well,
 # or it won't get written by `nbdev_create_config`:
@@ -82,7 +82,7 @@ def _apply_defaults(
         cfg[k] = v
     return cfg
 
-# %% ../nbs/api/01_config.ipynb 12
+# %% ../nbs/api/01_config.ipynb
 def _get_info(owner, repo, default_branch='main', default_kw='nbdev'):
     from ghapi.all import GhApi
     api = GhApi(owner=owner, repo=repo, token=os.getenv('GITHUB_TOKEN'))
@@ -98,7 +98,7 @@ https://nbdev.fast.ai/api/release.html#setup"""]
     
     return r.default_branch, default_kw if not getattr(r, 'topics', []) else ' '.join(r.topics), r.description
 
-# %% ../nbs/api/01_config.ipynb 14
+# %% ../nbs/api/01_config.ipynb
 def _fetch_from_git(raise_err=False):
     "Get information for settings.ini from the user."
     res={}
@@ -114,7 +114,7 @@ def _fetch_from_git(raise_err=False):
     else: res['lib_name'] = res['repo'].replace('-','_')
     return res
 
-# %% ../nbs/api/01_config.ipynb 16
+# %% ../nbs/api/01_config.ipynb
 def _prompt_user(cfg, inferred):
     "Let user input values not in `cfg` or `inferred`."
     res = cfg.copy()
@@ -128,7 +128,7 @@ def _prompt_user(cfg, inferred):
                 print(msg+res[k]+' # Automatically inferred from git')
     return res
 
-# %% ../nbs/api/01_config.ipynb 18
+# %% ../nbs/api/01_config.ipynb
 def _cfg2txt(cfg, head, sections, tail=''):
     "Render `cfg` with commented sections."
     nm = cfg.d.name
@@ -140,7 +140,7 @@ def _cfg2txt(cfg, head, sections, tail=''):
     res += tail
     return res.strip()
 
-# %% ../nbs/api/01_config.ipynb 20
+# %% ../nbs/api/01_config.ipynb
 _nbdev_cfg_head = '''# All sections below are required unless otherwise specified.
 # See https://github.com/fastai/nbdev/blob/master/settings.ini for examples.
 
@@ -157,7 +157,7 @@ _nbdev_cfg_tail = '''### Optional ###
 # package_data = 
 '''
 
-# %% ../nbs/api/01_config.ipynb 21
+# %% ../nbs/api/01_config.ipynb
 @call_parse
 @delegates(_apply_defaults, but='cfg')
 def nbdev_create_config(
@@ -183,19 +183,19 @@ def nbdev_create_config(
     cfg_fn = Path(path)/cfg_name
     print(f'{cfg_fn} created.')
 
-# %% ../nbs/api/01_config.ipynb 24
+# %% ../nbs/api/01_config.ipynb
 def _nbdev_config_file(cfg_name=_nbdev_cfg_name, path=None):
     cfg_path = path = Path.cwd() if path is None else Path(path)
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
     if not (cfg_path/cfg_name).exists(): cfg_path = path
     return cfg_path/cfg_name
 
-# %% ../nbs/api/01_config.ipynb 26
+# %% ../nbs/api/01_config.ipynb
 def _xdg_config_paths(cfg_name=_nbdev_cfg_name):
     xdg_config_paths = reversed([xdg_config_home()]+xdg_config_dirs())
     return [o/_nbdev_home_dir/cfg_name for o in xdg_config_paths]
 
-# %% ../nbs/api/01_config.ipynb 27
+# %% ../nbs/api/01_config.ipynb
 def _type(t): return bool if t==bool_arg else t
 _types = {k:_type(v['anno']) for k,v in docments(_apply_defaults,full=True,returns=False).items() if k != 'cfg'}
 
@@ -207,22 +207,22 @@ def get_config(cfg_name=_nbdev_cfg_name, path=None):
     cfg = Config(cfg_file.parent, cfg_file.name, extra_files=extra_files, types=_types)
     return _apply_defaults(cfg)
 
-# %% ../nbs/api/01_config.ipynb 42
+# %% ../nbs/api/01_config.ipynb
 def config_key(c, default=None, path=True, missing_ok=None):
     "Deprecated: use `get_config().get` or `get_config().path` instead."
     warn("`config_key` is deprecated. Use `get_config().get` or `get_config().path` instead.", DeprecationWarning)
     return get_config().path(c, default) if path else get_config().get(c, default)
 
-# %% ../nbs/api/01_config.ipynb 44
+# %% ../nbs/api/01_config.ipynb
 def create_output(txt, mime):
     "Add a cell output containing `txt` of the `mime` text MIME sub-type"
     return [{"data": { f"text/{mime}": str(txt).splitlines(True) },
              "execution_count": 1, "metadata": {}, "output_type": "execute_result"}]
 
-# %% ../nbs/api/01_config.ipynb 45
+# %% ../nbs/api/01_config.ipynb
 def show_src(src, lang='python'): return Markdown(f'```{lang}\n{src}\n```')
 
-# %% ../nbs/api/01_config.ipynb 48
+# %% ../nbs/api/01_config.ipynb
 _re_version = re.compile(r'^__version__\s*=.*$', re.MULTILINE)
 _init = '__init__.py'
 
@@ -251,7 +251,7 @@ def add_init(path=None):
         if _has_py(fs) or any(filter(_has_py, subds)) and not (r/_init).exists(): (r/_init).touch()
     if get_config().get('put_version_in_init', True): update_version(path)
 
-# %% ../nbs/api/01_config.ipynb 51
+# %% ../nbs/api/01_config.ipynb
 def write_cells(cells, hdr, file, offset=0, cell_number=True):
     "Write `cells` to `file` along with header `hdr` starting at index `offset` (mainly for nbdev internal use)."
     for cell in cells:
@@ -259,7 +259,7 @@ def write_cells(cells, hdr, file, offset=0, cell_number=True):
             idx = f" {cell.idx_+offset}" if cell_number else ""
             file.write(f'\n\n{hdr}{idx}\n{cell.source}')
 
-# %% ../nbs/api/01_config.ipynb 52
+# %% ../nbs/api/01_config.ipynb
 def _basic_export_nb(fname, name, dest=None):
     "Basic exporter to bootstrap nbdev."
     if dest is None: dest = get_config().lib_path

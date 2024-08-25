@@ -27,7 +27,7 @@ import os, tarfile, sys
 # %% auto 0
 __all__ = ['mapping', 'nbdev_filter', 'extract_tgz', 'nbdev_new', 'nbdev_update_license', 'chelp']
 
-# %% ../nbs/api/13_cli.ipynb 5
+# %% ../nbs/api/13_cli.ipynb
 @call_parse
 def nbdev_filter(
     nb_txt:str=None,  # Notebook text (uses stdin if not provided)
@@ -50,12 +50,12 @@ def nbdev_filter(
     if printit: print(res, flush=True)
     else: return res
 
-# %% ../nbs/api/13_cli.ipynb 8
+# %% ../nbs/api/13_cli.ipynb
 def extract_tgz(url, dest='.'):
     from fastcore.net import urlopen
     with urlopen(url) as u: tarfile.open(mode='r:gz', fileobj=u).extractall(dest)
 
-# %% ../nbs/api/13_cli.ipynb 9
+# %% ../nbs/api/13_cli.ipynb
 def _render_nb(fn, cfg):
     "Render templated values like `{{lib_name}}` in notebook at `fn` from `cfg`"
     txt = fn.read_text()
@@ -63,7 +63,7 @@ def _render_nb(fn, cfg):
     for k,v in cfg.d.items(): txt = txt.replace('{{'+k+'}}', v)
     fn.write_text(txt)
 
-# %% ../nbs/api/13_cli.ipynb 10
+# %% ../nbs/api/13_cli.ipynb
 def _update_repo_meta(cfg):
     "Enable gh pages and update the homepage and description in your GitHub repo."
     token=os.getenv('GITHUB_TOKEN')
@@ -74,7 +74,7 @@ def _update_repo_meta(cfg):
         except HTTPError:print(f"Could not update the description & URL on the repo: {cfg.user}/{cfg.repo} using $GITHUB_TOKEN.\n"
                   "Use a token with the correction permissions or perform these steps manually.")
 
-# %% ../nbs/api/13_cli.ipynb 11
+# %% ../nbs/api/13_cli.ipynb
 @call_parse
 @delegates(nbdev_create_config)
 def nbdev_new(**kwargs):
@@ -123,7 +123,7 @@ def nbdev_new(**kwargs):
     nbdev_export.__wrapped__()
     nbdev_readme.__wrapped__()
 
-# %% ../nbs/api/13_cli.ipynb 13
+# %% ../nbs/api/13_cli.ipynb
 mapping = {
   'mit': 'mit',
   'apache2': 'apache-2.0',
@@ -132,7 +132,7 @@ mapping = {
   'bsd3': 'bsd-3-clause'
 }
 
-# %% ../nbs/api/13_cli.ipynb 14
+# %% ../nbs/api/13_cli.ipynb
 @call_parse
 def nbdev_update_license(
     to: str=None, # update license to
@@ -163,7 +163,7 @@ def nbdev_update_license(
     lic.write(body)
     print(f"License updated from {curr_lic} to {to}")
 
-# %% ../nbs/api/13_cli.ipynb 17
+# %% ../nbs/api/13_cli.ipynb
 @call_parse
 def chelp():
     "Show help for all console scripts"

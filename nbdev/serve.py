@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['proc_nbs']
 
-# %% ../nbs/api/17_serve.ipynb 2
+# %% ../nbs/api/17_serve.ipynb
 import ast,subprocess,threading,sys
 from shutil import rmtree,copy2
 
@@ -17,7 +17,7 @@ from .doclinks import nbglob_cli,nbglob
 from .processors import FilterDefaults
 import nbdev.serve_drv
 
-# %% ../nbs/api/17_serve.ipynb 4
+# %% ../nbs/api/17_serve.ipynb
 def _is_qpy(path:Path):
     "Is `path` a py script starting with frontmatter?"
     path = Path(path)
@@ -32,7 +32,7 @@ def _is_qpy(path:Path):
         vl = v.splitlines()
         if vl[0]=='---' and vl[-1]=='---': return '\n'.join(vl[1:-1])
 
-# %% ../nbs/api/17_serve.ipynb 5
+# %% ../nbs/api/17_serve.ipynb
 def _proc_file(s, cache, path, mtime=None):
     skips = ('_proc', '_docs', '_site')
     if not s.is_file() or any(o[0]=='.' or o in skips for o in s.parts): return
@@ -49,7 +49,7 @@ def _proc_file(s, cache, path, mtime=None):
     if md is not None: return s,d,md.strip()
     else: copy2(s,d)
 
-# %% ../nbs/api/17_serve.ipynb 7
+# %% ../nbs/api/17_serve.ipynb
 @delegates(nbglob_cli)
 def proc_nbs(
     path:str='', # Path to notebooks

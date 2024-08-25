@@ -19,24 +19,24 @@ from types import FunctionType
 __all__ = ['DocmentTbl', 'ShowDocRenderer', 'BasicMarkdownRenderer', 'show_doc', 'BasicHtmlRenderer', 'doc', 'showdoc_nm',
            'colab_link']
 
-# %% ../nbs/api/08_showdoc.ipynb 6
+# %% ../nbs/api/08_showdoc.ipynb
 def _non_empty_keys(d:dict): return L([k for k,v in d.items() if v != inspect._empty])
 def _bold(s): return f'**{s}**' if s.strip() else s
 
-# %% ../nbs/api/08_showdoc.ipynb 7
+# %% ../nbs/api/08_showdoc.ipynb
 def _escape_markdown(s):
     for c in '|^': s = re.sub(rf'\\?\{c}', rf'\{c}', s)
     return s.replace('\n', '<br>')
 
-# %% ../nbs/api/08_showdoc.ipynb 9
+# %% ../nbs/api/08_showdoc.ipynb
 def _maybe_nm(o):
     if (o == inspect._empty): return ''
     else: return o.__name__ if hasattr(o, '__name__') else _escape_markdown(str(o))
 
-# %% ../nbs/api/08_showdoc.ipynb 11
+# %% ../nbs/api/08_showdoc.ipynb
 def _list2row(l:list): return '| '+' | '.join([_maybe_nm(o) for o in l]) + ' |'
 
-# %% ../nbs/api/08_showdoc.ipynb 13
+# %% ../nbs/api/08_showdoc.ipynb
 class DocmentTbl:
     # this is the column order we want these items to appear
     _map = OrderedDict({'anno':'Type', 'default':'Default', 'docment':'Details'})
@@ -106,12 +106,12 @@ class DocmentTbl:
     __str__ = _repr_markdown_
     __repr__ = basic_repr()
 
-# %% ../nbs/api/08_showdoc.ipynb 28
+# %% ../nbs/api/08_showdoc.ipynb
 def _docstring(sym):
     npdoc = parse_docstring(sym)
     return '\n\n'.join([npdoc['Summary'], npdoc['Extended']]).strip()
 
-# %% ../nbs/api/08_showdoc.ipynb 29
+# %% ../nbs/api/08_showdoc.ipynb
 def _fullname(o):
     module,name = getattr(o, "__module__", None),qual_name(o)
     return name if module is None or module in ('__main__','builtins') else module + '.' + name
@@ -132,7 +132,7 @@ class ShowDocRenderer:
 
     __repr__ = basic_repr()
 
-# %% ../nbs/api/08_showdoc.ipynb 30
+# %% ../nbs/api/08_showdoc.ipynb
 def _f_name(o): return f'<function {o.__name__}>' if isinstance(o, FunctionType) else None
 def _fmt_anno(o): return inspect.formatannotation(o).strip("'").replace(' ','')
 
@@ -145,7 +145,7 @@ def _show_param(param):
     if default is not inspect._empty: res += f'={_f_name(default) or repr(default)}'
     return res
 
-# %% ../nbs/api/08_showdoc.ipynb 32
+# %% ../nbs/api/08_showdoc.ipynb
 def _fmt_sig(sig):
     if sig is None: return ''
     p = {k:v for k,v in sig.parameters.items()}
@@ -158,7 +158,7 @@ def _wrap_sig(s):
     indent = pad + ' ' * (s.find('(') + 1)
     return fill(s, width=80, initial_indent=pad, subsequent_indent=indent)
 
-# %% ../nbs/api/08_showdoc.ipynb 34
+# %% ../nbs/api/08_showdoc.ipynb
 def _ext_link(url, txt, xtra=""): return f'[{txt}]({url}){{target="_blank" {xtra}}}'
 
 class BasicMarkdownRenderer(ShowDocRenderer):
@@ -176,7 +176,7 @@ class BasicMarkdownRenderer(ShowDocRenderer):
         return doc
     __repr__=__str__=_repr_markdown_
 
-# %% ../nbs/api/08_showdoc.ipynb 35
+# %% ../nbs/api/08_showdoc.ipynb
 def show_doc(sym,  # Symbol to document
              renderer=None,  # Optional renderer (defaults to markdown)
              name:str|None=None,  # Optionally override displayed name of `sym`
@@ -190,7 +190,7 @@ def show_doc(sym,  # Symbol to document
     if isinstance(sym, TypeDispatch): pass
     else:return renderer(sym or show_doc, name=name, title_level=title_level)
 
-# %% ../nbs/api/08_showdoc.ipynb 51
+# %% ../nbs/api/08_showdoc.ipynb
 def _html_link(url, txt): return f'<a href="{url}" target="_blank" rel="noreferrer noopener">{txt}</a>'
 
 class BasicHtmlRenderer(ShowDocRenderer):
@@ -210,17 +210,17 @@ class BasicHtmlRenderer(ShowDocRenderer):
         if docs is not None: res += '\n<p>' +_html_link(docs, "Show in docs") + '</p>'
         display(HTML(res))
 
-# %% ../nbs/api/08_showdoc.ipynb 52
+# %% ../nbs/api/08_showdoc.ipynb
 def doc(elt):
     "Show `show_doc` info along with link to docs"
     BasicHtmlRenderer(elt).doc()
 
-# %% ../nbs/api/08_showdoc.ipynb 58
+# %% ../nbs/api/08_showdoc.ipynb
 def showdoc_nm(tree):
     "Get the fully qualified name for showdoc."
     return ifnone(patch_name(tree), tree.name)
 
-# %% ../nbs/api/08_showdoc.ipynb 62
+# %% ../nbs/api/08_showdoc.ipynb
 def colab_link(path):
     "Get a link to the notebook at `path` on Colab"
     from IPython.display import Markdown

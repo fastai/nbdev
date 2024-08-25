@@ -21,12 +21,12 @@ import yaml
 __all__ = ['BASE_QUARTO_URL', 'install_quarto', 'install', 'IndentDumper', 'nbdev_sidebar', 'refresh_quarto_yml',
            'nbdev_proc_nbs', 'nbdev_readme', 'nbdev_docs', 'prepare', 'fs_watchdog', 'nbdev_preview']
 
-# %% ../nbs/api/14_quarto.ipynb 5
+# %% ../nbs/api/14_quarto.ipynb
 def _sprun(cmd):
     try: subprocess.check_output(cmd, shell=True)
     except subprocess.CalledProcessError as cpe: sys.exit(cpe.returncode)
 
-# %% ../nbs/api/14_quarto.ipynb 7
+# %% ../nbs/api/14_quarto.ipynb
 BASE_QUARTO_URL='https://www.quarto.org/download/latest/'
 
 def _install_linux():
@@ -53,7 +53,7 @@ def install_quarto():
         elif 'linux' in sys.platform: _install_linux()
     finally: system('sudo rm -f .installing')
 
-# %% ../nbs/api/14_quarto.ipynb 8
+# %% ../nbs/api/14_quarto.ipynb
 @call_parse
 def install():
     "Install Quarto and the current library"
@@ -61,7 +61,7 @@ def install():
     d = get_config().lib_path
     if (d/'__init__.py').exists(): system(f'pip install -e "{d.parent}[dev]"')
 
-# %% ../nbs/api/14_quarto.ipynb 10
+# %% ../nbs/api/14_quarto.ipynb
 def _pre(p,b=True): return '    ' * (len(p.parts)) + ('- ' if b else '  ')
 def _sort(a):
     x,y = a
@@ -78,7 +78,7 @@ def _nbglob_docs(
     **kwargs):
     return nbglob(path, file_glob=file_glob, file_re=file_re, **kwargs)
 
-# %% ../nbs/api/14_quarto.ipynb 11
+# %% ../nbs/api/14_quarto.ipynb
 def _recursive_parser(
         dir_dict: dict, # Directory structure as a dict.
         contents: list, # `contents` list from `sidebar.yaml` template dict.
@@ -101,7 +101,7 @@ class IndentDumper(yaml.Dumper):
     def increase_indent(self, flow=False, indentless=False):
         return super(IndentDumper, self).increase_indent(flow, False)
 
-# %% ../nbs/api/14_quarto.ipynb 12
+# %% ../nbs/api/14_quarto.ipynb
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_sidebar(
@@ -136,7 +136,7 @@ def nbdev_sidebar(
     if printit: return print(yml)
     yml_path.write_text(yml)
 
-# %% ../nbs/api/14_quarto.ipynb 15
+# %% ../nbs/api/14_quarto.ipynb
 _quarto_yml="""project:
   type: website
 
@@ -145,6 +145,9 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
+    toc: true
+    keep-md: true
+  commonmark: default
 
 website:
   twitter-card: true
@@ -158,7 +161,7 @@ website:
 
 metadata-files: [nbdev.yml, sidebar.yml]"""
 
-# %% ../nbs/api/14_quarto.ipynb 16
+# %% ../nbs/api/14_quarto.ipynb
 _nbdev_yml="""project:
   output-dir: {doc_path}
 
@@ -170,7 +173,7 @@ website:
   repo-url: "{git_url}"
 """
 
-# %% ../nbs/api/14_quarto.ipynb 17
+# %% ../nbs/api/14_quarto.ipynb
 def refresh_quarto_yml():
     "Generate `_quarto.yml` from `settings.ini`."
     cfg = get_config()
@@ -184,13 +187,13 @@ def refresh_quarto_yml():
     if qy.exists() and not str2bool(cfg.get('custom_quarto_yml', True)): qy.unlink()
     if not qy.exists(): qy.write_text(_quarto_yml)
 
-# %% ../nbs/api/14_quarto.ipynb 18
+# %% ../nbs/api/14_quarto.ipynb
 def _ensure_quarto():
     if shutil.which('quarto'): return
     print("Quarto is not installed. We will download and install it for you.")
     install.__wrapped__()
 
-# %% ../nbs/api/14_quarto.ipynb 19
+# %% ../nbs/api/14_quarto.ipynb
 def _pre_docs(path=None, n_workers:int=defaults.cpus, **kwargs):
     cfg = get_config()
     path = Path(path) if path else cfg.nbs_path
@@ -202,21 +205,21 @@ def _pre_docs(path=None, n_workers:int=defaults.cpus, **kwargs):
     cache = proc_nbs(path, n_workers=n_workers, **kwargs)
     return cache,cfg,path
 
-# %% ../nbs/api/14_quarto.ipynb 20
+# %% ../nbs/api/14_quarto.ipynb
 @call_parse
 @delegates(proc_nbs)
 def nbdev_proc_nbs(**kwargs):
     "Process notebooks in `path` for docs rendering"
     _pre_docs(**kwargs)[0]
 
-# %% ../nbs/api/14_quarto.ipynb 22
+# %% ../nbs/api/14_quarto.ipynb
 def _readme_mtime_not_older(readme_path, readme_nb_path):
     if not readme_nb_path.exists():
         print(f"Could not find {readme_nb_path}")
         return True
     return readme_path.exists() and readme_path.stat().st_mtime>=readme_nb_path.stat().st_mtime
 
-# %% ../nbs/api/14_quarto.ipynb 23
+# %% ../nbs/api/14_quarto.ipynb
 class _SidebarYmlRemoved:
     "Context manager for `nbdev_readme` to avoid rendering whole docs website"
     def __init__(self,path): self._path=path
@@ -229,14 +232,14 @@ class _SidebarYmlRemoved:
     def __exit__(self, exc_type, exc_value, exc_tb):
         if self._moved: (self._path/'sidebar.yml.bak').rename(self._yml_path)
 
-# %% ../nbs/api/14_quarto.ipynb 24
+# %% ../nbs/api/14_quarto.ipynb
 def _copytree(a,b):
     if sys.version_info.major >=3 and sys.version_info.minor >=8: copytree(a, b, dirs_exist_ok=True)
     else:
         from distutils.dir_util import copy_tree
         copy_tree(a, b)
 
-# %% ../nbs/api/14_quarto.ipynb 25
+# %% ../nbs/api/14_quarto.ipynb
 def _save_cached_readme(cache, cfg):
     tmp_doc_path = cache/cfg.doc_path.name
     readme = tmp_doc_path/'README.md'
@@ -247,7 +250,7 @@ def _save_cached_readme(cache, cfg):
         _rdmi = tmp_doc_path/((cache/cfg.readme_nb).stem + '_files') # Supporting files for README
         if _rdmi.exists(): _copytree(_rdmi, cfg.config_path/_rdmi.name)
 
-# %% ../nbs/api/14_quarto.ipynb 26
+# %% ../nbs/api/14_quarto.ipynb
 @call_parse
 def nbdev_readme(
     path:str=None, # Path to notebooks
@@ -263,7 +266,7 @@ def nbdev_readme(
         
     _save_cached_readme(cache, cfg)
 
-# %% ../nbs/api/14_quarto.ipynb 29
+# %% ../nbs/api/14_quarto.ipynb
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_docs(
@@ -277,7 +280,7 @@ def nbdev_docs(
     shutil.rmtree(cfg.doc_path, ignore_errors=True)
     move(cache/cfg.doc_path.name, cfg.config_path)
 
-# %% ../nbs/api/14_quarto.ipynb 31
+# %% ../nbs/api/14_quarto.ipynb
 @call_parse
 def prepare():
     "Export, test, and clean notebooks, and render README if needed"
@@ -288,7 +291,7 @@ def prepare():
     refresh_quarto_yml()
     nbdev_readme.__wrapped__(chk_time=True)
 
-# %% ../nbs/api/14_quarto.ipynb 33
+# %% ../nbs/api/14_quarto.ipynb
 @contextmanager
 def fs_watchdog(func, path, recursive:bool=True):
     "File system watchdog dispatching to `func`"
@@ -304,7 +307,7 @@ def fs_watchdog(func, path, recursive:bool=True):
         observer.stop()
         observer.join()
 
-# %% ../nbs/api/14_quarto.ipynb 34
+# %% ../nbs/api/14_quarto.ipynb
 @call_parse
 @delegates(_nbglob_docs)
 def nbdev_preview(
