@@ -145,7 +145,6 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
-    toc: true
     keep-md: true
   commonmark: default
 
