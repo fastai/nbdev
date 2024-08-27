@@ -2,6 +2,15 @@
 
 <!-- do not remove -->
 
+## 2.3.28
+
+### New Features
+
+- Generate module docstrings from markdown meta summary ([#1440](https://github.com/fastai/nbdev/issues/1440))
+- By default create markdown versions of docs too ([#1439](https://github.com/fastai/nbdev/issues/1439))
+- add markdown to doc output ([#1438](https://github.com/fastai/nbdev/issues/1438))
+
+
 ## 2.3.27
 
 - No new features or fixes---just an update to the pypi status since we forgot about it!
