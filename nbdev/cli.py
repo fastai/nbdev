@@ -85,30 +85,24 @@ def nbdev_new(**kwargs):
     nbdev_create_config.__wrapped__(**kwargs)
     cfg = get_config()
     _update_repo_meta(cfg)
-
     path = Path()
 
-    _ORG_OR_USR = 'fastai'
-    _REPOSITORY = 'nbdev-template'
+    _ORG_OR_USR,_REPOSITORY = 'fastai','nbdev-template'
     _TEMPLATE = f'{_ORG_OR_USR}/{_REPOSITORY}'
     template = kwargs.get('template', _TEMPLATE)
-    try:
-        org_or_usr, repo = template.split('/')
-    except ValueError:
-        org_or_usr, repo = _ORG_OR_USR, _REPOSITORY
-
+    try: org_or_usr, repo = template.split('/')
+    except ValueError: org_or_usr, repo = _ORG_OR_USR, _REPOSITORY
 
     tag = kwargs.get('tag', None)
     if tag is None:
         with warnings.catch_warnings():
             warnings.simplefilter('ignore', UserWarning)
-
             tag = GhApi(gh_host='https://api.github.com', authenticate=False).repos.get_latest_release(org_or_usr, repo).tag_name
 
     url = f"https://github.com/{org_or_usr}/{repo}/archive/{tag}.tar.gz"
     extract_tgz(url)
     tmpl_path = path/f'{repo}-{tag}'
-    
+
     cfg.nbs_path.mkdir(exist_ok=True)
     nbexists = bool(first(cfg.nbs_path.glob('*.ipynb')))
     _nbs_path_sufs = ('.ipynb','.css')
@@ -121,7 +115,6 @@ def nbdev_new(**kwargs):
     rmtree(tmpl_path)
 
     refresh_quarto_yml()
-
     nbdev_export.__wrapped__()
     nbdev_readme.__wrapped__()
 
