@@ -4,8 +4,8 @@
 
 # %% auto 0
 __all__ = ['populate_language', 'insert_warning', 'cell_lang', 'add_show_docs', 'fdiv', 'boxify', 'mv_exports', 'add_links',
-           'add_fold', 'strip_ansi', 'strip_hidden_metadata', 'hide_', 'hide_line', 'filter_stream_', 'clean_magics',
-           'rm_header_dash', 'rm_export', 'clean_show_doc', 'exec_show_docs', 'FilterDefaults']
+           'add_fold', 'strip_ansi', 'strip_hidden_metadata', 'hide_', 'hide_line', 'filter_stream_', 'ai_magics',
+           'clean_magics', 'rm_header_dash', 'rm_export', 'clean_show_doc', 'exec_show_docs', 'FilterDefaults']
 
 # %% ../nbs/api/10_processors.ipynb
 import ast
@@ -170,6 +170,15 @@ def filter_stream_(cell, *words):
             outp['text'] = [l for l in outp.text if not re.search('|'.join(words), l)]
 
 # %% ../nbs/api/10_processors.ipynb
+_aimagics_pattern = re.compile(r'^\s*(%%ai.? |%%ai.?$)', re.MULTILINE)
+
+def ai_magics(cell):
+    "A preprocessor to convert AI magics to markdown"
+    if cell.cell_type == 'code' and _aimagics_pattern.search(cell.source):
+        cell.cell_type ='markdown'
+        cell.source = '\n'.join(cell.source.splitlines()[1:])
+
+# %% ../nbs/api/10_processors.ipynb
 _magics_pattern = re.compile(r'^\s*(%%|%).*', re.MULTILINE)
 
 def clean_magics(cell):
@@ -268,7 +277,8 @@ class FilterDefaults:
     def base_procs(self):
         return [FrontmatterProc, populate_language, add_show_docs, insert_warning,
                 strip_ansi, hide_line, filter_stream_, rm_header_dash,
-                clean_show_doc, exec_show_docs, rm_export, clean_magics, hide_, add_links, add_fold, mv_exports, strip_hidden_metadata]
+                clean_show_doc, exec_show_docs, rm_export, ai_magics, clean_magics, hide_, add_links,
+                add_fold, mv_exports, strip_hidden_metadata]
 
     def procs(self):
         "Processors for export"
