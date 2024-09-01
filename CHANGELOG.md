@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.3.29
+
+### New Features
+
+- Add `ai_magics` preprocessor ([#1442](https://github.com/fastai/nbdev/issues/1442))
+
+
 ## 2.3.28
 
 ### New Features
