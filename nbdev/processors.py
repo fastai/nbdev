@@ -176,7 +176,7 @@ def ai_magics(cell):
     "A preprocessor to convert AI magics to markdown"
     if cell.cell_type == 'code' and _aimagics_pattern.search(cell.source):
         cell.cell_type ='markdown'
-        cell.source = '\n'.join(cell.source.splitlines()[1:])
+        if not keep_magics(): cell.source = '\n'.join(cell.source.splitlines()[1:])
 
 # %% ../nbs/api/10_processors.ipynb
 _magics_pattern = re.compile(r'^\s*(%%|%).*', re.MULTILINE)

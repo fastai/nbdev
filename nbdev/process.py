@@ -57,9 +57,7 @@ def keep_magics(): return get_config().get('keep_magics', False)
 def first_code_ln(code_list, re_pattern=None, lang='python'):
     "get first line number where code occurs, where `code_list` is a list of code"
     if re_pattern is None: re_pattern = _dir_pre(lang)
-    return first(i for i,o in enumerate(code_list) if o.strip() != '' and not re.match(re_pattern, o) and 
-                 not re.match(re_pattern, o) and 
-                 (keep_magics() or not _cell_mgc.match(o)))
+    return first(i for i,o in enumerate(code_list) if o.strip() != '' and not re.match(re_pattern, o) and not _cell_mgc.match(o))
 
 # %% ../nbs/api/03_process.ipynb
 def _partition_cell(cell, lang):
