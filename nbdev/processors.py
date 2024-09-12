@@ -183,7 +183,8 @@ _magics_pattern = re.compile(r'^\s*(%%|%).*', re.MULTILINE)
 
 def clean_magics(cell):
     "A preprocessor to remove cell magic commands"
-    if cell.cell_type == 'code': cell.source = _magics_pattern.sub('', cell.source).strip()
+    if cell.cell_type == 'code' and not get_config().get('keep_magics', False):
+        cell.source = _magics_pattern.sub('', cell.source).strip()
 
 # %% ../nbs/api/10_processors.ipynb
 _re_hdr_dash = re.compile(r'^#+\s+.*\s+-\s*$', re.MULTILINE)
