@@ -282,7 +282,8 @@ class FilterDefaults:
 
     def procs(self):
         "Processors for export"
-        return self.base_procs() + self.xtra_procs()
+        skip_procs = get_config().get('skip_procs', '').split()
+        return L(self.base_procs()).filter(lambda x: x.__name__ not in skip_procs) + self.xtra_procs()
     
     def nb_proc(self, nb):
         "Get an `NBProcessor` with these processors"
