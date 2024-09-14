@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.3.30
+
+### New Features
+
+- add `skip_procs` to `settings.ini` ([#1445](https://github.com/fastai/nbdev/pull/1445)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
+
 ## 2.3.29
 
 ### New Features
