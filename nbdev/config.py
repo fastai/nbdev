@@ -63,7 +63,7 @@ def _apply_defaults(
     clear_all:bool_arg=False, # Remove all cell metadata and cell outputs?
     cell_number:bool_arg=True, # Add cell number to the exported file
     put_version_in_init:bool_arg=True, # Add the version to the main __init__.py in nbdev_export
-    skip_procs:str='', # A list of processors that you want to skip
+    skip_procs:str='', # A comma-separated list of processors that you want to skip
 ):
     "Apply default settings where missing in `cfg`."
     if getattr(cfg,'repo',None) is None:
