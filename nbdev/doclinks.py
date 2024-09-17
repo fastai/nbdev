@@ -145,8 +145,8 @@ def nbdev_export(
     if os.environ.get('IN_TEST',0): return
     if not is_nbdev(): raise Exception('`nbdev_export` must be called from a directory within a nbdev project.')
     if procs:
-      import nbdev.export
-      procs = [getattr(nbdev.export, p) for p in L(procs)]
+        import nbdev.export
+        procs = [getattr(nbdev.export, p) for p in L(procs)]
     files = nbglob(path=path, as_path=True, **kwargs).sorted('name')
     for f in files: nb_export(f, procs=procs)
     add_init(get_config().lib_path)
