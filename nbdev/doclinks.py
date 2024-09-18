@@ -14,6 +14,7 @@ from .imports import *
 from fastcore.script import *
 from fastcore.utils import *
 from fastcore.meta import delegates
+from fastcore.nbdev import is_nbdev
 
 import ast,contextlib
 import pkg_resources,importlib
