@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.3.31
+
+### New Features
+
+- test if in `nbdev_repo` & improve `nbdev_export` err message ([#1448](https://github.com/fastai/nbdev/pull/1448)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+
+
 ## 2.3.30
 
 ### New Features
