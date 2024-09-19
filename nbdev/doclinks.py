@@ -135,6 +135,9 @@ def nbglob_cli(
                   skip_file_glob=skip_file_glob, skip_file_re=skip_file_re, skip_folder_re=skip_folder_re)
 
 # %% ../nbs/api/05_doclinks.ipynb
+def _is_nb(p): return p and Path(p).exists() and Path(p).suffix == '.ipynb'
+
+# %% ../nbs/api/05_doclinks.ipynb
 @call_parse
 @delegates(nbglob_cli)
 def nbdev_export(
@@ -142,15 +145,18 @@ def nbdev_export(
     procs:Param("tokens naming the export processors to use.", nargs="*", choices=optional_procs())="black_format",
     **kwargs):
     "Export notebooks in `path` to Python modules"
+    single_nb = False
     if os.environ.get('IN_TEST',0): return
-    if not is_nbdev(): raise Exception('`nbdev_export` must be called from a directory within a nbdev project.')
+    lib_path = None
+    if not is_nbdev(): 
+        if _is_nb(path): lib_path = '.'
+        else: raise Exception('`nbdev_export` must be called from a directory within a nbdev project.')
     if procs:
         import nbdev.export
         procs = [getattr(nbdev.export, p) for p in L(procs)]
     files = nbglob(path=path, as_path=True, **kwargs).sorted('name')
-    for f in files: nb_export(f, procs=procs)
-    add_init(get_config().lib_path)
-    _build_modidx()
+    for f in files: nb_export(f, procs=procs, lib_path=lib_path)
+    if is_nbdev(): add_init(get_config().lib_path); _build_modidx()
 
 # %% ../nbs/api/05_doclinks.ipynb
 import importlib,ast
