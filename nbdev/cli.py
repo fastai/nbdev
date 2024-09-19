@@ -13,6 +13,7 @@ from .doclinks import *
 from .test import *
 from .clean import *
 from .quarto import nbdev_readme, refresh_quarto_yml
+from .export import nb_export
 from .frontmatter import FrontmatterProc
 
 from execnb.nbio import *
@@ -27,7 +28,7 @@ from contextlib import redirect_stdout
 import os, tarfile, sys
 
 # %% auto 0
-__all__ = ['mapping', 'nbdev_filter', 'extract_tgz', 'nbdev_new', 'nbdev_update_license', 'chelp']
+__all__ = ['mapping', 'nbdev_filter', 'extract_tgz', 'nbdev_new', 'nbdev_update_license', 'nb_export_cli', 'chelp']
 
 # %% ../nbs/api/13_cli.ipynb
 @call_parse
@@ -157,6 +158,13 @@ def nbdev_update_license(
     lic = open('LICENSE', 'w')
     lic.write(body)
     print(f"License updated from {curr_lic} to {to}")
+
+# %% ../nbs/api/13_cli.ipynb
+@call_parse
+@delegates(nb_export, but=['procs', 'mod_maker'])
+def nb_export_cli(nbname, lib_path, name, debug:Param("debug flag", store_true), **kwargs): 
+    "Export a single nbdev notebook to a python script."
+    return nb_export(nbname=nbname, lib_path=lib_path, name=name, debug=debug, **kwargs)
 
 # %% ../nbs/api/13_cli.ipynb
 @call_parse
