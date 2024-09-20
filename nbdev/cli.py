@@ -162,9 +162,11 @@ def nbdev_update_license(
 # %% ../nbs/api/13_cli.ipynb
 @call_parse
 @delegates(nb_export, but=['procs', 'mod_maker'])
-def nb_export_cli(nbname, lib_path, name, debug:Param("debug flag", store_true), **kwargs): 
+def nb_export_cli(nbname, 
+                  debug:store_true=False, # Debug flag 
+                  **kwargs): 
     "Export a single nbdev notebook to a python script."
-    return nb_export(nbname=nbname, lib_path=lib_path, name=name, debug=debug, **kwargs)
+    return nb_export(nbname=nbname, debug=debug, **kwargs)
 
 # %% ../nbs/api/13_cli.ipynb
 @call_parse
