@@ -14,6 +14,7 @@ from .process import *
 from fastcore.script import *
 from fastcore.basics import *
 from fastcore.imports import *
+from fastcore.meta import *
 
 from collections import defaultdict
 
@@ -63,12 +64,18 @@ import nbdev.export
 def optional_procs():
     "An explicit list of processors that could be used by `nb_export`"
     return L([p for p in nbdev.export.__all__
-              if p not in ["nb_export", "ExportModuleProc", "optional_procs"]])
+              if p not in ["nb_export", "nb_export_cli", "ExportModuleProc", "optional_procs"]])
 
 # %% ../nbs/api/04_export.ipynb
-def nb_export(nbname, lib_path=None, procs=None, debug=False, mod_maker=ModuleMaker, name=None):
+def nb_export(nbname:str,        # Filename of notebook 
+              lib_path:str=None, # Path to destination library.  If not in a nbdev project, defaults to current directory.
+              procs=None,        # Processors to use
+              name:str=None,     # Name of python script {name}.py to create.
+              mod_maker=ModuleMaker,
+              debug:bool=False,  # Debug mode
+             ):
     "Create module(s) from notebook"
-    if lib_path is None: lib_path = get_config().lib_path
+    if lib_path is None: lib_path = get_config().lib_path if is_nbdev() else '.'
     exp = ExportModuleProc()
     nb = NBProcessor(nbname, [exp]+L(procs), debug=debug)
     nb.process()
