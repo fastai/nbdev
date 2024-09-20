@@ -181,7 +181,8 @@ def nbdev_create_config(
 
 # %% ../nbs/api/01_config.ipynb
 def _nbdev_config_file(cfg_name=_nbdev_cfg_name, path=None):
-    return getattr(Config.find(cfg_name), 'config_file', Path.cwd()/cfg_name)
+    cfg_path = Path.cwd() if path is None else Path(path)
+    return getattr(Config.find(cfg_name), 'config_file', cfg_path/cfg_name)
 
 # %% ../nbs/api/01_config.ipynb
 def _xdg_config_paths(cfg_name=_nbdev_cfg_name):
