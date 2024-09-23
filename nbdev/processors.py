@@ -206,7 +206,7 @@ _re_showdoc = re.compile(r'^show_doc', re.MULTILINE)
 def _is_showdoc(cell): return cell['cell_type'] == 'code' and _re_showdoc.search(cell.source)
 def _add_directives(cell, d):
     for k,v in d.items():
-        if not re.findall(f'#\| *{k}:', cell.source): cell.source = f'#| {k}: {v}\n' + cell.source
+        if not re.findall(fr'#\| *{k}:', cell.source): cell.source = f'#| {k}: {v}\n' + cell.source
 
 def clean_show_doc(cell):
     "Remove ShowDoc input cells"

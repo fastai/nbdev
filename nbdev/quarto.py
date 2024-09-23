@@ -110,7 +110,7 @@ def nbdev_sidebar(
     path:str=None, # Path to notebooks
     printit:bool=False,  # Print YAML for debugging
     force:bool=False,  # Create sidebar even if settings.ini custom_sidebar=False
-    skip_folder_re:str='(?:^[_.]|^www\$)', # Skip folders matching regex
+    skip_folder_re:str=r'(?:^[_.]|^www\$)', # Skip folders matching regex
     **kwargs):
     "Create sidebar.yml"
     if not force and get_config().custom_sidebar: return

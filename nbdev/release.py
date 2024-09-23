@@ -288,7 +288,7 @@ def release_conda(
     if skip_upload: return print(loc)
     if not upload_user: upload_user = get_config().conda_user
     if not upload_user: return print("`conda_user` not in settings.ini and no `upload_user` passed. Cannot upload")
-    if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
+    if 'anaconda upload' not in res: return print(f"{res}\n\nFailed. Check auto-upload not set in .condarc. Try `--do_build False`.")
     return anaconda_upload(name, loc)
 
 # %% ../nbs/api/18_release.ipynb

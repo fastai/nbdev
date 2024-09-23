@@ -112,7 +112,7 @@ def _re_v1():
     d += L(get_config().tst_flags).filter()
     d += [s.replace('_', '-') for s in d] # allow for hyphenated version of old directives
     _tmp = '|'.join(list(set(d)))
-    return re.compile(f"^[ \f\v\t]*?(#)\s*({_tmp})(?!\S)", re.MULTILINE)
+    return re.compile(fr"^[ \f\v\t]*?(#)\s*({_tmp})(?!\S)", re.MULTILINE)
 
 def _repl_directives(code_str): 
     def _fmt(x): return f"#| {_subv1(x[2].replace('-', '_').strip())}"
