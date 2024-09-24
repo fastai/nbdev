@@ -5,6 +5,7 @@
 # %% ../nbs/api/13_cli.ipynb 2
 from __future__ import annotations
 import warnings
+import time
 
 from .config import *
 from .process import *
@@ -12,10 +13,11 @@ from .processors import *
 from .doclinks import *
 from .test import *
 from .clean import *
-from .quarto import nbdev_readme, refresh_quarto_yml
+from .quarto import nbdev_readme, refresh_quarto_yml, fs_watchdog
 from .export import nb_export
 from .frontmatter import FrontmatterProc
 
+from fastcore.xtras import run
 from execnb.nbio import *
 from fastcore.meta import *
 from fastcore.utils import *
@@ -28,7 +30,8 @@ from contextlib import redirect_stdout
 import os, tarfile, sys
 
 # %% auto 0
-__all__ = ['mapping', 'nbdev_filter', 'extract_tgz', 'nbdev_new', 'nbdev_update_license', 'nb_export_cli', 'chelp']
+__all__ = ['mapping', 'nbdev_filter', 'extract_tgz', 'nbdev_new', 'nbdev_update_license', 'nb_export_cli', 'watch_export',
+           'chelp']
 
 # %% ../nbs/api/13_cli.ipynb
 @call_parse
@@ -167,6 +170,25 @@ def nb_export_cli(nbname,
                   **kwargs): 
     "Export a single nbdev notebook to a python script."
     return nb_export(nbname=nbname, debug=debug, **kwargs)
+
+# %% ../nbs/api/13_cli.ipynb
+@call_parse
+def watch_export(nbs:str=None, # Nb directory to watch for changes
+                 lib:str=None, # Export directory to write py files to
+                 force:bool=False # Ignore nbdev config if in nbdev project
+                ):
+    '''Use `nb_export` on ipynb files in `nbs` directory on changes using nbdev config if available'''
+    cfg = get_config() if is_nbdev() else None
+    nbs = nbs or (cfg.nbs_path if cfg else '.')
+    lib = lib or (cfg.lib_path if cfg else '.')
+    if cfg and (nbs != cfg.nbs_path or lib != cfg.lib_path) and not force:
+        raise ValueError("In nbdev project. Use --force to override config.")
+    def _export(e,lib=lib):
+        p = e.src_path
+        if (not '.ipynb_checkpoints' in p and p.endswith('.ipynb') and not Path(p).name.startswith('.~')):
+            run(f'nb_export --lib_path {lib} "{p}"')
+    with fs_watchdog(_export, nbs):
+        while True: time.sleep(1)
 
 # %% ../nbs/api/13_cli.ipynb
 @call_parse
