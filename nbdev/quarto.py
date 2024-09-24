@@ -89,7 +89,7 @@ def _recursive_parser(
         set_index: bool = True): # If `True`, `index` file will be set to href.
     for name, val in dir_dict.items():
         if type(val) is str:
-            if re.search('index\..*', re.sub(r'^\d+_', '', val)) and set_index and section:
+            if re.search(r'index\..*', re.sub(r'^\d+_', '', val)) and set_index and section:
                 section.update({'href': str(dirpath/val)})
             else:
                 contents.append(str(dirpath/val))
