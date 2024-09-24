@@ -173,7 +173,11 @@ def nb_export_cli(nbname,
 
 # %% ../nbs/api/13_cli.ipynb
 @call_parse
-def watch_export(nbs:str=None, lib:str=None, force:bool=False):
+def watch_export(nbs:str=None, # Nb directory to watch for changes
+                 lib:str=None, # Export directory to write py files to
+                 force:bool=False # Ignore nbdev config if in nbdev project
+                ):
+    '''Use `nb_export` on ipynb files in `nbs` directory on changes using nbdev config if available'''
     cfg = get_config() if is_nbdev() else None
     nbs = nbs or (cfg.nbs_path if cfg else '.')
     lib = lib or (cfg.lib_path if cfg else '.')
