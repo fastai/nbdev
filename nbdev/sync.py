@@ -19,7 +19,7 @@ from fastcore.script import *
 from fastcore.xtras import *
 
 import ast
-from importlib import import_module
+import importlib
 
 # %% ../nbs/api/06_sync.ipynb
 def absolute_import(name, fname, level):
@@ -32,7 +32,10 @@ def absolute_import(name, fname, level):
 # %% ../nbs/api/06_sync.ipynb
 @functools.lru_cache(maxsize=None)
 def _mod_files():
-    midx = import_module(f'{get_config().lib_path.name}._modidx')
+    midx_spec = importlib.util.spec_from_file_location("_modidx", get_config().lib_path / "_modidx.py")
+    midx = importlib.util.module_from_spec(midx_spec)
+    midx_spec.loader.exec_module(midx)
+
     return L(files for mod in midx.d['syms'].values() for _,files in mod.values()).unique()
 
 # %% ../nbs/api/06_sync.ipynb
