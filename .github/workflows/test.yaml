@@ -11,7 +11,7 @@ jobs:
       fail-fast: true
       matrix:
         os:  [ubuntu, macos]
-        version: ["3.8", "3.9", "3.10", "3.11"]
+        version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     runs-on: ${{ matrix.os }}-latest
     steps:
       - uses: fastai/workflows/nbdev-ci@master
@@ -22,7 +22,7 @@ jobs:
         if: ${{ (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && matrix.version == '3.9' && matrix.os == 'ubuntu' }}
         run: |
           set -ux
-          wget -q $(curl https://latest.fast.ai/pre/quarto-dev/quarto-cli/linux-amd64.deb)
+          wget -q $(curl https://latest.fast.ai/latest/quarto-dev/quarto-cli/linux-amd64.deb)
           sudo dpkg -i quarto*.deb
           nbdev_docs
           if [ -f "_docs/index.html" ]; then
@@ -33,3 +33,4 @@ jobs:
             ls -la _docs
             exit 1
           fi
+
