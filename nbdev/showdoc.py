@@ -18,8 +18,8 @@ from textwrap import fill
 from types import FunctionType
 
 # %% auto 0
-__all__ = ['DocmentTbl', 'ShowDocRenderer', 'BasicMarkdownRenderer', 'show_doc', 'BasicHtmlRenderer', 'doc', 'showdoc_nm',
-           'colab_link']
+__all__ = ['DocmentTbl', 'ShowDocRenderer', 'BasicMarkdownRenderer', 'show_doc', 'BasicHtmlRenderer', 'doc', 'AdvHtmlRenderer',
+           'showdoc_nm', 'colab_link']
 
 # %% ../nbs/api/08_showdoc.ipynb
 def _non_empty_keys(d:dict): return L([k for k,v in d.items() if v != inspect._empty])
@@ -216,6 +216,48 @@ class BasicHtmlRenderer(ShowDocRenderer):
 def doc(elt):
     "Show `show_doc` info along with link to docs"
     BasicHtmlRenderer(elt).doc()
+
+# %% ../nbs/api/08_showdoc.ipynb
+def _create_html_table(table_str):
+    def split_row(row):
+        return re.findall(r'\|(?:(?:\\.|[^|\\])*)', row)
+    
+    def unescape_cell(cell):
+        return cell.strip(' *|').replace('\\|', '|')
+    
+    lines = table_str.strip().split('\n')
+    header = [f"<th>{unescape_cell(cell)}</th>" for cell in split_row(lines[0])]
+    rows = [[f"<td>{unescape_cell(cell)}</td>" for cell in split_row(line)] for line in lines[2:]]
+    
+    return f'''<table>
+    <thead><tr>{' '.join(header)}</tr></thead>
+    <tbody>{''.join(f'<tr>{" ".join(row)}</tr>' for row in rows)}</tbody>
+    </table>'''
+
+# %% ../nbs/api/08_showdoc.ipynb
+class AdvHtmlRenderer(ShowDocRenderer):
+    "HTML renderer for `show_doc` with full feature parity to BasicMarkdownRenderer"
+    def _repr_html_(self):
+        doc = '<hr/>\n'
+        src = NbdevLookup().code(self.fn)
+        if src:
+            doc += f'<div style="float:right; font-size:smaller">{_html_link(src, "source")}</div>\n'
+        doc += f'<h{self.title_level}>{self.nm}</h{self.title_level}>\n'
+        sig = _fmt_sig(self.sig) if self.sig else ''
+        doc += f'<blockquote><pre><code>{self.nm} {sig}</code></pre></blockquote>'
+        if self.docs:
+            doc += f"<p><i>{self.docs}</i></p>"
+        if self.dm.has_docment:
+            doc += _create_html_table(str(self.dm))
+        return doc
+    __repr__=__str__=_repr_html_
+
+    def doc(self):
+        "Show `show_doc` info along with link to docs"
+        from IPython.display import display,HTML
+        res = self._repr_html_()
+        display(HTML(res))
+      
 
 # %% ../nbs/api/08_showdoc.ipynb
 def showdoc_nm(tree):
