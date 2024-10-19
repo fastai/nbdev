@@ -198,7 +198,7 @@ def _create_html_table(table_str):
         return re.findall(r'\|(?:(?:\\.|[^|\\])*)', row)
     
     def unescape_cell(cell): 
-        return cell.strip(' *|').replace('\\|', '|')
+        return cell.strip(' *|').replace(r'\|', '|')
     
     lines = table_str.strip().split('\n')
     header = [f"<th>{unescape_cell(cell)}</th>" for cell in split_row(lines[0])]
