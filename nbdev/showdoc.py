@@ -221,6 +221,8 @@ class BasicHtmlRenderer(ShowDocRenderer):
             doc += f'<div style="float:right; font-size:smaller">{_html_link(src, "source")}</div>\n'
         doc += f'<h{self.title_level}>{self.nm}</h{self.title_level}>\n'
         sig = _fmt_sig(self.sig) if self.sig else ''
+        # Escape < and > characters in the signature
+        sig = sig.replace('<', '&lt;').replace('>', '&gt;')
         doc += f'<blockquote><pre><code>{self.nm} {sig}</code></pre></blockquote>'
         if self.docs:
             doc += f"<p><i>{self.docs}</i></p>"
