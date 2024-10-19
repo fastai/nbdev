@@ -213,7 +213,7 @@ def _create_html_table(table_str):
 def _html_link(url, txt): return f'<a href="{url}" target="_blank" rel="noreferrer noopener">{txt}</a>'
 
 class BasicHtmlRenderer(ShowDocRenderer):
-    "HTML renderer for `show_doc` with full feature parity to BasicMarkdownRenderer"
+    "HTML renderer for `show_doc`"
     def _repr_html_(self):
         doc = '<hr/>\n'
         src = NbdevLookup().code(self.fn)
