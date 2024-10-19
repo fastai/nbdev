@@ -19,7 +19,7 @@ jobs:
           version: ${{ matrix.version }}
           pre: 1
       - name: test docs build
-        if: ${{ (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && matrix.version == '3.9' && matrix.os == 'ubuntu' }}
+        if: ${{ (github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch') && matrix.version == '3.10' && matrix.os == 'ubuntu' }}
         run: |
           set -ux
           wget -q $(curl https://latest.fast.ai/latest/quarto-dev/quarto-cli/linux-amd64.deb)
