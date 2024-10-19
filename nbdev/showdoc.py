@@ -229,7 +229,6 @@ class BasicHtmlRenderer(ShowDocRenderer):
         if self.dm.has_docment:
             doc += _create_html_table(str(self.dm))
         return doc
-    __repr__=__str__=_repr_html_
 
     def doc(self):
         "Show `show_doc` info along with link to docs"
