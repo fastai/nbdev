@@ -18,8 +18,8 @@ from textwrap import fill
 from types import FunctionType
 
 # %% auto 0
-__all__ = ['DocmentTbl', 'ShowDocRenderer', 'BasicMarkdownRenderer', 'show_doc', 'BasicHtmlRenderer', 'doc', 'AdvHtmlRenderer',
-           'showdoc_nm', 'colab_link']
+__all__ = ['DocmentTbl', 'ShowDocRenderer', 'BasicMarkdownRenderer', 'show_doc', 'BasicHtmlRenderer', 'doc', 'showdoc_nm',
+           'colab_link']
 
 # %% ../nbs/api/08_showdoc.ipynb
 def _non_empty_keys(d:dict): return L([k for k,v in d.items() if v != inspect._empty])
@@ -193,36 +193,11 @@ def show_doc(sym,  # Symbol to document
     else:return renderer(sym or show_doc, name=name, title_level=title_level)
 
 # %% ../nbs/api/08_showdoc.ipynb
-def _html_link(url, txt): return f'<a href="{url}" target="_blank" rel="noreferrer noopener">{txt}</a>'
-
-class BasicHtmlRenderer(ShowDocRenderer):
-    "Simple HTML renderer for `show_doc`"
-    def _repr_html_(self):
-        doc = '<hr/>\n'
-        doc += f'<h{self.title_level}>{self.nm}</h{self.title_level}>\n'
-        doc += f'<blockquote><pre><code>{self.nm}{_fmt_sig(self.sig)}</code></pre></blockquote>'
-        if self.docs: doc += f"<p><i>{self.docs}</i></p>"
-        return doc
-
-    def doc(self):
-        "Show `show_doc` info along with link to docs"
-        from IPython.display import display,HTML
-        res = self._repr_html_()
-        docs = NbdevLookup().doc(self.fn)
-        if docs is not None: res += '\n<p>' +_html_link(docs, "Show in docs") + '</p>'
-        display(HTML(res))
-
-# %% ../nbs/api/08_showdoc.ipynb
-def doc(elt):
-    "Show `show_doc` info along with link to docs"
-    BasicHtmlRenderer(elt).doc()
-
-# %% ../nbs/api/08_showdoc.ipynb
 def _create_html_table(table_str):
     def split_row(row):
         return re.findall(r'\|(?:(?:\\.|[^|\\])*)', row)
     
-    def unescape_cell(cell):
+    def unescape_cell(cell): 
         return cell.strip(' *|').replace('\\|', '|')
     
     lines = table_str.strip().split('\n')
@@ -235,7 +210,9 @@ def _create_html_table(table_str):
     </table>'''
 
 # %% ../nbs/api/08_showdoc.ipynb
-class AdvHtmlRenderer(ShowDocRenderer):
+def _html_link(url, txt): return f'<a href="{url}" target="_blank" rel="noreferrer noopener">{txt}</a>'
+
+class BasicHtmlRenderer(ShowDocRenderer):
     "HTML renderer for `show_doc` with full feature parity to BasicMarkdownRenderer"
     def _repr_html_(self):
         doc = '<hr/>\n'
@@ -257,7 +234,11 @@ class AdvHtmlRenderer(ShowDocRenderer):
         from IPython.display import display,HTML
         res = self._repr_html_()
         display(HTML(res))
-      
+
+# %% ../nbs/api/08_showdoc.ipynb
+def doc(elt):
+    "Show `show_doc` info along with link to docs"
+    BasicHtmlRenderer(elt).doc()
 
 # %% ../nbs/api/08_showdoc.ipynb
 def showdoc_nm(tree):
