@@ -1,0 +1,56 @@
+flowchart TB
+  %%styles
+  style JN fill:#FFA500
+  style FP fill:#cfe5ed
+  style SF fill:#dff1dd,stroke-dasharray: 5 5;
+  style QMD fill:#7286bb,color:#fff;
+  classDef files fill:#ede8ce ;
+  classDef code fill:#5695c7,color:#fff;
+  classDef container fill:#f9f9f6;
+  
+   %% list of nodes
+  FP(<strong>Processing Pipeline</strong>
+  transforms notebook based\non directives and front-matter)
+  E(execnb)
+  SD("show_doc")
+  SS(<strong>Static Site</strong>
+  HTML, CSS and Javascript)
+  CF("Intermediate Output is stored in the <code>_procs/</code> directory
+  
+  <i>(This is a full copy of your Quarto project)</i>")
+  class SD,E code;
+  
+  subgraph SF["<strong>Source Files</strong>"]
+      JN([Jupyter
+      Notebook])
+      QMD(["Quarto
+      Markdown
+      (.qmd)"])
+  end
+  
+  
+  %% connections to things inside Notebook Processor (NBP)
+  JN -- json --> FP
+  E -. "cell execution" .- SD
+  
+  subgraph NBP [" <strong>Notebook Processor
+  </strong> "]
+      SD -.- |"render API docs"|FP
+  end
+  
+  FP -- modified json with only
+  Quarto directives remaining --> CF
+  
+  subgraph Quarto ["<strong>Quarto</strong><br>"]
+      direction LR
+      F[[_quarto.yml]] .-> G[[custom.yml]] & H[[sidebar.yml]]
+      class F,G,H files;
+  end
+  
+  QMD --"rendered
+  directly by Quarto
+  (no pre-processing required)"--> CF
+  CF --> Quarto
+  Quarto --> SS
+  
+  class NBP,CF,Quarto container;
