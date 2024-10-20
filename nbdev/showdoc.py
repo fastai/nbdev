@@ -225,7 +225,7 @@ class BasicHtmlRenderer(ShowDocRenderer):
         doc += f'<blockquote><pre><code>{self.nm} {sig}</code></pre></blockquote>'
         if self.docs:
             doc += f"<p><i>{self.docs}</i></p>"
-        if src: doc += f"<br/>{_html_link(src, "source")}"
+        if src: doc += f"<br/>{_html_link(src, 'source')}"
         if self.dm.has_docment: doc += _create_html_table(str(self.dm))
         return doc
 
