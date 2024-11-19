@@ -236,12 +236,13 @@ class NbdevLookup:
         _,py,gh = res
         line = _lineno(sym, py)
         return f'{gh}#L{line}'
-
+    
     def _link_sym(self, m):
         l = m.group(1)
         s = self.doc(l)
         if s is None: return m.group(0)
         l = l.replace('\\', r'\\')
+        if m.group(0).endswith('()`'): l += '()'
         return rf"[`{l}`]({s})"
 
     def link_line(self, l): return _re_backticks.sub(self._link_sym, l)
