@@ -195,7 +195,7 @@ def _qual_syms(entries):
     return {'syms': {mod:_qual_mod(d, settings) for mod,d in entries['syms'].items()}, 'settings':settings}
 
 # %% ../nbs/api/05_doclinks.ipynb
-_re_backticks = re.compile(r'`([^`\s]+)`')
+_re_backticks = re.compile(r'`([^`\s]+?)(?:\(\))?`')
 
 # %% ../nbs/api/05_doclinks.ipynb
 @lru_cache(None)
