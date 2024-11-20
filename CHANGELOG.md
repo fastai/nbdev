@@ -2,6 +2,20 @@
 
 <!-- do not remove -->
 
+## 2.3.32
+
+### New Features
+
+- Improve backtick regex matching for function names ([#1469](https://github.com/fastai/nbdev/pull/1469)), thanks to [@ncoop57](https://github.com/ncoop57)
+- make `nb_export` a cli [Enhancement] ([#1450](https://github.com/fastai/nbdev/pull/1450)), thanks to [@hamelsmu](https://github.com/hamelsmu)
+- Make `nbdev_export` work outside nbdev repos ([#799](https://github.com/fastai/nbdev/issues/799))
+
+### Bugs Squashed
+
+- Use `r` strings to avoid new Python SyntaxWarnings in regex ([#1452](https://github.com/fastai/nbdev/issues/1452))
+- Nested `lib_path` values break module -> notebook sync ([#1393](https://github.com/fastai/nbdev/issues/1393))
+
+
 ## 2.3.31
 
 ### New Features
