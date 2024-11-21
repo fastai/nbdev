@@ -201,28 +201,32 @@ def _qual_syms(entries):
 _re_backticks = re.compile(r'`([^`\s]+?)(?:\(\))?`')
 
 # %% ../nbs/api/05_doclinks.ipynb
+@lru_cache(None)
+def _build_lookup_table(strip_libs=None, incl_libs=None, skip_mods=None):
+    cfg = get_config()
+    if strip_libs is None:
+        try: strip_libs = cfg.get('strip_libs', cfg.get('lib_path', 'nbdev').name).split()
+        except FileNotFoundError: strip_libs = 'nbdev'
+    skip_mods = setify(skip_mods)
+    strip_libs = L(strip_libs)
+    if incl_libs is not None: incl_libs = (L(incl_libs)+strip_libs).unique()
+    entries = {o.name: _qual_syms(o.resolve()) for o in list(pkg_resources.iter_entry_points(group='nbdev'))
+               if incl_libs is None or o.dist.key in incl_libs}
+    py_syms = merge(*L(o['syms'].values() for o in entries.values()).concat())
+    for m in strip_libs:
+        if m in entries:
+            _d = entries[m]
+            stripped = {remove_prefix(k,f"{mod}."):v
+                        for mod,dets in _d['syms'].items() if mod not in skip_mods
+                        for k,v in dets.items()}
+            py_syms = merge(stripped, py_syms)
+    return entries,py_syms
+
+# %% ../nbs/api/05_doclinks.ipynb
 class NbdevLookup:
     "Mapping from symbol names to docs and source URLs"
     def __init__(self, strip_libs=None, incl_libs=None, skip_mods=None, ns=None):
-        cfg = get_config()
-        if strip_libs is None:
-            try: strip_libs = cfg.get('strip_libs', cfg.get('lib_path', 'nbdev').name).split()
-            except FileNotFoundError: strip_libs = 'nbdev'
-        skip_mods = setify(skip_mods)
-        strip_libs = L(strip_libs)
-        if incl_libs is not None: incl_libs = (L(incl_libs)+strip_libs).unique()
-        # Dict from lib name to _nbdev module for incl_libs (defaults to all)
-        self.entries = {o.name: _qual_syms(o.resolve()) for o in list(pkg_resources.iter_entry_points(group='nbdev'))
-                       if incl_libs is None or o.dist.key in incl_libs}
-        py_syms = merge(*L(o['syms'].values() for o in self.entries.values()).concat())
-        for m in strip_libs:
-            if m in self.entries:
-                _d = self.entries[m]
-                stripped = {remove_prefix(k,f"{mod}."):v
-                            for mod,dets in _d['syms'].items() if mod not in skip_mods
-                            for k,v in dets.items()}
-                py_syms = merge(stripped, py_syms)
-        self.syms = py_syms
+        self.entries,self.syms = _build_lookup_table(strip_libs, incl_libs, skip_mods)
         self.aliases = {n:o.__name__ for n,o in (ns or {}).items() if isinstance(o, ModuleType)}
         
     def __getitem__(self, s): 
