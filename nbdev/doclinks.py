@@ -22,6 +22,7 @@ from astunparse import unparse
 from pprint import pformat
 from urllib.parse import urljoin
 from functools import lru_cache
+from types import ModuleType
 
 # %% ../nbs/api/05_doclinks.ipynb
 def _sym_nm(klas, sym): return f'{unparse(klas).strip()}.{sym.name}'
@@ -166,6 +167,7 @@ def _find_mod(mod):
 
 @lru_cache(None)
 def _get_exps(mod):
+    "Get the line numbers for function and class definitions in module"
     mf = _find_mod(mod)
     if not mf: return {}
     txt = mf.read_text(encoding='utf-8')
@@ -181,6 +183,7 @@ def _lineno(sym, fname): return _get_exps(fname).get(sym, None) if fname else No
 
 # %% ../nbs/api/05_doclinks.ipynb
 def _qual_sym(s, settings):
+    "Get qualified nb, py, and github paths for a symbol s"
     if not isinstance(s,tuple): return s
     nb,py = s
     nbbase = urljoin(settings["doc_host"]+'/',settings["doc_baseurl"])
@@ -199,30 +202,38 @@ _re_backticks = re.compile(r'`([^`\s]+?)(?:\(\))?`')
 
 # %% ../nbs/api/05_doclinks.ipynb
 @lru_cache(None)
+def _build_lookup_table(strip_libs=None, incl_libs=None, skip_mods=None):
+    cfg = get_config()
+    if strip_libs is None:
+        try: strip_libs = cfg.get('strip_libs', cfg.get('lib_path', 'nbdev').name).split()
+        except FileNotFoundError: strip_libs = 'nbdev'
+    skip_mods = setify(skip_mods)
+    strip_libs = L(strip_libs)
+    if incl_libs is not None: incl_libs = (L(incl_libs)+strip_libs).unique()
+    entries = {o.name: _qual_syms(o.resolve()) for o in list(pkg_resources.iter_entry_points(group='nbdev'))
+               if incl_libs is None or o.dist.key in incl_libs}
+    py_syms = merge(*L(o['syms'].values() for o in entries.values()).concat())
+    for m in strip_libs:
+        if m in entries:
+            _d = entries[m]
+            stripped = {remove_prefix(k,f"{mod}."):v
+                        for mod,dets in _d['syms'].items() if mod not in skip_mods
+                        for k,v in dets.items()}
+            py_syms = merge(stripped, py_syms)
+    return entries,py_syms
+
+# %% ../nbs/api/05_doclinks.ipynb
 class NbdevLookup:
     "Mapping from symbol names to docs and source URLs"
-    def __init__(self, strip_libs=None, incl_libs=None, skip_mods=None):
-        cfg = get_config()
-        if strip_libs is None:
-            try: strip_libs = cfg.get('strip_libs', cfg.get('lib_path', 'nbdev').name).split()
-            except FileNotFoundError: strip_libs = 'nbdev'
-        skip_mods = setify(skip_mods)
-        strip_libs = L(strip_libs)
-        if incl_libs is not None: incl_libs = (L(incl_libs)+strip_libs).unique()
-        # Dict from lib name to _nbdev module for incl_libs (defaults to all)
-        self.entries = {o.name: _qual_syms(o.resolve()) for o in list(pkg_resources.iter_entry_points(group='nbdev'))
-                       if incl_libs is None or o.dist.key in incl_libs}
-        py_syms = merge(*L(o['syms'].values() for o in self.entries.values()).concat())
-        for m in strip_libs:
-            if m in self.entries:
-                _d = self.entries[m]
-                stripped = {remove_prefix(k,f"{mod}."):v
-                            for mod,dets in _d['syms'].items() if mod not in skip_mods
-                            for k,v in dets.items()}
-                py_syms = merge(stripped, py_syms)
-        self.syms = py_syms
-
-    def __getitem__(self, s): return self.syms.get(s, None)
+    def __init__(self, strip_libs=None, incl_libs=None, skip_mods=None, ns=None):
+        self.entries,self.syms = _build_lookup_table(strip_libs, incl_libs, skip_mods)
+        self.aliases = {n:o.__name__ for n,o in (ns or {}).items() if isinstance(o, ModuleType)}
+        
+    def __getitem__(self, s): 
+        if '.' in s:
+            pre,post = s.split('.', 1)
+            if pre in self.aliases: s = f"{self.aliases[pre]}.{post}"
+        return self.syms.get(s, None)
 
     def doc(self, sym):
         "Link to docs for `sym`"
