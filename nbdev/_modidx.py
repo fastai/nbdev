@@ -3,7 +3,7 @@
 d = { 'settings': { 'branch': 'master',
                 'doc_baseurl': '/',
                 'doc_host': 'https://nbdev.fast.ai',
-                'git_url': 'https://github.com/fastai/nbdev',
+                'git_url': 'https://github.com/AnswerDotAI/nbdev',
                 'lib_path': 'nbdev'},
   'syms': { 'nbdev.clean': { 'nbdev.clean._add_jupyter_hooks': ('api/clean.html#_add_jupyter_hooks', 'nbdev/clean.py'),
                              'nbdev.clean._clean_cell': ('api/clean.html#_clean_cell', 'nbdev/clean.py'),
