@@ -210,8 +210,11 @@ def _build_lookup_table(strip_libs=None, incl_libs=None, skip_mods=None):
     skip_mods = setify(skip_mods)
     strip_libs = L(strip_libs)
     if incl_libs is not None: incl_libs = (L(incl_libs)+strip_libs).unique()
-    entries = {o.name: _qual_syms(o.resolve()) for o in list(pkg_resources.iter_entry_points(group='nbdev'))
-               if incl_libs is None or o.dist.key in incl_libs}
+    entries = {}
+    for o in pkg_resources.iter_entry_points(group='nbdev'):
+        if incl_libs is not None and o.dist.key not in incl_libs: continue
+        try: entries[o.name] = _qual_syms(o.resolve())
+        except Exception: pass
     py_syms = merge(*L(o['syms'].values() for o in entries.values()).concat())
     for m in strip_libs:
         if m in entries:
