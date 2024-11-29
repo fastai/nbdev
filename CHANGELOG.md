@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.3.33
+
+### New Features
+
+- Improve error handling in `_build_lookup_table` entry points ([#1474](https://github.com/AnswerDotAI/nbdev/pull/1474)), thanks to [@ncoop57](https://github.com/ncoop57)
+
+
 ## 2.3.32
 
 ### New Features
