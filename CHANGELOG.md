@@ -2,52 +2,6 @@
 
 <!-- do not remove -->
 
-## 2.3.33
-
-### New Features
-
-- Improve error handling in _build_lookup_table entry points ([#1474](https://github.com/AnswerDotAI/nbdev/pull/1474)), thanks to [@ncoop57](https://github.com/ncoop57)
-  - This PR adds error handling when attempting to resolve a particular entry point. When attempting to do this resolution, a particular library might throw an error. For example, this happens with a `testcell` throws an error due to how it attempts to look into the IPython registration of magics.
-
-```python
-entries = {}
-for o in pkg_resources.iter_entry_points(group='nbdev'):
-    if incl_libs is not None and o.dist.key not in incl_libs: continue
-    try: entries[o.name] = _qual_syms(o.resolve())
-    except Exception: pass
-```
-
-I've added tests to explicitly mock a good entry point and a bad entry point to test this new functionality:
-
-```python
-# Create mock entry points
-class BadEntryPoint:
-    name = 'bad_entry'
-    dist = type('Dist', (), {'key': 'bad_lib'})()
-    def resolve(self): raise AttributeError("Simulated error")
-
-class GoodEntryPoint:
-    name = 'good_entry'
-    dist = type('Dist', (), {'key': 'good_lib'})()
-    def resolve(self): return {'syms': {}, 'settings': {}}
-
-from unittest.mock import patch as xpatch
-# Clear the cache before testing
-_build_lookup_table.cache_clear()
-
-# Patch iter_entry_points
-with xpatch('pkg_resources.iter_entry_points', return_value=[BadEntryPoint(), GoodEntryPoint()]):
-    entries, py_syms = _build_lookup_table()
-    
-    # Should only contain the good entry
-    assert 'bad_entry' not in entries
-    assert 'good_entry' in entries
-    assert len(entries) == 1
-entries
-```
-
-And all tests are still passing.
-
 
 
 ## 2.3.33
