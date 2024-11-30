@@ -138,7 +138,7 @@ def _cfg2txt(cfg, head, sections, tail=''):
 
 # %% ../nbs/api/01_config.ipynb
 _nbdev_cfg_head = '''# All sections below are required unless otherwise specified.
-# See https://github.com/fastai/nbdev/blob/master/settings.ini for examples.
+# See https://github.com/AnswerDotAI/nbdev/blob/main/settings.ini for examples.
 
 '''
 _nbdev_cfg_sections = {'Python library': 'repo lib_name version min_python license black_formatting',
