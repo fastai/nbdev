@@ -26,7 +26,7 @@ licenses = {
 }
 statuses = [ '0 - Pre-Planning', '1 - Planning', '2 - Pre-Alpha', '3 - Alpha',
     '4 - Beta', '5 - Production/Stable', '6 - Mature', '7 - Inactive' ]
-py_versions = '3.7 3.8 3.9 3.10 3.11'.split()
+py_versions = '3.7 3.8 3.9 3.10 3.12 3.13'.split()
 
 requirements = ['packaging']
 requirements += shlex.split(cfg.get('requirements', ''))

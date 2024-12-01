@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (Manual)
 on:
   workflow_dispatch:
 jobs:
