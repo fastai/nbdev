@@ -164,7 +164,7 @@ bset = set(dir(builtins))
 def create_index(url, pre=None):
     "Create a documentation index from a sphinx inventory file at `url`, with optional prefix `pre`"
     try: from sphinx.util.inventory import InventoryFile
-    except ImportError: print('`sphinx` is a dependency for building indexes. Run `pip install sphinx`.')
+    except ImportError: raise ImportError('`sphinx` is a dependency for building indexes. Run `pip install sphinx` to use `create_index`.')
     pre = ifnone(pre, f"{url}/")
     invs = urlread(f'{url}/objects.inv', decode=False)
     idx = InventoryFile.load(stream=BytesIO(invs), uri=pre, joinfunc=urljoin)
