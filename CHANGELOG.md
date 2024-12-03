@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 2.3.34
+
+### New Features
+
+- Migrate index creation from nbdev-index ([#1478](https://github.com/AnswerDotAI/nbdev/pull/1478)), thanks to [@ncoop57](https://github.com/ncoop57)
+
+
 ## 2.3.33
 
 ### New Features
