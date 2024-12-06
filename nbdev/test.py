@@ -90,7 +90,8 @@ def nbdev_test(
     wd_pth = get_config().nbs_path
     with working_directory(wd_pth if (wd_pth and wd_pth.exists()) else os.getcwd()):
         results = parallel(test_nb, files, skip_flags=skip_flags, force_flags=force_flags, n_workers=n_workers,
-                           basepath=get_config().config_path, pause=pause, do_print=do_print, **kw)
+                           basepath=get_config().config_path, pause=pause, do_print=do_print,
+                           executor=False, maxtasksperchild=1, **kw)
     passed,times = zip(*results)
     if all(passed): print("Success.")
     else: 
